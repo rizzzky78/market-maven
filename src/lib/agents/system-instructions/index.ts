@@ -8,3 +8,4 @@ export * from "./extractor";
 export * from "./insight";
 export * from "./products";
 export * from "./related";
+export * from "./title-crafter";
