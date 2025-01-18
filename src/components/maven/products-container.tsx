@@ -10,6 +10,7 @@ import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
 import { ProductsResponse } from "@/lib/types/product";
 import { Lens } from "./lens";
+import { ProductCardSkeleton } from "./product-card-skeleton";
 
 // Animation configurations
 const ANIMATION_CONSTANTS = {
