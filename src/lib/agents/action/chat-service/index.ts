@@ -58,11 +58,6 @@ export async function getChats(userId?: string | null) {
         return plainChat as ChatProperties;
       });
 
-    fs.writeFileSync(
-      "./src/debug/state/user-chat.json",
-      JSON.stringify(userChat, null, 2)
-    );
-
     logger.info("User chat saved!", { userId });
 
     return userChat;

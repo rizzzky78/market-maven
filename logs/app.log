@@ -1,0 +1,6 @@
+[90m[2025-01-19 22:47:57.166][39m [[1m[31mERROR[39m[22m] {
+  "ctx": "Error getting the user chat in <getChats()>",
+  "meta": [
+    null
+  ]
+}

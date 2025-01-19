@@ -3,7 +3,6 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import { SquareArrowOutUpRight } from "lucide-react";
-import "katex/dist/katex.min.css";
 import {
   TooltipProvider,
   Tooltip,
