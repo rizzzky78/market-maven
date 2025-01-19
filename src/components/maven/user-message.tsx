@@ -28,7 +28,7 @@ export const UserMessage: FC<MessageProps> = ({ textInput, attachLink }) => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full mb-7">
       {attachLink && (
         <div className="flex justify-end">
           <Badge
