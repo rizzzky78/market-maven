@@ -9,7 +9,6 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Session } from "next-auth";
 import { ChatProperties } from "@/lib/types/ai";
 import { useAIState, useUIState } from "ai/rsc";
 import { useRouter } from "next/navigation";
