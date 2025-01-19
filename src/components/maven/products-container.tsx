@@ -11,6 +11,7 @@ import { Button } from "../ui/button";
 import { ProductsResponse } from "@/lib/types/product";
 import { Lens } from "./lens";
 import { ProductCardSkeleton } from "./product-card-skeleton";
+import { ExtendedToolResult } from "@/lib/types/ai";
 
 // Animation configurations
 const ANIMATION_CONSTANTS = {
@@ -36,19 +37,18 @@ const animations = {
   },
 };
 
-interface ProductGridProps {
-  content: ProductsResponse;
+interface ProductsProps {
+  content: ExtendedToolResult<{ query: string }, ProductsResponse>;
   isFinished?: boolean;
 }
 
-export const ProductCardContainer: FC<ProductGridProps> = ({
+export const ProductsContainer: FC<ProductsProps> = ({
   content,
   isFinished,
 }) => {
   const [isContentReady, setIsContentReady] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [open, setOpen] = useState(true);
-  const products = content.data;
 
   useEffect(() => {
     const timer = setTimeout(
@@ -66,7 +66,7 @@ export const ProductCardContainer: FC<ProductGridProps> = ({
     ));
 
   const renderProducts = () =>
-    products.map((product, index) => (
+    content.data.data.map((product, index) => (
       <motion.div key={`product-${index}`} variants={animations.item}>
         <ProductCard product={product} isFinished={isFinished} id={index} />
       </motion.div>
@@ -99,7 +99,7 @@ export const ProductCardContainer: FC<ProductGridProps> = ({
       <AnimatePresence mode={"wait"}>
         {open && (
           <>
-            {content.screenshot && (
+            {content.data.screenshot && (
               <div className="mb-2 mt-3">
                 <Separator className="mb-3" />
                 <Lens
@@ -109,7 +109,7 @@ export const ProductCardContainer: FC<ProductGridProps> = ({
                   lensSize={270}
                 >
                   <img
-                    src={content.screenshot}
+                    src={content.data.screenshot}
                     alt="Searched Product"
                     className="object-cover"
                   />
