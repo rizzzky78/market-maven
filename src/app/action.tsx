@@ -71,6 +71,8 @@ const sendMessage = async (
     ],
   });
 
+  const streamableGeneration = createStreamableValue<boolean>(true);
+
   const streamableText = createStreamableValue<string>("");
 
   const assistantMessage = (
@@ -95,6 +97,7 @@ const sendMessage = async (
           ],
         });
       } else {
+        streamableGeneration.done(false);
         streamableText.update(content);
       }
 
@@ -148,6 +151,8 @@ const sendMessage = async (
             );
 
             uiStream.done(errorUI);
+
+            streamableGeneration.done(false);
 
             return uiStream.value;
           }
@@ -290,6 +295,8 @@ const sendMessage = async (
 
           streamableRelated.done();
 
+          streamableGeneration.done(false);
+
           uiStream.done();
 
           return uiStream.value;
@@ -422,6 +429,7 @@ const sendMessage = async (
             });
           }
 
+          streamableGeneration.done(false);
           // final
           uiStream.done();
 
@@ -431,7 +439,12 @@ const sendMessage = async (
     },
   });
 
-  return { id: generateId(), display: value, stream };
+  return {
+    id: generateId(),
+    display: value,
+    stream,
+    isGenerating: streamableGeneration.value,
+  };
 };
 
 /**

@@ -1,4 +1,5 @@
 import { CoreMessage, LanguageModelV1StreamPart } from "ai";
+import { StreamableValue } from "ai/rsc";
 import { ReactNode } from "react";
 
 export interface ExtendedCoreMessage extends Omit<CoreMessage, "id"> {
@@ -39,6 +40,7 @@ export type SendMessageCallback = {
   id: string;
   display: ReactNode;
   stream: ReadableStream<LanguageModelV1StreamPart>;
+  isGenerating: StreamableValue<boolean>;
 };
 
 export type AIState = {

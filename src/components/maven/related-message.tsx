@@ -3,6 +3,7 @@
 import React, { useEffect, useId, useState } from "react";
 import { Grid2X2 } from "lucide-react";
 import {
+  readStreamableValue,
   StreamableValue,
   useActions,
   useStreamableValue,
@@ -59,7 +60,13 @@ export const RelatedMessage: React.FC<RelatedProps> = ({ relatedQueries }) => {
       },
     ]);
 
-    const { id, display } = await sendMessage(f);
+    const { id, display, isGenerating: isOnGenerating } = await sendMessage(f);
+
+    const isGen = readStreamableValue(isOnGenerating);
+
+    for await (const gen of isGen) {
+      setIsGenerating(gen ?? false);
+    }
 
     setUIState((prevUI) => [...prevUI, { id, display }]);
 
