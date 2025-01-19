@@ -135,6 +135,23 @@ const sendMessage = async (
 
           yield uiStream.value;
 
+          if (!scrapeContent.success) {
+            const errorUI = (
+              <div>
+                <div>
+                  <p className="text-xs">An Error Occured!</p>
+                  <pre className="text-xs overflow-x-auto">
+                    {JSON.stringify(scrapeContent, null, 2)}
+                  </pre>
+                </div>
+              </div>
+            );
+
+            uiStream.done(errorUI);
+
+            return uiStream.value;
+          }
+
           if (scrapeContent.success && scrapeContent.markdown) {
             if (scrapeContent.screenshot) {
               uiStream.append(
