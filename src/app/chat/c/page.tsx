@@ -28,7 +28,7 @@ const Page: FC<PageProps> = async ({ searchParams }) => {
 
   return (
     <AI initialAIState={{ chatId: id, messages: [] }}>
-      <Chat id={id} query={searchParams.q} chats={chats} />
+      <Chat id={id} query={q} chats={chats} />
     </AI>
   );
 };
