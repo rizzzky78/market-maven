@@ -19,6 +19,7 @@ import {
   FirecrawlConfig,
   ErrorResponse,
 } from "@/lib/types/firecrawl";
+import { getEnv } from "@/lib/utility/get-env";
 import logger from "@/lib/utility/logger";
 import FirecrawlApp from "@mendable/firecrawl-js";
 import { z } from "zod";
@@ -35,7 +36,7 @@ const DEFAULT_CONFIG: FirecrawlConfig = {
  * @returns  Instance of FirecrawlApp.
  */
 function initializeFirecrawl() {
-  const apiKey = process.env.FIRECRAWL_API_KEY;
+  const apiKey = getEnv("FIRECRAWL_API_KEY");
   if (!apiKey) {
     throw new Error("Firecrawl API key is required");
   }
@@ -129,7 +130,13 @@ export async function scrapeUrl(
     );
 
     if (!response.success) {
-      throw new Error("Scrape operation failed");
+      logger.error("Scrape operation failed");
+
+      return {
+        success: false,
+        error: response.error,
+        message: "operationError",
+      } as ErrorResponse;
     }
 
     return response as FireCrawlResponse<FirecrawlAction.Scrape>;
@@ -176,7 +183,13 @@ export async function crawlUrl(
     );
 
     if (!response.success) {
-      throw new Error("Crawl operation failed");
+      logger.error("Crawl operation failed");
+
+      return {
+        success: false,
+        error: response.error,
+        message: "operationError",
+      } as ErrorResponse;
     }
 
     return response as FireCrawlResponse<FirecrawlAction.Crawl>;
@@ -215,7 +228,13 @@ export async function mapUrl(
     );
 
     if (!response.success) {
-      throw new Error("Map operation failed");
+      logger.error("Map operation failed");
+
+      return {
+        success: false,
+        error: response.error,
+        message: "operationError",
+      } as ErrorResponse;
     }
 
     return response as FireCrawlResponse<FirecrawlAction.Map>;
