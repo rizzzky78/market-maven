@@ -19,6 +19,8 @@ import { AI } from "@/app/action";
 import { useSmartTextarea } from "../hooks/use-smart-textare";
 import { Button } from "../ui/button";
 import { ComponentProps, FC } from "react";
+import { HistoryItem } from "./history-item";
+import { NavUser } from "./sidebar-nav-user";
 
 interface AppProps extends ComponentProps<typeof Sidebar> {
   session: Session | null;
@@ -34,8 +36,8 @@ export const AppSidebar: FC<AppProps> = ({ chats, session, ...props }) => {
 
   const { isGenerating, setIsGenerating } = useAppState();
   const { flush } = useSmartTextarea();
-  const [_ui, setUIState] = useUIState<typeof AI>();
-  const [_ai, setAIState] = useAIState<typeof AI>();
+  const [, setUIState] = useUIState<typeof AI>();
+  const [, setAIState] = useAIState<typeof AI>();
 
   const router = useRouter();
 
