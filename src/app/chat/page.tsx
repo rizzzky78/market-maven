@@ -19,7 +19,7 @@ const ChatPage: FC = async () => {
 
   return (
     <AI initialAIState={{ chatId: id, messages: [] }}>
-      <Chat id={id} session={session} chats={chats} />
+      <Chat id={id} chats={chats} />
     </AI>
   );
 };
