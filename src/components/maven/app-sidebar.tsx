@@ -18,13 +18,14 @@ import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { AI } from "@/app/action";
 import { useSmartTextarea } from "../hooks/use-smart-textare";
 import { Button } from "../ui/button";
+import { ComponentProps, FC } from "react";
 
-interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+interface AppProps extends ComponentProps<typeof Sidebar> {
   session: Session | null;
   chats: ChatProperties[];
 }
 
-export function AppSidebar({ chats, session, ...props }: AppSidebarProps) {
+export const AppSidebar: FC<AppProps> = ({ chats, session, ...props }) => {
   const user = {
     name: session?.user?.name as string,
     email: session?.user?.email as string,
@@ -80,4 +81,4 @@ export function AppSidebar({ chats, session, ...props }: AppSidebarProps) {
       </SidebarFooter>
     </Sidebar>
   );
-}
+};
