@@ -8,7 +8,7 @@ import {
   UserMessageProp,
 } from "@/lib/types/ai";
 import { ProductsResponse } from "@/lib/types/product";
-import { ProductCardContainer } from "../maven/products-container";
+import { ProductsContainer } from "../maven/products-container";
 import { ProductInsight } from "../maven/product-insight";
 import { AssistantMessage } from "../maven/assistant-message";
 import { UserMessage } from "../maven/user-message";
@@ -43,11 +43,7 @@ const handleProductSearch = (result: string, id: string): UIStateItem => {
   return {
     id,
     display: (
-      <ProductCardContainer
-        key={id}
-        content={resulted_searchProduct.data}
-        isFinished
-      />
+      <ProductsContainer key={id} content={resulted_searchProduct} isFinished />
     ),
   };
 };
