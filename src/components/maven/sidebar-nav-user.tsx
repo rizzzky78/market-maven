@@ -23,19 +23,17 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { FC } from "react";
 
-interface NavUserProps {
-  user: {
-    name: string;
-    email: string;
-    avatar: string;
-  };
-}
-
-export const NavUser: FC<NavUserProps> = ({ user }) => {
+export const NavUser: FC = () => {
   const { isMobile } = useSidebar();
+  const { data: session } = useSession();
+  const user = {
+    name: session?.user?.name as string,
+    email: session?.user?.email as string,
+    avatar: session?.user?.image as string,
+  };
 
   return (
     <SidebarMenu>

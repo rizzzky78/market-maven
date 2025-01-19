@@ -23,17 +23,10 @@ import { HistoryItem } from "./history-item";
 import { NavUser } from "./sidebar-nav-user";
 
 interface AppProps extends ComponentProps<typeof Sidebar> {
-  session: Session | null;
   chats: ChatProperties[];
 }
 
-export const AppSidebar: FC<AppProps> = ({ chats, session, ...props }) => {
-  const user = {
-    name: session?.user?.name as string,
-    email: session?.user?.email as string,
-    avatar: session?.user?.image as string,
-  };
-
+export const AppSidebar: FC<AppProps> = ({ chats, ...props }) => {
   const { isGenerating, setIsGenerating } = useAppState();
   const { flush } = useSmartTextarea();
   const [, setUIState] = useUIState<typeof AI>();
@@ -79,7 +72,7 @@ export const AppSidebar: FC<AppProps> = ({ chats, session, ...props }) => {
         ))}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={user} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   );

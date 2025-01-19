@@ -19,7 +19,6 @@ import { Button } from "../ui/button";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { AI } from "@/app/action";
 import { AppSidebar } from "./app-sidebar";
-import { useSession } from "next-auth/react";
 
 type ChatProps = {
   id?: string;
@@ -32,7 +31,6 @@ export const Chat: FC<ChatProps> = ({ id, query, chats }) => {
   const [uiMessage] = useUIState<typeof AI>();
   const [mounted, setMounted] = useState(false);
   const { setTheme, resolvedTheme } = useTheme();
-  const session = useSession();
 
   useEffect(() => {
     setMounted(true);
@@ -48,7 +46,7 @@ export const Chat: FC<ChatProps> = ({ id, query, chats }) => {
 
   return (
     <SidebarProvider>
-      <AppSidebar session={session.data} chats={chats} />
+      <AppSidebar chats={chats} />
       <SidebarInset className="-ml-1">
         <header className="rounded-t-xl px-3 justify-between sticky z-20 top-0 flex shrink-0 items-center bg-background/80 backdrop-blur-sm py-1">
           <div className="flex items-center">
