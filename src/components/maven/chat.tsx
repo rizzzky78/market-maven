@@ -19,6 +19,7 @@ import { motion } from "framer-motion";
 import { Button } from "../ui/button";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { AI } from "@/app/action";
+import { AppSidebar } from "./app-sidebar";
 
 type ChatProps = {
   id?: string;
