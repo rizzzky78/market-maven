@@ -12,6 +12,7 @@ import { ProductsResponse } from "@/lib/types/product";
 import { Lens } from "./lens";
 import { ProductCardSkeleton } from "./product-card-skeleton";
 import { ExtendedToolResult } from "@/lib/types/ai";
+import { ImageLoader } from "./image-loader";
 
 // Animation configurations
 const ANIMATION_CONSTANTS = {
@@ -60,9 +61,9 @@ export const ProductsContainer: FC<ProductsProps> = ({
 
   const renderSkeletons = () =>
     Array.from({ length: ANIMATION_CONSTANTS.SKELETON_COUNT }).map((_, idx) => (
-      <motion.div key={`skeleton-${idx}`} variants={animations.item}>
+      <div key={`skeleton-${idx}`}>
         <ProductCardSkeleton />
-      </motion.div>
+      </div>
     ));
 
   const renderProducts = () =>
@@ -78,7 +79,9 @@ export const ProductsContainer: FC<ProductsProps> = ({
         <div className="flex justify-between">
           <div className="flex items-center space-x-2">
             <SearchCheck className="size-4 shrink-0" />
-            <h3 className="text-sm font-semibold">Product Search Results:</h3>
+            <h3 className="text-sm font-semibold line-clamp-1">
+              Product Search Results: {content.args.query}
+            </h3>
           </div>
           <div>
             <Button
@@ -102,18 +105,22 @@ export const ProductsContainer: FC<ProductsProps> = ({
             {content.data.screenshot && (
               <div className="mb-2 mt-3">
                 <Separator className="mb-3" />
-                <Lens
-                  hovering={hovering}
-                  setHovering={setHovering}
-                  zoomFactor={2}
-                  lensSize={270}
-                >
-                  <img
-                    src={content.data.screenshot}
-                    alt="Searched Product"
-                    className="object-cover"
-                  />
-                </Lens>
+                {isContentReady && isFinished ? (
+                  <Lens
+                    hovering={hovering}
+                    setHovering={setHovering}
+                    zoomFactor={2}
+                    lensSize={270}
+                  >
+                    <img
+                      src={content.data.screenshot}
+                      alt="Searhced Products"
+                      className="rounded-3xl object-cover"
+                    />
+                  </Lens>
+                ) : (
+                  <div className="bg-muted rounded-3xl animate-pulse w-full h-[360px]" />
+                )}
                 <div className="w-fit p-1 mt-2">
                   <div className="flex items-start space-x-2">
                     <Globe className="size-4 shrink-0" />

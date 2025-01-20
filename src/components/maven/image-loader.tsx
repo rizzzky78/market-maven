@@ -31,7 +31,7 @@ export const ImageLoader: React.FC<ImageProps> = ({
     <div className={`relative w-full h-full ${className}`}>
       {!isLoaded && !hasError && (
         <motion.div
-          className="absolute inset-0 bg-gray-200 animate-pulse"
+          className="absolute inset-0 bg-gray-200 animate-pulse rounded-3xl"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
@@ -53,12 +53,7 @@ export const ImageLoader: React.FC<ImageProps> = ({
             alt={alt}
             onLoad={handleLoad}
             onError={handleError}
-            className={`w-full h-full object-cover ${
-              isLoaded ? "opacity-100" : "opacity-0"
-            }`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: isLoaded ? 1 : 0 }}
-            transition={{ duration: 0.5 }}
+            className={`w-full h-full object-cover`}
           />
         </Lens>
       )}
