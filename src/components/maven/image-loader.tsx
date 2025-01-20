@@ -36,7 +36,7 @@ export const ImageLoader: React.FC<ImageProps> = ({
         />
       )}
       {hasError ? (
-        <div className="flex items-center justify-center w-full h-full bg-gray-100 text-gray-500">
+        <div className="flex items-center justify-center w-full h-[360px] bg-gray-100 text-gray-500">
           Error loading image
         </div>
       ) : (
