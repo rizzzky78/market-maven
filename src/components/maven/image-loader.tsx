@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { Lens } from "./lens";
 
 interface ImageProps {
   src: string;
@@ -16,6 +17,7 @@ export const ImageLoader: React.FC<ImageProps> = ({
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [hovering, setHovering] = useState(false);
 
   const handleLoad = () => {
     setIsLoaded(true);
@@ -40,18 +42,25 @@ export const ImageLoader: React.FC<ImageProps> = ({
           Error loading image
         </div>
       ) : (
-        <motion.img
-          src={src}
-          alt={alt}
-          onLoad={handleLoad}
-          onError={handleError}
-          className={`w-full h-full object-cover ${
-            isLoaded ? "opacity-100" : "opacity-0"
-          }`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isLoaded ? 1 : 0 }}
-          transition={{ duration: 0.5 }}
-        />
+        <Lens
+          hovering={hovering}
+          setHovering={setHovering}
+          zoomFactor={2}
+          lensSize={270}
+        >
+          <motion.img
+            src={src}
+            alt={alt}
+            onLoad={handleLoad}
+            onError={handleError}
+            className={`w-full h-full object-cover ${
+              isLoaded ? "opacity-100" : "opacity-0"
+            }`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isLoaded ? 1 : 0 }}
+            transition={{ duration: 0.5 }}
+          />
+        </Lens>
       )}
     </div>
   );
