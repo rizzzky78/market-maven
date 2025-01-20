@@ -1,0 +1,158 @@
+/* eslint-disable @next/next/no-img-element */
+"use client";
+
+import { Product } from "@/lib/types/product";
+import { DeepPartial } from "ai";
+import { StreamableValue, useStreamableValue } from "ai/rsc";
+import { FC, useEffect, useState } from "react";
+import { Separator } from "../ui/separator";
+import { ChevronUp, Globe, Info, SearchCheck } from "lucide-react";
+import { Button } from "../ui/button";
+import { AnimatePresence, motion } from "framer-motion";
+import { Lens } from "./lens";
+import Link from "next/link";
+import { ProductCard } from "./product-card";
+
+const ANIMATION_CONSTANTS = {
+  DELAY_MS: 1000,
+  STAGGER_DELAY: 0.1,
+  INITIAL_Y_OFFSET: 20,
+  SKELETON_COUNT: 3,
+} as const;
+
+const animations = {
+  container: {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: ANIMATION_CONSTANTS.STAGGER_DELAY,
+      },
+    },
+  },
+  item: {
+    hidden: { opacity: 0, y: ANIMATION_CONSTANTS.INITIAL_Y_OFFSET },
+    visible: { opacity: 1, y: 0 },
+  },
+};
+
+interface ExperimentalProps {
+  products: StreamableValue<DeepPartial<Product[]>>;
+  screenshot?: string;
+}
+
+export const ExperimentalStreamProductsContainer: FC<ExperimentalProps> = ({
+  products,
+  screenshot,
+}) => {
+  const [raw, error, pending] = useStreamableValue(products);
+  const [data, setData] = useState<DeepPartial<Product[]>>([]);
+  const [hovering, setHovering] = useState(false);
+  const [open, setOpen] = useState(true);
+
+  useEffect(() => {
+    if (raw) setData(raw);
+  }, [raw]);
+
+  return (
+    <div className="w-full border rounded-[2rem] px-4 py-2">
+      <div className="bg-black mt-2 items-center dark:bg-white text-white dark:text-black mb-2 py-1 pl-3 pr-1 rounded-3xl">
+        <div className="flex justify-between">
+          <div className="flex items-center space-x-2">
+            <SearchCheck className="size-4 shrink-0" />
+            <h3 className="text-sm font-semibold line-clamp-1">
+              Product Search Results:
+            </h3>
+          </div>
+          <div>
+            <Button
+              variant={"ghost"}
+              size={"icon"}
+              onClick={() => setOpen((prev) => !prev)}
+              className="rounded-full"
+            >
+              <ChevronUp
+                className={`size-3 shrink-0 transition-all ${
+                  open ? "" : "rotate-180"
+                }`}
+              />
+            </Button>
+          </div>
+        </div>
+      </div>
+      <AnimatePresence mode={"wait"}>
+        {open && (
+          <>
+            {screenshot && (
+              <div className="mb-2 mt-3">
+                <Separator className="mb-3" />
+
+                <Lens
+                  hovering={hovering}
+                  setHovering={setHovering}
+                  zoomFactor={2}
+                  lensSize={270}
+                >
+                  <img
+                    src={screenshot}
+                    alt="Searhced Products"
+                    className="rounded-3xl object-cover"
+                  />
+                </Lens>
+
+                <div className="w-fit p-1 mt-2">
+                  <div className="flex items-start space-x-2">
+                    <Globe className="size-4 shrink-0" />
+                    <p className="text-xs">
+                      Source:
+                      <Link
+                        href={"https://www.tokopedia.com/"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ml-1 text-green-500 hover:text-green-600 dark:text-green-400 dark:hover:text-green-500"
+                      >
+                        Tokopedia
+                      </Link>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+            <Separator className="mb-4" />
+            <motion.div
+              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2"
+              variants={animations.container}
+              initial="hidden"
+              animate="visible"
+            >
+              {Array.isArray(data)
+                ? data.map((product, index) => (
+                    <motion.div
+                      key={`product-${index}`}
+                      variants={animations.item}
+                    >
+                      <ProductCard
+                        product={product as Partial<Product>}
+                        isFinished={true}
+                        id={index}
+                      />
+                    </motion.div>
+                  ))
+                : null}
+            </motion.div>
+            <div className="w-fit p-1 mt-2 rounded-full">
+              <div className="flex items-start space-x-2">
+                <Info className="size-4 shrink-0" />
+                <p className="text-xs">
+                  MarketMaven is not affiliated with the relevant online
+                  marketplace, the displayed results may not match the
+                  user&apos;s intent.
+                </p>
+              </div>
+            </div>
+          </>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
