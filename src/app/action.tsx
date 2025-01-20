@@ -7,7 +7,13 @@ import {
 } from "@/lib/agents/system-instructions";
 import { scrapeUrl } from "@/lib/agents/tools/api/firecrawl";
 import { google } from "@ai-sdk/google";
-import { generateId, JSONValue, streamObject, streamText } from "ai";
+import {
+  DeepPartial,
+  generateId,
+  JSONValue,
+  streamObject,
+  streamText,
+} from "ai";
 import {
   createAI,
   createStreamableUI,
@@ -30,8 +36,8 @@ import Image from "next/image";
 import { v4 } from "uuid";
 import { StreamAssistantMessage } from "@/components/maven/assistant-message";
 import { toCoreMessage } from "@/lib/agents/action/mutator/mutate-messages";
-import { ProductsResponse } from "@/lib/types/product";
-import { ProductCardContainer } from "@/components/maven/products-container";
+import { Product, ProductsResponse } from "@/lib/types/product";
+import { ProductsContainer } from "@/components/maven/products-container";
 import { productsSchema } from "@/lib/agents/schema/product";
 import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
 import { PartialRelated } from "@/lib/agents/schema/related";
@@ -39,6 +45,7 @@ import logger from "@/lib/utility/logger";
 import { StreamProductInsight } from "@/components/maven/product-insight";
 import { mapUIState } from "@/components/custom/ui-mapper";
 import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
+import { ExperimentalStreamProductsContainer } from "@/components/maven/exp-stream-products-container";
 
 const sendMessage = async (
   f: FormData,
@@ -188,10 +195,28 @@ const sendMessage = async (
             const streamableObject = createStreamableValue<any>();
 
             uiStream.update(
-              <ProductCardContainer content={{ data: [] }} isFinished={false} />
+              <ProductsContainer
+                content={{
+                  success: true,
+                  name: "searchProduct",
+                  args: { query },
+                  data: { data: [] },
+                }}
+                isFinished={false}
+              />
             );
 
             yield uiStream.value;
+
+            const streamableProducts =
+              createStreamableValue<DeepPartial<Product[]>>();
+
+            uiStream.update(
+              <ExperimentalStreamProductsContainer
+                screenshot={scrapeContent.screenshot}
+                products={streamableProducts.value}
+              />
+            );
 
             const { partialObjectStream } = streamObject({
               model: google("gemini-2.0-flash-exp"),
@@ -210,14 +235,23 @@ const sendMessage = async (
 
             for await (const chunk of partialObjectStream) {
               streamableObject.update(chunk);
+              if (chunk.data) {
+                streamableProducts.update(chunk.data);
+              }
             }
 
             streamableObject.done(finalizedResults);
+            streamableProducts.done();
           }
 
           uiStream.update(
-            <ProductCardContainer
-              content={finalizedResults}
+            <ProductsContainer
+              content={{
+                success: true,
+                name: "searchProduct",
+                args: { query },
+                data: finalizedResults,
+              }}
               isFinished={true}
             />
           );
