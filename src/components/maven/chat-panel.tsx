@@ -117,7 +117,10 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       flush();
       handleReset();
 
-      const { id, display } = await sendMessage(f);
+      const { id, display } = await sendMessage({
+        textInput: value,
+        attachData: attachment ? JSON.stringify(attachment) : undefined,
+      });
 
       setUIState((prevUI) => [...prevUI, { id, display }]);
     } catch (error) {
