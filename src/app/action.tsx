@@ -46,6 +46,7 @@ import { StreamProductInsight } from "@/components/maven/product-insight";
 import { mapUIState } from "@/components/custom/ui-mapper";
 import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
 import { ExperimentalStreamProductsContainer } from "@/components/maven/exp-stream-products-container";
+import { ShinyText } from "@/components/maven/shining-glass";
 
 const sendMessage = async (
   f: FormData,
@@ -136,11 +137,11 @@ const sendMessage = async (
           });
 
           uiStream.append(
-            <div>
-              <div className="bg-green-300">
-                <h2>Processing {query}</h2>
-              </div>
-            </div>
+            <ShinyText
+              text={`Searching ${query}`}
+              speed={1}
+              className=" font-semibold"
+            />
           );
 
           yield uiStream.value;
@@ -166,22 +167,12 @@ const sendMessage = async (
 
           if (scrapeContent.success && scrapeContent.markdown) {
             if (scrapeContent.screenshot) {
-              uiStream.append(
-                <div>
-                  <h2>Extracting the raw data...</h2>
-                  <div>
-                    <div>
-                      <Image
-                        src={scrapeContent.screenshot}
-                        alt={scrapeContent.metadata?.title || "Product"}
-                        fill
-                      />
-                    </div>
-                    <pre className="text-xs overflow-x-auto">
-                      {JSON.stringify(scrapeContent.metadata, null, 2)}
-                    </pre>
-                  </div>
-                </div>
+              uiStream.update(
+                <ShinyText
+                  text="Found products, proceed to data extraction..."
+                  speed={1}
+                  className=" font-semibold"
+                />
               );
 
               yield uiStream.value;
@@ -191,20 +182,6 @@ const sendMessage = async (
               objective: `Extract only product data including: product images, product link, and store link.`,
               markdown: scrapeContent.markdown,
             };
-
-            uiStream.update(
-              <ProductsContainer
-                content={{
-                  success: true,
-                  name: "searchProduct",
-                  args: { query },
-                  data: { data: [] },
-                }}
-                isFinished={false}
-              />
-            );
-
-            yield uiStream.value;
 
             const streamableProducts =
               createStreamableValue<DeepPartial<Product[]>>();
@@ -338,9 +315,7 @@ const sendMessage = async (
           link: z.string().describe("The given url or link by user"),
           query: z
             .string()
-            .describe(
-              "An additional query, this is used as a wayfinder such as searching for specific information. These queries adjust based on user input."
-            ),
+            .describe("This must be a product title given from the user"),
         }),
         generate: async function* ({ link, query }) {
           logger.info(`Executing tool: <getProductDetails>`, { query });
@@ -348,11 +323,11 @@ const sendMessage = async (
           const uiStream = createStreamableUI();
 
           uiStream.append(
-            <div className="my-5">
-              <div>
-                <p className="line-clamp-1">Proceed with Query: {link}</p>
-              </div>
-            </div>
+            <ShinyText
+              text={`Getting data product for ${query}`}
+              speed={1}
+              className=" font-semibold"
+            />
           );
 
           yield uiStream.value;
@@ -374,7 +349,7 @@ const sendMessage = async (
 
             const streamableObject = createStreamableValue();
 
-            uiStream.append(
+            uiStream.update(
               <StreamProductInsight
                 callId={finalizedObject.callId}
                 content={streamableObject.value}

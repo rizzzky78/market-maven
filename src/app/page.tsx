@@ -23,7 +23,11 @@ export default function Home() {
             </svg>
           </div>
         </div> */}
-        <ShinyText text="Loading Content..." speed={1} className="" />
+        <ShinyText
+          text="Loading Content..."
+          speed={1}
+          className=" font-semibold"
+        />
       </div>
     </div>
   );
