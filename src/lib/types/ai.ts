@@ -57,6 +57,7 @@ export type UIState = {
 export const AvailableTools = {
   SEARCH_PRODUCT: "searchProduct",
   GET_PRODUCT_DETAILS: "getProductDetails",
+  INQUIRE_USER: "inquireUser",
 } as const;
 
 export type AvailableTool =

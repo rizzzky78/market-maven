@@ -50,6 +50,11 @@ import { ExperimentalStreamProductsContainer } from "@/components/maven/exp-stre
 import { ShinyText } from "@/components/maven/shining-glass";
 import { inquirySchema } from "@/lib/agents/schema/inquiry";
 import { UserInquiry } from "@/components/maven/user-inquiry";
+import {
+  getProductDetailsSchema,
+  inquireUserSchema,
+  searchProductSchema,
+} from "@/lib/agents/schema/tool-parameters";
 
 const sendMessage = async (
   f: FormData,
@@ -117,20 +122,14 @@ const sendMessage = async (
     tools: {
       searchProduct: {
         description: `Search product from user query`,
-        parameters: z.object({
-          query: z.string(),
-        }),
+        parameters: searchProductSchema,
         generate: async function* ({ query }) {
           let finalizedResults: ProductsResponse = { data: [] };
 
           const uiStream = createStreamableUI();
 
           uiStream.append(
-            <ShinyText
-              text={`Searching for ${query}`}
-              speed={1}
-              className=" font-semibold"
-            />
+            <ShinyText text={`Searching for ${query}`} speed={1} className="" />
           );
 
           const encodedQuery = encodeURIComponent(
@@ -312,12 +311,7 @@ const sendMessage = async (
       },
       getProductDetails: {
         description: `Get product details by given link or URL.`,
-        parameters: z.object({
-          link: z.string().describe("The given url or link by user"),
-          query: z
-            .string()
-            .describe("This must be a product title given from the user"),
-        }),
+        parameters: getProductDetailsSchema,
         generate: async function* ({ link, query }) {
           logger.info(`Executing tool: <getProductDetails>`, { query });
 
@@ -325,7 +319,7 @@ const sendMessage = async (
             <ShinyText
               text={`Getting data product for ${query}`}
               speed={1}
-              className=" font-semibold"
+              className=""
             />
           );
 
@@ -360,7 +354,7 @@ const sendMessage = async (
 
             const payloadContent = {
               prompt: `Extract the product description with a full details. This also includes product ratings which include images and comments (if any) with a maximum of 5 product rating data (take the rating that is most helpful to the user).`,
-              refference: { link },
+              refference: { query, link },
               markdown: scrapeResult.markdown,
             };
 
@@ -442,7 +436,7 @@ const sendMessage = async (
       },
       inquireUser: {
         description: `Inquire the user is provided prompt or information are not enough`,
-        parameters: inquirySchema,
+        parameters: inquireUserSchema,
         generate: async function* (inquiry) {
           console.log(JSON.stringify(inquiry, null, 2));
           const callId = generateId();
