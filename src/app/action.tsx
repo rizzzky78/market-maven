@@ -444,6 +444,7 @@ const sendMessage = async (
         description: `Inquire the user is provided prompt or information are not enough`,
         parameters: inquirySchema,
         generate: async function* (inquiry) {
+          console.log(JSON.stringify(inquiry, null, 2));
           const callId = generateId();
           const uiStream = createStreamableUI(
             <ShinyText
