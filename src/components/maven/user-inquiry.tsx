@@ -51,6 +51,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
             <RadioGroup
               onValueChange={handleOptionChange}
               value={selectedOptions[0]}
+              className="-space-y-1"
             >
               {inquiry.options.map((option) => (
                 <div key={option.value} className="flex items-center space-x-2">
