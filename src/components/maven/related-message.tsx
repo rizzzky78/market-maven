@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useId, useState } from "react";
-import { Grid2X2 } from "lucide-react";
+import { CornerDownRight, Grid2X2 } from "lucide-react";
 import {
   readStreamableValue,
   StreamableValue,
@@ -17,6 +17,7 @@ import { UserMessage } from "./user-message";
 import { PartialRelated } from "@/lib/agents/schema/related";
 import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
+import { Separator } from "../ui/separator";
 
 export interface RelatedProps {
   relatedQueries: StreamableValue<PartialRelated>;
@@ -74,33 +75,34 @@ export const RelatedMessage: React.FC<RelatedProps> = ({ relatedQueries }) => {
   };
 
   return related ? (
-    <form
-      className={cn(
-        "flex flex-wrap p-6 rounded-xl my-5",
-        pending ? "animate-pulse" : ""
-      )}
-      onSubmit={handleSubmit}
-    >
-      {Array.isArray(related.items)
-        ? related.items
-            ?.filter((item) => item?.query !== "")
-            .map((item, index) => (
-              <div className="flex items-start w-full" key={index}>
-                <Grid2X2 className="h-4 w-4 text-purple-200 mr-2 mt-1 flex-shrink-0 text-accent-foreground/50" />
-                <Button
-                  variant="link"
-                  className="flex-1 items-center text-sm justify-start px-0 py-1 h-fit text-white whitespace-normal text-left"
-                  type="submit"
-                  name={"text_input"}
-                  value={item?.query}
-                  disabled={isGenerating}
-                >
-                  {item?.query}
-                </Button>
-              </div>
-            ))
-        : null}
-    </form>
+    <div className="flex flex-col">
+      <h4>Related</h4>
+      <Separator />
+      <form
+        className="flex flex-wrap p-6 rounded-xl my-5"
+        onSubmit={handleSubmit}
+      >
+        {Array.isArray(related.items)
+          ? related.items
+              ?.filter((item) => item?.query !== "")
+              .map((item, index) => (
+                <div className="flex items-start w-full" key={index}>
+                  <CornerDownRight className="h-4 w-4 text-purple-200 mr-2 mt-1 flex-shrink-0 text-accent-foreground/50" />
+                  <Button
+                    variant="link"
+                    className="flex-1 items-center text-sm justify-start px-0 py-1 h-fit text-white whitespace-normal text-left"
+                    type="submit"
+                    name={"text_input"}
+                    value={item?.query}
+                    disabled={isGenerating}
+                  >
+                    {item?.query}
+                  </Button>
+                </div>
+              ))
+          : null}
+      </form>
+    </div>
   ) : error ? null : (
     <Skeleton className="w-full h-6" />
   );
