@@ -69,7 +69,13 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
         ...prevUI,
         {
           id: generateId(),
-          display: <UserMessage key={componentId} textInput={text} />,
+          display: (
+            <UserMessage
+              key={componentId}
+              textInput={text}
+              inquiryResponse={payload}
+            />
+          ),
         },
       ]);
 

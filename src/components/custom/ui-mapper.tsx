@@ -6,6 +6,7 @@ import {
   AvailableTool,
   ExtendedToolResult,
   UserMessageProp,
+  InquiryResponse,
 } from "@/lib/types/ai";
 import { ProductsResponse } from "@/lib/types/product";
 import { ProductsContainer } from "../maven/products-container";
@@ -165,9 +166,8 @@ const roleHandlers: Record<
 
   user: (message, index) => {
     if (!Array.isArray(message.content)) {
-      const { text_input, attach_link }: UserMessageProp = JSON.parse(
-        message.content
-      );
+      const { text_input, attach_link, inquiry_response }: UserMessageProp =
+        JSON.parse(message.content);
       const parsedAttachLink = attach_link
         ? JSON.parse(attach_link)
         : undefined;
@@ -175,7 +175,11 @@ const roleHandlers: Record<
         {
           id: message.id,
           display: (
-            <UserMessage textInput={text_input} attachLink={parsedAttachLink} />
+            <UserMessage
+              textInput={text_input}
+              attachLink={parsedAttachLink}
+              inquiryResponse={inquiry_response}
+            />
           ),
         },
       ];
@@ -184,16 +188,19 @@ const roleHandlers: Record<
       message.content as MessageContent[],
       message.id,
       (content, id) => {
-        const { text_input, attach_link }: UserMessageProp = JSON.parse(
-          content as unknown as string
-        );
+        const { text_input, attach_link, inquiry_response }: UserMessageProp =
+          JSON.parse(content as unknown as string);
         const parsedAttachLink = attach_link
           ? JSON.parse(attach_link)
           : undefined;
         return {
           id,
           display: (
-            <UserMessage textInput={text_input} attachLink={parsedAttachLink} />
+            <UserMessage
+              textInput={text_input}
+              attachLink={parsedAttachLink}
+              inquiryResponse={inquiry_response}
+            />
           ),
         };
       }

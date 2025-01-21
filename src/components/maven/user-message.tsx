@@ -10,16 +10,20 @@ import {
 } from "../ui/tooltip";
 import { Button } from "../ui/button";
 import { Check, Copy, ScanSearch } from "lucide-react";
-import { AttachLink } from "@/lib/types/ai";
+import { AttachLink, InquiryResponse } from "@/lib/types/ai";
 import { Badge } from "../ui/badge";
 
 interface MessageProps {
   textInput?: string;
   attachLink?: AttachLink;
-  inquiryResponse?: string;
+  inquiryResponse?: InquiryResponse;
 }
 
-export const UserMessage: FC<MessageProps> = ({ textInput, attachLink }) => {
+export const UserMessage: FC<MessageProps> = ({
+  textInput,
+  attachLink,
+  inquiryResponse,
+}) => {
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = () => {
@@ -43,35 +47,44 @@ export const UserMessage: FC<MessageProps> = ({ textInput, attachLink }) => {
           </Badge>
         </div>
       )}
-      <div className="flex justify-end">
-        <div
-          className={`bg-[#343131] w-fit max-w-[90%] py-3 px-5 rounded-l-[2rem] ${
-            attachLink ? "rounded-br-[2rem]" : "rounded-r-[2rem]"
-          }`}
-        >
-          <div className="group relative">
-            <Markdown className="whitespace-pre-wrap text-white">
-              {textInput ?? "no-value"}
-            </Markdown>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="absolute rounded-full text-white h-8 w-1 -bottom-8 right-3 bg-[#1A1A1D] opacity-0 group-hover:opacity-100 transition-opacity"
-                    onClick={copyToClipboard}
-                  >
-                    {copied ? <Check /> : <Copy />}
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{copied ? "Copied!" : "Copy to clipboard"}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+      {inquiryResponse && (
+        <div className="flex justify-end">
+          <pre className="text-xs overflow-x-auto p-2">
+            {JSON.stringify(inquiryResponse, null, 2)}
+          </pre>
+        </div>
+      )}
+      {textInput && (
+        <div className="flex justify-end">
+          <div
+            className={`bg-[#343131] w-fit max-w-[90%] py-3 px-5 rounded-l-[2rem] ${
+              attachLink ? "rounded-br-[2rem]" : "rounded-r-[2rem]"
+            }`}
+          >
+            <div className="group relative">
+              <Markdown className="whitespace-pre-wrap text-white">
+                {textInput}
+              </Markdown>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="absolute rounded-full text-white h-8 w-1 -bottom-8 right-3 bg-[#1A1A1D] opacity-0 group-hover:opacity-100 transition-opacity"
+                      onClick={copyToClipboard}
+                    >
+                      {copied ? <Check /> : <Copy />}
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{copied ? "Copied!" : "Copy to clipboard"}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

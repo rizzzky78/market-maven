@@ -104,8 +104,9 @@ export type ParsedUserMessage = {
 };
 
 export type UserMessageProp = {
-  text_input: string;
+  text_input?: string;
   attach_link?: string;
+  inquiry_response?: InquiryResponse
 };
 
 export type InquiryResponse = {
