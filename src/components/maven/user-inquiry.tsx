@@ -24,7 +24,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
   const [inputValue, setInputValue] = useState("");
 
   const handleOptionChange = (value: string) => {
-    if (inquiry.type === "single") {
+    if (!inquiry.isMultiSelection) {
       setSelectedOptions([value]);
     } else {
       setSelectedOptions((prev) =>
@@ -47,7 +47,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
         <CardContent className="">
           <h3 className="pt-6 font-semibold">{inquiry.question}</h3>
           <Separator className="my-3" />
-          {inquiry.type === "single" ? (
+          {!inquiry.isMultiSelection ? (
             <RadioGroup
               onValueChange={handleOptionChange}
               value={selectedOptions[0]}
