@@ -37,7 +37,7 @@ export type PayloadData = {
 
 export type UseAction = {
   sendMessage: (
-    f: FormData,
+    payload: PayloadData,
     assignController?: AssignController
   ) => Promise<SendMessageCallback>;
 };
