@@ -103,21 +103,27 @@ export const ProductsContainer: FC<ProductsProps> = ({
         {open && (
           <>
             {content.data.screenshot && (
-              <div className="mb-2 mt-3">
-                <Separator className="mb-3" />
+              <div className="mb-2 mt-4">
+                <Separator className="mb-4" />
                 {isContentReady && isFinished ? (
-                  <Lens
-                    hovering={hovering}
-                    setHovering={setHovering}
-                    zoomFactor={2}
-                    lensSize={270}
+                  <motion.div
+                    variants={animations.item}
+                    initial="hidden"
+                    animate="visible"
                   >
-                    <img
-                      src={content.data.screenshot}
-                      alt="Searhced Products"
-                      className="rounded-3xl object-cover"
-                    />
-                  </Lens>
+                    <Lens
+                      hovering={hovering}
+                      setHovering={setHovering}
+                      zoomFactor={2}
+                      lensSize={270}
+                    >
+                      <img
+                        src={content.data.screenshot}
+                        alt="Searhced Products"
+                        className="rounded-3xl object-cover"
+                      />
+                    </Lens>
+                  </motion.div>
                 ) : (
                   <div className="bg-muted rounded-3xl animate-pulse w-full h-[360px]" />
                 )}
