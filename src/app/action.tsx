@@ -451,7 +451,7 @@ const sendMessage = async (
               key={callId}
               text="Creating an Inquiry"
               speed={1}
-              className=" font-semibold"
+              className=""
             />
           );
 
