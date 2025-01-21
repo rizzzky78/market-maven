@@ -73,3 +73,5 @@ export const inquireUserSchema = z.object({
       "Controls the option selection behavior. When set to false, users can select only one option. When set to true, users can select multiple options simultaneously"
     ),
 });
+
+export type Inquiry = z.infer<typeof inquireUserSchema>;
