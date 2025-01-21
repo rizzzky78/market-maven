@@ -30,6 +30,7 @@ import {
   UIState,
   UseAction,
   AssignController,
+  PayloadData,
 } from "@/lib/types/ai";
 import { groq } from "@ai-sdk/groq";
 import { getServerSession } from "next-auth";
@@ -57,18 +58,15 @@ import {
 } from "@/lib/agents/schema/tool-parameters";
 
 const sendMessage = async (
-  f: FormData,
+  payload: PayloadData,
   assignController?: AssignController
 ): Promise<SendMessageCallback> => {
   "use server";
 
-  const textInput = f.get("text_input") as string;
-
-  const attachLink = f.get("attach_link") as string | null;
-
   const userMessage = JSON.stringify({
-    text_input: textInput,
-    attach_link: attachLink ?? null,
+    text_input: payload.textInput ?? null,
+    attach_link: payload.inquiryResponse ?? null,
+    inquiry_response: payload.inquiryResponse ?? null,
   });
 
   console.log(`triggered server action - sendMessage, meta: ${userMessage}`);
