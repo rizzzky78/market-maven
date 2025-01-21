@@ -1,4 +1,5 @@
 import {
+  SYSTEM_INSTRUCT_CORE,
   SYSTEM_INSTRUCT_DEFINED_INSIGHT,
   SYSTEM_INSTRUCT_EXTRACTOR,
   SYSTEM_INSTRUCT_INSIGHT,
@@ -91,7 +92,7 @@ const sendMessage = async (
 
   const { value, stream } = await streamUI({
     model: google("gemini-2.0-flash-exp"),
-    system: `You are very helpfull assistant!`,
+    system: SYSTEM_INSTRUCT_CORE,
     messages: toCoreMessage(aiState.get().messages),
     text: async function* ({ content, done }) {
       if (done) {
@@ -458,6 +459,8 @@ const sendMessage = async (
           uiStream.update(<UserInquiry inquiry={inquiry} />);
 
           uiStream.done();
+
+          streamableGeneration.done(false);
 
           return uiStream.value;
         },
