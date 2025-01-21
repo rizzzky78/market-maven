@@ -457,7 +457,7 @@ const sendMessage = async (
             args: { inquiry },
             result: { data: "no-result" },
             overrideAssistant: {
-              content: `Questions have been provided, please fill them in accordingly.`,
+              content: `Inquiry have been provided, please fill them in accordingly.`,
             },
           });
 

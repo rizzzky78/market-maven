@@ -1,16 +1,17 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import { CardContent } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Inquiry } from "@/lib/agents/schema/inquiry";
-import { Separator } from "../ui/separator";
-import { Button } from "../ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import {
   CircleArrowRight,
+  Loader,
   MessageCircleQuestion,
   SkipForward,
 } from "lucide-react";
@@ -22,6 +23,16 @@ interface InquiryProps {
 export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const isFormValid = (): boolean => {
+    const hasValidSelection = selectedOptions.length > 0;
+    const hasValidInput =
+      !inquiry.allowsInput ||
+      (inquiry.allowsInput && inputValue.trim().length > 0);
+
+    return hasValidSelection || hasValidInput;
+  };
 
   const handleOptionChange = (value: string) => {
     if (!inquiry.isMultiSelection) {
@@ -35,12 +46,46 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
     }
   };
 
+  const submitInquiryResponse = useCallback(
+    async (payload: Record<string, any>) => {
+      const f = new FormData();
+    },
+    []
+  );
+
+  const handleSubmit = () => {
+    if (!isFormValid()) return;
+
+    try {
+      setIsSubmitting(true);
+
+      const formData = {
+        selectedOptions,
+        inputValue: inquiry.allowsInput ? inputValue : undefined,
+        question: inquiry.question,
+      };
+
+      // Reset form
+      setSelectedOptions([]);
+      setInputValue("");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleSkip = () => {
+    setSelectedOptions([]);
+    setInputValue("");
+  };
+
   return (
     <div className="mt-10">
       <div className="absolute ml-6 -mt-3">
         <div className="bg-white w-fit rounded-3xl p-1 px-3 flex items-center">
           <MessageCircleQuestion className="size-4 text-black mr-1" />
-          <p className=" text-xs text-black font-semibold">Inquiry</p>
+          <p className="text-xs text-black font-semibold">Inquiry</p>
         </div>
       </div>
       <div className="w-full mx-auto border rounded-3xl">
@@ -55,11 +100,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
             >
               {inquiry.options.map((option) => (
                 <div key={option.value} className="flex items-center space-x-2">
-                  <RadioGroupItem
-                    value={option.value}
-                    id={option.value}
-                    className=""
-                  />
+                  <RadioGroupItem value={option.value} id={option.value} />
                   <Label htmlFor={option.value} className="text-sm font-normal">
                     {option.label}
                   </Label>
@@ -102,19 +143,26 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
           )}
           <div className="flex justify-end mt-3">
             <Button
-              variant={"outline"}
+              variant="outline"
               className="rounded-3xl font-normal flex items-center mr-2"
-              disabled
+              onClick={handleSkip}
+              disabled={isSubmitting}
             >
               <span className="-mr-1">Skip</span>
               <SkipForward className="size-4" />
             </Button>
             <Button
-              variant={"outline"}
+              variant="outline"
               className="rounded-3xl font-normal flex items-center"
+              onClick={handleSubmit}
+              disabled={!isFormValid() || isSubmitting}
             >
               <span className="-mr-1">Submit</span>
-              <CircleArrowRight className="size-4" />
+              {isSubmitting ? (
+                <Loader className="size-4" />
+              ) : (
+                <CircleArrowRight className="size-4" />
+              )}
             </Button>
           </div>
         </CardContent>
