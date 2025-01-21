@@ -32,7 +32,7 @@ export type AssignController = Record<string, FunctionController>;
 export type PayloadData = {
   textInput?: string;
   attachData?: string;
-  inquiryResponse?: string;
+  inquiryResponse?: InquiryResponse;
 };
 
 export type UseAction = {
@@ -106,4 +106,10 @@ export type ParsedUserMessage = {
 export type UserMessageProp = {
   text_input: string;
   attach_link?: string;
+};
+
+export type InquiryResponse = {
+  question: string;
+  selected: string[];
+  input: string | null;
 };
