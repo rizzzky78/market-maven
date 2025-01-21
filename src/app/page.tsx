@@ -46,7 +46,7 @@ const inquiry = {
   allowsInput: true,
   inputLabel: "Specify your contact details",
   inputPlaceholder: "e.g., your@email.com or phone number",
-  type: "single" as const,
+  isMultiSelection: false,
 };
 
 const multipleSelectionInquiry = {
@@ -61,5 +61,5 @@ const multipleSelectionInquiry = {
   allowsInput: true,
   inputLabel: "Any other languages?",
   inputPlaceholder: "e.g., Go, Rust, etc.",
-  type: "multiple" as const,
+  isMultiSelection: true,
 };

@@ -14,15 +14,16 @@ import { AttachLink } from "@/lib/types/ai";
 import { Badge } from "../ui/badge";
 
 interface MessageProps {
-  textInput: string;
+  textInput?: string;
   attachLink?: AttachLink;
+  inquiryResponse?: string;
 }
 
 export const UserMessage: FC<MessageProps> = ({ textInput, attachLink }) => {
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(textInput);
+    navigator.clipboard.writeText(textInput ?? "No-Value");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -50,7 +51,7 @@ export const UserMessage: FC<MessageProps> = ({ textInput, attachLink }) => {
         >
           <div className="group relative">
             <Markdown className="whitespace-pre-wrap text-white">
-              {textInput}
+              {textInput ?? "no-value"}
             </Markdown>
             <TooltipProvider>
               <Tooltip>

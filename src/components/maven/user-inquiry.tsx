@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useCallback, useState } from "react";
+import { FC, useCallback, useId, useState } from "react";
 import { CardContent } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -15,6 +15,13 @@ import {
   MessageCircleQuestion,
   SkipForward,
 } from "lucide-react";
+import { AI } from "@/app/action";
+import { useAppState } from "@/lib/utility/provider/app-state-provider";
+import { useUIState, useActions } from "ai/rsc";
+import { useDebounceInput } from "../hooks/use-debounced-input";
+import { useSmartTextarea } from "../hooks/use-smart-textare";
+import { UserMessage } from "./user-message";
+import { generateId } from "ai";
 
 interface InquiryProps {
   inquiry: Inquiry;
@@ -24,6 +31,12 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [_, setUIState] = useUIState<typeof AI>();
+  const { isGenerating, setIsGenerating } = useAppState();
+  const { sendMessage } = useActions<typeof AI>();
+  const { flush } = useSmartTextarea();
+  const { handleReset } = useDebounceInput();
+  const componentId = useId();
 
   const isFormValid = (): boolean => {
     const hasValidSelection = selectedOptions.length > 0;
@@ -48,12 +61,36 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
 
   const submitInquiryResponse = useCallback(
     async (payload: Record<string, any>) => {
-      const f = new FormData();
+      setIsGenerating(true);
+
+      const text = JSON.stringify(payload, null, 2);
+
+      // Add user message to UI
+      setUIState((prevUI) => [
+        ...prevUI,
+        {
+          id: generateId(),
+          display: <UserMessage key={componentId} textInput={text} />,
+        },
+      ]);
+
+      // Send the message and wait for response
+      const { id, display } = await sendMessage({
+        textInput: text,
+        inquiryResponse: text,
+      });
+
+      // Add response to UI
+      setUIState((prevUI) => [...prevUI, { id, display }]);
+
+      // Clean up
+      flush();
+      handleReset();
     },
-    []
+    [componentId, flush, handleReset, sendMessage, setIsGenerating, setUIState]
   );
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!isFormValid()) return;
 
     try {
@@ -61,9 +98,15 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
 
       const formData = {
         selectedOptions,
-        inputValue: inquiry.allowsInput ? inputValue : undefined,
+        inputValue: inquiry.allowsInput
+          ? inputValue.length > 0
+            ? inputValue
+            : null
+          : null,
         question: inquiry.question,
       };
+
+      await submitInquiryResponse(formData);
 
       // Reset form
       setSelectedOptions([]);
