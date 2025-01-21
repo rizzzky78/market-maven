@@ -83,10 +83,6 @@ export function QuickActionButton() {
       try {
         setIsGenerating(true);
 
-        // Create message FormData
-        const messageData = new FormData();
-        messageData.set("text_input", action);
-
         // Add user message to UI
         setUIState((prevUI) => [
           ...prevUI,
@@ -97,7 +93,9 @@ export function QuickActionButton() {
         ]);
 
         // Send the message and wait for response
-        const { id, display } = await sendMessage(messageData);
+        const { id, display } = await sendMessage({
+          textInput: action,
+        });
 
         // Add response to UI
         setUIState((prevUI) => [...prevUI, { id, display }]);
