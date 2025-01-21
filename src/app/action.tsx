@@ -47,6 +47,8 @@ import { mapUIState } from "@/components/custom/ui-mapper";
 import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
 import { ExperimentalStreamProductsContainer } from "@/components/maven/exp-stream-products-container";
 import { ShinyText } from "@/components/maven/shining-glass";
+import { inquirySchema } from "@/lib/agents/schema/inquiry";
+import { UserInquiry } from "@/components/maven/user-inquiry";
 
 const sendMessage = async (
   f: FormData,
@@ -432,6 +434,29 @@ const sendMessage = async (
 
           streamableGeneration.done(false);
           // final
+          uiStream.done();
+
+          return uiStream.value;
+        },
+      },
+      inquireUser: {
+        description: `Inquire the user is provided prompt or information are not enough`,
+        parameters: inquirySchema,
+        generate: async function* (inquiry) {
+          const callId = generateId();
+          const uiStream = createStreamableUI(
+            <ShinyText
+              key={callId}
+              text="Creating an Inquiry"
+              speed={1}
+              className=" font-semibold"
+            />
+          );
+
+          yield uiStream.value;
+
+          uiStream.update(<UserInquiry inquiry={inquiry} />);
+
           uiStream.done();
 
           return uiStream.value;
