@@ -29,6 +29,12 @@ export type FunctionController = (args?: any) => void | Promise<void>;
 
 export type AssignController = Record<string, FunctionController>;
 
+export type PayloadData = {
+  textInput?: string;
+  attachData?: string;
+  inquiryResponse?: string;
+};
+
 export type UseAction = {
   sendMessage: (
     f: FormData,
