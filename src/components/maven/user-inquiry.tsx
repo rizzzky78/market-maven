@@ -22,6 +22,7 @@ import { useDebounceInput } from "../hooks/use-debounced-input";
 import { useSmartTextarea } from "../hooks/use-smart-textare";
 import { UserMessage } from "./user-message";
 import { generateId } from "ai";
+import { InquiryResponse } from "@/lib/types/ai";
 
 interface InquiryProps {
   inquiry: Inquiry;
@@ -60,9 +61,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
   };
 
   const submitInquiryResponse = useCallback(
-    async (payload: Record<string, any>) => {
-      setIsGenerating(true);
-
+    async (payload: InquiryResponse) => {
       const text = JSON.stringify(payload, null, 2);
 
       // Add user message to UI
@@ -76,8 +75,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
 
       // Send the message and wait for response
       const { id, display } = await sendMessage({
-        textInput: text,
-        inquiryResponse: text,
+        inquiryResponse: payload,
       });
 
       // Add response to UI
@@ -87,7 +85,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
       flush();
       handleReset();
     },
-    [componentId, flush, handleReset, sendMessage, setIsGenerating, setUIState]
+    [componentId, flush, handleReset, sendMessage, setUIState]
   );
 
   const handleSubmit = async () => {
@@ -95,18 +93,19 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
 
     try {
       setIsSubmitting(true);
+      setIsGenerating(true);
 
-      const formData = {
-        selectedOptions,
-        inputValue: inquiry.allowsInput
+      const payloadResponse: InquiryResponse = {
+        question: inquiry.question,
+        selected: selectedOptions,
+        input: inquiry.allowsInput
           ? inputValue.length > 0
             ? inputValue
             : null
           : null,
-        question: inquiry.question,
       };
 
-      await submitInquiryResponse(formData);
+      await submitInquiryResponse(payloadResponse);
 
       // Reset form
       setSelectedOptions([]);
@@ -115,6 +114,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
       console.error("Error submitting form:", error);
     } finally {
       setIsSubmitting(false);
+      setIsGenerating(false);
     }
   };
 
