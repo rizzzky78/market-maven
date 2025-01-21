@@ -1,9 +1,10 @@
 import { ShinyText } from "@/components/maven/shining-glass";
+import { UserInquiry } from "@/components/maven/user-inquiry";
 
 export default function Home() {
   return (
     <div className="flex justify-center items-center">
-      <div className="my-20 max-w-3xl w-full">
+      <div className="my-20 max-w-2xl w-full">
         {/* <div className="h-[360px] w-full bg-red-300 flex items-center justify-center rounded-3xl">
           <div className="loader">
             <svg viewBox="0 0 80 80">
@@ -23,12 +24,42 @@ export default function Home() {
             </svg>
           </div>
         </div> */}
-        <ShinyText
+        {/* <ShinyText
           text="Loading Content..."
           speed={1}
           className=" font-semibold"
-        />
+        /> */}
+        <UserInquiry inquiry={inquiry} />
+        <UserInquiry inquiry={multipleSelectionInquiry} />
       </div>
     </div>
   );
 }
+
+const inquiry = {
+  question: "What is your preferred contact method?",
+  options: [
+    { value: "email", label: "Email" },
+    { value: "phone", label: "Phone" },
+    { value: "sms", label: "SMS" },
+  ],
+  allowsInput: true,
+  inputLabel: "Specify your contact details",
+  inputPlaceholder: "e.g., your@email.com or phone number",
+  type: "single" as const,
+};
+
+const multipleSelectionInquiry = {
+  question: "Which programming languages do you know?",
+  options: [
+    { value: "javascript", label: "JavaScript" },
+    { value: "python", label: "Python" },
+    { value: "java", label: "Java" },
+    { value: "csharp", label: "C#" },
+    { value: "ruby", label: "Ruby" },
+  ],
+  allowsInput: true,
+  inputLabel: "Any other languages?",
+  inputPlaceholder: "e.g., Go, Rust, etc.",
+  type: "multiple" as const,
+};
