@@ -65,7 +65,7 @@ const sendMessage = async (
 
   const userMessage = JSON.stringify({
     text_input: payload.textInput ?? null,
-    attach_link: payload.inquiryResponse ?? null,
+    attach_link: payload.attachData ?? null,
     inquiry_response: payload.inquiryResponse ?? null,
   });
 
