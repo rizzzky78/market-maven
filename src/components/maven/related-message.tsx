@@ -61,7 +61,13 @@ export const RelatedMessage: React.FC<RelatedProps> = ({ relatedQueries }) => {
       },
     ]);
 
-    const { id, display, isGenerating: isOnGenerating } = await sendMessage(f);
+    const {
+      id,
+      display,
+      isGenerating: isOnGenerating,
+    } = await sendMessage({
+      textInput: query,
+    });
 
     const isGen = readStreamableValue(isOnGenerating);
 
