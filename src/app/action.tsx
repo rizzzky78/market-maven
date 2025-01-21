@@ -90,7 +90,7 @@ const sendMessage = async (
     model: google("gemini-2.0-flash-exp"),
     system: `You are very helpfull assistant!`,
     messages: toCoreMessage(aiState.get().messages),
-    text: async function* ({ content, done, delta }) {
+    text: async function* ({ content, done }) {
       if (done) {
         aiState.done({
           ...aiState.get(),
@@ -192,8 +192,6 @@ const sendMessage = async (
               markdown: scrapeContent.markdown,
             };
 
-            const streamableObject = createStreamableValue<any>();
-
             uiStream.update(
               <ProductsContainer
                 content={{
@@ -234,13 +232,11 @@ const sendMessage = async (
             });
 
             for await (const chunk of partialObjectStream) {
-              streamableObject.update(chunk);
               if (chunk.data) {
                 streamableProducts.update(chunk.data);
               }
             }
 
-            streamableObject.done(finalizedResults);
             streamableProducts.done();
           }
 
