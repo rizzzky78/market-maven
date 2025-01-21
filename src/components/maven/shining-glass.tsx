@@ -1,51 +1,34 @@
-"use client";
+import { FC } from "react";
 
-import React from "react";
-import { motion } from "framer-motion";
-
-interface ShiningGlassTextProps {
+interface ShinyProps {
   text: string;
+  disabled?: boolean;
+  speed?: number;
+  className?: string;
 }
 
-export const ShiningGlassText: React.FC<ShiningGlassTextProps> = ({ text }) => {
+export const ShinyText: FC<ShinyProps> = ({
+  text,
+  disabled = false,
+  speed = 5,
+  className = "",
+}) => {
+  const animationDuration = `${speed}s`;
+
   return (
-    <div className="flex justify-center items-center h-screen">
-      <motion.h1
-        className="text-6xl relative overflow-hidden glass-text rounded-full px-6 py-3"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        {text.split(" ").map((word, wordIndex) => (
-          <React.Fragment key={wordIndex}>
-            {wordIndex > 0 && " "}
-            {word.split("").map((char, charIndex) => (
-              <motion.span
-                key={`${wordIndex}-${charIndex}`}
-                className="inline-block animate-pulse"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{
-                  duration: 0.5,
-                  delay: (wordIndex * word.length + charIndex) * 0.05,
-                }}
-              >
-                {char}
-              </motion.span>
-            ))}
-          </React.Fragment>
-        ))}
-        <motion.span
-          className="absolute inset-0 shine"
-          initial={{ x: "-100%" }}
-          animate={{ x: "100%" }}
-          transition={{
-            repeat: Infinity,
-            duration: 2,
-            ease: "easeInOut",
-          }}
-        />
-      </motion.h1>
+    <div
+      className={`text-[#b5b5b5a4] bg-clip-text inline-block ${
+        disabled ? "" : "animate-shine"
+      } ${className}`}
+      style={{
+        backgroundImage:
+          "linear-gradient(120deg, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 60%)",
+        backgroundSize: "200% 100%",
+        WebkitBackgroundClip: "text",
+        animationDuration: animationDuration,
+      }}
+    >
+      {text}
     </div>
   );
 };
