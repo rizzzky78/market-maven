@@ -11,6 +11,7 @@ import {
   CircleArrowRight,
   Copy,
   CopyCheck,
+  Loader,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -86,7 +87,11 @@ export const ProductCard: FC<ProductProps> = ({ product, isFinished, id }) => {
       variants={cardVariants}
       whileHover="hover"
     >
-      <Card className="overflow-hidden border rounded-3xl border-[#1A1A1D] bg-[#1A1A1D] text-green-50 h-full flex flex-col">
+      <Card
+        className={`overflow-hidden border rounded-3xl border-[#1A1A1D] bg-[#1A1A1D] text-green-50 h-full flex flex-col ${
+          isFinished ? "animate-none" : "animate-pulse"
+        }`}
+      >
         <CardContent className="p-0 flex-grow relative">
           {image && (
             <Image
@@ -122,7 +127,7 @@ export const ProductCard: FC<ProductProps> = ({ product, isFinished, id }) => {
               </Tooltip>
             </TooltipProvider>
           </motion.div>
-          <div className="px-3 py-2 space-y-1 text-xs">
+          <div className="px-3 pt-2 pb-1 space-y-1 text-xs">
             <TooltipProvider>
               <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
@@ -152,7 +157,7 @@ export const ProductCard: FC<ProductProps> = ({ product, isFinished, id }) => {
               </div>
             </div>
           </div>
-          <div className="px-3 py-2 text-xs rounded-xl">
+          <div className="px-3 py-1 text-xs rounded-xl">
             <div className="flex items-start">
               <Store className="w-3 h-3 mr-1 mt-[1px]" />
               <span className="line-clamp-1">{store?.name ?? "-"}</span>
@@ -169,9 +174,13 @@ export const ProductCard: FC<ProductProps> = ({ product, isFinished, id }) => {
                   <Button
                     className="relative ml-2 h-7 w-full overflow-hidden rounded-3xl px-6 font-bold bg-gray-300 text-black shadow-sm transition-all duration-300 hover:bg-blue-200 hover:text-indigo-900"
                     onClick={() => handleAttach(id)}
-                    disabled={isGenerating}
+                    disabled={!isFinished}
                   >
-                    <span className="relative z-7">Ask AI</span>
+                    {isFinished ? (
+                      <span className="relative z-7">Ask AI</span>
+                    ) : (
+                      <Loader className="relative z-7 size-4 animate-spin" />
+                    )}
                     <div
                       className="absolute inset-0 flex items-center justify-center"
                       aria-hidden="true"

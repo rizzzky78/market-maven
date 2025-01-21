@@ -133,7 +133,7 @@ export const ExperimentalStreamProductsContainer: FC<ExperimentalProps> = ({
                     >
                       <ProductCard
                         product={product as Partial<Product>}
-                        isFinished={true}
+                        isFinished={!pending}
                         id={index}
                       />
                     </motion.div>
