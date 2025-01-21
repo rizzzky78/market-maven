@@ -36,7 +36,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
   };
 
   return (
-    <div className="my-10">
+    <div className="mt-10">
       <div className="absolute ml-6 -mt-3">
         <div className="bg-white w-fit rounded-3xl p-1 px-3 flex items-center">
           <MessageCircleQuestion className="size-4 text-black mr-1" />
