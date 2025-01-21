@@ -453,6 +453,20 @@ const sendMessage = async (
 
           uiStream.update(<UserInquiry inquiry={inquiry} />);
 
+          const { mutate } = mutateTool({
+            name: "inquireUser",
+            args: { inquiry },
+            result: { data: "no-result" },
+            overrideAssistant: {
+              content: `Questions have been provided, please fill them in accordingly.`,
+            },
+          });
+
+          aiState.done({
+            ...aiState.get(),
+            messages: [...aiState.get().messages, ...mutate],
+          });
+
           uiStream.done();
 
           streamableGeneration.done(false);
