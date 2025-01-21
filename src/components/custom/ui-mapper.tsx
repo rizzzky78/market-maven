@@ -13,6 +13,8 @@ import { ProductInsight } from "../maven/product-insight";
 import { AssistantMessage } from "../maven/assistant-message";
 import { UserMessage } from "../maven/user-message";
 import { ToolContent } from "ai";
+import { Inquiry } from "@/lib/agents/schema/tool-parameters";
+import { UserInquiry } from "../maven/user-inquiry";
 
 // Core message content types based on the existing system
 type MessageContent = {
@@ -56,6 +58,17 @@ const handleGetProductDetails = (id: string, result: string): UIStateItem => {
   return {
     id,
     display: <ProductInsight content={resulted_getProductDetails} />,
+  };
+};
+
+const handleInquireUser = (id: string, result: string): UIStateItem => {
+  const resulted_inquireUser: ExtendedToolResult<
+    { inquiry: Inquiry },
+    { data: string }
+  > = JSON.parse(result);
+  return {
+    id,
+    display: <UserInquiry inquiry={resulted_inquireUser.args.inquiry} />,
   };
 };
 
@@ -190,7 +203,7 @@ const roleHandlers: Record<
   tool: (message) => {
     if (!Array.isArray(message.content)) return [];
     const toolContent = message.content as unknown as ToolContent;
-    switch (toolContent[0].toolName) {
+    switch (toolContent[0].toolName as AvailableTool) {
       case "searchProduct":
         return [
           handleProductSearch(toolContent[0].result as string, message.id),
@@ -199,6 +212,8 @@ const roleHandlers: Record<
         return [
           handleGetProductDetails(message.id, toolContent[0].result as string),
         ];
+      case "inquireUser":
+        return [handleInquireUser(message.id, toolContent[0].result as string)];
       default:
         return [];
     }
