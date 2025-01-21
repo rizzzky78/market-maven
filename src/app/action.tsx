@@ -122,6 +122,14 @@ const sendMessage = async (
 
           const uiStream = createStreamableUI();
 
+          uiStream.append(
+            <ShinyText
+              text={`Searching for ${query}`}
+              speed={1}
+              className=" font-semibold"
+            />
+          );
+
           const encodedQuery = encodeURIComponent(
             query.replace(/\s+/g, "+")
           ).replace(/%2B/g, "+");
@@ -135,16 +143,6 @@ const sendMessage = async (
             formats: ["markdown", "screenshot"],
             waitFor: 4000,
           });
-
-          uiStream.append(
-            <ShinyText
-              text={`Searching ${query}`}
-              speed={1}
-              className=" font-semibold"
-            />
-          );
-
-          yield uiStream.value;
 
           if (!scrapeContent.success) {
             const errorUI = (
@@ -320,9 +318,7 @@ const sendMessage = async (
         generate: async function* ({ link, query }) {
           logger.info(`Executing tool: <getProductDetails>`, { query });
 
-          const uiStream = createStreamableUI();
-
-          uiStream.append(
+          const uiStream = createStreamableUI(
             <ShinyText
               text={`Getting data product for ${query}`}
               speed={1}

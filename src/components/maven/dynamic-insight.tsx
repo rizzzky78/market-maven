@@ -1,7 +1,7 @@
 "use client";
 
 /* eslint-disable @next/next/no-img-element */
-import { Fragment, JSX, memo, useState } from "react";
+import { Fragment, JSX, memo, useId, useState } from "react";
 import {
   ChevronUp,
   FlaskConical,
@@ -133,6 +133,7 @@ const PureProductInsight: FC<InsightProps> = ({
   isGenerating,
 }) => {
   const [open, setOpen] = useState(true);
+  const componentId = useId();
 
   const renderValue = (value: any, key: string): JSX.Element => {
     if (
@@ -224,6 +225,7 @@ const PureProductInsight: FC<InsightProps> = ({
       animate="animate"
       exit="exit"
       className="*:text-sm mb-3"
+      key={componentId}
     >
       <div className="flex justify-center">
         <div className="flex items-center justify-between bg-black text-white dark:bg-white dark:text-black py-1 px-1 w-full rounded-[2rem]">
@@ -260,7 +262,6 @@ const PureProductInsight: FC<InsightProps> = ({
               animate="animate"
               exit="exit"
               className="space-y-6 *:text-sm overflow-hidden"
-              key="insight-animate"
             >
               {data.map((item, index) => (
                 <motion.div
