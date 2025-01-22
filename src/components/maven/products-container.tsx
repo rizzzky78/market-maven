@@ -4,7 +4,7 @@
 import { FC, useEffect, useState } from "react";
 import { ProductCard } from "./product-card";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronUp, Globe, Info, SearchCheck } from "lucide-react";
+import { ChevronUp, Globe, Info, Search, SearchCheck } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
@@ -74,101 +74,108 @@ export const ProductsContainer: FC<ProductsProps> = ({
     ));
 
   return (
-    <div className="w-full border rounded-[2rem] px-4 py-2">
-      <div className="bg-black mt-2 items-center dark:bg-white text-white dark:text-black mb-2 py-1 pl-3 pr-1 rounded-3xl">
-        <div className="flex justify-between">
-          <div className="flex items-center space-x-2">
-            <SearchCheck className="size-4 shrink-0" />
-            <h3 className="text-sm font-semibold line-clamp-1">
-              Product Search Results: {content.args.query}
-            </h3>
-          </div>
-          <div>
-            <Button
-              variant={"ghost"}
-              size={"icon"}
-              onClick={() => setOpen((prev) => !prev)}
-              className="rounded-full"
-            >
-              <ChevronUp
-                className={`size-3 shrink-0 transition-all ${
-                  open ? "" : "rotate-180"
-                }`}
-              />
-            </Button>
-          </div>
+    <div className="w-full">
+      <div className="absolute ml-4 -mt-4">
+        <div className="bg-white rounded-3xl py-1 px-3 flex items-center">
+          <Search className="size-4 text-black mr-1" />{" "}
+          <p className="text-xs text-black font-semibold">Search Product</p>
         </div>
       </div>
-      <AnimatePresence mode={"wait"}>
-        {open && (
-          <>
-            {content.data.screenshot && (
-              <div className="mb-2 mt-4">
-                <Separator className="mb-4" />
-                {isContentReady && isFinished ? (
-                  <motion.div
-                    variants={animations.item}
-                    initial="hidden"
-                    animate="visible"
-                  >
-                    <Lens
-                      hovering={hovering}
-                      setHovering={setHovering}
-                      zoomFactor={2}
-                      lensSize={270}
-                    >
-                      <img
-                        src={content.data.screenshot}
-                        alt="Searhced Products"
-                        className="rounded-3xl object-cover"
-                      />
-                    </Lens>
-                  </motion.div>
-                ) : (
-                  <div className="bg-muted rounded-3xl animate-pulse w-full h-[360px]" />
-                )}
-                <div className="w-fit p-1 mt-2">
-                  <div className="flex items-start space-x-2">
-                    <Globe className="size-4 shrink-0" />
-                    <p className="text-xs">
-                      Source:
-                      <Link
-                        href={"https://www.tokopedia.com/"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="ml-1 text-green-500 hover:text-green-600 dark:text-green-400 dark:hover:text-green-500"
-                      >
-                        Tokopedia
-                      </Link>
-                    </p>
-                  </div>
-                </div>
-              </div>
+      <div className="w-full border rounded-[2rem] px-4 py-2">
+        {content.data.screenshot && (
+          <div className="mb-2 mt-2">
+            {isContentReady && isFinished ? (
+              <motion.div
+                variants={animations.item}
+                initial="hidden"
+                animate="visible"
+              >
+                <Lens
+                  hovering={hovering}
+                  setHovering={setHovering}
+                  zoomFactor={2}
+                  lensSize={270}
+                >
+                  <img
+                    src={content.data.screenshot}
+                    alt="Searhced Products"
+                    className="rounded-3xl object-cover"
+                  />
+                </Lens>
+              </motion.div>
+            ) : (
+              <div className="bg-muted rounded-3xl animate-pulse w-full h-[360px]" />
             )}
-            <Separator className="mb-4" />
-            <motion.div
-              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2"
-              variants={animations.container}
-              initial="hidden"
-              animate="visible"
-            >
-              {isContentReady && isFinished
-                ? renderProducts()
-                : renderSkeletons()}
-            </motion.div>
-            <div className="w-fit p-1 mt-2 rounded-full">
+            <div className="w-fit p-1 mt-2">
               <div className="flex items-start space-x-2">
-                <Info className="size-4 shrink-0" />
+                <Globe className="size-4 shrink-0" />
                 <p className="text-xs">
-                  MarketMaven is not affiliated with the relevant online
-                  marketplace, the displayed results may not match the
-                  user&apos;s intent.
+                  Source:
+                  <Link
+                    href={"https://www.tokopedia.com/"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ml-1 text-green-500 hover:text-green-600 dark:text-green-400 dark:hover:text-green-500"
+                  >
+                    Tokopedia
+                  </Link>
                 </p>
               </div>
             </div>
-          </>
+          </div>
         )}
-      </AnimatePresence>
+        <Separator className="mb-4" />
+        <div className="bg-black mt-2 items-center dark:bg-white text-white dark:text-black mb-2 py-1 pl-3 pr-1 rounded-3xl">
+          <div className="flex justify-between">
+            <div className="flex items-center space-x-2">
+              <SearchCheck className="size-4 shrink-0" />
+              <h3 className="text-sm font-semibold line-clamp-1">
+                Product Search Results: {content.args.query}
+              </h3>
+            </div>
+            <div>
+              <Button
+                variant={"ghost"}
+                size={"icon"}
+                onClick={() => setOpen((prev) => !prev)}
+                className="rounded-full"
+              >
+                <ChevronUp
+                  className={`size-3 shrink-0 transition-all ${
+                    open ? "" : "rotate-180"
+                  }`}
+                />
+              </Button>
+            </div>
+          </div>
+        </div>
+        <AnimatePresence mode={"wait"}>
+          {open && (
+            <div className="mt-4">
+              <motion.div
+                className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2"
+                variants={animations.container}
+                initial="hidden"
+                animate="visible"
+              >
+                {isContentReady && isFinished
+                  ? renderProducts()
+                  : renderSkeletons()}
+              </motion.div>
+              <div className="w-fit p-1 mt-2 rounded-full">
+                <div className="flex items-start space-x-2">
+                  <Info className="size-4 shrink-0" />
+                  <p className="text-xs">
+                    MarketMaven is not affiliated with the relevant online
+                    marketplace, the displayed results may not match the
+                    user&apos;s intent.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };
