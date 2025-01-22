@@ -228,7 +228,7 @@ const PureProductInsight: FC<InsightProps> = ({
       key={componentId}
     >
       <div className="flex justify-center">
-        <div className="flex items-center justify-between bg-black text-white dark:bg-white dark:text-black py-1 px-1 w-full rounded-[2rem]">
+        <div className="flex items-center justify-between bg-[#1A1A1D] text-white dark:bg-white dark:text-black py-1 px-1 w-full rounded-[2rem]">
           <div className="flex items-center mx-3">
             <FlaskConical
               className={`size-6 text-purple-400 mr-2 ${
