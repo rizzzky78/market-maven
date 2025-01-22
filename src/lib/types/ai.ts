@@ -46,7 +46,7 @@ export type SendMessageCallback = {
   id: string;
   display: ReactNode;
   stream: ReadableStream<LanguageModelV1StreamPart>;
-  isGenerating: StreamableValue<boolean>;
+  generation: StreamableValue<StreamGeneration>;
 };
 
 export type AIState = {
