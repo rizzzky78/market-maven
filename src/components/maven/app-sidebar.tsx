@@ -66,9 +66,11 @@ export const AppSidebar: FC<AppProps> = ({ chats, ...props }) => {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent className="pr-2 scrollbar-thin">
-        {chats.map((chat, idx) => (
-          <HistoryItem key={idx} chat={chat} />
-        ))}
+        {chats
+          .filter((c) => c.title !== "")
+          .map((chat, idx) => (
+            <HistoryItem key={idx} chat={chat} />
+          ))}
       </SidebarContent>
       <SidebarFooter>
         <NavUser />
