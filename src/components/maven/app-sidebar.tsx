@@ -69,7 +69,7 @@ export const AppSidebar: FC<AppProps> = ({ chats, ...props }) => {
         {chats
           .filter((c) => c.title !== "")
           .map((chat, idx) => (
-            <HistoryItem key={idx} chat={chat} />
+            <HistoryItem key={idx} chat={chat} disabled={isGenerating} />
           ))}
       </SidebarContent>
       <SidebarFooter>
