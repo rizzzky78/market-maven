@@ -12,7 +12,6 @@ import { ProductsResponse } from "@/lib/types/product";
 import { Lens } from "./lens";
 import { ProductCardSkeleton } from "./product-card-skeleton";
 import { ExtendedToolResult } from "@/lib/types/ai";
-import { ImageLoader } from "./image-loader";
 
 // Animation configurations
 const ANIMATION_CONSTANTS = {
@@ -35,6 +34,25 @@ const animations = {
   item: {
     hidden: { opacity: 0, y: ANIMATION_CONSTANTS.INITIAL_Y_OFFSET },
     visible: { opacity: 1, y: 0 },
+  },
+  product: {
+    initial: { opacity: 0, y: 20 },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12,
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: -20,
+      transition: {
+        duration: 0.2,
+      },
+    },
   },
 };
 
@@ -76,12 +94,17 @@ export const ProductsContainer: FC<ProductsProps> = ({
   return (
     <div className="w-full">
       <div className="absolute ml-4 -mt-4">
-        <div className="bg-white rounded-3xl py-1 px-3 flex items-center">
-          <Search className="size-4 text-black mr-1" />{" "}
-          <p className="text-xs text-black font-semibold">Search Product</p>
+        <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center">
+          <Search className="size-4 mr-1" />
+          <p className="text-xs font-semibold">
+            Search Product by{" "}
+            <span className="text-green-400 dark:text-green-600">
+              Tokopedia
+            </span>
+          </p>
         </div>
       </div>
-      <div className="w-full border rounded-[2rem] px-4 py-2">
+      <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-[2rem] px-4 py-2">
         {content.data.screenshot && (
           <div className="mb-2 mt-2">
             {isContentReady && isFinished ? (
@@ -124,7 +147,7 @@ export const ProductsContainer: FC<ProductsProps> = ({
             </div>
           </div>
         )}
-        <Separator className="mb-4" />
+        <Separator className="mb-4 bg-[#1A1A1D] dark:bg-muted" />
         <div className="bg-[#1A1A1D] mt-2 items-center dark:bg-white text-white dark:text-black mb-2 py-1 pl-3 pr-1 rounded-3xl">
           <div className="flex justify-between">
             <div className="flex items-center space-x-2">

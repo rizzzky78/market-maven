@@ -44,14 +44,12 @@ export const ProductInsight: FC<ProductDetailsProps> = ({ content }) => {
   return (
     <div className="w-full">
       <div className="absolute ml-4 -mt-4">
-        <div className="bg-[#1A1A1D] dark:bg-white rounded-3xl py-1 pl-2 pr-3 flex items-center">
-          <NotepadText className="size-4 text-white dark:text-black mr-1" />
-          <p className="text-xs text-white dark:text-black font-semibold">
-            Product Details
-          </p>
+        <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center">
+          <NotepadText className="size-4 mr-1" />
+          <p className="text-xs font-semibold">Product Details</p>
         </div>
       </div>
-      <div className="w-full border rounded-[2rem] px-4 py-1">
+      <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-[2rem] px-4 py-1">
         <div>
           {screenshot && (
             <div className="mt-3">
@@ -79,7 +77,7 @@ export const ProductInsight: FC<ProductDetailsProps> = ({ content }) => {
             </div>
           )}
         </div>
-        <Separator className="mt-2 mb-4" />
+        <Separator className="mt-2 mb-4 bg-[#1A1A1D] dark:bg-muted" />
         <DynamicInsight data={[insight]} isGenerating={false} callId={callId} />
       </div>
     </div>

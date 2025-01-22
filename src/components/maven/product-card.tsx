@@ -69,6 +69,30 @@ export const ProductCard: FC<ProductProps> = ({ product, isFinished, id }) => {
     },
   };
 
+  const itemVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12,
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: -20,
+      transition: {
+        duration: 0.2,
+      },
+    },
+    hover: {
+      scale: 1.02,
+      transition: { duration: 0.2 },
+    },
+  };
+
   const handleAttach = (id: number | undefined) => {
     setInput("I want you to give me the product details or information");
     detach();
@@ -86,6 +110,9 @@ export const ProductCard: FC<ProductProps> = ({ product, isFinished, id }) => {
       className="w-full mx-auto"
       variants={cardVariants}
       whileHover="hover"
+      initial="initial"
+      animate="animate"
+      exit="exit"
     >
       <Card
         className={`overflow-hidden border rounded-3xl border-[#1A1A1D] bg-[#1A1A1D] text-green-50 h-full flex flex-col ${
