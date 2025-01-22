@@ -33,7 +33,7 @@ export const UserMessage: FC<MessageProps> = ({
   };
 
   return (
-    <div className="w-full mb-7">
+    <div className="w-full mb-14">
       {attachLink && (
         <div className="flex justify-end">
           <Badge
