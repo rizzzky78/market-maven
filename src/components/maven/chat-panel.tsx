@@ -64,7 +64,6 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
   const [_, setUIState] = useUIState<typeof AI>();
   const { isGenerating, setIsGenerating } = useAppState();
   const { sendMessage } = useActions<typeof AI>();
-  const componentId = useId();
 
   const handleRemove = () => {
     setInput("");
@@ -98,6 +97,8 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       if (!f.has("text_input")) {
         f.set("text_input", value);
       }
+
+      const componentId = generateId();
 
       setUIState((prevUI) => [
         ...prevUI,
