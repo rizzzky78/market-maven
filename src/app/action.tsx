@@ -55,6 +55,7 @@ import {
   inquireUserSchema,
   searchProductSchema,
 } from "@/lib/agents/schema/tool-parameters";
+import { uiSearchProduct } from "@/lib/agents/action/server-action/ui-search-product";
 
 const sendMessage = async (
   payload: PayloadData,
@@ -140,12 +141,12 @@ const sendMessage = async (
             loading: true,
           });
 
-          let finalizedResults: ProductsResponse = { data: [] };
-
           const uiStream = createStreamableUI();
 
+          let finalizedResults: ProductsResponse = { data: [] };
+
           uiStream.append(
-            <ShinyText text={`Searching for ${query}`} speed={1} className="" />
+            <ShinyText text={`Searching for ${query}`} speed={1} />
           );
 
           const encodedQuery = encodeURIComponent(
@@ -288,39 +289,6 @@ const sendMessage = async (
             ...aiState.get(),
             messages: [...aiState.get().messages, ...mutate],
           });
-
-          const streamableRelated = createStreamableValue<PartialRelated>();
-
-          // uiStream.append(
-          //   <RelatedMessage relatedQueries={streamableRelated.value} />
-          // );
-
-          yield uiStream.value;
-
-          const payloadRelated = toCoreMessage(aiState.get().messages);
-
-          const relateds = streamObject({
-            model: google("gemini-1.5-pro"),
-            system: SYSTEM_INSTRUCT_RELATED,
-            prompt: JSON.stringify(
-              payloadRelated.filter((m) => m.role !== "tool")
-            ),
-            schema: z.object({
-              items: z
-                .array(
-                  z.object({
-                    query: z.string(),
-                  })
-                )
-                .length(3),
-            }),
-          });
-
-          for await (const related of relateds.partialObjectStream) {
-            streamableRelated.update(related);
-          }
-
-          streamableRelated.done();
 
           streamableGeneration.done({
             process: "done",
