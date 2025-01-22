@@ -55,7 +55,6 @@ import {
   inquireUserSchema,
   searchProductSchema,
 } from "@/lib/agents/schema/tool-parameters";
-import { uiText } from "@/lib/agents/action/server-action/ui-text";
 
 const sendMessage = async (
   payload: PayloadData,
@@ -72,8 +71,6 @@ const sendMessage = async (
   console.log(`triggered server action - sendMessage, meta: ${userMessage}`);
 
   const aiState = getMutableAIState<typeof AI>();
-
-  type A = typeof aiState;
 
   aiState.update({
     ...aiState.get(),
@@ -103,45 +100,33 @@ const sendMessage = async (
     system: SYSTEM_INSTRUCT_CORE,
     messages: toCoreMessage(aiState.get().messages),
     text: async function* ({ content, done }) {
-      //
-      uiText({
-        aiState,
-        content,
-        done,
-        streamControl: {
-          text: streamableText,
-          generation: streamableGeneration,
-        },
-      });
-      // if (done) {
-      //   // done generating
-      //   aiState.done({
-      //     ...aiState.get(),
-      //     messages: [
-      //       ...aiState.get().messages,
-      //       {
-      //         id: generateId(),
-      //         role: "assistant",
-      //         content,
-      //       },
-      //     ],
-      //   });
+      if (done) {
+        aiState.done({
+          ...aiState.get(),
+          messages: [
+            ...aiState.get().messages,
+            {
+              id: generateId(),
+              role: "assistant",
+              content,
+            },
+          ],
+        });
 
-      //   streamableGeneration.done({
-      //     process: "done",
-      //     loading: false,
-      //   });
+        streamableGeneration.done({
+          process: "done",
+          loading: false,
+        });
 
-      //   streamableText.done();
-      // } else {
-      //   // is generating
-      //   streamableGeneration.update({
-      //     process: "generating",
-      //     loading: true,
-      //   });
+        streamableText.done();
+      } else {
+        streamableGeneration.update({
+          process: "generating",
+          loading: true,
+        });
 
-      //   streamableText.update(content);
-      // }
+        streamableText.update(content);
+      }
 
       return assistantMessage;
     },
