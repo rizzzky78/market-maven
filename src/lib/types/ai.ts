@@ -60,6 +60,12 @@ export type UIState = {
   display: ReactNode;
 }[];
 
+export type StreamGeneration = {
+  loading: boolean;
+  process?: string;
+  error?: string;
+};
+
 export const AvailableTools = {
   SEARCH_PRODUCT: "searchProduct",
   GET_PRODUCT_DETAILS: "getProductDetails",
@@ -106,7 +112,7 @@ export type ParsedUserMessage = {
 export type UserMessageProp = {
   text_input?: string;
   attach_link?: string;
-  inquiry_response?: InquiryResponse
+  inquiry_response?: InquiryResponse;
 };
 
 export type InquiryResponse = {
