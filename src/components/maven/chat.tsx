@@ -16,9 +16,9 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 import { Button } from "../ui/button";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { AI } from "@/app/action";
 import { AppSidebar } from "./app-sidebar";
+import { ScrollArea } from "../ui/scroll-area";
 
 type ChatProps = {
   id?: string;
@@ -87,7 +87,9 @@ export const Chat: FC<ChatProps> = ({ id, query, chats }) => {
           </ScrollArea>
         </div>
         <div className="sticky bottom-0">
-          <ChatPanel uiState={uiMessage} />
+          <div className="w-full mx-auto">
+            <ChatPanel uiState={uiMessage} />
+          </div>
         </div>
       </SidebarInset>
     </SidebarProvider>

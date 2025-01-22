@@ -33,6 +33,8 @@ export const saveAIState = async (
       // Filter out tool messages for title generation
       const payloadTitleMsg = messages.filter((m) => m.role !== "tool");
 
+      console.log(JSON.stringify({ id: "title", payloadTitleMsg }, null, 2));
+
       // Generate the chat title using the AI model
       const { text } = await generateText({
         model: google("gemini-1.5-flash"),
