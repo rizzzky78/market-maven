@@ -125,7 +125,7 @@ export const ProductsContainer: FC<ProductsProps> = ({
           </div>
         )}
         <Separator className="mb-4" />
-        <div className="bg-black mt-2 items-center dark:bg-white text-white dark:text-black mb-2 py-1 pl-3 pr-1 rounded-3xl">
+        <div className="bg-[#1A1A1D] mt-2 items-center dark:bg-white text-white dark:text-black mb-2 py-1 pl-3 pr-1 rounded-3xl">
           <div className="flex justify-between">
             <div className="flex items-center space-x-2">
               <SearchCheck className="size-4 shrink-0" />
