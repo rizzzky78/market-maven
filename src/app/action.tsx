@@ -57,6 +57,7 @@ import {
 } from "@/lib/agents/schema/tool-parameters";
 import { uiSearchProduct } from "@/lib/agents/action/server-action/ui-search-product";
 import { processURLQuery } from "@/lib/utils";
+import { ErrorMessage } from "@/components/maven/error-message";
 
 const sendMessage = async (
   payload: PayloadData,
@@ -150,12 +151,6 @@ const sendMessage = async (
             <ShinyText text={`Searching for ${query}`} speed={1} />
           );
 
-          const encodedQuery = encodeURIComponent(
-            query.replace(/\s+/g, "+")
-          ).replace(/%2B/g, "+");
-
-          const URLQuery = `https://www.tokopedia.com/search?q=${encodedQuery}`;
-
           yield uiStream.value;
 
           const scrapeContent = await scrapeUrl({
@@ -165,40 +160,32 @@ const sendMessage = async (
           });
 
           if (!scrapeContent.success) {
-            const errorUI = (
-              <div>
-                <div>
-                  <p className="text-xs">An Error Occured!</p>
-                  <pre className="text-xs overflow-x-auto">
-                    {JSON.stringify(scrapeContent, null, 2)}
-                  </pre>
-                </div>
-              </div>
-            );
-
-            uiStream.done(errorUI);
-
             streamableGeneration.done({
               process: "error",
               loading: false,
               error: scrapeContent.error,
             });
 
+            uiStream.done(
+              <ErrorMessage
+                name="Scrape Error"
+                messsage={scrapeContent.error}
+                raw={{ query }}
+              />
+            );
+
             return uiStream.value;
           }
 
           if (scrapeContent.success && scrapeContent.markdown) {
-            if (scrapeContent.screenshot) {
-              uiStream.update(
-                <ShinyText
-                  text="Found products, proceed to data extraction..."
-                  speed={1}
-                  className=" font-semibold"
-                />
-              );
+            uiStream.update(
+              <ShinyText
+                text="Found products, proceed to data extraction..."
+                speed={1}
+              />
+            );
 
-              yield uiStream.value;
-            }
+            yield uiStream.value;
 
             const payload = {
               objective: `Extract only product data including: product images, product link, and store link.`,
