@@ -66,6 +66,14 @@ export type StreamGeneration = {
   error?: string;
 };
 
+export type ValueOrUpdater<T> = T | ((current: T) => T);
+
+export type MutableAIState<T = AIState> = {
+  get: () => T;
+  update: (newState: ValueOrUpdater<T>) => void;
+  done: (() => void) | ((newState: T) => void);
+};
+
 export const AvailableTools = {
   SEARCH_PRODUCT: "searchProduct",
   GET_PRODUCT_DETAILS: "getProductDetails",
