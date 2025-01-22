@@ -56,6 +56,7 @@ import {
   searchProductSchema,
 } from "@/lib/agents/schema/tool-parameters";
 import { uiSearchProduct } from "@/lib/agents/action/server-action/ui-search-product";
+import { processURLQuery } from "@/lib/utils";
 
 const sendMessage = async (
   payload: PayloadData,
@@ -158,7 +159,7 @@ const sendMessage = async (
           yield uiStream.value;
 
           const scrapeContent = await scrapeUrl({
-            url: URLQuery,
+            url: processURLQuery(query),
             formats: ["markdown", "screenshot"],
             waitFor: 4000,
           });
