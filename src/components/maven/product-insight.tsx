@@ -46,7 +46,12 @@ export const ProductInsight: FC<ProductDetailsProps> = ({ content }) => {
       <div className="absolute ml-4 -mt-4">
         <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center">
           <NotepadText className="size-4 mr-1" />
-          <p className="text-xs font-semibold">Product Details</p>
+          <p className="text-xs font-semibold">
+            Product Details by
+            <span className="ml-0.5 text-green-400 dark:text-green-600">
+              Tokopedia
+            </span>
+          </p>
         </div>
       </div>
       <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-[2rem] px-4 py-1">

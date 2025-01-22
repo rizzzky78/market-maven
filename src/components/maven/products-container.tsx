@@ -97,8 +97,8 @@ export const ProductsContainer: FC<ProductsProps> = ({
         <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center">
           <Search className="size-4 mr-1" />
           <p className="text-xs font-semibold">
-            Search Product by{" "}
-            <span className="text-green-400 dark:text-green-600">
+            Search Product by
+            <span className="ml-0.5 text-green-400 dark:text-green-600">
               Tokopedia
             </span>
           </p>
