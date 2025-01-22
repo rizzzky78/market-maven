@@ -58,6 +58,7 @@ import {
 import { uiSearchProduct } from "@/lib/agents/action/server-action/ui-search-product";
 import { processURLQuery } from "@/lib/utils";
 import { ErrorMessage } from "@/components/maven/error-message";
+import { root } from "@/lib/agents/constant";
 
 const sendMessage = async (
   payload: PayloadData,
@@ -135,7 +136,7 @@ const sendMessage = async (
     },
     tools: {
       searchProduct: {
-        description: `Search product from user query`,
+        description: root.SearchProductDescription,
         parameters: searchProductSchema,
         generate: async function* ({ query }) {
           streamableGeneration.update({
@@ -187,10 +188,10 @@ const sendMessage = async (
 
             yield uiStream.value;
 
-            const payload = {
-              objective: `Extract only product data including: product images, product link, and store link.`,
+            const payload = JSON.stringify({
+              objective: root.ExtractionOjective,
               markdown: scrapeContent.markdown,
-            };
+            });
 
             const streamableProducts =
               createStreamableValue<DeepPartial<Product[]>>();
@@ -205,7 +206,7 @@ const sendMessage = async (
             const { partialObjectStream } = streamObject({
               model: google("gemini-2.0-flash-exp"),
               system: SYSTEM_INSTRUCT_PRODUCTS,
-              prompt: JSON.stringify(payload),
+              prompt: payload,
               schema: productsSchema,
               onFinish: async ({ object }) => {
                 if (object) {
