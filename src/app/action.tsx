@@ -521,7 +521,7 @@ const sendMessage = async (
     id: generateId(),
     display: value,
     stream,
-    isGenerating: streamableGeneration.value,
+    generation: streamableGeneration.value,
   };
 };
 
