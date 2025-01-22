@@ -290,9 +290,9 @@ const sendMessage = async (
         },
       },
       getProductDetails: {
-        description: `Get product details by given link or URL.`,
+        description: root.GetProductDetailsDescription,
         parameters: getProductDetailsSchema,
-        generate: async function* ({ link, query }) {
+        generate: async function* ({ query, link }) {
           streamableGeneration.update({
             process: "generating",
             loading: true,
@@ -301,11 +301,7 @@ const sendMessage = async (
           logger.info(`Executing tool: <getProductDetails>`, { query });
 
           const uiStream = createStreamableUI(
-            <ShinyText
-              text={`Getting data product for ${query}`}
-              speed={1}
-              className=""
-            />
+            <ShinyText text={`Getting data product for ${query}`} speed={1} />
           );
 
           yield uiStream.value;
@@ -315,6 +311,24 @@ const sendMessage = async (
             formats: ["markdown", "screenshot"],
             waitFor: 4000,
           });
+
+          if (!scrapeResult.success) {
+            streamableGeneration.done({
+              process: "error",
+              loading: false,
+              error: scrapeResult.error,
+            });
+
+            uiStream.done(
+              <ErrorMessage
+                name="Scrape Error"
+                messsage={scrapeResult.error}
+                raw={{ query }}
+              />
+            );
+
+            return uiStream.value;
+          }
 
           if (scrapeResult.success && scrapeResult.markdown) {
             const callId = v4();
@@ -337,16 +351,16 @@ const sendMessage = async (
 
             yield uiStream.value;
 
-            const payloadContent = {
-              prompt: `Extract the product description with a full details. This also includes product ratings which include images and comments (if any) with a maximum of 5 product rating data (take the rating that is most helpful to the user).`,
+            const payloadContent = JSON.stringify({
+              prompt: root.ExtractionDetails,
               refference: { query, link },
               markdown: scrapeResult.markdown,
-            };
+            });
 
             const { partialObjectStream } = streamObject({
               model: google("gemini-2.0-flash-exp"),
               system: SYSTEM_INSTRUCT_EXTRACTOR,
-              prompt: JSON.stringify(payloadContent),
+              prompt: payloadContent,
               output: "no-schema",
               onFinish: async ({ object }) => {
                 finalizedObject = {
@@ -374,17 +388,12 @@ const sendMessage = async (
 
             yield uiStream.value;
 
-            const payloadRequest = {
-              // query,
-              data: finalizedObject.insight,
-            };
-
             let finalizedText: string = "";
 
             const { textStream } = streamText({
               model: google("gemini-2.0-flash-exp"),
               system: SYSTEM_INSTRUCT_DEFINED_INSIGHT,
-              prompt: JSON.stringify(payloadRequest),
+              prompt: JSON.stringify({ data: finalizedObject.insight }),
               onFinish: async ({ text }) => {
                 finalizedText = text;
               },
