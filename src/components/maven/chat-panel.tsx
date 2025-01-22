@@ -1,8 +1,8 @@
 "use client";
 
-import { UIState } from "@/lib/types/ai";
+import { StreamGeneration, UIState } from "@/lib/types/ai";
 import { generateId } from "ai";
-import { useActions, useUIState } from "ai/rsc";
+import { readStreamableValue, useActions, useUIState } from "ai/rsc";
 import {
   ChangeEvent,
   FormEvent,
@@ -44,8 +44,7 @@ interface ChatPanelProps {
 
 export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
   const { input, attachment, setInput, detach, flush } = useSmartTextarea();
-  const { value, isTyping, handleChange, handleBlur, handleReset } =
-    useDebounceInput();
+  const { value, handleChange, handleBlur, handleReset } = useDebounceInput();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -117,16 +116,22 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       flush();
       handleReset();
 
-      const { id, display } = await sendMessage({
+      const { id, display, generation } = await sendMessage({
         textInput: value,
         attachData: attachment ? JSON.stringify(attachment) : undefined,
       });
 
+      const gens = readStreamableValue(
+        generation
+      ) as AsyncIterable<StreamGeneration>;
+
+      for await (const { process, loading, error } of gens) {
+        setIsGenerating(loading);
+      }
+
       setUIState((prevUI) => [...prevUI, { id, display }]);
     } catch (error) {
       handleError(error);
-    } finally {
-      setIsGenerating(false);
     }
   };
 
