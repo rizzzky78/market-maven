@@ -62,7 +62,7 @@ export type UIState = {
 
 export type StreamGeneration = {
   loading: boolean;
-  process: "initial" | "generating" | "error";
+  process: "initial" | "generating" | "error" | "done";
   error?: string;
 };
 

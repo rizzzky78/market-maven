@@ -31,10 +31,10 @@ import {
   UseAction,
   AssignController,
   PayloadData,
+  StreamGeneration,
 } from "@/lib/types/ai";
 import { groq } from "@ai-sdk/groq";
 import { getServerSession } from "next-auth";
-import Image from "next/image";
 import { v4 } from "uuid";
 import { StreamAssistantMessage } from "@/components/maven/assistant-message";
 import { toCoreMessage } from "@/lib/agents/action/mutator/mutate-messages";
@@ -49,7 +49,6 @@ import { mapUIState } from "@/components/custom/ui-mapper";
 import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
 import { ExperimentalStreamProductsContainer } from "@/components/maven/exp-stream-products-container";
 import { ShinyText } from "@/components/maven/shining-glass";
-import { inquirySchema } from "@/lib/agents/schema/inquiry";
 import { UserInquiry } from "@/components/maven/user-inquiry";
 import {
   getProductDetailsSchema,
@@ -85,7 +84,10 @@ const sendMessage = async (
     ],
   });
 
-  const streamableGeneration = createStreamableValue<boolean>(true);
+  const streamableGeneration = createStreamableValue<StreamGeneration>({
+    process: "initial",
+    loading: true,
+  });
 
   const streamableText = createStreamableValue<string>("");
 
@@ -99,6 +101,7 @@ const sendMessage = async (
     messages: toCoreMessage(aiState.get().messages),
     text: async function* ({ content, done }) {
       if (done) {
+        // done generating
         aiState.done({
           ...aiState.get(),
           messages: [
@@ -110,8 +113,20 @@ const sendMessage = async (
             },
           ],
         });
+
+        streamableGeneration.done({
+          process: "done",
+          loading: false,
+        });
+
+        streamableText.done();
       } else {
-        streamableGeneration.done(false);
+        // is generating
+        streamableGeneration.update({
+          process: "generating",
+          loading: true,
+        });
+
         streamableText.update(content);
       }
 
@@ -122,6 +137,11 @@ const sendMessage = async (
         description: `Search product from user query`,
         parameters: searchProductSchema,
         generate: async function* ({ query }) {
+          streamableGeneration.update({
+            process: "generating",
+            loading: true,
+          });
+
           let finalizedResults: ProductsResponse = { data: [] };
 
           const uiStream = createStreamableUI();
@@ -158,7 +178,11 @@ const sendMessage = async (
 
             uiStream.done(errorUI);
 
-            streamableGeneration.done(false);
+            streamableGeneration.done({
+              process: "error",
+              loading: false,
+              error: scrapeContent.error,
+            });
 
             return uiStream.value;
           }
@@ -300,7 +324,10 @@ const sendMessage = async (
 
           streamableRelated.done();
 
-          streamableGeneration.done(false);
+          streamableGeneration.done({
+            process: "done",
+            loading: false,
+          });
 
           uiStream.done();
 
@@ -311,6 +338,11 @@ const sendMessage = async (
         description: `Get product details by given link or URL.`,
         parameters: getProductDetailsSchema,
         generate: async function* ({ link, query }) {
+          streamableGeneration.update({
+            process: "generating",
+            loading: true,
+          });
+
           logger.info(`Executing tool: <getProductDetails>`, { query });
 
           const uiStream = createStreamableUI(
@@ -425,7 +457,10 @@ const sendMessage = async (
             });
           }
 
-          streamableGeneration.done(false);
+          streamableGeneration.done({
+            process: "done",
+            loading: false,
+          });
           // final
           uiStream.done();
 
@@ -436,6 +471,11 @@ const sendMessage = async (
         description: `Inquire the user is provided prompt or information are not enough`,
         parameters: inquireUserSchema,
         generate: async function* (inquiry) {
+          streamableGeneration.update({
+            process: "generating",
+            loading: false,
+          });
+
           const callId = generateId();
           const uiStream = createStreamableUI(
             <ShinyText
@@ -466,7 +506,10 @@ const sendMessage = async (
 
           uiStream.done();
 
-          streamableGeneration.done(false);
+          streamableGeneration.done({
+            process: "done",
+            loading: false,
+          });
 
           return uiStream.value;
         },
