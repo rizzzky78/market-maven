@@ -92,7 +92,7 @@ export const ProductsContainer: FC<ProductsProps> = ({
     ));
 
   return (
-    <div className="w-full">
+    <div className="w-full mb-5">
       <div className="absolute ml-4 -mt-4">
         <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center">
           <Search className="size-4 mr-1" />
@@ -153,7 +153,7 @@ export const ProductsContainer: FC<ProductsProps> = ({
             <div className="flex items-center space-x-2">
               <SearchCheck className="size-4 shrink-0" />
               <h3 className="text-sm font-semibold line-clamp-1">
-                Product Search Results: {content.args.query}
+                Product Search: {content.args.query}
               </h3>
             </div>
             <div>
