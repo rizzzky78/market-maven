@@ -1,8 +1,11 @@
 import { FC } from "react";
 
 interface ShinyProps {
+  /** Text content */
   text: string;
+  /** Disable animation? */
   disabled?: boolean;
+  /** Animation speed, lower the value means fater the animation speed */
   speed?: number;
   className?: string;
 }
@@ -10,7 +13,7 @@ interface ShinyProps {
 export const ShinyText: FC<ShinyProps> = ({
   text,
   disabled = false,
-  speed = 5,
+  speed = 1,
   className = "",
 }) => {
   const animationDuration = `${speed}s`;
