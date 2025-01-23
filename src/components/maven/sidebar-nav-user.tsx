@@ -36,7 +36,7 @@ export const NavUser: FC = () => {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="ml-1 md:-ml-2 my-2 rounded-3xl data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground md:px-2 py-2"
+              className="ml-1 md:-ml-2 rounded-3xl data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground md:px-2 py-2"
             >
               <Avatar className="h-8 w-8 rounded-full">
                 <AvatarImage src={user.avatar} alt={user.name} />
