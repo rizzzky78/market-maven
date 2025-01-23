@@ -4,7 +4,6 @@ import {
   SYSTEM_INSTRUCT_EXTRACTOR,
   SYSTEM_INSTRUCT_INSIGHT,
   SYSTEM_INSTRUCT_PRODUCTS,
-  SYSTEM_INSTRUCT_RELATED,
 } from "@/lib/agents/system-instructions";
 import { scrapeUrl } from "@/lib/agents/tools/api/firecrawl";
 import { google } from "@ai-sdk/google";
@@ -23,7 +22,6 @@ import {
   getMutableAIState,
   streamUI,
 } from "ai/rsc";
-import { z } from "zod";
 import {
   SendMessageCallback,
   AIState,
@@ -42,12 +40,11 @@ import { Product, ProductsResponse } from "@/lib/types/product";
 import { ProductsContainer } from "@/components/maven/products-container";
 import { productsSchema } from "@/lib/agents/schema/product";
 import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
-import { PartialRelated } from "@/lib/agents/schema/related";
 import logger from "@/lib/utility/logger";
 import { StreamProductInsight } from "@/components/maven/product-insight";
 import { mapUIState } from "@/components/custom/ui-mapper";
 import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
-import { ExperimentalStreamProductsContainer } from "@/components/maven/exp-stream-products-container";
+import { StreamProductsContainer } from "@/components/maven/exp-stream-products-container";
 import { ShinyText } from "@/components/maven/shining-glass";
 import { UserInquiry } from "@/components/maven/user-inquiry";
 import {
@@ -55,7 +52,6 @@ import {
   inquireUserSchema,
   searchProductSchema,
 } from "@/lib/agents/schema/tool-parameters";
-import { uiSearchProduct } from "@/lib/agents/action/server-action/ui-search-product";
 import { processURLQuery } from "@/lib/utils";
 import { ErrorMessage } from "@/components/maven/error-message";
 import { root } from "@/lib/agents/constant";
@@ -139,6 +135,11 @@ const sendMessage = async (
         description: root.SearchProductDescription,
         parameters: searchProductSchema,
         generate: async function* ({ query }) {
+          logger.info("Using searchProduct tool", {
+            progress: "initial",
+            request: { query },
+          });
+
           streamableGeneration.update({
             process: "generating",
             loading: true,
@@ -197,7 +198,8 @@ const sendMessage = async (
               createStreamableValue<DeepPartial<Product[]>>();
 
             uiStream.update(
-              <ExperimentalStreamProductsContainer
+              <StreamProductsContainer
+                query={query}
                 screenshot={scrapeContent.screenshot}
                 products={streamableProducts.value}
               />
@@ -286,6 +288,11 @@ const sendMessage = async (
 
           uiStream.done();
 
+          logger.info("Done using searchProduct tool", {
+            progress: "finish",
+            request: { query },
+          });
+
           return uiStream.value;
         },
       },
@@ -293,6 +300,11 @@ const sendMessage = async (
         description: root.GetProductDetailsDescription,
         parameters: getProductDetailsSchema,
         generate: async function* ({ query, link }) {
+          logger.info("Using getProductDetails tool", {
+            progress: "initial",
+            request: { query, link },
+          });
+
           streamableGeneration.update({
             process: "generating",
             loading: true,
@@ -428,6 +440,11 @@ const sendMessage = async (
           // final
           uiStream.done();
 
+          logger.info("Done using getProductDetails tool", {
+            progress: "finish",
+            request: { query, link },
+          });
+
           return uiStream.value;
         },
       },
@@ -435,6 +452,8 @@ const sendMessage = async (
         description: `Inquire the user is provided prompt or information are not enough`,
         parameters: inquireUserSchema,
         generate: async function* (inquiry) {
+          logger.info("Using inquireUser tool");
+
           streamableGeneration.update({
             process: "generating",
             loading: false,
@@ -474,6 +493,8 @@ const sendMessage = async (
             process: "done",
             loading: false,
           });
+
+          logger.info("Done using inquireUser tool");
 
           return uiStream.value;
         },
