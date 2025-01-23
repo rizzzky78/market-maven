@@ -1,6 +1,6 @@
 // app/rate-app/page.tsx
+import { RatingForm } from "@/components/maven/rating-form";
 import { cookies } from "next/headers";
-import RatingForm from "./rating-form";
 
 export default async function RatingPage() {
   // Check if rating has been submitted via server-side cookie check
