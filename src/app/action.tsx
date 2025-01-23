@@ -461,15 +461,12 @@ const sendMessage = async (
 
           const callId = generateId();
           const uiStream = createStreamableUI(
-            <ShinyText
-              key={callId}
-              text="Creating an Inquiry"
-              speed={1}
-              className=""
-            />
+            <ShinyText key={callId} text="Creating an Inquiry" speed={1} />
           );
 
           yield uiStream.value;
+
+          await new Promise((resolve) => setTimeout(resolve, 3000));
 
           uiStream.update(<UserInquiry inquiry={inquiry} />);
 
