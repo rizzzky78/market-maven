@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/sidebar";
 import { signOut, useSession } from "next-auth/react";
 import { FC } from "react";
+import Link from "next/link";
 
 export const NavUser: FC = () => {
   const { isMobile } = useSidebar();
@@ -73,8 +74,10 @@ export const NavUser: FC = () => {
                 My Chat History
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Star />
-                Rate this App
+                <Link href={"/rate-app"} className="flex items-center">
+                  <Star className="size-4 mr-1" />
+                  Rate this App
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <SquareCode />
