@@ -109,9 +109,9 @@ export const StreamProductsContainer: FC<StreamProps> = ({
           <div className="flex justify-between">
             <div className="flex items-center space-x-2">
               <SearchCheck className="size-4 shrink-0" />
-              <h3 className="text-sm font-semibold line-clamp-1">
+              <h3 className="text-sm line-clamp-1">
                 Product Search Results:
-                <span className="ml-1 first-line:text-purple-400">{query}</span>
+                <span className="ml-1 font-semibold">{query}</span>
               </h3>
             </div>
             <div>

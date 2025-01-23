@@ -141,8 +141,11 @@ export const ProductsContainer: FC<ProductsProps> = ({
           <div className="flex justify-between">
             <div className="flex items-center space-x-2">
               <SearchCheck className="size-4 shrink-0" />
-              <h3 className="text-sm font-semibold line-clamp-1">
-                Product Search: {content.args.query}
+              <h3 className="text-sm line-clamp-1">
+                Product Search:
+                <span className="ml-1 font-semibold">
+                  {content.args.query}
+                </span>
               </h3>
             </div>
             <div>
@@ -174,7 +177,7 @@ export const ProductsContainer: FC<ProductsProps> = ({
                   ? renderProducts()
                   : renderSkeletons()}
               </motion.div>
-              <div className="w-fit p-1 mt-2 rounded-full">
+              <div className="w-fit p-1 mt-2 mb-1 rounded-full">
                 <div className="flex items-start space-x-2">
                   <Info className="size-4 shrink-0" />
                   <p className="text-xs">
