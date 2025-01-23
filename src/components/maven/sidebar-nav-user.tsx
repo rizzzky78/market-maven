@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  AppWindow,
-  Fingerprint,
-  HistoryIcon,
-  LogOut,
-  SquareCode,
-} from "lucide-react";
+import { HistoryIcon, LogOut, SquareCode, Star } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -42,7 +36,7 @@ export const NavUser: FC = () => {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="my-2 rounded-3xl data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground md:h-8 md:p-0"
+              className="ml-1 md:-ml-2 my-2 rounded-3xl data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground md:px-2 py-2"
             >
               <Avatar className="h-8 w-8 rounded-full">
                 <AvatarImage src={user.avatar} alt={user.name} />
@@ -52,7 +46,6 @@ export const NavUser: FC = () => {
                 <span className="truncate font-semibold">{user.name}</span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
-              <Fingerprint className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -74,14 +67,14 @@ export const NavUser: FC = () => {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup className="*:rounded-3xl *:text-xs *:cursor-pointer">
-              <DropdownMenuItem>
-                <AppWindow />
-                User Dashboard
-              </DropdownMenuItem>
+            <DropdownMenuGroup className="*:rounded-3xl *:gap-1 *:text-xs *:cursor-pointer">
               <DropdownMenuItem>
                 <HistoryIcon />
                 My Chat History
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Star />
+                Rate this App
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <SquareCode />
