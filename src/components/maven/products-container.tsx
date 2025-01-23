@@ -98,15 +98,20 @@ export const ProductsContainer: FC<ProductsProps> = ({
           <Search className="size-4 mr-1" />
           <p className="text-xs font-semibold">
             Search Product by
-            <span className="ml-0.5 text-green-400 dark:text-green-600">
+            <Link
+              href={"https://www.tokopedia.com/"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-1 text-green-400 hover:text-green-600 dark:text-green-500 dark:hover:text-green-700"
+            >
               Tokopedia
-            </span>
+            </Link>
           </p>
         </div>
       </div>
       <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-[2rem] px-4 py-2">
         {content.data.screenshot && (
-          <div className="mb-2 mt-2">
+          <div className="mb-4 mt-2">
             {isContentReady && isFinished ? (
               <motion.div
                 variants={animations.item}
@@ -127,24 +132,8 @@ export const ProductsContainer: FC<ProductsProps> = ({
                 </Lens>
               </motion.div>
             ) : (
-              <div className="bg-muted rounded-3xl animate-pulse w-full h-[360px]" />
+              <div className="bg-muted rounded-3xl animate-pulse w-full h-[240px] lg:h-[360px]" />
             )}
-            <div className="w-fit p-1 mt-2">
-              <div className="flex items-start space-x-2">
-                <Globe className="size-4 shrink-0" />
-                <p className="text-xs">
-                  Source:
-                  <Link
-                    href={"https://www.tokopedia.com/"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="ml-1 text-green-500 hover:text-green-600 dark:text-green-400 dark:hover:text-green-500"
-                  >
-                    Tokopedia
-                  </Link>
-                </p>
-              </div>
-            </div>
           </div>
         )}
         <Separator className="mb-4 bg-[#1A1A1D] dark:bg-muted" />
