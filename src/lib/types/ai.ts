@@ -62,8 +62,8 @@ export type AssignController = Record<string, FunctionController>;
 export type PayloadData = {
   /** Optional text input from user */
   textInput?: string;
-  /** Optional attached data */
-  attachData?: string;
+  /** Optional attached product data */
+  attachProduct?: string;
   /** Optional response to a specific inquiry */
   inquiryResponse?: InquiryResponse;
 };
