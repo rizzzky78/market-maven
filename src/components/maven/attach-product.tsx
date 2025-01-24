@@ -5,9 +5,10 @@ import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { X } from "lucide-react";
 import { FC } from "react";
+import { BaseProduct } from "@/lib/types/ai";
 
 interface BadgeProps {
-  attach: { id: string | number; title: string; link: string };
+  attach: BaseProduct;
   onRemove: () => void;
 }
 
