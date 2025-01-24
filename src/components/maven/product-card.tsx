@@ -24,6 +24,7 @@ import { toast } from "sonner";
 import { Product } from "@/lib/types/product";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { useSmartTextarea } from "../hooks/use-smart-textare";
+import { generateId } from "ai";
 
 interface ProductProps {
   product: Partial<Product>;
@@ -69,38 +70,14 @@ export const ProductCard: FC<ProductProps> = ({ product, isFinished, id }) => {
     },
   };
 
-  const itemVariants = {
-    initial: { opacity: 0, y: 20 },
-    animate: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 12,
-      },
-    },
-    exit: {
-      opacity: 0,
-      y: -20,
-      transition: {
-        duration: 0.2,
-      },
-    },
-    hover: {
-      scale: 1.02,
-      transition: { duration: 0.2 },
-    },
-  };
-
-  const handleAttach = (id: number | undefined) => {
+  const handleAttach = () => {
     setInput("I want you to give me the product details or information");
     detach();
     attach({
-      meta: {
-        id: id ?? "default_id",
-        title: title ?? "no-value",
-        link: link ?? "no-value",
+      product: {
+        id: generateId(),
+        title: title ?? "error-no-title",
+        link: link ?? "error-no-link",
       },
     });
   };
@@ -200,8 +177,8 @@ export const ProductCard: FC<ProductProps> = ({ product, isFinished, id }) => {
                 <TooltipTrigger asChild>
                   <Button
                     className="relative ml-2 h-7 w-full overflow-hidden rounded-3xl px-6 font-bold bg-gray-300 text-black shadow-sm transition-all duration-300 hover:bg-blue-200 hover:text-indigo-900"
-                    onClick={() => handleAttach(id)}
-                    disabled={!isFinished}
+                    onClick={handleAttach}
+                    disabled={!isFinished || isGenerating}
                   >
                     {isFinished ? (
                       <span className="relative z-7">Ask AI</span>
