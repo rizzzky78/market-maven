@@ -84,21 +84,9 @@ const handleToolResult = (
     case "getProductDetails":
       return handleGetProductDetails(id, toolContent.result || "");
     default:
-      const resulted_default: ExtendedToolResult = JSON.parse(
-        toolContent.result || ""
-      );
       return {
         id,
-        display: (
-          <div className="bg-green-200">
-            <div>
-              <h2>HANDLE TOOL-RESULT DISPLAY</h2>
-              <pre className="text-xs overflow-x-auto">
-                {JSON.stringify(toolContent, null, 2)}
-              </pre>
-            </div>
-          </div>
-        ),
+        display: null,
       };
   }
 };
