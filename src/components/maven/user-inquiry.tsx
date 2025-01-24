@@ -1,12 +1,12 @@
 "use client";
 
-import { FC, useCallback, useState } from "react";
+import { type FC, useCallback, useState } from "react";
 import { CardContent } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Inquiry } from "@/lib/agents/schema/inquiry";
+import type { Inquiry } from "@/lib/agents/schema/inquiry";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,14 +15,24 @@ import {
   MessageCircleQuestion,
   SkipForward,
 } from "lucide-react";
-import { AI } from "@/app/action";
+import type { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { useUIState, useActions, readStreamableValue } from "ai/rsc";
 import { useDebounceInput } from "../hooks/use-debounced-input";
 import { useSmartTextarea } from "../hooks/use-smart-textare";
 import { UserMessage } from "./user-message";
 import { generateId } from "ai";
-import { InquiryResponse, StreamGeneration } from "@/lib/types/ai";
+import type { InquiryResponse, StreamGeneration } from "@/lib/types/ai";
+import { motion, AnimatePresence } from "framer-motion";
+
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const staggerChildren = {
+  visible: { transition: { staggerChildren: 0.1 } },
+};
 
 interface InquiryProps {
   inquiry: Inquiry;
@@ -135,51 +145,79 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
   };
 
   return (
-    <div className="mt-10">
-      <div className="absolute ml-6 -mt-3">
+    <motion.div
+      className="mt-10"
+      initial="hidden"
+      animate="visible"
+      variants={fadeIn}
+    >
+      <motion.div className="absolute ml-6 -mt-3" variants={fadeIn}>
         <div className="bg-white w-fit rounded-3xl p-1 px-3 flex items-center">
           <MessageCircleQuestion className="size-4 text-black mr-1" />
           <p className="text-xs text-black font-semibold">Inquiry</p>
         </div>
-      </div>
-      <div className="w-full mx-auto border rounded-3xl">
+      </motion.div>
+      <motion.div
+        className="w-full mx-auto border rounded-3xl"
+        variants={staggerChildren}
+      >
         <CardContent className="">
-          <h3 className="pt-6 font-semibold">{inquiry.question}</h3>
+          <motion.h3 className="pt-6 font-semibold" variants={fadeIn}>
+            {inquiry.question}
+          </motion.h3>
           <Separator className="my-3" />
-          {!inquiry.isMultiSelection ? (
-            <RadioGroup
-              onValueChange={handleOptionChange}
-              value={selectedOptions[0]}
-              className="-space-y-1"
-            >
-              {inquiry.options.map((option) => (
-                <div key={option.value} className="flex items-center space-x-2">
-                  <RadioGroupItem value={option.value} id={option.value} />
-                  <Label htmlFor={option.value} className="text-sm font-normal">
-                    {option.label}
-                  </Label>
-                </div>
-              ))}
-            </RadioGroup>
-          ) : (
-            <div className="space-y-1">
-              {inquiry.options.map((option) => (
-                <div key={option.value} className="flex items-center space-x-2">
-                  <Checkbox
-                    id={option.value}
-                    checked={selectedOptions.includes(option.value)}
-                    onCheckedChange={() => handleOptionChange(option.value)}
-                  />
-                  <Label htmlFor={option.value} className="text-sm font-normal">
-                    {option.label}
-                  </Label>
-                </div>
-              ))}
-            </div>
-          )}
+          <AnimatePresence>
+            {!inquiry.isMultiSelection ? (
+              <motion.div variants={staggerChildren}>
+                <RadioGroup
+                  onValueChange={handleOptionChange}
+                  value={selectedOptions[0]}
+                  className="-space-y-1"
+                >
+                  {inquiry.options.map((option) => (
+                    <motion.div
+                      key={option.value}
+                      className="flex items-center space-x-2"
+                      variants={fadeIn}
+                    >
+                      <RadioGroupItem value={option.value} id={option.value} />
+                      <Label
+                        htmlFor={option.value}
+                        className="text-sm font-normal"
+                      >
+                        {option.label}
+                      </Label>
+                    </motion.div>
+                  ))}
+                </RadioGroup>
+              </motion.div>
+            ) : (
+              <motion.div className="space-y-1" variants={staggerChildren}>
+                {inquiry.options.map((option) => (
+                  <motion.div
+                    key={option.value}
+                    className="flex items-center space-x-2"
+                    variants={fadeIn}
+                  >
+                    <Checkbox
+                      id={option.value}
+                      checked={selectedOptions.includes(option.value)}
+                      onCheckedChange={() => handleOptionChange(option.value)}
+                    />
+                    <Label
+                      htmlFor={option.value}
+                      className="text-sm font-normal"
+                    >
+                      {option.label}
+                    </Label>
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {inquiry.allowsInput && (
-            <div className="mt-4">
+            <motion.div className="mt-4" variants={fadeIn}>
               <Label
                 htmlFor="additionalInput"
                 className="font-normal text-sm mb-1 block"
@@ -193,34 +231,41 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
                 placeholder={inquiry.inputPlaceholder}
                 className="w-full rounded-3xl"
               />
-            </div>
+            </motion.div>
           )}
-          <div className="flex justify-end mt-3">
-            <Button
-              variant="outline"
-              className="rounded-3xl font-normal flex items-center mr-2"
-              onClick={handleSkip}
-              disabled={isSubmitting}
-            >
-              <span className="-mr-1">Skip</span>
-              <SkipForward className="size-4" />
-            </Button>
-            <Button
-              variant="outline"
-              className="rounded-3xl font-normal flex items-center"
-              onClick={handleSubmit}
-              disabled={!isFormValid() || isSubmitting}
-            >
-              <span className="-mr-1">Submit</span>
-              {isSubmitting ? (
-                <Loader className="size-4" />
-              ) : (
-                <CircleArrowRight className="size-4" />
-              )}
-            </Button>
-          </div>
+          <motion.div
+            className="flex justify-end mt-3"
+            variants={staggerChildren}
+          >
+            <motion.div variants={fadeIn}>
+              <Button
+                variant="outline"
+                className="rounded-3xl font-normal flex items-center mr-2"
+                onClick={handleSkip}
+                disabled={isSubmitting}
+              >
+                <span className="-mr-1">Skip</span>
+                <SkipForward className="size-4" />
+              </Button>
+            </motion.div>
+            <motion.div variants={fadeIn}>
+              <Button
+                variant="outline"
+                className="rounded-3xl font-normal flex items-center"
+                onClick={handleSubmit}
+                disabled={!isFormValid() || isSubmitting}
+              >
+                <span className="-mr-1">Submit</span>
+                {isSubmitting ? (
+                  <Loader className="size-4" />
+                ) : (
+                  <CircleArrowRight className="size-4" />
+                )}
+              </Button>
+            </motion.div>
+          </motion.div>
         </CardContent>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
