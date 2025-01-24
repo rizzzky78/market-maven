@@ -72,7 +72,7 @@ const sendMessage = async (
 
   const userMessage = JSON.stringify(payloadUserMessage);
 
-  console.log(`triggered server action - sendMessage, meta: ${userMessage}`);
+  logger.info("Process on Server Action", { payload });
 
   const aiState = getMutableAIState<typeof AI>();
 
