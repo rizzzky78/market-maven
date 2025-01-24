@@ -1,8 +1,8 @@
 "use client";
 
-import { AttachLink } from "@/lib/types/ai";
-import { ChangeEvent, KeyboardEvent } from "react";
 import { create } from "zustand";
+import { AttachProduct } from "@/lib/types/ai";
+import { ChangeEvent, KeyboardEvent } from "react";
 import { devtools, persist, createJSONStorage } from "zustand/middleware";
 
 /**
@@ -62,7 +62,7 @@ interface SmartTextareaState extends TextareaEventHandlers {
   /**
    * Attached Value
    */
-  attachment: AttachLink | undefined;
+  attachment: AttachProduct | undefined;
 
   /**
    * Set input with validation
@@ -77,7 +77,7 @@ interface SmartTextareaState extends TextareaEventHandlers {
   /**
    * Attach an serializable object
    */
-  attach: (object: AttachLink | undefined) => void;
+  attach: (object: AttachProduct | undefined) => void;
 
   /**
    * Detach or remove value of `attachment`
