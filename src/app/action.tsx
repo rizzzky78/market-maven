@@ -163,6 +163,7 @@ const sendMessage = async (
             waitFor: 4000,
           });
 
+          /** Handle if Scrape Operation is Error */
           if (!scrapeContent.success) {
             streamableGeneration.done({
               process: "error",
@@ -181,6 +182,7 @@ const sendMessage = async (
             return uiStream.value;
           }
 
+          /** Handle if Scrape Operation is Success */
           if (scrapeContent.success && scrapeContent.markdown) {
             uiStream.update(
               <ShinyText
@@ -230,74 +232,76 @@ const sendMessage = async (
               }
             }
 
+            uiStream.update(
+              <ProductsContainer
+                content={{
+                  success: true,
+                  name: "searchProduct",
+                  args: { query },
+                  data: finalizedResults,
+                }}
+                isFinished={true}
+              />
+            );
+
+            const streamableText = createStreamableValue<string>("");
+
+            uiStream.append(
+              <StreamAssistantMessage content={streamableText.value} />
+            );
+
+            yield uiStream.value;
+
+            let finalizedText: string = "";
+
+            const { textStream } = streamText({
+              model: groq("llama-3.2-90b-vision-preview"),
+              system: SYSTEM_INSTRUCT_INSIGHT,
+              prompt: JSON.stringify(finalizedResults),
+              onFinish: ({ text }) => {
+                finalizedText = text;
+              },
+            });
+
+            for await (const texts of textStream) {
+              finalizedText += texts;
+              streamableText.update(finalizedText);
+            }
+
+            const { mutate } = mutateTool({
+              name: "searchProduct",
+              args: { query },
+              result: finalizedResults,
+              overrideAssistant: {
+                content: finalizedText,
+              },
+            });
+
+            aiState.done({
+              ...aiState.get(),
+              messages: [...aiState.get().messages, ...mutate],
+            });
+
+            /** DONE ALL STREAMABLE */
             streamableProducts.done();
+
+            streamableText.done();
+
+            streamableGeneration.done({
+              process: "done",
+              loading: false,
+            });
+
+            uiStream.done();
+            /** DONE ALL STREAMABLE */
+
+            logger.info("Done using searchProduct tool", {
+              progress: "finish",
+              request: { query },
+            });
+
+            return uiStream.value;
           }
-
-          uiStream.update(
-            <ProductsContainer
-              content={{
-                success: true,
-                name: "searchProduct",
-                args: { query },
-                data: finalizedResults,
-              }}
-              isFinished={true}
-            />
-          );
-
-          const streamableText = createStreamableValue<string>("");
-
-          uiStream.append(
-            <StreamAssistantMessage content={streamableText.value} />
-          );
-
-          yield uiStream.value;
-
-          let finalizedText: string = "";
-
-          const { textStream } = streamText({
-            model: groq("llama-3.2-90b-vision-preview"),
-            system: SYSTEM_INSTRUCT_INSIGHT,
-            prompt: JSON.stringify(finalizedResults),
-            onFinish: ({ text }) => {
-              finalizedText = text;
-            },
-          });
-
-          for await (const texts of textStream) {
-            finalizedText += texts;
-            streamableText.update(finalizedText);
-          }
-
-          streamableText.done();
-
-          const { mutate } = mutateTool({
-            name: "searchProduct",
-            args: { query },
-            result: finalizedResults,
-            overrideAssistant: {
-              content: finalizedText,
-            },
-          });
-
-          aiState.done({
-            ...aiState.get(),
-            messages: [...aiState.get().messages, ...mutate],
-          });
-
-          streamableGeneration.done({
-            process: "done",
-            loading: false,
-          });
-
-          uiStream.done();
-
-          logger.info("Done using searchProduct tool", {
-            progress: "finish",
-            request: { query },
-          });
-
-          return uiStream.value;
         },
       },
       getProductDetails: {
