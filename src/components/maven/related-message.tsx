@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useId, useState } from "react";
-import { CornerDownRight, Grid2X2 } from "lucide-react";
+import React, { useCallback, useEffect, useId, useState } from "react";
+import { CornerDownRight } from "lucide-react";
 import {
   readStreamableValue,
   StreamableValue,
@@ -11,13 +11,14 @@ import {
 } from "ai/rsc";
 import { Button } from "../ui/button";
 import { Skeleton } from "../ui/skeleton";
-import { cn } from "@/lib/utils";
 import { generateId } from "ai";
 import { UserMessage } from "./user-message";
 import { PartialRelated } from "@/lib/agents/schema/related";
 import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { Separator } from "../ui/separator";
+import { StreamGeneration } from "@/lib/types/ai";
+import { toast } from "sonner";
 
 export interface RelatedProps {
   relatedQueries: StreamableValue<PartialRelated>;
@@ -35,50 +36,60 @@ export const RelatedMessage: React.FC<RelatedProps> = ({ relatedQueries }) => {
     if (data) setRelated(data);
   }, [data]);
 
-  const componentId = useId();
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+      setIsGenerating(true);
 
-    setIsGenerating(true);
+      try {
+        const f = new FormData(e.currentTarget as HTMLFormElement);
 
-    const f = new FormData(e.currentTarget as HTMLFormElement);
+        const submitter = (e.nativeEvent as SubmitEvent)
+          .submitter as HTMLInputElement;
+        let query = "";
+        if (submitter) {
+          f.append(submitter.name, submitter.value);
+          query = submitter.value;
+        }
 
-    // Get the submitter of the form
-    const submitter = (e.nativeEvent as SubmitEvent)
-      .submitter as HTMLInputElement;
-    let query = "";
-    if (submitter) {
-      f.append(submitter.name, submitter.value);
-      query = submitter.value;
-    }
+        const componentId = generateId();
 
-    setUIState((prevUI) => [
-      ...prevUI,
-      {
-        id: generateId(),
-        display: <UserMessage key={componentId} textInput={query} />,
-      },
-    ]);
+        setUIState((prevUI) => [
+          ...prevUI,
+          {
+            id: generateId(),
+            display: (
+              <UserMessage key={componentId} content={{ text_input: query }} />
+            ),
+          },
+        ]);
 
-    const {
-      id,
-      display,
-      isGenerating: isOnGenerating,
-    } = await sendMessage({
-      textInput: query,
-    });
+        const { id, display, generation } = await sendMessage({
+          textInput: query,
+        });
 
-    const isGen = readStreamableValue(isOnGenerating);
+        const gens = readStreamableValue(
+          generation
+        ) as AsyncGenerator<StreamGeneration>;
 
-    for await (const gen of isGen) {
-      setIsGenerating(gen ?? false);
-    }
+        for await (const { process, loading, error } of gens) {
+          setIsGenerating(loading);
+        }
 
-    setUIState((prevUI) => [...prevUI, { id, display }]);
-
-    setIsGenerating(false);
-  };
+        setUIState((prevUI) => [...prevUI, { id, display }]);
+      } catch (error) {
+        console.error("An Error occured when submitting the query!", error);
+        toast.error("Error When Submitting the Query!", {
+          position: "top-center",
+          richColors: true,
+          className:
+            "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
+        });
+      }
+    },
+    [sendMessage, setIsGenerating, setUIState]
+  );
 
   return related ? (
     <div className="flex flex-col">
