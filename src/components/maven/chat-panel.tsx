@@ -7,7 +7,6 @@ import {
   ChangeEvent,
   FormEvent,
   useEffect,
-  useId,
   useRef,
   KeyboardEvent,
   FC,
@@ -86,17 +85,8 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
 
     if (isGenerating) return;
 
-    const f = new FormData(e.currentTarget);
-
     try {
       setIsGenerating(true);
-      if (attachment) {
-        f.set("attach_link", JSON.stringify(attachment));
-      }
-
-      if (!f.has("text_input")) {
-        f.set("text_input", value);
-      }
 
       const componentId = generateId();
 
@@ -107,8 +97,10 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
           display: (
             <UserMessage
               key={componentId}
-              textInput={value}
-              attachLink={attachment}
+              content={{
+                text_input: value,
+                attach_product: attachment,
+              }}
             />
           ),
         },
@@ -119,7 +111,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
 
       const { id, display, generation } = await sendMessage({
         textInput: value,
-        attachData: attachment ? JSON.stringify(attachment) : undefined,
+        attachProduct: attachment,
       });
 
       const gens = readStreamableValue(
@@ -166,7 +158,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
           <AnimatePresence mode="sync">
             {attachment && (
               <AttachProductBadge
-                attach={attachment.meta}
+                attach={attachment.product}
                 onRemove={handleRemove}
               />
             )}
