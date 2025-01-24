@@ -1,5 +1,7 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { ChatProperties } from "@/lib/types/ai";
+import { formatDateWithTime } from "@/lib/utils";
+import Link from "next/link";
 import { FC } from "react";
 
 interface ChatProps {
@@ -16,19 +18,32 @@ export const ChatHistoryItem: FC<ChatProps> = ({ chat }) => {
       }`
     : "No messages";
 
+  // const { text_input }: { text_input?: string } = JSON.parse(
+  //   firstUserMessage as string
+  // );
+
   return (
-    <div className="h-full flex flex-col rounded-xl border p-3">
-      <div className="-mb-2">
-        <h3 className="text-sm text-white font-medium line-clamp-1">
-          {chat.title}
-        </h3>
-        <p className="text-xs text-white/70">
-          {chat.created as unknown as string}
-        </p>
+    <Link href={`/chat/${chat.chatId}`}>
+      <div className="w-full">
+        <div className="h-full min-h-32 hover:bg-muted flex flex-col rounded-xl border px-3 py-4">
+          <div className="h-14">
+            <h3 className="text-sm text-white font-medium line-clamp-2">
+              {chat.title}
+            </h3>
+            <p className="text-xs text-white/70">
+              {formatDateWithTime(chat.created)}
+            </p>
+          </div>
+          <div className="mt-2">
+            {/* <p className="text-xs text-white/80 line-clamp-2">
+              {text_input ?? briefMessage}
+            </p> */}
+            <pre className="text-xs overflow-x-auto">
+              {JSON.stringify(firstUserMessage, null, 2)}
+            </pre>
+          </div>
+        </div>
       </div>
-      <div className="flex-grow">
-        <p className="text-xs text-white/80 line-clamp-2">{briefMessage}</p>
-      </div>
-    </div>
+    </Link>
   );
 };

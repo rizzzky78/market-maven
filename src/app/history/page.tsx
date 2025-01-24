@@ -1,4 +1,5 @@
 import { ChatHistoryGrid } from "@/components/maven/chat-history-grid";
+import { ClearChats } from "@/components/maven/clear-chats";
 import { getChats } from "@/lib/agents/action/chat-service";
 import { ChatProperties } from "@/lib/types/ai";
 import { getServerSession } from "next-auth";
@@ -95,8 +96,9 @@ export default async function ChatHistoryPage() {
   const session = await getServerSession();
   const chats = await loadChats(session?.user?.email || "anonymous");
   return (
-    <div className="container mx-auto px-4 py-8 max-w-2xl">
+    <div className="container mx-auto px-4 py-8 max-w-3xl">
       <h1 className="text-2xl font-bold mb-6">Chat History</h1>
+      <ClearChats />
       <ChatHistoryGrid chats={chats} />
     </div>
   );

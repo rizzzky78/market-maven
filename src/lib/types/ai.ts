@@ -112,6 +112,20 @@ export type AttachLink = {
   };
 };
 
+export type AttachProduct = {
+  product: {
+    id: string;
+    title: string;
+    link: string;
+  };
+};
+
+export type UserContentMessage = {
+  text_input?: string;
+  attach_product?: AttachProduct;
+  inquiry_response?: InquiryResponse;
+};
+
 export type ParsedUserMessage = {
   text_input: string;
   attach_link?: string;
