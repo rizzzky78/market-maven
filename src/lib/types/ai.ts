@@ -245,11 +245,11 @@ export type ProductComparison = {
  */
 export type UserContentMessage = {
   /** Optional text input from user */
-  text_input?: string;
+  text_input?: string | null;
   /** Optional product attachment */
-  attach_product?: AttachProduct;
+  attach_product?: AttachProduct | null;
   /** Optional response to an inquiry */
-  inquiry_response?: InquiryResponse;
+  inquiry_response?: InquiryResponse | null;
 };
 
 /**
