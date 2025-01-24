@@ -9,7 +9,7 @@ import {
   Laptop2,
   Smartphone,
 } from "lucide-react";
-import { ReactNode, useCallback, useId } from "react";
+import { ReactNode, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useActions, useUIState } from "ai/rsc";
 import { generateId } from "ai";
@@ -65,7 +65,6 @@ export function QuickActionButton() {
   const { sendMessage } = useActions<typeof AI>();
   const { flush } = useSmartTextarea();
   const { handleReset } = useDebounceInput();
-  const componentId = useId();
 
   const handleError = useCallback((error: unknown) => {
     console.error("An Error occurred when submitting the query!", error);
@@ -84,12 +83,20 @@ export function QuickActionButton() {
       try {
         setIsGenerating(true);
 
+        const componentId = generateId();
         // Add user message to UI
         setUIState((prevUI) => [
           ...prevUI,
           {
             id: generateId(),
-            display: <UserMessage key={componentId} textInput={action} />,
+            display: (
+              <UserMessage
+                key={componentId}
+                content={{
+                  text_input: action,
+                }}
+              />
+            ),
           },
         ]);
 
@@ -111,7 +118,6 @@ export function QuickActionButton() {
       }
     },
     [
-      componentId,
       flush,
       handleError,
       handleReset,
