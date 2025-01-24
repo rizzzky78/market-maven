@@ -63,7 +63,7 @@ export type PayloadData = {
   /** Optional text input from user */
   textInput?: string;
   /** Optional attached product data */
-  attachProduct?: string;
+  attachProduct?: AttachProduct;
   /** Optional response to a specific inquiry */
   inquiryResponse?: InquiryResponse;
 };
