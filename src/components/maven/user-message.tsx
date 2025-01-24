@@ -10,31 +10,25 @@ import {
 } from "../ui/tooltip";
 import { Button } from "../ui/button";
 import { Check, Copy, ScanSearch } from "lucide-react";
-import { AttachLink, InquiryResponse } from "@/lib/types/ai";
+import { UserContentMessage } from "@/lib/types/ai";
 import { Badge } from "../ui/badge";
 
 interface MessageProps {
-  textInput?: string;
-  attachLink?: AttachLink;
-  inquiryResponse?: InquiryResponse;
+  content: UserContentMessage;
 }
 
-export const UserMessage: FC<MessageProps> = ({
-  textInput,
-  attachLink,
-  inquiryResponse,
-}) => {
+export const UserMessage: FC<MessageProps> = ({ content }) => {
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(textInput ?? "No-Value");
+    navigator.clipboard.writeText(content.text_input ?? "No-Value");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
     <div className="w-full mb-14">
-      {attachLink && (
+      {content.attach_product && (
         <div className="flex justify-end">
           <Badge
             variant={"secondary"}
@@ -42,28 +36,28 @@ export const UserMessage: FC<MessageProps> = ({
           >
             <ScanSearch className="size-5" />
             <p className="font-normal text-xs line-clamp-1">
-              {attachLink.meta.title}
+              {content.attach_product.product.title}
             </p>
           </Badge>
         </div>
       )}
-      {inquiryResponse && (
+      {content.inquiry_response && (
         <div className="flex justify-end">
           <pre className="text-xs overflow-x-auto p-2">
-            {JSON.stringify(inquiryResponse, null, 2)}
+            {JSON.stringify(content.inquiry_response, null, 2)}
           </pre>
         </div>
       )}
-      {textInput && (
+      {content.text_input && (
         <div className="flex justify-end">
           <div
             className={`bg-[#343131] w-fit max-w-[90%] py-3 px-5 rounded-l-[2rem] ${
-              attachLink ? "rounded-br-[2rem]" : "rounded-r-[2rem]"
+              content.attach_product ? "rounded-br-[2rem]" : "rounded-r-[2rem]"
             }`}
           >
             <div className="group relative">
               <Markdown className="whitespace-pre-wrap text-white">
-                {textInput}
+                {content.text_input}
               </Markdown>
               <TooltipProvider>
                 <Tooltip>
