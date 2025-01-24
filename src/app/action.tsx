@@ -30,6 +30,7 @@ import {
   AssignController,
   PayloadData,
   StreamGeneration,
+  UserContentMessage,
 } from "@/lib/types/ai";
 import { groq } from "@ai-sdk/groq";
 import { getServerSession } from "next-auth";
@@ -61,12 +62,15 @@ const sendMessage = async (
   assignController?: AssignController
 ): Promise<SendMessageCallback> => {
   "use server";
+  const { textInput, attachProduct, inquiryResponse } = payload;
 
-  const userMessage = JSON.stringify({
-    text_input: payload.textInput ?? null,
-    attach_link: payload.attachData ?? null,
-    inquiry_response: payload.inquiryResponse ?? null,
-  });
+  const payloadUserMessage: UserContentMessage = {
+    text_input: textInput ?? null,
+    attach_product: attachProduct ?? null,
+    inquiry_response: inquiryResponse ?? null,
+  };
+
+  const userMessage = JSON.stringify(payloadUserMessage);
 
   console.log(`triggered server action - sendMessage, meta: ${userMessage}`);
 
