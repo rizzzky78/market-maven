@@ -332,6 +332,7 @@ const sendMessage = async (
             waitFor: 4000,
           });
 
+          /** Handle if Scrape Operation is Error */
           if (!scrapeResult.success) {
             streamableGeneration.done({
               process: "error",
@@ -350,6 +351,7 @@ const sendMessage = async (
             return uiStream.value;
           }
 
+          /** Handle if Scrape Operation is Success */
           if (scrapeResult.success && scrapeResult.markdown) {
             uiStream.update(
               <ShinyText text="Found product details, please hang on..." />
@@ -359,13 +361,11 @@ const sendMessage = async (
 
             await new Promise((resolve) => setTimeout(resolve, 3000));
 
-            const callId = v4();
-
             let finalizedObject: {
               insight: JSONValue;
               screenshot?: string;
               callId?: string;
-            } = { callId, insight: {} };
+            } = { callId: v4(), insight: {} };
 
             const streamableObject = createStreamableValue();
 
@@ -392,7 +392,7 @@ const sendMessage = async (
               output: "no-schema",
               onFinish: async ({ object }) => {
                 finalizedObject = {
-                  callId,
+                  callId: v4(),
                   insight: object as JSONValue,
                   screenshot: scrapeResult.screenshot,
                 };
@@ -405,8 +405,6 @@ const sendMessage = async (
               };
               streamableObject.update(finalizedObject.insight);
             }
-
-            streamableObject.done();
 
             const streamableText = createStreamableValue<string>("");
 
@@ -432,8 +430,6 @@ const sendMessage = async (
               streamableText.update(finalizedText);
             }
 
-            streamableText.done();
-
             const { mutate } = mutateTool({
               name: "getProductDetails",
               args: { link, query },
@@ -447,21 +443,27 @@ const sendMessage = async (
               ...aiState.get(),
               messages: [...aiState.get().messages, ...mutate],
             });
+
+            /** DONE ALL STREAMABLE */
+            streamableObject.done();
+
+            streamableText.done();
+
+            streamableGeneration.done({
+              process: "done",
+              loading: false,
+            });
+
+            uiStream.done();
+            /** DONE ALL STREAMABLE */
+
+            logger.info("Done using getProductDetails tool", {
+              progress: "finish",
+              request: { query, link },
+            });
+
+            return uiStream.value;
           }
-
-          streamableGeneration.done({
-            process: "done",
-            loading: false,
-          });
-
-          uiStream.done();
-
-          logger.info("Done using getProductDetails tool", {
-            progress: "finish",
-            request: { query, link },
-          });
-
-          return uiStream.value;
         },
       },
       inquireUser: {
@@ -500,12 +502,14 @@ const sendMessage = async (
             messages: [...aiState.get().messages, ...mutate],
           });
 
-          uiStream.done();
-
+          /** DONE ALL STREAMABLE */
           streamableGeneration.done({
             process: "done",
             loading: false,
           });
+
+          uiStream.done();
+          /** DONE ALL STREAMABLE */
 
           logger.info("Done using inquireUser tool");
 
