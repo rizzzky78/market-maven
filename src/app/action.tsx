@@ -153,9 +153,7 @@ const sendMessage = async (
 
           let finalizedResults: ProductsResponse = { data: [] };
 
-          uiStream.append(
-            <ShinyText text={`Searching for ${query}`} speed={1} />
-          );
+          uiStream.append(<ShinyText text={`Searching for ${query}`} />);
 
           yield uiStream.value;
 
@@ -192,6 +190,8 @@ const sendMessage = async (
             );
 
             yield uiStream.value;
+
+            await new Promise((resolve) => setTimeout(resolve, 3000));
 
             const payload = JSON.stringify({
               objective: root.ExtractionOjective,
@@ -314,13 +314,13 @@ const sendMessage = async (
             loading: true,
           });
 
-          logger.info(`Executing tool: <getProductDetails>`, { query });
-
           const uiStream = createStreamableUI(
-            <ShinyText text={`Getting data product for ${query}`} speed={1} />
+            <ShinyText text={`Getting data product for ${query}`} />
           );
 
           yield uiStream.value;
+
+          await new Promise((resolve) => setTimeout(resolve, 3000));
 
           const scrapeResult = await scrapeUrl({
             url: link,
@@ -347,6 +347,14 @@ const sendMessage = async (
           }
 
           if (scrapeResult.success && scrapeResult.markdown) {
+            uiStream.update(
+              <ShinyText text="Found product details, please hang on..." />
+            );
+
+            yield uiStream.value;
+
+            await new Promise((resolve) => setTimeout(resolve, 3000));
+
             const callId = v4();
 
             let finalizedObject: {
@@ -441,7 +449,7 @@ const sendMessage = async (
             process: "done",
             loading: false,
           });
-          // final
+
           uiStream.done();
 
           logger.info("Done using getProductDetails tool", {
@@ -465,7 +473,7 @@ const sendMessage = async (
 
           const callId = generateId();
           const uiStream = createStreamableUI(
-            <ShinyText key={callId} text="Creating an Inquiry" speed={1} />
+            <ShinyText key={callId} text="Creating an Inquiry" />
           );
 
           yield uiStream.value;
