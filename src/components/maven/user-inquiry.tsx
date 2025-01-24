@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useCallback, useId, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import { CardContent } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -17,12 +17,12 @@ import {
 } from "lucide-react";
 import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import { useUIState, useActions } from "ai/rsc";
+import { useUIState, useActions, readStreamableValue } from "ai/rsc";
 import { useDebounceInput } from "../hooks/use-debounced-input";
 import { useSmartTextarea } from "../hooks/use-smart-textare";
 import { UserMessage } from "./user-message";
 import { generateId } from "ai";
-import { InquiryResponse } from "@/lib/types/ai";
+import { InquiryResponse, StreamGeneration } from "@/lib/types/ai";
 
 interface InquiryProps {
   inquiry: Inquiry;
@@ -33,11 +33,10 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
   const [inputValue, setInputValue] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [_, setUIState] = useUIState<typeof AI>();
-  const { isGenerating, setIsGenerating } = useAppState();
+  const { setIsGenerating } = useAppState();
   const { sendMessage } = useActions<typeof AI>();
   const { flush } = useSmartTextarea();
   const { handleReset } = useDebounceInput();
-  const componentId = useId();
 
   const isFormValid = (): boolean => {
     const hasValidSelection = selectedOptions.length > 0;
@@ -62,9 +61,8 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
 
   const submitInquiryResponse = useCallback(
     async (payload: InquiryResponse) => {
-      const text = JSON.stringify(payload, null, 2);
+      const componentId = generateId();
 
-      // Add user message to UI
       setUIState((prevUI) => [
         ...prevUI,
         {
@@ -72,17 +70,24 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
           display: (
             <UserMessage
               key={componentId}
-              textInput={text}
-              inquiryResponse={payload}
+              content={{ inquiry_response: payload }}
             />
           ),
         },
       ]);
 
       // Send the message and wait for response
-      const { id, display } = await sendMessage({
+      const { id, display, generation } = await sendMessage({
         inquiryResponse: payload,
       });
+
+      const gens = readStreamableValue(
+        generation
+      ) as AsyncIterable<StreamGeneration>;
+
+      for await (const { loading } of gens) {
+        setIsGenerating(loading);
+      }
 
       // Add response to UI
       setUIState((prevUI) => [...prevUI, { id, display }]);
@@ -91,7 +96,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
       flush();
       handleReset();
     },
-    [componentId, flush, handleReset, sendMessage, setUIState]
+    [flush, handleReset, sendMessage, setIsGenerating, setUIState]
   );
 
   const handleSubmit = async () => {

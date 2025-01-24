@@ -5147,3 +5147,37 @@
     }
   ]
 }
+[90m[2025-01-24 21:44:49.380][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-24 21:44:49.999][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-24 21:44:50.224][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-24 21:46:43.463][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Process on Server Action",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "What are the important key points in buying a product?"
+      }
+    }
+  ]
+}
