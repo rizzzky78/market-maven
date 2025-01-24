@@ -17,16 +17,18 @@ export const ChatHistoryItem: FC<ChatProps> = ({ chat }) => {
     : "No messages";
 
   return (
-    <Card className="h-full flex flex-col">
-      <CardHeader>
-        <CardTitle className="text-sm font-medium">{chat.title}</CardTitle>
-        <p className="text-xs text-gray-500">
-          {chat.created.toLocaleDateString()}
+    <div className="h-full flex flex-col rounded-xl border p-3">
+      <div className="-mb-2">
+        <h3 className="text-sm text-white font-medium line-clamp-1">
+          {chat.title}
+        </h3>
+        <p className="text-xs text-white/70">
+          {chat.created as unknown as string}
         </p>
-      </CardHeader>
-      <CardContent className="flex-grow">
-        <p className="text-xs text-gray-600">{briefMessage}</p>
-      </CardContent>
-    </Card>
+      </div>
+      <div className="flex-grow">
+        <p className="text-xs text-white/80 line-clamp-2">{briefMessage}</p>
+      </div>
+    </div>
   );
 };
