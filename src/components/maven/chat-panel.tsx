@@ -126,11 +126,11 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
           setIsGenerating(loading);
         }
 
-        router.refresh();
-
         setUIState((prevUI) => [...prevUI, { id, display }]);
       } catch (error) {
         handleError(error);
+      } finally {
+        router.refresh();
       }
     },
     [
@@ -210,6 +210,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                       <Button
                         size={"icon"}
                         className="text-[#4A4947] dark:text-white rounded-full *:hover:text-purple-500 *:dark:hover:text-purple-200"
+                        disabled={isGenerating}
                       >
                         <Paperclip className="h-6 w-6 hover:text-purple-200 -rotate-45" />
                       </Button>
@@ -225,6 +226,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                       <Button
                         size={"icon"}
                         className="text-[#4A4947] dark:text-white rounded-full *:hover:text-purple-500 *:dark:hover:text-purple-200"
+                        disabled={isGenerating}
                       >
                         <ImageIcon className="h-6 w-6 hover:text-purple-200" />
                       </Button>
@@ -240,6 +242,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                       <Button
                         size={"icon"}
                         className="text-[#4A4947] dark:text-white rounded-full *:hover:text-purple-500 *:dark:hover:text-purple-200"
+                        disabled={isGenerating}
                       >
                         <ChartNoAxesCombined className="h-6 w-6 hover:text-purple-200" />
                       </Button>
