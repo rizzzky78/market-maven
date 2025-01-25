@@ -64,6 +64,8 @@ const sendMessage = async (
   "use server";
   const { textInput, attachProduct, inquiryResponse } = payload;
 
+  let isCompleted: boolean = false;
+
   const payloadUserMessage: UserContentMessage = {
     text_input: textInput ?? null,
     attach_product: attachProduct ?? null,
@@ -88,10 +90,10 @@ const sendMessage = async (
     ],
   });
 
-  // const streamableGeneration = createStreamableValue<StreamGeneration>({
-  //   process: "initial",
-  //   loading: true,
-  // });
+  const streamableGeneration = createStreamableValue<StreamGeneration>({
+    process: "initial",
+    loading: true,
+  });
 
   const { value, stream } = await streamUI({
     model: google("gemini-2.0-flash-exp"),
@@ -117,17 +119,14 @@ const sendMessage = async (
           ],
         });
 
-        // streamableGeneration.done({
-        //   process: "done",
-        //   loading: false,
-        // });
-
         streamableText.done();
+
+        isCompleted = true;
       } else {
-        // streamableGeneration.update({
-        //   process: "generating",
-        //   loading: true,
-        // });
+        streamableGeneration.update({
+          process: "generating",
+          loading: true,
+        });
 
         streamableText.update(content);
       }
@@ -144,10 +143,10 @@ const sendMessage = async (
             request: { query },
           });
 
-          // streamableGeneration.update({
-          //   process: "generating",
-          //   loading: true,
-          // });
+          streamableGeneration.update({
+            process: "generating",
+            loading: true,
+          });
 
           const uiStream = createStreamableUI();
 
@@ -165,11 +164,11 @@ const sendMessage = async (
 
           /** Handle if Scrape Operation is Error */
           if (!scrapeContent.success) {
-            // streamableGeneration.done({
-            //   process: "error",
-            //   loading: false,
-            //   error: scrapeContent.error,
-            // });
+            streamableGeneration.done({
+              process: "error",
+              loading: false,
+              error: scrapeContent.error,
+            });
 
             uiStream.done(
               <ErrorMessage
@@ -192,8 +191,6 @@ const sendMessage = async (
             );
 
             yield uiStream.value;
-
-            await new Promise((resolve) => setTimeout(resolve, 3000));
 
             const payload = JSON.stringify({
               objective: root.ExtractionOjective,
@@ -232,6 +229,8 @@ const sendMessage = async (
               }
             }
 
+            streamableProducts.done();
+
             uiStream.update(
               <ProductsContainer
                 content={{
@@ -268,6 +267,8 @@ const sendMessage = async (
               streamableText.update(finalizedText);
             }
 
+            streamableText.done();
+
             const { mutate } = mutateTool({
               name: "searchProduct",
               args: { query },
@@ -282,23 +283,14 @@ const sendMessage = async (
               messages: [...aiState.get().messages, ...mutate],
             });
 
-            /** DONE ALL STREAMABLE */
-            streamableProducts.done();
-
-            streamableText.done();
-
-            // streamableGeneration.done({
-            //   process: "done",
-            //   loading: false,
-            // });
-
             uiStream.done();
-            /** DONE ALL STREAMABLE */
 
             logger.info("Done using searchProduct tool", {
               progress: "finish",
               request: { query },
             });
+
+            isCompleted = true;
 
             return uiStream.value;
           }
@@ -313,18 +305,16 @@ const sendMessage = async (
             request: { query, link },
           });
 
-          // streamableGeneration.update({
-          //   process: "generating",
-          //   loading: true,
-          // });
+          streamableGeneration.update({
+            process: "generating",
+            loading: true,
+          });
 
           const uiStream = createStreamableUI(
             <ShinyText text={`Getting data product for ${query}`} />
           );
 
           yield uiStream.value;
-
-          await new Promise((resolve) => setTimeout(resolve, 3000));
 
           const scrapeResult = await scrapeUrl({
             url: link,
@@ -334,17 +324,17 @@ const sendMessage = async (
 
           /** Handle if Scrape Operation is Error */
           if (!scrapeResult.success) {
-            // streamableGeneration.done({
-            //   process: "error",
-            //   loading: false,
-            //   error: scrapeResult.error,
-            // });
+            streamableGeneration.done({
+              process: "error",
+              loading: false,
+              error: scrapeResult.error,
+            });
 
             uiStream.done(
               <ErrorMessage
                 name="Scrape Error"
                 messsage={scrapeResult.error}
-                raw={{ query }}
+                raw={{ query, link }}
               />
             );
 
@@ -358,8 +348,6 @@ const sendMessage = async (
             );
 
             yield uiStream.value;
-
-            await new Promise((resolve) => setTimeout(resolve, 3000));
 
             let finalizedObject: {
               insight: JSONValue;
@@ -406,6 +394,8 @@ const sendMessage = async (
               streamableObject.update(finalizedObject.insight);
             }
 
+            streamableObject.done();
+
             const streamableText = createStreamableValue<string>("");
 
             uiStream.append(
@@ -430,6 +420,8 @@ const sendMessage = async (
               streamableText.update(finalizedText);
             }
 
+            streamableText.done();
+
             const { mutate } = mutateTool({
               name: "getProductDetails",
               args: { link, query },
@@ -444,23 +436,14 @@ const sendMessage = async (
               messages: [...aiState.get().messages, ...mutate],
             });
 
-            /** DONE ALL STREAMABLE */
-            streamableObject.done();
-
-            streamableText.done();
-
-            // streamableGeneration.done({
-            //   process: "done",
-            //   loading: false,
-            // });
-
             uiStream.done();
-            /** DONE ALL STREAMABLE */
 
             logger.info("Done using getProductDetails tool", {
               progress: "finish",
               request: { query, link },
             });
+
+            isCompleted = true;
 
             return uiStream.value;
           }
@@ -472,10 +455,10 @@ const sendMessage = async (
         generate: async function* (inquiry) {
           logger.info("Using inquireUser tool");
 
-          // streamableGeneration.update({
-          //   process: "generating",
-          //   loading: false,
-          // });
+          streamableGeneration.update({
+            process: "generating",
+            loading: false,
+          });
 
           const callId = generateId();
           const uiStream = createStreamableUI(
@@ -502,16 +485,11 @@ const sendMessage = async (
             messages: [...aiState.get().messages, ...mutate],
           });
 
-          /** DONE ALL STREAMABLE */
-          // streamableGeneration.done({
-          //   process: "done",
-          //   loading: false,
-          // });
-
           uiStream.done();
-          /** DONE ALL STREAMABLE */
 
           logger.info("Done using inquireUser tool");
+
+          isCompleted = true;
 
           return uiStream.value;
         },
@@ -519,11 +497,18 @@ const sendMessage = async (
     },
   });
 
+  if (isCompleted) {
+    streamableGeneration.done({
+      process: "done",
+      loading: false,
+    });
+  }
+
   return {
     id: generateId(),
     display: value,
     stream,
-    // generation: streamableGeneration.value,
+    generation: streamableGeneration.value,
   };
 };
 
