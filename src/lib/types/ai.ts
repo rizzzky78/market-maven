@@ -97,7 +97,7 @@ export type SendMessageCallback = {
   /** Streamable message content */
   stream: ReadableStream<LanguageModelV1StreamPart>;
   /** Generation status and metadata */
-  // generation: StreamableValue<StreamGeneration>;
+  generation: StreamableValue<StreamGeneration>;
 };
 
 /**
@@ -129,7 +129,13 @@ export type StreamGeneration = {
   /** Indicates if generation is in progress */
   loading: boolean;
   /** Current generation stage */
-  process: "initial" | "generating" | "error" | "done";
+  process:
+    | "initial"
+    | "generating"
+    | "api_error"
+    | "fatal_error"
+    | "done"
+    | ({} & string);
   /** Optional error message if generation fails */
   error?: string;
 };
