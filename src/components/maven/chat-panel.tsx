@@ -10,6 +10,7 @@ import {
   useRef,
   KeyboardEvent,
   FC,
+  useCallback,
 } from "react";
 import { UserMessage } from "./user-message";
 import { AnimatePresence } from "framer-motion";
@@ -36,6 +37,7 @@ import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { useDebounceInput } from "../hooks/use-debounced-input";
 import { useSmartTextarea } from "../hooks/use-smart-textare";
 import { AttachProductBadge } from "./attach-product";
+import { useRouter } from "next/navigation";
 
 interface ChatPanelProps {
   uiState: UIState;
@@ -63,6 +65,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
   const [_, setUIState] = useUIState<typeof AI>();
   const { isGenerating, setIsGenerating } = useAppState();
   const { sendMessage } = useActions<typeof AI>();
+  const router = useRouter();
 
   const handleRemove = () => {
     setInput("");
@@ -80,53 +83,68 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     });
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
 
-    if (isGenerating) return;
+      if (isGenerating) return;
 
-    try {
-      setIsGenerating(true);
+      try {
+        setIsGenerating(true);
 
-      const componentId = generateId();
+        const componentId = generateId();
 
-      setUIState((prevUI) => [
-        ...prevUI,
-        {
-          id: generateId(),
-          display: (
-            <UserMessage
-              key={componentId}
-              content={{
-                text_input: value,
-                attach_product: attachment,
-              }}
-            />
-          ),
-        },
-      ]);
+        setUIState((prevUI) => [
+          ...prevUI,
+          {
+            id: generateId(),
+            display: (
+              <UserMessage
+                key={componentId}
+                content={{
+                  text_input: value,
+                  attach_product: attachment,
+                }}
+              />
+            ),
+          },
+        ]);
 
-      flush();
-      handleReset();
+        flush();
+        handleReset();
 
-      const { id, display, generation } = await sendMessage({
-        textInput: value,
-        attachProduct: attachment,
-      });
+        const { id, display, generation } = await sendMessage({
+          textInput: value,
+          attachProduct: attachment,
+        });
 
-      const gens = readStreamableValue(
-        generation
-      ) as AsyncIterable<StreamGeneration>;
+        const gens = readStreamableValue(
+          generation
+        ) as AsyncIterable<StreamGeneration>;
 
-      for await (const { process, loading, error } of gens) {
-        setIsGenerating(loading);
+        for await (const { process, loading, error } of gens) {
+          setIsGenerating(loading);
+        }
+
+        router.refresh();
+
+        setUIState((prevUI) => [...prevUI, { id, display }]);
+      } catch (error) {
+        handleError(error);
       }
-
-      setUIState((prevUI) => [...prevUI, { id, display }]);
-    } catch (error) {
-      handleError(error);
-    }
-  };
+    },
+    [
+      attachment,
+      flush,
+      handleReset,
+      isGenerating,
+      router,
+      sendMessage,
+      setIsGenerating,
+      setUIState,
+      value,
+    ]
+  );
 
   const isButtonDisabled = isGenerating || value.length === 0;
 
