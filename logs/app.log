@@ -7437,3 +7437,130 @@
     }
   ]
 }
+[90m[2025-01-25 22:56:44.347][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 22:56:45.017][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 22:57:51.821][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 23:01:32.689][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 23:01:43.768][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Process on Server Action",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "I want you to give me the product details or information",
+        "attachProduct": {
+          "product": {
+            "id": "xqIUI1YE1PVU9YQm",
+            "title": "dbE DJ80 Foldable DJ Headphone with Detachable Microphone",
+            "link": "https://www.tokopedia.com/dbeofficial/dbe-dj80-foldable-dj-headphone-with-detachable-microphone-hitam?extParam=cmp%3D1%26ivf%3Dfalse%26keyword%3Ddbe+headphone%26search_id%3D20250125150435DA12BD15A498012C96O5%26src%3Dsearch&refined=true"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-01-25 23:01:46.261][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "dbE DJ80 Foldable DJ Headphone with Detachable Microphone",
+        "link": "https://www.tokopedia.com/dbeofficial/dbe-dj80-foldable-dj-headphone-with-detachable-microphone-hitam?extParam=cmp%3D1%26ivf%3Dfalse%26keyword%3Ddbe+headphone%26search_id%3D20250125150435DA12BD15A498012C96O5%26src%3Dsearch&refined=true"
+      }
+    }
+  ]
+}
+[90m[2025-01-25 23:02:19.070][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "dbE DJ80 Foldable DJ Headphone with Detachable Microphone",
+        "link": "https://www.tokopedia.com/dbeofficial/dbe-dj80-foldable-dj-headphone-with-detachable-microphone-hitam?extParam=cmp%3D1%26ivf%3Dfalse%26keyword%3Ddbe+headphone%26search_id%3D20250125150435DA12BD15A498012C96O5%26src%3Dsearch&refined=true"
+      }
+    }
+  ]
+}
+[90m[2025-01-25 23:02:19.338][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-01-25 23:03:57.119][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 23:04:06.613][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 23:14:30.173][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 23:14:31.128][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 23:14:35.422][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 23:14:43.799][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}

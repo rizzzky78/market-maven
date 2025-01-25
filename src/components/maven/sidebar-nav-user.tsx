@@ -70,8 +70,10 @@ export const NavUser: FC = () => {
             <DropdownMenuSeparator />
             <DropdownMenuGroup className="*:rounded-3xl *:gap-1 *:text-xs *:cursor-pointer">
               <DropdownMenuItem>
-                <HistoryIcon />
-                My Chat History
+                <Link href={"/history"} className="flex items-center">
+                  <HistoryIcon className="size-4 mr-1" />
+                  My Chat History
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Link href={"/rate-app"} className="flex items-center">
