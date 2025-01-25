@@ -1,6 +1,6 @@
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { ChatProperties, UserContentMessage } from "@/lib/types/ai";
 import { formatDateWithTime } from "@/lib/utils";
+import { Calendar, MessageSquareMore } from "lucide-react";
 import Link from "next/link";
 import { FC } from "react";
 
@@ -23,27 +23,26 @@ export const ChatHistoryItem: FC<ChatProps> = ({ chat }) => {
   );
 
   return (
-    <Link href={`/chat/c/${chat.chatId}`}>
-      <div className="w-full">
-        <div className="h-full min-h-32 hover:bg-muted flex flex-col rounded-xl border px-3 py-4">
-          <div className="h-14">
-            <h3 className="text-sm text-white font-medium line-clamp-2">
-              {chat.title}
-            </h3>
-            <p className="text-xs text-white/70">
-              {formatDateWithTime(chat.created)}
-            </p>
-          </div>
-          <div className="mt-4">
-            <p className="text-xs text-white/80 line-clamp-2">
-              {text_input ?? briefMessage}
-            </p>
-            {/* <pre className="text-xs overflow-x-auto">
-              {JSON.stringify(firstUserMessage, null, 2)}
-            </pre> */}
+    <div className="">
+      <Link href={`/chat/c/${chat.chatId}`}>
+        <div className="w-full">
+          <div className="h-full min-h-32 hover:bg-muted flex flex-col rounded-xl border px-3 py-4">
+            <div className="h-10">
+              <h3 className="text-sm text-white font-semibold line-clamp-2">
+                {chat.title}
+              </h3>
+            </div>
+            <div className="mt-4 flex items-center text-white/80 ">
+              <p className="text-sm line-clamp-2">{text_input}</p>
+            </div>
           </div>
         </div>
+      </Link>
+      <div className="ml-28 -mt-3">
+        <div className="flex items-center text-white/70 bg-[#212121] py-1 px-2 rounded-3xl w-fit">
+          <p className="text-xs">{formatDateWithTime(chat.created)}</p>
+        </div>
       </div>
-    </Link>
+    </div>
   );
 };
