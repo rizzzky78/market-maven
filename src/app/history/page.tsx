@@ -97,8 +97,7 @@ export default async function ChatHistoryPage() {
   const chats = await loadChats(session?.user?.email || "anonymous");
   return (
     <div className="container mx-auto px-4 py-8 max-w-3xl">
-      <h1 className="text-2xl font-bold mb-6">Chat History</h1>
-      <ClearChats />
+      <h1 className="text-md font-semibold mb-6 mx-4">Chat History</h1>
       <ChatHistoryGrid chats={chats} />
     </div>
   );

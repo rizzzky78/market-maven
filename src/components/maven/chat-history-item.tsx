@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { ChatProperties } from "@/lib/types/ai";
+import { ChatProperties, UserContentMessage } from "@/lib/types/ai";
 import { formatDateWithTime } from "@/lib/utils";
 import Link from "next/link";
 import { FC } from "react";
@@ -18,12 +18,12 @@ export const ChatHistoryItem: FC<ChatProps> = ({ chat }) => {
       }`
     : "No messages";
 
-  // const { text_input }: { text_input?: string } = JSON.parse(
-  //   firstUserMessage as string
-  // );
+  const { text_input }: UserContentMessage = JSON.parse(
+    firstUserMessage as string
+  );
 
   return (
-    <Link href={`/chat/${chat.chatId}`}>
+    <Link href={`/chat/c/${chat.chatId}`}>
       <div className="w-full">
         <div className="h-full min-h-32 hover:bg-muted flex flex-col rounded-xl border px-3 py-4">
           <div className="h-14">
@@ -34,13 +34,13 @@ export const ChatHistoryItem: FC<ChatProps> = ({ chat }) => {
               {formatDateWithTime(chat.created)}
             </p>
           </div>
-          <div className="mt-2">
-            {/* <p className="text-xs text-white/80 line-clamp-2">
+          <div className="mt-4">
+            <p className="text-xs text-white/80 line-clamp-2">
               {text_input ?? briefMessage}
-            </p> */}
-            <pre className="text-xs overflow-x-auto">
+            </p>
+            {/* <pre className="text-xs overflow-x-auto">
               {JSON.stringify(firstUserMessage, null, 2)}
-            </pre>
+            </pre> */}
           </div>
         </div>
       </div>
