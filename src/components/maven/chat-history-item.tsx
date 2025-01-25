@@ -1,6 +1,5 @@
 import { ChatProperties, UserContentMessage } from "@/lib/types/ai";
 import { formatDateWithTime } from "@/lib/utils";
-import { Calendar, MessageSquareMore } from "lucide-react";
 import Link from "next/link";
 import { FC } from "react";
 
@@ -12,11 +11,6 @@ export const ChatHistoryItem: FC<ChatProps> = ({ chat }) => {
   const firstUserMessage = chat.messages.find(
     (m) => m.role === "user"
   )?.content;
-  const briefMessage = firstUserMessage
-    ? `${firstUserMessage.slice(0, 50)}${
-        firstUserMessage.length > 50 ? "..." : ""
-      }`
-    : "No messages";
 
   const { text_input }: UserContentMessage = JSON.parse(
     firstUserMessage as string
