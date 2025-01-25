@@ -66,11 +66,21 @@ export const AppSidebar: FC<AppProps> = ({ chats, ...props }) => {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent className="pr-2 scrollbar-thin">
-        {chats
-          .filter((c) => c.title !== "")
-          .map((chat, idx) => (
-            <HistoryItem key={idx} chat={chat} disabled={isGenerating} />
-          ))}
+        {chats.length === 0 ? (
+          <div className="flex h-full items-center justify-center">
+            <p className="text-xs">
+              No chat available,
+              <br />
+              let&apos;s start with a new one!
+            </p>
+          </div>
+        ) : (
+          chats
+            .filter((c) => c.title !== "")
+            .map((chat, idx) => (
+              <HistoryItem key={idx} chat={chat} disabled={isGenerating} />
+            ))
+        )}
       </SidebarContent>
       <SidebarFooter>
         <NavUser />
