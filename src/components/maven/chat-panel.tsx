@@ -113,18 +113,18 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
         flush();
         handleReset();
 
-        const { id, display } = await sendMessage({
+        const { id, display, generation } = await sendMessage({
           textInput: value,
           attachProduct: attachment,
         });
 
-        // const gens = readStreamableValue(
-        //   generation
-        // ) as AsyncIterable<StreamGeneration>;
+        const gens = readStreamableValue(
+          generation
+        ) as AsyncIterable<StreamGeneration>;
 
-        // for await (const { process, loading, error } of gens) {
-        //   setIsGenerating(loading);
-        // }
+        for await (const { process, loading, error } of gens) {
+          setIsGenerating(loading);
+        }
 
         router.refresh();
 
