@@ -103,6 +103,7 @@ const sendMessage = async (
     model: google("gemini-2.0-flash-exp"),
     system: SYSTEM_INSTRUCT_CORE,
     messages: toCoreMessage(aiState.get().messages),
+    onFinish: async () => {},
     text: async function* ({ content, done }) {
       if (done) {
         aiState.done({
@@ -139,70 +140,79 @@ const sendMessage = async (
         description: root.SearchProductDescription,
         parameters: searchProductSchema,
         generate: async function* ({ query }) {
-          logger.info("Using searchProduct tool", {
-            progress: "initial",
-            request: { query },
-          });
-
-          streamableGeneration.update({
-            process: "generating",
+          // Comprehensive Stream Initialization
+          const streamableGeneration = createStreamableValue<StreamGeneration>({
+            process: "initial",
             loading: true,
           });
 
           const uiStream = createStreamableUI();
+          const streamableProducts =
+            createStreamableValue<DeepPartial<Product[]>>();
+          const streamableText = createStreamableValue<string>("");
 
-          let finalizedResults: ProductsResponse = { data: [] };
+          try {
+            // Initial Search Indication
+            uiStream.append(<ShinyText text={`Searching for ${query}`} />);
+            yield uiStream.value;
 
-          uiStream.append(<ShinyText text={`Searching for ${query}`} />);
-
-          yield uiStream.value;
-
-          const scrapeContent = await scrapeUrl({
-            url: processURLQuery(query),
-            formats: ["markdown", "screenshot"],
-            waitFor: 4000,
-          });
-
-          /** Handle if Scrape Operation is Error */
-          if (!scrapeContent.success) {
-            streamableGeneration.done({
-              process: "error",
-              loading: false,
-              error: scrapeContent.error,
+            // Update Generation State
+            streamableGeneration.update({
+              process: "initial",
+              loading: true,
             });
 
-            uiStream.done(
-              <ErrorMessage
-                name="Scrape Error"
-                messsage={scrapeContent.error}
-                raw={{ query }}
-              />
-            );
+            // Scraping Process
+            const scrapeContent = await scrapeUrl({
+              url: processURLQuery(query),
+              formats: ["markdown", "screenshot"],
+              waitFor: 4000,
+            });
 
-            return uiStream.value;
-          }
+            // Comprehensive Error Handling
+            if (!scrapeContent.success) {
+              logger.error("Scrape Operation Failed", {
+                query,
+                error: scrapeContent.error,
+              });
 
-          /** Handle if Scrape Operation is Success */
-          if (scrapeContent.success && scrapeContent.markdown) {
+              uiStream.update(
+                <ErrorMessage
+                  name="Scrape Error"
+                  messsage={scrapeContent.error}
+                  raw={{ query }}
+                />
+              );
+
+              streamableGeneration.done({
+                process: "error",
+                loading: false,
+                error: scrapeContent.error,
+              });
+
+              uiStream.done();
+              return uiStream.value;
+            }
+
+            // Successful Scrape Indication
             uiStream.update(
               <ShinyText
-                text="Found products, proceed to data extraction..."
+                text="Found products, proceeding to data extraction..."
                 speed={1}
               />
             );
-
             yield uiStream.value;
 
-            await new Promise((resolve) => setTimeout(resolve, 3000));
+            // Intentional Processing Delay
+            await new Promise((resolve) => setTimeout(resolve, 2000));
 
-            const payload = JSON.stringify({
+            // Prepare Extraction Payload
+            const extractionPayload = JSON.stringify({
               objective: root.ExtractionOjective,
               markdown: scrapeContent.markdown,
             });
 
-            const streamableProducts =
-              createStreamableValue<DeepPartial<Product[]>>();
-
+            // Update UI with Products Container
             uiStream.update(
               <StreamProductsContainer
                 query={query}
@@ -210,11 +220,15 @@ const sendMessage = async (
                 products={streamableProducts.value}
               />
             );
+            yield uiStream.value;
+
+            // Product Extraction Process
+            let finalizedResults: ProductsResponse = { data: [] };
 
             const { partialObjectStream } = streamObject({
               model: google("gemini-2.0-flash-exp"),
               system: SYSTEM_INSTRUCT_PRODUCTS,
-              prompt: payload,
+              prompt: extractionPayload,
               schema: productsSchema,
               onFinish: async ({ object }) => {
                 if (object) {
@@ -226,12 +240,15 @@ const sendMessage = async (
               },
             });
 
+            // Streaming Product Data
             for await (const chunk of partialObjectStream) {
               if (chunk.data) {
                 streamableProducts.update(chunk.data);
+                yield uiStream.value;
               }
             }
 
+            // Final Products Container
             uiStream.update(
               <ProductsContainer
                 content={{
@@ -243,17 +260,16 @@ const sendMessage = async (
                 isFinished={true}
               />
             );
+            yield uiStream.value;
 
-            const streamableText = createStreamableValue<string>("");
-
+            // Assistant Message Stream
             uiStream.append(
               <StreamAssistantMessage content={streamableText.value} />
             );
-
             yield uiStream.value;
 
+            // Generate Insights
             let finalizedText: string = "";
-
             const { textStream } = streamText({
               model: groq("llama-3.2-90b-vision-preview"),
               system: SYSTEM_INSTRUCT_INSIGHT,
@@ -263,11 +279,14 @@ const sendMessage = async (
               },
             });
 
+            // Streaming Insight Text
             for await (const texts of textStream) {
               finalizedText += texts;
               streamableText.update(finalizedText);
+              yield uiStream.value;
             }
 
+            // Tool Mutation and AI State Update
             const { mutate } = mutateTool({
               name: "searchProduct",
               args: { query },
@@ -277,31 +296,48 @@ const sendMessage = async (
               },
             });
 
+            // Update AI State
             aiState.done({
               ...aiState.get(),
               messages: [...aiState.get().messages, ...mutate],
             });
+          } catch (error) {
+            // Unexpected Error Handling
+            const errMessage =
+              error instanceof Error ? error.message : "Unknown Error";
 
-            /** DONE ALL STREAMABLE */
-            streamableProducts.done();
+            logger.error("Unexpected Error in searchProduct", {
+              query,
+              error: errMessage,
+            });
 
-            streamableText.done();
+            uiStream.update(
+              <ErrorMessage name="Unexpected Error" messsage={errMessage} />
+            );
 
+            streamableGeneration.done({
+              process: "error",
+              loading: false,
+              error: errMessage,
+            });
+          } finally {
+            // Guaranteed Stream Finalization
             streamableGeneration.done({
               process: "done",
               loading: false,
             });
-
+            streamableProducts.done();
+            streamableText.done();
             uiStream.done();
-            /** DONE ALL STREAMABLE */
-
-            logger.info("Done using searchProduct tool", {
-              progress: "finish",
-              request: { query },
-            });
-
-            return uiStream.value;
           }
+
+          // Logging Completion
+          logger.info("Completed searchProduct tool", {
+            query,
+            status: "success",
+          });
+
+          return uiStream.value;
         },
       },
       getProductDetails: {

@@ -5321,3 +5321,312 @@
     }
   ]
 }
+[90m[2025-01-25 10:56:41.664][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 10:56:42.254][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 10:56:48.620][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 10:56:49.405][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 10:57:33.269][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 10:57:33.888][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 10:57:46.621][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Process on Server Action",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for dBE Headphone"
+      }
+    }
+  ]
+}
+[90m[2025-01-25 10:57:48.272][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "dBE Headphone"
+      }
+    }
+  ]
+}
+[90m[2025-01-25 10:58:24.746][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "dBE Headphone"
+      }
+    }
+  ]
+}
+[90m[2025-01-25 10:58:25.545][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-01-25 10:58:57.534][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Process on Server Action",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "I want you to give me the product details or information",
+        "attachProduct": {
+          "product": {
+            "id": "jULZlp38dmGfm3Pq",
+            "title": "dbE W100 2.4Ghz Three Mode Wireless Gaming Headphone",
+            "link": "https://www.tokopedia.com/dbeofficial/dbe-w100-2-4ghz-three-mode-wireless-gaming-headphone?extParam=cmp%3D1%26ivf%3Dtrue%26keyword%3Ddbe+headphone%26search_id%3D20250125035751F51575132E32BB240ITN%26src%3Dsearch&refined=true"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-01-25 10:59:00.470][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "dbE W100 2.4Ghz Three Mode Wireless Gaming Headphone",
+        "link": "https://www.tokopedia.com/dbeofficial/dbe-w100-2-4ghz-three-mode-wireless-gaming-headphone?extParam=cmp%3D1%26ivf%3Dtrue%26keyword%3Ddbe+headphone%26search_id%3D20250125035751F51575132E32BB240ITN%26src%3Dsearch&refined=true"
+      }
+    }
+  ]
+}
+[90m[2025-01-25 10:59:41.791][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "dbE W100 2.4Ghz Three Mode Wireless Gaming Headphone",
+        "link": "https://www.tokopedia.com/dbeofficial/dbe-w100-2-4ghz-three-mode-wireless-gaming-headphone?extParam=cmp%3D1%26ivf%3Dtrue%26keyword%3Ddbe+headphone%26search_id%3D20250125035751F51575132E32BB240ITN%26src%3Dsearch&refined=true"
+      }
+    }
+  ]
+}
+[90m[2025-01-25 10:59:42.090][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-01-25 13:07:50.615][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 13:08:14.449][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Process on Server Action",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Poco X6"
+      }
+    }
+  ]
+}
+[90m[2025-01-25 13:08:16.629][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Poco X6"
+      }
+    }
+  ]
+}
+[90m[2025-01-25 13:08:51.066][39m [[1m[33mWARN[39m[22m] {
+  "ctx": "Scrape attempt 1 failed",
+  "meta": [
+    {
+      "url": "https://www.tokopedia.com/search?q=Poco+X6",
+      "error": "Failed to scrape URL. Status code: 408. Error: Request timed out",
+      "nextAttemptIn": 1000
+    }
+  ]
+}
+[90m[2025-01-25 13:09:29.885][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Poco X6"
+      }
+    }
+  ]
+}
+[90m[2025-01-25 13:09:31.480][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-01-25 18:37:04.151][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 18:37:04.524][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 18:37:04.794][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 18:37:05.322][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 18:37:09.257][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 18:38:41.569][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 18:38:46.126][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Process on Server Action",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-01-25 18:39:20.602][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Completed searchProduct tool",
+  "meta": [
+    {
+      "query": "Lenovo Yoga",
+      "status": "success"
+    }
+  ]
+}
+[90m[2025-01-25 18:39:31.004][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-01-25 18:40:12.706][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Process on Server Action",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Does this laptop worth it for gaming?",
+        "attachProduct": {
+          "product": {
+            "id": "L4HnCQ7nC8SC39NH",
+            "title": "Lenovo Yoga Slim 7 OLED Touch Intel Ultra 5 125H 16GB 512GB SSD Windows 11 OHS 14 Inch WUXGA Arc 14IMH9 05ID",
+            "link": "https://www.tokopedia.com/thinkpadofficial/lenovo-yoga-slim-7-oled-touch-intel-ultra-5-125h-16gb-512gb-ssd-windows-11-ohs-14-inch-wuxga-arc-14imh9-05id-windows-11-home-normal-bundling-90496?extParam=ivf%3Dtrue%26keyword%3Dlenovo+yoga%26search_id%3D202501251138501BFC40251B67102CFITJ%26src%3Dsearch"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-01-25 18:40:16.184][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo Yoga Slim 7 OLED Touch Intel Ultra 5 125H 16GB 512GB SSD Windows 11 OHS 14 Inch WUXGA Arc 14IMH9 05ID",
+        "link": "https://www.tokopedia.com/thinkpadofficial/lenovo-yoga-slim-7-oled-touch-intel-ultra-5-125h-16gb-512gb-ssd-windows-11-ohs-14-inch-wuxga-arc-14imh9-05id-windows-11-home-normal-bundling-90496?extParam=ivf%3Dtrue%26keyword%3Dlenovo+yoga%26search_id%3D202501251138501BFC40251B67102CFITJ%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-01-25 18:40:58.839][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Yoga Slim 7 OLED Touch Intel Ultra 5 125H 16GB 512GB SSD Windows 11 OHS 14 Inch WUXGA Arc 14IMH9 05ID",
+        "link": "https://www.tokopedia.com/thinkpadofficial/lenovo-yoga-slim-7-oled-touch-intel-ultra-5-125h-16gb-512gb-ssd-windows-11-ohs-14-inch-wuxga-arc-14imh9-05id-windows-11-home-normal-bundling-90496?extParam=ivf%3Dtrue%26keyword%3Dlenovo+yoga%26search_id%3D202501251138501BFC40251B67102CFITJ%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-01-25 18:40:59.111][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
