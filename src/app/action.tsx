@@ -305,16 +305,16 @@ const sendMessage = async (
             request: { query, link },
           });
 
-          streamableGeneration.update({
-            process: "generating",
-            loading: true,
-          });
-
           const uiStream = createStreamableUI(
             <ShinyText text={`Getting data product for ${query}`} />
           );
 
           yield uiStream.value;
+
+          streamableGeneration.update({
+            process: "generating",
+            loading: true,
+          });
 
           const scrapeResult = await scrapeUrl({
             url: link,
@@ -325,7 +325,7 @@ const sendMessage = async (
           /** Handle if Scrape Operation is Error */
           if (!scrapeResult.success) {
             streamableGeneration.done({
-              process: "error",
+              process: "api_error",
               loading: false,
               error: scrapeResult.error,
             });
@@ -350,12 +350,19 @@ const sendMessage = async (
             yield uiStream.value;
 
             let finalizedObject: {
-              insight: JSONValue;
+              insight: Record<string, any>;
               screenshot?: string;
               callId?: string;
             } = { callId: v4(), insight: {} };
 
-            const streamableObject = createStreamableValue();
+            const payloadContent = JSON.stringify({
+              prompt: root.ExtractionDetails,
+              refference: { query, link },
+              markdown: scrapeResult.markdown,
+            });
+
+            const streamableObject =
+              createStreamableValue<Record<string, any>>();
 
             uiStream.update(
               <StreamProductInsight
@@ -367,12 +374,6 @@ const sendMessage = async (
 
             yield uiStream.value;
 
-            const payloadContent = JSON.stringify({
-              prompt: root.ExtractionDetails,
-              refference: { query, link },
-              markdown: scrapeResult.markdown,
-            });
-
             const { partialObjectStream } = streamObject({
               model: google("gemini-2.0-flash-exp"),
               system: SYSTEM_INSTRUCT_EXTRACTOR,
@@ -381,7 +382,7 @@ const sendMessage = async (
               onFinish: async ({ object }) => {
                 finalizedObject = {
                   callId: v4(),
-                  insight: object as JSONValue,
+                  insight: object as Record<string, any>,
                   screenshot: scrapeResult.screenshot,
                 };
               },
@@ -389,7 +390,7 @@ const sendMessage = async (
 
             for await (const objProduct of partialObjectStream) {
               finalizedObject = {
-                insight: objProduct,
+                insight: objProduct as Record<string, any>,
               };
               streamableObject.update(finalizedObject.insight);
             }
