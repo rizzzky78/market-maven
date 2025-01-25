@@ -2,6 +2,7 @@ import { ChatProperties } from "@/lib/types/ai";
 import Link from "next/link";
 import { FC } from "react";
 import { useSetChatTitle } from "../hooks/use-set-chat-title";
+import { Button } from "../ui/button";
 
 interface HistoryItemProps {
   chat: ChatProperties;
@@ -11,7 +12,11 @@ interface HistoryItemProps {
 export const HistoryItem: FC<HistoryItemProps> = ({ chat, disabled }) => {
   const { setChatTitle } = useSetChatTitle();
   return (
-    <button disabled={disabled} className="text-start">
+    <Button
+      disabled={disabled}
+      variant={"ghost"}
+      className="text-start font-normal mx-0 px-0"
+    >
       <Link
         href={`/chat/c/${chat.chatId}`}
         className="flex whitespace-nowrap px-2 py-1 text-sm leading-relaxed last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground rounded-sm"
@@ -21,6 +26,6 @@ export const HistoryItem: FC<HistoryItemProps> = ({ chat, disabled }) => {
           {chat.title}
         </span>
       </Link>
-    </button>
+    </Button>
   );
 };

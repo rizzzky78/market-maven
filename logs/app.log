@@ -6724,3 +6724,216 @@
     }
   ]
 }
+[90m[2025-01-25 21:09:46.303][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Process on Server Action",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "I want you to give me the product details or information",
+        "attachProduct": {
+          "product": {
+            "id": "x8l0NKsZ76xYFGIW",
+            "title": "LENOVO YOGA SLIM PRO 9 3K CORE i9 13095H 32GB 1T RTX4050 6G W11PRO 16\"",
+            "link": "https://www.tokopedia.com/toptech/lenovo-yoga-slim-pro-9-3k-core-i9-13095h-32gb-1t-rtx4050-6g-w11pro-16-non-bundling-bc6ed?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250125133520CC1A8990CAAF42287FTO%26src%3Dsearch"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-01-25 21:09:50.046][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "LENOVO YOGA SLIM PRO 9 3K CORE i9 13095H 32GB 1T RTX4050 6G W11PRO 16\"",
+        "link": "https://www.tokopedia.com/toptech/lenovo-yoga-slim-pro-9-3k-core-i9-13095h-32gb-1t-rtx4050-6g-w11pro-16-non-bundling-bc6ed?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250125133520CC1A8990CAAF42287FTO%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-01-25 21:11:06.694][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "LENOVO YOGA SLIM PRO 9 3K CORE i9 13095H 32GB 1T RTX4050 6G W11PRO 16\"",
+        "link": "https://www.tokopedia.com/toptech/lenovo-yoga-slim-pro-9-3k-core-i9-13095h-32gb-1t-rtx4050-6g-w11pro-16-non-bundling-bc6ed?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250125133520CC1A8990CAAF42287FTO%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-01-25 21:11:07.027][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-01-25 21:11:07.418][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 21:11:28.255][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 22:04:16.472][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 22:04:26.624][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 22:04:33.447][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Process on Server Action",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for dBE Headphone"
+      }
+    }
+  ]
+}
+[90m[2025-01-25 22:04:35.357][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "dBE Headphone"
+      }
+    }
+  ]
+}
+[90m[2025-01-25 22:05:08.714][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "dBE Headphone"
+      }
+    }
+  ]
+}
+[90m[2025-01-25 22:05:10.752][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-01-25 22:05:26.257][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 22:05:46.588][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 22:06:38.982][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 22:07:36.114][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 22:07:36.800][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 22:07:41.383][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 22:07:56.156][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 22:07:57.175][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 22:09:08.301][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 22:09:09.671][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 22:09:10.567][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-25 22:09:11.365][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
