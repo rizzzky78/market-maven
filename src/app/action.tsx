@@ -88,10 +88,10 @@ const sendMessage = async (
     ],
   });
 
-  const streamableGeneration = createStreamableValue<StreamGeneration>({
-    process: "initial",
-    loading: true,
-  });
+  // const streamableGeneration = createStreamableValue<StreamGeneration>({
+  //   process: "initial",
+  //   loading: true,
+  // });
 
   const { value, stream } = await streamUI({
     model: google("gemini-2.0-flash-exp"),
@@ -117,17 +117,17 @@ const sendMessage = async (
           ],
         });
 
-        streamableGeneration.done({
-          process: "done",
-          loading: false,
-        });
+        // streamableGeneration.done({
+        //   process: "done",
+        //   loading: false,
+        // });
 
         streamableText.done();
       } else {
-        streamableGeneration.update({
-          process: "generating",
-          loading: true,
-        });
+        // streamableGeneration.update({
+        //   process: "generating",
+        //   loading: true,
+        // });
 
         streamableText.update(content);
       }
@@ -144,10 +144,10 @@ const sendMessage = async (
             request: { query },
           });
 
-          streamableGeneration.update({
-            process: "generating",
-            loading: true,
-          });
+          // streamableGeneration.update({
+          //   process: "generating",
+          //   loading: true,
+          // });
 
           const uiStream = createStreamableUI();
 
@@ -165,11 +165,11 @@ const sendMessage = async (
 
           /** Handle if Scrape Operation is Error */
           if (!scrapeContent.success) {
-            streamableGeneration.done({
-              process: "error",
-              loading: false,
-              error: scrapeContent.error,
-            });
+            // streamableGeneration.done({
+            //   process: "error",
+            //   loading: false,
+            //   error: scrapeContent.error,
+            // });
 
             uiStream.done(
               <ErrorMessage
@@ -287,10 +287,10 @@ const sendMessage = async (
 
             streamableText.done();
 
-            streamableGeneration.done({
-              process: "done",
-              loading: false,
-            });
+            // streamableGeneration.done({
+            //   process: "done",
+            //   loading: false,
+            // });
 
             uiStream.done();
             /** DONE ALL STREAMABLE */
@@ -313,10 +313,10 @@ const sendMessage = async (
             request: { query, link },
           });
 
-          streamableGeneration.update({
-            process: "generating",
-            loading: true,
-          });
+          // streamableGeneration.update({
+          //   process: "generating",
+          //   loading: true,
+          // });
 
           const uiStream = createStreamableUI(
             <ShinyText text={`Getting data product for ${query}`} />
@@ -334,11 +334,11 @@ const sendMessage = async (
 
           /** Handle if Scrape Operation is Error */
           if (!scrapeResult.success) {
-            streamableGeneration.done({
-              process: "error",
-              loading: false,
-              error: scrapeResult.error,
-            });
+            // streamableGeneration.done({
+            //   process: "error",
+            //   loading: false,
+            //   error: scrapeResult.error,
+            // });
 
             uiStream.done(
               <ErrorMessage
@@ -449,10 +449,10 @@ const sendMessage = async (
 
             streamableText.done();
 
-            streamableGeneration.done({
-              process: "done",
-              loading: false,
-            });
+            // streamableGeneration.done({
+            //   process: "done",
+            //   loading: false,
+            // });
 
             uiStream.done();
             /** DONE ALL STREAMABLE */
@@ -472,10 +472,10 @@ const sendMessage = async (
         generate: async function* (inquiry) {
           logger.info("Using inquireUser tool");
 
-          streamableGeneration.update({
-            process: "generating",
-            loading: false,
-          });
+          // streamableGeneration.update({
+          //   process: "generating",
+          //   loading: false,
+          // });
 
           const callId = generateId();
           const uiStream = createStreamableUI(
@@ -503,10 +503,10 @@ const sendMessage = async (
           });
 
           /** DONE ALL STREAMABLE */
-          streamableGeneration.done({
-            process: "done",
-            loading: false,
-          });
+          // streamableGeneration.done({
+          //   process: "done",
+          //   loading: false,
+          // });
 
           uiStream.done();
           /** DONE ALL STREAMABLE */
@@ -523,7 +523,7 @@ const sendMessage = async (
     id: generateId(),
     display: value,
     stream,
-    generation: streamableGeneration.value,
+    // generation: streamableGeneration.value,
   };
 };
 
