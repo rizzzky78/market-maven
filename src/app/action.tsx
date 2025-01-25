@@ -93,23 +93,17 @@ const sendMessage = async (
     loading: true,
   });
 
-  const streamableUI = createStreamableUI(
-    <div>
-      <p className="text-xs">Loading...</p>
-    </div>
-  );
-
-  const streamableText = createStreamableValue<string>("");
-
-  const assistantMessage = (
-    <StreamAssistantMessage content={streamableText.value} />
-  );
-
   const { value, stream } = await streamUI({
     model: google("gemini-2.0-flash-exp"),
     system: SYSTEM_INSTRUCT_CORE,
     messages: toCoreMessage(aiState.get().messages),
     text: async function* ({ content, done }) {
+      const streamableText = createStreamableValue<string>("");
+
+      const assistantMessage = (
+        <StreamAssistantMessage content={streamableText.value} />
+      );
+
       if (done) {
         aiState.done({
           ...aiState.get(),
