@@ -7817,3 +7817,257 @@
     }
   ]
 }
+[90m[2025-01-26 11:27:38.683][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-26 11:30:12.020][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-26 11:30:13.019][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-26 11:30:13.434][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-26 11:30:35.406][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-26 11:30:36.384][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-26 11:30:53.550][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-26 11:31:27.215][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-26 11:31:58.020][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-26 11:32:39.408][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-26 11:32:50.216][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Process on Server Action",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Asus ROG laptop"
+      }
+    }
+  ]
+}
+[90m[2025-01-26 11:32:51.343][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Asus ROG laptop"
+      }
+    }
+  ]
+}
+[90m[2025-01-26 11:33:21.034][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Asus ROG laptop"
+      }
+    }
+  ]
+}
+[90m[2025-01-26 11:33:22.166][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-01-26 11:34:28.597][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-26 11:39:19.420][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-26 11:40:30.608][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Process on Server Action",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "https://www.tokopedia.com/protechcom/asus-tuf-gaming-f15-fx507zc4-i5-12500h-8gb-512gb-rtx3050-4gb-ohs-w11-8gb-a2d1e?extParam=ivf%3Dfalse%26keyword%3Dasus+tuf&src=topads\nI want you to give me the product details"
+      }
+    }
+  ]
+}
+[90m[2025-01-26 11:40:33.647][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "ASUS TUF Gaming F15 FX507ZC4 i5-12500H 8GB 512GB RTX3050 4GB OHS W11 8GB",
+        "link": "https://www.tokopedia.com/protechcom/asus-tuf-gaming-f15-fx507zc4-i5-12500h-8gb-512gb-rtx3050-4gb-ohs-w11-8gb-a2d1e?extParam=ivf%3Dfalse%26keyword%3Dasus+tuf&src=topads"
+      }
+    }
+  ]
+}
+[90m[2025-01-26 11:41:02.030][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-26 11:41:04.182][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-26 11:41:10.926][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "ASUS TUF Gaming F15 FX507ZC4 i5-12500H 8GB 512GB RTX3050 4GB OHS W11 8GB",
+        "link": "https://www.tokopedia.com/protechcom/asus-tuf-gaming-f15-fx507zc4-i5-12500h-8gb-512gb-rtx3050-4gb-ohs-w11-8gb-a2d1e?extParam=ivf%3Dfalse%26keyword%3Dasus+tuf&src=topads"
+      }
+    }
+  ]
+}
+[90m[2025-01-26 11:41:12.695][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-01-26 11:41:24.678][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-26 11:41:27.130][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-26 11:43:30.315][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-26 13:34:34.027][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-26 13:34:58.886][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-26 13:35:42.379][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-26 13:35:59.530][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-26 14:07:30.296][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}

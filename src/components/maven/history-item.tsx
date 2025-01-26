@@ -15,7 +15,7 @@ export const HistoryItem: FC<HistoryItemProps> = ({ chat, disabled }) => {
     <Button
       disabled={disabled}
       variant={"ghost"}
-      className="text-start font-normal mx-0 px-0"
+      className="text-start flex justify-start font-normal mx-0 px-0"
     >
       <Link
         href={`/chat/c/${chat.chatId}`}
