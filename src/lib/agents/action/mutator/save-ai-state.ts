@@ -28,7 +28,11 @@ export const saveAIState = async (
   const currentChatData = await getChat(chatId);
 
   // Generate a title only if there is no existing title
-  if (!currentChatData || !currentChatData.title) {
+  if (
+    !currentChatData ||
+    !currentChatData.title ||
+    currentChatData.title === ""
+  ) {
     try {
       // Filter out tool messages for title generation
       const payloadTitleMsg = messages.filter((m) => m.role !== "tool");

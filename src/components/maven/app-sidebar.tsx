@@ -41,6 +41,9 @@ export const AppSidebar: FC<AppProps> = ({ chats, ...props }) => {
     router.push("/chat");
   };
 
+  const userChat: ChatProperties[] =
+    chats.length === 0 ? [] : chats.filter((c) => c.title !== "");
+
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
@@ -66,7 +69,7 @@ export const AppSidebar: FC<AppProps> = ({ chats, ...props }) => {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent className="pr-2 scrollbar-thin">
-        {chats.length === 0 ? (
+        {userChat.length === 0 ? (
           <div className="flex h-full items-center justify-center">
             <p className="text-xs">
               No chat available,
@@ -75,11 +78,9 @@ export const AppSidebar: FC<AppProps> = ({ chats, ...props }) => {
             </p>
           </div>
         ) : (
-          chats
-            .filter((c) => c.title !== "")
-            .map((chat, idx) => (
-              <HistoryItem key={idx} chat={chat} disabled={isGenerating} />
-            ))
+          userChat.map((chat, idx) => (
+            <HistoryItem key={idx} chat={chat} disabled={isGenerating} />
+          ))
         )}
       </SidebarContent>
       <SidebarFooter>
