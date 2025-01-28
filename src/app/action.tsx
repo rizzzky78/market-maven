@@ -31,6 +31,7 @@ import {
   PayloadData,
   StreamGeneration,
   UserContentMessage,
+  MutableAIState,
 } from "@/lib/types/ai";
 import { groq } from "@ai-sdk/groq";
 import { getServerSession } from "next-auth";
@@ -65,17 +66,15 @@ const sendMessage = async (
   "use server";
   const { textInput, attachProduct, inquiryResponse } = payload;
 
+  logger.info("Process on Server Action", { payload });
+
   const payloadUserMessage: UserContentMessage = {
     text_input: textInput ?? null,
     attach_product: attachProduct ?? null,
     inquiry_response: inquiryResponse ?? null,
   };
 
-  const userMessage = JSON.stringify(payloadUserMessage);
-
-  logger.info("Process on Server Action", { payload });
-
-  const aiState = getMutableAIState<typeof AI>();
+  const aiState: MutableAIState<AIState> = getMutableAIState<typeof AI>();
 
   aiState.update({
     ...aiState.get(),
@@ -84,10 +83,12 @@ const sendMessage = async (
       {
         id: generateId(),
         role: "user",
-        content: userMessage,
+        content: JSON.stringify(payloadUserMessage),
       },
     ],
   });
+
+  const ui = createStreamableUI(<ShinyText text="Maven is thinking..." />);
 
   const { value, stream } = await streamUI({
     model: google("gemini-2.0-flash-exp"),
@@ -95,15 +96,13 @@ const sendMessage = async (
     messages: toCoreMessage(aiState.get().messages),
     initial: <ShinyText text="Maven is thinking..." />,
     text: async function* ({ content, done }) {
-      const uiStream = createStreamableUI(
-        <ShinyText text="Maven is thinking, please wait..." />
-      );
-
       const streamableText = createStreamableValue<string>("");
 
-      uiStream.update(
-        <StreamAssistantMessage content={streamableText.value} />
-      );
+      ui.update(<StreamAssistantMessage content={streamableText.value} />);
+
+      if (!done) {
+        streamableText.update(content);
+      }
 
       if (done) {
         aiState.done({
@@ -118,14 +117,11 @@ const sendMessage = async (
           ],
         });
 
-        uiStream.done();
-
+        ui.done();
         streamableText.done();
-      } else {
-        streamableText.update(content);
       }
 
-      return uiStream.value;
+      return ui.value;
     },
     tools: {
       // searchProduct: actionSearchProduct(aiState),
@@ -138,11 +134,9 @@ const sendMessage = async (
             request: { query },
           });
 
-          const uiStream = createStreamableUI(
-            <ShinyText text={`Searching for ${query}`} />
-          );
+          ui.update(<ShinyText text={`Searching for ${query}`} />);
 
-          yield uiStream.value;
+          yield ui.value;
 
           let finalizedResults: ProductsResponse = { data: [] };
 
@@ -154,7 +148,7 @@ const sendMessage = async (
 
           /** Handle if Scrape Operation is Error */
           if (!scrapeContent.success) {
-            uiStream.done(
+            ui.done(
               <ErrorMessage
                 name="Scrape Error"
                 messsage={scrapeContent.error}
@@ -165,14 +159,14 @@ const sendMessage = async (
 
           /** Handle if Scrape Operation is Success */
           if (scrapeContent.success && scrapeContent.markdown) {
-            uiStream.update(
+            ui.update(
               <ShinyText
                 text="Found products, proceed to data extraction..."
                 speed={1}
               />
             );
 
-            yield uiStream.value;
+            yield ui.value;
 
             await new Promise((resolve) => setTimeout(resolve, 3000));
 
@@ -184,7 +178,7 @@ const sendMessage = async (
             const streamableProducts =
               createStreamableValue<DeepPartial<Product[]>>();
 
-            uiStream.update(
+            ui.update(
               <StreamProductsContainer
                 query={query}
                 screenshot={scrapeContent.screenshot}
@@ -215,7 +209,7 @@ const sendMessage = async (
 
             streamableProducts.done();
 
-            uiStream.update(
+            ui.update(
               <ProductsContainer
                 content={{
                   success: true,
@@ -229,11 +223,11 @@ const sendMessage = async (
 
             const streamableText = createStreamableValue<string>("");
 
-            uiStream.append(
+            ui.append(
               <StreamAssistantMessage content={streamableText.value} />
             );
 
-            yield uiStream.value;
+            yield ui.value;
 
             let finalizedText: string = "";
 
@@ -267,7 +261,7 @@ const sendMessage = async (
               messages: [...aiState.get().messages, ...mutate],
             });
 
-            uiStream.done();
+            ui.done();
 
             logger.info("Done using searchProduct tool", {
               progress: "finish",
@@ -275,7 +269,7 @@ const sendMessage = async (
             });
           }
 
-          return uiStream.value;
+          return ui.value;
         },
       },
       getProductDetails: {
@@ -287,11 +281,9 @@ const sendMessage = async (
             request: { query, link },
           });
 
-          const uiStream = createStreamableUI(
-            <ShinyText text={`Getting data product for ${query}`} />
-          );
+          ui.update(<ShinyText text={`Getting data product for ${query}`} />);
 
-          yield uiStream.value;
+          yield ui.value;
 
           const scrapeResult = await scrapeUrl({
             url: link,
@@ -301,7 +293,7 @@ const sendMessage = async (
 
           /** Handle if Scrape Operation is Error */
           if (!scrapeResult.success) {
-            uiStream.done(
+            ui.done(
               <ErrorMessage
                 name="Scrape Error"
                 messsage={scrapeResult.error}
@@ -312,11 +304,11 @@ const sendMessage = async (
 
           /** Handle if Scrape Operation is Success */
           if (scrapeResult.success && scrapeResult.markdown) {
-            uiStream.update(
+            ui.update(
               <ShinyText text="Found product details, please hang on..." />
             );
 
-            yield uiStream.value;
+            yield ui.value;
 
             await new Promise((resolve) => setTimeout(resolve, 3000));
 
@@ -335,7 +327,7 @@ const sendMessage = async (
             const streamableObject =
               createStreamableValue<Record<string, any>>();
 
-            uiStream.update(
+            ui.update(
               <StreamProductInsight
                 callId={finalizedObject.callId}
                 content={streamableObject.value}
@@ -343,7 +335,7 @@ const sendMessage = async (
               />
             );
 
-            yield uiStream.value;
+            yield ui.value;
 
             const { partialObjectStream } = streamObject({
               model: google("gemini-2.0-flash-exp"),
@@ -370,11 +362,11 @@ const sendMessage = async (
 
             const streamableText = createStreamableValue<string>("");
 
-            uiStream.append(
+            ui.append(
               <StreamAssistantMessage content={streamableText.value} />
             );
 
-            yield uiStream.value;
+            yield ui.value;
 
             let finalizedText: string = "";
 
@@ -408,7 +400,7 @@ const sendMessage = async (
               messages: [...aiState.get().messages, ...mutate],
             });
 
-            uiStream.done();
+            ui.done();
 
             logger.info("Done using getProductDetails tool", {
               progress: "finish",
@@ -416,7 +408,7 @@ const sendMessage = async (
             });
           }
 
-          return uiStream.value;
+          return ui.value;
         },
       },
       inquireUser: {
@@ -426,15 +418,13 @@ const sendMessage = async (
           logger.info("Using inquireUser tool");
 
           const callId = generateId();
-          const uiStream = createStreamableUI(
-            <ShinyText key={callId} text="Creating an Inquiry" />
-          );
+          ui.update(<ShinyText key={callId} text="Creating an Inquiry" />);
 
-          yield uiStream.value;
+          yield ui.value;
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
-          uiStream.update(<UserInquiry inquiry={inquiry} />);
+          ui.update(<UserInquiry inquiry={inquiry} />);
 
           const { mutate } = mutateTool({
             name: "inquireUser",
@@ -450,11 +440,11 @@ const sendMessage = async (
             messages: [...aiState.get().messages, ...mutate],
           });
 
-          uiStream.done();
+          ui.done();
 
           logger.info("Done using inquireUser tool");
 
-          return uiStream.value;
+          return ui.value;
         },
       },
     },
