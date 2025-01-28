@@ -118,12 +118,14 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
           attachProduct: attachment,
         });
 
-        const gens = readStreamableValue(
-          generation
-        ) as AsyncIterable<StreamGeneration>;
+        if (generation) {
+          const gens = readStreamableValue(
+            generation
+          ) as AsyncIterable<StreamGeneration>;
 
-        for await (const { process, loading, error } of gens) {
-          setIsGenerating(loading);
+          for await (const { process, loading, error } of gens) {
+            setIsGenerating(loading);
+          }
         }
 
         setUIState((prevUI) => [...prevUI, { id, display }]);
@@ -131,6 +133,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
         handleError(error);
       } finally {
         router.refresh();
+        setIsGenerating(false);
       }
     },
     [
