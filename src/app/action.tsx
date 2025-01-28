@@ -101,7 +101,7 @@ const sendMessage = async (
 
       const streamableText = createStreamableValue<string>("");
 
-      uiStream.append(
+      uiStream.update(
         <StreamAssistantMessage content={streamableText.value} />
       );
 
@@ -117,6 +117,8 @@ const sendMessage = async (
             },
           ],
         });
+
+        uiStream.done();
 
         streamableText.done();
       } else {

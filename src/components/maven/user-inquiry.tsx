@@ -91,12 +91,14 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
         inquiryResponse: payload,
       });
 
-      const gens = readStreamableValue(
-        generation
-      ) as AsyncIterable<StreamGeneration>;
+      if (generation) {
+        const gens = readStreamableValue(
+          generation
+        ) as AsyncIterable<StreamGeneration>;
 
-      for await (const { loading } of gens) {
-        setIsGenerating(loading);
+        for await (const { loading } of gens) {
+          setIsGenerating(loading);
+        }
       }
 
       // Add response to UI
