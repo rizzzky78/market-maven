@@ -9309,3 +9309,93 @@
     }
   ]
 }
+[90m[2025-01-28 21:05:06.548][39m [[1m[33mWARN[39m[22m] {
+  "ctx": "Scrape attempt 1 failed",
+  "meta": [
+    {
+      "url": "https://www.tokopedia.com/search?q=dBE+Headphone",
+      "error": "Cannot read properties of undefined (reading 'status')",
+      "nextAttemptIn": 1000
+    }
+  ]
+}
+[90m[2025-01-28 21:06:08.347][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "dBE Headphone"
+      }
+    }
+  ]
+}
+[90m[2025-01-28 21:06:16.228][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-01-28 21:08:54.413][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Process on Server Action",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "I want you to give me the product details or information",
+        "attachProduct": {
+          "product": {
+            "id": "DVhQZCPY6BkbUXAi",
+            "title": "dbE W100 2.4Ghz Three Mode Wireless Gaming Headphone",
+            "link": "https://www.tokopedia.com/dbeofficial/dbe-w100-2-4ghz-three-mode-wireless-gaming-headphone?extParam=ivf%3Dtrue%26keyword%3Ddbe+headphone%26search_id%3D202501281405126EE5076B038CE711FCO1%26src%3Dsearch&refined=true"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-01-28 21:08:59.792][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "dbE W100 2.4Ghz Three Mode Wireless Gaming Headphone",
+        "link": "https://www.tokopedia.com/dbeofficial/dbe-w100-2-4ghz-three-mode-wireless-gaming-headphone?extParam=ivf%3Dtrue%26keyword%3Ddbe+headphone%26search_id%3D202501281405126EE5076B038CE711FCO1%26src%3Dsearch&refined=true"
+      }
+    }
+  ]
+}
+[90m[2025-01-28 21:09:46.350][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "dbE W100 2.4Ghz Three Mode Wireless Gaming Headphone",
+        "link": "https://www.tokopedia.com/dbeofficial/dbe-w100-2-4ghz-three-mode-wireless-gaming-headphone?extParam=ivf%3Dtrue%26keyword%3Ddbe+headphone%26search_id%3D202501281405126EE5076B038CE711FCO1%26src%3Dsearch&refined=true"
+      }
+    }
+  ]
+}
+[90m[2025-01-28 21:09:47.101][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-01-28 21:10:33.164][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-28 21:10:33.487][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}

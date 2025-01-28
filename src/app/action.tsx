@@ -283,6 +283,8 @@ const sendMessage = async (
 
           yield ui.value;
 
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+
           const scrapeResult = await scrapeUrl({
             url: link,
             formats: ["markdown", "screenshot"],
