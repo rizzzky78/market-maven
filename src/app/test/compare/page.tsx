@@ -1,0 +1,122 @@
+import { ProductCompare } from "@/components/maven/product-compare";
+import { ExtendedToolResult } from "@/lib/types/ai";
+import { FC } from "react";
+
+const data = [
+  {
+    insight: {
+      product_description: {
+        name: 'LENOVO YOGA SLIM PRO 9 3K CORE i9 13095H 32GB 1T RTX4050 6G W11PRO 16" - NON BUNDLING',
+        specifications: {
+          processor:
+            "Intel Core i9-13905H, 14C (6P + 8E) / 20T, P-core 2.6 / 5.4GHz, E-core 1.9 / 4.1GHz, 24MB",
+          ram: "32GB Soldered LPDDR5x-6400",
+          storage: "1TB SSD M.2 2280 PCIe 4.0x4 NVMe",
+          graphics: "NVIDIA GeForce RTX 4050 6GB GDDR6",
+          display:
+            '16" 3.2K (3200x2000) Mini LED 1200nits Glossy / Anti-fingerprint, 100% DCI-P3, 100% Adobe RGB, 100% sRGB, 165Hz, Eyesafe, Dolby Vision, DisplayHDR 1000, Glass, Touch, TCON',
+          os: "Windows 11 Home",
+          wireless: "Wi-Fi 6E, 11ax 2x2 + BT5.1",
+          battery: "Integrated 75Wh",
+          camera: "5.0MP + IR with E-shutter, ToF Sensor",
+          ports: [
+            "1x HDMI, up to 4K/30Hz",
+            "1x Headphone / microphone combo jack (3.5mm)",
+            "1x Power connector",
+            "1x SD card reader",
+            "1x Thunderbolt 4 / USB4 40Gbps (support data transfer, Power Delivery 3.0 and DisplayPort 1.4)",
+            "1x USB 3.2 Gen 1",
+            "1x USB 3.2 Gen 1 (Always On)",
+          ],
+        },
+        included_items: [
+          "UNIT",
+          "CHARGER",
+          "DUS",
+          "GARANSI",
+          "NOTA",
+          "TAS DAN MOUSE",
+        ],
+        warranty: {
+          duration: "1 Tahun",
+          replace_policy:
+            "7 Hari tukar unit, jika ada kerusakan yang di akibatkan oleh cacat pabrik",
+          notes: [
+            "Barang ori dan Baru 100%",
+            "Konstultasi kendala barang selama masa garansi bebas biaya",
+            "Jaminan klaim garansi dibantu toko selama masa garansi",
+          ],
+        },
+        price: "Rp19.599.000",
+        discount: "30%",
+        original_price: "Rp27.999.000",
+        stock: "82",
+        sold: "50+",
+        rating: "4.7",
+        rating_count: "23",
+      },
+    },
+  },
+  {
+    insight: {
+      product_description: {
+        name: "ASUS TUF GAMING F15 FX507ZC4 i5-12500H 8GB 512GB RTX3050 4GB OHS W11 - 8GB",
+        specifications: {
+          processor:
+            "12th Gen Intel Core i5-12500H Processor 2.5 GHz (18M Cache, up to 4.5 GHz, 12 cores: 4 P-cores and 8 E-cores)",
+          graphics:
+            "NVIDIA GeForce RTX 3050 Laptop GPU 4GB GDDR6, 1790MHz* at 95W (1740MHz Boost Clock+50MHz OC, 80W+15W Dynamic Boost)",
+          display:
+            "15.6-inch, FHD (1920 x 1080) 16:9, Value IPS-level, Anti-glare display, sRGB:62.50%, Adobe:47.34%, Refresh Rate:144Hz, Adaptive-Sync, MUX Switch + Optimus",
+          memory: ["16GB DDR4-3200 SO-DIMM", "32GB DDR4-3200 SO-DIMM"],
+          storage: "512GB M.2 NVMe PCIe 3.0 SSD",
+          ports: [
+            "1x 3.5mm Combo Audio Jack",
+            "1x HDMI 2.0b",
+            "2x USB 3.2 Gen 1 Type-A",
+            "1x USB 3.2 Gen 2 Type-C support DisplayPort / G-SYNC",
+            "1x RJ45 LAN port",
+            "1x Thunderbolt 4 support DisplayPort",
+          ],
+          dimensions: "35.4 x 25.1 x 2.24 ~ 2.49 cm",
+          camera: "720P HD camera",
+          battery: "56WHrs, 4S1P, 4-cell Li-ion",
+          weight: "2.20 Kg",
+          keyboard: "Backlit Chiclet Keyboard RGB",
+          os: "Windows 11 Home",
+          office: "Office Home and Student 2021",
+          speaker:
+            '2-speaker system "AI noise-canceling technology Dolby Atmos Hi-Res certification"',
+          wifi: "Wi-Fi 6(802.11ax)+Bluetooth 5.2 (Dual band) 2*2 (*BT version may change with OS upgrades.)",
+          bundle: "TUF backpack",
+        },
+        warranty:
+          "Garansi Resmi Asus Indonesia 2 Tahun (1st year perfect warranty)",
+      },
+    },
+  },
+];
+
+type ToolResult = ExtendedToolResult<
+  { insightCallId: string[] },
+  { insight: Record<string, any>[] }
+>;
+
+const content: ToolResult = {
+  success: true,
+  name: "comparison",
+  args: { insightCallId: ["1", "2"] },
+  data: { insight: data },
+};
+
+const Page: FC = () => {
+  return (
+    <div className="px-2 sm:px-12 pt-12 md:pt-14 pb-14 md:pb-24 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4">
+      <div>
+        <ProductCompare content={content} />
+      </div>
+    </div>
+  );
+};
+
+export default Page;

@@ -101,7 +101,7 @@ const sanitizeStr = (url: string) => {
     );
   }
   return (
-    <div className="rounded-[2rem] my-1 w-fit bg-gray-300 dark:bg-[#4A4947] py-3 px-4">
+    <div className="rounded-[2rem] my-0.5 w-fit bg-gray-300 dark:bg-[#4A4947] py-1 px-2">
       <div className="flex items-center space-x-2">
         <GripVertical className="size-5 shrink-0" /> <p>{url}</p>
       </div>
@@ -140,10 +140,10 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
           variants={itemVariants}
           className="px-4 mb-2 flex lg:items-center flex-wrap"
         >
-          <div className="rounded-[2rem] bg-gray-400 dark:bg-muted py-3 px-4 shrink-0 mr-1">
+          <div className="rounded-[2rem] bg-gray-400 dark:bg-muted py-2 px-4 shrink-0 mr-1">
             <p className="font-medium">{sanitizeKeyName(key)}:</p>
           </div>
-          <div className="rounded-[2rem] bg-gray-300 dark:bg-[#4A4947] py-3 px-4">
+          <div className="rounded-2xl bg-gray-300 dark:bg-[#4A4947] py-2 px-4">
             <p>{String(value)}</p>
           </div>
         </motion.div>
@@ -151,7 +151,7 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
     } else if (Array.isArray(value)) {
       return (
         <motion.div variants={itemVariants} className="my-3">
-          <div className="rounded-[2rem] w-fit bg-[#1A1A1D] py-3 pl-4 pr-20 my-2">
+          <div className="rounded-[2rem] w-fit bg-[#1A1A1D] py-1 pl-2 pr-8 my-1">
             <div className="flex items-center space-x-2 text-white">
               <Plus className="size-5" />
               <p className="font-semibold text-sm">{sanitizeKeyName(key)}:</p>
@@ -187,7 +187,7 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
     } else if (typeof value === "object" && value !== null) {
       return (
         <motion.div variants={itemVariants} className="my-3">
-          <div className="rounded-[2rem] w-fit bg-purple-300 dark:bg-[#FBF5E5] py-3 pl-4 pr-20 my-2">
+          <div className="rounded-[2rem] w-fit bg-purple-300 dark:bg-[#FBF5E5] py-2 pl-4 pr-8 my-1">
             <div className="flex items-center space-x-2 text-black">
               <Grip className="size-5" />
               <p className="font-semibold text-sm">{sanitizeKeyName(key)}:</p>
@@ -252,13 +252,13 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
       </div>
       <AnimatePresence mode={"wait"}>
         {open && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-1">
+          <div className="*:text-xs">
             <motion.div
               variants={containerVariants}
               initial="initial"
               animate="animate"
               exit="exit"
-              className="space-y-6 *:text-sm overflow-hidden"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-1"
             >
               {data.map((item, index) => (
                 <motion.div
@@ -266,12 +266,6 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
                   variants={itemVariants}
                   className="border-t pt-4 first:border-t-0 first:pt-0"
                 >
-                  <div className="rounded-[2rem] w-fit bg-purple-400 dark:bg-[#FBF5E5] py-3 pl-4 pr-20 my-3">
-                    <div className="flex items-center space-x-2 text-black">
-                      <PackageSearch className="size-5" />
-                      <p className="font-semibold text-sm">Product</p>
-                    </div>
-                  </div>
                   <motion.div
                     variants={containerVariants}
                     initial="initial"
@@ -285,12 +279,6 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
                   </motion.div>
                 </motion.div>
               ))}
-              <div className="mt-2 flex items-center space-x-2 justify-center">
-                <Info className="size-4" />
-                <p className="text-xs">
-                  This feature are experimental, please use with discretion.
-                </p>
-              </div>
             </motion.div>
           </div>
         )}
