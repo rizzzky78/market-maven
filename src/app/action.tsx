@@ -308,8 +308,6 @@ const sendMessage = async (
                 raw={{ query, link }}
               />
             );
-
-            return uiStream.value;
           }
 
           /** Handle if Scrape Operation is Success */
@@ -319,6 +317,8 @@ const sendMessage = async (
             );
 
             yield uiStream.value;
+
+            await new Promise((resolve) => setTimeout(resolve, 3000));
 
             let finalizedObject: {
               insight: Record<string, any>;
@@ -414,9 +414,9 @@ const sendMessage = async (
               progress: "finish",
               request: { query, link },
             });
-
-            return uiStream.value;
           }
+
+          return uiStream.value;
         },
       },
       inquireUser: {
