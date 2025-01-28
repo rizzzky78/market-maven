@@ -118,7 +118,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
       setIsSubmitting(true);
       setIsGenerating(true);
 
-      const payloadResponse: InquiryResponse = {
+      await submitInquiryResponse({
         question: inquiry.question,
         selected: selectedOptions,
         input: inquiry.allowsInput
@@ -126,9 +126,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
             ? inputValue
             : null
           : null,
-      };
-
-      await submitInquiryResponse(payloadResponse);
+      });
 
       // Reset form
       setSelectedOptions([]);
@@ -141,7 +139,8 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
     }
   };
 
-  const handleSkip = () => {
+  const handleSkip = async () => {
+    await submitInquiryResponse({ skipped: true });
     setSelectedOptions([]);
     setInputValue("");
   };
