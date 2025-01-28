@@ -122,7 +122,7 @@ const sanitizeKeyName = (input: string) =>
 
 interface CompareProps {
   data: Record<string, any>[];
-  callId: string;
+  callId: string[];
   isGenerating: boolean;
 }
 
