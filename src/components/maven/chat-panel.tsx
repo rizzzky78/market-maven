@@ -132,7 +132,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       } catch (error) {
         handleError(error);
       } finally {
-        router.refresh();
+        // router.refresh();
         setIsGenerating(false);
       }
     },
@@ -141,7 +141,6 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       flush,
       handleReset,
       isGenerating,
-      router,
       sendMessage,
       setIsGenerating,
       setUIState,

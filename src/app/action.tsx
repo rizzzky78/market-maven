@@ -90,20 +90,16 @@ const sendMessage = async (
 
   const ui = createStreamableUI(<ShinyText text="Maven is thinking..." />);
 
+  const streamableText = createStreamableValue<string>("");
+
+  const textUi = <StreamAssistantMessage content={streamableText.value} />;
+
   const { value, stream } = await streamUI({
     model: google("gemini-2.0-flash-exp"),
     system: SYSTEM_INSTRUCT_CORE,
     messages: toCoreMessage(aiState.get().messages),
     initial: <ShinyText text="Maven is thinking..." />,
     text: async function* ({ content, done }) {
-      const streamableText = createStreamableValue<string>("");
-
-      ui.update(<StreamAssistantMessage content={streamableText.value} />);
-
-      if (!done) {
-        streamableText.update(content);
-      }
-
       if (done) {
         aiState.done({
           ...aiState.get(),
@@ -119,9 +115,11 @@ const sendMessage = async (
 
         ui.done();
         streamableText.done();
+      } else {
+        streamableText.update(content);
       }
 
-      return ui.value;
+      return textUi;
     },
     tools: {
       // searchProduct: actionSearchProduct(aiState),
