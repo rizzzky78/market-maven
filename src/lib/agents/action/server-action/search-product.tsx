@@ -31,13 +31,13 @@ export const actionSearchProduct = (state: MutableAIState) => {
         request: { query },
       });
 
-      const uiStream = createStreamableUI();
-
-      let finalizedResults: ProductsResponse = { data: [] };
-
-      uiStream.append(<ShinyText text={`Searching for ${query}`} />);
+      const uiStream = createStreamableUI(
+        <ShinyText text={`Searching for ${query}`} />
+      );
 
       yield uiStream.value;
+
+      let finalizedResults: ProductsResponse = { data: [] };
 
       const scrapeContent = await scrapeUrl({
         url: processURLQuery(query),
@@ -68,6 +68,8 @@ export const actionSearchProduct = (state: MutableAIState) => {
         );
 
         yield uiStream.value;
+
+        await new Promise((resolve) => setTimeout(resolve, 3000));
 
         const payload = JSON.stringify({
           objective: root.ExtractionOjective,
