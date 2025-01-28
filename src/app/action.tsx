@@ -56,6 +56,7 @@ import {
 import { processURLQuery } from "@/lib/utils";
 import { ErrorMessage } from "@/components/maven/error-message";
 import { root } from "@/lib/agents/constant";
+import { actionSearchProduct } from "@/lib/agents/action/server-action/search-product";
 
 const sendMessage = async (
   payload: PayloadData,
@@ -63,8 +64,6 @@ const sendMessage = async (
 ): Promise<SendMessageCallback> => {
   "use server";
   const { textInput, attachProduct, inquiryResponse } = payload;
-
-  let isCompleted: boolean = false;
 
   const payloadUserMessage: UserContentMessage = {
     text_input: textInput ?? null,
@@ -90,19 +89,19 @@ const sendMessage = async (
     ],
   });
 
-  const streamableGeneration = createStreamableValue<StreamGeneration>({
-    process: "initial",
-    loading: true,
-  });
-
   const { value, stream } = await streamUI({
     model: google("gemini-2.0-flash-exp"),
     system: SYSTEM_INSTRUCT_CORE,
     messages: toCoreMessage(aiState.get().messages),
+    initial: <ShinyText text="Maven is thinking..." />,
     text: async function* ({ content, done }) {
+      const uiStream = createStreamableUI(
+        <ShinyText text="Maven is thinking, please wait..." />
+      );
+
       const streamableText = createStreamableValue<string>("");
 
-      const assistantMessage = (
+      uiStream.append(
         <StreamAssistantMessage content={streamableText.value} />
       );
 
@@ -120,20 +119,14 @@ const sendMessage = async (
         });
 
         streamableText.done();
-
-        isCompleted = true;
       } else {
-        streamableGeneration.update({
-          process: "generating",
-          loading: true,
-        });
-
         streamableText.update(content);
       }
 
-      return assistantMessage;
+      return uiStream.value;
     },
     tools: {
+      // searchProduct: actionSearchProduct(aiState),
       searchProduct: {
         description: root.SearchProductDescription,
         parameters: searchProductSchema,
@@ -143,18 +136,13 @@ const sendMessage = async (
             request: { query },
           });
 
-          streamableGeneration.update({
-            process: "generating",
-            loading: true,
-          });
-
-          const uiStream = createStreamableUI();
-
-          let finalizedResults: ProductsResponse = { data: [] };
-
-          uiStream.append(<ShinyText text={`Searching for ${query}`} />);
+          const uiStream = createStreamableUI(
+            <ShinyText text={`Searching for ${query}`} />
+          );
 
           yield uiStream.value;
+
+          let finalizedResults: ProductsResponse = { data: [] };
 
           const scrapeContent = await scrapeUrl({
             url: processURLQuery(query),
@@ -164,12 +152,6 @@ const sendMessage = async (
 
           /** Handle if Scrape Operation is Error */
           if (!scrapeContent.success) {
-            streamableGeneration.done({
-              process: "error",
-              loading: false,
-              error: scrapeContent.error,
-            });
-
             uiStream.done(
               <ErrorMessage
                 name="Scrape Error"
@@ -177,8 +159,6 @@ const sendMessage = async (
                 raw={{ query }}
               />
             );
-
-            return uiStream.value;
           }
 
           /** Handle if Scrape Operation is Success */
@@ -191,6 +171,8 @@ const sendMessage = async (
             );
 
             yield uiStream.value;
+
+            await new Promise((resolve) => setTimeout(resolve, 3000));
 
             const payload = JSON.stringify({
               objective: root.ExtractionOjective,
@@ -289,11 +271,9 @@ const sendMessage = async (
               progress: "finish",
               request: { query },
             });
-
-            isCompleted = true;
-
-            return uiStream.value;
           }
+
+          return uiStream.value;
         },
       },
       getProductDetails: {
@@ -311,11 +291,6 @@ const sendMessage = async (
 
           yield uiStream.value;
 
-          streamableGeneration.update({
-            process: "generating",
-            loading: true,
-          });
-
           const scrapeResult = await scrapeUrl({
             url: link,
             formats: ["markdown", "screenshot"],
@@ -324,12 +299,6 @@ const sendMessage = async (
 
           /** Handle if Scrape Operation is Error */
           if (!scrapeResult.success) {
-            streamableGeneration.done({
-              process: "api_error",
-              loading: false,
-              error: scrapeResult.error,
-            });
-
             uiStream.done(
               <ErrorMessage
                 name="Scrape Error"
@@ -444,8 +413,6 @@ const sendMessage = async (
               request: { query, link },
             });
 
-            isCompleted = true;
-
             return uiStream.value;
           }
         },
@@ -455,11 +422,6 @@ const sendMessage = async (
         parameters: inquireUserSchema,
         generate: async function* (inquiry) {
           logger.info("Using inquireUser tool");
-
-          streamableGeneration.update({
-            process: "generating",
-            loading: false,
-          });
 
           const callId = generateId();
           const uiStream = createStreamableUI(
@@ -490,26 +452,17 @@ const sendMessage = async (
 
           logger.info("Done using inquireUser tool");
 
-          isCompleted = true;
-
           return uiStream.value;
         },
       },
     },
   });
 
-  if (isCompleted) {
-    streamableGeneration.done({
-      process: "done",
-      loading: false,
-    });
-  }
-
   return {
     id: generateId(),
     display: value,
     stream,
-    generation: streamableGeneration.value,
+    // generation: streamableGeneration.value,
   };
 };
 
