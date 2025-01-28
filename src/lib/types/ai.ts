@@ -1,6 +1,7 @@
 import { CoreMessage, LanguageModelV1StreamPart } from "ai";
 import { StreamableValue } from "ai/rsc";
 import { ReactNode } from "react";
+import { z } from "zod";
 
 /**
  * Extended version of CoreMessage that ensures the 'id' is always a string,
@@ -110,6 +111,71 @@ export type AIState = {
   messages: MessageProperty[];
   /** Optional flag indicating if the page is shared */
   isSharedPage?: boolean;
+};
+
+/**
+ * Represents a type that can either be a ReactNode or a Promise resolving to a ReactNode.
+ */
+export type Streamable = ReactNode | Promise<ReactNode>;
+
+/**
+ * A type for a renderer function, which takes an array of arguments and produces streamable content.
+ * The renderer can return one of the following:
+ * - `Streamable` directly
+ * - A synchronous generator that yields `Streamable` values and returns a final `Streamable`
+ * - An asynchronous generator that yields `Streamable` values and returns a final `Streamable`
+ *
+ * @template T - An array type representing the argument structure of the renderer.
+ */
+export type Renderer<T extends Array<any>> = (
+  ...args: T
+) =>
+  | Streamable
+  | Generator<Streamable, Streamable, void>
+  | AsyncGenerator<Streamable, Streamable, void>;
+
+/**
+ * Represents a render tool, defining its properties and optional rendering logic.
+ *
+ * @template PARAMETERS - A Zod type used to validate and infer the shape of parameters.
+ */
+export type RenderTool<PARAMETERS extends z.ZodTypeAny = any> = {
+  /**
+   * An optional description providing additional information about the tool.
+   */
+  description?: string;
+
+  /**
+   * The parameters for the render tool, defined as a Zod schema.
+   */
+  parameters: PARAMETERS;
+
+  /**
+   * An optional renderer function that generates streamable content based on:
+   * - The inferred parameters of the Zod schema.
+   * - Metadata about the tool, including its name and a unique call ID.
+   *
+   * The renderer can return:
+   * - A `Streamable` directly
+   * - A synchronous generator that yields `Streamable` values and returns a final `Streamable`
+   * - An asynchronous generator that yields `Streamable` values and returns a final `Streamable`
+   */
+  generate?: Renderer<
+    [
+      z.infer<PARAMETERS>,
+      {
+        /**
+         * The name of the tool, provided as metadata to the renderer.
+         */
+        toolName: string;
+
+        /**
+         * A unique identifier for the tool call, useful for tracking or debugging.
+         */
+        toolCallId: string;
+      }
+    ]
+  >;
 };
 
 /**

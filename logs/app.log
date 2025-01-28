@@ -8149,3 +8149,152 @@
     }
   ]
 }
+[90m[2025-01-28 09:10:13.253][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Process on Server Action",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "I want you to give me the product details or information",
+        "attachProduct": {
+          "product": {
+            "id": "TMgxla4ZhduRxePt",
+            "title": "dbE DJ80 Foldable DJ Headphone with Detachable Microphone",
+            "link": "https://www.tokopedia.com/starcomporigin/dbe-dj80-foldable-dj-headphone-with-detachable-microphone-putih?extParam=ivf%3Dtrue%26keyword%3Ddbe+headphone%26search_id%3D20250128020354642B0EC56587D0178LFO%26src%3Dsearch%26whid%3D279726&refined=true"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-01-28 09:10:19.843][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "dbE DJ80 Foldable DJ Headphone with Detachable Microphone",
+        "link": "https://www.tokopedia.com/starcomporigin/dbe-dj80-foldable-dj-headphone-with-detachable-microphone-putih?extParam=ivf%3Dtrue%26keyword%3Ddbe+headphone%26search_id%3D20250128020354642B0EC56587D0178LFO%26src%3Dsearch%26whid%3D279726&refined=true"
+      }
+    }
+  ]
+}
+[90m[2025-01-28 09:10:25.626][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-28 09:11:03.130][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "dbE DJ80 Foldable DJ Headphone with Detachable Microphone",
+        "link": "https://www.tokopedia.com/starcomporigin/dbe-dj80-foldable-dj-headphone-with-detachable-microphone-putih?extParam=ivf%3Dtrue%26keyword%3Ddbe+headphone%26search_id%3D20250128020354642B0EC56587D0178LFO%26src%3Dsearch%26whid%3D279726&refined=true"
+      }
+    }
+  ]
+}
+[90m[2025-01-28 09:11:04.310][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-01-28 11:13:39.426][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-28 11:13:40.661][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-28 11:13:45.820][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-28 11:13:50.301][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Process on Server Action",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-01-28 11:13:54.306][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-01-28 11:14:37.318][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-01-28 11:14:41.079][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-01-28 11:16:27.556][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-28 11:16:27.827][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-28 11:16:31.394][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-01-28 11:16:31.502][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
