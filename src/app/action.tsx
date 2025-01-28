@@ -88,6 +88,11 @@ const sendMessage = async (
     ],
   });
 
+  const generation = createStreamableValue<StreamGeneration>({
+    process: "initial",
+    loading: true,
+  });
+
   const ui = createStreamableUI(<ShinyText text="Maven is thinking..." />);
 
   const streamableText = createStreamableValue<string>("");
@@ -115,8 +120,16 @@ const sendMessage = async (
 
         ui.done();
         streamableText.done();
+        generation.done({
+          process: "done",
+          loading: false,
+        });
       } else {
         streamableText.update(content);
+        generation.update({
+          process: "generating",
+          loading: true,
+        });
       }
 
       return textUi;
@@ -130,6 +143,11 @@ const sendMessage = async (
           logger.info("Using searchProduct tool", {
             progress: "initial",
             request: { query },
+          });
+
+          generation.update({
+            process: "generating",
+            loading: true,
           });
 
           ui.update(<ShinyText text={`Searching for ${query}`} />);
@@ -267,6 +285,11 @@ const sendMessage = async (
             });
           }
 
+          generation.done({
+            process: "done",
+            loading: false,
+          });
+
           return ui.value;
         },
       },
@@ -277,6 +300,11 @@ const sendMessage = async (
           logger.info("Using getProductDetails tool", {
             progress: "initial",
             request: { query, link },
+          });
+
+          generation.update({
+            process: "generating",
+            loading: true,
           });
 
           ui.update(<ShinyText text={`Getting data product for ${query}`} />);
@@ -408,6 +436,11 @@ const sendMessage = async (
             });
           }
 
+          generation.done({
+            process: "done",
+            loading: false,
+          });
+
           return ui.value;
         },
       },
@@ -416,6 +449,11 @@ const sendMessage = async (
         parameters: inquireUserSchema,
         generate: async function* (inquiry) {
           logger.info("Using inquireUser tool");
+
+          generation.update({
+            process: "generating",
+            loading: true,
+          });
 
           const callId = generateId();
           ui.update(<ShinyText key={callId} text="Creating an Inquiry" />);
@@ -444,6 +482,11 @@ const sendMessage = async (
 
           logger.info("Done using inquireUser tool");
 
+          generation.done({
+            process: "done",
+            loading: false,
+          });
+
           return ui.value;
         },
       },
@@ -454,7 +497,7 @@ const sendMessage = async (
     id: generateId(),
     display: value,
     stream,
-    // generation: streamableGeneration.value,
+    generation: generation.value,
   };
 };
 
