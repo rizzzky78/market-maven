@@ -352,9 +352,11 @@ export type UserMessageProp = {
  */
 export type InquiryResponse = {
   /** The original inquiry or prompt */
-  question: string;
+  question?: string;
   /** Array of selected response options */
-  selected: string[];
+  selected?: string[];
   /** Optional additional user input */
-  input: string | null;
+  input?: string | null;
+  /** Is inquiry skipped by user */
+  skipped?: boolean;
 };
