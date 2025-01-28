@@ -90,10 +90,10 @@ const sendMessage = async (
     ],
   });
 
-  const streamableGeneration = createStreamableValue<StreamGeneration>({
-    process: "initial",
-    loading: true,
-  });
+  // const streamableGeneration = createStreamableValue<StreamGeneration>({
+  //   process: "initial",
+  //   loading: true,
+  // });
 
   const { value, stream } = await streamUI({
     model: google("gemini-2.0-flash-exp"),
@@ -123,10 +123,10 @@ const sendMessage = async (
 
         isCompleted = true;
       } else {
-        streamableGeneration.update({
-          process: "generating",
-          loading: true,
-        });
+        // streamableGeneration.update({
+        //   process: "generating",
+        //   loading: true,
+        // });
 
         streamableText.update(content);
       }
@@ -143,10 +143,10 @@ const sendMessage = async (
             request: { query },
           });
 
-          streamableGeneration.update({
-            process: "generating",
-            loading: true,
-          });
+          // streamableGeneration.update({
+          //   process: "generating",
+          //   loading: true,
+          // });
 
           const uiStream = createStreamableUI();
 
@@ -164,11 +164,11 @@ const sendMessage = async (
 
           /** Handle if Scrape Operation is Error */
           if (!scrapeContent.success) {
-            streamableGeneration.done({
-              process: "error",
-              loading: false,
-              error: scrapeContent.error,
-            });
+            // streamableGeneration.done({
+            //   process: "error",
+            //   loading: false,
+            //   error: scrapeContent.error,
+            // });
 
             uiStream.done(
               <ErrorMessage
@@ -311,10 +311,10 @@ const sendMessage = async (
 
           yield uiStream.value;
 
-          streamableGeneration.update({
-            process: "generating",
-            loading: true,
-          });
+          // streamableGeneration.update({
+          //   process: "generating",
+          //   loading: true,
+          // });
 
           const scrapeResult = await scrapeUrl({
             url: link,
@@ -324,11 +324,11 @@ const sendMessage = async (
 
           /** Handle if Scrape Operation is Error */
           if (!scrapeResult.success) {
-            streamableGeneration.done({
-              process: "api_error",
-              loading: false,
-              error: scrapeResult.error,
-            });
+            // streamableGeneration.done({
+            //   process: "api_error",
+            //   loading: false,
+            //   error: scrapeResult.error,
+            // });
 
             uiStream.done(
               <ErrorMessage
@@ -456,10 +456,10 @@ const sendMessage = async (
         generate: async function* (inquiry) {
           logger.info("Using inquireUser tool");
 
-          streamableGeneration.update({
-            process: "generating",
-            loading: false,
-          });
+          // streamableGeneration.update({
+          //   process: "generating",
+          //   loading: false,
+          // });
 
           const callId = generateId();
           const uiStream = createStreamableUI(
@@ -498,18 +498,18 @@ const sendMessage = async (
     },
   });
 
-  if (isCompleted) {
-    streamableGeneration.done({
-      process: "done",
-      loading: false,
-    });
-  }
+  // if (isCompleted) {
+  //   streamableGeneration.done({
+  //     process: "done",
+  //     loading: false,
+  //   });
+  // }
 
   return {
     id: generateId(),
     display: value,
     stream,
-    generation: streamableGeneration.value,
+    // generation: streamableGeneration.value,
   };
 };
 
