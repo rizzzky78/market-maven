@@ -97,7 +97,7 @@ export type SendMessageCallback = {
   /** Streamable message content */
   stream: ReadableStream<LanguageModelV1StreamPart>;
   /** Generation status and metadata */
-  generation: StreamableValue<StreamGeneration>;
+  generation?: StreamableValue<StreamGeneration>;
 };
 
 /**

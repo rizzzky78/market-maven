@@ -1,0 +1,96 @@
+{
+  "success": true,
+  "name": "getProductDetails",
+  "args": {
+    "link": "https://www.tokopedia.com/protechcom/asus-tuf-gaming-f15-fx507zc4-i5-12500h-8gb-512gb-rtx3050-4gb-ohs-w11-8gb-a2d1e?extParam=ivf%3Dfalse%26keyword%3Dasus+tuf&src=topads",
+    "query": "ASUS TUF Gaming F15 FX507ZC4 i5-12500H 8GB 512GB RTX3050 4GB OHS W11 8GB"
+  },
+  "data": {
+    "callId": "981985be-bde4-4dd5-b1d5-0ea6d3304deb",
+    "insight": {
+      "product_description": {
+        "name": "ASUS TUF GAMING F15 FX507ZC4 i5-12500H 8GB 512GB RTX3050 4GB OHS W11 - 8GB",
+        "specifications": {
+          "processor": "12th Gen Intel Core i5-12500H Processor 2.5 GHz (18M Cache, up to 4.5 GHz, 12 cores: 4 P-cores and 8 E-cores)",
+          "graphics": "NVIDIA GeForce RTX 3050 Laptop GPU 4GB GDDR6, 1790MHz* at 95W (1740MHz Boost Clock+50MHz OC, 80W+15W Dynamic Boost)",
+          "display": "15.6-inch, FHD (1920 x 1080) 16:9, Value IPS-level, Anti-glare display, sRGB:62.50%, Adobe:47.34%, Refresh Rate:144Hz, Adaptive-Sync, MUX Switch + Optimus",
+          "memory": ["16GB DDR4-3200 SO-DIMM", "32GB DDR4-3200 SO-DIMM"],
+          "storage": "512GB M.2 NVMe PCIe 3.0 SSD",
+          "ports": [
+            "1x 3.5mm Combo Audio Jack",
+            "1x HDMI 2.0b",
+            "2x USB 3.2 Gen 1 Type-A",
+            "1x USB 3.2 Gen 2 Type-C support DisplayPort / G-SYNC",
+            "1x RJ45 LAN port",
+            "1x Thunderbolt 4 support DisplayPort"
+          ],
+          "dimensions": "35.4 x 25.1 x 2.24 ~ 2.49 cm",
+          "camera": "720P HD camera",
+          "battery": "56WHrs, 4S1P, 4-cell Li-ion",
+          "weight": "2.20 Kg",
+          "keyboard": "Backlit Chiclet Keyboard RGB",
+          "os": "Windows 11 Home",
+          "office": "Office Home and Student 2021",
+          "speaker": "2-speaker system \"AI noise-canceling technology Dolby Atmos Hi-Res certification\"",
+          "wifi": "Wi-Fi 6(802.11ax)+Bluetooth 5.2 (Dual band) 2*2 (*BT version may change with OS upgrades.)",
+          "bundle": "TUF backpack"
+        },
+        "warranty": "Garansi Resmi Asus Indonesia 2 Tahun (1st year perfect warranty)"
+      },
+      "product_ratings": [
+        {
+          "user": "didik",
+          "variant": "16GB",
+          "comment": "sesui spek, barang ori.\nsemoga awet\ncuma sampainya lama karna pakai cargo.",
+          "images": [
+            "https://images.tokopedia.net/img/cache/200-square/bjFkPX/2023/4/2/397cc81c-7480-4564-ba34-1ea76a136dc5.jpg.webp?ect=4g"
+          ],
+          "helpful_count": "2"
+        },
+        {
+          "user": "Fariz",
+          "variant": "16GB",
+          "comment": "bagus, pesanan sesuai kecuali aplikasi Request : Acad Civil 3d, Revit dan Microsoft Project tidak terinstal.",
+          "images": [
+            "https://images.tokopedia.net/img/cache/200-square/bjFkPX/2022/9/15/2efff83a-2b9f-4d7c-b990-6e75e1acf639.jpg.webp?ect=4g"
+          ],
+          "helpful_count": "5"
+        },
+        {
+          "user": "y\\*\\*\\*l",
+          "comment": "seller responsif, barang cepat sampai, packing bubblewrap cukup baik. barang ga ada yang lecet. dites sampai hari ini masih bagus. semoga awet",
+          "images": [
+            "https://images.tokopedia.net/img/cache/200-square/bjFkPX/2021/8/20/36fb4e84-b300-44df-83d1-830d5014f625.jpg.webp?ect=4g",
+            "https://images.tokopedia.net/img/cache/200-square/bjFkPX/2021/8/20/2c89ea73-c5ba-411e-a232-bbd553a70801.jpg.webp?ect=4g",
+            "https://images.tokopedia.net/img/cache/200-square/bjFkPX/2021/8/20/1bf654d6-f661-4c6f-8a25-f1023725880e.jpg.webp?ect=4g",
+            "https://images.tokopedia.net/img/cache/200-square/bjFkPX/2021/8/20/b5778990-dfe2-4923-964c-04a2207bc731.jpg.webp?ect=4g",
+            "https://images.tokopedia.net/img/cache/200-square/bjFkPX/2021/8/20/cbff386e-00bd-4583-861d-7418c827187f.jpg.webp?ect=4g"
+          ],
+          "helpful_count": "2"
+        },
+        {
+          "user": "Rian",
+          "comment": "Terimakasih barang sampai dengan selamat, juga cepat, respon admin sangat ramah baik dan responsif, jangan ragu untuk berbelanja disini…",
+          "images": [
+            "https://images.tokopedia.net/img/cache/200-square/bjFkPX/2022/5/4/71eeb00c-fe85-4212-8bd1-59c99f59e757.jpg.webp?ect=4g",
+            "https://images.tokopedia.net/img/cache/200-square/bjFkPX/2022/5/4/ec75e0b6-c9f1-46b9-bd45-05bf8165ea4d.jpg.webp?ect=4g",
+            "https://images.tokopedia.net/img/cache/200-square/bjFkPX/2022/5/4/c4a483fa-2da1-482f-b09f-969e3426cf9b.jpg.webp?ect=4g",
+            "https://images.tokopedia.net/img/cache/200-square/bjFkPX/2022/5/4/e88196e6-f186-4fc2-8a04-54bbb9e45db7.jpg.webp?ect=4g"
+          ],
+          "helpful_count": "2"
+        },
+        {
+          "user": "Alif",
+          "variant": "16GB",
+          "comment": "Pengiriman cepat. saya pesan jam 5 dateng jam 8. Admin Fast Respon jadi seneng banget sama pelayanannya. barang bagus dan sesuai dengan deskripsi produk. mantap lah pokok... Selengkapnya",
+          "images": [
+            "https://images.tokopedia.net/img/cache/200-square/bjFkPX/2022/11/21/48b4c372-e6db-425c-afe4-1887700323a5.jpg.webp?ect=4g",
+            "https://images.tokopedia.net/img/cache/200-square/bjFkPX/2022/11/21/ef68fb39-f571-4725-81d2-c13e94a1052d.jpg.webp?ect=4g"
+          ],
+          "helpful_count": "2"
+        }
+      ]
+    },
+    "screenshot": "https://service.firecrawl.dev/storage/v1/object/public/media/screenshot-ce48ccc7-2734-4e5f-9618-a4a5dd7fbc49.png"
+  }
+}
