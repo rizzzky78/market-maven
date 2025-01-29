@@ -141,7 +141,7 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
       return (
         <motion.div
           variants={itemVariants}
-          className="px-4 mb-2 flex lg:items-center flex-wrap"
+          className="px-4 mb-1 flex lg:items-center flex-wrap"
         >
           <div className="rounded-[2rem] bg-gray-400 dark:bg-muted py-2 px-4 shrink-0 mr-1">
             <p className="font-medium">{sanitizeKeyName(key)}:</p>
@@ -154,7 +154,7 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
     } else if (Array.isArray(value)) {
       return (
         <motion.div variants={itemVariants} className="my-3">
-          <div className="rounded-[2rem] w-fit bg-[#1A1A1D] py-1 pl-2 pr-8 my-1">
+          <div className="rounded-[2rem] w-fit bg-[#1A1A1D] py-1 pl-2 pr-8 mb-0.5 mt-1">
             <div className="flex items-center space-x-2 text-white">
               <Plus className="size-5" />
               <p className="font-semibold text-sm">{sanitizeKeyName(key)}:</p>
@@ -260,10 +260,10 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
             initial="initial"
             animate="animate"
             exit="exit"
-            className=""
+            className="my-4"
           >
-            <div className="*:text-xs grid grid-cols-1 lg:grid-cols-2 gap-1">
-              <div>
+            <div className="*:text-xs grid grid-cols-1 lg:grid-cols-2">
+              <div className="border-r pr-3">
                 {[one].map((item, index) => (
                   <motion.div
                     key={index}
@@ -285,7 +285,7 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
                 ))}
               </div>
 
-              <div>
+              <div className="ml-3">
                 {[two].map((item, index) => (
                   <motion.div
                     key={index}
@@ -307,10 +307,10 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
                 ))}
               </div>
             </div>
-            <div className="my-2 flex items-center space-x-2 justify-center">
-              <Info className="size-4" />
+            <div className="my-2 flex items-center justify-center">
+              <Info className="size-4 mr-1" />
               <p className="text-xs">
-                This feature are experimental, please use with discretion.
+                AI generated comparison. Use with discretion.
               </p>
             </div>
           </motion.div>
