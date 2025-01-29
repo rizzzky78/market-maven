@@ -262,8 +262,8 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
             exit="exit"
             className="my-4"
           >
-            <div className="*:text-xs grid grid-cols-1 lg:grid-cols-2">
-              <div className="border-r pr-3">
+            <div className="*:text-xs grid grid-cols-1 lg:grid-cols-2 gap-2">
+              <div className="border rounded-3xl px-3">
                 {[one].map((item, index) => (
                   <motion.div
                     key={index}
@@ -285,7 +285,7 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
                 ))}
               </div>
 
-              <div className="ml-3">
+              <div className="border rounded-3xl px-3">
                 {[two].map((item, index) => (
                   <motion.div
                     key={index}
@@ -310,7 +310,7 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
             <div className="my-2 flex items-center justify-center">
               <Info className="size-4 mr-1" />
               <p className="text-xs">
-                AI generated comparison. Use with discretion.
+                AI generated comparison, for reference only.
               </p>
             </div>
           </motion.div>
