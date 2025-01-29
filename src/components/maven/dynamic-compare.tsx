@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import { FC, Fragment, JSX, memo, useState } from "react";
 import { Button } from "../ui/button";
+import { Separator } from "@radix-ui/react-separator";
 
 const containerVariants = {
   initial: {
@@ -128,6 +129,8 @@ interface CompareProps {
 
 const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
   const [open, setOpen] = useState(true);
+
+  const [one, two] = data;
 
   const renderValue = (value: any, key: string): JSX.Element => {
     if (
@@ -252,35 +255,65 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
       </div>
       <AnimatePresence mode={"wait"}>
         {open && (
-          <div className="*:text-xs">
-            <motion.div
-              variants={containerVariants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              className="grid grid-cols-1 lg:grid-cols-2 gap-1"
-            >
-              {data.map((item, index) => (
-                <motion.div
-                  key={index}
-                  variants={itemVariants}
-                  className="border-t pt-4 first:border-t-0 first:pt-0"
-                >
+          <motion.div
+            variants={containerVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className=""
+          >
+            <div className="*:text-xs grid grid-cols-1 lg:grid-cols-2 gap-1">
+              <div>
+                {[one].map((item, index) => (
                   <motion.div
-                    variants={containerVariants}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    className="space-y-3"
+                    key={index}
+                    variants={itemVariants}
+                    className="border-t pt-4 first:border-t-0 first:pt-0"
                   >
-                    {Object.entries(item).map(([key, value]) => (
-                      <Fragment key={key}>{renderValue(value, key)}</Fragment>
-                    ))}
+                    <motion.div
+                      variants={containerVariants}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      className="space-y-3"
+                    >
+                      {Object.entries(item).map(([key, value]) => (
+                        <Fragment key={key}>{renderValue(value, key)}</Fragment>
+                      ))}
+                    </motion.div>
                   </motion.div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
+                ))}
+              </div>
+
+              <div>
+                {[two].map((item, index) => (
+                  <motion.div
+                    key={index}
+                    variants={itemVariants}
+                    className="border-t pt-4 first:border-t-0 first:pt-0"
+                  >
+                    <motion.div
+                      variants={containerVariants}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      className="space-y-3"
+                    >
+                      {Object.entries(item).map(([key, value]) => (
+                        <Fragment key={key}>{renderValue(value, key)}</Fragment>
+                      ))}
+                    </motion.div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+            <div className="my-2 flex items-center space-x-2 justify-center">
+              <Info className="size-4" />
+              <p className="text-xs">
+                This feature are experimental, please use with discretion.
+              </p>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </motion.div>
