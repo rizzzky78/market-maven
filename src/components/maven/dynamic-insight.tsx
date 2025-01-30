@@ -87,7 +87,7 @@ const cardVariants = {
 };
 
 const sanitizeStr = (url: string) => {
-  const isUrl = url.startsWith("https://");
+  const isUrl = url.includes("https://");
   if (isUrl) {
     return (
       <div className="rounded-[2rem] block my-1 w-fit px-4 hover:rotate-6 transition-all">
