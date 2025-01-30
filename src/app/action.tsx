@@ -57,7 +57,6 @@ import {
 import { processURLQuery } from "@/lib/utils";
 import { ErrorMessage } from "@/components/maven/error-message";
 import { root } from "@/lib/agents/constant";
-import { actionSearchProduct } from "@/lib/agents/action/server-action/search-product";
 
 const sendMessage = async (
   payload: PayloadData,
