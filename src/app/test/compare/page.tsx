@@ -1,5 +1,7 @@
+import { ProductComparison } from "@/components/maven/dynamic-comparison";
 import { ProductCompare } from "@/components/maven/product-compare";
 import { ExtendedToolResult } from "@/lib/types/ai";
+import { FinalizedCompare } from "@/lib/types/product";
 import { FC } from "react";
 
 const data = [
@@ -187,11 +189,207 @@ const content: ToolResult = {
   data: { insight: data },
 };
 
+const payload = {
+  finalizedCompare: {
+    callId: "9f5198ba-1138-44b5-b4ed-4cc6f934a7c8",
+    comparison: {
+      products: [
+        {
+          id: "70d8dadc-fef6-4698-b91f-d9f9b95eedc4",
+          name: "ASUS TUF Gaming A15 FA506NF",
+          model: "FA506NF-R525B6T-OM",
+          brand: "ASUS",
+          category: "Laptop",
+          subCategory: "Gaming Laptop",
+          keyFeatures: [
+            "GARANSI RESMI ASUS INDONESIA 2 TAHUN + 1 THN PERFECT WARRANTY",
+            "Military Standard",
+          ],
+          specifications: {
+            processor: {
+              brand: "AMD",
+              model: "Ryzen 5 7535HS",
+              cores: 6,
+              threads: 12,
+              clockSpeed: "3.3GHz",
+              architecture: null,
+            },
+            memory: {
+              ramSize: "8GB",
+              type: "DDR5-4800",
+              speed: null,
+            },
+            storage: {
+              type: "SSD",
+              capacity: "512GB",
+              interface: "PCIe 4.0 NVMe M.2",
+            },
+            display: {
+              size: "15.6-inch",
+              resolution: "1920 x 1080",
+              panelType: "IPS-level",
+              refreshRate: "144Hz",
+              brightness: "250nits",
+              touchscreen: null,
+            },
+            battery: {
+              capacity: "48WHrs",
+              type: "Li-ion",
+              fastCharging: null,
+              wirelessCharging: null,
+              estimatedLife: null,
+            },
+            connectivity: {
+              wireless: ["Wi-Fi 6(802.11ax)", "Bluetooth 5.3"],
+              ports: [
+                "1x RJ45 LAN port",
+                "1x USB 3.2 Gen 2 Type-C support DisplayPort",
+                "3x USB 3.2 Gen 2 Type-A",
+                "1x HDMI 2.0b",
+                "1x 3.5mm Combo Audio Jack",
+              ],
+              network: ["10/100/1000 Mbps"],
+            },
+          },
+          compatibility: {
+            supportedOS: ["Windows 11 Home"],
+            supportedFormats: null,
+          },
+          includedAccessories: ["TUF Gaming backpack"],
+          certifications: null,
+          warranty: {
+            period: "2 years + 1 year perfect warranty",
+            type: "manufacturer",
+            coverage: null,
+          },
+        },
+        {
+          id: "30ff2195-eb29-491e-8b40-2cb14699430a",
+          name: "Lenovo Yoga Slim 7 Pro X 14 3K Touch RTX3050 Ryzen 9 6900 32GB 1TB SSD - LAPTOP",
+          model: "Yoga Slim 7 Pro X 14",
+          brand: "Lenovo",
+          category: "Laptop",
+          subCategory: "Gaming Laptop",
+          keyFeatures: [
+            "3K Touch Display",
+            "NVIDIA GeForce RTX 3050 4GB GDDR6",
+            "AMD Ryzen 9 6900HS Creator Edition",
+            "32GB LPDDR5-6400 RAM",
+            "1TB SSD M.2 PCIe 4.0 NVMe",
+            '14.5" 120Hz Display',
+          ],
+          specifications: {
+            processor: {
+              brand: "AMD",
+              model: "Ryzen 9 6900HS Creator Edition",
+              cores: 8,
+              threads: 16,
+              clockSpeed: "3.3 / 4.9GHz",
+            },
+            memory: {
+              ramSize: "32GB",
+              type: "LPDDR5-6400",
+            },
+            storage: {
+              type: "SSD",
+              capacity: "1TB",
+              interface: "M.2 2280 PCIe 4.0x4 NVMe",
+            },
+            display: {
+              size: '14.5"',
+              resolution: "3072x1920",
+              panelType: "IPS",
+              refreshRate: "120Hz",
+              brightness: "400 nits",
+              touchscreen: true,
+            },
+            battery: {
+              type: "Li-ion",
+            },
+            connectivity: {
+              wireless: ["Wi-Fi 6", "Bluetooth 5.1"],
+              ports: [
+                "1x USB 3.2 Gen 1",
+                "1x USB 3.2 Gen 1 (Always On)",
+                "2x USB-C 3.2 Gen 2",
+                "1x Headphone / microphone combo jack (3.5mm)",
+              ],
+            },
+          },
+          compatibility: {
+            supportedOS: ["Windows 11 Home"],
+          },
+          includedAccessories: ["Tas Slempang", "Mouse Kabel"],
+          warranty: {
+            period: "1 Tahun",
+            type: "Toko",
+            coverage: "Kerusakan dari Pabrik",
+          },
+        },
+      ],
+      comparisonSummary: {
+        keyDifferences: [
+          "The Lenovo has a higher-resolution 3K touch display compared to the ASUS's FHD non-touch display.",
+          "The Lenovo has a more powerful AMD Ryzen 9 processor, while the ASUS has a Ryzen 5 processor.",
+          "The Lenovo has 32GB of LPDDR5 RAM, while the ASUS has 8GB of DDR5 RAM.",
+          "The Lenovo has 1TB of SSD storage, while the ASUS has 512GB.",
+          "The Lenovo has a dedicated NVIDIA GeForce RTX 3050 graphics card, while the ASUS does not specify a dedicated GPU.",
+          "The ASUS has a longer warranty period (2 years + 1 year perfect warranty) compared to the Lenovo's 1 year warranty.",
+          "The ASUS includes a TUF Gaming backpack, while the Lenovo includes a bag and a wired mouse.",
+          "The Lenovo has a 120Hz refresh rate display, while the ASUS has a 144Hz refresh rate display.",
+        ],
+        keySimilarities: [
+          "Both are gaming laptops.",
+          "Both use AMD Ryzen processors.",
+          "Both have SSD storage.",
+          "Both have Wi-Fi 6 and Bluetooth connectivity.",
+          "Both come with Windows 11 Home.",
+        ],
+        prosAndCons: [
+          {
+            productId: "70d8dadc-fef6-4698-b91f-d9f9b95eedc4",
+            pros: [
+              "Longer warranty period (2 years + 1 year perfect warranty).",
+              "Includes a TUF Gaming backpack.",
+              "144Hz refresh rate display.",
+            ],
+            cons: [
+              "Less powerful AMD Ryzen 5 processor.",
+              "Lower RAM (8GB) compared to the Lenovo.",
+              "Smaller storage capacity (512GB) compared to the Lenovo.",
+              "Lower resolution display (FHD) and no touch screen.",
+              "No dedicated GPU specified.",
+            ],
+          },
+          {
+            productId: "30ff2195-eb29-491e-8b40-2cb14699430a",
+            pros: [
+              "More powerful AMD Ryzen 9 processor.",
+              "Higher RAM (32GB) for better multitasking.",
+              "Larger storage capacity (1TB).",
+              "Higher resolution 3K touch display.",
+              "Dedicated NVIDIA GeForce RTX 3050 graphics card.",
+              "Includes a bag and a wired mouse.",
+            ],
+            cons: [
+              "Shorter warranty period (1 year).",
+              "120Hz refresh rate display.",
+            ],
+          },
+        ],
+      },
+    },
+  },
+};
+
 const Page: FC = () => {
   return (
     <div className="px-2 sm:px-12 pt-12 md:pt-14 pb-14 md:pb-24 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4">
       <div>
-        <ProductCompare content={content} />
+        {/* <ProductCompare content={content} /> */}
+        <ProductComparison
+          data={payload.finalizedCompare as unknown as FinalizedCompare}
+        />
       </div>
     </div>
   );

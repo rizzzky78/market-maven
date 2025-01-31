@@ -19,74 +19,75 @@ export type ProductsResponse = {
   screenshot?: string;
 };
 
-export interface ProductDetails {
-  id: string;
-  name: string;
-  brand: string;
+export type ProductSpecifications = {
+  brand?: string;
   model?: string;
-  category: string;
-  subCategory?: string;
-  keyFeatures: string[];
-  specifications?: {
-    processor?: {
-      brand?: string;
-      model?: string;
-      clockSpeed?: string;
-      cores?: number;
-    };
-    memory?: {
-      ramSize?: string;
-      type?: string;
-      speed?: string;
-    };
-    storage?: {
-      capacity?: string;
-      type?: string;
-    };
-    display?: {
-      size?: string;
-      resolution?: string;
-      panelType?: string;
-      refreshRate?: string;
-    };
-    battery?: {
-      capacity?: string;
-      fastCharging?: boolean;
-    };
-    connectivity?: {
-      wireless?: string[];
-      ports?: string[];
-    };
-  };
-  warranty?: {
-    period?: string;
-    type?: string;
-  };
-  price: {
-    value: number;
-    currency: string;
-    discount?: number;
-  };
-}
+  category?:
+    | "smartphone"
+    | "laptop"
+    | "tv"
+    | "tablet"
+    | "wearable"
+    | "audio"
+    | "camera"
+    | "accessory";
+  releaseDate?: string; // ISO 8601 format
+  specifications?: Specifications;
+};
 
-export interface ProsCons {
-  productId: string;
-  pros: string[];
-  cons: string[];
-}
+export type Specifications = {
+  general?: GeneralSpecifications;
+  display?: DisplaySpecifications;
+  performance?: PerformanceSpecifications;
+  battery?: BatterySpecifications;
+  connectivity?: ConnectivitySpecifications;
+  camera?: CameraSpecifications;
+  os?: string;
+  additionalFeatures?: AdditionalFeatures;
+};
 
-export interface ComparisonSummary {
-  keyDifferences: string[];
-  keySimilarities: string[];
-  prosAndCons: ProsCons[];
-}
+export type GeneralSpecifications = {
+  weight?: string;
+  dimensions?: string;
+  color?: string;
+  material?: string;
+};
 
-export interface ProductComparison {
-  products: ProductDetails[];
-  comparisonSummary: ComparisonSummary;
-}
+export type DisplaySpecifications = {
+  size?: string;
+  resolution?: string;
+  type?: string;
+  refreshRate?: string;
+};
 
-export interface FinalizedCompare {
-  callId: string;
-  comparison: ProductComparison;
-}
+export type PerformanceSpecifications = {
+  processor?: string;
+  ram?: string;
+  storage?: string;
+  gpu?: string;
+};
+
+export type BatterySpecifications = {
+  capacity?: string;
+  type?: string;
+  charging?: string;
+};
+
+export type ConnectivitySpecifications = {
+  wifi?: string;
+  bluetooth?: string;
+  ports?: string[];
+  cellular?: string;
+};
+
+export type CameraSpecifications = {
+  rear?: string;
+  front?: string;
+  video?: string;
+};
+
+export type AdditionalFeatures = {
+  waterResistance?: string;
+  biometrics?: string[];
+  audio?: string;
+};
