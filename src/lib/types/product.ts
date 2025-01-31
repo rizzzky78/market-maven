@@ -82,7 +82,7 @@ export interface ComparisonSummary {
 }
 
 export interface ProductComparison {
-  products: Product[];
+  products: ProductDetails[];
   comparisonSummary: ComparisonSummary;
 }
 
