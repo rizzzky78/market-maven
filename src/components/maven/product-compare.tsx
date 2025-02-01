@@ -8,8 +8,13 @@ import { useAppState } from "@/lib/utility/provider/app-state-provider";
 
 interface CompareProps {
   content: ExtendedToolResult<
-    { insightCallId: string[] },
-    { insight: Record<string, any>[] }
+    { callId: string[] },
+    {
+      comparison: {
+        products: Record<string, any>[];
+        differences: Record<string, any>;
+      };
+    }
   >;
 }
 
@@ -32,8 +37,8 @@ export const ProductCompare: FC<CompareProps> = ({ content }) => {
       </div>
       <div className="w-full py-1">
         <DynamicCompare
-          data={data.insight}
-          callId={args.insightCallId}
+          data={data.comparison}
+          callId={args.callId}
           isGenerating={isGenerating}
         />
       </div>

@@ -1,7 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
+import { DynamicCompare } from "@/components/maven/dynamic-compare";
 import { ProductComparison } from "@/components/maven/dynamic-comparison";
 import { ProductCompare } from "@/components/maven/product-compare";
+import { ProductInsight } from "@/components/maven/product-insight";
 import { ExtendedToolResult } from "@/lib/types/ai";
-import { FinalizedCompare } from "@/lib/types/product";
+import { ProductSpecifications } from "@/lib/types/product";
 import { FC } from "react";
 
 const data = [
@@ -176,18 +179,6 @@ const data = [
     },
   },
 ];
-
-type ToolResult = ExtendedToolResult<
-  { insightCallId: string[] },
-  { insight: Record<string, any>[] }
->;
-
-const content: ToolResult = {
-  success: true,
-  name: "comparison",
-  args: { insightCallId: ["1", "2"] },
-  data: { insight: data },
-};
 
 const payload = {
   finalizedCompare: {
@@ -382,151 +373,300 @@ const payload = {
   },
 };
 
-const Page: FC = () => {
+const productData: {
+  callId: string;
+  insight: Record<string, any>;
+  screenshot: string;
+} = {
+  callId: "ea2d773d-7a1e-4947-9df0-cdc32bb15329",
+  insight: {
+    brand: "Lenovo",
+    model: "LOQ 15IAX9",
+    category: "laptop",
+    specifications: {
+      general: {
+        weight: "2.38 kg (5.25 lbs)",
+        dimensions:
+          "359.86 x 258.7 x 21.9-23.9 mm (14.17 x 10.19 x 0.86-0.94 inches)",
+        color: "Luna Grey",
+        material: "PC-ABS (Top), PC-ABS (Bottom)",
+      },
+      display: {
+        size: "15.6 inches",
+        resolution: "1920x1080",
+        type: "IPS",
+        refreshRate: "144Hz",
+      },
+      performance: {
+        processor: "Intel Core i5-12450HX",
+        ram: "12GB SO-DIMM DDR5-4800",
+        storage: "512GB SSD M.2 2242 PCIe 4.0x4 NVMe",
+        gpu: "NVIDIA GeForce RTX 3050 6GB GDDR6",
+      },
+      battery: {
+        capacity: "60Wh",
+        type: "Integrated",
+        charging: "170W Slim Tip (3-pin)",
+      },
+      connectivity: {
+        ports: [
+          "USB-A (USB 5Gbps / USB 3.2 Gen 1)",
+          "USB-C (USB 10Gbps / USB 3.2 Gen 2)",
+          "HDMI 2.1",
+          "Headphone / microphone combo jack (3.5mm)",
+          "Ethernet (RJ-45)",
+          "Power connector",
+        ],
+      },
+      os: "Windows 11 Home Single Language, English",
+      additionalFeatures: {
+        audio: "Stereo speakers, 2W x2, optimized with Nahimic Audio",
+      },
+    },
+  },
+
+  screenshot:
+    "https://service.firecrawl.dev/storage/v1/object/public/media/screenshot-0b63f0c9-29be-42b9-9f40-d305c7c12cd2.png",
+};
+
+// const Page: FC = () => {
+//   // return (
+//   //   <div className="px-2 sm:px-12 pt-12 md:pt-14 pb-14 md:pb-24 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4">
+//   //     <div>
+//   //       {/* <ProductCompare content={content} /> */}
+//   //       {/* <ProductComparison
+//   //         data={payload.finalizedCompare as unknown as FinalizedCompare}
+//   //       /> */}
+//   //       <ProductDetails product={productData.insight[0]} />
+//   //     </div>
+//   //   </div>
+//   // );
+
+//   return <ProductDetails product={productData.insight[0]} />;
+// };
+
+// export default Page;
+
+import type React from "react";
+
+const ProductDetails: React.FC = () => {
+  const product = productData.insight[0];
+
   return (
-    <div className="px-2 sm:px-12 pt-12 md:pt-14 pb-14 md:pb-24 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4">
-      <div>
-        {/* <ProductCompare content={content} /> */}
-        <ProductComparison
-          data={payload.finalizedCompare as unknown as FinalizedCompare}
+    <div className="max-w-2xl mx-auto p-4 shadow-sm">
+      <div className="space-y-4">
+        {/* Product Image */}
+        <img
+          src={productData.screenshot || "/placeholder.svg"}
+          alt={`${product.brand} ${product.model}`}
+          className="w-full h-auto object-cover rounded-sm"
         />
+
+        {/* Title & Category */}
+        <div>
+          <h1 className="text-md font-semibold">
+            {product.brand} {product.model}
+          </h1>
+          <p className="text-xs text-gray-500 capitalize">{product.category}</p>
+        </div>
+
+        {/* Pricing Stack (placeholder since not in the example data) */}
+        <div className="flex items-baseline gap-2">
+          <span className="text-md font-bold text-blue-600">$999.99</span>
+          <span className="text-xs line-through text-gray-400">$1,199.99</span>
+          <span className="text-xs font-semibold text-green-600">Save 17%</span>
+        </div>
+
+        {/* Key Features */}
+        <div>
+          <h2 className="text-md font-semibold mb-2">Key Features</h2>
+          <ul className="text-sm space-y-1">
+            <li>• {product.specifications?.performance?.processor}</li>
+            <li>• {product.specifications?.performance?.ram}</li>
+            <li>• {product.specifications?.performance?.storage}</li>
+            <li>• {product.specifications?.performance?.gpu}</li>
+            <li>
+              • {product.specifications?.display?.size}{" "}
+              {product.specifications?.display?.type} Display
+            </li>
+          </ul>
+        </div>
+
+        {/* Technical Specifications */}
+        <div>
+          <h2 className="text-md font-semibold mb-2">
+            Technical Specifications
+          </h2>
+          <table className="w-full text-sm">
+            <tbody>
+              <tr className="border-b border-gray-200">
+                <td className="py-2 text-gray-600">OS</td>
+                <td className="py-2">{product.specifications?.os}</td>
+              </tr>
+              <tr className="border-b border-gray-200">
+                <td className="py-2 text-gray-600">Weight</td>
+                <td className="py-2">
+                  {product.specifications?.general?.weight}
+                </td>
+              </tr>
+              <tr className="border-b border-gray-200">
+                <td className="py-2 text-gray-600">Dimensions</td>
+                <td className="py-2">
+                  {product.specifications?.general?.dimensions}
+                </td>
+              </tr>
+              <tr className="border-b border-gray-200">
+                <td className="py-2 text-gray-600">Battery</td>
+                <td className="py-2">
+                  {product.specifications?.battery?.capacity},{" "}
+                  {product.specifications?.battery?.type}
+                </td>
+              </tr>
+              <tr>
+                <td className="py-2 text-gray-600">Ports</td>
+                <td className="py-2">
+                  {product.specifications?.connectivity?.ports?.join(", ")}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* Inventory Status */}
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-semibold">Inventory Status</span>
+          <span className="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">
+            In Stock
+          </span>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Page;
-
-const example = {
+const comparisonData = {
+  callId: "42175c3a-a573-4285-8ae6-76fb49193a73",
   comparison: {
-    products: [
-      {
-        name: "LENOVO YOGA SLIM PRO 9",
-        processor: "Intel Core i9-13905H",
-        ram: "32GB LPDDR5x-6400",
-        storage: "1TB SSD PCIe 4.0 NVMe",
-        graphics: "NVIDIA GeForce RTX 4050 6GB GDDR6",
-        display: '16" 3.2K Mini LED 165Hz Touch',
-        os: "Windows 11 Home",
-        ports: [
-          "HDMI",
-          "Headphone/mic jack",
-          "Power connector",
-          "SD card reader",
-          "Thunderbolt 4/USB4",
-          "USB 3.2 Gen 1",
-          "USB 3.2 Gen 1 (Always On)",
+    data: {
+      category: "laptop",
+      sub_category: "gaming laptop",
+      products: [
+        {
+          product: {
+            brand: "Lenovo",
+            model: "LOQ 15",
+            price: 11649000,
+          },
+          specifications: {
+            display: {
+              size: "15.6 inches",
+              resolution: "1920x1080",
+              refreshRate: "144Hz",
+            },
+            performance: {
+              processor: "Intel Core i5-12450HX",
+              ram: "12GB SO-DIMM DDR5-4800",
+              storage: "512GB SSD M.2 2242 PCIe 4.0x4 NVMe",
+              gpu: "NVIDIA GeForce RTX 3050 6GB GDDR6",
+            },
+            battery: {
+              capacity: "60Wh",
+              charging: "170W Slim Tip (3-pin)",
+            },
+            connectivity: {
+              ports: [
+                "USB-A (USB 5Gbps / USB 3.2 Gen 1)",
+                "USB-C (USB 10Gbps / USB 3.2 Gen 2), with PD 140W and DisplayPort 1.4",
+                "HDMI 2.1",
+                "Headphone / microphone combo jack (3.5mm)",
+                "Ethernet (RJ-45)",
+                "Power connector",
+              ],
+            },
+            os: "Windows 11 Home Single Language, English",
+          },
+        },
+        {
+          product: {
+            brand: "ASUS",
+            model: "ROG ALLY RC71L",
+            price: 7989000,
+          },
+          specifications: {
+            display: {
+              size: "7-inch",
+              resolution: "1920 x 1080",
+              refreshRate: "120Hz",
+            },
+            performance: {
+              processor: "AMD Ryzen Z1 Extreme Processor",
+              ram: "16GB LPDDR5",
+              storage: "512GB PCIe 4.0 NVMe M.2 SSD",
+              gpu: "AMD Radeon Graphics",
+            },
+            battery: {
+              capacity: "40WHrs",
+            },
+            connectivity: {
+              wifi: "Wi-Fi 6E(802.11ax)",
+              bluetooth: "Bluetooth 5.2",
+              ports: [
+                "3.5mm Combo Audio Jack",
+                "ROG XG Mobile Interface and USB Type-C combo port",
+                "UHS-II microSD card reader",
+              ],
+            },
+            os: "Windows 11",
+          },
+        },
+      ],
+      differences: {
+        key_differences: [
+          "Lenovo LOQ 15 has a larger 15.6-inch display compared to the 7-inch display of ASUS ROG ALLY RC71L.",
+          "Lenovo LOQ 15 uses an Intel Core i5 processor, while ASUS ROG ALLY RC71L uses an AMD Ryzen Z1 Extreme processor.",
+          "Lenovo LOQ 15 has a 60Wh battery, while ASUS ROG ALLY RC71L has a 40WHrs battery.",
+          "Lenovo LOQ 15 has a dedicated NVIDIA GeForce RTX 3050 GPU, while ASUS ROG ALLY RC71L uses integrated AMD Radeon Graphics.",
         ],
-        battery: "75Wh",
-        camera: "5.0MP + IR with E-shutter",
-        wireless: "Wi-Fi 6E + BT5.1",
-        price: "Rp19.599.000",
-        discount: "30%",
-        original_price: "Rp27.999.000",
-        warranty: "1 Tahun",
-        replace_policy: "7 Hari tukar unit",
-        rating: "4.7",
-        rating_count: "23",
+        spec_comparison: {
+          display_size: ["15.6 inches", "7-inch"],
+          processor: [
+            "Intel Core i5-12450HX",
+            "AMD Ryzen Z1 Extreme Processor",
+          ],
+          ram: ["12GB SO-DIMM DDR5-4800", "16GB LPDDR5"],
+          gpu: ["NVIDIA GeForce RTX 3050 6GB GDDR6", "AMD Radeon Graphics"],
+          battery_capacity: ["60Wh", "40WHrs"],
+          refreshRate: ["144Hz", "120Hz"],
+        },
       },
-      {
-        name: "ASUS TUF GAMING F15 FX507ZC4",
-        processor: "Intel Core i5-12500H",
-        ram: "16GB/32GB DDR4-3200",
-        storage: "512GB SSD PCIe 3.0 NVMe",
-        graphics: "NVIDIA GeForce RTX 3050 4GB GDDR6",
-        display: '15.6" FHD IPS 144Hz',
-        os: "Windows 11 Home",
-        ports: [
-          "3.5mm Combo Audio Jack",
-          "HDMI 2.0b",
-          "USB 3.2 Gen 1 Type-A",
-          "USB 3.2 Gen 2 Type-C (DisplayPort/G-SYNC)",
-          "RJ45 LAN port",
-          "Thunderbolt 4",
-        ],
-        battery: "56Wh",
-        camera: "720P HD",
-        wireless: "Wi-Fi 6 + BT 5.2",
-        office: "Office Home and Student 2021",
-        warranty: "2 Tahun",
-        weight: "2.20 Kg",
-      },
-    ],
-    differences: [
-      {
-        feature: "Processor",
-        lenovo: "Intel Core i9-13905H",
-        asus: "Intel Core i5-12500H",
-        note: "Lenovo has a higher-end, newer generation processor.",
-      },
-      {
-        feature: "RAM",
-        lenovo: "32GB LPDDR5x-6400",
-        asus: "16GB/32GB DDR4-3200",
-        note: "Lenovo uses faster and more modern RAM technology.",
-      },
-      {
-        feature: "Storage",
-        lenovo: "1TB SSD PCIe 4.0 NVMe",
-        asus: "512GB SSD PCIe 3.0 NVMe",
-        note: "Lenovo offers double the storage and a faster PCIe 4.0 interface.",
-      },
-      {
-        feature: "Graphics",
-        lenovo: "NVIDIA GeForce RTX 4050 6GB GDDR6",
-        asus: "NVIDIA GeForce RTX 3050 4GB GDDR6",
-        note: "Lenovo has a newer and more powerful graphics card with more VRAM.",
-      },
-      {
-        feature: "Display",
-        lenovo: '16" 3.2K Mini LED 165Hz Touch',
-        asus: '15.6" FHD IPS 144Hz',
-        note: "Lenovo has a higher resolution, better display technology, and a higher refresh rate with touch capability.",
-      },
-      {
-        feature: "Battery",
-        lenovo: "75Wh",
-        asus: "56Wh",
-        note: "Lenovo has a larger battery capacity.",
-      },
-      {
-        feature: "Camera",
-        lenovo: "5.0MP + IR with E-shutter",
-        asus: "720P HD",
-        note: "Lenovo has a higher resolution camera with additional features.",
-      },
-      {
-        feature: "Wireless",
-        lenovo: "Wi-Fi 6E + BT5.1",
-        asus: "Wi-Fi 6 + BT 5.2",
-        note: "Lenovo has Wi-Fi 6E support, which is a newer standard.",
-      },
-      {
-        feature: "Warranty",
-        lenovo: "1 Tahun",
-        asus: "2 Tahun",
-        note: "Asus offers a longer warranty period.",
-      },
-      {
-        feature: "Office Software",
-        lenovo: "None",
-        asus: "Office Home and Student 2021",
-        note: "Asus includes Office Home and Student 2021.",
-      },
-      {
-        feature: "Price",
-        lenovo: "Rp19.599.000",
-        asus: "Not specified",
-        note: "Lenovo's price is specified, while Asus's is not.",
-      },
-      {
-        feature: "Weight",
-        lenovo: "Not specified",
-        asus: "2.20 Kg",
-        note: "Asus's weight is specified, while Lenovo's is not.",
-      },
-    ],
-    summary:
-      "The Lenovo Yoga Slim Pro 9 is a higher-end laptop with a more powerful processor, more RAM, faster storage, a better graphics card, and a superior display. However, the ASUS TUF Gaming F15 offers a longer warranty and includes Office software. The Lenovo is positioned as a premium device, while the ASUS is a gaming-focused laptop.",
+    },
   },
 };
+
+type ToolResult = ExtendedToolResult<
+  { callId: string[] },
+  {
+    comparison: {
+      products: Record<string, any>[];
+      differences: Record<string, any>;
+    };
+  }
+>;
+
+const content: ToolResult = {
+  success: true,
+  name: "product_details",
+  args: { callId: ["123", "ABC"] },
+  data: {
+    comparison: comparisonData.comparison.data,
+  },
+};
+
+export default function Page() {
+  return (
+    <div className="px-2 sm:px-12 pt-12 md:pt-14 pb-14 md:pb-24 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4">
+      {/* <ProductInsight content={content} /> */}
+      <ProductCompare content={content} />
+    </div>
+  );
+}

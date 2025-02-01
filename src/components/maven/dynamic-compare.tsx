@@ -2,19 +2,11 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  ChevronUp,
-  FlaskConical,
-  Grip,
-  GripVertical,
-  Info,
-  PackageSearch,
-  Plus,
-} from "lucide-react";
+import { ChevronUp, FlaskConical, Grip, Info, Minus, Plus } from "lucide-react";
 import Link from "next/link";
 import { FC, Fragment, JSX, memo, useState } from "react";
 import { Button } from "../ui/button";
-import { Separator } from "@radix-ui/react-separator";
+import { Separator } from "../ui/separator";
 
 const containerVariants = {
   initial: {
@@ -103,8 +95,8 @@ const sanitizeStr = (url: string) => {
   }
   return (
     <div className="rounded-[2rem] my-0.5 w-fit bg-gray-300 dark:bg-[#4A4947] py-1 px-2">
-      <div className="flex items-center space-x-2">
-        <GripVertical className="size-5 shrink-0" /> <p>{url}</p>
+      <div className="flex items-center space-x-1">
+        <Minus className="size-4 shrink-0" /> <p>{url}</p>
       </div>
     </div>
   );
@@ -122,7 +114,7 @@ const sanitizeKeyName = (input: string) =>
     : "there-is-no-keys";
 
 interface CompareProps {
-  data: Record<string, any>[];
+  data: { products: Record<string, any>[]; differences: Record<string, any> };
   callId: string[];
   isGenerating: boolean;
 }
@@ -130,7 +122,7 @@ interface CompareProps {
 const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
   const [open, setOpen] = useState(true);
 
-  const [one, two] = data;
+  const [one, two] = data.products;
 
   const renderValue = (value: any, key: string): JSX.Element => {
     if (
@@ -144,7 +136,7 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
           className="px-4 mb-1 flex lg:items-center flex-wrap"
         >
           <div className="rounded-[2rem] bg-gray-400 dark:bg-muted py-2 px-4 shrink-0 mr-1">
-            <p className="font-medium">{sanitizeKeyName(key)}:</p>
+            <p className="font-medium">{sanitizeKeyName(key)}</p>
           </div>
           <div className="rounded-2xl bg-gray-300 dark:bg-[#4A4947] py-2 px-4">
             <p>{String(value)}</p>
@@ -153,9 +145,9 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
       );
     } else if (Array.isArray(value)) {
       return (
-        <motion.div variants={itemVariants} className="my-3">
+        <motion.div variants={itemVariants} className="my-1">
           <div className="rounded-[2rem] w-fit bg-[#1A1A1D] py-1 pl-2 pr-8 mb-0.5 mt-1">
-            <div className="flex items-center space-x-2 text-white">
+            <div className="flex items-center space-x-1 text-white">
               <Plus className="size-5" />
               <p className="font-semibold text-sm">{sanitizeKeyName(key)}:</p>
             </div>
@@ -165,10 +157,14 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
             initial="initial"
             animate="animate"
             exit="exit"
-            className=""
+            className="flex flex-wrap justify-between"
           >
             {value.map((item, index) => (
-              <motion.div key={`${key}-${index}`} variants={itemVariants}>
+              <motion.div
+                key={`${key}-${index}`}
+                variants={itemVariants}
+                className=""
+              >
                 {typeof item === "object" ? (
                   <div className="">
                     {Object.entries(item).map(([subKey, subValue]) => (
@@ -184,14 +180,15 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
                 )}
               </motion.div>
             ))}
+            {/* <Separator className="mt-1" /> */}
           </motion.div>
         </motion.div>
       );
     } else if (typeof value === "object" && value !== null) {
       return (
         <motion.div variants={itemVariants} className="my-3">
-          <div className="rounded-[2rem] w-fit bg-purple-300 dark:bg-[#FBF5E5] py-2 pl-4 pr-8 my-1">
-            <div className="flex items-center space-x-2 text-black">
+          <div className="rounded-[2rem] w-fit bg-purple-300 dark:bg-[#FBF5E5] py-1 pl-4 pr-8 my-1">
+            <div className="flex items-center space-x-1 text-black">
               <Grip className="size-5" />
               <p className="font-semibold text-sm">{sanitizeKeyName(key)}:</p>
             </div>
@@ -263,7 +260,7 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
             className="my-4"
           >
             <div className="*:text-xs grid grid-cols-1 lg:grid-cols-2 gap-2">
-              <div className="border rounded-3xl px-3">
+              <div className="border rounded-3xl px-3 pb-1">
                 {[one].map((item, index) => (
                   <motion.div
                     key={index}
@@ -285,7 +282,7 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
                 ))}
               </div>
 
-              <div className="border rounded-3xl px-3">
+              <div className="border rounded-3xl px-3 pb-1">
                 {[two].map((item, index) => (
                   <motion.div
                     key={index}
@@ -306,6 +303,24 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
                   </motion.div>
                 ))}
               </div>
+            </div>
+            <div className="border rounded-3xl px-3 *:text-xs my-2 py-2">
+              <motion.div
+                variants={itemVariants}
+                className="border-t pt-4 first:border-t-0 first:pt-0"
+              >
+                <motion.div
+                  variants={containerVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className="space-y-3"
+                >
+                  {Object.entries(data.differences).map(([key, value]) => (
+                    <Fragment key={key}>{renderValue(value, key)}</Fragment>
+                  ))}
+                </motion.div>
+              </motion.div>
             </div>
             <div className="my-2 flex items-center justify-center">
               <Info className="size-4 mr-1" />
