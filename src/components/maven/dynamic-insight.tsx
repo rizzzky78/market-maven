@@ -2,16 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 import { Fragment, JSX, memo, useId, useState } from "react";
-import {
-  ChevronUp,
-  Circle,
-  FlaskConical,
-  Grip,
-  GripVertical,
-  Info,
-  PackageSearch,
-  Plus,
-} from "lucide-react";
+import { ChevronUp, Circle, FlaskConical, Grip, Plus } from "lucide-react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -122,14 +113,23 @@ const sanitizeKeyName = (input: string) =>
         .join(" ")
     : "there-is-no-keys";
 
-interface InsightProps {
+interface ProductDetailsProps {
+  /** Dynamic product data */
   data: Record<string, any>[];
+  /** Query product name */
+  query: string;
+  /** Product link */
+  link: string;
+  /** Call id pf tools */
   callId?: string;
+  /** Generation state */
   isGenerating?: boolean;
 }
 
-const PureProductInsight: FC<InsightProps> = ({
+const PureProductDetails: FC<ProductDetailsProps> = ({
   data,
+  query,
+  link,
   callId,
   isGenerating,
 }) => {
@@ -239,9 +239,13 @@ const PureProductInsight: FC<InsightProps> = ({
               }`}
             />
             <div className="flex flex-col">
-              <h2 className="text-sm font-bold">Product Insight</h2>
-              <p className="text-xs text-gray-200 dark:text-gray-800">
-                id: {callId ?? "no-call-id"}
+              <Link href={link} target="_blank" rel="noopener noreferrer">
+                <h2 className="text-sm hover:text-purple-400 font-bold line-clamp-1">
+                  {query}
+                </h2>
+              </Link>
+              <p className="text-xs -mt-1 text-gray-200 dark:text-gray-800">
+                Request ID: {callId ?? "no-call-id"}
               </p>
             </div>
           </div>
@@ -298,8 +302,11 @@ const PureProductInsight: FC<InsightProps> = ({
   );
 };
 
-export const ProductInsight = memo(
-  PureProductInsight,
+/**
+ * A memoized product details
+ */
+export const DynamicProductDetails = memo(
+  PureProductDetails,
   (prevProps, nextProps) =>
     prevProps.data === nextProps.data &&
     prevProps.callId === nextProps.callId &&

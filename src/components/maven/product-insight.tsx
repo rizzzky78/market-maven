@@ -17,7 +17,7 @@ interface ProductDetailsProps {
 }
 
 export const ProductInsight: FC<ProductDetailsProps> = ({ content }) => {
-  const { success, data } = content;
+  const { success, args, data } = content;
 
   const [hovering, setHovering] = useState(false);
 
@@ -45,9 +45,9 @@ export const ProductInsight: FC<ProductDetailsProps> = ({ content }) => {
     <div className="w-full">
       <div className="absolute ml-4 -mt-4">
         <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center">
-          <NotepadText className="size-4 mr-1" />
+          <NotepadText className="size-4 mr-1 text-purple-400" />
           <p className="text-xs font-semibold">
-            Product Details by
+            Product Details provided by
             <span className="ml-0.5 text-green-400 dark:text-green-600">
               Tokopedia
             </span>
@@ -72,7 +72,7 @@ export const ProductInsight: FC<ProductDetailsProps> = ({ content }) => {
               </Lens>
               <div className="w-fit p-1 mt-2 rounded-full">
                 <div className="flex items-center space-x-2">
-                  <Info className="size-4" />
+                  <Info className="size-4 text-purple-300" />
                   <p className="text-xs">
                     This app is not affiliated with the relevant online
                     marketplace.
@@ -83,11 +83,17 @@ export const ProductInsight: FC<ProductDetailsProps> = ({ content }) => {
           )}
         </div>
         <Separator className="mt-2 mb-4 bg-[#1A1A1D] dark:bg-muted" />
-        <DynamicInsight data={[insight]} isGenerating={false} callId={callId} />
+        <DynamicInsight
+          callId={callId}
+          query={args.query}
+          link={args.link}
+          data={[insight]}
+          isGenerating={false}
+        />
         <div className="mb-2 flex items-center space-x-2 justify-center">
-          <Info className="size-4" />
+          <Info className="size-4 text-purple-300" />
           <p className="text-xs">
-            This feature are experimental, please use with discretion.
+            AI generated information, for reference only.
           </p>
         </div>
       </div>
@@ -98,12 +104,16 @@ export const ProductInsight: FC<ProductDetailsProps> = ({ content }) => {
 interface StreamProps {
   content: StreamableValue<Record<string, any>>;
   callId?: string;
+  query: string;
+  link: string;
   screenshot?: string;
 }
 
 export const StreamProductInsight: FC<StreamProps> = ({
   content,
   callId,
+  query,
+  link,
   screenshot,
 }) => {
   const [raw, error, pending] = useStreamableValue(content);
@@ -154,7 +164,13 @@ export const StreamProductInsight: FC<StreamProps> = ({
         )}
       </div>
       <Separator className="mt-2 mb-4" />
-      <DynamicInsight data={[data]} isGenerating={false} callId={callId} />
+      <DynamicInsight
+        callId={callId}
+        query={query}
+        link={link}
+        data={[data]}
+        isGenerating={false}
+      />
     </div>
   );
 };
