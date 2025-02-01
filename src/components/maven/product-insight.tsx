@@ -11,7 +11,7 @@ import { MemoProductDetails } from "./memo-product-details";
 
 interface ProductDetailsProps {
   content: ExtendedToolResult<
-    { link: string; query: string },
+    { query: string; link: string },
     { insight: Record<string, any>; screenshot: string; callId: string }
   >;
 }
@@ -101,7 +101,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
   );
 };
 
-interface StreamProps {
+interface StreamProductDetailsProps {
   content: StreamableValue<Record<string, any>>;
   callId?: string;
   query: string;
@@ -109,7 +109,7 @@ interface StreamProps {
   screenshot?: string;
 }
 
-export const StreamProductDetails: FC<StreamProps> = ({
+export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
   content,
   callId,
   query,
@@ -153,7 +153,7 @@ export const StreamProductDetails: FC<StreamProps> = ({
             </Lens>
             <div className="w-fit p-1 mt-2 rounded-full">
               <div className="flex items-center space-x-2">
-                <Info className="size-4" />
+                <Info className="size-4 text-purple-300" />
                 <p className="text-xs">
                   This app is not affiliated with the relevant online
                   marketplace.
@@ -163,7 +163,7 @@ export const StreamProductDetails: FC<StreamProps> = ({
           </div>
         )}
       </div>
-      <Separator className="mt-2 mb-4" />
+      <Separator className="mt-2 mb-4 bg-[#1A1A1D] dark:bg-muted" />
       <MemoProductDetails
         callId={callId}
         query={query}
