@@ -8,6 +8,7 @@ import { MemoProductComparison } from "./memo-product-comparison";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { StreamableValue } from "ai/rsc";
 import { Lens } from "./lens";
+import { Separator } from "../ui/separator";
 
 interface ComparisonProps {
   content: ExtendedToolResult<
@@ -33,10 +34,10 @@ export const ProductComparison: FC<ComparisonProps> = ({ content }) => {
   const [hovering, setHovering] = useState(false);
 
   return (
-    <div className="w-full">
+    <div className="w-full mb-8">
       <div className="absolute ml-4 -mt-4">
         <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center">
-          <Columns2 className="size-4 mr-1" />
+          <Columns2 className="size-4 mr-1 text-purple-400" />
           <p className="text-xs font-semibold">
             Product Comparison by
             <span className="ml-0.5 text-purple-400 dark:text-purple-600">
@@ -65,7 +66,7 @@ export const ProductComparison: FC<ComparisonProps> = ({ content }) => {
               </div>
             ))}
           </div>
-          <div className="w-fit p-1 mt-2 rounded-full">
+          <div className="w-fit p-1 my-2 rounded-full">
             <div className="flex items-center space-x-2">
               <Info className="size-4 text-purple-300" />
               <p className="text-xs">
@@ -74,6 +75,7 @@ export const ProductComparison: FC<ComparisonProps> = ({ content }) => {
             </div>
           </div>
         </div>
+        <Separator className="mt-2 mb-4 bg-[#1A1A1D] dark:bg-muted" />
         <MemoProductComparison
           data={data.comparison}
           callId={args.callId}

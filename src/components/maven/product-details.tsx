@@ -42,7 +42,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
 
   const { callId, insight, screenshot } = data;
   return (
-    <div className="w-full">
+    <div className="w-full mb-8">
       <div className="absolute ml-4 -mt-4">
         <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center">
           <NotepadText className="size-4 mr-1 text-purple-400" />
