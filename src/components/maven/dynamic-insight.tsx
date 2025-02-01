@@ -169,7 +169,7 @@ const PureProductInsight: FC<InsightProps> = ({
             initial="initial"
             animate="animate"
             exit="exit"
-            className=""
+            className="flex flex-wrap gap-x-1"
           >
             {value.map((item, index) => (
               <motion.div key={`${key}-${index}`} variants={itemVariants}>
@@ -205,7 +205,7 @@ const PureProductInsight: FC<InsightProps> = ({
             initial="initial"
             animate="animate"
             exit="exit"
-            className="my-2"
+            className="my-1"
           >
             {Object.entries(value).map(([subKey, subValue]) => (
               <Fragment key={`${key}-${subKey}`}>
@@ -216,7 +216,9 @@ const PureProductInsight: FC<InsightProps> = ({
         </motion.div>
       );
     }
-    return <p className="text-sm">{key}: (Unsupported data type)</p>;
+    return (
+      <p className="text-sm text-red-500">{key}: (Unsupported data type)</p>
+    );
   };
 
   return (
