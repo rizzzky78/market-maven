@@ -4,6 +4,7 @@
 import { Fragment, JSX, memo, useId, useState } from "react";
 import {
   ChevronUp,
+  Circle,
   FlaskConical,
   Grip,
   GripVertical,
@@ -102,9 +103,9 @@ const sanitizeStr = (url: string) => {
     );
   }
   return (
-    <div className="rounded-[2rem] my-1 w-fit bg-gray-300 dark:bg-[#4A4947] py-3 px-4">
-      <div className="flex items-center space-x-2">
-        <GripVertical className="size-5 shrink-0" /> <p>{url}</p>
+    <div className="rounded-[2rem] my-0.5 w-fit bg-gray-300 dark:bg-[#4A4947] py-1 pl-2 pr-3">
+      <div className="flex items-center">
+        <Circle className="size-4 shrink-0 mr-2" /> <p>{url}</p>
       </div>
     </div>
   );
@@ -144,12 +145,12 @@ const PureProductInsight: FC<InsightProps> = ({
       return (
         <motion.div
           variants={itemVariants}
-          className="px-4 mb-2 flex lg:items-center flex-wrap"
+          className="px-4 mb-1 flex lg:items-center flex-wrap"
         >
-          <div className="rounded-[2rem] bg-gray-400 dark:bg-muted py-3 px-4 shrink-0 mr-1">
+          <div className="rounded-[2rem] bg-gray-400 dark:bg-muted py-1 px-4 shrink-0 mr-1">
             <p className="font-medium">{sanitizeKeyName(key)}:</p>
           </div>
-          <div className="rounded-[2rem] bg-gray-300 dark:bg-[#4A4947] py-3 px-4">
+          <div className="rounded-[2rem] bg-gray-300 dark:bg-[#4A4947] py-1 px-4">
             <p>{String(value)}</p>
           </div>
         </motion.div>
@@ -157,9 +158,9 @@ const PureProductInsight: FC<InsightProps> = ({
     } else if (Array.isArray(value)) {
       return (
         <motion.div variants={itemVariants} className="my-3">
-          <div className="rounded-[2rem] w-fit bg-[#1A1A1D] py-3 pl-4 pr-20 my-2">
-            <div className="flex items-center space-x-2 text-white">
-              <Plus className="size-5" />
+          <div className="rounded-[2rem] w-fit bg-[#1A1A1D] py-1 pl-2 pr-20 my-1">
+            <div className="flex items-center text-white">
+              <Plus className="size-4 mr-2" />
               <p className="font-semibold text-sm">{sanitizeKeyName(key)}:</p>
             </div>
           </div>
@@ -193,9 +194,9 @@ const PureProductInsight: FC<InsightProps> = ({
     } else if (typeof value === "object" && value !== null) {
       return (
         <motion.div variants={itemVariants} className="my-3">
-          <div className="rounded-[2rem] w-fit bg-purple-300 dark:bg-[#FBF5E5] py-3 pl-4 pr-20 my-2">
-            <div className="flex items-center space-x-2 text-black">
-              <Grip className="size-5" />
+          <div className="rounded-[2rem] w-fit bg-purple-300 dark:bg-[#FBF5E5] py-1 pl-2 pr-20 my-2">
+            <div className="flex items-center text-black">
+              <Grip className="size-4 mr-2" />
               <p className="font-semibold text-sm">{sanitizeKeyName(key)}:</p>
             </div>
           </div>
@@ -261,18 +262,17 @@ const PureProductInsight: FC<InsightProps> = ({
               initial="initial"
               animate="animate"
               exit="exit"
-              className="space-y-6 *:text-sm flex flex-wrap"
+              className="space-y-1 *:text-sm flex flex-wrap"
             >
               {data.map((item, index) => (
                 <motion.div
                   key={index}
                   variants={itemVariants}
-                  className="border-t pt-4 first:border-t-0 first:pt-0"
+                  className="border-t pt-1 first:border-t-0 first:pt-0"
                 >
-                  <div className="rounded-[2rem] w-fit bg-purple-400 dark:bg-[#FBF5E5] py-3 pl-4 pr-20 my-3">
+                  <div className="rounded-[2rem] w-fit bg-purple-400 dark:bg-[#FBF5E5] py-1 pl-4 pr-20 mt-6 mb-2">
                     <div className="flex items-center space-x-2 text-black">
-                      <PackageSearch className="size-5" />
-                      <p className="font-semibold text-sm">Product</p>
+                      <p className="font-semibold text-sm">Product:</p>
                     </div>
                   </div>
                   <motion.div
@@ -280,7 +280,7 @@ const PureProductInsight: FC<InsightProps> = ({
                     initial="initial"
                     animate="animate"
                     exit="exit"
-                    className="space-y-3"
+                    className="space-y-1"
                   >
                     {Object.entries(item).map(([key, value]) => (
                       <Fragment key={key}>{renderValue(value, key)}</Fragment>
