@@ -261,7 +261,7 @@ const PureProductInsight: FC<InsightProps> = ({
               initial="initial"
               animate="animate"
               exit="exit"
-              className="space-y-6 *:text-sm overflow-hidden"
+              className="space-y-6 *:text-sm flex flex-wrap"
             >
               {data.map((item, index) => (
                 <motion.div
@@ -288,12 +288,6 @@ const PureProductInsight: FC<InsightProps> = ({
                   </motion.div>
                 </motion.div>
               ))}
-              <div className="mt-2 flex items-center space-x-2 justify-center">
-                <Info className="size-4" />
-                <p className="text-xs">
-                  This feature are experimental, please use with discretion.
-                </p>
-              </div>
             </motion.div>
           </div>
         )}

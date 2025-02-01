@@ -84,6 +84,12 @@ export const ProductInsight: FC<ProductDetailsProps> = ({ content }) => {
         </div>
         <Separator className="mt-2 mb-4 bg-[#1A1A1D] dark:bg-muted" />
         <DynamicInsight data={[insight]} isGenerating={false} callId={callId} />
+        <div className="mb-2 flex items-center space-x-2 justify-center">
+          <Info className="size-4" />
+          <p className="text-xs">
+            This feature are experimental, please use with discretion.
+          </p>
+        </div>
       </div>
     </div>
   );
