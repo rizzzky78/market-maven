@@ -305,7 +305,7 @@ const PureProductDetails: FC<ProductDetailsProps> = ({
 /**
  * A memoized product details
  */
-export const DynamicProductDetails = memo(
+export const MemoProductDetails = memo(
   PureProductDetails,
   (prevProps, nextProps) =>
     prevProps.data === nextProps.data &&

@@ -7,7 +7,7 @@ import { ExtendedToolResult } from "@/lib/types/ai";
 import { Info, NotepadText } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { Lens } from "./lens";
-import { ProductInsight as DynamicInsight } from "./dynamic-insight";
+import { MemoProductDetails } from "./memo-product-details";
 
 interface ProductDetailsProps {
   content: ExtendedToolResult<
@@ -16,7 +16,7 @@ interface ProductDetailsProps {
   >;
 }
 
-export const ProductInsight: FC<ProductDetailsProps> = ({ content }) => {
+export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
   const { success, args, data } = content;
 
   const [hovering, setHovering] = useState(false);
@@ -83,7 +83,7 @@ export const ProductInsight: FC<ProductDetailsProps> = ({ content }) => {
           )}
         </div>
         <Separator className="mt-2 mb-4 bg-[#1A1A1D] dark:bg-muted" />
-        <DynamicInsight
+        <MemoProductDetails
           callId={callId}
           query={args.query}
           link={args.link}
@@ -109,7 +109,7 @@ interface StreamProps {
   screenshot?: string;
 }
 
-export const StreamProductInsight: FC<StreamProps> = ({
+export const StreamProductDetails: FC<StreamProps> = ({
   content,
   callId,
   query,
@@ -164,12 +164,12 @@ export const StreamProductInsight: FC<StreamProps> = ({
         )}
       </div>
       <Separator className="mt-2 mb-4" />
-      <DynamicInsight
+      <MemoProductDetails
         callId={callId}
         query={query}
         link={link}
         data={[data]}
-        isGenerating={false}
+        isGenerating={pending}
       />
     </div>
   );
