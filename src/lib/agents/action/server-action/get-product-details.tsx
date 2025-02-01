@@ -9,7 +9,7 @@ import { getProductDetailsSchema } from "../../schema/tool-parameters";
 import { root } from "../../constant";
 import { StreamAssistantMessage } from "@/components/maven/assistant-message";
 import { ErrorMessage } from "@/components/maven/error-message";
-import { StreamProductInsight } from "@/components/maven/product-insight";
+import { StreamProductInsight } from "@/components/maven/product-details";
 import { ShinyText } from "@/components/maven/shining-glass";
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";

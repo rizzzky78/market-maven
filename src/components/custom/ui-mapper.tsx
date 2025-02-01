@@ -11,7 +11,7 @@ import {
 } from "@/lib/types/ai";
 import { ProductsResponse } from "@/lib/types/product";
 import { ProductsContainer } from "../maven/products-container";
-import { ProductInsight } from "../maven/product-insight";
+import { ProductInsight } from "../maven/product-details";
 import { AssistantMessage } from "../maven/assistant-message";
 import { UserMessage } from "../maven/user-message";
 import { ToolContent } from "ai";

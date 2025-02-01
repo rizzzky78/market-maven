@@ -2,7 +2,7 @@
 import { DynamicCompare } from "@/components/maven/memo-product-comparison";
 import { ProductComparison } from "@/components/maven/dynamic-comparison";
 import { ProductCompare } from "@/components/maven/product-compare";
-import { ProductDetails } from "@/components/maven/product-insight";
+import { ProductDetails } from "@/components/maven/product-details";
 import { ExtendedToolResult } from "@/lib/types/ai";
 import { ProductSpecifications } from "@/lib/types/product";
 import { FC } from "react";

@@ -1,4 +1,4 @@
-import { ProductInsight } from "@/components/maven/product-insight";
+import { ProductInsight } from "@/components/maven/product-details";
 import { ExtendedToolResult } from "@/lib/types/ai";
 import { FC } from "react";
 

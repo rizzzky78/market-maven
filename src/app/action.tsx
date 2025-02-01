@@ -43,7 +43,7 @@ import { ProductsContainer } from "@/components/maven/products-container";
 import { productsSchema } from "@/lib/agents/schema/product";
 import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
 import logger from "@/lib/utility/logger";
-import { StreamProductInsight } from "@/components/maven/product-insight";
+import { StreamProductInsight } from "@/components/maven/product-details";
 import { mapUIState } from "@/components/custom/ui-mapper";
 import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
 import { StreamProductsContainer } from "@/components/maven/exp-stream-products-container";
