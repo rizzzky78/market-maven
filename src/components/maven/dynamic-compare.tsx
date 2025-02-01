@@ -94,9 +94,9 @@ const sanitizeStr = (url: string) => {
     );
   }
   return (
-    <div className="rounded-[2rem] my-0.5 w-fit bg-gray-300 dark:bg-[#4A4947] py-1 px-2">
+    <div className="rounded-3xl my-0.5 w-fit bg-gray-300 dark:bg-[#4A4947] py-1 pl-2 pr-3">
       <div className="flex items-center space-x-1">
-        <Minus className="size-4 shrink-0" /> <p>{url}</p>
+        <Minus className="size-5 shrink-0" /> <p>{url}</p>
       </div>
     </div>
   );
