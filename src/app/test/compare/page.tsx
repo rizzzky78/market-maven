@@ -1,7 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { DynamicCompare } from "@/components/maven/memo-product-comparison";
-import { ProductComparison } from "@/components/maven/dynamic-comparison";
-import { ProductCompare } from "@/components/maven/product-compare";
+import { ProductComparison } from "@/components/maven/product-comparison";
 import { ProductDetails } from "@/components/maven/product-details";
 import { ExtendedToolResult } from "@/lib/types/ai";
 import { ProductSpecifications } from "@/lib/types/product";
@@ -109,6 +107,7 @@ const comparisonData = {
 type ComparisonTool = ExtendedToolResult<
   { callId: string[] },
   {
+    images: [string, string];
     comparison: {
       products: Record<string, any>[];
       differences: Record<string, any>;
@@ -179,6 +178,10 @@ const contentToolComparison: ComparisonTool = {
   name: "product_details",
   args: { callId: ["123", "ABC"] },
   data: {
+    images: [
+      "https://service.firecrawl.dev/storage/v1/object/public/media/screenshot-1770c871-3340-4cdd-b00e-ff7544cc79b0.png",
+      "https://service.firecrawl.dev/storage/v1/object/public/media/screenshot-84e577ab-2792-4801-8b43-f622d02cc759.png",
+    ],
     comparison: comparisonData.comparison.data,
   },
 };
@@ -202,7 +205,7 @@ export default function Page() {
   return (
     <div className="px-2 sm:px-12 pt-12 md:pt-14 pb-14 md:pb-24 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4">
       <ProductDetails content={contentToolDetails} />
-      {/* <ProductCompare content={contentToolComparison} /> */}
+      <ProductComparison content={contentToolComparison} />
     </div>
   );
 }
