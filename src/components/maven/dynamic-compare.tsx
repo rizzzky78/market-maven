@@ -114,15 +114,16 @@ const sanitizeKeyName = (input: string) =>
     : "there-is-no-keys";
 
 interface CompareProps {
-  data: { products: Record<string, any>[]; differences: Record<string, any> };
+  data: Partial<{
+    products: Record<string, any>[];
+    differences: Record<string, any>;
+  }>;
   callId: string[];
   isGenerating: boolean;
 }
 
 const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
   const [open, setOpen] = useState(true);
-
-  const [one, two] = data.products;
 
   const renderValue = (value: any, key: string): JSX.Element => {
     if (
@@ -233,7 +234,9 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
               }`}
             />
             <div className="flex flex-col">
-              <h2 className="text-sm font-bold">Product Insight</h2>
+              <h2 className="text-sm font-bold">
+                One-to-One Product Comparison
+              </h2>
               <p className="text-xs text-gray-200 dark:text-gray-800">
                 id: {callId ?? "no-call-id"}
               </p>
@@ -257,77 +260,79 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="my-4"
+            className="my-3"
           >
             <div className="*:text-xs grid grid-cols-1 lg:grid-cols-2 gap-2">
-              <div className="border rounded-3xl px-3 pb-1">
-                {[one].map((item, index) => (
-                  <motion.div
-                    key={index}
-                    variants={itemVariants}
-                    className="border-t pt-4 first:border-t-0 first:pt-0"
-                  >
+              <div className="border-r rounded-3xl px-3 pb-1">
+                {data.products &&
+                  [data.products[0]].map((item: Record<string, any>, index) => (
                     <motion.div
-                      variants={containerVariants}
-                      initial="initial"
-                      animate="animate"
-                      exit="exit"
-                      className="space-y-3"
+                      key={index}
+                      variants={itemVariants}
+                      className="border-t pt-4 first:border-t-0 first:pt-0"
                     >
-                      {Object.entries(item).map(([key, value]) => (
-                        <Fragment key={key}>{renderValue(value, key)}</Fragment>
-                      ))}
+                      <motion.div
+                        variants={containerVariants}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        className="space-y-3"
+                      >
+                        {Object.entries(item).map(([key, value]) => (
+                          <Fragment key={key}>
+                            {renderValue(value, key)}
+                          </Fragment>
+                        ))}
+                      </motion.div>
                     </motion.div>
-                  </motion.div>
-                ))}
+                  ))}
               </div>
 
-              <div className="border rounded-3xl px-3 pb-1">
-                {[two].map((item, index) => (
-                  <motion.div
-                    key={index}
-                    variants={itemVariants}
-                    className="border-t pt-4 first:border-t-0 first:pt-0"
-                  >
+              <div className="border-l rounded-3xl px-3 pb-1">
+                {data.products &&
+                  [data.products[1]].map((item, index) => (
                     <motion.div
-                      variants={containerVariants}
-                      initial="initial"
-                      animate="animate"
-                      exit="exit"
-                      className="space-y-3"
+                      key={index}
+                      variants={itemVariants}
+                      className="border-t pt-4 first:border-t-0 first:pt-0"
                     >
-                      {Object.entries(item).map(([key, value]) => (
-                        <Fragment key={key}>{renderValue(value, key)}</Fragment>
-                      ))}
+                      <motion.div
+                        variants={containerVariants}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        className="space-y-3"
+                      >
+                        {Object.entries(item).map(([key, value]) => (
+                          <Fragment key={key}>
+                            {renderValue(value, key)}
+                          </Fragment>
+                        ))}
+                      </motion.div>
                     </motion.div>
-                  </motion.div>
-                ))}
+                  ))}
               </div>
             </div>
-            <div className="border rounded-3xl px-3 *:text-xs my-2 py-2">
-              <motion.div
-                variants={itemVariants}
-                className="border-t pt-4 first:border-t-0 first:pt-0"
-              >
+            {data?.differences && (
+              <div className="border-y rounded-3xl px-3 *:text-xs my-2 py-2">
                 <motion.div
-                  variants={containerVariants}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  className="space-y-3"
+                  variants={itemVariants}
+                  className="border-t pt-4 first:border-t-0 first:pt-0"
                 >
-                  {Object.entries(data.differences).map(([key, value]) => (
-                    <Fragment key={key}>{renderValue(value, key)}</Fragment>
-                  ))}
+                  <motion.div
+                    variants={containerVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    className="space-y-3"
+                  >
+                    {Object.entries(data.differences).map(([key, value]) => (
+                      <Fragment key={key}>{renderValue(value, key)}</Fragment>
+                    ))}
+                  </motion.div>
                 </motion.div>
-              </motion.div>
-            </div>
-            <div className="my-2 flex items-center justify-center">
-              <Info className="size-4 mr-1" />
-              <p className="text-xs">
-                AI generated comparison, for reference only.
-              </p>
-            </div>
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
