@@ -3,7 +3,7 @@
 import { ExtendedToolResult } from "@/lib/types/ai";
 import { Columns2, Info, NotepadText } from "lucide-react";
 import { FC } from "react";
-import { DynamicCompare } from "./dynamic-compare";
+import { DynamicCompare } from "./memo-product-comparison";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 
 interface CompareProps {

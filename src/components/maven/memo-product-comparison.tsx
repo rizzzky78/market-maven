@@ -2,11 +2,10 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronUp, FlaskConical, Grip, Info, Minus, Plus } from "lucide-react";
+import { ChevronUp, FlaskConical, Grip, Minus, Plus } from "lucide-react";
 import Link from "next/link";
 import { FC, Fragment, JSX, memo, useState } from "react";
 import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
 
 const containerVariants = {
   initial: {
@@ -113,7 +112,7 @@ const sanitizeKeyName = (input: string) =>
         .join(" ")
     : "there-is-no-keys";
 
-interface CompareProps {
+interface ProductComparisonProps {
   data: Partial<{
     products: Record<string, any>[];
     differences: Record<string, any>;
@@ -122,7 +121,11 @@ interface CompareProps {
   isGenerating: boolean;
 }
 
-const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
+const PureProductComparison: FC<ProductComparisonProps> = ({
+  callId,
+  data,
+  isGenerating,
+}) => {
   const [open, setOpen] = useState(true);
 
   const renderValue = (value: any, key: string): JSX.Element => {
@@ -340,8 +343,8 @@ const PureCompare: FC<CompareProps> = ({ callId, data, isGenerating }) => {
   );
 };
 
-export const DynamicCompare = memo(
-  PureCompare,
+export const MemoProductComparison = memo(
+  PureProductComparison,
   (prev, next) =>
     prev.callId === next.callId &&
     prev.data === next.data &&

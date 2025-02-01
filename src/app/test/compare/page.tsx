@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { DynamicCompare } from "@/components/maven/dynamic-compare";
+import { DynamicCompare } from "@/components/maven/memo-product-comparison";
 import { ProductComparison } from "@/components/maven/dynamic-comparison";
 import { ProductCompare } from "@/components/maven/product-compare";
 import { ProductDetails } from "@/components/maven/product-insight";
