@@ -118,7 +118,7 @@ interface ProductComparisonProps {
     differences: Record<string, any>;
   }>;
   callId: string[];
-  isGenerating: boolean;
+  isGenerating?: boolean;
 }
 
 const PureProductComparison: FC<ProductComparisonProps> = ({
@@ -241,7 +241,7 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
                 One-to-One Product Comparison
               </h2>
               <p className="text-xs text-gray-200 dark:text-gray-800">
-                id: {callId ?? "no-call-id"}
+                Request ID: {callId ?? "no-call-id"}
               </p>
             </div>
           </div>

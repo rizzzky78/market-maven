@@ -81,7 +81,7 @@ export const ProductComparison: FC<ComparisonProps> = ({ content }) => {
           callId={args.callId}
           isGenerating={isGenerating}
         />
-        <div className="mt-3 flex items-center justify-center">
+        <div className="mt-3 -mb-1 flex items-center justify-center">
           <Info className="size-4 mr-1 text-purple-300" />
           <p className="text-xs">
             AI generated comparison, for reference only.
