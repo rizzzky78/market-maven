@@ -31,7 +31,10 @@ interface ComparisonProps {
 export const ProductComparison: FC<ComparisonProps> = ({ content }) => {
   const { success, args, data } = content;
   const { isGenerating } = useAppState();
-  const [hovering, setHovering] = useState(false);
+  const [hovering_1, setHovering_1] = useState(false);
+  const [hovering_2, setHovering_2] = useState(false);
+
+  const [one, two] = data.images;
 
   return (
     <div className="w-full mb-8">
@@ -49,22 +52,22 @@ export const ProductComparison: FC<ComparisonProps> = ({ content }) => {
       <div className="w-full py-1 border px-4 pt-4 pb-4 rounded-[2rem]">
         <div className="">
           <div className="flex flex-wrap gap-3">
-            {data.images.map((image, index) => (
-              <div key={index}>
-                <Lens
-                  hovering={hovering}
-                  setHovering={setHovering}
-                  zoomFactor={2}
-                  lensSize={270}
-                >
-                  <img
-                    src={image}
-                    alt="Searched Product"
-                    className="object-cover"
-                  />
-                </Lens>
-              </div>
-            ))}
+            <Lens
+              hovering={hovering_1}
+              setHovering={setHovering_1}
+              zoomFactor={2}
+              lensSize={270}
+            >
+              <img src={one} alt="Searched Product" className="object-cover" />
+            </Lens>
+            <Lens
+              hovering={hovering_2}
+              setHovering={setHovering_2}
+              zoomFactor={2}
+              lensSize={270}
+            >
+              <img src={two} alt="Searched Product" className="object-cover" />
+            </Lens>
           </div>
           <div className="w-fit p-1 my-2 rounded-full">
             <div className="flex items-center space-x-2">
