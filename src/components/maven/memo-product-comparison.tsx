@@ -266,13 +266,13 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
             className="my-3"
           >
             <div className="*:text-xs grid grid-cols-1 lg:grid-cols-2 gap-2">
-              <div className="border-r rounded-3xl px-3 pb-1">
+              <div className="border-r border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
                 {data.products &&
                   [data.products[0]].map((item: Record<string, any>, index) => (
                     <motion.div
                       key={index}
                       variants={itemVariants}
-                      className="border-t pt-4 first:border-t-0 first:pt-0"
+                      className="pt-4"
                     >
                       <motion.div
                         variants={containerVariants}
@@ -291,13 +291,13 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
                   ))}
               </div>
 
-              <div className="border-l rounded-3xl px-3 pb-1">
+              <div className="border-l border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
                 {data.products &&
                   [data.products[1]].map((item, index) => (
                     <motion.div
                       key={index}
                       variants={itemVariants}
-                      className="border-t pt-4 first:border-t-0 first:pt-0"
+                      className="pt-4"
                     >
                       <motion.div
                         variants={containerVariants}
@@ -317,7 +317,7 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
               </div>
             </div>
             {data?.differences && (
-              <div className="border-y rounded-3xl px-3 *:text-xs my-2 py-2">
+              <div className="border-y border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 *:text-xs my-2 py-2">
                 <motion.div
                   variants={itemVariants}
                   className="border-t pt-4 first:border-t-0 first:pt-0"
