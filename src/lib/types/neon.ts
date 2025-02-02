@@ -1,33 +1,18 @@
-/**
- * Define type for the stored data structure
- */
-export type StoredData<T = unknown> = {
-  key: string;
+import { z } from "zod";
+
+// Schema Validation
+export const storeValueSchema = z.object({
+  key: z.string().uuid(),
+  metadata: z.object({
+    chatId: z.string(),
+    email: z.string().email(),
+  }),
+  value: z.string(),
+});
+
+// Type inference from schema
+export type StoreValue = z.infer<typeof storeValueSchema>;
+
+export type StoredValue<T = unknown> = Pick<StoreValue, "key" | "value"> & {
   value: T;
-  created_at: string;
-  updated_at: string;
-};
-
-/**
- * Type for the POST request payload
- */
-export type StoreRequest<T> = {
-  key: string;
-  value: T;
-};
-
-/**
- * Type for the successful response
- */
-export type SuccessResponse<T> = {
-  success: true;
-  data: StoredData<T>;
-};
-
-/**
- * Type for error response
- */
-export type ErrorResponse = {
-  success: false;
-  error: string;
 };
