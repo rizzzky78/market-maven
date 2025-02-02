@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { ErrorMessage } from "@/components/maven/error-message";
 import { ProductComparison } from "@/components/maven/product-comparison";
 import { ProductDetails } from "@/components/maven/product-details";
 import { ExtendedToolResult } from "@/lib/types/ai";
@@ -206,6 +207,11 @@ export default function Page() {
     <div className="px-2 sm:px-12 pt-12 md:pt-14 pb-14 md:pb-24 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4">
       <ProductDetails content={contentToolDetails} />
       <ProductComparison content={contentToolComparison} />
+      <ErrorMessage
+        errorName="Scrape Operation Error"
+        reason="There was an error while fetching data from the server. Please try again later or contact support if the problem persists."
+        // raw={productDetailsData}
+      />
     </div>
   );
 }
