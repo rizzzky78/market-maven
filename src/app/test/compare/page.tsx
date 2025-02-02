@@ -210,7 +210,7 @@ export default function Page() {
       <ErrorMessage
         errorName="Scrape Operation Error"
         reason="There was an error while fetching data from the server. Please try again later or contact support if the problem persists."
-        // raw={productDetailsData}
+        raw={productDetailsData}
       />
     </div>
   );

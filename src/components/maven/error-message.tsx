@@ -22,7 +22,7 @@ export const ErrorMessage: FC<ErrorCardProps> = ({
   raw,
 }) => {
   return (
-    <Card className="w-full max-w-2xl border-none dark:border-inherit dark:border rounded-3xl bg-red-400 dark:bg-transparent">
+    <Card className="w-full max-w-2xl border-none dark:border-inherit dark:border rounded-3xl bg-red-400">
       <CardHeader className="space-y-1">
         <CardTitle className="text-sm text-white font-semibold flex items-center space-x-2">
           <AlertCircle className="w-5 h-5" />
