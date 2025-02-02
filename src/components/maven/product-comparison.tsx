@@ -49,7 +49,7 @@ export const ProductComparison: FC<ComparisonProps> = ({ content }) => {
           </p>
         </div>
       </div>
-      <div className="w-full py-1 border px-4 pt-4 pb-4 rounded-[2rem]">
+      <div className="w-full py-1 border-[#1A1A1D] dark:border-inherit border px-4 pt-4 pb-4 rounded-[2rem]">
         <div className="">
           <div className="flex flex-wrap gap-3">
             <Lens
@@ -71,7 +71,7 @@ export const ProductComparison: FC<ComparisonProps> = ({ content }) => {
           </div>
           <div className="w-fit p-1 my-2 rounded-full">
             <div className="flex items-center space-x-2">
-              <Info className="size-4 text-purple-300" />
+              <Info className="size-4 text-purple-500 dark:text-purple-300" />
               <p className="text-xs">
                 This app is not affiliated with the relevant online marketplace.
               </p>
@@ -85,7 +85,7 @@ export const ProductComparison: FC<ComparisonProps> = ({ content }) => {
           isGenerating={isGenerating}
         />
         <div className="mt-3 -mb-1 flex items-center justify-center">
-          <Info className="size-4 mr-1 text-purple-300" />
+          <Info className="size-4 mr-1 text-purple-500 dark:text-purple-300" />
           <p className="text-xs">
             AI generated comparison, for reference only.
           </p>
