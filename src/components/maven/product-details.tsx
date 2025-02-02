@@ -3,18 +3,11 @@
 
 import { StreamableValue, useStreamableValue } from "ai/rsc";
 import { FC, useEffect, useState } from "react";
-import { ExtendedToolResult } from "@/lib/types/ai";
 import { Info, NotepadText } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { Lens } from "./lens";
 import { MemoProductDetails } from "./memo-product-details";
-
-interface ProductDetailsProps {
-  content: ExtendedToolResult<
-    { query: string; link: string },
-    { insight: Record<string, any>; screenshot: string; callId: string }
-  >;
-}
+import { ProductDetailsProps } from "@/lib/types/props";
 
 export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
   const { success, args, data } = content;
