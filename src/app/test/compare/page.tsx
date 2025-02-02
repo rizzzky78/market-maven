@@ -106,7 +106,7 @@ const comparisonData = {
 };
 
 type ComparisonTool = ExtendedToolResult<
-  { callId: string[] },
+  { callId: string },
   {
     images: [string, string];
     comparison: {
@@ -177,7 +177,7 @@ const productDetailsData = {
 const contentToolComparison: ComparisonTool = {
   success: true,
   name: "product_details",
-  args: { callId: ["123", "ABC"] },
+  args: { callId: '70d8dadc-fef6-4698-b91f-d9f9b95eedc4' },
   data: {
     images: [
       "https://service.firecrawl.dev/storage/v1/object/public/media/screenshot-1770c871-3340-4cdd-b00e-ff7544cc79b0.png",

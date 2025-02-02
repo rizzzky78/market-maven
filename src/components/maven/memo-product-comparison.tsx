@@ -117,7 +117,7 @@ interface ProductComparisonProps {
     products: Record<string, any>[];
     differences: Record<string, any>;
   }>;
-  callId: string[];
+  callId: string;
   isGenerating?: boolean;
 }
 

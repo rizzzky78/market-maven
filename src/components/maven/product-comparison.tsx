@@ -14,7 +14,7 @@ interface ComparisonProps {
   content: ExtendedToolResult<
     {
       /** Call id tools */
-      callId: string[];
+      callId: string;
     },
     {
       /** Product image preview */
