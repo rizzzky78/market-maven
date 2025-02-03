@@ -8,6 +8,7 @@ import { Separator } from "../ui/separator";
 import { Lens } from "./lens";
 import { MemoProductDetails } from "./memo-product-details";
 import { ProductDetailsProps } from "@/lib/types/props";
+import { ErrorMessage } from "./error-message";
 
 export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
   const { success, args, data } = content;
@@ -16,20 +17,11 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
 
   if (!success) {
     return (
-      <div>
-        <div className="bg-red-500 p-5 rounded-3xl space-y-1">
-          <h2 className="bg-black py-1 p-5 rounded-3xl w-fit text-sm">
-            An Error occured :(
-          </h2>
-          <pre className="text-xs overflow-x-auto">
-            {JSON.stringify(
-              { name: content.name, args: content.args },
-              null,
-              2
-            )}
-          </pre>
-        </div>
-      </div>
+      <ErrorMessage
+        errorName="Invalid Data Tool Results"
+        reason="Data tool results failed to render. This occur when received data tool are invalid on pre-processing the results."
+        raw={{ args, data }}
+      />
     );
   }
 
@@ -119,11 +111,11 @@ export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
 
   if (error) {
     return (
-      <div>
-        <div>
-          <h1>An Error Occured when parsing the RAW data!</h1>
-        </div>
-      </div>
+      <ErrorMessage
+        errorName="Stream Object Parsing Operation Failed"
+        reason="There was an error while parsing the streamable-value input."
+        raw={{ trace: raw }}
+      />
     );
   }
 
