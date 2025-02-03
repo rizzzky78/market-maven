@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { storeValueSchema } from "@/lib/types/neon";
-import {
-  retrieveKeyValue,
-  storeKeyValue,
-} from "@/lib/service/key-value-service";
+import { retrieveKeyValue, storeKeyValue } from "@/lib/service/store";
 import logger from "@/lib/utility/logger";
 
 const ERROR_MESSAGE = {
