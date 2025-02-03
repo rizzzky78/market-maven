@@ -252,7 +252,7 @@ const PureProductDetails: FC<ProductDetailsProps> = ({
           <Button
             variant={"ghost"}
             onClick={() => setOpen((prev) => !prev)}
-            className="m-0 p-0 size-10 rounded-full"
+            className="size-10 rounded-full"
           >
             <ChevronUp
               className={`transition-all ${open ? "rotate-180" : ""}`}
