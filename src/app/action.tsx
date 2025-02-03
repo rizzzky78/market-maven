@@ -164,10 +164,10 @@ const sendMessage = async (
           if (!scrapeContent.success) {
             ui.done(
               <ErrorMessage
-                errorName="Scrape Error"
+                errorName="Scrape Operation Failed"
                 reason="There was an error while scrapping the content from the firecrawl service."
                 raw={{
-                  query,
+                  payload: { query },
                   error: scrapeContent.error,
                   message: scrapeContent.message,
                 }}
@@ -178,10 +178,7 @@ const sendMessage = async (
           /** Handle if Scrape Operation is Success */
           if (scrapeContent.success && scrapeContent.markdown) {
             ui.update(
-              <ShinyText
-                text="Found products, proceed to data extraction..."
-                speed={1}
-              />
+              <ShinyText text="Found products, proceed to data extraction..." />
             );
 
             yield ui.value;
@@ -325,9 +322,13 @@ const sendMessage = async (
           if (!scrapeResult.success) {
             ui.done(
               <ErrorMessage
-                name="Scrape Error"
-                messsage={scrapeResult.error}
-                raw={{ query, link }}
+                errorName="Scrape Operation Failed"
+                reason="There was an error while scrapping the content from the firecrawl service."
+                raw={{
+                  payload: { query, link },
+                  error: scrapeResult.error,
+                  message: scrapeResult.message,
+                }}
               />
             );
           }
