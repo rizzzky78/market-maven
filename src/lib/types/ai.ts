@@ -304,6 +304,19 @@ export type AttachProduct = {
 };
 
 /**
+ * Type representing a one-to-one product comparison based on user selection.
+ */
+export type ProductCompare = {
+  /** A one-to-one product array object data, only contain two array object */
+  for: {
+    /** A title of product to be compared */
+    title: string;
+    /** A callId identifier match by get-product-details tool result */
+    callId: string;
+  }[];
+};
+
+/**
  * Represents a collection of products for comparison purposes.
  */
 export type ProductComparison = {
@@ -320,6 +333,8 @@ export type UserContentMessage = {
   text_input?: string | null;
   /** Optional product attachment */
   attach_product?: AttachProduct | null;
+  /** Optional prodct compare requested by user */
+  product_compare?: ProductCompare | null;
   /** Optional response to an inquiry */
   inquiry_response?: InquiryResponse | null;
 };
