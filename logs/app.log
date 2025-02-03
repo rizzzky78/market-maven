@@ -11054,3 +11054,84 @@
     }
   ]
 }
+[90m[2025-02-03 11:36:24.497][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving value",
+  "meta": [
+    {
+      "key": "fce7c1b3-ee58-4775-87b5-1c80071c6480",
+      "operation": "retrieve"
+    }
+  ]
+}
+[90m[2025-02-03 11:37:23.349][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving value",
+  "meta": [
+    {
+      "key": "fce7c1b3-ee58-4775-87b5-1c80071c6480",
+      "operation": "retrieve"
+    }
+  ]
+}
+[90m[2025-02-03 11:37:45.669][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving value",
+  "meta": [
+    {
+      "key": "fce7c1b3-ee58-4775-87b5-1c80071c6480",
+      "operation": "retrieve"
+    }
+  ]
+}
+[90m[2025-02-03 11:40:36.698][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving value",
+  "meta": [
+    {
+      "key": "fce7c1b3-ee58-4775-87b5-1c80071c6480",
+      "operation": "retrieve"
+    }
+  ]
+}
+[90m[2025-02-03 11:40:56.716][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving value",
+  "meta": [
+    {
+      "key": "fce7c1b3-ee58-4775-87b5-1c80071c6480",
+      "operation": "retrieve"
+    }
+  ]
+}
+[90m[2025-02-03 11:42:40.949][39m [[1m[33mWARN[39m[22m] {
+  "ctx": "Invalid UUID format",
+  "meta": [
+    {
+      "key": "fce7c1b3-ee58-4775-87b5-1c80071c6480X",
+      "operation": "validate"
+    }
+  ]
+}
+[90m[2025-02-03 11:42:46.298][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving value",
+  "meta": [
+    {
+      "key": "fce7c1b3-ee58-4775-87b5-1c80071c6480",
+      "operation": "retrieve"
+    }
+  ]
+}
+[90m[2025-02-03 11:44:05.251][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving value",
+  "meta": [
+    {
+      "key": "ee078e83-e672-4a25-8eec-95db3869a8b2",
+      "operation": "retrieve"
+    }
+  ]
+}
+[90m[2025-02-03 11:44:32.082][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving value",
+  "meta": [
+    {
+      "key": "ee078e83-e672-4a25-8eec-95db3869a8b2",
+      "operation": "retrieve"
+    }
+  ]
+}
