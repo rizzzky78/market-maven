@@ -56,6 +56,7 @@ import {
 import { processURLQuery } from "@/lib/utils";
 import { ErrorMessage } from "@/components/maven/error-message";
 import { root } from "@/lib/agents/constant";
+import { StreamProductDetails } from "@/components/maven/product-details";
 
 const sendMessage = async (
   payload: PayloadData,
@@ -359,7 +360,9 @@ const sendMessage = async (
               createStreamableValue<Record<string, any>>();
 
             ui.update(
-              <StreamProductInsight
+              <StreamProductDetails
+                query={query}
+                link={link}
                 callId={finalizedObject.callId}
                 content={streamableObject.value}
                 screenshot={scrapeResult.screenshot}
