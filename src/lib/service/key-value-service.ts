@@ -4,26 +4,37 @@ import { sql } from "@/database/neon";
 import { StoredValue, StoreValue } from "../types/neon";
 import logger from "../utility/logger";
 
-export async function storeKeyValue(data: StoreValue): Promise<void> {
+export async function storeKeyValue<T>({
+  key,
+  metadata,
+  value,
+}: StoreValue): Promise<StoredValue<T>> {
   logger.info("Storing value", {
-    key: data.key,
-    metadata: data.metadata,
+    key: key,
+    metadata: metadata,
     operation: "store",
   });
 
   await sql`
     INSERT INTO key_value_store (key, metadata, value)
     VALUES (
-      ${data.key},
-      ${JSON.stringify(data.metadata)}::jsonb,
-      ${data.value}
+      ${key},  
+      ${JSON.stringify(metadata)}::jsonb,
+      ${JSON.stringify(value)}::jsonb
     )
   `;
+
+  return {
+    key: key,
+    value: value as T,
+  };
 }
 
-export async function retrieveKeyValue(
-  key: string
-): Promise<StoredValue | null> {
+export async function retrieveKeyValue<T>({
+  key,
+}: {
+  key: string;
+}): Promise<StoredValue<T> | null> {
   logger.info("Retrieving value", { key, operation: "retrieve" });
 
   const result = await sql`
@@ -36,18 +47,8 @@ export async function retrieveKeyValue(
     return null;
   }
 
-  try {
-    return {
-      key: result[0].key,
-      value: JSON.parse(result[0].value),
-    };
-  } catch (error) {
-    logger.warn("Failed to parse stored JSON value", {
-      key,
-      error: (error as Error).message,
-      operation: "parse",
-    });
-
-    return result[0] as StoredValue;
-  }
+  return {
+    key: result[0].key,
+    value: result[0].value,
+  };
 }

@@ -1,16 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function KeyValueStorePage() {
-  const [key, setKey] = useState("");
   const [email, setEmail] = useState("");
   const [chatId, setChatId] = useState("");
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState("{}");
   const [retrieveKey, setRetrieveKey] = useState("");
   const [status, setStatus] = useState<{
     type: "success" | "error";
@@ -24,6 +25,10 @@ export default function KeyValueStorePage() {
     setRetrievedValue(null);
 
     try {
+      // Validate JSON input
+      const parsedValue = JSON.parse(value);
+      const key = uuidv4();
+
       const response = await fetch("/api/store", {
         method: "POST",
         headers: {
@@ -35,7 +40,7 @@ export default function KeyValueStorePage() {
             chatId,
             email,
           },
-          value,
+          value: parsedValue,
         }),
       });
 
@@ -64,7 +69,9 @@ export default function KeyValueStorePage() {
     setRetrievedValue(null);
 
     try {
-      const response = await fetch(`/api/store?key=${retrieveKey}`);
+      const response = await fetch(`/api/store?key=${retrieveKey}`, {
+        cache: "no-store",
+      });
       const data = await response.json();
 
       if (!response.ok) {
@@ -94,14 +101,6 @@ export default function KeyValueStorePage() {
           <form onSubmit={handleStore} className="space-y-4">
             <div>
               <Input
-                type={"text"}
-                placeholder="Key UUID"
-                value={key}
-                onChange={(e) => setKey(e.target.value)}
-                required
-                className="mb-2"
-              />
-              <Input
                 type="email"
                 placeholder="Email"
                 value={email}
@@ -116,11 +115,13 @@ export default function KeyValueStorePage() {
                 required
                 className="mb-2"
               />
-              <Input
-                placeholder="Value"
+              <Textarea
+                placeholder="Value (JSON object)"
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 required
+                className="font-mono"
+                rows={5}
               />
             </div>
             <Button type="submit">Store Value</Button>
@@ -157,7 +158,7 @@ export default function KeyValueStorePage() {
             <CardTitle>Retrieved Value</CardTitle>
           </CardHeader>
           <CardContent>
-            <pre className="bg-secondary text-xs p-4 rounded-lg overflow-auto">
+            <pre className="bg-secondary p-4 text-xs rounded-lg overflow-auto">
               {JSON.stringify(retrievedValue, null, 2)}
             </pre>
           </CardContent>
