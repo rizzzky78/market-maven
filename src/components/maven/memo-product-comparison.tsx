@@ -6,6 +6,7 @@ import { ChevronUp, FlaskConical, Grip, Minus, Plus } from "lucide-react";
 import Link from "next/link";
 import { FC, Fragment, JSX, memo, useState } from "react";
 import { Button } from "../ui/button";
+import { Separator } from "@radix-ui/react-separator";
 
 const containerVariants = {
   initial: {
@@ -115,6 +116,7 @@ const sanitizeKeyName = (input: string) =>
 interface ProductComparisonProps {
   callId: string;
   isGenerating?: boolean;
+  compare: { title: string; callId: string }[];
   data: Partial<{
     products: Record<string, any>[];
     differences: Record<string, any>;
@@ -124,6 +126,7 @@ interface ProductComparisonProps {
 const PureProductComparison: FC<ProductComparisonProps> = ({
   callId,
   data,
+  compare,
   isGenerating,
 }) => {
   const [open, setOpen] = useState(true);
@@ -236,19 +239,29 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
                 isGenerating ? "animate-spin" : "animate-none"
               }`}
             />
-            <div className="flex flex-col">
-              <h2 className="text-sm font-bold">
-                One-to-One Product Comparison
-              </h2>
-              <p className="text-xs text-gray-200 dark:text-gray-800">
-                Request ID: {callId ?? "no-call-id"}
-              </p>
+            <div className="w-full">
+              <div className="flex flex-col">
+                <div className="grid grid-cols-2 gap-1 md:gap-2">
+                  {compare.map((v) => (
+                    <div key={v.callId} className="">
+                      <Link href={`/point/$${v.callId}`}>
+                        <h2 className="text-sm font-bold line-clamp-1 hover:text-muted/80">
+                          {v.title}
+                        </h2>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-xs text-gray-200 dark:text-gray-800">
+                  Request ID: {callId ?? "no-call-id"}
+                </p>
+              </div>
             </div>
           </div>
           <Button
             variant={"ghost"}
             onClick={() => setOpen((prev) => !prev)}
-            className="m-0 p-0 size-10 rounded-full"
+            className="size-10 rounded-full shrink-0"
           >
             <ChevronUp
               className={`transition-all ${open ? "rotate-180" : ""}`}
@@ -266,7 +279,7 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
             className="my-3"
           >
             <div className="*:text-xs grid grid-cols-1 lg:grid-cols-2 gap-2">
-              <div className="border-r border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
+              <div className="border-transparent lg:border-r border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
                 {data.products &&
                   [data.products[0]].map((item: Record<string, any>, index) => (
                     <motion.div
@@ -291,7 +304,7 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
                   ))}
               </div>
 
-              <div className="border-l border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
+              <div className="border-transparent lg:border-l border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
                 {data.products &&
                   [data.products[1]].map((item, index) => (
                     <motion.div

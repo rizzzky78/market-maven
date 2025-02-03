@@ -26,6 +26,12 @@ export type ProductDetailsResponse = {
   productDetails: Record<string, any>;
 };
 
+export type ProductsComparisonResponse = {
+  callId?: string;
+  productImages?: string[];
+  comparison: Record<string, any>;
+};
+
 export type ProductSpecifications = {
   brand?: string;
   model?: string;

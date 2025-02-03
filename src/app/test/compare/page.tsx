@@ -106,8 +106,14 @@ const comparisonData = {
 };
 
 type ComparisonTool = ExtendedToolResult<
-  { callId: string },
   {
+    compare: Array<{
+      title: string;
+      callId: string;
+    }>;
+  },
+  {
+    callId: string;
     images: [string, string];
     comparison: {
       products: Record<string, any>[];
@@ -177,8 +183,21 @@ const productDetailsData = {
 const contentToolComparison: ComparisonTool = {
   success: true,
   name: "product_details",
-  args: { callId: '70d8dadc-fef6-4698-b91f-d9f9b95eedc4' },
+  args: {
+    compare: [
+      {
+        title: "LENOVO LOQ 15 GeForce RTX 3050 - I5 12450HX 12GB 512SSD OHS",
+        callId: "a20b8a86-24de-4447-b892-38f6794099da",
+      },
+      {
+        title:
+          'ASUS ROG Ally Ryzen Z1 / Ryzen Z1 Extreme 16GB 512GB 7" FHD 120Hz W11',
+        callId: "fce7c1b3-ee58-4775-87b5-1c80071c6480",
+      },
+    ],
+  },
   data: {
+    callId: "70d8dadc-fef6-4698-b91f-d9f9b95eedc4",
     images: [
       "https://service.firecrawl.dev/storage/v1/object/public/media/screenshot-1770c871-3340-4cdd-b00e-ff7544cc79b0.png",
       "https://service.firecrawl.dev/storage/v1/object/public/media/screenshot-84e577ab-2792-4801-8b43-f622d02cc759.png",

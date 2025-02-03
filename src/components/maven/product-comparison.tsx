@@ -9,26 +9,9 @@ import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { StreamableValue } from "ai/rsc";
 import { Lens } from "./lens";
 import { Separator } from "../ui/separator";
+import { ProductsComparisonProps } from "@/lib/types/props";
 
-interface ComparisonProps {
-  content: ExtendedToolResult<
-    {
-      /** Call id tools */
-      callId: string;
-    },
-    {
-      /** Product image preview */
-      images: [string, string];
-      /** Products comparison data */
-      comparison: {
-        products: Record<string, any>[];
-        differences: Record<string, any>;
-      };
-    }
-  >;
-}
-
-export const ProductComparison: FC<ComparisonProps> = ({ content }) => {
+export const ProductComparison: FC<ProductsComparisonProps> = ({ content }) => {
   const { success, args, data } = content;
   const { isGenerating } = useAppState();
   const [hovering_1, setHovering_1] = useState(false);
@@ -80,8 +63,9 @@ export const ProductComparison: FC<ComparisonProps> = ({ content }) => {
         </div>
         <Separator className="mt-2 mb-4 bg-[#1A1A1D] dark:bg-muted" />
         <MemoProductComparison
+          callId={data.callId}
+          compare={args.compare}
           data={data.comparison}
-          callId={args.callId}
           isGenerating={isGenerating}
         />
         <div className="mt-3 -mb-1 flex items-center justify-center">

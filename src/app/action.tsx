@@ -41,6 +41,7 @@ import { toCoreMessage } from "@/lib/agents/action/mutator/mutate-messages";
 import {
   Product,
   ProductDetailsResponse,
+  ProductsComparisonResponse,
   ProductsResponse,
 } from "@/lib/types/product";
 import { ProductsContainer } from "@/components/maven/products-container";
@@ -504,6 +505,10 @@ const sendMessage = async (
             loading: true,
           });
 
+          ui.update(<ShinyText text="Getting given products data..." />);
+
+          yield ui.value;
+
           const resulted = await Promise.all(
             compare.map((v) =>
               retrieveKeyValue<{
@@ -514,20 +519,45 @@ const sendMessage = async (
             )
           );
 
-          let finalizedCompare: Record<string, any> = {};
+          ui.update(<ShinyText text="Found previous products details data" />);
 
-          const mapped = resulted
+          yield ui.value;
+
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+
+          let finalizedCompare: ProductsComparisonResponse = { comparison: {} };
+
+          const prevProductDetailsData = resulted
             .filter((v) => v !== null)
             .map((v) => v?.value);
+
+          let isStreamDone = false;
+
+          ui.update(<ShinyText text="Generating comparison..." />);
+
+          yield ui.value;
+
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+
+          const streamableObject = createStreamableValue<Record<string, any>>();
+
+          // append stream-ui here
 
           const { partialObjectStream } = streamObject({
             model: google("gemini-2.0-flash-exp"),
             system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_EXTRACTOR,
-            prompt: JSON.stringify(mapped),
+            prompt: JSON.stringify(prevProductDetailsData),
             output: "no-schema",
             onFinish: async ({ object }) => {
+              const images = prevProductDetailsData.map(
+                (v) => v.screenshot
+              ) as string[];
+
+              isStreamDone = true;
+
               finalizedCompare = {
                 callId: v4(),
+                productImages: images,
                 comparison: object as Record<string, any>,
               };
             },
@@ -537,28 +567,67 @@ const sendMessage = async (
             finalizedCompare = {
               comparison: chunk as Record<string, any>,
             };
+            streamableObject.update(finalizedCompare);
           }
 
-          const streamableText = createStreamableValue<string>("");
+          streamableObject.done();
 
-          ui.append(<StreamAssistantMessage content={streamableText.value} />);
+          if (isStreamDone) {
+            const stored = await storeKeyValue<ProductsComparisonResponse>({
+              key: finalizedCompare.callId as string,
+              metadata: {
+                chatId: aiState.get().chatId,
+                email: "",
+              },
+              value: finalizedCompare,
+            });
 
-          yield ui.value;
+            const streamableText = createStreamableValue<string>("");
 
-          let finalizedText = "";
+            ui.append(
+              <StreamAssistantMessage content={streamableText.value} />
+            );
 
-          const { textStream } = streamText({
-            model: google("gemini-2.0-flash-exp"),
-            system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_INSIGHT,
-            prompt: JSON.stringify(finalizedCompare.comparison),
-            onFinish: async ({ text }) => {
-              finalizedText = text;
-            },
-          });
+            yield ui.value;
 
-          for await (const text of textStream) {
-            finalizedText += text;
-            streamableText.update(finalizedText);
+            let finalizedText = "";
+
+            const { textStream } = streamText({
+              model: google("gemini-2.0-flash-exp"),
+              system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_INSIGHT,
+              prompt: JSON.stringify(stored.value.comparison),
+              onFinish: async ({ text }) => {
+                finalizedText = text;
+              },
+            });
+
+            for await (const text of textStream) {
+              finalizedText += text;
+              streamableText.update(finalizedText);
+            }
+
+            streamableText.done();
+
+            const { mutate } = mutateTool({
+              name: "productsComparison",
+              args: { compare },
+              result: stored.value,
+              overrideAssistant: {
+                content: finalizedText,
+              },
+            });
+
+            aiState.done({
+              ...aiState.get(),
+              messages: [...aiState.get().messages, ...mutate],
+            });
+
+            ui.done();
+
+            logger.info("Done using productsComparison tool", {
+              progress: "finish",
+              request: { compare },
+            });
           }
 
           return ui.value;
