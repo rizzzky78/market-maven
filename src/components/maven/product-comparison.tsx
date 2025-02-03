@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { ExtendedToolResult } from "@/lib/types/ai";
 import { Columns2, Info } from "lucide-react";
 import { FC, useState } from "react";
 import { MemoProductComparison } from "./memo-product-comparison";
@@ -10,12 +9,23 @@ import { StreamableValue } from "ai/rsc";
 import { Lens } from "./lens";
 import { Separator } from "../ui/separator";
 import { ProductsComparisonProps } from "@/lib/types/props";
+import { ErrorMessage } from "./error-message";
 
 export const ProductComparison: FC<ProductsComparisonProps> = ({ content }) => {
   const { success, args, data } = content;
   const { isGenerating } = useAppState();
   const [hovering_1, setHovering_1] = useState(false);
   const [hovering_2, setHovering_2] = useState(false);
+
+  if (!success) {
+    return (
+      <ErrorMessage
+        errorName="Invalid Data Tool Results"
+        reason="Data tool results failed to render. This occur when received data tool are invalid on pre-processing the results."
+        raw={{ args, data }}
+      />
+    );
+  }
 
   const [one, two] = data.images;
 
