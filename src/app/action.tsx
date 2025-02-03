@@ -58,7 +58,8 @@ import { ErrorMessage } from "@/components/maven/error-message";
 import { root } from "@/lib/agents/constant";
 import { StreamProductDetails } from "@/components/maven/product-details";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
-import { storeKeyValue } from "@/lib/service/store";
+import { retrieveKeyValue, storeKeyValue } from "@/lib/service/store";
+import { z } from "zod";
 
 const sendMessage = async (
   payload: PayloadData,
@@ -462,6 +463,43 @@ const sendMessage = async (
             process: "done",
             loading: false,
           });
+
+          return ui.value;
+        },
+      },
+      productsComparison: {
+        description: `Compare two products based on user requested data`,
+        parameters: z.object({
+          compare: z.array(
+            z.object({
+              title: z.string(),
+              callId: z.string(),
+            })
+          ),
+        }),
+        generate: async function* ({ compare }) {
+          logger.info("Using productsComparison tool");
+
+          generation.update({
+            process: "generating",
+            loading: true,
+          });
+
+          const resulted = await Promise.all(
+            compare.map((v) =>
+              retrieveKeyValue<{
+                productDetails: Record<string, any>;
+                screenshot?: string;
+                callId?: string;
+              }>({ key: v.callId })
+            )
+          );
+
+          const mapped = resulted
+            .filter((v) => v !== null)
+            .map((v) => v?.value);
+
+          
 
           return ui.value;
         },
