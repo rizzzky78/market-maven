@@ -58,6 +58,7 @@ import { ErrorMessage } from "@/components/maven/error-message";
 import { root } from "@/lib/agents/constant";
 import { StreamProductDetails } from "@/components/maven/product-details";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
+import { storeKeyValue } from "@/lib/service/store";
 
 const sendMessage = async (
   payload: PayloadData,
@@ -346,10 +347,10 @@ const sendMessage = async (
             await new Promise((resolve) => setTimeout(resolve, 3000));
 
             let finalizedObject: {
-              insight: Record<string, any>;
+              productDetails: Record<string, any>;
               screenshot?: string;
               callId?: string;
-            } = { callId: v4(), insight: {} };
+            } = { callId: v4(), productDetails: {} };
 
             const payloadContent = JSON.stringify({
               prompt: root.ExtractionDetails,
@@ -372,15 +373,18 @@ const sendMessage = async (
 
             yield ui.value;
 
+            let isStreamDone = false;
+
             const { partialObjectStream } = streamObject({
               model: google("gemini-2.0-flash-exp"),
               system: SYSTEM_INSTRUCTION.PRODUCT_DETAILS_EXTRACTOR,
               prompt: payloadContent,
               output: "no-schema",
               onFinish: async ({ object }) => {
+                isStreamDone = true;
                 finalizedObject = {
                   callId: v4(),
-                  insight: object as Record<string, any>,
+                  productDetails: object as Record<string, any>,
                   screenshot: scrapeResult.screenshot,
                 };
               },
@@ -388,12 +392,21 @@ const sendMessage = async (
 
             for await (const objProduct of partialObjectStream) {
               finalizedObject = {
-                insight: objProduct as Record<string, any>,
+                productDetails: objProduct as Record<string, any>,
               };
-              streamableObject.update(finalizedObject.insight);
+              streamableObject.update(finalizedObject.productDetails);
             }
 
             streamableObject.done();
+
+            const stored = await storeKeyValue<typeof finalizedObject>({
+              key: finalizedObject.callId as string,
+              metadata: {
+                chatId: aiState.get().chatId,
+                email: "",
+              },
+              value: finalizedObject,
+            });
 
             const streamableText = createStreamableValue<string>("");
 
@@ -408,7 +421,7 @@ const sendMessage = async (
             const { textStream } = streamText({
               model: google("gemini-2.0-flash-exp"),
               system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_INSIGHT,
-              prompt: JSON.stringify({ data: finalizedObject.insight }),
+              prompt: JSON.stringify(stored.value.productDetails),
               onFinish: async ({ text }) => {
                 finalizedText = text;
               },
@@ -424,7 +437,7 @@ const sendMessage = async (
             const { mutate } = mutateTool({
               name: "getProductDetails",
               args: { link, query },
-              result: finalizedObject,
+              result: stored.value,
               overrideAssistant: {
                 content: finalizedText,
               },
