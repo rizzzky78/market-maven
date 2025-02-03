@@ -407,7 +407,7 @@ const sendMessage = async (
 
             const { textStream } = streamText({
               model: google("gemini-2.0-flash-exp"),
-              system: SYSTEM_INSTRUCT_DEFINED_INSIGHT,
+              system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_INSIGHT,
               prompt: JSON.stringify({ data: finalizedObject.insight }),
               onFinish: async ({ text }) => {
                 finalizedText = text;
