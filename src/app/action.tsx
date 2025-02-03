@@ -60,6 +60,7 @@ import { StreamProductDetails } from "@/components/maven/product-details";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
 import { retrieveKeyValue, storeKeyValue } from "@/lib/service/store";
 import { z } from "zod";
+import { ProductComparison } from "@/components/maven/product-comparison";
 
 const sendMessage = async (
   payload: PayloadData,
@@ -495,11 +496,52 @@ const sendMessage = async (
             )
           );
 
+          let finalizedCompare: Record<string, any> = {};
+
           const mapped = resulted
             .filter((v) => v !== null)
             .map((v) => v?.value);
 
-          
+          const { partialObjectStream } = streamObject({
+            model: google("gemini-2.0-flash-exp"),
+            system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_EXTRACTOR,
+            prompt: JSON.stringify(mapped),
+            output: "no-schema",
+            onFinish: async ({ object }) => {
+              finalizedCompare = {
+                callId: v4(),
+                comparison: object as Record<string, any>,
+              };
+            },
+          });
+
+          for await (const chunk of partialObjectStream) {
+            finalizedCompare = {
+              comparison: chunk as Record<string, any>,
+            };
+          }
+
+          const streamableText = createStreamableValue<string>("");
+
+          ui.append(<StreamAssistantMessage content={streamableText.value} />);
+
+          yield ui.value;
+
+          let finalizedText = "";
+
+          const { textStream } = streamText({
+            model: google("gemini-2.0-flash-exp"),
+            system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_INSIGHT,
+            prompt: JSON.stringify(finalizedCompare.comparison),
+            onFinish: async ({ text }) => {
+              finalizedText = text;
+            },
+          });
+
+          for await (const text of textStream) {
+            finalizedText += text;
+            streamableText.update(finalizedText);
+          }
 
           return ui.value;
         },

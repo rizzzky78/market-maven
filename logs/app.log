@@ -11135,3 +11135,30 @@
     }
   ]
 }
+[90m[2025-02-03 15:58:43.846][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving value",
+  "meta": [
+    {
+      "key": "ee078e83-e672-4a25-8eec-95db3869a8b2",
+      "operation": "retrieve"
+    }
+  ]
+}
+[90m[2025-02-03 15:58:44.860][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Success retrieving value",
+  "meta": [
+    {
+      "key": "ee078e83-e672-4a25-8eec-95db3869a8b2",
+      "operation": "retrieve"
+    }
+  ]
+}
+[90m[2025-02-03 18:39:53.477][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving value",
+  "meta": [
+    {
+      "key": "ee078e83-e672-4a25-8eec-95db3869a8b2",
+      "operation": "retrieve"
+    }
+  ]
+}
