@@ -399,61 +399,63 @@ const sendMessage = async (
 
             streamableObject.done();
 
-            const stored = await storeKeyValue<typeof finalizedObject>({
-              key: finalizedObject.callId as string,
-              metadata: {
-                chatId: aiState.get().chatId,
-                email: "",
-              },
-              value: finalizedObject,
-            });
+            if (isStreamDone) {
+              const stored = await storeKeyValue<typeof finalizedObject>({
+                key: finalizedObject.callId as string,
+                metadata: {
+                  chatId: aiState.get().chatId,
+                  email: "",
+                },
+                value: finalizedObject,
+              });
 
-            const streamableText = createStreamableValue<string>("");
+              const streamableText = createStreamableValue<string>("");
 
-            ui.append(
-              <StreamAssistantMessage content={streamableText.value} />
-            );
+              ui.append(
+                <StreamAssistantMessage content={streamableText.value} />
+              );
 
-            yield ui.value;
+              yield ui.value;
 
-            let finalizedText: string = "";
+              let finalizedText: string = "";
 
-            const { textStream } = streamText({
-              model: google("gemini-2.0-flash-exp"),
-              system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_INSIGHT,
-              prompt: JSON.stringify(stored.value.productDetails),
-              onFinish: async ({ text }) => {
-                finalizedText = text;
-              },
-            });
+              const { textStream } = streamText({
+                model: google("gemini-2.0-flash-exp"),
+                system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_INSIGHT,
+                prompt: JSON.stringify(stored.value.productDetails),
+                onFinish: async ({ text }) => {
+                  finalizedText = text;
+                },
+              });
 
-            for await (const text of textStream) {
-              finalizedText += text;
-              streamableText.update(finalizedText);
+              for await (const text of textStream) {
+                finalizedText += text;
+                streamableText.update(finalizedText);
+              }
+
+              streamableText.done();
+
+              const { mutate } = mutateTool({
+                name: "getProductDetails",
+                args: { link, query },
+                result: stored.value,
+                overrideAssistant: {
+                  content: finalizedText,
+                },
+              });
+
+              aiState.done({
+                ...aiState.get(),
+                messages: [...aiState.get().messages, ...mutate],
+              });
+
+              ui.done();
+
+              logger.info("Done using getProductDetails tool", {
+                progress: "finish",
+                request: { query, link },
+              });
             }
-
-            streamableText.done();
-
-            const { mutate } = mutateTool({
-              name: "getProductDetails",
-              args: { link, query },
-              result: stored.value,
-              overrideAssistant: {
-                content: finalizedText,
-              },
-            });
-
-            aiState.done({
-              ...aiState.get(),
-              messages: [...aiState.get().messages, ...mutate],
-            });
-
-            ui.done();
-
-            logger.info("Done using getProductDetails tool", {
-              progress: "finish",
-              request: { query, link },
-            });
           }
 
           generation.done({
