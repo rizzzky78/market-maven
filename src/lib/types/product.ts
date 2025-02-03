@@ -15,8 +15,15 @@ export type Product = {
 };
 
 export type ProductsResponse = {
-  data: Product[];
+  callId?: string;
   screenshot?: string;
+  data: Product[];
+};
+
+export type ProductDetailsResponse = {
+  callId?: string;
+  screenshot?: string;
+  productDetails: Record<string, any>;
 };
 
 export type ProductSpecifications = {

@@ -38,7 +38,11 @@ import { getServerSession } from "next-auth";
 import { v4 } from "uuid";
 import { StreamAssistantMessage } from "@/components/maven/assistant-message";
 import { toCoreMessage } from "@/lib/agents/action/mutator/mutate-messages";
-import { Product, ProductsResponse } from "@/lib/types/product";
+import {
+  Product,
+  ProductDetailsResponse,
+  ProductsResponse,
+} from "@/lib/types/product";
 import { ProductsContainer } from "@/components/maven/products-container";
 import { productsSchema } from "@/lib/agents/schema/product";
 import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
@@ -206,14 +210,19 @@ const sendMessage = async (
               />
             );
 
+            let isObjectGenerationDone = false;
+
             const { partialObjectStream } = streamObject({
               model: google("gemini-2.0-flash-exp"),
               system: SYSTEM_INSTRUCT_PRODUCTS,
               prompt: payload,
               schema: productsSchema,
               onFinish: async ({ object }) => {
+                isObjectGenerationDone = true;
+
                 if (object) {
                   finalizedResults = {
+                    callId: v4(),
                     screenshot: scrapeContent.screenshot,
                     data: object.data,
                   };
@@ -229,65 +238,76 @@ const sendMessage = async (
 
             streamableProducts.done();
 
-            ui.update(
-              <ProductsContainer
-                content={{
-                  success: true,
-                  name: "searchProduct",
-                  args: { query },
-                  data: finalizedResults,
-                }}
-                isFinished={true}
-              />
-            );
+            if (isObjectGenerationDone) {
+              const stored = await storeKeyValue<ProductsResponse>({
+                key: finalizedResults.callId as string,
+                metadata: {
+                  chatId: aiState.get().chatId,
+                  email: "",
+                },
+                value: finalizedResults,
+              });
 
-            const streamableText = createStreamableValue<string>("");
+              ui.update(
+                <ProductsContainer
+                  content={{
+                    success: true,
+                    name: "searchProduct",
+                    args: { query },
+                    data: stored.value,
+                  }}
+                  isFinished={true}
+                />
+              );
 
-            ui.append(
-              <StreamAssistantMessage content={streamableText.value} />
-            );
+              const streamableText = createStreamableValue<string>("");
 
-            yield ui.value;
+              ui.append(
+                <StreamAssistantMessage content={streamableText.value} />
+              );
 
-            let finalizedText: string = "";
+              yield ui.value;
 
-            const { textStream } = streamText({
-              model: groq("llama-3.2-90b-vision-preview"),
-              system: SYSTEM_INSTRUCT_INSIGHT,
-              prompt: JSON.stringify(finalizedResults),
-              onFinish: ({ text }) => {
-                finalizedText = text;
-              },
-            });
+              let finalizedText: string = "";
 
-            for await (const texts of textStream) {
-              finalizedText += texts;
-              streamableText.update(finalizedText);
+              const { textStream } = streamText({
+                model: groq("llama-3.3-70b-versatile"),
+                system: SYSTEM_INSTRUCT_INSIGHT,
+                prompt: JSON.stringify(finalizedResults),
+                onFinish: ({ text }) => {
+                  finalizedText = text;
+                },
+              });
+
+              for await (const texts of textStream) {
+                finalizedText += texts;
+                streamableText.update(finalizedText);
+              }
+
+              streamableText.done();
+
+              const { mutate } = mutateTool({
+                name: "searchProduct",
+                args: { query },
+                result: finalizedResults,
+                overrideAssistant: {
+                  content: finalizedText,
+                },
+              });
+
+              aiState.done({
+                ...aiState.get(),
+                messages: [...aiState.get().messages, ...mutate],
+              });
+
+              logger.info("Done using searchProduct tool", {
+                progress: "finish",
+                request: { query },
+              });
             }
-
-            streamableText.done();
-
-            const { mutate } = mutateTool({
-              name: "searchProduct",
-              args: { query },
-              result: finalizedResults,
-              overrideAssistant: {
-                content: finalizedText,
-              },
-            });
-
-            aiState.done({
-              ...aiState.get(),
-              messages: [...aiState.get().messages, ...mutate],
-            });
-
-            ui.done();
-
-            logger.info("Done using searchProduct tool", {
-              progress: "finish",
-              request: { query },
-            });
           }
+
+          ui.done();
 
           generation.done({
             process: "done",
@@ -348,11 +368,9 @@ const sendMessage = async (
 
             await new Promise((resolve) => setTimeout(resolve, 3000));
 
-            let finalizedObject: {
-              productDetails: Record<string, any>;
-              screenshot?: string;
-              callId?: string;
-            } = { callId: v4(), productDetails: {} };
+            let finalizedObject: ProductDetailsResponse = {
+              productDetails: {},
+            };
 
             const payloadContent = JSON.stringify({
               prompt: root.ExtractionDetails,
@@ -386,8 +404,8 @@ const sendMessage = async (
                 isStreamDone = true;
                 finalizedObject = {
                   callId: v4(),
-                  productDetails: object as Record<string, any>,
                   screenshot: scrapeResult.screenshot,
+                  productDetails: object as Record<string, any>,
                 };
               },
             });
@@ -402,7 +420,7 @@ const sendMessage = async (
             streamableObject.done();
 
             if (isStreamDone) {
-              const stored = await storeKeyValue<typeof finalizedObject>({
+              const stored = await storeKeyValue<ProductDetailsResponse>({
                 key: finalizedObject.callId as string,
                 metadata: {
                   chatId: aiState.get().chatId,
