@@ -57,6 +57,7 @@ import { processURLQuery } from "@/lib/utils";
 import { ErrorMessage } from "@/components/maven/error-message";
 import { root } from "@/lib/agents/constant";
 import { StreamProductDetails } from "@/components/maven/product-details";
+import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
 
 const sendMessage = async (
   payload: PayloadData,
@@ -373,7 +374,7 @@ const sendMessage = async (
 
             const { partialObjectStream } = streamObject({
               model: google("gemini-2.0-flash-exp"),
-              system: SYSTEM_INSTRUCT_EXTRACTOR,
+              system: SYSTEM_INSTRUCTION.PRODUCT_DETAILS_EXTRACTOR,
               prompt: payloadContent,
               output: "no-schema",
               onFinish: async ({ object }) => {
