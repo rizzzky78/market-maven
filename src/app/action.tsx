@@ -43,7 +43,6 @@ import { ProductsContainer } from "@/components/maven/products-container";
 import { productsSchema } from "@/lib/agents/schema/product";
 import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
 import logger from "@/lib/utility/logger";
-import { StreamProductInsight } from "@/components/maven/product-details";
 import { mapUIState } from "@/components/custom/ui-mapper";
 import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
 import { StreamProductsContainer } from "@/components/maven/exp-stream-products-container";
@@ -165,9 +164,13 @@ const sendMessage = async (
           if (!scrapeContent.success) {
             ui.done(
               <ErrorMessage
-                name="Scrape Error"
-                messsage={scrapeContent.error}
-                raw={{ query }}
+                errorName="Scrape Error"
+                reason="There was an error while scrapping the content from the firecrawl service."
+                raw={{
+                  query,
+                  error: scrapeContent.error,
+                  message: scrapeContent.message,
+                }}
               />
             );
           }
