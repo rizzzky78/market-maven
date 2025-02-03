@@ -232,6 +232,8 @@ export const AvailableTools = {
   SEARCH_PRODUCT: "searchProduct",
   /** Tool for retrieving product details */
   GET_PRODUCT_DETAILS: "getProductDetails",
+  /** Tool for comparing two products */
+  PRODUCTS_COMPARISON: "productsComparison",
   /** Tool for user inquiry */
   INQUIRE_USER: "inquireUser",
 } as const;

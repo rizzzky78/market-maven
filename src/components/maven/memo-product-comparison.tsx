@@ -113,12 +113,12 @@ const sanitizeKeyName = (input: string) =>
     : "there-is-no-keys";
 
 interface ProductComparisonProps {
+  callId: string;
+  isGenerating?: boolean;
   data: Partial<{
     products: Record<string, any>[];
     differences: Record<string, any>;
   }>;
-  callId: string;
-  isGenerating?: boolean;
 }
 
 const PureProductComparison: FC<ProductComparisonProps> = ({
