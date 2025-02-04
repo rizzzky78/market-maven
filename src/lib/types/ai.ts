@@ -82,10 +82,10 @@ export type UseAction = {
    * @param assignController Optional controllers to be executed
    * @returns A promise resolving to the message callback
    */
-  sendMessage?: (
+  orchestrator?: (
     payload: PayloadData,
     assignController?: AssignController
-  ) => Promise<SendMessageCallback>;
+  ) => Promise<OrchestratorCallback>;
   testing?: (message: string) => Promise<TestingMessageCallback>;
 };
 
@@ -94,11 +94,7 @@ export type TestingMessageCallback = {
   display: ReactNode;
 };
 
-/**
- * Comprehensive callback type for tracking the full lifecycle and
- * representation of a sent message, including streaming and display capabilities.
- */
-export type SendMessageCallback = {
+export type BaseActionCallback = {
   /** Unique identifier for the message */
   id: string;
   /** Renderable UI representation of the message */
@@ -108,6 +104,18 @@ export type SendMessageCallback = {
   /** Generation status and metadata */
   generation?: StreamableValue<StreamGeneration>;
 };
+
+/**
+ * Comprehensive callback type for tracking the full lifecycle and
+ * representation of a sent message, including streaming and display capabilities.
+ */
+export type OrchestratorCallback = {
+  source: "orchestrator";
+} & BaseActionCallback;
+
+export type ExtractorCallback = {
+  source: "extractor";
+} & BaseActionCallback;
 
 /**
  * Represents the AI's internal state, tracking chat context and message history.

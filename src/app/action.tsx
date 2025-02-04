@@ -22,7 +22,7 @@ import { storeKeyValue } from "@/lib/service/store";
 import {
   PayloadData,
   AssignController,
-  SendMessageCallback,
+  OrchestratorCallback,
   UserContentMessage,
   MutableAIState,
   AIState,
@@ -45,10 +45,10 @@ import {
 import { getServerSession } from "next-auth";
 import { v4 } from "uuid";
 
-async function sendMessage(
+async function orchestrator(
   payload: PayloadData,
   assignController?: AssignController
-): Promise<SendMessageCallback> {
+): Promise<OrchestratorCallback> {
   "use server";
 
   const { textInput, attachProduct, productCompare, inquiryResponse } = payload;
@@ -271,6 +271,7 @@ async function sendMessage(
   });
 
   return {
+    source: "orchestrator",
     id: generateId(),
     display: value,
     // stream,
@@ -291,7 +292,7 @@ export const AI = createAI<AIState, UIState, UseAction>({
     messages: [],
   },
   actions: {
-    sendMessage,
+    orchestrator,
   },
   onSetAIState: async ({ state, done }) => {
     "use server";
