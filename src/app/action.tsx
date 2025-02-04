@@ -9,6 +9,8 @@ import { UserInquiry } from "@/components/maven/user-inquiry";
 import { toCoreMessage } from "@/lib/agents/action/mutator/mutate-messages";
 import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
 import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
+import { toolGetProductDetails } from "@/lib/agents/action/server-action/get-product-details";
+import { toolProductsComparison } from "@/lib/agents/action/server-action/products-comparison";
 import { toolSearchProduct } from "@/lib/agents/action/server-action/search-product";
 import { root } from "@/lib/agents/constant";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
@@ -60,47 +62,13 @@ import { getServerSession } from "next-auth";
 import { v4 } from "uuid";
 import { z } from "zod";
 
-/**
- * AI Provider for: **StreamUI**
- *
- * @method StreamUI
- */
-export const AI = createAI<AIState, UIState, UseAction>({
-  initialUIState: [],
-  initialAIState: {
-    chatId: generateId(),
-    messages: [],
-  },
-  actions: {
-    // sendMessage,
-    testing,
-  },
-  onSetAIState: async ({ state, done }) => {
-    "use server";
-
-    if (done) {
-      const session = await getServerSession();
-      await saveAIState(state, session);
-    }
-  },
-  onGetUIState: async () => {
-    "use server";
-
-    const aiState = getAIState<typeof AI>();
-
-    if (aiState) {
-      const uiState = mapUIState(aiState);
-      return uiState;
-    } else {
-      return;
-    }
-  },
-});
 
 async function sendMessage(
   payload: PayloadData,
   assignController?: AssignController
 ): Promise<SendMessageCallback> {
+  'use server'
+
   const { textInput, attachProduct, inquiryResponse } = payload;
 
   logger.info("Process on Server Action", { payload });
@@ -172,323 +140,17 @@ async function sendMessage(
       return textUi;
     },
     tools: {
-      // searchProduct: actionSearchProduct(aiState),
-      searchProduct: toolSearchProduct({ state: aiState, generation, ui }),
-      getProductDetails: {
-        description: root.GetProductDetailsDescription,
-        parameters: getProductDetailsSchema,
-        generate: async function* ({ query, link }) {
-          logger.info("Using getProductDetails tool", {
-            progress: "initial",
-            request: { query, link },
-          });
-
-          generation.update({
-            process: "generating",
-            loading: true,
-          });
-
-          ui.update(<ShinyText text={`Getting data product for ${query}`} />);
-
-          yield ui.value;
-
-          await new Promise((resolve) => setTimeout(resolve, 3000));
-
-          const scrapeResult = await scrapeUrl({
-            url: link,
-            formats: ["markdown", "screenshot"],
-            waitFor: 4000,
-          });
-
-          /** Handle if Scrape Operation is Error */
-          if (!scrapeResult.success) {
-            ui.done(
-              <ErrorMessage
-                errorName="Scrape Operation Failed"
-                reason="There was an error while scrapping the content from the firecrawl service."
-                raw={{
-                  payload: { query, link },
-                  error: scrapeResult.error,
-                  message: scrapeResult.message,
-                }}
-              />
-            );
-          }
-
-          /** Handle if Scrape Operation is Success */
-          if (scrapeResult.success && scrapeResult.markdown) {
-            ui.update(
-              <ShinyText text="Found product details, please hang on..." />
-            );
-
-            yield ui.value;
-
-            await new Promise((resolve) => setTimeout(resolve, 3000));
-
-            let finalizedObject: ProductDetailsResponse = {
-              productDetails: {},
-            };
-
-            const payloadContent = JSON.stringify({
-              prompt: root.ExtractionDetails,
-              refference: { query, link },
-              markdown: scrapeResult.markdown,
-            });
-
-            const streamableObject =
-              createStreamableValue<Record<string, any>>();
-
-            ui.update(
-              <StreamProductDetails
-                query={query}
-                link={link}
-                callId={finalizedObject.callId}
-                content={streamableObject.value}
-                screenshot={scrapeResult.screenshot}
-              />
-            );
-
-            yield ui.value;
-
-            let isStreamDone = false;
-
-            const { partialObjectStream } = streamObject({
-              model: google("gemini-2.0-flash-exp"),
-              system: SYSTEM_INSTRUCTION.PRODUCT_DETAILS_EXTRACTOR,
-              prompt: payloadContent,
-              output: "no-schema",
-              onFinish: async ({ object }) => {
-                isStreamDone = true;
-                finalizedObject = {
-                  callId: v4(),
-                  screenshot: scrapeResult.screenshot,
-                  productDetails: object as Record<string, any>,
-                };
-              },
-            });
-
-            for await (const objProduct of partialObjectStream) {
-              finalizedObject = {
-                productDetails: objProduct as Record<string, any>,
-              };
-              streamableObject.update(finalizedObject.productDetails);
-            }
-
-            streamableObject.done();
-
-            if (isStreamDone) {
-              const stored = await storeKeyValue<ProductDetailsResponse>({
-                key: finalizedObject.callId as string,
-                metadata: {
-                  chatId: aiState.get().chatId,
-                  email: "",
-                },
-                value: finalizedObject,
-              });
-
-              const streamableText = createStreamableValue<string>("");
-
-              ui.append(
-                <StreamAssistantMessage content={streamableText.value} />
-              );
-
-              yield ui.value;
-
-              let finalizedText: string = "";
-
-              const { textStream } = streamText({
-                model: google("gemini-2.0-flash-exp"),
-                system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_INSIGHT,
-                prompt: JSON.stringify(stored.value.productDetails),
-                onFinish: async ({ text }) => {
-                  finalizedText = text;
-                },
-              });
-
-              for await (const text of textStream) {
-                finalizedText += text;
-                streamableText.update(finalizedText);
-              }
-
-              streamableText.done();
-
-              const { mutate } = mutateTool({
-                name: "getProductDetails",
-                args: { link, query },
-                result: stored.value,
-                overrideAssistant: {
-                  content: finalizedText,
-                },
-              });
-
-              aiState.done({
-                ...aiState.get(),
-                messages: [...aiState.get().messages, ...mutate],
-              });
-
-              ui.done();
-
-              logger.info("Done using getProductDetails tool", {
-                progress: "finish",
-                request: { query, link },
-              });
-            }
-          }
-
-          generation.done({
-            process: "done",
-            loading: false,
-          });
-
-          return ui.value;
-        },
-      },
-      productsComparison: {
-        description: `Compare two products based on user requested data`,
-        parameters: z.object({
-          compare: z.array(
-            z.object({
-              title: z.string(),
-              callId: z.string(),
-            })
-          ),
-        }),
-        generate: async function* ({ compare }) {
-          logger.info("Using productsComparison tool");
-
-          generation.update({
-            process: "generating",
-            loading: true,
-          });
-
-          ui.update(<ShinyText text="Getting given products data..." />);
-
-          yield ui.value;
-
-          const resulted = await Promise.all(
-            compare.map((v) =>
-              retrieveKeyValue<{
-                productDetails: Record<string, any>;
-                screenshot?: string;
-                callId?: string;
-              }>({ key: v.callId })
-            )
-          );
-
-          ui.update(<ShinyText text="Found previous products details data" />);
-
-          yield ui.value;
-
-          await new Promise((resolve) => setTimeout(resolve, 3000));
-
-          let finalizedCompare: ProductsComparisonResponse = { comparison: {} };
-
-          const prevProductDetailsData = resulted
-            .filter((v) => v !== null)
-            .map((v) => v?.value);
-
-          let isStreamDone = false;
-
-          ui.update(<ShinyText text="Generating comparison..." />);
-
-          yield ui.value;
-
-          await new Promise((resolve) => setTimeout(resolve, 3000));
-
-          const streamableObject = createStreamableValue<Record<string, any>>();
-
-          // append stream-ui here
-
-          const { partialObjectStream } = streamObject({
-            model: google("gemini-2.0-flash-exp"),
-            system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_EXTRACTOR,
-            prompt: JSON.stringify(prevProductDetailsData),
-            output: "no-schema",
-            onFinish: async ({ object }) => {
-              const images = prevProductDetailsData.map(
-                (v) => v.screenshot
-              ) as string[];
-
-              isStreamDone = true;
-
-              finalizedCompare = {
-                callId: v4(),
-                productImages: images,
-                comparison: object as Record<string, any>,
-              };
-            },
-          });
-
-          for await (const chunk of partialObjectStream) {
-            finalizedCompare = {
-              comparison: chunk as Record<string, any>,
-            };
-            streamableObject.update(finalizedCompare);
-          }
-
-          streamableObject.done();
-
-          if (isStreamDone) {
-            const stored = await storeKeyValue<ProductsComparisonResponse>({
-              key: finalizedCompare.callId as string,
-              metadata: {
-                chatId: aiState.get().chatId,
-                email: "",
-              },
-              value: finalizedCompare,
-            });
-
-            const streamableText = createStreamableValue<string>("");
-
-            ui.append(
-              <StreamAssistantMessage content={streamableText.value} />
-            );
-
-            yield ui.value;
-
-            let finalizedText = "";
-
-            const { textStream } = streamText({
-              model: google("gemini-2.0-flash-exp"),
-              system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_INSIGHT,
-              prompt: JSON.stringify(stored.value.comparison),
-              onFinish: async ({ text }) => {
-                finalizedText = text;
-              },
-            });
-
-            for await (const text of textStream) {
-              finalizedText += text;
-              streamableText.update(finalizedText);
-            }
-
-            streamableText.done();
-
-            const { mutate } = mutateTool({
-              name: "productsComparison",
-              args: { compare },
-              result: stored.value,
-              overrideAssistant: {
-                content: finalizedText,
-              },
-            });
-
-            aiState.done({
-              ...aiState.get(),
-              messages: [...aiState.get().messages, ...mutate],
-            });
-
-            ui.done();
-
-            logger.info("Done using productsComparison tool", {
-              progress: "finish",
-              request: { compare },
-            });
-          }
-
-          return ui.value;
-        },
-      },
+      // searchProduct: toolSearchProduct({ state: aiState, generation, ui }),
+      getProductDetails: toolGetProductDetails({
+        state: aiState,
+        generation,
+        ui,
+      }),
+      // productsComparison: toolProductsComparison({
+      //   state: aiState,
+      //   generation,
+      //   ui,
+      // }),
       inquireUser: {
         description: `Inquire the user is provided prompt or information are not enough`,
         parameters: inquireUserSchema,
@@ -546,11 +208,13 @@ async function sendMessage(
   };
 }
 
+
+
 export async function testing(
   message: string
-): Promise<TestingMessageCallback> { 
-  'use server'
-  
+): Promise<TestingMessageCallback> {
+  "use server";
+
   return {
     id: "",
     display: (
@@ -560,3 +224,41 @@ export async function testing(
     ),
   };
 }
+
+
+/**
+ * AI Provider for: **StreamUI**
+ *
+ * @method StreamUI
+ */
+export const AI = createAI<AIState, UIState, UseAction>({
+  initialUIState: [],
+  initialAIState: {
+    chatId: generateId(),
+    messages: [],
+  },
+  actions: {
+    sendMessage,
+    testing,
+  },
+  onSetAIState: async ({ state, done }) => {
+    "use server";
+
+    if (done) {
+      const session = await getServerSession();
+      await saveAIState(state, session);
+    }
+  },
+  onGetUIState: async () => {
+    "use server";
+
+    const aiState = getAIState<typeof AI>();
+
+    if (aiState) {
+      const uiState = mapUIState(aiState);
+      return uiState;
+    } else {
+      return;
+    }
+  },
+});
