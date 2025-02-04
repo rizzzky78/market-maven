@@ -1,73 +1,65 @@
 "use server";
 
-import { AIState, ChatProperties } from "@/lib/types/ai";
+import { AIState, ChatProperties, MessageProperty } from "@/lib/types/ai";
 import { generateText, TextPart } from "ai";
-import { Session } from "next-auth";
-import { getChat, saveChat } from "../chat-service";
 import { google } from "@ai-sdk/google";
+import { getChat, saveChat } from "../chat-service";
 import { SYSTEM_INSTRUCT_TITLE_CRAFTER } from "../../system-instructions";
+import logger from "@/lib/utility/logger";
 
-/**
- * Saves the AI state to the database, including dynamically generating a chat title if not already set.
- *
- * @param state - The current AI state containing chat details.
- * @param session - The user session, or `null` for anonymous users.
- */
-export const saveAIState = async (
-  state: AIState,
-  session: Session | null
-): Promise<void> => {
-  const { chatId, messages } = state;
+const generateChatTitle = async (
+  messages: MessageProperty[]
+): Promise<string> => {
+  const { text } = await generateText({
+    model: google("gemini-1.5-flash"),
+    prompt: JSON.stringify(messages),
+    system: SYSTEM_INSTRUCT_TITLE_CRAFTER,
+  });
+  return text;
+};
 
-  // Default to "anonymous" if the user is not authenticated
-  const userId = session?.user?.email || "anonymous";
+const getFallbackTitle = (messages: MessageProperty[]): string => {
+  const [firstMessage] = messages;
+  if (!firstMessage) return "Untitled";
 
-  let chatTitle = "";
-
-  // Retrieve current chat data
-  const currentChatData = await getChat(chatId);
-
-  // Generate a title only if there is no existing title
-  if (
-    !currentChatData ||
-    !currentChatData.title ||
-    currentChatData.title === ""
-  ) {
-    try {
-      // Filter out tool messages for title generation
-      const payloadTitleMsg = messages.filter((m) => m.role !== "tool");
-
-      // Generate the chat title using the AI model
-      const { text } = await generateText({
-        model: google("gemini-1.5-flash"),
-        prompt: JSON.stringify(payloadTitleMsg),
-        system: SYSTEM_INSTRUCT_TITLE_CRAFTER,
-      });
-
-      chatTitle = text;
-    } catch (error) {
-      console.error("Error generating chat title:", error);
-
-      // Fallback to using the content of the first message
-      const [userMsg] = messages;
-      if (typeof userMsg.content === "string") {
-        chatTitle = userMsg.content;
-      } else {
-        chatTitle =
-          (userMsg.content[0] as TextPart).text.substring(0, 100) || "Untitled";
-      }
-    }
+  if (typeof firstMessage.content === "string") {
+    return firstMessage.content.substring(0, 100) || "Untitled";
   }
 
-  // Prepare the payload to save
+  const firstTextPart = firstMessage.content.find(
+    (part): part is TextPart => part.type === "text"
+  );
+  return firstTextPart?.text.substring(0, 100) || "Untitled";
+};
+
+const getGeneratedTitle = async (
+  messages: MessageProperty[]
+): Promise<string> => {
+  try {
+    const filteredMessages = messages.filter(
+      (message) => message.role !== "tool"
+    );
+    return await generateChatTitle(filteredMessages);
+  } catch (error) {
+    logger.error("Failed to generate chat title:", { error });
+    return getFallbackTitle(messages);
+  }
+};
+
+export const saveAIState = async (state: AIState): Promise<void> => {
+  const { chatId, username, messages } = state;
+  const currentChat = await getChat(chatId);
+
+  const title = currentChat?.title || (await getGeneratedTitle(messages));
+  const createdDate = currentChat?.created || new Date();
+
   const savePayload: ChatProperties = {
     chatId,
-    userId,
-    created: new Date(),
-    title: chatTitle,
+    userId: username,
+    created: createdDate,
+    title,
     messages,
   };
 
-  // Save the chat data
-  await saveChat(userId, savePayload);
+  await saveChat(username, savePayload);
 };
