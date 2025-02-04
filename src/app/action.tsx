@@ -296,10 +296,7 @@ export const AI = createAI<AIState, UIState, UseAction>({
   onSetAIState: async ({ state, done }) => {
     "use server";
 
-    if (done) {
-      const session = await getServerSession();
-      await saveAIState(state, session);
-    }
+    if (done) await saveAIState(state);
   },
   onGetUIState: async () => {
     "use server";
