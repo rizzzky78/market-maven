@@ -1,4 +1,6 @@
-import { mapUIState } from "@/components/custom/ui-mapper";
+"use server";
+
+import { AI } from "@/app/action";
 import { StreamAssistantMessage } from "@/components/maven/assistant-message";
 import { ErrorMessage } from "@/components/maven/error-message";
 import { StreamProductsContainer } from "@/components/maven/exp-stream-products-container";
@@ -6,24 +8,6 @@ import { StreamProductDetails } from "@/components/maven/product-details";
 import { ProductsContainer } from "@/components/maven/products-container";
 import { ShinyText } from "@/components/maven/shining-glass";
 import { UserInquiry } from "@/components/maven/user-inquiry";
-import { toCoreMessage } from "@/lib/agents/action/mutator/mutate-messages";
-import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
-import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
-import { toolSearchProduct } from "@/lib/agents/action/server-action/search-product";
-import { root } from "@/lib/agents/constant";
-import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
-import { productsSchema } from "@/lib/agents/schema/product";
-import {
-  searchProductSchema,
-  getProductDetailsSchema,
-  inquireUserSchema,
-} from "@/lib/agents/schema/tool-parameters";
-import {
-  SYSTEM_INSTRUCT_CORE,
-  SYSTEM_INSTRUCT_PRODUCTS,
-  SYSTEM_INSTRUCT_INSIGHT,
-} from "@/lib/agents/system-instructions";
-import { scrapeUrl } from "@/lib/agents/tools/api/firecrawl";
 import { storeKeyValue, retrieveKeyValue } from "@/lib/service/store";
 import {
   PayloadData,
@@ -34,8 +18,6 @@ import {
   AIState,
   StreamGeneration,
   TestingMessageCallback,
-  UIState,
-  UseAction,
 } from "@/lib/types/ai";
 import {
   ProductsResponse,
@@ -53,54 +35,30 @@ import {
   createStreamableValue,
   createStreamableUI,
   streamUI,
-  createAI,
-  getAIState,
 } from "ai/rsc";
-import { getServerSession } from "next-auth";
 import { v4 } from "uuid";
 import { z } from "zod";
+import SYSTEM_INSTRUCTION from "../../constant/md";
+import { productsSchema } from "../../schema/product";
+import {
+  searchProductSchema,
+  getProductDetailsSchema,
+  inquireUserSchema,
+} from "../../schema/tool-parameters";
+import {
+  SYSTEM_INSTRUCT_CORE,
+  SYSTEM_INSTRUCT_PRODUCTS,
+  SYSTEM_INSTRUCT_INSIGHT,
+} from "../../system-instructions";
+import { scrapeUrl } from "../../tools/api/firecrawl";
+import { toCoreMessage } from "../mutator/mutate-messages";
+import { mutateTool } from "../mutator/mutate-tool";
+import { root } from "../../constant";
 
-/**
- * AI Provider for: **StreamUI**
- *
- * @method StreamUI
- */
-export const AI = createAI<AIState, UIState, UseAction>({
-  initialUIState: [],
-  initialAIState: {
-    chatId: generateId(),
-    messages: [],
-  },
-  actions: {
-    // sendMessage,
-    testing,
-  },
-  onSetAIState: async ({ state, done }) => {
-    "use server";
-
-    if (done) {
-      const session = await getServerSession();
-      await saveAIState(state, session);
-    }
-  },
-  onGetUIState: async () => {
-    "use server";
-
-    const aiState = getAIState<typeof AI>();
-
-    if (aiState) {
-      const uiState = mapUIState(aiState);
-      return uiState;
-    } else {
-      return;
-    }
-  },
-});
-
-async function sendMessage(
+export const sendMessage = async (
   payload: PayloadData,
   assignController?: AssignController
-): Promise<SendMessageCallback> {
+): Promise<SendMessageCallback> => {
   const { textInput, attachProduct, inquiryResponse } = payload;
 
   logger.info("Process on Server Action", { payload });
@@ -173,7 +131,180 @@ async function sendMessage(
     },
     tools: {
       // searchProduct: actionSearchProduct(aiState),
-      searchProduct: toolSearchProduct({ state: aiState, generation, ui }),
+      searchProduct: {
+        description: root.SearchProductDescription,
+        parameters: searchProductSchema,
+        generate: async function* ({ query }) {
+          logger.info("Using searchProduct tool", {
+            progress: "initial",
+            request: { query },
+          });
+
+          generation.update({
+            process: "generating",
+            loading: true,
+          });
+
+          ui.update(<ShinyText text={`Searching for ${query}`} />);
+
+          yield ui.value;
+
+          let finalizedResults: ProductsResponse = { data: [] };
+
+          const scrapeContent = await scrapeUrl({
+            url: processURLQuery(query),
+            formats: ["markdown", "screenshot"],
+            waitFor: 4000,
+          });
+
+          /** Handle if Scrape Operation is Error */
+          if (!scrapeContent.success) {
+            ui.done(
+              <ErrorMessage
+                errorName="Scrape Operation Failed"
+                reason="There was an error while scrapping the content from the firecrawl service."
+                raw={{
+                  payload: { query },
+                  error: scrapeContent.error,
+                  message: scrapeContent.message,
+                }}
+              />
+            );
+          }
+
+          /** Handle if Scrape Operation is Success */
+          if (scrapeContent.success && scrapeContent.markdown) {
+            ui.update(
+              <ShinyText text="Found products, proceed to data extraction..." />
+            );
+
+            yield ui.value;
+
+            await new Promise((resolve) => setTimeout(resolve, 3000));
+
+            const payload = JSON.stringify({
+              objective: root.ExtractionOjective,
+              markdown: scrapeContent.markdown,
+            });
+
+            const streamableProducts =
+              createStreamableValue<DeepPartial<Product[]>>();
+
+            ui.update(
+              <StreamProductsContainer
+                query={query}
+                screenshot={scrapeContent.screenshot}
+                products={streamableProducts.value}
+              />
+            );
+
+            let isObjectGenerationDone = false;
+
+            const { partialObjectStream } = streamObject({
+              model: google("gemini-2.0-flash-exp"),
+              system: SYSTEM_INSTRUCT_PRODUCTS,
+              prompt: payload,
+              schema: productsSchema,
+              onFinish: async ({ object }) => {
+                isObjectGenerationDone = true;
+
+                if (object) {
+                  finalizedResults = {
+                    callId: v4(),
+                    screenshot: scrapeContent.screenshot,
+                    data: object.data,
+                  };
+                }
+              },
+            });
+
+            for await (const chunk of partialObjectStream) {
+              if (chunk.data) {
+                streamableProducts.update(chunk.data);
+              }
+            }
+
+            streamableProducts.done();
+
+            if (isObjectGenerationDone) {
+              const stored = await storeKeyValue<ProductsResponse>({
+                key: finalizedResults.callId as string,
+                metadata: {
+                  chatId: aiState.get().chatId,
+                  email: "",
+                },
+                value: finalizedResults,
+              });
+
+              ui.update(
+                <ProductsContainer
+                  content={{
+                    success: true,
+                    name: "searchProduct",
+                    args: { query },
+                    data: stored.value,
+                  }}
+                  isFinished={true}
+                />
+              );
+
+              const streamableText = createStreamableValue<string>("");
+
+              ui.append(
+                <StreamAssistantMessage content={streamableText.value} />
+              );
+
+              yield ui.value;
+
+              let finalizedText: string = "";
+
+              const { textStream } = streamText({
+                model: groq("llama-3.3-70b-versatile"),
+                system: SYSTEM_INSTRUCT_INSIGHT,
+                prompt: JSON.stringify(finalizedResults),
+                onFinish: ({ text }) => {
+                  finalizedText = text;
+                },
+              });
+
+              for await (const texts of textStream) {
+                finalizedText += texts;
+                streamableText.update(finalizedText);
+              }
+
+              streamableText.done();
+
+              const { mutate } = mutateTool({
+                name: "searchProduct",
+                args: { query },
+                result: finalizedResults,
+                overrideAssistant: {
+                  content: finalizedText,
+                },
+              });
+
+              aiState.done({
+                ...aiState.get(),
+                messages: [...aiState.get().messages, ...mutate],
+              });
+
+              logger.info("Done using searchProduct tool", {
+                progress: "finish",
+                request: { query },
+              });
+            }
+          }
+
+          ui.done();
+
+          generation.done({
+            process: "done",
+            loading: false,
+          });
+
+          return ui.value;
+        },
+      },
       getProductDetails: {
         description: root.GetProductDetailsDescription,
         parameters: getProductDetailsSchema,
@@ -544,13 +675,11 @@ async function sendMessage(
     stream,
     generation: generation.value,
   };
-}
+};
 
 export async function testing(
   message: string
-): Promise<TestingMessageCallback> { 
-  'use server'
-  
+): Promise<TestingMessageCallback> {
   return {
     id: "",
     display: (

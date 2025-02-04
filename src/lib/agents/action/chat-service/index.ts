@@ -11,7 +11,7 @@ async function getRedis(): Promise<RedisWrapper> {
   return await getRedisClient();
 }
 
-export async function getChats(userId?: string | null) {
+export async function getChats(userId: string | null = "anonymous") {
   if (!userId) {
     return [];
   }

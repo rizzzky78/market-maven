@@ -1,4 +1,9 @@
-import { MutableAIState, RenderTool } from "@/lib/types/ai";
+import {
+  AIState,
+  MutableAIState,
+  RenderTool,
+  StreamGeneration,
+} from "@/lib/types/ai";
 import { searchProductSchema } from "../../schema/tool-parameters";
 import logger from "@/lib/utility/logger";
 import { StreamAssistantMessage } from "@/components/maven/assistant-message";
@@ -20,9 +25,17 @@ import {
 import { scrapeUrl } from "../../tools/api/firecrawl";
 import { mutateTool } from "../mutator/mutate-tool";
 import { root } from "../../constant";
+import { storeKeyValue } from "@/lib/service/store";
+import { v4 } from "uuid";
 
-export const actionSearchProduct = (state: MutableAIState) => {
-  const toolSearchProduct: RenderTool<typeof searchProductSchema> = {
+type ToolProps = {
+  state: MutableAIState<AIState>;
+  generation: ReturnType<typeof createStreamableValue<StreamGeneration>>;
+  ui: ReturnType<typeof createStreamableUI>;
+};
+
+export const toolSearchProduct = ({ state, generation, ui }: ToolProps) => {
+  const tool: RenderTool<typeof searchProductSchema> = {
     description: root.SearchProductDescription,
     parameters: searchProductSchema,
     generate: async function* ({ query }) {
@@ -31,11 +44,14 @@ export const actionSearchProduct = (state: MutableAIState) => {
         request: { query },
       });
 
-      const uiStream = createStreamableUI(
-        <ShinyText text={`Searching for ${query}`} />
-      );
+      generation.update({
+        process: "generating",
+        loading: true,
+      });
 
-      yield uiStream.value;
+      ui.update(<ShinyText text={`Searching for ${query}`} />);
+
+      yield ui.value;
 
       let finalizedResults: ProductsResponse = { data: [] };
 
@@ -47,27 +63,26 @@ export const actionSearchProduct = (state: MutableAIState) => {
 
       /** Handle if Scrape Operation is Error */
       if (!scrapeContent.success) {
-        uiStream.done(
+        ui.done(
           <ErrorMessage
-            name="Scrape Error"
-            messsage={scrapeContent.error}
-            raw={{ query }}
+            errorName="Scrape Operation Failed"
+            reason="There was an error while scrapping the content from the firecrawl service."
+            raw={{
+              payload: { query },
+              error: scrapeContent.error,
+              message: scrapeContent.message,
+            }}
           />
         );
-
-        return uiStream.value;
       }
 
       /** Handle if Scrape Operation is Success */
       if (scrapeContent.success && scrapeContent.markdown) {
-        uiStream.update(
-          <ShinyText
-            text="Found products, proceed to data extraction..."
-            speed={1}
-          />
+        ui.update(
+          <ShinyText text="Found products, proceed to data extraction..." />
         );
 
-        yield uiStream.value;
+        yield ui.value;
 
         await new Promise((resolve) => setTimeout(resolve, 3000));
 
@@ -79,7 +94,7 @@ export const actionSearchProduct = (state: MutableAIState) => {
         const streamableProducts =
           createStreamableValue<DeepPartial<Product[]>>();
 
-        uiStream.update(
+        ui.update(
           <StreamProductsContainer
             query={query}
             screenshot={scrapeContent.screenshot}
@@ -87,14 +102,19 @@ export const actionSearchProduct = (state: MutableAIState) => {
           />
         );
 
+        let isObjectGenerationDone = false;
+
         const { partialObjectStream } = streamObject({
           model: google("gemini-2.0-flash-exp"),
           system: SYSTEM_INSTRUCT_PRODUCTS,
           prompt: payload,
           schema: productsSchema,
           onFinish: async ({ object }) => {
+            isObjectGenerationDone = true;
+
             if (object) {
               finalizedResults = {
+                callId: v4(),
                 screenshot: scrapeContent.screenshot,
                 data: object.data,
               };
@@ -110,69 +130,83 @@ export const actionSearchProduct = (state: MutableAIState) => {
 
         streamableProducts.done();
 
-        uiStream.update(
-          <ProductsContainer
-            content={{
-              success: true,
-              name: "searchProduct",
-              args: { query },
-              data: finalizedResults,
-            }}
-            isFinished={true}
-          />
-        );
+        if (isObjectGenerationDone) {
+          const stored = await storeKeyValue<ProductsResponse>({
+            key: finalizedResults.callId as string,
+            metadata: {
+              chatId: state.get().chatId,
+              email: "",
+            },
+            value: finalizedResults,
+          });
 
-        const streamableText = createStreamableValue<string>("");
+          ui.update(
+            <ProductsContainer
+              content={{
+                success: true,
+                name: "searchProduct",
+                args: { query },
+                data: stored.value,
+              }}
+              isFinished={true}
+            />
+          );
 
-        uiStream.append(
-          <StreamAssistantMessage content={streamableText.value} />
-        );
+          const streamableText = createStreamableValue<string>("");
 
-        yield uiStream.value;
+          ui.append(<StreamAssistantMessage content={streamableText.value} />);
 
-        let finalizedText: string = "";
+          yield ui.value;
 
-        const { textStream } = streamText({
-          model: groq("llama-3.2-90b-vision-preview"),
-          system: SYSTEM_INSTRUCT_INSIGHT,
-          prompt: JSON.stringify(finalizedResults),
-          onFinish: ({ text }) => {
-            finalizedText = text;
-          },
-        });
+          let finalizedText: string = "";
 
-        for await (const texts of textStream) {
-          finalizedText += texts;
-          streamableText.update(finalizedText);
+          const { textStream } = streamText({
+            model: groq("llama-3.3-70b-versatile"),
+            system: SYSTEM_INSTRUCT_INSIGHT,
+            prompt: JSON.stringify(finalizedResults),
+            onFinish: ({ text }) => {
+              finalizedText = text;
+            },
+          });
+
+          for await (const texts of textStream) {
+            finalizedText += texts;
+            streamableText.update(finalizedText);
+          }
+
+          streamableText.done();
+
+          const { mutate } = mutateTool({
+            name: "searchProduct",
+            args: { query },
+            result: finalizedResults,
+            overrideAssistant: {
+              content: finalizedText,
+            },
+          });
+
+          state.done({
+            ...state.get(),
+            messages: [...state.get().messages, ...mutate],
+          });
+
+          logger.info("Done using searchProduct tool", {
+            progress: "finish",
+            request: { query },
+          });
         }
-
-        streamableText.done();
-
-        const { mutate } = mutateTool({
-          name: "searchProduct",
-          args: { query },
-          result: finalizedResults,
-          overrideAssistant: {
-            content: finalizedText,
-          },
-        });
-
-        state.done({
-          ...state.get(),
-          messages: [...state.get().messages, ...mutate],
-        });
-
-        uiStream.done();
-
-        logger.info("Done using searchProduct tool", {
-          progress: "finish",
-          request: { query },
-        });
-
-        return uiStream.value;
       }
+
+      ui.done();
+
+      generation.done({
+        process: "done",
+        loading: false,
+      });
+
+      return ui.value;
     },
   };
 
-  return toolSearchProduct;
+  return tool;
 };

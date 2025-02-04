@@ -80,10 +80,16 @@ export type UseAction = {
    * @param assignController Optional controllers to be executed
    * @returns A promise resolving to the message callback
    */
-  sendMessage: (
+  sendMessage?: (
     payload: PayloadData,
     assignController?: AssignController
   ) => Promise<SendMessageCallback>;
+  testing?: (message: string) => Promise<TestingMessageCallback>;
+};
+
+export type TestingMessageCallback = {
+  id: string;
+  display: ReactNode;
 };
 
 /**
