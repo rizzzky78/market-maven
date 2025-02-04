@@ -1,9 +1,5 @@
 import { mapUIState } from "@/components/custom/ui-mapper";
 import { StreamAssistantMessage } from "@/components/maven/assistant-message";
-import { ErrorMessage } from "@/components/maven/error-message";
-import { StreamProductsContainer } from "@/components/maven/exp-stream-products-container";
-import { StreamProductDetails } from "@/components/maven/product-details";
-import { ProductsContainer } from "@/components/maven/products-container";
 import { ShinyText } from "@/components/maven/shining-glass";
 import { UserInquiry } from "@/components/maven/user-inquiry";
 import { toCoreMessage } from "@/lib/agents/action/mutator/mutate-messages";
@@ -12,21 +8,8 @@ import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
 import { toolGetProductDetails } from "@/lib/agents/action/server-action/get-product-details";
 import { toolProductsComparison } from "@/lib/agents/action/server-action/products-comparison";
 import { toolSearchProduct } from "@/lib/agents/action/server-action/search-product";
-import { root } from "@/lib/agents/constant";
-import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
-import { productsSchema } from "@/lib/agents/schema/product";
-import {
-  searchProductSchema,
-  getProductDetailsSchema,
-  inquireUserSchema,
-} from "@/lib/agents/schema/tool-parameters";
-import {
-  SYSTEM_INSTRUCT_CORE,
-  SYSTEM_INSTRUCT_PRODUCTS,
-  SYSTEM_INSTRUCT_INSIGHT,
-} from "@/lib/agents/system-instructions";
-import { scrapeUrl } from "@/lib/agents/tools/api/firecrawl";
-import { storeKeyValue, retrieveKeyValue } from "@/lib/service/store";
+import { inquireUserSchema } from "@/lib/agents/schema/tool-parameters";
+import { SYSTEM_INSTRUCT_CORE } from "@/lib/agents/system-instructions";
 import {
   PayloadData,
   AssignController,
@@ -39,17 +22,9 @@ import {
   UIState,
   UseAction,
 } from "@/lib/types/ai";
-import {
-  ProductsResponse,
-  Product,
-  ProductDetailsResponse,
-  ProductsComparisonResponse,
-} from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
-import { processURLQuery } from "@/lib/utils";
 import { google } from "@ai-sdk/google";
-import { groq } from "@ai-sdk/groq";
-import { generateId, DeepPartial, streamObject, streamText } from "ai";
+import { generateId } from "ai";
 import {
   getMutableAIState,
   createStreamableValue,
@@ -59,15 +34,12 @@ import {
   getAIState,
 } from "ai/rsc";
 import { getServerSession } from "next-auth";
-import { v4 } from "uuid";
-import { z } from "zod";
-
 
 async function sendMessage(
   payload: PayloadData,
   assignController?: AssignController
 ): Promise<SendMessageCallback> {
-  'use server'
+  "use server";
 
   const { textInput, attachProduct, inquiryResponse } = payload;
 
@@ -140,17 +112,17 @@ async function sendMessage(
       return textUi;
     },
     tools: {
-      // searchProduct: toolSearchProduct({ state: aiState, generation, ui }),
+      searchProduct: toolSearchProduct({ state: aiState, generation, ui }),
       getProductDetails: toolGetProductDetails({
         state: aiState,
         generation,
         ui,
       }),
-      // productsComparison: toolProductsComparison({
-      //   state: aiState,
-      //   generation,
-      //   ui,
-      // }),
+      productsComparison: toolProductsComparison({
+        state: aiState,
+        generation,
+        ui,
+      }),
       inquireUser: {
         description: `Inquire the user is provided prompt or information are not enough`,
         parameters: inquireUserSchema,
@@ -208,24 +180,6 @@ async function sendMessage(
   };
 }
 
-
-
-export async function testing(
-  message: string
-): Promise<TestingMessageCallback> {
-  "use server";
-
-  return {
-    id: "",
-    display: (
-      <div>
-        <p>This is a testing!</p>
-      </div>
-    ),
-  };
-}
-
-
 /**
  * AI Provider for: **StreamUI**
  *
@@ -239,7 +193,6 @@ export const AI = createAI<AIState, UIState, UseAction>({
   },
   actions: {
     sendMessage,
-    testing,
   },
   onSetAIState: async ({ state, done }) => {
     "use server";
@@ -262,3 +215,22 @@ export const AI = createAI<AIState, UIState, UseAction>({
     }
   },
 });
+
+/*
+
+# Agent Tools
+- search product { query }
+- get product details { query, link }
+- products comparison { compare: { title, callId }[] }
+
+# Root Agent `orchestrator()`, contain tools:
+- inquire user
+- search product
+
+# Sub Level-1 Agent `extractor()`, contain tools:
+- get product details
+
+# Sub Leval-2 Agent `comparator()`, contain tools:
+- products comparison
+
+*/
