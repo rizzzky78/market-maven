@@ -1,15 +1,24 @@
 import { mapUIState } from "@/components/custom/ui-mapper";
 import { StreamAssistantMessage } from "@/components/maven/assistant-message";
+import { ErrorMessage } from "@/components/maven/error-message";
+import {
+  ProductDetails,
+  StreamProductDetails,
+} from "@/components/maven/product-details";
 import { ShinyText } from "@/components/maven/shining-glass";
-import { UserInquiry } from "@/components/maven/user-inquiry";
 import { toCoreMessage } from "@/lib/agents/action/mutator/mutate-messages";
 import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
 import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
 import { toolGetProductDetails } from "@/lib/agents/action/server-action/get-product-details";
+import { toolInquireUser } from "@/lib/agents/action/server-action/inquire-user";
 import { toolProductsComparison } from "@/lib/agents/action/server-action/products-comparison";
 import { toolSearchProduct } from "@/lib/agents/action/server-action/search-product";
-import { inquireUserSchema } from "@/lib/agents/schema/tool-parameters";
+import { root } from "@/lib/agents/constant";
+import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
+import { getProductDetailsSchema } from "@/lib/agents/schema/tool-parameters";
 import { SYSTEM_INSTRUCT_CORE } from "@/lib/agents/system-instructions";
+import { scrapeUrl } from "@/lib/agents/tools/api/firecrawl";
+import { storeKeyValue } from "@/lib/service/store";
 import {
   PayloadData,
   AssignController,
@@ -18,13 +27,13 @@ import {
   MutableAIState,
   AIState,
   StreamGeneration,
-  TestingMessageCallback,
   UIState,
   UseAction,
 } from "@/lib/types/ai";
+import { ProductDetailsResponse } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";
-import { generateId } from "ai";
+import { generateId, streamObject, streamText } from "ai";
 import {
   getMutableAIState,
   createStreamableValue,
@@ -34,6 +43,7 @@ import {
   getAIState,
 } from "ai/rsc";
 import { getServerSession } from "next-auth";
+import { v4 } from "uuid";
 
 async function sendMessage(
   payload: PayloadData,
@@ -41,22 +51,23 @@ async function sendMessage(
 ): Promise<SendMessageCallback> {
   "use server";
 
-  const { textInput, attachProduct, inquiryResponse } = payload;
+  const { textInput, attachProduct, productCompare, inquiryResponse } = payload;
 
   logger.info("Process on Server Action", { payload });
 
   const payloadUserMessage: UserContentMessage = {
     text_input: textInput ?? null,
     attach_product: attachProduct ?? null,
+    product_compare: productCompare ?? null,
     inquiry_response: inquiryResponse ?? null,
   };
 
-  const aiState: MutableAIState<AIState> = getMutableAIState<typeof AI>();
+  const state: MutableAIState<AIState> = getMutableAIState<typeof AI>();
 
-  aiState.update({
-    ...aiState.get(),
+  state.update({
+    ...state.get(),
     messages: [
-      ...aiState.get().messages,
+      ...state.get().messages,
       {
         id: generateId(),
         role: "user",
@@ -65,12 +76,12 @@ async function sendMessage(
     ],
   });
 
-  const generation = createStreamableValue<StreamGeneration>({
-    process: "initial",
-    loading: true,
-  });
+  // const generation = createStreamableValue<StreamGeneration>({
+  //   process: "initial",
+  //   loading: true,
+  // });
 
-  const ui = createStreamableUI(<ShinyText text="Maven is thinking..." />);
+  // const ui = createStreamableUI(<ShinyText text="Maven is thinking..." />);
 
   const streamableText = createStreamableValue<string>("");
 
@@ -79,94 +90,181 @@ async function sendMessage(
   const { value, stream } = await streamUI({
     model: google("gemini-2.0-flash-exp"),
     system: SYSTEM_INSTRUCT_CORE,
-    messages: toCoreMessage(aiState.get().messages),
+    messages: toCoreMessage(state.get().messages),
     initial: <ShinyText text="Maven is thinking..." />,
-    text: async function* ({ content, done }) {
-      if (done) {
-        aiState.done({
-          ...aiState.get(),
-          messages: [
-            ...aiState.get().messages,
-            {
-              id: generateId(),
-              role: "assistant",
-              content,
-            },
-          ],
-        });
+    // text: async function* ({ content, done }) {
+    //   if (done) {
+    //     state.done({
+    //       ...state.get(),
+    //       messages: [
+    //         ...state.get().messages,
+    //         {
+    //           id: generateId(),
+    //           role: "assistant",
+    //           content,
+    //         },
+    //       ],
+    //     });
 
-        ui.done();
-        streamableText.done();
-        generation.done({
-          process: "done",
-          loading: false,
-        });
-      } else {
-        streamableText.update(content);
-        generation.update({
-          process: "generating",
-          loading: true,
-        });
-      }
+    //     // ui.done();
+    //     streamableText.done();
+    //     // generation.done({
+    //     //   process: "done",
+    //     //   loading: false,
+    //     // });
+    //   } else {
+    //     streamableText.update(content);
+    //     // generation.update({
+    //     //   process: "generating",
+    //     //   loading: true,
+    //     // });
+    //   }
 
-      return textUi;
-    },
+    //   return textUi;
+    // },
     tools: {
-      searchProduct: toolSearchProduct({ state: aiState, generation, ui }),
-      getProductDetails: toolGetProductDetails({
-        state: aiState,
-        generation,
-        ui,
-      }),
-      productsComparison: toolProductsComparison({
-        state: aiState,
-        generation,
-        ui,
-      }),
-      inquireUser: {
-        description: `Inquire the user is provided prompt or information are not enough`,
-        parameters: inquireUserSchema,
-        generate: async function* (inquiry) {
-          logger.info("Using inquireUser tool");
-
-          generation.update({
-            process: "generating",
-            loading: true,
-          });
-
-          const callId = generateId();
-          ui.update(<ShinyText key={callId} text="Creating an Inquiry" />);
-
-          yield ui.value;
+      getProductDetails: {
+        description: root.GetProductDetailsDescription,
+        parameters: getProductDetailsSchema,
+        generate: async function* ({ query, link }) {
+          yield <ShinyText text={`Getting data product for ${query}`} />;
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
-          ui.update(<UserInquiry inquiry={inquiry} />);
-
-          const { mutate } = mutateTool({
-            name: "inquireUser",
-            args: { inquiry },
-            result: { data: "no-result" },
-            overrideAssistant: {
-              content: `Inquiry have been provided, please fill them in accordingly.`,
-            },
+          const scrapeResult = await scrapeUrl({
+            url: link,
+            formats: ["markdown", "screenshot"],
+            waitFor: 4000,
           });
 
-          aiState.done({
-            ...aiState.get(),
-            messages: [...aiState.get().messages, ...mutate],
-          });
+          /** Handle if Scrape Operation is Error */
+          if (!scrapeResult.success) {
+            return (
+              <ErrorMessage
+                errorName="Scrape Operation Failed"
+                reason="There was an error while scrapping the content from the firecrawl service."
+                raw={{
+                  payload: { query, link },
+                  error: scrapeResult.error,
+                  message: scrapeResult.message,
+                }}
+              />
+            );
+          }
 
-          ui.done();
+          /** Handle if Scrape Operation is Success */
+          if (scrapeResult.success && scrapeResult.markdown) {
+            yield <ShinyText text="Found product details, please hang on..." />;
 
-          logger.info("Done using inquireUser tool");
+            await new Promise((resolve) => setTimeout(resolve, 3000));
 
-          generation.done({
-            process: "done",
-            loading: false,
-          });
+            let finalizedObject: ProductDetailsResponse = {
+              productDetails: {},
+            };
 
-          return ui.value;
+            const payloadContent = JSON.stringify({
+              prompt: root.ExtractionDetails,
+              refference: { query, link },
+              markdown: scrapeResult.markdown,
+            });
+
+            const streamableObject =
+              createStreamableValue<Record<string, any>>();
+
+            yield (
+              <StreamProductDetails
+                query={query}
+                link={link}
+                callId={finalizedObject.callId}
+                content={streamableObject.value}
+                screenshot={scrapeResult.screenshot}
+              />
+            );
+
+            const { partialObjectStream } = streamObject({
+              model: google("gemini-2.0-flash-exp"),
+              system: SYSTEM_INSTRUCTION.PRODUCT_DETAILS_EXTRACTOR,
+              prompt: payloadContent,
+              output: "no-schema",
+              onFinish: async ({ object }) => {
+                finalizedObject = {
+                  callId: v4(),
+                  screenshot: scrapeResult.screenshot,
+                  productDetails: object as Record<string, any>,
+                };
+              },
+            });
+
+            for await (const objProduct of partialObjectStream) {
+              finalizedObject = {
+                productDetails: objProduct as Record<string, any>,
+              };
+              streamableObject.update(finalizedObject.productDetails);
+            }
+
+            streamableObject.done();
+
+            // const stored = await storeKeyValue<ProductDetailsResponse>({
+            //   key: finalizedObject.callId as string,
+            //   metadata: {
+            //     chatId: state.get().chatId,
+            //     email: "",
+            //   },
+            //   value: finalizedObject,
+            // });
+
+            const streamableText = createStreamableValue<string>("");
+
+            yield (
+              <>
+                <ProductDetails
+                  content={{
+                    success: true,
+                    name: "getProductDetails",
+                    args: { query, link },
+                    data: {
+                      insight: finalizedObject.productDetails,
+                      screenshot: finalizedObject.screenshot as string,
+                      callId: finalizedObject.callId as string,
+                    },
+                  }}
+                />
+                <StreamAssistantMessage content={streamableText.value} />
+              </>
+            );
+
+            let finalizedText: string = "";
+
+            const { textStream } = streamText({
+              model: google("gemini-2.0-flash-exp"),
+              system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_INSIGHT,
+              prompt: JSON.stringify(finalizedObject.productDetails),
+              onFinish: async ({ text }) => {
+                finalizedText = text;
+              },
+            });
+
+            for await (const text of textStream) {
+              finalizedText += text;
+              streamableText.update(finalizedText);
+            }
+
+            streamableText.done();
+
+            const { mutate } = mutateTool({
+              name: "getProductDetails",
+              args: { link, query },
+              result: finalizedObject,
+              overrideAssistant: {
+                content: finalizedText,
+              },
+            });
+
+            state.done({
+              ...state.get(),
+              messages: [...state.get().messages, ...mutate],
+            });
+          }
         },
       },
     },
@@ -175,8 +273,8 @@ async function sendMessage(
   return {
     id: generateId(),
     display: value,
-    stream,
-    generation: generation.value,
+    // stream,
+    // generation: generation.value,
   };
 }
 
@@ -189,6 +287,7 @@ export const AI = createAI<AIState, UIState, UseAction>({
   initialUIState: [],
   initialAIState: {
     chatId: generateId(),
+    username: "anonymous@gmail.com",
     messages: [],
   },
   actions: {
@@ -232,5 +331,24 @@ export const AI = createAI<AIState, UIState, UseAction>({
 
 # Sub Leval-2 Agent `comparator()`, contain tools:
 - products comparison
+
+code:
+
+      searchProduct: toolSearchProduct({ state: aiState, generation, ui }),
+      getProductDetails: toolGetProductDetails({
+        state: aiState,
+        generation,
+        ui,
+      }),
+      productsComparison: toolProductsComparison({
+        state: aiState,
+        generation,
+        ui,
+      }),
+      inquireUser: toolInquireUser({
+        state: aiState,
+        generation,
+        ui,
+      }),
 
 */

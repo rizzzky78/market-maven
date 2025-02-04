@@ -65,6 +65,8 @@ export type PayloadData = {
   textInput?: string;
   /** Optional attached product data */
   attachProduct?: AttachProduct;
+  /** Optional products comparison data */
+  productCompare?: ProductCompare;
   /** Optional response to a specific inquiry */
   inquiryResponse?: InquiryResponse;
 };
@@ -102,7 +104,7 @@ export type SendMessageCallback = {
   /** Renderable UI representation of the message */
   display: ReactNode;
   /** Streamable message content */
-  stream: ReadableStream<LanguageModelV1StreamPart>;
+  stream?: ReadableStream<LanguageModelV1StreamPart>;
   /** Generation status and metadata */
   generation?: StreamableValue<StreamGeneration>;
 };
@@ -113,6 +115,8 @@ export type SendMessageCallback = {
 export type AIState = {
   /** Current chat session identifier */
   chatId: string;
+  /** A username of user, this typically are in form of email instead an ID */
+  username: string;
   /** Accumulated messages in the conversation */
   messages: MessageProperty[];
   /** Optional flag indicating if the page is shared */
