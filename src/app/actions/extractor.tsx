@@ -136,7 +136,7 @@ export async function extractor(product: AttachProduct) {
               key: finalizedObject.callId as string,
               metadata: {
                 chatId: state.get().chatId,
-                email: "",
+                email: state.get().username,
               },
               value: finalizedObject,
             });
