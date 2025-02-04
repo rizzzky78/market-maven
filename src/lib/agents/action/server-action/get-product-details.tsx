@@ -9,31 +9,26 @@ import { getProductDetailsSchema } from "../../schema/tool-parameters";
 import { root } from "../../constant";
 import { StreamAssistantMessage } from "@/components/maven/assistant-message";
 import { ErrorMessage } from "@/components/maven/error-message";
-import { StreamProductInsight } from "@/components/maven/product-details";
+import { StreamProductDetails } from "@/components/maven/product-details";
 import { ShinyText } from "@/components/maven/shining-glass";
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";
 import { streamObject, streamText } from "ai";
 import { v4 } from "uuid";
-import {
-  SYSTEM_INSTRUCT_EXTRACTOR,
-  SYSTEM_INSTRUCT_DEFINED_INSIGHT,
-} from "../../system-instructions";
 import { scrapeUrl } from "../../tools/api/firecrawl";
 import { mutateTool } from "../mutator/mutate-tool";
+import { storeKeyValue } from "@/lib/service/store";
+import { ProductDetailsResponse } from "@/lib/types/product";
+import SYSTEM_INSTRUCTION from "../../constant/md";
 
-interface RenderProps {
-  ui: ReturnType<typeof createStreamableUI>;
+type ToolProps = {
   state: MutableAIState<AIState>;
   generation: ReturnType<typeof createStreamableValue<StreamGeneration>>;
-}
+  ui: ReturnType<typeof createStreamableUI>;
+};
 
-export const actionGetProductDetails = ({
-  ui,
-  state,
-  generation,
-}: RenderProps) => {
-  const toolGetProductDetails: RenderTool<typeof getProductDetailsSchema> = {
+export const toolGetProductDetails = ({ ui, state, generation }: ToolProps) => {
+  const tool: RenderTool<typeof getProductDetailsSchema> = {
     description: root.GetProductDetailsDescription,
     parameters: getProductDetailsSchema,
     generate: async function* ({ query, link }) {
@@ -63,9 +58,13 @@ export const actionGetProductDetails = ({
       if (!scrapeResult.success) {
         ui.done(
           <ErrorMessage
-            name="Scrape Error"
-            messsage={scrapeResult.error}
-            raw={{ query, link }}
+            errorName="Scrape Operation Failed"
+            reason="There was an error while scrapping the content from the firecrawl service."
+            raw={{
+              payload: { query, link },
+              error: scrapeResult.error,
+              message: scrapeResult.message,
+            }}
           />
         );
       }
@@ -80,11 +79,9 @@ export const actionGetProductDetails = ({
 
         await new Promise((resolve) => setTimeout(resolve, 3000));
 
-        let finalizedObject: {
-          insight: Record<string, any>;
-          screenshot?: string;
-          callId?: string;
-        } = { callId: v4(), insight: {} };
+        let finalizedObject: ProductDetailsResponse = {
+          productDetails: {},
+        };
 
         const payloadContent = JSON.stringify({
           prompt: root.ExtractionDetails,
@@ -95,7 +92,9 @@ export const actionGetProductDetails = ({
         const streamableObject = createStreamableValue<Record<string, any>>();
 
         ui.update(
-          <StreamProductInsight
+          <StreamProductDetails
+            query={query}
+            link={link}
             callId={finalizedObject.callId}
             content={streamableObject.value}
             screenshot={scrapeResult.screenshot}
@@ -104,73 +103,87 @@ export const actionGetProductDetails = ({
 
         yield ui.value;
 
+        let isStreamDone = false;
+
         const { partialObjectStream } = streamObject({
           model: google("gemini-2.0-flash-exp"),
-          system: SYSTEM_INSTRUCT_EXTRACTOR,
+          system: SYSTEM_INSTRUCTION.PRODUCT_DETAILS_EXTRACTOR,
           prompt: payloadContent,
           output: "no-schema",
           onFinish: async ({ object }) => {
+            isStreamDone = true;
             finalizedObject = {
               callId: v4(),
-              insight: object as Record<string, any>,
               screenshot: scrapeResult.screenshot,
+              productDetails: object as Record<string, any>,
             };
           },
         });
 
         for await (const objProduct of partialObjectStream) {
           finalizedObject = {
-            insight: objProduct as Record<string, any>,
+            productDetails: objProduct as Record<string, any>,
           };
-          streamableObject.update(finalizedObject.insight);
+          streamableObject.update(finalizedObject.productDetails);
         }
 
         streamableObject.done();
 
-        const streamableText = createStreamableValue<string>("");
+        if (isStreamDone) {
+          const stored = await storeKeyValue<ProductDetailsResponse>({
+            key: finalizedObject.callId as string,
+            metadata: {
+              chatId: state.get().chatId,
+              email: "",
+            },
+            value: finalizedObject,
+          });
 
-        ui.append(<StreamAssistantMessage content={streamableText.value} />);
+          const streamableText = createStreamableValue<string>("");
 
-        yield ui.value;
+          ui.append(<StreamAssistantMessage content={streamableText.value} />);
 
-        let finalizedText: string = "";
+          yield ui.value;
 
-        const { textStream } = streamText({
-          model: google("gemini-2.0-flash-exp"),
-          system: SYSTEM_INSTRUCT_DEFINED_INSIGHT,
-          prompt: JSON.stringify({ data: finalizedObject.insight }),
-          onFinish: async ({ text }) => {
-            finalizedText = text;
-          },
-        });
+          let finalizedText: string = "";
 
-        for await (const text of textStream) {
-          finalizedText += text;
-          streamableText.update(finalizedText);
+          const { textStream } = streamText({
+            model: google("gemini-2.0-flash-exp"),
+            system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_INSIGHT,
+            prompt: JSON.stringify(stored.value.productDetails),
+            onFinish: async ({ text }) => {
+              finalizedText = text;
+            },
+          });
+
+          for await (const text of textStream) {
+            finalizedText += text;
+            streamableText.update(finalizedText);
+          }
+
+          streamableText.done();
+
+          const { mutate } = mutateTool({
+            name: "getProductDetails",
+            args: { link, query },
+            result: stored.value,
+            overrideAssistant: {
+              content: finalizedText,
+            },
+          });
+
+          state.done({
+            ...state.get(),
+            messages: [...state.get().messages, ...mutate],
+          });
+
+          ui.done();
+
+          logger.info("Done using getProductDetails tool", {
+            progress: "finish",
+            request: { query, link },
+          });
         }
-
-        streamableText.done();
-
-        const { mutate } = mutateTool({
-          name: "getProductDetails",
-          args: { link, query },
-          result: finalizedObject,
-          overrideAssistant: {
-            content: finalizedText,
-          },
-        });
-
-        state.done({
-          ...state.get(),
-          messages: [...state.get().messages, ...mutate],
-        });
-
-        ui.done();
-
-        logger.info("Done using getProductDetails tool", {
-          progress: "finish",
-          request: { query, link },
-        });
       }
 
       generation.done({
@@ -182,5 +195,5 @@ export const actionGetProductDetails = ({
     },
   };
 
-  return toolGetProductDetails;
+  return tool;
 };
