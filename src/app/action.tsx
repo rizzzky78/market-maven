@@ -1,115 +1,10 @@
 import { mapUIState } from "@/components/custom/ui-mapper";
-import { StreamAssistantMessage } from "@/components/maven/assistant-message";
-import { ShinyText } from "@/components/maven/shining-glass";
-import {
-  toCoreMessage,
-  toUnifiedUserMessage,
-} from "@/lib/agents/action/mutator/mutate-messages";
 import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
-import { SYSTEM_INSTRUCT_CORE } from "@/lib/agents/system-instructions";
-import {
-  PayloadData,
-  AssignController,
-  OrchestratorCallback,
-  MutableAIState,
-  AIState,
-  UIState,
-  UseAction,
-} from "@/lib/types/ai";
-import logger from "@/lib/utility/logger";
-import { google } from "@ai-sdk/google";
+import { AIState, UIState, UseAction } from "@/lib/types/ai";
 import { generateId } from "ai";
-import {
-  getMutableAIState,
-  createStreamableValue,
-  streamUI,
-  createAI,
-  getAIState,
-} from "ai/rsc";
+import { createAI, getAIState } from "ai/rsc";
+import { orchestrator } from "./actions/orchestrator";
 import { extractor } from "./actions/extractor";
-
-async function orchestrator(
-  payload: PayloadData,
-  assignController?: AssignController
-): Promise<OrchestratorCallback> {
-  "use server";
-
-  logger.info("Process on Server Action", { payload });
-
-  const payloadUserMessage = toUnifiedUserMessage(payload);
-
-  const state: MutableAIState<AIState> = getMutableAIState<typeof AI>();
-
-  state.update({
-    ...state.get(),
-    messages: [
-      ...state.get().messages,
-      {
-        id: generateId(),
-        role: "user",
-        content: JSON.stringify(payloadUserMessage),
-      },
-    ],
-  });
-
-  // const generation = createStreamableValue<StreamGeneration>({
-  //   process: "initial",
-  //   loading: true,
-  // });
-
-  // const ui = createStreamableUI(<ShinyText text="Maven is thinking..." />);
-
-  const streamableText = createStreamableValue<string>("");
-
-  const textUi = <StreamAssistantMessage content={streamableText.value} />;
-
-  const { value, stream } = await streamUI({
-    model: google("gemini-2.0-flash-exp"),
-    system: SYSTEM_INSTRUCT_CORE,
-    messages: toCoreMessage(state.get().messages),
-    initial: <ShinyText text="Maven is thinking..." />,
-    text: async function* ({ content, done }) {
-      if (done) {
-        state.done({
-          ...state.get(),
-          messages: [
-            ...state.get().messages,
-            {
-              id: generateId(),
-              role: "assistant",
-              content,
-            },
-          ],
-        });
-
-        // ui.done();
-
-        streamableText.done();
-        // generation.done({
-        //   process: "done",
-        //   loading: false,
-        // });
-      } else {
-        streamableText.update(content);
-        // generation.update({
-        //   process: "generating",
-        //   loading: true,
-        // });
-      }
-
-      return textUi;
-    },
-    tools: {},
-  });
-
-  return {
-    source: "orchestrator",
-    id: generateId(),
-    display: value,
-    // stream,
-    // generation: generation.value,
-  };
-}
 
 /**
  * AI Provider for: **StreamUI**
@@ -124,8 +19,8 @@ export const AI = createAI<AIState, UIState, UseAction>({
     messages: [],
   },
   actions: {
-    // orchestrator,
-    // extractor
+    orchestrator,
+    // extractor,
   },
   onSetAIState: async ({ state, done }) => {
     "use server";

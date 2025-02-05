@@ -37,7 +37,7 @@ export async function extractor(
 
   logger.info("Using extractor", { product });
 
-  const state: MutableAIState<AIState> = getMutableAIState(typeof AI);
+  const state: MutableAIState<AIState> = getMutableAIState<typeof AI>();
 
   const payloadUserMessage = toUnifiedUserMessage({ attachProduct: product });
 

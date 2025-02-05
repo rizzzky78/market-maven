@@ -29,7 +29,9 @@ const ChatPage: FC<ChatPageProps> = async ({ params }) => {
   const { id } = await params;
 
   const session = await getServerSession();
-  const chats = await loadChats(session?.user?.email || "anonymous");
+  const username = session?.user?.email || "anonymous@gmail.com";
+
+  const chats = await loadChats(username);
 
   const userId = session?.user?.email as string;
   const chat = await getChat(id);
@@ -45,6 +47,7 @@ const ChatPage: FC<ChatPageProps> = async ({ params }) => {
   return (
     <AI
       initialAIState={{
+        username,
         chatId: chat.chatId,
         messages: chat.messages,
       }}

@@ -82,7 +82,7 @@ export type UseAction = {
    * @param assignController Optional controllers to be executed
    * @returns A promise resolving to the message callback
    */
-  orchestrator?: (
+  orchestrator: (
     payload: PayloadData,
     assignController?: AssignController
   ) => Promise<OrchestratorCallback>;

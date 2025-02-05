@@ -38,6 +38,7 @@ import { useDebounceInput } from "../hooks/use-debounced-input";
 import { useSmartTextarea } from "../hooks/use-smart-textare";
 import { AttachProductBadge } from "./attach-product";
 import { useRouter } from "next/navigation";
+import { orchestrator } from "@/app/actions/orchestrator";
 
 interface ChatPanelProps {
   uiState: UIState;
@@ -64,7 +65,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
 
   const [_, setUIState] = useUIState<typeof AI>();
   const { isGenerating, setIsGenerating } = useAppState();
-  const { sendMessage } = useActions<typeof AI>();
+  const {} = useActions<typeof AI>();
   const router = useRouter();
 
   const handleRemove = () => {
@@ -113,22 +114,38 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
         flush();
         handleReset();
 
-        const { id, display, generation } = await sendMessage({
+        // const { id, display, generation } = await sendMessage({
+        //   textInput: value,
+        //   attachProduct: attachment,
+        // });
+
+        // if (generation) {
+        //   const gens = readStreamableValue(
+        //     generation
+        //   ) as AsyncIterable<StreamGeneration>;
+
+        //   for await (const { process, loading, error } of gens) {
+        //     setIsGenerating(loading);
+        //   }
+        // }
+
+        // setUIState((prevUI) => [...prevUI, { id, display }]);
+
+        const { id, display, generation } = await orchestrator({
           textInput: value,
           attachProduct: attachment,
         });
+
+        setUIState((prevUI) => [...prevUI, { id, display }]);
 
         if (generation) {
           const gens = readStreamableValue(
             generation
           ) as AsyncIterable<StreamGeneration>;
-
-          for await (const { process, loading, error } of gens) {
-            setIsGenerating(loading);
+          for await (const gen of gens) {
+            setIsGenerating(gen.loading);
           }
         }
-
-        setUIState((prevUI) => [...prevUI, { id, display }]);
       } catch (error) {
         handleError(error);
       } finally {
@@ -141,7 +158,6 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       flush,
       handleReset,
       isGenerating,
-      sendMessage,
       setIsGenerating,
       setUIState,
       value,
