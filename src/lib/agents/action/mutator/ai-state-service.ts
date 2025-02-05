@@ -1,8 +1,11 @@
 "use server";
 
-import { AIState, ValueOrUpdater } from "@/lib/types/ai";
+import { AIState, ChatProperties, ValueOrUpdater } from "@/lib/types/ai";
 import { Redis } from "@upstash/redis";
-import { v4 as uuidv4 } from "uuid";
+import { getServerSession } from "next-auth";
+import { cache } from "react";
+import { v4 as uuidv4, v4 } from "uuid";
+import { getChats } from "../chat-service";
 
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL!,
@@ -63,3 +66,31 @@ export async function updateServerState(
     throw new Error("Failed to update state");
   }
 }
+
+export const getInitialState = cache(
+  async (): Promise<{
+    username: string;
+    chats: ChatProperties[];
+    initialState: AIState;
+  }> => {
+    const session = await getServerSession();
+    const username = session?.user?.email || "anonymous@gmail.com";
+    const chats = await getChats(username);
+
+    // Try to get existing state first
+    const existingState = await getServerState(username);
+
+    if (existingState) {
+      return { username, chats, initialState: existingState };
+    }
+
+    // Initialize new state if none exists
+    const initialState = await initializeServerState(username, {
+      chatId: v4(),
+      username,
+      messages: [],
+    });
+
+    return { username, chats, initialState };
+  }
+);
