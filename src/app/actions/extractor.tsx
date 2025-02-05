@@ -18,6 +18,7 @@ import {
   MutableAIState,
   AIState,
   ExtractorCallback,
+  StreamGeneration,
 } from "@/lib/types/ai";
 import { ProductDetailsResponse } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
@@ -52,6 +53,11 @@ export async function extractor(
     ],
   });
 
+  const generation = createStreamableValue<StreamGeneration>({
+    process: "initial",
+    loading: true,
+  });
+
   const { value } = await streamUI({
     model: google("gemini-2.0-flash-exp"),
     system: `Use tool for every requests`,
@@ -62,6 +68,11 @@ export async function extractor(
         description: root.GetProductDetailsDescription,
         parameters: getProductDetailsSchema,
         generate: async function* ({ query, link }) {
+          generation.update({
+            process: "generating",
+            loading: true,
+          });
+
           yield <ShinyText text={`Getting data product for ${query}`} />;
 
           const scrapeResult = await scrapeUrl({
@@ -72,6 +83,12 @@ export async function extractor(
 
           /** Handle if Scrape Operation is Error */
           if (!scrapeResult.success) {
+            generation.update({
+              process: "api_error",
+              loading: false,
+              error: scrapeResult.error,
+            });
+
             return (
               <ErrorMessage
                 errorName="Scrape Operation Failed"
@@ -197,6 +214,11 @@ export async function extractor(
               messages: [...state.get().messages, ...mutate],
             });
           }
+
+          generation.done({
+            process: "done",
+            loading: false,
+          });
         },
       },
     },
@@ -206,5 +228,6 @@ export async function extractor(
     source: "extractor",
     id: generateId(),
     display: value,
+    generation: generation.value,
   };
 }
