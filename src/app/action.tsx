@@ -124,8 +124,8 @@ export const AI = createAI<AIState, UIState, UseAction>({
     messages: [],
   },
   actions: {
-    orchestrator,
-    extractor
+    // orchestrator,
+    // extractor
   },
   onSetAIState: async ({ state, done }) => {
     "use server";
