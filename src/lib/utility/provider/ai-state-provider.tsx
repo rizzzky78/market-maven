@@ -5,8 +5,13 @@ import {
   getServerState,
   updateServerState,
 } from "@/lib/agents/action/mutator/ai-state-service";
-import { AIState, MutableAIState, ValueOrUpdater } from "@/lib/types/ai";
 import {
+  MutableAIState,
+  AIState,
+  UIState,
+  ValueOrUpdater,
+} from "@/lib/types/ai";
+import React, {
   createContext,
   useContext,
   useCallback,
@@ -16,31 +21,41 @@ import {
   ReactNode,
 } from "react";
 
-interface AIStateContextValue extends MutableAIState<AIState> {
+// Extend the context to include UI state
+interface StateContextValue {
+  aiState: MutableAIState<AIState>;
+  uiState: UIState;
+  setUiState: (newState: ValueOrUpdater<UIState>) => void;
   isLoading: boolean;
   error: Error | null;
 }
 
-const AIStateContext = createContext<AIStateContextValue | null>(null);
+const StateContext = createContext<StateContextValue | null>(null);
 
-interface AIStateProviderProps {
+interface StateProviderProps {
   username: string;
   children: ReactNode;
   initialState: AIState;
+  initialUIState?: UIState;
   serverPreloaded?: boolean;
 }
 
-export function AIStateProvider({
+export function StateProvider({
   username,
   children,
   initialState,
+  initialUIState = [],
   serverPreloaded = false,
-}: AIStateProviderProps) {
-  const [state, setState] = useState<AIState>(initialState);
+}: StateProviderProps) {
+  // AI State Management
+  const [aiStateValue, setAIStateValue] = useState<AIState>(initialState);
   const [isLoading, setIsLoading] = useState(!serverPreloaded);
   const [error, setError] = useState<Error | null>(null);
 
-  // Only fetch initial state if not preloaded from server
+  // UI State Management
+  const [uiState, setUiState] = useState<UIState>(initialUIState);
+
+  // Load server state if not preloaded
   const loadState = useCallback(async () => {
     if (serverPreloaded) return;
 
@@ -48,7 +63,7 @@ export function AIStateProvider({
       setIsLoading(true);
       const serverState = await getServerState(username);
       if (serverState) {
-        setState(serverState);
+        setAIStateValue(serverState);
       }
     } catch (err) {
       setError(err instanceof Error ? err : new Error("Failed to load state"));
@@ -61,17 +76,17 @@ export function AIStateProvider({
     loadState();
   }, [loadState]);
 
-  const get = useCallback(() => state, [state]);
+  // AI State Methods
+  const aiStateGet = useCallback(() => aiStateValue, [aiStateValue]);
 
-  const update = useCallback(
+  const aiStateUpdate = useCallback(
     async (newState: ValueOrUpdater<AIState>) => {
       try {
         const updatedState =
-          typeof newState === "function" ? newState(state) : newState;
+          typeof newState === "function" ? newState(aiStateValue) : newState;
 
         await updateServerState(updatedState);
-
-        setState(updatedState);
+        setAIStateValue(updatedState);
       } catch (err) {
         setError(
           err instanceof Error ? err : new Error("Failed to update state")
@@ -79,27 +94,50 @@ export function AIStateProvider({
         throw err;
       }
     },
-    [state]
+    [aiStateValue]
   );
 
-  const done = useCallback(
+  const aiStateDone = useCallback(
     async (finalState?: AIState) => {
       if (finalState) {
-        await update(finalState);
+        await aiStateUpdate(finalState);
       }
     },
-    [update]
+    [aiStateUpdate]
   );
 
+  // UI State Update Method
+  const updateUIState = useCallback((newState: ValueOrUpdater<UIState>) => {
+    setUiState((current) => {
+      const updatedState =
+        typeof newState === "function" ? newState(current) : newState;
+
+      return updatedState;
+    });
+  }, []);
+
+  // Memoized context value
   const contextValue = useMemo(
     () => ({
-      get,
-      update,
-      done,
+      aiState: {
+        get: aiStateGet,
+        update: aiStateUpdate,
+        done: aiStateDone,
+      },
+      uiState,
+      setUiState: updateUIState,
       isLoading,
       error,
     }),
-    [get, update, done, isLoading, error]
+    [
+      aiStateGet,
+      aiStateUpdate,
+      aiStateDone,
+      uiState,
+      updateUIState,
+      isLoading,
+      error,
+    ]
   );
 
   if (error) {
@@ -113,16 +151,31 @@ export function AIStateProvider({
   }
 
   return (
-    <AIStateContext.Provider value={contextValue}>
+    <StateContext.Provider value={contextValue}>
       {children}
-    </AIStateContext.Provider>
+    </StateContext.Provider>
   );
 }
 
-export function useAIState() {
-  const context = useContext(AIStateContext);
+// Custom hook for accessing state
+export function useStateContext() {
+  const context = useContext(StateContext);
   if (!context) {
-    throw new Error("useAIState must be used within an AIStateProvider");
+    throw new Error("useStateContext must be used within a StateProvider");
   }
   return context;
+}
+
+// Convenience hooks for individual state access
+export function useAIState() {
+  const { aiState } = useStateContext();
+  return aiState;
+}
+
+export function useUIState(): [
+  UIState,
+  (newState: ValueOrUpdater<UIState>) => void
+] {
+  const { uiState, setUiState } = useStateContext();
+  return [uiState, setUiState];
 }

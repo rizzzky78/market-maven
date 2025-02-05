@@ -65,7 +65,6 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
 
   const [_, setUIState] = useUIState<typeof AI>();
   const { isGenerating, setIsGenerating } = useAppState();
-  const {} = useActions<typeof AI>();
   const router = useRouter();
 
   const handleRemove = () => {
