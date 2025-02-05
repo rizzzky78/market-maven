@@ -86,6 +86,7 @@ export type UseAction = {
     payload: PayloadData,
     assignController?: AssignController
   ) => Promise<OrchestratorCallback>;
+  extractor?: (product: AttachProduct) => Promise<ExtractorCallback>;
   testing?: (message: string) => Promise<TestingMessageCallback>;
 };
 

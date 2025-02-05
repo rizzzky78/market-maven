@@ -26,6 +26,7 @@ import {
   createAI,
   getAIState,
 } from "ai/rsc";
+import { extractor } from "./actions/extractor";
 
 async function orchestrator(
   payload: PayloadData,
@@ -124,6 +125,7 @@ export const AI = createAI<AIState, UIState, UseAction>({
   },
   actions: {
     orchestrator,
+    extractor
   },
   onSetAIState: async ({ state, done }) => {
     "use server";

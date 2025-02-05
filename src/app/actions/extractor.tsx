@@ -13,7 +13,12 @@ import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
 import { getProductDetailsSchema } from "@/lib/agents/schema/tool-parameters";
 import { scrapeUrl } from "@/lib/agents/tools/api/firecrawl";
-import { AttachProduct, MutableAIState, AIState } from "@/lib/types/ai";
+import {
+  AttachProduct,
+  MutableAIState,
+  AIState,
+  ExtractorCallback,
+} from "@/lib/types/ai";
 import { ProductDetailsResponse } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";
@@ -24,7 +29,9 @@ import { AI } from "../action";
 import { root } from "@/lib/agents/constant";
 import { storeKeyValue } from "@/lib/service/store";
 
-export async function extractor(product: AttachProduct) {
+export async function extractor(
+  product: AttachProduct
+): Promise<ExtractorCallback> {
   "use server";
 
   logger.info("Using extractor", { product });
@@ -57,8 +64,6 @@ export async function extractor(product: AttachProduct) {
         generate: async function* ({ query, link }) {
           yield <ShinyText text={`Getting data product for ${query}`} />;
 
-          await new Promise((resolve) => setTimeout(resolve, 3000));
-
           const scrapeResult = await scrapeUrl({
             url: link,
             formats: ["markdown", "screenshot"],
@@ -82,9 +87,7 @@ export async function extractor(product: AttachProduct) {
 
           /** Handle if Scrape Operation is Success */
           if (scrapeResult.success && scrapeResult.markdown) {
-            yield <ShinyText text="Found product details, please hang on..." />;
-
-            await new Promise((resolve) => setTimeout(resolve, 3000));
+            yield <ShinyText text="Found product details..." />;
 
             let finalizedObject: ProductDetailsResponse = {
               productDetails: {},
@@ -99,13 +102,14 @@ export async function extractor(product: AttachProduct) {
             const streamableObject =
               createStreamableValue<Record<string, any>>();
 
+            yield <ShinyText text="Generating UI, please hang on..." />;
+
             yield (
               <StreamProductDetails
-                query={query}
-                link={link}
-                callId={finalizedObject.callId}
                 content={streamableObject.value}
                 screenshot={scrapeResult.screenshot}
+                query={query}
+                link={link}
               />
             );
 
@@ -197,4 +201,10 @@ export async function extractor(product: AttachProduct) {
       },
     },
   });
+
+  return {
+    source: "extractor",
+    id: generateId(),
+    display: value,
+  };
 }
