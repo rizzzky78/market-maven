@@ -1,10 +1,12 @@
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
-import { cache, FC } from "react";
+import { cache, FC, Suspense } from "react";
 import { getChats } from "@/lib/agents/action/chat-service";
 import { v4 } from "uuid";
 import { AI } from "@/app/action";
 import { Chat } from "@/components/maven/chat";
+import { AIStateProvider } from "@/lib/utility/provider/ai-state-provider";
+import { getInitialState } from "@/lib/agents/action/mutator/ai-state-service";
 
 export const maxDuration = 60;
 
@@ -21,15 +23,18 @@ const Page: FC<PageProps> = async ({ searchParams }) => {
   if (!q) {
     redirect("/chat");
   }
-  const id = v4();
-  const session = await getServerSession();
-
-  const chats = await loadChats(session?.user?.email || "anonymous");
+  const { username, chats, initialState } = await getInitialState();
 
   return (
-    <AI initialAIState={{ chatId: id, messages: [] }}>
-      <Chat id={id} query={q} chats={chats} />
-    </AI>
+    <Suspense fallback={<div>Loading chat...</div>}>
+      <AIStateProvider
+        username={username}
+        initialState={initialState}
+        serverPreloaded={true}
+      >
+        <Chat id={initialState.chatId} chats={chats} />
+      </AIStateProvider>
+    </Suspense>
   );
 };
 

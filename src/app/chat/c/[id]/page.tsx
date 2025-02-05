@@ -1,9 +1,11 @@
 import { notFound, redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { getChat, getChats } from "@/lib/agents/action/chat-service";
-import { cache, FC } from "react";
+import { cache, FC, Suspense } from "react";
 import { AI } from "@/app/action";
 import { Chat } from "@/components/maven/chat";
+import { AIStateProvider } from "@/lib/utility/provider/ai-state-provider";
+import { getInitialState } from "@/lib/agents/action/mutator/ai-state-service";
 
 export const maxDuration = 60;
 
@@ -28,32 +30,28 @@ export const generateMetadata = async (props: ChatPageProps) => {
 const ChatPage: FC<ChatPageProps> = async ({ params }) => {
   const { id } = await params;
 
-  const session = await getServerSession();
-  const username = session?.user?.email || "anonymous@gmail.com";
-
-  const chats = await loadChats(username);
-
-  const userId = session?.user?.email as string;
   const chat = await getChat(id);
+
+  const { username, chats, initialState } = await getInitialState(id);
 
   if (!chat) {
     redirect("/chat");
   }
 
-  if (chat?.userId !== userId) {
+  if (chat?.userId !== username) {
     notFound();
   }
 
   return (
-    <AI
-      initialAIState={{
-        username,
-        chatId: chat.chatId,
-        messages: chat.messages,
-      }}
-    >
-      <Chat id={id} chats={chats} />
-    </AI>
+    <Suspense fallback={<div>Loading chat...</div>}>
+      <AIStateProvider
+        username={username}
+        initialState={initialState}
+        serverPreloaded={true}
+      >
+        <Chat id={initialState.chatId} chats={chats} />
+      </AIStateProvider>
+    </Suspense>
   );
 };
 

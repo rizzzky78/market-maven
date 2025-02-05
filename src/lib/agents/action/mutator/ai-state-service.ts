@@ -1,11 +1,16 @@
 "use server";
 
-import { AIState, ChatProperties, ValueOrUpdater } from "@/lib/types/ai";
+import {
+  AIState,
+  ChatProperties,
+  MessageProperty,
+  ValueOrUpdater,
+} from "@/lib/types/ai";
 import { Redis } from "@upstash/redis";
 import { getServerSession } from "next-auth";
 import { cache } from "react";
 import { v4 as uuidv4, v4 } from "uuid";
-import { getChats } from "../chat-service";
+import { getChat, getChats } from "../chat-service";
 
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL!,
@@ -68,7 +73,9 @@ export async function updateServerState(
 }
 
 export const getInitialState = cache(
-  async (): Promise<{
+  async (
+    slugChatId?: string
+  ): Promise<{
     username: string;
     chats: ChatProperties[];
     initialState: AIState;
@@ -77,18 +84,47 @@ export const getInitialState = cache(
     const username = session?.user?.email || "anonymous@gmail.com";
     const chats = await getChats(username);
 
+    let chatProp: {
+      chatId: string;
+      username: string;
+      messages: MessageProperty[];
+    } = {
+      chatId: v4(),
+      username,
+      messages: [],
+    };
+
+    if (slugChatId) {
+      const chat = await getChat(slugChatId);
+      if (chat) {
+        chatProp = {
+          username,
+          chatId: chat.chatId,
+          messages: chat.messages,
+        };
+      }
+    }
+
     // Try to get existing state first
     const existingState = await getServerState(username);
 
     if (existingState) {
-      return { username, chats, initialState: existingState };
+      return {
+        username,
+        chats,
+        initialState: {
+          chatId: chatProp.chatId,
+          username: chatProp.username,
+          messages: chatProp.messages,
+        },
+      };
     }
 
     // Initialize new state if none exists
     const initialState = await initializeServerState(username, {
       chatId: v4(),
       username,
-      messages: [],
+      messages: chatProp.messages,
     });
 
     return { username, chats, initialState };
