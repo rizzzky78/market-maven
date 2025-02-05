@@ -11,6 +11,7 @@ import { getServerSession } from "next-auth";
 import { cache } from "react";
 import { v4 as uuidv4, v4 } from "uuid";
 import { getChat, getChats } from "../chat-service";
+import { saveAIState } from "./save-ai-state";
 
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL!,
@@ -74,6 +75,10 @@ export async function updateServerState(
     await redis.set(await getRedisKey(), updatedState, {
       ex: CACHE_DURATION,
     });
+
+    if (currentState) {
+      await saveAIState(currentState);
+    }
   } catch (error) {
     console.error("Failed to update server state:", error);
     throw new Error("Failed to update state");

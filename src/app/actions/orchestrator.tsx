@@ -2,10 +2,7 @@
 
 import { StreamAssistantMessage } from "@/components/maven/assistant-message";
 import { ShinyText } from "@/components/maven/shining-glass";
-import {
-  toUnifiedUserMessage,
-  toCoreMessage,
-} from "@/lib/agents/action/mutator/mutate-messages";
+import { toUnifiedUserMessage } from "@/lib/agents/action/mutator/mutate-messages";
 import {
   SYSTEM_INSTRUCT_CORE,
   SYSTEM_INSTRUCT_INSIGHT,
@@ -15,15 +12,12 @@ import {
   PayloadData,
   AssignController,
   OrchestratorCallback,
-  MutableAIState,
-  AIState,
   StreamGeneration,
 } from "@/lib/types/ai";
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";
 import { DeepPartial, generateId, streamObject, streamText } from "ai";
-import { getMutableAIState, createStreamableValue, streamUI } from "ai/rsc";
-import { AI } from "../action";
+import { createStreamableValue, streamUI } from "ai/rsc";
 import { searchProductSchema } from "@/lib/agents/schema/tool-parameters";
 import { root } from "@/lib/agents/constant";
 import { ErrorMessage } from "@/components/maven/error-message";
@@ -37,6 +31,7 @@ import { ProductsResponse, Product } from "@/lib/types/product";
 import { processURLQuery } from "@/lib/utils";
 import { groq } from "@ai-sdk/groq";
 import { v4 } from "uuid";
+import { updateServerState } from "@/lib/agents/action/mutator/ai-state-service";
 
 export async function orchestrator(
   payload: PayloadData,
@@ -46,19 +41,17 @@ export async function orchestrator(
 
   const payloadUserMessage = toUnifiedUserMessage(payload);
 
-  const state: MutableAIState<AIState> = getMutableAIState<typeof AI>();
-
-  state.update({
-    ...state.get(),
+  await updateServerState((prevAIState) => ({
+    ...prevAIState,
     messages: [
-      ...state.get().messages,
+      ...prevAIState.messages,
       {
         id: generateId(),
         role: "user",
         content: JSON.stringify(payloadUserMessage),
       },
     ],
-  });
+  }));
 
   const generation = createStreamableValue<StreamGeneration>({
     process: "initial",
@@ -69,7 +62,7 @@ export async function orchestrator(
 
   const textUi = <StreamAssistantMessage content={streamableText.value} />;
 
-  const { value, stream } = await streamUI({
+  const { value } = await streamUI({
     model: google("gemini-2.0-flash-exp"),
     system: SYSTEM_INSTRUCT_CORE,
     // messages: toCoreMessage(state.get().messages),
@@ -77,17 +70,17 @@ export async function orchestrator(
     initial: <ShinyText text="Maven is thinking..." />,
     text: async function* ({ content, done }) {
       if (done) {
-        state.done({
-          ...state.get(),
+        await updateServerState((prevAIState) => ({
+          ...prevAIState,
           messages: [
-            ...state.get().messages,
+            ...prevAIState.messages,
             {
               id: generateId(),
               role: "assistant",
               content,
             },
           ],
-        });
+        }));
 
         streamableText.done();
         generation.done({
@@ -249,6 +242,11 @@ export async function orchestrator(
                   content: finalizedText,
                 },
               });
+
+              await updateServerState((prevAIState) => ({
+                ...prevAIState,
+                messages: [...prevAIState.messages, ...mutate],
+              }));
 
               logger.info("Done using searchProduct tool", {
                 progress: "finish",
