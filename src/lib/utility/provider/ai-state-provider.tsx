@@ -6,10 +6,11 @@ import {
   updateServerState,
 } from "@/lib/agents/action/mutator/ai-state-service";
 import {
-  MutableAIState,
   AIState,
   UIState,
   ValueOrUpdater,
+  StateContextValue,
+  StateProviderProps,
 } from "@/lib/types/ai";
 import React, {
   createContext,
@@ -18,44 +19,42 @@ import React, {
   useMemo,
   useState,
   useEffect,
-  ReactNode,
+  FC,
 } from "react";
 
-// Extend the context to include UI state
-interface StateContextValue {
-  aiState: MutableAIState<AIState>;
-  uiState: UIState;
-  setUiState: (newState: ValueOrUpdater<UIState>) => void;
-  isLoading: boolean;
-  error: Error | null;
-}
-
+/**
+ * React context for managing AI and UI state.
+ */
 const StateContext = createContext<StateContextValue | null>(null);
 
-interface StateProviderProps {
-  username: string;
-  children: ReactNode;
-  initialState: AIState;
-  initialUIState?: UIState;
-  serverPreloaded?: boolean;
-}
-
-export function StateProvider({
+/**
+ * Provides AI and UI state management for the application.
+ *
+ * This component initializes and maintains AI-related state, ensuring
+ * synchronization with the server while handling UI state updates.
+ */
+export const AIProvider: FC<StateProviderProps> = ({
   username,
   children,
   initialState,
   initialUIState = [],
   serverPreloaded = false,
-}: StateProviderProps) {
-  // AI State Management
+}) => {
+  /** Stores the AI state for the user. */
   const [aiStateValue, setAIStateValue] = useState<AIState>(initialState);
+
+  /** Tracks loading state while fetching AI data from the server. */
   const [isLoading, setIsLoading] = useState(!serverPreloaded);
+
+  /** Stores any error encountered during AI state operations. */
   const [error, setError] = useState<Error | null>(null);
 
-  // UI State Management
+  /** Manages the UI state for the frontend. */
   const [uiState, setUiState] = useState<UIState>(initialUIState);
 
-  // Load server state if not preloaded
+  /**
+   * Loads the AI state from the server unless it is already preloaded.
+   */
   const loadState = useCallback(async () => {
     if (serverPreloaded) return;
 
@@ -76,9 +75,19 @@ export function StateProvider({
     loadState();
   }, [loadState]);
 
-  // AI State Methods
+  /**
+   * Retrieves the current AI state.
+   *
+   * @returns The AI state.
+   */
   const aiStateGet = useCallback(() => aiStateValue, [aiStateValue]);
 
+  /**
+   * Updates the AI state and synchronizes it with the server.
+   *
+   * @param newState - The new AI state or a function that updates the current state.
+   * @throws Will throw an error if the update fails.
+   */
   const aiStateUpdate = useCallback(
     async (newState: ValueOrUpdater<AIState>) => {
       try {
@@ -97,6 +106,11 @@ export function StateProvider({
     [aiStateValue]
   );
 
+  /**
+   * Marks the AI state as finalized, optionally updating it before completion.
+   *
+   * @param finalState - (Optional) The final AI state to set before marking as done.
+   */
   const aiStateDone = useCallback(
     async (finalState?: AIState) => {
       if (finalState) {
@@ -106,7 +120,11 @@ export function StateProvider({
     [aiStateUpdate]
   );
 
-  // UI State Update Method
+  /**
+   * Updates the UI state dynamically.
+   *
+   * @param newState - The new UI state or a function that modifies the current UI state.
+   */
   const updateUIState = useCallback((newState: ValueOrUpdater<UIState>) => {
     setUiState((current) => {
       const updatedState =
@@ -116,7 +134,7 @@ export function StateProvider({
     });
   }, []);
 
-  // Memoized context value
+  /** Memoized context value for optimized re-renders. */
   const contextValue = useMemo(
     () => ({
       aiState: {
@@ -155,23 +173,37 @@ export function StateProvider({
       {children}
     </StateContext.Provider>
   );
-}
+};
 
-// Custom hook for accessing state
+/**
+ * Hook to access AI and UI state within the provider.
+ *
+ * @throws Will throw an error if used outside of `AIProvider`.
+ * @returns The AI and UI state context.
+ */
 export function useStateContext() {
   const context = useContext(StateContext);
   if (!context) {
-    throw new Error("useStateContext must be used within a StateProvider");
+    throw new Error("useStateContext must be used within a AIProvider");
   }
   return context;
 }
 
-// Convenience hooks for individual state access
+/**
+ * Hook to interact with the AI state.
+ *
+ * @returns AI state with methods for retrieval, update, and completion.
+ */
 export function useAIState() {
   const { aiState } = useStateContext();
   return aiState;
 }
 
+/**
+ * Hook to interact with the UI state.
+ *
+ * @returns A tuple containing the UI state and a function to update it.
+ */
 export function useUIState(): [
   UIState,
   (newState: ValueOrUpdater<UIState>) => void

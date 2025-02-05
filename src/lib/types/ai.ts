@@ -244,6 +244,46 @@ export type MutableAIState<T = AIState> = {
 };
 
 /**
+ * Defines the structure of the context for managing AI and UI state.
+ */
+export type StateContextValue = {
+  /** AI state with methods for getting, updating, and finalizing state changes. */
+  aiState: MutableAIState<AIState>;
+
+  /** UI state representing the frontend state of the application. */
+  uiState: UIState;
+
+  /** Function to update the UI state dynamically. */
+  setUiState: (newState: ValueOrUpdater<UIState>) => void;
+
+  /** Indicates whether the AI state is currently loading from the server. */
+  isLoading: boolean;
+
+  /** Captures any error encountered during AI state operations. */
+  error: Error | null;
+};
+
+/**
+ * Props for the `AIProvider` component.
+ */
+export type StateProviderProps = {
+  /** Unique identifier for the user whose AI state is being managed. */
+  username: string;
+
+  /** Child components wrapped by the provider. */
+  children: ReactNode;
+
+  /** Initial AI state provided to the context. */
+  initialState: AIState;
+
+  /** Optional initial UI state; defaults to an empty array. */
+  initialUIState?: UIState;
+
+  /** Whether the server-side AI state is preloaded to avoid fetching. */
+  serverPreloaded?: boolean;
+};
+
+/**
  * Constant object defining available tool names for type-safe tool selection.
  */
 export const AvailableTools = {
