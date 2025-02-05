@@ -1,6 +1,11 @@
 "use client";
 
 import {
+  getServerState,
+  updateServerState,
+} from "@/lib/agents/action/mutator/ai-state-service";
+import { AIState, MutableAIState, ValueOrUpdater } from "@/lib/types/ai";
+import {
   createContext,
   useContext,
   useCallback,
@@ -8,9 +13,7 @@ import {
   useState,
   useEffect,
   ReactNode,
-  FC,
 } from "react";
-import { AIState, MutableAIState, ValueOrUpdater } from "@/lib/types/ai";
 
 interface AIStateContextValue extends MutableAIState<AIState> {
   isLoading: boolean;
@@ -22,58 +25,60 @@ const AIStateContext = createContext<AIStateContextValue | null>(null);
 interface AIStateProviderProps {
   username: string;
   children: ReactNode;
-  initialState?: Partial<AIState>;
+  initialState: AIState;
+  serverPreloaded?: boolean;
 }
 
-export const AIStateProvider: FC<AIStateProviderProps> = ({
+export function AIStateProvider({
   username,
   children,
-  initialState = {},
-}) => {
-  const [state, setState] = useState<AIState | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  initialState,
+  serverPreloaded = false,
+}: AIStateProviderProps) {
+  const [state, setState] = useState<AIState>(initialState);
+  const [isLoading, setIsLoading] = useState(!serverPreloaded);
   const [error, setError] = useState<Error | null>(null);
 
+  // Only fetch initial state if not preloaded from server
   const loadState = useCallback(async () => {
+    if (serverPreloaded) return;
+
     try {
       setIsLoading(true);
-      const initializedState = await initializeServerState(
-        username,
-        initialState
-      );
-      setState(initializedState);
+      const serverState = await getServerState(username);
+      if (serverState) {
+        setState(serverState);
+      }
     } catch (err) {
       setError(err instanceof Error ? err : new Error("Failed to load state"));
     } finally {
       setIsLoading(false);
     }
-  }, [username, initialState]);
+  }, [username, serverPreloaded]);
 
   useEffect(() => {
     loadState();
   }, [loadState]);
 
-  const get = useCallback(() => {
-    if (!state) throw new Error("State not initialized");
-    return state;
-  }, [state]);
+  const get = useCallback(() => state, [state]);
 
   const update = useCallback(
     async (newState: ValueOrUpdater<AIState>) => {
       try {
-        const currentState = get();
         const updatedState =
-          typeof newState === "function" ? newState(currentState) : newState;
+          typeof newState === "function" ? newState(state) : newState;
 
         await updateServerState(username, updatedState);
+
         setState(updatedState);
       } catch (err) {
         setError(
           err instanceof Error ? err : new Error("Failed to update state")
         );
+        throw err;
       }
     },
-    [username, get]
+    [username, state]
   );
 
   const done = useCallback(
@@ -96,10 +101,6 @@ export const AIStateProvider: FC<AIStateProviderProps> = ({
     [get, update, done, isLoading, error]
   );
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   if (error) {
     return <div>Error: {error.message}</div>;
   }
@@ -109,12 +110,12 @@ export const AIStateProvider: FC<AIStateProviderProps> = ({
       {children}
     </AIStateContext.Provider>
   );
-};
+}
 
-export const useAIState = () => {
+export function useAIState() {
   const context = useContext(AIStateContext);
   if (!context) {
     throw new Error("useAIState must be used within an AIStateProvider");
   }
   return context;
-};
+}
