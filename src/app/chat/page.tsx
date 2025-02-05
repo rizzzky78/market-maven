@@ -1,28 +1,22 @@
-import { cache, FC } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { getServerSession } from "next-auth";
-import { getChats } from "@/lib/agents/action/chat-service";
+import { Suspense } from "react";
 import { Chat } from "@/components/maven/chat";
-import { AI } from "../action";
-import { AIProvider } from "@/lib/utility/provider/ai-provider";
+import { AIStateProvider } from "@/lib/utility/provider/ai-state-provider";
+import { getInitialState } from "@/lib/agents/action/mutator/ai-state-service";
 
 export const maxDuration = 60;
 
-const loadChats = cache(async (userId: string) => {
-  return await getChats(userId);
-});
-
-const Page: FC = async () => {
-  const id = uuidv4();
-  const session = await getServerSession();
-
-  const chats = await loadChats(session?.user?.email || "anonymous");
+export default async function ChatPage() {
+  const { username, chats, initialState } = await getInitialState();
 
   return (
-    <AI initialAIState={{ chatId: id, messages: [] }}>
-      <Chat id={id} chats={chats} />
-    </AI>
+    <Suspense fallback={<div>Loading chat...</div>}>
+      <AIStateProvider
+        username={username}
+        initialState={initialState}
+        serverPreloaded={true}
+      >
+        <Chat id={initialState.chatId} chats={chats} />
+      </AIStateProvider>
+    </Suspense>
   );
-};
-
-export default Page;
+}

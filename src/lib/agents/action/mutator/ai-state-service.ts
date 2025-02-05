@@ -18,13 +18,22 @@ const redis = new Redis({
 });
 
 const CACHE_DURATION = 86400;
-const getRedisKey = (username: string) => `ai_state:${username}`;
+
+async function getRedisKey(override?: string) {
+  const session = await getServerSession();
+  const username = session?.user?.email;
+  const fallback = "anonymous@gmail.com";
+
+  const uniqueUserName = username ? username : override ? override : fallback;
+
+  return `ai_state:${uniqueUserName}`;
+}
 
 export async function getServerState(
-  username: string
+  username?: string
 ): Promise<AIState | null> {
   try {
-    return await redis.get<AIState>(getRedisKey(username));
+    return await redis.get<AIState>(await getRedisKey(username));
   } catch (error) {
     console.error("Failed to get server state:", error);
     return null;
@@ -48,22 +57,21 @@ export async function initializeServerState(
     return existingState;
   }
 
-  await updateServerState(username, defaultState);
+  await updateServerState(defaultState);
   return defaultState;
 }
 
 export async function updateServerState(
-  username: string,
   newState: ValueOrUpdater<AIState>
 ): Promise<void> {
   try {
-    const currentState = await getServerState(username);
+    const currentState = await getServerState();
     const updatedState =
       typeof newState === "function" && currentState
         ? newState(currentState)
         : newState;
 
-    await redis.set(getRedisKey(username), updatedState, {
+    await redis.set(await getRedisKey(), updatedState, {
       ex: CACHE_DURATION,
     });
   } catch (error) {

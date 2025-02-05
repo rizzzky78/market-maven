@@ -1,5 +1,6 @@
 "use client";
 
+import { ErrorMessage } from "@/components/maven/error-message";
 import {
   getServerState,
   updateServerState,
@@ -68,7 +69,7 @@ export function AIStateProvider({
         const updatedState =
           typeof newState === "function" ? newState(state) : newState;
 
-        await updateServerState(username, updatedState);
+        await updateServerState(updatedState);
 
         setState(updatedState);
       } catch (err) {
@@ -78,7 +79,7 @@ export function AIStateProvider({
         throw err;
       }
     },
-    [username, state]
+    [state]
   );
 
   const done = useCallback(
@@ -102,7 +103,13 @@ export function AIStateProvider({
   );
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return (
+      <ErrorMessage
+        errorName="AI State Provider Error"
+        reason="There was an error while fetching AI State data from the server."
+        raw={{ error }}
+      />
+    );
   }
 
   return (
