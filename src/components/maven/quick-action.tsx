@@ -11,14 +11,14 @@ import {
 } from "lucide-react";
 import { ReactNode, useCallback } from "react";
 import { motion } from "framer-motion";
-import { useActions, useUIState } from "ai/rsc";
 import { generateId } from "ai";
 import { UserMessage } from "./user-message";
 import { toast } from "sonner";
-import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { useDebounceInput } from "../hooks/use-debounced-input";
 import { useSmartTextarea } from "../hooks/use-smart-textare";
+import { useUIState } from "@/lib/utility/provider/ai-state-provider";
+import { orchestrator } from "@/app/actions/orchestrator";
 
 const predefinedActions: {
   label: string;
@@ -60,9 +60,8 @@ const predefinedActions: {
 ];
 
 export function QuickActionButton() {
-  const [_, setUIState] = useUIState<typeof AI>();
+  const [_, setUIState] = useUIState();
   const { isGenerating, setIsGenerating } = useAppState();
-  const { sendMessage } = useActions<typeof AI>();
   const { flush } = useSmartTextarea();
   const { handleReset } = useDebounceInput();
 
@@ -101,7 +100,7 @@ export function QuickActionButton() {
         ]);
 
         // Send the message and wait for response
-        const { id, display } = await sendMessage({
+        const { id, display } = await orchestrator({
           textInput: action,
         });
 
@@ -117,15 +116,7 @@ export function QuickActionButton() {
         setIsGenerating(false);
       }
     },
-    [
-      flush,
-      handleError,
-      handleReset,
-      isGenerating,
-      sendMessage,
-      setIsGenerating,
-      setUIState,
-    ]
+    [flush, handleError, handleReset, isGenerating, setIsGenerating, setUIState]
   );
 
   return (

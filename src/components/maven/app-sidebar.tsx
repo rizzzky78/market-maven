@@ -10,16 +10,19 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { ChatProperties } from "@/lib/types/ai";
-import { useAIState, useUIState } from "ai/rsc";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import { AI } from "@/app/action";
 import { useSmartTextarea } from "../hooks/use-smart-textare";
 import { Button } from "../ui/button";
 import { ComponentProps, FC } from "react";
 import { HistoryItem } from "./history-item";
 import { NavUser } from "./sidebar-nav-user";
+import {
+  useAIState,
+  useUIState,
+} from "@/lib/utility/provider/ai-state-provider";
+import { useSession } from "next-auth/react";
 
 interface AppProps extends ComponentProps<typeof Sidebar> {
   chats: ChatProperties[];
@@ -28,8 +31,9 @@ interface AppProps extends ComponentProps<typeof Sidebar> {
 export const AppSidebar: FC<AppProps> = ({ chats, ...props }) => {
   const { isGenerating, setIsGenerating } = useAppState();
   const { flush } = useSmartTextarea();
-  const [, setUIState] = useUIState<typeof AI>();
-  const [, setAIState] = useAIState<typeof AI>();
+  const [, setUIState] = useUIState();
+  const { data: session } = useSession();
+  const state = useAIState();
 
   const router = useRouter();
 
@@ -37,7 +41,11 @@ export const AppSidebar: FC<AppProps> = ({ chats, ...props }) => {
     setIsGenerating(false);
     flush();
     setUIState([]);
-    setAIState({ chatId: "", messages: [] });
+    state.update({
+      chatId: "",
+      messages: [],
+      username: session?.user?.name || "anonymous@gmail.com",
+    });
     router.push("/chat");
   };
 

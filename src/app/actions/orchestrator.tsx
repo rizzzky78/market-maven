@@ -24,8 +24,6 @@ import {
 } from "@/lib/agents/schema/tool-parameters";
 import { root } from "@/lib/agents/constant";
 import { ErrorMessage } from "@/components/maven/error-message";
-import { StreamProductsContainer } from "@/components/maven/exp-stream-products-container";
-import { ProductsContainer } from "@/components/maven/products-container";
 import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
 import { productsSchema } from "@/lib/agents/schema/product";
 import { scrapeUrl } from "@/lib/agents/tools/api/firecrawl";
@@ -47,6 +45,10 @@ import {
   ProductDetails,
 } from "@/components/maven/product-details";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
+import {
+  ProductSearch,
+  StreamProductSearch,
+} from "@/components/maven/product-search";
 
 export async function orchestrator(
   payload: PayloadData,
@@ -171,7 +173,7 @@ export async function orchestrator(
               createStreamableValue<DeepPartial<Product[]>>();
 
             yield (
-              <StreamProductsContainer
+              <StreamProductSearch
                 query={query}
                 screenshot={scrapeContent.screenshot}
                 products={streamableProducts.value}
@@ -220,7 +222,7 @@ export async function orchestrator(
 
               yield (
                 <>
-                  <ProductsContainer
+                  <ProductSearch
                     content={{
                       success: true,
                       name: "searchProduct",

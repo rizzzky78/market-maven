@@ -2,7 +2,6 @@
 
 import { FC, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { useUIState } from "ai/rsc";
 import { ChatMessages } from "./chat-messages";
 import { ChatPanel } from "./chat-panel";
 import { Separator } from "@/components/ui/separator";
@@ -16,9 +15,10 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 import { Button } from "../ui/button";
-import { AI } from "@/app/action";
 import { AppSidebar } from "./app-sidebar";
 import { ScrollArea } from "../ui/scroll-area";
+import { useUIState } from "ai/rsc";
+import { AI } from "@/app/action";
 
 type ChatProps = {
   id?: string;

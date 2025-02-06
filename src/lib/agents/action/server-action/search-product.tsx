@@ -9,7 +9,7 @@ import logger from "@/lib/utility/logger";
 import { StreamAssistantMessage } from "@/components/maven/assistant-message";
 import { ErrorMessage } from "@/components/maven/error-message";
 import { StreamProductsContainer } from "@/components/maven/exp-stream-products-container";
-import { ProductsContainer } from "@/components/maven/products-container";
+import { ProductsContainer } from "@/components/maven/product-search";
 import { ShinyText } from "@/components/maven/shining-glass";
 import { ProductsResponse, Product } from "@/lib/types/product";
 import { processURLQuery } from "@/lib/utils";

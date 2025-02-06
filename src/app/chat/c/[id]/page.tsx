@@ -2,7 +2,6 @@ import { notFound, redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { getChat, getChats } from "@/lib/agents/action/chat-service";
 import { cache, FC, Suspense } from "react";
-import { AI } from "@/app/action";
 import { Chat } from "@/components/maven/chat";
 import { AIProvider } from "@/lib/utility/provider/ai-state-provider";
 import { getInitialState } from "@/lib/agents/action/mutator/ai-state-service";

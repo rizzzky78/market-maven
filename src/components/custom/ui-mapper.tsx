@@ -10,7 +10,7 @@ import {
   UserContentMessage,
 } from "@/lib/types/ai";
 import { ProductsResponse } from "@/lib/types/product";
-import { ProductsContainer } from "../maven/products-container";
+import { ProductsContainer } from "../maven/product-search";
 import { ProductInsight } from "../maven/product-details";
 import { AssistantMessage } from "../maven/assistant-message";
 import { UserMessage } from "../maven/user-message";

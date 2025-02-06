@@ -32,13 +32,12 @@ import {
 } from "../ui/tooltip";
 import { QuickActionButton } from "./quick-action";
 import { toast } from "sonner";
-import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { useDebounceInput } from "../hooks/use-debounced-input";
 import { useSmartTextarea } from "../hooks/use-smart-textare";
 import { AttachProductBadge } from "./attach-product";
 import { useRouter } from "next/navigation";
-import { orchestrator } from "@/app/actions/orchestrator";
+import { AI } from "@/app/action";
 
 interface ChatPanelProps {
   uiState: UIState;
@@ -64,6 +63,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
   }, [value]);
 
   const [_, setUIState] = useUIState<typeof AI>();
+  const { testing } = useActions<typeof AI>();
   const { isGenerating, setIsGenerating } = useAppState();
   const router = useRouter();
 
@@ -130,10 +130,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
 
         // setUIState((prevUI) => [...prevUI, { id, display }]);
 
-        const { id, display, generation } = await orchestrator({
-          textInput: value,
-          attachProduct: attachment,
-        });
+        const { id, display, generation } = await testing(value);
 
         setUIState((prevUI) => [...prevUI, { id, display }]);
 
@@ -157,6 +154,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       flush,
       handleReset,
       isGenerating,
+      testing,
       setIsGenerating,
       setUIState,
       value,

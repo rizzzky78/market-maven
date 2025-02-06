@@ -12733,3 +12733,229 @@
     }
   ]
 }
+[90m[2025-02-05 20:55:36.482][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-05 20:55:37.934][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-05 20:55:38.415][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-05 20:57:05.066][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-05 20:57:06.282][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-05 20:57:06.388][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-05 20:58:42.538][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-05 20:58:43.331][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-05 20:58:46.777][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-05 20:58:55.384][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Process on Server Action",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-02-05 20:58:57.195][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-05 20:59:04.774][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-05 20:59:05.392][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-02-05 20:59:32.058][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing value",
+  "meta": [
+    {
+      "key": "7cfbbfcf-cef6-4f46-bf1d-f8909e51b2e6",
+      "metadata": {
+        "chatId": "temporary",
+        "email": "temporary"
+      },
+      "operation": "store"
+    }
+  ]
+}
+[90m[2025-02-05 20:59:36.489][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-05 20:59:36.492][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-02-05 21:00:35.110][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-05 21:00:35.829][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-05 21:00:43.367][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-05 21:00:46.602][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-05 21:47:00.770][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Process on Server Action",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-02-05 21:47:01.444][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-05 21:47:02.259][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-02-05 21:47:29.117][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing value",
+  "meta": [
+    {
+      "key": "67d68529-00e7-4368-8261-0bdf2ef83d11",
+      "metadata": {
+        "chatId": "temporary",
+        "email": "temporary"
+      },
+      "operation": "store"
+    }
+  ]
+}
+[90m[2025-02-05 21:47:34.901][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-05 21:47:34.904][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Yoga"
+      }
+    }
+  ]
+}

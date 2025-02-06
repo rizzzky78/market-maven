@@ -1,24 +1,23 @@
 "use client";
 
-import React, { useCallback, useEffect, useId, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { CornerDownRight } from "lucide-react";
 import {
   readStreamableValue,
   StreamableValue,
-  useActions,
   useStreamableValue,
-  useUIState,
 } from "ai/rsc";
 import { Button } from "../ui/button";
 import { Skeleton } from "../ui/skeleton";
 import { generateId } from "ai";
 import { UserMessage } from "./user-message";
 import { PartialRelated } from "@/lib/agents/schema/related";
-import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { Separator } from "../ui/separator";
 import { StreamGeneration } from "@/lib/types/ai";
 import { toast } from "sonner";
+import { useUIState } from "@/lib/utility/provider/ai-state-provider";
+import { orchestrator } from "@/app/actions/orchestrator";
 
 export interface RelatedProps {
   relatedQueries: StreamableValue<PartialRelated>;
@@ -29,8 +28,7 @@ export const RelatedMessage: React.FC<RelatedProps> = ({ relatedQueries }) => {
   const [related, setRelated] = useState<PartialRelated>();
   const { isGenerating, setIsGenerating } = useAppState();
 
-  const [_, setUIState] = useUIState<typeof AI>();
-  const { sendMessage } = useActions<typeof AI>();
+  const [_, setUIState] = useUIState();
 
   useEffect(() => {
     if (data) setRelated(data);
@@ -65,16 +63,18 @@ export const RelatedMessage: React.FC<RelatedProps> = ({ relatedQueries }) => {
           },
         ]);
 
-        const { id, display, generation } = await sendMessage({
+        const { id, display, generation } = await orchestrator({
           textInput: query,
         });
 
-        const gens = readStreamableValue(
-          generation
-        ) as AsyncGenerator<StreamGeneration>;
+        if (generation) {
+          const gens = readStreamableValue(
+            generation
+          ) as AsyncGenerator<StreamGeneration>;
 
-        for await (const { process, loading, error } of gens) {
-          setIsGenerating(loading);
+          for await (const { process, loading, error } of gens) {
+            setIsGenerating(loading);
+          }
         }
 
         setUIState((prevUI) => [...prevUI, { id, display }]);
@@ -88,7 +88,7 @@ export const RelatedMessage: React.FC<RelatedProps> = ({ relatedQueries }) => {
         });
       }
     },
-    [sendMessage, setIsGenerating, setUIState]
+    [setIsGenerating, setUIState]
   );
 
   return related ? (

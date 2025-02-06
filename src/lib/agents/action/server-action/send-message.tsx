@@ -5,7 +5,7 @@ import { StreamAssistantMessage } from "@/components/maven/assistant-message";
 import { ErrorMessage } from "@/components/maven/error-message";
 import { StreamProductsContainer } from "@/components/maven/exp-stream-products-container";
 import { StreamProductDetails } from "@/components/maven/product-details";
-import { ProductsContainer } from "@/components/maven/products-container";
+import { ProductsContainer } from "@/components/maven/product-search";
 import { ShinyText } from "@/components/maven/shining-glass";
 import { UserInquiry } from "@/components/maven/user-inquiry";
 import { storeKeyValue, retrieveKeyValue } from "@/lib/service/store";

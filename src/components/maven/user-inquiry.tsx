@@ -15,15 +15,16 @@ import {
   MessageCircleQuestion,
   SkipForward,
 } from "lucide-react";
-import type { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import { useUIState, useActions, readStreamableValue } from "ai/rsc";
+import { readStreamableValue } from "ai/rsc";
 import { useDebounceInput } from "../hooks/use-debounced-input";
 import { useSmartTextarea } from "../hooks/use-smart-textare";
 import { UserMessage } from "./user-message";
 import { generateId } from "ai";
 import type { InquiryResponse, StreamGeneration } from "@/lib/types/ai";
 import { motion, AnimatePresence } from "framer-motion";
+import { useUIState } from "@/lib/utility/provider/ai-state-provider";
+import { orchestrator } from "@/app/actions/orchestrator";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -42,9 +43,8 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [_, setUIState] = useUIState<typeof AI>();
+  const [_, setUIState] = useUIState();
   const { setIsGenerating } = useAppState();
-  const { sendMessage } = useActions<typeof AI>();
   const { flush } = useSmartTextarea();
   const { handleReset } = useDebounceInput();
 
@@ -87,7 +87,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
       ]);
 
       // Send the message and wait for response
-      const { id, display, generation } = await sendMessage({
+      const { id, display, generation } = await orchestrator({
         inquiryResponse: payload,
       });
 
@@ -108,7 +108,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
       flush();
       handleReset();
     },
-    [flush, handleReset, sendMessage, setIsGenerating, setUIState]
+    [flush, handleReset, setIsGenerating, setUIState]
   );
 
   const handleSubmit = async () => {

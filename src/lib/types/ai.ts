@@ -82,17 +82,18 @@ export type UseAction = {
    * @param assignController Optional controllers to be executed
    * @returns A promise resolving to the message callback
    */
-  orchestrator: (
+  orchestrator?: (
     payload: PayloadData,
     assignController?: AssignController
   ) => Promise<OrchestratorCallback>;
   extractor?: (product: AttachProduct) => Promise<ExtractorCallback>;
-  testing?: (message: string) => Promise<TestingMessageCallback>;
+  testing: (message: string) => Promise<TestingMessageCallback>;
 };
 
 export type TestingMessageCallback = {
   id: string;
   display: ReactNode;
+  generation?: StreamableValue<StreamGeneration>;
 };
 
 export type BaseActionCallback = {
