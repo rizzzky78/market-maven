@@ -8,8 +8,6 @@ import { searchProductSchema } from "../../schema/tool-parameters";
 import logger from "@/lib/utility/logger";
 import { StreamAssistantMessage } from "@/components/maven/assistant-message";
 import { ErrorMessage } from "@/components/maven/error-message";
-import { StreamProductsContainer } from "@/components/maven/exp-stream-products-container";
-import { ProductsContainer } from "@/components/maven/product-search";
 import { ShinyText } from "@/components/maven/shining-glass";
 import { ProductsResponse, Product } from "@/lib/types/product";
 import { processURLQuery } from "@/lib/utils";
@@ -27,6 +25,10 @@ import { mutateTool } from "../mutator/mutate-tool";
 import { root } from "../../constant";
 import { storeKeyValue } from "@/lib/service/store";
 import { v4 } from "uuid";
+import {
+  ProductSearch,
+  StreamProductSearch,
+} from "@/components/maven/product-search";
 
 type ToolProps = {
   state: MutableAIState<AIState>;
@@ -95,7 +97,7 @@ export const toolSearchProduct = ({ state, generation, ui }: ToolProps) => {
           createStreamableValue<DeepPartial<Product[]>>();
 
         ui.update(
-          <StreamProductsContainer
+          <StreamProductSearch
             query={query}
             screenshot={scrapeContent.screenshot}
             products={streamableProducts.value}
@@ -141,7 +143,7 @@ export const toolSearchProduct = ({ state, generation, ui }: ToolProps) => {
           });
 
           ui.update(
-            <ProductsContainer
+            <ProductSearch
               content={{
                 success: true,
                 name: "searchProduct",
