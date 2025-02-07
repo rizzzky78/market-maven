@@ -9,7 +9,7 @@ import {
   StreamProductSearch,
   ProductSearch,
 } from "@/components/maven/product-search";
-import { ShinyText } from "@/components/maven/shining-glass";
+import { LoadingText } from "@/components/maven/shining-glass";
 import { UserInquiry } from "@/components/maven/user-inquiry";
 import { storeKeyValue, retrieveKeyValue } from "@/lib/service/store";
 import {
@@ -95,7 +95,7 @@ export async function orchestrator(
     model: google("gemini-2.0-flash-exp"),
     system: SYSTEM_INSTRUCT_CORE,
     messages: toCoreMessage(state.get().messages),
-    initial: <ShinyText text="Maven is thinking..." />,
+    initial: <LoadingText text="Maven is thinking..." />,
     text: async function* ({ content, done }) {
       if (done) {
         state.done({
@@ -140,7 +140,7 @@ export async function orchestrator(
             loading: true,
           });
 
-          yield <ShinyText text={`Searching for ${query}`} />;
+          yield <LoadingText text={`Searching for ${query}`} />;
 
           let finalizedResults: ProductsResponse = { data: [] };
 
@@ -168,7 +168,7 @@ export async function orchestrator(
           /** Handle if Scrape Operation is Success */
           if (scrapeContent.success && scrapeContent.markdown) {
             yield (
-              <ShinyText text="Found products, proceed to data extraction..." />
+              <LoadingText text="Found products, proceed to data extraction..." />
             );
 
             await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -303,7 +303,7 @@ export async function orchestrator(
             loading: true,
           });
 
-          yield <ShinyText text={`Getting data product for ${query}`} />;
+          yield <LoadingText text={`Getting data product for ${query}`} />;
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
@@ -330,7 +330,9 @@ export async function orchestrator(
 
           /** Handle if Scrape Operation is Success */
           if (scrapeResult.success && scrapeResult.markdown) {
-            yield <ShinyText text="Found product details, please hang on..." />;
+            yield (
+              <LoadingText text="Found product details, please hang on..." />
+            );
 
             await new Promise((resolve) => setTimeout(resolve, 3000));
 
@@ -476,7 +478,7 @@ export async function orchestrator(
             loading: true,
           });
 
-          yield <ShinyText text="Getting given products data..." />;
+          yield <LoadingText text="Getting given products data..." />;
 
           const resulted = await Promise.all(
             compare.map((v) =>
@@ -501,7 +503,7 @@ export async function orchestrator(
             );
           }
 
-          yield <ShinyText text="Found previous products details data" />;
+          yield <LoadingText text="Found previous products details data" />;
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
@@ -513,7 +515,7 @@ export async function orchestrator(
 
           let isStreamDone = false;
 
-          yield <ShinyText text="Generating comparison..." />;
+          yield <LoadingText text="Generating comparison..." />;
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
@@ -616,7 +618,7 @@ export async function orchestrator(
 
           const callId = generateId();
 
-          yield <ShinyText key={callId} text="Creating an Inquiry" />;
+          yield <LoadingText key={callId} text="Creating an Inquiry" />;
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
@@ -641,7 +643,7 @@ export async function orchestrator(
             loading: false,
           });
 
-          yield <ShinyText key={callId} text="Finalizing Inquiry" />;
+          yield <LoadingText key={callId} text="Finalizing Inquiry" />;
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
 

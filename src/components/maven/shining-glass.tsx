@@ -10,7 +10,7 @@ interface ShinyProps {
   className?: string;
 }
 
-export const ShinyText: FC<ShinyProps> = ({
+export const LoadingText: FC<ShinyProps> = ({
   text,
   disabled = false,
   speed = 1,

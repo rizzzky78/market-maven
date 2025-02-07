@@ -15,14 +15,14 @@ export type Product = {
 };
 
 export type ProductsResponse = {
-  callId?: string;
-  screenshot?: string;
+  callId: string;
+  screenshot: string;
   data: Product[];
 };
 
 export type ProductDetailsResponse = {
-  callId?: string;
-  screenshot?: string;
+  callId: string;
+  screenshot: string;
   productDetails: Record<string, any>;
 };
 

@@ -7,7 +7,7 @@ import {
 import { createStreamableUI, createStreamableValue } from "ai/rsc";
 import { z } from "zod";
 import { StreamAssistantMessage } from "@/components/maven/assistant-message";
-import { ShinyText } from "@/components/maven/shining-glass";
+import { LoadingText } from "@/components/maven/shining-glass";
 import { retrieveKeyValue, storeKeyValue } from "@/lib/service/store";
 import { ProductsComparisonResponse } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
@@ -48,7 +48,7 @@ export const toolProductsComparison = ({
         loading: true,
       });
 
-      ui.update(<ShinyText text="Getting given products data..." />);
+      ui.update(<LoadingText text="Getting given products data..." />);
 
       yield ui.value;
 
@@ -62,7 +62,7 @@ export const toolProductsComparison = ({
         )
       );
 
-      ui.update(<ShinyText text="Found previous products details data" />);
+      ui.update(<LoadingText text="Found previous products details data" />);
 
       yield ui.value;
 
@@ -76,7 +76,7 @@ export const toolProductsComparison = ({
 
       let isStreamDone = false;
 
-      ui.update(<ShinyText text="Generating comparison..." />);
+      ui.update(<LoadingText text="Generating comparison..." />);
 
       yield ui.value;
 

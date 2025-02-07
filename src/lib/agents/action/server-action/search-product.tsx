@@ -8,7 +8,7 @@ import { searchProductSchema } from "../../schema/tool-parameters";
 import logger from "@/lib/utility/logger";
 import { StreamAssistantMessage } from "@/components/maven/assistant-message";
 import { ErrorMessage } from "@/components/maven/error-message";
-import { ShinyText } from "@/components/maven/shining-glass";
+import { LoadingText } from "@/components/maven/shining-glass";
 import { ProductsResponse, Product } from "@/lib/types/product";
 import { processURLQuery } from "@/lib/utils";
 import { google } from "@ai-sdk/google";
@@ -22,7 +22,7 @@ import {
 } from "../../system-instructions";
 import { scrapeUrl } from "../../tools/api/firecrawl";
 import { mutateTool } from "../mutator/mutate-tool";
-import { root } from "../../constant";
+import { TEMPLATE } from "../../constant";
 import { storeKeyValue } from "@/lib/service/store";
 import { v4 } from "uuid";
 import {
@@ -38,7 +38,7 @@ type ToolProps = {
 
 export const toolSearchProduct = ({ state, generation, ui }: ToolProps) => {
   const tool: RenderTool<typeof searchProductSchema> = {
-    description: root.SearchProductDescription,
+    description: TEMPLATE.SearchProductDescription,
     parameters: searchProductSchema,
     generate: async function* ({ query }) {
       logger.info("Using searchProduct tool", {
@@ -51,7 +51,7 @@ export const toolSearchProduct = ({ state, generation, ui }: ToolProps) => {
         loading: true,
       });
 
-      ui.update(<ShinyText text={`Searching for ${query}`} />);
+      ui.update(<LoadingText text={`Searching for ${query}`} />);
 
       yield ui.value;
 
@@ -81,7 +81,7 @@ export const toolSearchProduct = ({ state, generation, ui }: ToolProps) => {
       /** Handle if Scrape Operation is Success */
       if (scrapeContent.success && scrapeContent.markdown) {
         ui.update(
-          <ShinyText text="Found products, proceed to data extraction..." />
+          <LoadingText text="Found products, proceed to data extraction..." />
         );
 
         yield ui.value;
@@ -89,7 +89,7 @@ export const toolSearchProduct = ({ state, generation, ui }: ToolProps) => {
         await new Promise((resolve) => setTimeout(resolve, 3000));
 
         const payload = JSON.stringify({
-          objective: root.ExtractionOjective,
+          objective: TEMPLATE.ExtractionOjective,
           markdown: scrapeContent.markdown,
         });
 

@@ -6,11 +6,10 @@ import {
 } from "@/lib/types/ai";
 import { createStreamableUI, createStreamableValue } from "ai/rsc";
 import { getProductDetailsSchema } from "../../schema/tool-parameters";
-import { root } from "../../constant";
+import { TEMPLATE } from "../../constant";
 import { StreamAssistantMessage } from "@/components/maven/assistant-message";
 import { ErrorMessage } from "@/components/maven/error-message";
-import { StreamProductDetails } from "@/components/maven/product-details";
-import { ShinyText } from "@/components/maven/shining-glass";
+import { LoadingText } from "@/components/maven/shining-glass";
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";
 import { streamObject, streamText } from "ai";
@@ -20,6 +19,7 @@ import { mutateTool } from "../mutator/mutate-tool";
 import { storeKeyValue } from "@/lib/service/store";
 import { ProductDetailsResponse } from "@/lib/types/product";
 import SYSTEM_INSTRUCTION from "../../constant/md";
+import { StreamProductDetails } from "@/components/maven/product-details";
 
 type ToolProps = {
   state: MutableAIState<AIState>;
@@ -29,7 +29,7 @@ type ToolProps = {
 
 export const toolGetProductDetails = ({ ui, state, generation }: ToolProps) => {
   const tool: RenderTool<typeof getProductDetailsSchema> = {
-    description: root.GetProductDetailsDescription,
+    description: TEMPLATE.GetProductDetailsDescription,
     parameters: getProductDetailsSchema,
     generate: async function* ({ query, link }) {
       logger.info("Using getProductDetails tool", {
@@ -42,7 +42,7 @@ export const toolGetProductDetails = ({ ui, state, generation }: ToolProps) => {
         loading: true,
       });
 
-      ui.update(<ShinyText text={`Getting data product for ${query}`} />);
+      ui.update(<LoadingText text={`Getting data product for ${query}`} />);
 
       yield ui.value;
 
@@ -72,7 +72,7 @@ export const toolGetProductDetails = ({ ui, state, generation }: ToolProps) => {
       /** Handle if Scrape Operation is Success */
       if (scrapeResult.success && scrapeResult.markdown) {
         ui.update(
-          <ShinyText text="Found product details, please hang on..." />
+          <LoadingText text="Found product details, please hang on..." />
         );
 
         yield ui.value;
@@ -84,7 +84,7 @@ export const toolGetProductDetails = ({ ui, state, generation }: ToolProps) => {
         };
 
         const payloadContent = JSON.stringify({
-          prompt: root.ExtractionDetails,
+          prompt: TEMPLATE.ExtractionDetails,
           refference: { query, link },
           markdown: scrapeResult.markdown,
         });

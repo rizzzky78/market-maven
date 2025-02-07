@@ -5,7 +5,7 @@ import {
   StreamGeneration,
 } from "@/lib/types/ai";
 import { createStreamableUI, createStreamableValue } from "ai/rsc";
-import { ShinyText } from "@/components/maven/shining-glass";
+import { LoadingText } from "@/components/maven/shining-glass";
 import logger from "@/lib/utility/logger";
 import { generateId } from "ai";
 import { mutateTool } from "../mutator/mutate-tool";
@@ -31,7 +31,7 @@ export const toolInquireUser = ({ state, ui, generation }: ToolProps) => {
       });
 
       const callId = generateId();
-      ui.update(<ShinyText key={callId} text="Creating an Inquiry" />);
+      ui.update(<LoadingText key={callId} text="Creating an Inquiry" />);
 
       yield ui.value;
 
