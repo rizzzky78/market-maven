@@ -182,6 +182,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
               <AttachProductBadge
                 attach={attachment.product}
                 onRemove={handleRemove}
+                onSubmit={actionSubmit}
               />
             )}
           </AnimatePresence>

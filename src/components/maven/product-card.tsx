@@ -75,7 +75,7 @@ export const ProductCard: FC<ProductProps> = ({ product, isFinished, id }) => {
   };
 
   const handleAttach = () => {
-    setInput("I want you to give me the product details or information");
+    // setInput("I want you to give me the product details or information");
     detach();
     attach({
       product: {
