@@ -473,7 +473,7 @@ const orchestrator = async (
               request: { query, link },
             });
 
-            yield (
+            return (
               <>
                 <ProductDetails
                   content={{
@@ -655,7 +655,7 @@ const orchestrator = async (
               request: { compare },
             });
 
-            yield (
+            return (
               <>
                 <ProductComparison
                   content={{
