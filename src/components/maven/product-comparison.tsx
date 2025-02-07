@@ -27,7 +27,7 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({ content }) => {
     );
   }
 
-  const [one, two] = data.images;
+  const [one, two] = data.productImages;
 
   return (
     <div className="w-full mb-8">

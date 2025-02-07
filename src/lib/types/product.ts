@@ -27,8 +27,8 @@ export type ProductDetailsResponse = {
 };
 
 export type ProductsComparisonResponse = {
-  callId?: string;
-  productImages?: string[];
+  callId: string;
+  productImages: string[];
   comparison: Record<string, any>;
 };
 

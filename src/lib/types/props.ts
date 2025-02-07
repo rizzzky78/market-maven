@@ -21,11 +21,8 @@ export type ProductsComparisonProps = {
     },
     {
       callId: string;
-      images: [string, string];
-      comparison: {
-        products: Record<string, any>[];
-        differences: Record<string, any>;
-      };
+      productImages: string[];
+      comparison: Record<string, any>
     }
   >;
 };
