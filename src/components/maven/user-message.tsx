@@ -32,7 +32,7 @@ export const UserMessage: FC<MessageProps> = ({ content }) => {
         <div className="flex justify-end">
           <Badge
             variant={"secondary"}
-            className="px-5 py-2 flex space-x-2 items-center hover:bg-inherit bg-gray-300 dark:bg-white dark:text-black rounded-l-[2rem] rounded-tr-[2rem] rounded-br-none"
+            className="px-5 py-2 flex space-x-2 items-center hover:bg-inherit bg-gray-300 dark:bg-white dark:text-black rounded-[2rem]"
           >
             <ScanSearch className="size-5" />
             <p className="font-normal text-xs line-clamp-1">

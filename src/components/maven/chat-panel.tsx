@@ -109,7 +109,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       handleReset();
 
       const { id, display, generation } = await orchestrator({
-        textInput: value,
+        textInput: value.length > 0 ? value : undefined,
         attachProduct: attachment,
       });
 

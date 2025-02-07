@@ -29,6 +29,7 @@ import {
   searchProductSchema,
 } from "@/lib/agents/schema/tool-parameters";
 import {
+  SYSTEM_INSTRUCT_EXTRACTOR,
   SYSTEM_INSTRUCT_INSIGHT,
   SYSTEM_INSTRUCT_PRODUCTS,
 } from "@/lib/agents/system-instructions";
@@ -422,7 +423,7 @@ const orchestrator = async (
                     name: "getProductDetails",
                     args: { query, link },
                     data: {
-                      insight: finalizedObject.productDetails,
+                      productDetails: finalizedObject.productDetails,
                       callId: finalizedObject.callId!,
                       screenshot: finalizedObject.screenshot!,
                     },
@@ -436,7 +437,7 @@ const orchestrator = async (
 
             const { textStream } = streamText({
               model: google("gemini-2.0-flash-exp"),
-              system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_INSIGHT,
+              system: "UNDEFINED",
               prompt: JSON.stringify(finalizedObject.productDetails),
               onFinish: async ({ text }) => {
                 finalizedText = text;
@@ -481,7 +482,7 @@ const orchestrator = async (
                     name: "getProductDetails",
                     args: { query, link },
                     data: {
-                      insight: finalizedObject.productDetails,
+                      productDetails: finalizedObject.productDetails,
                       callId: finalizedObject.callId!,
                       screenshot: finalizedObject.screenshot!,
                     },

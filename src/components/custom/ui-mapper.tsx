@@ -55,7 +55,7 @@ const handleProductSearch = (result: string, id: string): UIStateItem => {
 const handleGetProductDetails = (id: string, result: string): UIStateItem => {
   const resulted_getProductDetails: ExtendedToolResult<
     { link: string; query: string },
-    { insight: Record<string, any>; screenshot: string; callId: string }
+    { productDetails: Record<string, any>; screenshot: string; callId: string }
   > = JSON.parse(result);
   return {
     id,

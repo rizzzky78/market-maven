@@ -25,7 +25,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
     );
   }
 
-  const { callId, insight, screenshot } = data;
+  const { callId, productDetails, screenshot } = data;
   return (
     <div className="w-full mb-8">
       <div className="absolute ml-4 -mt-4">
@@ -72,7 +72,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
           callId={callId}
           query={args.query}
           link={args.link}
-          data={[insight]}
+          data={[productDetails]}
           isGenerating={false}
         />
         <div className="mb-2 flex items-center space-x-2 justify-center">
