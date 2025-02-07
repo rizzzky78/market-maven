@@ -16,8 +16,12 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { TooltipProvider } from "@radix-ui/react-tooltip";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  TooltipProvider,
+} from "../ui/tooltip";
 import { Button } from "../ui/button";
 import { FC, useState } from "react";
 import { toast } from "sonner";

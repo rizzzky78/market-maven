@@ -63,7 +63,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
   }, [value]);
 
   const [_, setUIState] = useUIState<typeof AI>();
-  const { testing } = useActions<typeof AI>();
+  const { orchestrator } = useActions<typeof AI>();
   const { isGenerating, setIsGenerating } = useAppState();
   const router = useRouter();
 
@@ -113,24 +113,10 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
         flush();
         handleReset();
 
-        // const { id, display, generation } = await sendMessage({
-        //   textInput: value,
-        //   attachProduct: attachment,
-        // });
-
-        // if (generation) {
-        //   const gens = readStreamableValue(
-        //     generation
-        //   ) as AsyncIterable<StreamGeneration>;
-
-        //   for await (const { process, loading, error } of gens) {
-        //     setIsGenerating(loading);
-        //   }
-        // }
-
-        // setUIState((prevUI) => [...prevUI, { id, display }]);
-
-        const { id, display, generation } = await testing(value);
+        const { id, display, generation } = await orchestrator({
+          textInput: value,
+          attachProduct: attachment,
+        });
 
         setUIState((prevUI) => [...prevUI, { id, display }]);
 
@@ -154,7 +140,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       flush,
       handleReset,
       isGenerating,
-      testing,
+      orchestrator,
       setIsGenerating,
       setUIState,
       value,

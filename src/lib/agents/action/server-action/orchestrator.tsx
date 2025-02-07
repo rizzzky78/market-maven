@@ -1,23 +1,25 @@
-"use server";
-
 import { AI } from "@/app/action";
 import { StreamAssistantMessage } from "@/components/maven/assistant-message";
 import { ErrorMessage } from "@/components/maven/error-message";
-import { StreamProductsContainer } from "@/components/maven/exp-stream-products-container";
-import { StreamProductDetails } from "@/components/maven/product-details";
-import { ProductsContainer } from "@/components/maven/product-search";
+import {
+  StreamProductDetails,
+  ProductDetails,
+} from "@/components/maven/product-details";
+import {
+  StreamProductSearch,
+  ProductSearch,
+} from "@/components/maven/product-search";
 import { ShinyText } from "@/components/maven/shining-glass";
 import { UserInquiry } from "@/components/maven/user-inquiry";
 import { storeKeyValue, retrieveKeyValue } from "@/lib/service/store";
 import {
   PayloadData,
   AssignController,
-  SendMessageCallback,
+  OrchestratorCallback,
   UserContentMessage,
   MutableAIState,
   AIState,
   StreamGeneration,
-  TestingMessageCallback,
 } from "@/lib/types/ai";
 import {
   ProductsResponse,
@@ -30,12 +32,7 @@ import { processURLQuery } from "@/lib/utils";
 import { google } from "@ai-sdk/google";
 import { groq } from "@ai-sdk/groq";
 import { generateId, DeepPartial, streamObject, streamText } from "ai";
-import {
-  getMutableAIState,
-  createStreamableValue,
-  createStreamableUI,
-  streamUI,
-} from "ai/rsc";
+import { getMutableAIState, createStreamableValue, streamUI } from "ai/rsc";
 import { v4 } from "uuid";
 import { z } from "zod";
 import SYSTEM_INSTRUCTION from "../../constant/md";
@@ -53,12 +50,14 @@ import {
 import { scrapeUrl } from "../../tools/api/firecrawl";
 import { toCoreMessage } from "../mutator/mutate-messages";
 import { mutateTool } from "../mutator/mutate-tool";
-import { root } from "../../constant";
+import { TEMPLATE } from "../../constant";
 
-export const sendMessage = async (
+export async function orchestrator(
   payload: PayloadData,
   assignController?: AssignController
-): Promise<SendMessageCallback> => {
+): Promise<OrchestratorCallback> {
+  "use server";
+
   const { textInput, attachProduct, inquiryResponse } = payload;
 
   logger.info("Process on Server Action", { payload });
@@ -69,12 +68,12 @@ export const sendMessage = async (
     inquiry_response: inquiryResponse ?? null,
   };
 
-  const aiState: MutableAIState<AIState> = getMutableAIState<typeof AI>();
+  const state: MutableAIState<AIState> = getMutableAIState<typeof AI>();
 
-  aiState.update({
-    ...aiState.get(),
+  state.update({
+    ...state.get(),
     messages: [
-      ...aiState.get().messages,
+      ...state.get().messages,
       {
         id: generateId(),
         role: "user",
@@ -88,23 +87,21 @@ export const sendMessage = async (
     loading: true,
   });
 
-  const ui = createStreamableUI(<ShinyText text="Maven is thinking..." />);
-
   const streamableText = createStreamableValue<string>("");
 
   const textUi = <StreamAssistantMessage content={streamableText.value} />;
 
-  const { value, stream } = await streamUI({
+  const { value } = await streamUI({
     model: google("gemini-2.0-flash-exp"),
     system: SYSTEM_INSTRUCT_CORE,
-    messages: toCoreMessage(aiState.get().messages),
+    messages: toCoreMessage(state.get().messages),
     initial: <ShinyText text="Maven is thinking..." />,
     text: async function* ({ content, done }) {
       if (done) {
-        aiState.done({
-          ...aiState.get(),
+        state.done({
+          ...state.get(),
           messages: [
-            ...aiState.get().messages,
+            ...state.get().messages,
             {
               id: generateId(),
               role: "assistant",
@@ -113,7 +110,6 @@ export const sendMessage = async (
           ],
         });
 
-        ui.done();
         streamableText.done();
         generation.done({
           process: "done",
@@ -130,9 +126,8 @@ export const sendMessage = async (
       return textUi;
     },
     tools: {
-      // searchProduct: actionSearchProduct(aiState),
       searchProduct: {
-        description: root.SearchProductDescription,
+        description: TEMPLATE.SearchProductDescription,
         parameters: searchProductSchema,
         generate: async function* ({ query }) {
           logger.info("Using searchProduct tool", {
@@ -145,9 +140,7 @@ export const sendMessage = async (
             loading: true,
           });
 
-          ui.update(<ShinyText text={`Searching for ${query}`} />);
-
-          yield ui.value;
+          yield <ShinyText text={`Searching for ${query}`} />;
 
           let finalizedResults: ProductsResponse = { data: [] };
 
@@ -159,7 +152,7 @@ export const sendMessage = async (
 
           /** Handle if Scrape Operation is Error */
           if (!scrapeContent.success) {
-            ui.done(
+            return (
               <ErrorMessage
                 errorName="Scrape Operation Failed"
                 reason="There was an error while scrapping the content from the firecrawl service."
@@ -174,24 +167,22 @@ export const sendMessage = async (
 
           /** Handle if Scrape Operation is Success */
           if (scrapeContent.success && scrapeContent.markdown) {
-            ui.update(
+            yield (
               <ShinyText text="Found products, proceed to data extraction..." />
             );
-
-            yield ui.value;
 
             await new Promise((resolve) => setTimeout(resolve, 3000));
 
             const payload = JSON.stringify({
-              objective: root.ExtractionOjective,
+              objective: TEMPLATE.ExtractionOjective,
               markdown: scrapeContent.markdown,
             });
 
             const streamableProducts =
               createStreamableValue<DeepPartial<Product[]>>();
 
-            ui.update(
-              <StreamProductsContainer
+            yield (
+              <StreamProductSearch
                 query={query}
                 screenshot={scrapeContent.screenshot}
                 products={streamableProducts.value}
@@ -230,31 +221,28 @@ export const sendMessage = async (
               const stored = await storeKeyValue<ProductsResponse>({
                 key: finalizedResults.callId as string,
                 metadata: {
-                  chatId: aiState.get().chatId,
+                  chatId: state.get().chatId,
                   email: "",
                 },
                 value: finalizedResults,
               });
 
-              ui.update(
-                <ProductsContainer
-                  content={{
-                    success: true,
-                    name: "searchProduct",
-                    args: { query },
-                    data: stored.value,
-                  }}
-                  isFinished={true}
-                />
-              );
-
               const streamableText = createStreamableValue<string>("");
 
-              ui.append(
-                <StreamAssistantMessage content={streamableText.value} />
+              yield (
+                <>
+                  <ProductSearch
+                    content={{
+                      success: true,
+                      name: "searchProduct",
+                      args: { query },
+                      data: stored.value,
+                    }}
+                    isFinished={true}
+                  />
+                  <StreamAssistantMessage content={streamableText.value} />
+                </>
               );
-
-              yield ui.value;
 
               let finalizedText: string = "";
 
@@ -283,9 +271,9 @@ export const sendMessage = async (
                 },
               });
 
-              aiState.done({
-                ...aiState.get(),
-                messages: [...aiState.get().messages, ...mutate],
+              state.done({
+                ...state.get(),
+                messages: [...state.get().messages, ...mutate],
               });
 
               logger.info("Done using searchProduct tool", {
@@ -295,18 +283,14 @@ export const sendMessage = async (
             }
           }
 
-          ui.done();
-
           generation.done({
             process: "done",
             loading: false,
           });
-
-          return ui.value;
         },
       },
       getProductDetails: {
-        description: root.GetProductDetailsDescription,
+        description: TEMPLATE.GetProductDetailsDescription,
         parameters: getProductDetailsSchema,
         generate: async function* ({ query, link }) {
           logger.info("Using getProductDetails tool", {
@@ -319,9 +303,7 @@ export const sendMessage = async (
             loading: true,
           });
 
-          ui.update(<ShinyText text={`Getting data product for ${query}`} />);
-
-          yield ui.value;
+          yield <ShinyText text={`Getting data product for ${query}`} />;
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
@@ -333,7 +315,7 @@ export const sendMessage = async (
 
           /** Handle if Scrape Operation is Error */
           if (!scrapeResult.success) {
-            ui.done(
+            return (
               <ErrorMessage
                 errorName="Scrape Operation Failed"
                 reason="There was an error while scrapping the content from the firecrawl service."
@@ -348,11 +330,7 @@ export const sendMessage = async (
 
           /** Handle if Scrape Operation is Success */
           if (scrapeResult.success && scrapeResult.markdown) {
-            ui.update(
-              <ShinyText text="Found product details, please hang on..." />
-            );
-
-            yield ui.value;
+            yield <ShinyText text="Found product details, please hang on..." />;
 
             await new Promise((resolve) => setTimeout(resolve, 3000));
 
@@ -361,7 +339,7 @@ export const sendMessage = async (
             };
 
             const payloadContent = JSON.stringify({
-              prompt: root.ExtractionDetails,
+              prompt: TEMPLATE.ExtractionDetails,
               refference: { query, link },
               markdown: scrapeResult.markdown,
             });
@@ -369,7 +347,7 @@ export const sendMessage = async (
             const streamableObject =
               createStreamableValue<Record<string, any>>();
 
-            ui.update(
+            yield (
               <StreamProductDetails
                 query={query}
                 link={link}
@@ -378,8 +356,6 @@ export const sendMessage = async (
                 screenshot={scrapeResult.screenshot}
               />
             );
-
-            yield ui.value;
 
             let isStreamDone = false;
 
@@ -411,7 +387,7 @@ export const sendMessage = async (
               const stored = await storeKeyValue<ProductDetailsResponse>({
                 key: finalizedObject.callId as string,
                 metadata: {
-                  chatId: aiState.get().chatId,
+                  chatId: state.get().chatId,
                   email: "",
                 },
                 value: finalizedObject,
@@ -419,11 +395,23 @@ export const sendMessage = async (
 
               const streamableText = createStreamableValue<string>("");
 
-              ui.append(
-                <StreamAssistantMessage content={streamableText.value} />
+              yield (
+                <>
+                  <ProductDetails
+                    content={{
+                      success: true,
+                      name: "getProductDetails",
+                      args: { query, link },
+                      data: {
+                        insight: finalizedObject.productDetails,
+                        callId: finalizedObject.callId!,
+                        screenshot: finalizedObject.screenshot!,
+                      },
+                    }}
+                  />
+                  <StreamAssistantMessage content={streamableText.value} />
+                </>
               );
-
-              yield ui.value;
 
               let finalizedText: string = "";
 
@@ -452,12 +440,10 @@ export const sendMessage = async (
                 },
               });
 
-              aiState.done({
-                ...aiState.get(),
-                messages: [...aiState.get().messages, ...mutate],
+              state.done({
+                ...state.get(),
+                messages: [...state.get().messages, ...mutate],
               });
-
-              ui.done();
 
               logger.info("Done using getProductDetails tool", {
                 progress: "finish",
@@ -470,8 +456,6 @@ export const sendMessage = async (
             process: "done",
             loading: false,
           });
-
-          return ui.value;
         },
       },
       productsComparison: {
@@ -492,9 +476,7 @@ export const sendMessage = async (
             loading: true,
           });
 
-          ui.update(<ShinyText text="Getting given products data..." />);
-
-          yield ui.value;
+          yield <ShinyText text="Getting given products data..." />;
 
           const resulted = await Promise.all(
             compare.map((v) =>
@@ -506,9 +488,20 @@ export const sendMessage = async (
             )
           );
 
-          ui.update(<ShinyText text="Found previous products details data" />);
+          if (!resulted) {
+            return (
+              <ErrorMessage
+                errorName="Scrape Operation Failed"
+                reason="There was an error while scrapping the content from the firecrawl service."
+                raw={{
+                  payload: { compare },
+                  resulted: null,
+                }}
+              />
+            );
+          }
 
-          yield ui.value;
+          yield <ShinyText text="Found previous products details data" />;
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
@@ -520,9 +513,7 @@ export const sendMessage = async (
 
           let isStreamDone = false;
 
-          ui.update(<ShinyText text="Generating comparison..." />);
-
-          yield ui.value;
+          yield <ShinyText text="Generating comparison..." />;
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
@@ -563,7 +554,7 @@ export const sendMessage = async (
             const stored = await storeKeyValue<ProductsComparisonResponse>({
               key: finalizedCompare.callId as string,
               metadata: {
-                chatId: aiState.get().chatId,
+                chatId: state.get().chatId,
                 email: "",
               },
               value: finalizedCompare,
@@ -571,11 +562,7 @@ export const sendMessage = async (
 
             const streamableText = createStreamableValue<string>("");
 
-            ui.append(
-              <StreamAssistantMessage content={streamableText.value} />
-            );
-
-            yield ui.value;
+            yield <StreamAssistantMessage content={streamableText.value} />;
 
             let finalizedText = "";
 
@@ -604,20 +591,16 @@ export const sendMessage = async (
               },
             });
 
-            aiState.done({
-              ...aiState.get(),
-              messages: [...aiState.get().messages, ...mutate],
+            state.done({
+              ...state.get(),
+              messages: [...state.get().messages, ...mutate],
             });
-
-            ui.done();
 
             logger.info("Done using productsComparison tool", {
               progress: "finish",
               request: { compare },
             });
           }
-
-          return ui.value;
         },
       },
       inquireUser: {
@@ -632,13 +615,10 @@ export const sendMessage = async (
           });
 
           const callId = generateId();
-          ui.update(<ShinyText key={callId} text="Creating an Inquiry" />);
 
-          yield ui.value;
+          yield <ShinyText key={callId} text="Creating an Inquiry" />;
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
-
-          ui.update(<UserInquiry inquiry={inquiry} />);
 
           const { mutate } = mutateTool({
             name: "inquireUser",
@@ -649,12 +629,10 @@ export const sendMessage = async (
             },
           });
 
-          aiState.done({
-            ...aiState.get(),
-            messages: [...aiState.get().messages, ...mutate],
+          state.done({
+            ...state.get(),
+            messages: [...state.get().messages, ...mutate],
           });
-
-          ui.done();
 
           logger.info("Done using inquireUser tool");
 
@@ -663,29 +641,20 @@ export const sendMessage = async (
             loading: false,
           });
 
-          return ui.value;
+          yield <ShinyText key={callId} text="Finalizing Inquiry" />;
+
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+
+          return <UserInquiry inquiry={inquiry} />;
         },
       },
     },
   });
 
   return {
+    source: "orchestrator",
     id: generateId(),
     display: value,
-    stream,
     generation: generation.value,
-  };
-};
-
-export async function testing(
-  message: string
-): Promise<TestingMessageCallback> {
-  return {
-    id: "",
-    display: (
-      <div>
-        <p>This is a testing!</p>
-      </div>
-    ),
   };
 }

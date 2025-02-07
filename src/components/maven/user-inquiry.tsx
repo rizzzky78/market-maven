@@ -16,15 +16,14 @@ import {
   SkipForward,
 } from "lucide-react";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import { readStreamableValue } from "ai/rsc";
+import { readStreamableValue, useActions, useUIState } from "ai/rsc";
 import { useDebounceInput } from "../hooks/use-debounced-input";
 import { useSmartTextarea } from "../hooks/use-smart-textare";
 import { UserMessage } from "./user-message";
 import { generateId } from "ai";
 import type { InquiryResponse, StreamGeneration } from "@/lib/types/ai";
 import { motion, AnimatePresence } from "framer-motion";
-import { useUIState } from "@/lib/utility/provider/ai-state-provider";
-import { orchestrator } from "@/app/actions/orchestrator";
+import { AI } from "@/app/action";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -43,10 +42,11 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [_, setUIState] = useUIState();
+  const [_, setUIState] = useUIState<typeof AI>();
   const { setIsGenerating } = useAppState();
   const { flush } = useSmartTextarea();
   const { handleReset } = useDebounceInput();
+  const { orchestrator } = useActions<typeof AI>();
 
   const isFormValid = (): boolean => {
     const hasValidSelection = selectedOptions.length > 0;
@@ -108,7 +108,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
       flush();
       handleReset();
     },
-    [flush, handleReset, setIsGenerating, setUIState]
+    [flush, handleReset, orchestrator, setIsGenerating, setUIState]
   );
 
   const handleSubmit = async () => {

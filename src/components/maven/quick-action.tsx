@@ -17,8 +17,8 @@ import { toast } from "sonner";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { useDebounceInput } from "../hooks/use-debounced-input";
 import { useSmartTextarea } from "../hooks/use-smart-textare";
-import { useUIState } from "@/lib/utility/provider/ai-state-provider";
-import { orchestrator } from "@/app/actions/orchestrator";
+import { useActions, useUIState } from "ai/rsc";
+import { AI } from "@/app/action";
 
 const predefinedActions: {
   label: string;
@@ -60,10 +60,11 @@ const predefinedActions: {
 ];
 
 export function QuickActionButton() {
-  const [_, setUIState] = useUIState();
+  const [_, setUIState] = useUIState<typeof AI>();
   const { isGenerating, setIsGenerating } = useAppState();
   const { flush } = useSmartTextarea();
   const { handleReset } = useDebounceInput();
+  const { orchestrator } = useActions<typeof AI>();
 
   const handleError = useCallback((error: unknown) => {
     console.error("An Error occurred when submitting the query!", error);
@@ -116,7 +117,15 @@ export function QuickActionButton() {
         setIsGenerating(false);
       }
     },
-    [flush, handleError, handleReset, isGenerating, setIsGenerating, setUIState]
+    [
+      flush,
+      handleError,
+      handleReset,
+      isGenerating,
+      orchestrator,
+      setIsGenerating,
+      setUIState,
+    ]
   );
 
   return (

@@ -6,7 +6,7 @@ const ExtractionOjective = `Extract only product data including: product images,
 
 const ExtractionDetails = `Extract the product description with a full details. This also includes product ratings which include images and comments (if any) with a maximum of 5 product rating data (take the rating that is most helpful to the user).`;
 
-export const root = {
+export const TEMPLATE = {
   SearchProductDescription,
   GetProductDetailsDescription,
   ExtractionOjective,
