@@ -21,6 +21,19 @@ export const getProductDetailsSchema = z.object({
     ),
 });
 
+export const productsComparionSchema = z.object({
+  compare: z.array(
+    z.object({
+      title: z
+        .string()
+        .describe("The given full product title or product name"),
+      callId: z
+        .string()
+        .describe("The given callId as key to access product data details"),
+    })
+  ),
+});
+
 export const inquireUserSchema = z.object({
   question: z
     .string()
