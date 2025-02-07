@@ -150,6 +150,11 @@ const testing = async (
             scrapeContent.markdown &&
             scrapeContent.screenshot
           ) {
+            generation.update({
+              process: "api_success",
+              loading: true,
+            });
+
             const finalizedProductSearch: ProductsResponse = {
               callId: v4(),
               screenshot: scrapeContent.screenshot,
@@ -237,6 +242,11 @@ const testing = async (
               onFinish: ({ text }) => {
                 finalizedText = text;
                 streamableText.done();
+
+                generation.done({
+                  process: "done",
+                  loading: false,
+                });
               },
             });
 
@@ -264,6 +274,12 @@ const testing = async (
               request: { query },
             });
           } else if (!scrapeContent.success) {
+            generation.done({
+              process: "api_error",
+              loading: false,
+              error: scrapeContent.message,
+            });
+
             return (
               <ErrorMessage
                 errorName="Scrape Operation Failed"
@@ -308,6 +324,11 @@ const testing = async (
             scrapeContent.markdown &&
             scrapeContent.screenshot
           ) {
+            generation.update({
+              process: "api_success",
+              loading: true,
+            });
+
             yield (
               <LoadingText text="Found product details, please hang on..." />
             );
@@ -397,6 +418,12 @@ const testing = async (
               prompt: JSON.stringify(finalizedObject.productDetails),
               onFinish: async ({ text }) => {
                 finalizedText = text;
+
+                streamableText.done();
+                generation.done({
+                  process: "done",
+                  loading: false,
+                });
               },
             });
 
@@ -404,8 +431,6 @@ const testing = async (
               finalizedText += text;
               streamableText.update(finalizedText);
             }
-
-            streamableText.done();
 
             const { mutate } = mutateTool({
               name: "getProductDetails",
@@ -426,6 +451,11 @@ const testing = async (
               request: { query, link },
             });
           } else if (!scrapeContent.success) {
+            generation.update({
+              process: "api_error",
+              loading: false,
+            });
+
             return (
               <ErrorMessage
                 errorName="Scrape Operation Failed"
