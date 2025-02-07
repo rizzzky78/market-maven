@@ -497,9 +497,12 @@ const testing = async (
             const previousProductsData = resulted.filter((v) => v !== null);
 
             if (previousProductsData.length === 0) {
+              const getKeys = compare.map((v) => v.callId).join(", ");
+
               generation.done({
                 process: "database_error",
                 loading: false,
+                error: `Error cannot access data with keys: [${getKeys}]`,
               });
 
               return (
@@ -584,6 +587,10 @@ const testing = async (
               onFinish: async ({ text }) => {
                 finalizedText = text;
                 streamableText.done();
+                generation.done({
+                  process: "done",
+                  loading: false,
+                });
               },
             });
 
@@ -611,7 +618,7 @@ const testing = async (
               request: { compare },
             });
           } catch (error) {
-            generation.update({
+            generation.done({
               process: "fatal_error",
               loading: false,
             });
