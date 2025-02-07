@@ -83,68 +83,71 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     });
   };
 
+  const actionSubmit = useCallback(async () => {
+    try {
+      setIsGenerating(true);
+
+      const componentId = generateId();
+
+      setUIState((prevUI) => [
+        ...prevUI,
+        {
+          id: generateId(),
+          display: (
+            <UserMessage
+              key={componentId}
+              content={{
+                text_input: value,
+                attach_product: attachment,
+              }}
+            />
+          ),
+        },
+      ]);
+
+      flush();
+      handleReset();
+
+      const { id, display, generation } = await orchestrator({
+        textInput: value,
+        attachProduct: attachment,
+      });
+
+      setUIState((prevUI) => [...prevUI, { id, display }]);
+
+      if (generation) {
+        const gens = readStreamableValue(
+          generation
+        ) as AsyncIterable<StreamGeneration>;
+        for await (const gen of gens) {
+          setIsGenerating(gen.loading);
+        }
+      }
+    } catch (error) {
+      handleError(error);
+    } finally {
+      // router.refresh();
+      setIsGenerating(false);
+    }
+  }, [
+    attachment,
+    flush,
+    handleReset,
+    orchestrator,
+    setIsGenerating,
+    setUIState,
+    value,
+  ]);
+
   const handleSubmit = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
       if (isGenerating) return;
 
-      try {
-        setIsGenerating(true);
-
-        const componentId = generateId();
-
-        setUIState((prevUI) => [
-          ...prevUI,
-          {
-            id: generateId(),
-            display: (
-              <UserMessage
-                key={componentId}
-                content={{
-                  text_input: value,
-                  attach_product: attachment,
-                }}
-              />
-            ),
-          },
-        ]);
-
-        flush();
-        handleReset();
-
-        const { id, display, generation } = await orchestrator({
-          textInput: value,
-          attachProduct: attachment,
-        });
-
-        setUIState((prevUI) => [...prevUI, { id, display }]);
-
-        if (generation) {
-          const gens = readStreamableValue(
-            generation
-          ) as AsyncIterable<StreamGeneration>;
-          for await (const gen of gens) {
-            setIsGenerating(gen.loading);
-          }
-        }
-      } catch (error) {
-        handleError(error);
-      } finally {
-        // router.refresh();
-        setIsGenerating(false);
-      }
+      await actionSubmit();
     },
-    [
-      attachment,
-      flush,
-      handleReset,
-      isGenerating,
-      orchestrator,
-      setIsGenerating,
-      setUIState,
-      value,
-    ]
+    [actionSubmit, isGenerating]
   );
 
   const isButtonDisabled = isGenerating || value.length === 0;
