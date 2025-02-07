@@ -10,13 +10,13 @@ import {
   UserContentMessage,
 } from "@/lib/types/ai";
 import { ProductsResponse } from "@/lib/types/product";
-import { ProductsContainer } from "../maven/product-search";
-import { ProductInsight } from "../maven/product-details";
 import { AssistantMessage } from "../maven/assistant-message";
 import { UserMessage } from "../maven/user-message";
 import { ToolContent } from "ai";
 import { Inquiry } from "@/lib/agents/schema/tool-parameters";
 import { UserInquiry } from "../maven/user-inquiry";
+import { ProductSearch } from "../maven/product-search";
+import { ProductDetails } from "../maven/product-details";
 
 // Core message content types based on the existing system
 type MessageContent = {
@@ -47,7 +47,7 @@ const handleProductSearch = (result: string, id: string): UIStateItem => {
   return {
     id,
     display: (
-      <ProductsContainer key={id} content={resulted_searchProduct} isFinished />
+      <ProductSearch key={id} content={resulted_searchProduct} isFinished />
     ),
   };
 };
@@ -59,7 +59,7 @@ const handleGetProductDetails = (id: string, result: string): UIStateItem => {
   > = JSON.parse(result);
   return {
     id,
-    display: <ProductInsight content={resulted_getProductDetails} />,
+    display: <ProductDetails content={resulted_getProductDetails} />,
   };
 };
 

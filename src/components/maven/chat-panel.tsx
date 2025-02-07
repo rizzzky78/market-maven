@@ -63,7 +63,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
   }, [value]);
 
   const [_, setUIState] = useUIState<typeof AI>();
-  const { orchestrator, testing } = useActions<typeof AI>();
+  const { orchestrator } = useActions<typeof AI>();
   const { isGenerating, setIsGenerating } = useAppState();
   const router = useRouter();
 
@@ -113,7 +113,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
         flush();
         handleReset();
 
-        const { id, display, generation } = await testing({
+        const { id, display, generation } = await orchestrator({
           textInput: value,
           attachProduct: attachment,
         });
@@ -140,7 +140,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       flush,
       handleReset,
       isGenerating,
-      testing,
+      orchestrator,
       setIsGenerating,
       setUIState,
       value,

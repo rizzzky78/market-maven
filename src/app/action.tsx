@@ -1,5 +1,8 @@
 import { mapUIState } from "@/components/custom/ui-mapper";
-import { StreamAssistantMessage } from "@/components/maven/assistant-message";
+import {
+  AssistantMessage,
+  StreamAssistantMessage,
+} from "@/components/maven/assistant-message";
 import { ErrorMessage } from "@/components/maven/error-message";
 import { ProductComparison } from "@/components/maven/product-comparison";
 import {
@@ -35,6 +38,7 @@ import { retrieveKeyValue, storeKeyValue } from "@/lib/service/store";
 import {
   AIState,
   MutableAIState,
+  OrchestratorCallback,
   PayloadData,
   StreamGeneration,
   TestingMessageCallback,
@@ -61,9 +65,9 @@ import {
 } from "ai/rsc";
 import { v4 } from "uuid";
 
-const testing = async (
+const orchestrator = async (
   payload: PayloadData
-): Promise<TestingMessageCallback> => {
+): Promise<OrchestratorCallback> => {
   "use server";
 
   const payloadUserMessage = toUnifiedUserMessage(payload);
@@ -276,6 +280,21 @@ const testing = async (
               progress: "finish",
               request: { query },
             });
+
+            return (
+              <>
+                <ProductSearch
+                  content={{
+                    success: true,
+                    name: "searchProduct",
+                    args: { query },
+                    data: finalizedProductSearch,
+                  }}
+                  isFinished={true}
+                />
+                <AssistantMessage content={finalizedText} />
+              </>
+            );
           } else if (!scrapeContent.success) {
             generation.done({
               process: "api_error",
@@ -453,6 +472,24 @@ const testing = async (
               progress: "finish",
               request: { query, link },
             });
+
+            yield (
+              <>
+                <ProductDetails
+                  content={{
+                    success: true,
+                    name: "getProductDetails",
+                    args: { query, link },
+                    data: {
+                      insight: finalizedObject.productDetails,
+                      callId: finalizedObject.callId!,
+                      screenshot: finalizedObject.screenshot!,
+                    },
+                  }}
+                />
+                <AssistantMessage content={finalizedText} />
+              </>
+            );
           } else if (!scrapeContent.success) {
             generation.done({
               process: "api_error",
@@ -617,6 +654,20 @@ const testing = async (
               progress: "finish",
               request: { compare },
             });
+
+            yield (
+              <>
+                <ProductComparison
+                  content={{
+                    success: true,
+                    name: "productsComparison",
+                    args: { compare },
+                    data: finalizedCompare,
+                  }}
+                />
+                <AssistantMessage content={finalizedText} />
+              </>
+            );
           } catch (error) {
             generation.done({
               process: "fatal_error",
@@ -641,6 +692,7 @@ const testing = async (
   });
 
   return {
+    source: "orchestrator",
     id: generateId(),
     display: value,
     generation: generation.value,
@@ -655,8 +707,7 @@ const testing = async (
 export const AI = createAI<AIState, UIState, UseAction>({
   initialUIState: [],
   actions: {
-    // orchestrator,
-    testing,
+    orchestrator,
   },
   onSetAIState: async ({ state, done }) => {
     "use server";
