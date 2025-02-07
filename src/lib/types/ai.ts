@@ -218,6 +218,7 @@ export type StreamGeneration = {
   process:
     | "initial"
     | "generating"
+    | "api_success"
     | "api_error"
     | "fatal_error"
     | "done"
