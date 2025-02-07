@@ -220,6 +220,7 @@ export type StreamGeneration = {
     | "generating"
     | "api_success"
     | "api_error"
+    | "database_error"
     | "fatal_error"
     | "done"
     | ({} & string);
