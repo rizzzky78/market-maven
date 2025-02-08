@@ -433,12 +433,18 @@ const orchestrator = async (
               </>
             );
 
+            const payloadInsight = {
+              prompt:
+                payloadUserMessage.text_input ?? "no-instructions-from-user",
+              data: finalizedObject.productDetails,
+            };
+
             let finalizedText: string = "";
 
             const { textStream } = streamText({
               model: google("gemini-2.0-flash-exp"),
               system: "UNDEFINED",
-              prompt: JSON.stringify(finalizedObject.productDetails),
+              prompt: JSON.stringify(payloadInsight),
               onFinish: async ({ text }) => {
                 finalizedText = text;
 
@@ -574,12 +580,16 @@ const orchestrator = async (
             const streamableObject =
               createStreamableValue<Record<string, any>>();
 
+            const payloadPrevProductsData = previousProductsData.map(
+              (v) => v.value.productDetails
+            );
+
             // append stream-ui here
 
             const { partialObjectStream } = streamObject({
               model: google("gemini-2.0-flash-exp"),
               system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_EXTRACTOR,
-              prompt: JSON.stringify(previousProductsData),
+              prompt: JSON.stringify(payloadPrevProductsData),
               output: "no-schema",
               onFinish: async ({ object }) => {
                 finalizedCompare.comparison = object as Record<string, any>;
@@ -616,12 +626,18 @@ const orchestrator = async (
               </>
             );
 
+            const payloadComparisonInsight = {
+              prompt:
+                payloadUserMessage.text_input ?? "no-instructions-from-user",
+              data: finalizedCompare.comparison,
+            };
+
             let finalizedText = "";
 
             const { textStream } = streamText({
               model: google("gemini-2.0-flash-exp"),
               system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_INSIGHT,
-              prompt: JSON.stringify(finalizedCompare.comparison),
+              prompt: JSON.stringify(payloadComparisonInsight),
               onFinish: async ({ text }) => {
                 finalizedText = text;
                 streamableText.done();
@@ -678,7 +694,7 @@ const orchestrator = async (
             return (
               <ErrorMessage
                 errorName="Unknown Error"
-                reason="There was an error while scrapping the content from the firecrawl service."
+                reason="There was an error while comparing data products, this error occur from internal server"
                 raw={{
                   payload: { compare },
                   error:
