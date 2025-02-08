@@ -23,7 +23,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
   const { success, args, data } = content;
 
   const [hovering, setHovering] = useState(false);
-  const { addToComparison, activeComparison } = useSmartTextarea();
+  const { addToComparison, activeComparison, attachment } = useSmartTextarea();
 
   if (!success) {
     return (
@@ -37,10 +37,12 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
 
   const { callId, productDetails, screenshot } = data;
 
-  const isButtonDisabled = activeComparison
+  const comparisonState = activeComparison
     ? activeComparison.for.length === 2 ||
       Boolean(activeComparison.for.find((v) => v.callId === callId))
     : false;
+
+  const isButtonDisabled = Boolean(attachment) || comparisonState;
 
   const attachComparison = () => {
     addToComparison({
@@ -176,7 +178,7 @@ export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
   const [raw, error, pending] = useStreamableValue(content);
   const [data, setData] = useState<Record<string, any>>({});
   const [hovering, setHovering] = useState(false);
-  const { addToComparison, activeComparison } = useSmartTextarea();
+  const { addToComparison, activeComparison, attachment } = useSmartTextarea();
 
   useEffect(() => {
     if (raw) setData(raw);
@@ -192,10 +194,12 @@ export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
     );
   }
 
-  const isButtonDisabled = activeComparison
+  const comparisonState = activeComparison
     ? activeComparison.for.length === 2 ||
       Boolean(activeComparison.for.find((v) => v.callId === callId))
     : false;
+
+  const isButtonDisabled = attachment ? true : false || comparisonState;
 
   const attachComparison = () => {
     addToComparison({
