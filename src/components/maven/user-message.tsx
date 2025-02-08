@@ -9,7 +9,7 @@ import {
   TooltipTrigger,
 } from "../ui/tooltip";
 import { Button } from "../ui/button";
-import { Check, Copy, ScanSearch } from "lucide-react";
+import { ArrowUpRight, Check, Copy, Tag } from "lucide-react";
 import { UserContentMessage } from "@/lib/types/ai";
 import { Badge } from "../ui/badge";
 
@@ -27,14 +27,20 @@ export const UserMessage: FC<MessageProps> = ({ content }) => {
   };
 
   return (
-    <div className="w-full mb-14">
+    <div className="w-full mb-14 mt-6 py-4">
       {content.attach_product && (
         <div className="flex justify-end">
+          <div className="absolute ml-4 -mt-6">
+            <div className="bg-[#1A1A1D] text-white rounded-3xl py-1 pl-3 pr-3 flex items-center">
+              <Tag className="size-4 mr-1 text-purple-400" />
+              <p className="text-xs font-semibold">Attached Product</p>
+            </div>
+          </div>
           <Badge
             variant={"secondary"}
-            className="px-5 py-2 flex space-x-2 items-center hover:bg-inherit bg-gray-300 dark:bg-white dark:text-black rounded-[2rem]"
+            className="px-5 py-3 flex space-x-2 items-center hover:bg-gray-300 bg-gray-300 dark:bg-white dark:text-black rounded-[2rem]"
           >
-            <ScanSearch className="size-5" />
+            <ArrowUpRight className="size-5 text-purple-400" />
             <p className="font-normal text-xs line-clamp-1">
               {content.attach_product.product.title}
             </p>
