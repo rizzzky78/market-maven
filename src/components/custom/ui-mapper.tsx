@@ -5,8 +5,6 @@ import {
   UIState,
   AvailableTool,
   ExtendedToolResult,
-  UserMessageProp,
-  InquiryResponse,
   UserContentMessage,
 } from "@/lib/types/ai";
 import { ProductsResponse } from "@/lib/types/product";
@@ -91,7 +89,9 @@ const handleInquireUser = (id: string, result: string): UIStateItem => {
   > = JSON.parse(result);
   return {
     id,
-    display: <UserInquiry inquiry={resulted_inquireUser.args.inquiry} />,
+    display: (
+      <UserInquiry inquiry={resulted_inquireUser.args.inquiry.inquiry} />
+    ),
   };
 };
 

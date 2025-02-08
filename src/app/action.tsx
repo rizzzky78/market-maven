@@ -14,6 +14,7 @@ import {
   StreamProductSearch,
 } from "@/components/maven/product-search";
 import { LoadingText } from "@/components/maven/shining-glass";
+import { UserInquiry } from "@/components/maven/user-inquiry";
 import {
   toCoreMessage,
   toUnifiedUserMessage,
@@ -25,6 +26,7 @@ import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
 import { productsSchema } from "@/lib/agents/schema/product";
 import {
   getProductDetailsSchema,
+  inquireUserSchema,
   productsComparionSchema,
   searchProductSchema,
 } from "@/lib/agents/schema/tool-parameters";
@@ -701,6 +703,52 @@ const orchestrator = async (
               />
             );
           }
+        },
+      },
+      /** GAP */
+      inquireUser: {
+        description: TEMPLATE.INQUIRE_USER_DESCIRPTION,
+        parameters: inquireUserSchema,
+        generate: async function* ({ inquiry }) {
+          logger.info("Using inquireUser tool");
+
+          generation.update({
+            process: "generating",
+            loading: true,
+          });
+
+          const callId = generateId();
+
+          yield <LoadingText key={callId} text="Creating an Inquiry" />;
+
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+
+          const { mutate } = mutateTool({
+            name: "inquireUser",
+            args: { inquiry },
+            result: { data: "no-result" },
+            overrideAssistant: {
+              content: `Inquiry have been provided, please fill them in accordingly.`,
+            },
+          });
+
+          state.done({
+            ...state.get(),
+            messages: [...state.get().messages, ...mutate],
+          });
+
+          logger.info("Done using inquireUser tool");
+
+          generation.done({
+            process: "done",
+            loading: false,
+          });
+
+          yield <LoadingText key={callId} text="Finalizing Inquiry" />;
+
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+
+          return <UserInquiry inquiry={inquiry} />;
         },
       },
     },

@@ -8,10 +8,13 @@ const ExtractionDetails = `Extract the product description with a full details. 
 
 const PRODUCTS_COMPARISON_DESCRIPTION = `Compare two products based on user requested data`;
 
+const INQUIRE_USER_DESCIRPTION = `Inquire the user if current provided context is not enough to take an further action`;
+
 export const TEMPLATE = {
   SearchProductDescription,
   GetProductDetailsDescription,
   ExtractionOjective,
   ExtractionDetails,
   PRODUCTS_COMPARISON_DESCRIPTION,
+  INQUIRE_USER_DESCIRPTION,
 } as const;

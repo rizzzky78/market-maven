@@ -35,56 +35,58 @@ export const productsComparionSchema = z.object({
 });
 
 export const inquireUserSchema = z.object({
-  question: z
-    .string()
-    .describe(
-      "The primary question or prompt presented to the user to gather additional information. Must be clear, concise, and limited to 500 characters to ensure optimal user engagement"
-    ),
+  inquiry: z.object({
+    question: z
+      .string()
+      .describe(
+        "The primary question or prompt presented to the user to gather additional information. Must be clear, concise, and limited to 500 characters to ensure optimal user engagement"
+      ),
 
-  options: z
-    .array(
-      z.object({
-        value: z
-          .string()
-          .describe(
-            "The internal value identifier for the option, used for processing user selections. Must not exceed 200 characters"
-          ),
-        label: z
-          .string()
-          .describe(
-            "The human-readable text displayed to the user for this option. Should be descriptive yet concise, limited to 250 characters"
-          ),
-      })
-    )
-    .describe(
-      "An array of selectable options presented to the user. Must contain a minimum of 1 option and cannot exceed 10 options to maintain usability and prevent choice overload"
-    ),
+    options: z
+      .array(
+        z.object({
+          value: z
+            .string()
+            .describe(
+              "The internal value identifier for the option, used for processing user selections. Must not exceed 200 characters"
+            ),
+          label: z
+            .string()
+            .describe(
+              "The human-readable text displayed to the user for this option. Should be descriptive yet concise, limited to 250 characters"
+            ),
+        })
+      )
+      .describe(
+        "An array of selectable options presented to the user. Must contain a minimum of 1 option and cannot exceed 10 options to maintain usability and prevent choice overload"
+      ),
 
-  allowsInput: z
-    .boolean()
-    .describe(
-      "Determines whether users can provide additional free-form text input beyond the predefined options. Set to true to enable custom input, false to restrict to only predefined options"
-    ),
+    allowsInput: z
+      .boolean()
+      .describe(
+        "Determines whether users can provide additional free-form text input beyond the predefined options. Set to true to enable custom input, false to restrict to only predefined options"
+      ),
 
-  inputLabel: z
-    .string()
-    .optional()
-    .describe(
-      "The descriptive text label displayed above the custom input field when allowsInput is true. Should clearly indicate what type of input is expected"
-    ),
+    inputLabel: z
+      .string()
+      .optional()
+      .describe(
+        "The descriptive text label displayed above the custom input field when allowsInput is true. Should clearly indicate what type of input is expected"
+      ),
 
-  inputPlaceholder: z
-    .string()
-    .optional()
-    .describe(
-      "Example or hint text displayed within the custom input field when empty. Should provide guidance on the expected input format or content"
-    ),
+    inputPlaceholder: z
+      .string()
+      .optional()
+      .describe(
+        "Example or hint text displayed within the custom input field when empty. Should provide guidance on the expected input format or content"
+      ),
 
-  isMultiSelection: z
-    .boolean()
-    .describe(
-      "Controls the option selection behavior. When set to false, users can select only one option. When set to true, users can select multiple options simultaneously"
-    ),
+    isMultiSelection: z
+      .boolean()
+      .describe(
+        "Controls the option selection behavior. When set to false, users can select only one option. When set to true, users can select multiple options simultaneously"
+      ),
+  }),
 });
 
 export type Inquiry = z.infer<typeof inquireUserSchema>;
