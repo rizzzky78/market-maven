@@ -49,18 +49,44 @@ export const UserMessage: FC<MessageProps> = ({ content }) => {
       )}
       {content.inquiry_response && (
         <div className="flex justify-end">
-          <pre className="text-xs overflow-x-auto p-2">
-            {JSON.stringify(content.inquiry_response, null, 2)}
-          </pre>
+          {content.inquiry_response.skipped ? (
+            <Badge
+              variant={"secondary"}
+              className="px-5 py-3 flex space-x-2 items-center hover:bg-gray-300 bg-gray-300 dark:bg-white dark:text-black rounded-[2rem]"
+            >
+              <ArrowUpRight className="size-5 text-purple-400" />
+              <p className="font-normal text-xs line-clamp-1">
+                Skip the inquiry
+              </p>
+            </Badge>
+          ) : (
+            <div className="flex flex-col">
+              {content.inquiry_response.selected &&
+                content.inquiry_response.selected.length > 0 && (
+                  <div>
+                    {content.inquiry_response.selected.map((option, index) => (
+                      <Badge
+                        key={index}
+                        variant={"secondary"}
+                        className="text-xs bg-gray-300 hover:bg-gray-300 dark:text-black rounded-3xl"
+                      >
+                        {option}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
+              {content.inquiry_response.input && (
+                <div>
+                  <p className="text-sm">{content.inquiry_response.input}</p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
       {content.text_input && (
         <div className="flex justify-end">
-          <div
-            className={`bg-[#343131] w-fit max-w-[90%] py-3 px-5 rounded-l-[2rem] ${
-              content.attach_product ? "rounded-br-[2rem]" : "rounded-r-[2rem]"
-            }`}
-          >
+          <div className="bg-[#343131] w-fit max-w-[90%] py-3 px-5 rounded-[2rem]">
             <div className="group relative">
               <Markdown className="whitespace-pre-wrap text-white">
                 {content.text_input}
