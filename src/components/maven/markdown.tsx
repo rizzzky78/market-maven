@@ -56,33 +56,33 @@ export const PureMarkdown: FC<MarkdownProps> = ({ children, className }) => {
         li: ({ children }) => <li className="text-sm leading-7">{children}</li>,
         table({ children }) {
           return (
-            <div className="my-6 w-full overflow-y-auto">
-              <table className="w-full border-collapse border border-gray-700">
+            <div className="my-2 w-full overflow-y-auto">
+              <table className="w-full border-collapse border dark:border-white/50 border-black/50">
                 {children}
               </table>
             </div>
           );
         },
         thead({ children }) {
-          return <thead className="bg-gray-800">{children}</thead>;
+          return <thead className="text-xs bg-black/20 dark:bg-white/20 dark:border-white/50 border-black/50">{children}</thead>;
         },
         tr({ children }) {
-          return <tr className="border-b border-gray-700">{children}</tr>;
+          return <tr className="border-b text-xs dark:border-white/50 border-black/50">{children}</tr>;
         },
         th({ children }) {
           return (
-            <th className="border border-gray-700 px-4 py-2 text-left font-semibold">
+            <th className="border text-xs dark:border-white/50 border-black/50 px-4 py-2 text-left font-semibold">
               {children}
             </th>
           );
         },
         td({ children }) {
           return (
-            <td className="border border-gray-700 px-4 py-2">{children}</td>
+            <td className="border text-xs dark:border-white/50 border-black/50 px-4 py-2">{children}</td>
           );
         },
         blockquote: ({ children }) => (
-          <blockquote className="mt-4 border-l-4 border-gray-700 pl-4 italic">
+          <blockquote className="mt-4 border-l-4 text-sm border-gray-700 pl-4 italic">
             {children}
           </blockquote>
         ),
