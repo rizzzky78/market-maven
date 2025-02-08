@@ -3,12 +3,20 @@
 
 import { StreamableValue, useStreamableValue } from "ai/rsc";
 import { FC, useEffect, useState } from "react";
-import { Info, NotepadText } from "lucide-react";
+import { FlipHorizontal, Info, NotepadText, Share2 } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { Lens } from "./lens";
 import { MemoProductDetails } from "./memo-product-details";
 import { ProductDetailsProps } from "@/lib/types/props";
 import { ErrorMessage } from "./error-message";
+import { Button } from "../ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  TooltipProvider,
+} from "../ui/tooltip";
+import Link from "next/link";
 
 export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
   const { success, args, data } = content;
@@ -33,9 +41,14 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
           <NotepadText className="size-4 mr-1 text-purple-400" />
           <p className="text-xs font-semibold">
             Product Details provided by
-            <span className="ml-0.5 text-green-400 dark:text-green-600">
+            <Link
+              href={"https://www.tokopedia.com/"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-1 text-green-400 hover:text-green-600 dark:text-green-500 dark:hover:text-green-700"
+            >
               Tokopedia
-            </span>
+            </Link>
           </p>
         </div>
       </div>
@@ -55,13 +68,56 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
                   className="object-cover"
                 />
               </Lens>
-              <div className="w-fit p-1 mt-2 rounded-full">
-                <div className="flex items-center space-x-2">
-                  <Info className="size-4 text-purple-300" />
-                  <p className="text-xs">
-                    This app is not affiliated with the relevant online
-                    marketplace.
-                  </p>
+              <div className="w-full pl-1 mt-2 rounded-full">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center mr-2">
+                    <Info className="size-4 text-purple-500 dark:text-purple-300 mr-1" />
+                    <p className="text-xs">
+                      This app is not affiliated with the relevant online
+                      marketplace.
+                    </p>
+                  </div>
+                  <div className="flex items-center">
+                    <div>
+                      <TooltipProvider>
+                        <Tooltip delayDuration={100}>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant={"outline"}
+                              className="rounded-full mr-2 size-8"
+                            >
+                              <Share2 className="size-2 shrink-0" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent className="rounded-3xl">
+                            <p className="max-w-sm font-semibold">
+                              Share this product details, anyone with link can
+                              view
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                    <TooltipProvider>
+                      <Tooltip delayDuration={100}>
+                        <TooltipTrigger asChild>
+                          <Button
+                            variant={"outline"}
+                            size={"sm"}
+                            className="rounded-3xl py-1 font-normal bg-[#1A1A1D] dark:bg-background text-white hover:border-[#1A1A1D]"
+                          >
+                            <FlipHorizontal className="size-4 text-purple-500 dark:text-purple-300" />
+                            <span>Compare</span>
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent className="rounded-3xl">
+                          <p className="max-w-sm font-semibold">
+                            Attach to products comparison
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
                 </div>
               </div>
             </div>
@@ -76,7 +132,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
           isGenerating={false}
         />
         <div className="mb-2 flex items-center space-x-2 justify-center">
-          <Info className="size-4 text-purple-300" />
+          <Info className="size-4 text-purple-500 dark:text-purple-300" />
           <p className="text-xs">
             AI generated information, for reference only.
           </p>
@@ -136,13 +192,34 @@ export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
                 className="object-cover"
               />
             </Lens>
-            <div className="w-fit p-1 mt-2 rounded-full">
-              <div className="flex items-center space-x-2">
-                <Info className="size-4 text-purple-300" />
-                <p className="text-xs">
-                  This app is not affiliated with the relevant online
-                  marketplace.
-                </p>
+            <div className="w-full pl-1 mt-2 rounded-full">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center mr-2">
+                  <Info className="size-4 text-purple-500 dark:text-purple-300 mr-1" />
+                  <p className="text-xs">
+                    This app is not affiliated with the relevant online
+                    marketplace.
+                  </p>
+                </div>
+                <TooltipProvider>
+                  <Tooltip delayDuration={100}>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant={"outline"}
+                        size={"sm"}
+                        className="rounded-3xl py-1 font-normal bg-[#1A1A1D] dark:bg-background text-white hover:border-[#1A1A1D]"
+                      >
+                        <FlipHorizontal className="size-4 text-purple-500 dark:text-purple-300" />
+                        <span>Compare</span>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent className="rounded-3xl">
+                      <p className="max-w-sm font-semibold">
+                        Attach to products comparison
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
             </div>
           </div>
