@@ -33,13 +33,13 @@ export const AttachCompareBadge: FC<BadgeProps> = ({
         transition={{ duration: 0.2 }}
         className="w-full"
       >
-        <div className="flex items-center justify-between mb-1 py-0.5 px-1 bg-[#1A1A1D] rounded-3xl">
+        <div className="flex items-center justify-between mb-1 py-0.5 pl-1 pr-1.5 bg-[#D8D2C2] hover:bg-[#D8D2C2] dark:bg-[#343131] dark:hover:bg-[#343131] rounded-3xl">
           <div className="grid grid-cols-2 gap-1 w-full">
             {compare.for.map((c, index) => (
               <Badge
                 key={index}
                 variant="secondary"
-                className="flex w-full py-2 my-0.5 justify-between items-center rounded-3xl"
+                className="flex w-full py-1 my-0.5 justify-between items-center rounded-3xl"
               >
                 <p className="line-clamp-1 text-xs font-normal">{c.title}</p>
                 <TooltipProvider>
@@ -47,10 +47,10 @@ export const AttachCompareBadge: FC<BadgeProps> = ({
                     <TooltipTrigger asChild>
                       <Button
                         variant={"ghost"}
-                        className="rounded-full size-8 hover:bg-black/50"
+                        className="rounded-full hover:text-white size-8 hover:bg-black/50 -mr-1"
                         onClick={() => onRemove(c.callId)}
                       >
-                        <X className="size-4" />
+                        <X className="size-6" />
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent className="rounded-3xl">
@@ -69,7 +69,7 @@ export const AttachCompareBadge: FC<BadgeProps> = ({
                 <TooltipTrigger asChild>
                   <Button
                     variant={"outline"}
-                    className="rounded-full size-[3.2rem]"
+                    className="rounded-full size-10 bg-[#1A1A1D] text-white"
                     onClick={onSubmit}
                     disabled={compare.for.length !== 2}
                   >
