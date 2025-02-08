@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { Columns2, Info } from "lucide-react";
+import { Columns2, FlipHorizontal, Info, Share2 } from "lucide-react";
 import { FC, useState } from "react";
 import { MemoProductComparison } from "./memo-product-comparison";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
@@ -10,6 +10,13 @@ import { Lens } from "./lens";
 import { Separator } from "../ui/separator";
 import { ProductsComparisonProps } from "@/lib/types/props";
 import { ErrorMessage } from "./error-message";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  TooltipProvider,
+} from "../ui/tooltip";
+import { Button } from "../ui/button";
 
 export const ProductComparison: FC<ProductsComparisonProps> = ({ content }) => {
   const { success, args, data } = content;
@@ -62,12 +69,37 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({ content }) => {
               <img src={two} alt="Searched Product" className="object-cover" />
             </Lens>
           </div>
-          <div className="w-fit p-1 my-2 rounded-full">
-            <div className="flex items-center space-x-2">
-              <Info className="size-4 text-purple-500 dark:text-purple-300" />
-              <p className="text-xs">
-                This app is not affiliated with the relevant online marketplace.
-              </p>
+          <div className="w-full pl-1 mt-2 rounded-full">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center mr-2">
+                <Info className="size-4 text-purple-500 dark:text-purple-300 mr-1" />
+                <p className="text-xs">
+                  This app is not affiliated with the relevant online
+                  marketplace.
+                </p>
+              </div>
+              <div className="flex items-center">
+                <div>
+                  <TooltipProvider>
+                    <Tooltip delayDuration={100}>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant={"outline"}
+                          className="rounded-full size-8"
+                        >
+                          <Share2 className="size-2 shrink-0" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent className="rounded-3xl">
+                        <p className="max-w-sm font-semibold">
+                          Share this product comparison, anyone with link can
+                          view
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+              </div>
             </div>
           </div>
         </div>

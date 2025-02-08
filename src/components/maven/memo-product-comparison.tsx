@@ -302,7 +302,6 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
                     )
                   )}
               </div>
-
               <div className="lg:border-l border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
                 {Array.isArray(data.data.products) &&
                   [data.data.products[1]].map((item, index) => (
