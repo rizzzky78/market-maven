@@ -38,13 +38,30 @@ export const UserMessage: FC<MessageProps> = ({ content }) => {
           </div>
           <Badge
             variant={"secondary"}
-            className="px-5 py-3 flex space-x-2 items-center hover:bg-gray-300 bg-gray-300 dark:bg-white dark:text-black rounded-[2rem]"
+            className="px-5 py-3 flex max-w-[90%] space-x-2 items-center hover:bg-gray-300 bg-gray-300 dark:bg-white dark:text-black rounded-[2rem]"
           >
             <ArrowUpRight className="size-5 text-purple-400" />
             <p className="font-normal text-xs line-clamp-1">
               {content.attach_product.product.title}
             </p>
           </Badge>
+        </div>
+      )}
+      {content.product_compare && (
+        <div className="flex justify-end">
+          <div className="max-w-[90%]">
+            <div className="flex flex-wrap">
+              {content.product_compare.for.map((compare, index) => (
+                <Badge
+                  key={index}
+                  variant={"secondary"}
+                  className="text-xs font-normal hover:bg-gray-300 bg-gray-300 dark:bg-white dark:text-black rounded-[2rem]"
+                >
+                  {compare.title}
+                </Badge>
+              ))}
+            </div>
+          </div>
         </div>
       )}
       {content.inquiry_response && (

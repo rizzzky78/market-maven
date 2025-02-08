@@ -35,9 +35,9 @@ export const AttachCompareBadge: FC<BadgeProps> = ({
       >
         <div className="flex items-center justify-between mb-1 py-0.5 pl-1 pr-1.5 bg-[#D8D2C2] hover:bg-[#D8D2C2] dark:bg-[#343131] dark:hover:bg-[#343131] rounded-3xl">
           <div className="grid grid-cols-2 gap-1 w-full">
-            {compare.for.map((c, index) => (
+            {compare.for.map((c) => (
               <Badge
-                key={index}
+                key={c.callId}
                 variant="secondary"
                 className="flex w-full py-1 my-0.5 justify-between items-center rounded-3xl"
               >
