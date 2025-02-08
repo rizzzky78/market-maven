@@ -30,15 +30,9 @@ export const UserMessage: FC<MessageProps> = ({ content }) => {
     <div className="w-full mb-14 mt-6 py-4">
       {content.attach_product && (
         <div className="flex justify-end">
-          <div className="absolute ml-4 -mt-6">
-            <div className="bg-[#1A1A1D] text-white rounded-3xl py-1 pl-3 pr-3 flex items-center">
-              <Tag className="size-4 mr-1 text-purple-400" />
-              <p className="text-xs font-semibold">Attached Product</p>
-            </div>
-          </div>
           <Badge
             variant={"secondary"}
-            className="px-5 py-3 flex max-w-[90%] space-x-2 items-center hover:bg-gray-300 bg-gray-300 dark:bg-white dark:text-black rounded-[2rem]"
+            className="px-5 py-2 flex max-w-[90%] space-x-2 items-center hover:bg-gray-300 bg-gray-300 dark:bg-white dark:text-black rounded-[2rem]"
           >
             <ArrowUpRight className="size-5 text-purple-400" />
             <p className="font-normal text-xs line-clamp-1">
@@ -49,15 +43,16 @@ export const UserMessage: FC<MessageProps> = ({ content }) => {
       )}
       {content.product_compare && (
         <div className="flex justify-end">
-          <div className="max-w-[90%]">
-            <div className="flex flex-wrap">
+          <div className="max-w-[90%] my-1">
+            <div className="flex flex-row gap-1">
               {content.product_compare.for.map((compare, index) => (
                 <Badge
                   key={index}
                   variant={"secondary"}
-                  className="text-xs font-normal hover:bg-gray-300 bg-gray-300 dark:bg-white dark:text-black rounded-[2rem]"
+                  className="text-xs flex items-center font-normal py-2 hover:bg-gray-300 bg-gray-300 dark:bg-white dark:text-black rounded-[2rem]"
                 >
-                  {compare.title}
+                  <ArrowUpRight className="size-4 mr-1 shrink-0 text-purple-500" />
+                  <p className="line-clamp-1">{compare.title}</p>
                 </Badge>
               ))}
             </div>
