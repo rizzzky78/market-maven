@@ -37,15 +37,16 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
 
   const { callId, productDetails, screenshot } = data;
 
+  const isButtonDisabled = activeComparison
+    ? activeComparison.for.length === 2 ||
+      Boolean(activeComparison.for.find((v) => v.callId === callId))
+    : false;
+
   const attachComparison = () => {
     addToComparison({
       for: { title: args.query, callId },
     });
   };
-
-  const isButtonDisabled = activeComparison
-    ? activeComparison.for.length === 2
-    : false;
 
   return (
     <div className="w-full mb-8">
@@ -191,15 +192,16 @@ export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
     );
   }
 
+  const isButtonDisabled = activeComparison
+    ? activeComparison.for.length === 2 ||
+      Boolean(activeComparison.for.find((v) => v.callId === callId))
+    : false;
+
   const attachComparison = () => {
     addToComparison({
       for: { title: query, callId },
     });
   };
-
-  const isButtonDisabled = activeComparison
-    ? activeComparison.for.length === 2
-    : false;
 
   return (
     <div className="w-full border rounded-[2rem] px-4 py-1">
