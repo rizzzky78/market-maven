@@ -29,7 +29,6 @@ import {
   searchProductSchema,
 } from "@/lib/agents/schema/tool-parameters";
 import {
-  SYSTEM_INSTRUCT_EXTRACTOR,
   SYSTEM_INSTRUCT_INSIGHT,
   SYSTEM_INSTRUCT_PRODUCTS,
 } from "@/lib/agents/system-instructions";
@@ -42,7 +41,6 @@ import {
   OrchestratorCallback,
   PayloadData,
   StreamGeneration,
-  TestingMessageCallback,
   UIState,
   UseAction,
 } from "@/lib/types/ai";

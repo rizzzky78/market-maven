@@ -36,7 +36,6 @@ import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { useDebounceInput } from "../hooks/use-debounced-input";
 import { useSmartTextarea } from "../hooks/use-smart-textare";
 import { AttachProductBadge } from "./attach-product";
-import { useRouter } from "next/navigation";
 import { AI } from "@/app/action";
 import { AttachCompareBadge } from "./attach-compare";
 
@@ -71,10 +70,9 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     }
   }, [value]);
 
-  const [_, setUIState] = useUIState<typeof AI>();
+  const [, setUIState] = useUIState<typeof AI>();
   const { orchestrator } = useActions<typeof AI>();
   const { isGenerating, setIsGenerating } = useAppState();
-  const router = useRouter();
 
   const handleRemove = () => {
     setInput("");
@@ -108,6 +106,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
               content={{
                 text_input: value,
                 attach_product: attachment,
+                product_compare: activeComparison,
               }}
             />
           ),
@@ -129,8 +128,8 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
         const gens = readStreamableValue(
           generation
         ) as AsyncIterable<StreamGeneration>;
-        for await (const gen of gens) {
-          setIsGenerating(gen.loading);
+        for await (const { process, loading, error } of gens) {
+          setIsGenerating(loading);
         }
       }
     } catch (error) {
