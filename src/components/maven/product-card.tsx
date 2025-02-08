@@ -38,7 +38,7 @@ interface ProductProps {
 
 export const ProductCard: FC<ProductProps> = ({ product, isFinished, id }) => {
   const { isGenerating } = useAppState();
-  const { attach, detach, setInput } = useSmartTextarea();
+  const { attach, detach, activeComparison } = useSmartTextarea();
 
   const [copied, setCopied] = useState(false);
 
@@ -85,6 +85,12 @@ export const ProductCard: FC<ProductProps> = ({ product, isFinished, id }) => {
       },
     });
   };
+
+  const comparisonState = activeComparison
+    ? activeComparison.for.length > 0
+    : false;
+
+  const isButtonDisabled = !isFinished || isGenerating || comparisonState;
 
   return (
     <motion.div
@@ -182,7 +188,7 @@ export const ProductCard: FC<ProductProps> = ({ product, isFinished, id }) => {
                   <Button
                     className="relative ml-2 h-7 w-full overflow-hidden rounded-3xl px-6 font-bold bg-gray-300 text-black shadow-sm transition-all duration-300 hover:bg-blue-200 hover:text-indigo-900"
                     onClick={handleAttach}
-                    disabled={!isFinished || isGenerating}
+                    disabled={isButtonDisabled}
                   >
                     {isFinished ? (
                       <span className="relative z-7">Ask AI</span>
