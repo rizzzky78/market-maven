@@ -17,11 +17,13 @@ import {
   TooltipProvider,
 } from "../ui/tooltip";
 import Link from "next/link";
+import { useSmartTextarea } from "../hooks/use-smart-textare";
 
 export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
   const { success, args, data } = content;
 
   const [hovering, setHovering] = useState(false);
+  const { addToComparison, activeComparison } = useSmartTextarea();
 
   if (!success) {
     return (
@@ -34,6 +36,17 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
   }
 
   const { callId, productDetails, screenshot } = data;
+
+  const attachComparison = () => {
+    addToComparison({
+      for: { title: args.query, callId },
+    });
+  };
+
+  const isButtonDisabled = activeComparison
+    ? activeComparison.for.length === 2
+    : false;
+
   return (
     <div className="w-full mb-8">
       <div className="absolute ml-4 -mt-4">
@@ -105,6 +118,8 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
                             variant={"outline"}
                             size={"sm"}
                             className="rounded-3xl py-1 font-normal bg-[#1A1A1D] dark:bg-background text-white hover:border-[#1A1A1D]"
+                            onClick={attachComparison}
+                            disabled={isButtonDisabled}
                           >
                             <FlipHorizontal className="size-4 text-purple-500 dark:text-purple-300" />
                             <span>Compare</span>
@@ -144,7 +159,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
 
 interface StreamProductDetailsProps {
   content: StreamableValue<Record<string, any>>;
-  callId?: string;
+  callId: string;
   query: string;
   link: string;
   screenshot?: string;
@@ -160,6 +175,7 @@ export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
   const [raw, error, pending] = useStreamableValue(content);
   const [data, setData] = useState<Record<string, any>>({});
   const [hovering, setHovering] = useState(false);
+  const { addToComparison, activeComparison } = useSmartTextarea();
 
   useEffect(() => {
     if (raw) setData(raw);
@@ -174,6 +190,16 @@ export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
       />
     );
   }
+
+  const attachComparison = () => {
+    addToComparison({
+      for: { title: query, callId },
+    });
+  };
+
+  const isButtonDisabled = activeComparison
+    ? activeComparison.for.length === 2
+    : false;
 
   return (
     <div className="w-full border rounded-[2rem] px-4 py-1">
@@ -201,25 +227,49 @@ export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
                     marketplace.
                   </p>
                 </div>
-                <TooltipProvider>
-                  <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant={"outline"}
-                        size={"sm"}
-                        className="rounded-3xl py-1 font-normal bg-[#1A1A1D] dark:bg-background text-white hover:border-[#1A1A1D]"
-                      >
-                        <FlipHorizontal className="size-4 text-purple-500 dark:text-purple-300" />
-                        <span>Compare</span>
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent className="rounded-3xl">
-                      <p className="max-w-sm font-semibold">
-                        Attach to products comparison
-                      </p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <div className="flex items-center">
+                  <div>
+                    <TooltipProvider>
+                      <Tooltip delayDuration={100}>
+                        <TooltipTrigger asChild>
+                          <Button
+                            variant={"outline"}
+                            className="rounded-full mr-2 size-8"
+                          >
+                            <Share2 className="size-2 shrink-0" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent className="rounded-3xl">
+                          <p className="max-w-sm font-semibold">
+                            Share this product details, anyone with link can
+                            view
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
+                  <TooltipProvider>
+                    <Tooltip delayDuration={100}>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant={"outline"}
+                          size={"sm"}
+                          className="rounded-3xl py-1 font-normal bg-[#1A1A1D] dark:bg-background text-white hover:border-[#1A1A1D]"
+                          onClick={attachComparison}
+                          disabled={isButtonDisabled}
+                        >
+                          <FlipHorizontal className="size-4 text-purple-500 dark:text-purple-300" />
+                          <span>Compare</span>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent className="rounded-3xl">
+                        <p className="max-w-sm font-semibold">
+                          Attach to products comparison
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
               </div>
             </div>
           </div>

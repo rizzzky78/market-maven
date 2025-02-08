@@ -369,6 +369,7 @@ export type AttachProduct = {
 
 /**
  * Type representing a one-to-one product comparison based on user selection.
+ * Max only two products
  */
 export type ProductCompare = {
   /** A one-to-one product array object data, only contain two array object */
@@ -386,6 +387,17 @@ export type ProductCompare = {
 export type ProductComparison = {
   /** Array of products to compare */
   compare: BaseProduct[];
+};
+
+/**
+ * Represents an attached value form user inetractions such a button,
+ * this will push new product data to array
+ */
+export type AttachCompare = {
+  for: {
+    title: string;
+    callId: string;
+  };
 };
 
 /**

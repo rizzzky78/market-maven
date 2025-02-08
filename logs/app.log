@@ -1030,3 +1030,34 @@
     }
   ]
 }
+[90m[2025-02-08 13:44:02.593][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing value",
+  "meta": [
+    {
+      "key": "2883cf1b-cd8a-4dd2-94b0-b633ce625a11",
+      "metadata": {
+        "chatId": "9ad0725e-b72f-4efb-be83-61dea1865b5f",
+        "email": "agungprase9957@gmail.com"
+      },
+      "operation": "store"
+    }
+  ]
+}
+[90m[2025-02-08 13:44:12.237][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Yoga Pro 7i Intel Ultra 7 155H RTX4050 1TB SSD 32GB OLED 2.8K 120Hz Win11+OHS",
+        "link": "https://www.tokopedia.com/sinarmulia/lenovo-yoga-pro-7i-intel-ultra-7-155h-rtx4050-1tb-ssd-32gb-oled-2-8k-120hz-win11-ohs-tanpa-antigores-f4322?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D202502071701423C661B2479D1761355JW%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-08 13:44:12.567][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}

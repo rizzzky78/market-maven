@@ -1,7 +1,12 @@
 "use client";
 
 import { create } from "zustand";
-import { AttachProduct } from "@/lib/types/ai";
+import {
+  AttachCompare,
+  AttachProduct,
+  ProductCompare,
+  ProductComparison,
+} from "@/lib/types/ai";
 import { ChangeEvent, KeyboardEvent } from "react";
 import { devtools, persist, createJSONStorage } from "zustand/middleware";
 
@@ -37,63 +42,57 @@ interface SmartTextareaState extends TextareaEventHandlers {
    * The text area regular input
    */
   input: string;
-
   /**
    * Input validation status
    */
   isValid: boolean;
-
   /**
    * Validation error message if any
    */
   errorMessage: string | null;
-
   /**
    * Character count
    */
   charCount: number;
-
   /**
    * Input history for undo/redo
    */
   history: string[];
-  historyIndex: number;
 
+  historyIndex: number;
   /**
-   * Attached Value
+   * Attached Value of Product metadata with ID
    */
   attachment: AttachProduct | undefined;
 
+  // New comparison-related state
+  comparison: ProductComparison | undefined;
+
+  activeComparison: ProductCompare | undefined;
   /**
    * Set input with validation
    */
   setInput: (text: string, options?: ValidationOptions) => void;
-
   /**
    * Change Event from TextArea Element
    */
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-
   /**
    * Attach an serializable object
    */
   attach: (object: AttachProduct | undefined) => void;
-
   /**
    * Detach or remove value of `attachment`
    */
   detach: () => void;
-
   /**
    * Flush or Reset all state values
    */
   flush: () => void;
-
   /**
    * Undo last change
    */
   undo: () => void;
-
   /**
    * Redo last undone change
    */
@@ -108,6 +107,19 @@ interface SmartTextareaState extends TextareaEventHandlers {
    * Validate input against options
    */
   validate: (options?: ValidationOptions) => boolean;
+
+  // New comparison-related methods
+  attachComparison: (comparison: ProductComparison | undefined) => void;
+
+  detachComparison: () => void;
+
+  setActiveComparison: (compare: ProductCompare | undefined) => void;
+
+  addToComparison: (product: AttachCompare) => void;
+
+  removeFromComparison: (callId: string) => void;
+
+  clearComparisons: () => void;
 }
 
 /**
@@ -147,7 +159,7 @@ export const useSmartTextarea = create<SmartTextareaState>()(
   devtools(
     persist(
       (set, get) => ({
-        // State
+        // Existing state
         input: "",
         isValid: true,
         errorMessage: null,
@@ -160,10 +172,13 @@ export const useSmartTextarea = create<SmartTextareaState>()(
         onFocus: undefined,
         onBlur: undefined,
 
-        // Methods
+        // New comparison state
+        comparison: undefined,
+        activeComparison: undefined,
+
+        // Existing methods remain unchanged
         setInput: (text, options) => {
           const { isValid, error } = validateInput(text, options);
-
           set({
             input: text,
             isValid,
@@ -192,6 +207,8 @@ export const useSmartTextarea = create<SmartTextareaState>()(
             errorMessage: null,
             charCount: 0,
             attachment: undefined,
+            comparison: undefined,
+            activeComparison: undefined,
             history: [""],
             historyIndex: 0,
           }),
@@ -225,6 +242,49 @@ export const useSmartTextarea = create<SmartTextareaState>()(
           set({ isValid, errorMessage: error });
           return isValid;
         },
+
+        // New comparison-related methods
+        attachComparison: (comparison) => set({ comparison }),
+
+        detachComparison: () => set({ comparison: undefined }),
+
+        setActiveComparison: (compare) => set({ activeComparison: compare }),
+
+        addToComparison: (product) => {
+          const currentActive = get().activeComparison;
+          if (!currentActive || currentActive.for.length >= 2) {
+            // Initialize new comparison if none exists or current is full
+            set({
+              activeComparison: {
+                for: [product.for],
+              },
+            });
+          } else {
+            // Add to existing comparison if space available
+            set({
+              activeComparison: {
+                for: [...currentActive.for, product.for],
+              },
+            });
+          }
+        },
+
+        removeFromComparison: (callId) => {
+          const currentActive = get().activeComparison;
+          if (currentActive) {
+            set({
+              activeComparison: {
+                for: currentActive.for.filter((item) => item.callId !== callId),
+              },
+            });
+          }
+        },
+
+        clearComparisons: () =>
+          set({
+            comparison: undefined,
+            activeComparison: undefined,
+          }),
       }),
       {
         name: "smart-textarea-storage",
@@ -232,6 +292,8 @@ export const useSmartTextarea = create<SmartTextareaState>()(
         partialize: (state) => ({
           input: state.input,
           attachment: state.attachment,
+          comparison: state.comparison,
+          activeComparison: state.activeComparison,
         }),
       }
     ),
