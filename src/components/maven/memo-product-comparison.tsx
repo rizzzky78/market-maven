@@ -117,10 +117,7 @@ interface ProductComparisonProps {
   callId: string;
   isGenerating?: boolean;
   compare: { title: string; callId: string }[];
-  data: Partial<{
-    products: Record<string, any>[];
-    differences: Record<string, any>;
-  }>;
+  data: Record<string, any>;
 }
 
 const PureProductComparison: FC<ProductComparisonProps> = ({
@@ -280,33 +277,35 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
           >
             <div className="*:text-xs grid grid-cols-1 lg:grid-cols-2 gap-2">
               <div className="border-transparent lg:border-r border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
-                {Array.isArray(data.products) &&
-                  [data.products[0]].map((item: Record<string, any>, index) => (
-                    <motion.div
-                      key={index}
-                      variants={itemVariants}
-                      className="pt-4"
-                    >
+                {Array.isArray(data.data.products) &&
+                  [data.data.products[0]].map(
+                    (item: Record<string, any>, index) => (
                       <motion.div
-                        variants={containerVariants}
-                        initial="initial"
-                        animate="animate"
-                        exit="exit"
-                        className="space-y-3"
+                        key={index}
+                        variants={itemVariants}
+                        className="pt-4"
                       >
-                        {Object.entries(item).map(([key, value]) => (
-                          <Fragment key={key}>
-                            {renderValue(value, key)}
-                          </Fragment>
-                        ))}
+                        <motion.div
+                          variants={containerVariants}
+                          initial="initial"
+                          animate="animate"
+                          exit="exit"
+                          className="space-y-3"
+                        >
+                          {Object.entries(item).map(([key, value]) => (
+                            <Fragment key={key}>
+                              {renderValue(value, key)}
+                            </Fragment>
+                          ))}
+                        </motion.div>
                       </motion.div>
-                    </motion.div>
-                  ))}
+                    )
+                  )}
               </div>
 
               <div className="border-transparent lg:border-l border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
-                {Array.isArray(data.products) &&
-                  [data.products[1]].map((item, index) => (
+                {Array.isArray(data.data.products) &&
+                  [data.data.products[1]].map((item, index) => (
                     <motion.div
                       key={index}
                       variants={itemVariants}
@@ -329,7 +328,7 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
                   ))}
               </div>
             </div>
-            {data?.differences && (
+            {data?.data.differences && (
               <div className="border-y border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 *:text-xs my-2 py-2">
                 <motion.div
                   variants={itemVariants}
@@ -342,9 +341,11 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
                     exit="exit"
                     className="space-y-3"
                   >
-                    {Object.entries(data.differences).map(([key, value]) => (
-                      <Fragment key={key}>{renderValue(value, key)}</Fragment>
-                    ))}
+                    {Object.entries(data.data.differences).map(
+                      ([key, value]) => (
+                        <Fragment key={key}>{renderValue(value, key)}</Fragment>
+                      )
+                    )}
                   </motion.div>
                 </motion.div>
               </div>

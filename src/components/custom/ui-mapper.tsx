@@ -17,6 +17,7 @@ import { Inquiry } from "@/lib/agents/schema/tool-parameters";
 import { UserInquiry } from "../maven/user-inquiry";
 import { ProductSearch } from "../maven/product-search";
 import { ProductDetails } from "../maven/product-details";
+import { ProductComparison } from "../maven/product-comparison";
 
 // Core message content types based on the existing system
 type MessageContent = {
@@ -63,6 +64,26 @@ const handleGetProductDetails = (id: string, result: string): UIStateItem => {
   };
 };
 
+const handleProductsComparison = (id: string, result: string): UIStateItem => {
+  const resulted_productsComparison: ExtendedToolResult<
+    {
+      compare: Array<{
+        title: string;
+        callId: string;
+      }>;
+    },
+    {
+      callId: string;
+      productImages: string[];
+      comparison: Record<string, any>;
+    }
+  > = JSON.parse(result);
+  return {
+    id,
+    display: <ProductComparison content={resulted_productsComparison} />,
+  };
+};
+
 const handleInquireUser = (id: string, result: string): UIStateItem => {
   const resulted_inquireUser: ExtendedToolResult<
     { inquiry: Inquiry },
@@ -84,6 +105,8 @@ const handleToolResult = (
       return handleProductSearch(toolContent.result || "", id);
     case "getProductDetails":
       return handleGetProductDetails(id, toolContent.result || "");
+    case "productsComparison":
+      return handleProductsComparison(id, toolContent.result || "");
     default:
       return {
         id,
@@ -193,6 +216,10 @@ const roleHandlers: Record<
         ];
       case "inquireUser":
         return [handleInquireUser(message.id, toolContent[0].result as string)];
+      case "productsComparison":
+        return [
+          handleProductsComparison(message.id, toolContent[0].result as string),
+        ];
       default:
         return [];
     }

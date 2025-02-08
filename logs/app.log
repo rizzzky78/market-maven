@@ -1117,3 +1117,130 @@
     }
   ]
 }
+[90m[2025-02-08 19:31:18.241][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using productsComparison tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-08 19:31:18.249][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving value",
+  "meta": [
+    {
+      "key": "66f62b42-d76e-423d-8f4b-da498609e63c",
+      "operation": "retrieve"
+    }
+  ]
+}
+[90m[2025-02-08 19:31:18.254][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving value",
+  "meta": [
+    {
+      "key": "2883cf1b-cd8a-4dd2-94b0-b633ce625a11",
+      "operation": "retrieve"
+    }
+  ]
+}
+[90m[2025-02-08 19:31:33.995][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing value",
+  "meta": [
+    {
+      "key": "8b2399c6-3bb1-4a9f-a4eb-24f21c7b6891",
+      "metadata": {
+        "chatId": "9ad0725e-b72f-4efb-be83-61dea1865b5f",
+        "email": "agungprase9957@gmail.com"
+      },
+      "operation": "store"
+    }
+  ]
+}
+[90m[2025-02-08 19:31:53.656][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using productsComparison tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "compare": [
+          {
+            "title": "Lenovo Yoga Slim 7 Pro X 14 3K Touch RTX3050 Ryzen 9 6900 32GB 1TB SSD",
+            "callId": "66f62b42-d76e-423d-8f4b-da498609e63c"
+          },
+          {
+            "title": "Lenovo Yoga Pro 7i Intel Ultra 7 155H RTX4050 1TB SSD 32GB OLED 2.8K 120Hz Win11+OHS",
+            "callId": "2883cf1b-cd8a-4dd2-94b0-b633ce625a11"
+          }
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-02-08 19:31:54.363][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-08 19:32:26.640][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-08 19:35:38.830][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-08 19:35:39.209][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-08 19:36:55.874][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-08 19:36:57.546][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-08 19:36:59.804][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-08 20:08:16.204][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-08 20:09:19.149][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
