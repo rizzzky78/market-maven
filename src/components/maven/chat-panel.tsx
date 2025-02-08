@@ -38,13 +38,22 @@ import { useSmartTextarea } from "../hooks/use-smart-textare";
 import { AttachProductBadge } from "./attach-product";
 import { useRouter } from "next/navigation";
 import { AI } from "@/app/action";
+import { AttachCompareBadge } from "./attach-compare";
 
 interface ChatPanelProps {
   uiState: UIState;
 }
 
 export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
-  const { input, attachment, setInput, detach, flush } = useSmartTextarea();
+  const {
+    input,
+    attachment,
+    setInput,
+    detach,
+    flush,
+    removeFromComparison,
+    activeComparison,
+  } = useSmartTextarea();
   const { value, handleChange, handleBlur, handleReset } = useDebounceInput();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -111,6 +120,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       const { id, display, generation } = await orchestrator({
         textInput: value.length > 0 ? value : undefined,
         attachProduct: attachment,
+        productCompare: activeComparison,
       });
 
       setUIState((prevUI) => [...prevUI, { id, display }]);
@@ -130,6 +140,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       setIsGenerating(false);
     }
   }, [
+    activeComparison,
     attachment,
     flush,
     handleReset,
@@ -182,6 +193,13 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
               <AttachProductBadge
                 attach={attachment.product}
                 onRemove={handleRemove}
+                onSubmit={actionSubmit}
+              />
+            )}
+            {activeComparison && activeComparison.for.length > 0 && (
+              <AttachCompareBadge
+                compare={activeComparison}
+                onRemove={removeFromComparison}
                 onSubmit={actionSubmit}
               />
             )}
