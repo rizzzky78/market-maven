@@ -1,3 +1,4 @@
+import { ScrapeResponse } from "@mendable/firecrawl-js";
 import { z } from "zod";
 
 /**
@@ -135,4 +136,13 @@ export type TypedObjectStore<T extends ObjectType> = Omit<
   "object"
 > & {
   object: ObjectTypeMap[T];
+};
+
+export type QueryKey = {
+  query: string;
+};
+
+export type CachedScrape<T = any> = {
+  payload: QueryKey;
+  data: ScrapeResponse<T>;
 };
