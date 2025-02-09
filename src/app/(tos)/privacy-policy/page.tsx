@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 export default function PrivacyPolicy() {
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen">
-      <Card className="w-full max-w-4xl mx-auto bg-transparent border-none">
+      <Card className="w-full max-w-4xl mx-auto bg-transparent border-none *:text-black/80">
         <CardHeader className="text-center flex items-center">
           <svg
             className="coolshapes moon-8 max-w-[20rem]"

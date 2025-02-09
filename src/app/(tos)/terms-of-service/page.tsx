@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 export default function TermsOfService() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <Card className="w-full max-w-4xl mx-auto min-h-screen bg-transparent border-none">
+      <Card className="w-full max-w-4xl mx-auto min-h-screen bg-transparent border-none *:text-black/80">
         <CardHeader className="text-center flex items-center">
           <svg
             className="coolshapes moon-4 max-w-[20rem]"
@@ -130,162 +130,187 @@ export default function TermsOfService() {
           </svg>
           <CardTitle className="text-3xl font-bold">Terms of Service</CardTitle>
           <CardDescription className="">
-            Please read these terms carefully before using our AI-powered
-            shopping assistant.
+            Please read these terms carefully before using Market Maven, an
+            experimental AI-powered electronic product assistant.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <Accordion type={"multiple"} className="w-full">
             <AccordionItem value="item-1">
-              <AccordionTrigger className="text-lg font-semibold ">
+              <AccordionTrigger className="text-lg font-semibold">
                 1. Introduction
               </AccordionTrigger>
-              <AccordionContent className="">
-                Welcome to our AI-powered shopping assistant (&quot;App&quot;).
-                This App is a personal portfolio project designed to showcase
-                advanced AI capabilities in product search and decision-making
-                assistance. By using this App, you agree to comply with these
-                Terms of Service (&quot;Terms&quot;). If you do not agree with
-                these Terms, please refrain from using the App.
+              <AccordionContent>
+                Welcome to Market Maven (&quot;App&quot;), a personal portfolio
+                project demonstrating AI capabilities in electronic product
+                analysis. This non-production sample application is open source
+                (Apache 2.0 License) and available at{" "}
+                <Link
+                  href="https://github.com/rizzzky78/market-maven"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline"
+                >
+                  GitHub repository
+                </Link>
+                . By using this App, you agree to these Terms. Discontinue use
+                if you disagree.
               </AccordionContent>
             </AccordionItem>
+
             <AccordionItem value="item-2">
-              <AccordionTrigger className="text-lg font-semibold ">
+              <AccordionTrigger className="text-lg font-semibold">
                 2. Description of Services
               </AccordionTrigger>
-              <AccordionContent className="">
-                <p>The App provides the following services:</p>
+              <AccordionContent>
+                <p>The App provides:</p>
                 <ul className="list-disc pl-6 mt-2 space-y-1">
                   <li>
-                    <strong>Product Search</strong>: Allows users to search for
-                    products across various categories.
+                    <strong>Electronic Product Search</strong>: Search within
+                    electronics category only
                   </li>
                   <li>
-                    <strong>Recommendations</strong>: Offers AI-generated
-                    product suggestions and recommendations based on user
-                    queries.
+                    <strong>AI Recommendations</strong>: Contextual suggestions
+                    for electronics
                   </li>
                   <li>
-                    <strong>Product Information</strong>: Fetches and displays
-                    detailed information about selected products.
+                    <strong>Product Comparisons</strong>: One-to-one product
+                    analysis with insights
                   </li>
                   <li>
-                    <strong>Trend Analysis</strong>: Provides insights into
-                    market trends and popular products.
+                    <strong>Shareable Results</strong>: Generate public links
+                    for searches, details, and comparisons
+                  </li>
+                  <li>
+                    <strong>Chat Sharing</strong>: Option to publish private
+                    chats publicly
                   </li>
                 </ul>
-                <p className="mt-4 font-semibold">Limitations:</p>
+
+                <p className="mt-4 font-semibold">Key Limitations:</p>
                 <ul className="list-disc pl-6 mt-2 space-y-1">
                   <li>
-                    The App does not facilitate direct purchases or orders.
+                    Experimental Vercel AI RSC SDK used - all processing occurs
+                    server-side
                   </li>
                   <li>
-                    The App has no official affiliation or partnership with any
-                    marketplace or online platform.
+                    Chat sessions have length restrictions to optimize token
+                    usage
                   </li>
+                  <li>No image/file attachments supported</li>
+                  <li>Comparison limited to 2 products at a time</li>
                   <li>
-                    Data provided by the App is for informational and
-                    recommendation purposes only and may not always be accurate
-                    or meet user expectations.
+                    Data may be incomplete/outdated - verify independently
                   </li>
+                  <li>Shared content becomes public - use discretion</li>
+                  <li>No affiliation with any marketplace or retailer</li>
                 </ul>
               </AccordionContent>
             </AccordionItem>
+
             <AccordionItem value="item-3">
-              <AccordionTrigger className="text-lg font-semibold ">
+              <AccordionTrigger className="text-lg font-semibold">
                 3. User Responsibilities
               </AccordionTrigger>
-              <AccordionContent className="">
-                <p>By using this App, you agree to:</p>
+              <AccordionContent>
                 <ul className="list-disc pl-6 mt-2 space-y-1">
+                  <li>Use only for personal, non-commercial purposes</li>
+                  <li>Keep chat sessions concise due to token limitations</li>
+                  <li>Verify critical information before making decisions</li>
+                  <li>Assume full responsibility for shared public content</li>
                   <li>
-                    Use the App solely for personal, non-commercial purposes.
-                  </li>
-                  <li>
-                    Ensure that any actions you take based on recommendations or
-                    information from the App are made at your own discretion.
-                  </li>
-                  <li>
-                    Avoid using the App for unlawful activities, spamming, or
-                    malicious purposes.
+                    No reverse engineering or unauthorized access attempts
                   </li>
                 </ul>
               </AccordionContent>
             </AccordionItem>
+
             <AccordionItem value="item-4">
-              <AccordionTrigger className="text-lg font-semibold ">
+              <AccordionTrigger className="text-lg font-semibold">
                 4. Intellectual Property
               </AccordionTrigger>
-              <AccordionContent className="">
-                The App and its content, including but not limited to text,
-                graphics, logos, and code, are the intellectual property of the
-                developer unless otherwise stated. You may not reproduce,
-                distribute, or exploit any content without prior written
-                permission.
+              <AccordionContent>
+                <p>
+                  Codebase licensed under Apache 2.0 - see repository for
+                  details. AI-generated content has no ownership claims - use at
+                  your own risk. Original App content (UI, code structure)
+                  remains developer property.
+                </p>
               </AccordionContent>
             </AccordionItem>
+
             <AccordionItem value="item-5">
-              <AccordionTrigger className="text-lg font-semibold ">
-                5. Disclaimer of Warranties
+              <AccordionTrigger className="text-lg font-semibold">
+                5. Experimental Nature
               </AccordionTrigger>
-              <AccordionContent className="">
-                <p>
-                  The App is provided &quot;as is&quot; and &quot;as
-                  available&quot; without warranties of any kind, either express
-                  or implied. The developer does not guarantee:
-                </p>
+              <AccordionContent>
                 <ul className="list-disc pl-6 mt-2 space-y-1">
                   <li>
-                    The accuracy, reliability, or completeness of the
-                    information provided.
+                    <Link
+                      href={"https://sdk.vercel.ai/docs/ai-sdk-rsc"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline mr-1"
+                    >
+                      Vercel AI SDK RSC
+                    </Link>
+                    is in beta - unexpected behavior may occur
                   </li>
                   <li>
-                    That the App will operate without errors or interruptions.
+                    UI elements rendered server-side - customizations limited
                   </li>
+                  <li>Response quality may vary between sessions</li>
+                  <li>No uptime or performance guarantees</li>
                 </ul>
               </AccordionContent>
             </AccordionItem>
+
             <AccordionItem value="item-6">
-              <AccordionTrigger className="text-lg font-semibold ">
-                6. Limitation of Liability
+              <AccordionTrigger className="text-lg font-semibold">
+                6. Liability & Warranty
               </AccordionTrigger>
-              <AccordionContent className="">
-                <p>
-                  The developer shall not be held liable for any damages or
-                  losses resulting from:
-                </p>
+              <AccordionContent>
                 <ul className="list-disc pl-6 mt-2 space-y-1">
-                  <li>
-                    Use of or reliance on the App&apos;s recommendations or
-                    information.
-                  </li>
-                  <li>
-                    Errors, inaccuracies, or interruptions in the App&apos;s
-                    functionality.
-                  </li>
+                  <li>Provided &quot;as-is&quot; without warranties</li>
+                  <li>No liability for decisions made using App data</li>
+                  <li>Not responsible for public shared content</li>
+                  <li>Electronics data may contain errors/omissions</li>
                 </ul>
               </AccordionContent>
             </AccordionItem>
+
             <AccordionItem value="item-7">
-              <AccordionTrigger className="text-lg font-semibold ">
-                7. Changes to the Terms
+              <AccordionTrigger className="text-lg font-semibold">
+                7. Changes & Termination
               </AccordionTrigger>
-              <AccordionContent className="">
-                These Terms may be updated periodically. Continued use of the
-                App after such updates constitutes acceptance of the revised
-                Terms.
+              <AccordionContent>
+                Terms may change without notice. Service may be
+                modified/discontinued anytime. Shared links may become invalid
+                without warning.
               </AccordionContent>
             </AccordionItem>
+
             <AccordionItem value="item-8">
-              <AccordionTrigger className="text-lg font-semibold ">
-                8. Contact Information
+              <AccordionTrigger className="text-lg font-semibold">
+                8. Contact
               </AccordionTrigger>
-              <AccordionContent className="">
-                For questions or concerns regarding these Terms, please contact:
-                [Your Contact Information]
+              <AccordionContent>
+                For inquiries, you can email me:{" "}
+                <span className="font-semibold">rizzzky78@gmail.com</span>
+                <br />
+                Report issues via
+                <Link
+                  href={"https://github.com/rizzzky78/market-maven/issues"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline ml-1"
+                >
+                  GitHub repository
+                </Link>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
+
           <div className="flex justify-center mt-6 space-x-5">
             <Button
               asChild
