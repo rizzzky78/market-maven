@@ -96,7 +96,7 @@ export const LoginForm: FC = () => {
                     >
                       <Button
                         variant={"outline"}
-                        className="w-full rounded-3xl py-6 flex items-center justify-center space-x-2 transition-all hover:bg-primary hover:text-primary-foreground"
+                        className="w-full rounded-3xl text-black dark:text-white hover:text-white/90 dark:hover:text-black/80 py-6 flex items-center justify-center space-x-2 transition-all hover:bg-primary"
                         onClick={() => login(provider.id)}
                         disabled={isLoading}
                       >
