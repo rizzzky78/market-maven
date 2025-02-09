@@ -13,7 +13,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-
 export default function PrivacyPolicy() {
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen">
@@ -105,123 +104,238 @@ export default function PrivacyPolicy() {
               </filter>
             </defs>
           </svg>
-          <CardTitle className="text-3xl font-bold ">Privacy Policy</CardTitle>
-          <CardDescription className="">
-            Learn how we collect, use, and protect your data when using our
-            AI-powered shopping assistant.
+          <CardTitle className="text-3xl font-bold">Privacy Policy</CardTitle>
+          <CardDescription>
+            Effective Date: Feb 2025 <br />
+            This Privacy Policy explains how Market Maven (&quot;App&quot;)
+            collects, uses, and protects your data. By using this App, you agree
+            to the practices described below.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <Accordion type={"multiple"} className="w-full">
             <AccordionItem value="item-1">
-              <AccordionTrigger className="text-lg font-semibold ">
-                1. Introduction
+              <AccordionTrigger className="text-lg font-semibold">
+                1. Scope and Purpose
               </AccordionTrigger>
-              <AccordionContent className="">
-                This Privacy Policy outlines how the App collects, uses, and
-                protects your data. By using the App, you consent to the
-                practices described herein.
+              <AccordionContent>
+                Market Maven is an experimental, open-source AI-powered
+                electronic product assistant. This Privacy Policy applies to all
+                data collected during your use of the App. The App is part of a
+                developer portfolio and is not intended for production use.
               </AccordionContent>
             </AccordionItem>
+
             <AccordionItem value="item-2">
-              <AccordionTrigger className="text-lg font-semibold ">
-                2. Data Collection
+              <AccordionTrigger className="text-lg font-semibold">
+                2. Data We Collect
               </AccordionTrigger>
-              <AccordionContent className="">
-                <p>The App may collect the following types of data:</p>
+              <AccordionContent>
+                <p>The App collects the following data:</p>
                 <ul className="list-disc pl-6 mt-2 space-y-1">
                   <li>
-                    <strong>User Queries</strong>: Text-based queries submitted
-                    for product searches.
+                    <strong>User Inputs</strong>: Text-based queries, product
+                    comparisons, and chat interactions.
                   </li>
                   <li>
-                    <strong>Usage Data</strong>: Information about how you use
-                    the App, such as search frequency and categories.
+                    <strong>Usage Data</strong>: Information about your
+                    interactions with the App, such as search history, session
+                    duration, and feature usage.
+                  </li>
+                  <li>
+                    <strong>Technical Data</strong>: Device information (e.g.,
+                    browser type, IP address) for operational and security
+                    purposes.
                   </li>
                 </ul>
-                <p className="mt-4 font-semibold">No Sensitive Data:</p>
+                <p className="mt-4 font-semibold">What We Do Not Collect:</p>
+                <ul className="list-disc pl-6 mt-2 space-y-1">
+                  <li>
+                    Personally Identifiable Information (PII) such as names,
+                    email addresses, or payment details.
+                  </li>
+                  <li>Images, files, or any multimedia content.</li>
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-3">
+              <AccordionTrigger className="text-lg font-semibold">
+                3. How We Use Your Data
+              </AccordionTrigger>
+              <AccordionContent>
+                <p>Your data is used for the following purposes:</p>
+                <ul className="list-disc pl-6 mt-2 space-y-1">
+                  <li>
+                    To provide and improve the App&apos;s functionality,
+                    including AI-generated recommendations and product
+                    comparisons.
+                  </li>
+                  <li>To analyze usage patterns and optimize performance.</li>
+                  <li>
+                    To ensure compliance with legal obligations and protect
+                    against misuse.
+                  </li>
+                </ul>
+                <p className="mt-4 font-semibold">AI and Data Processing:</p>
                 <p>
-                  The App does not collect personally identifiable information
-                  (PII) such as names, email addresses, or payment information.
+                  The App uses the
+                  <Link
+                    href={"https://sdk.vercel.ai/docs/ai-sdk-rsc"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:underline mx-1"
+                  >
+                    Vercel AI SDK RSC
+                  </Link>
+                  (experimental) for server-side processing. Data may be
+                  temporarily stored for analysis but is not used to train
+                  third-party models.
                 </p>
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="item-3">
-              <AccordionTrigger className="text-lg font-semibold ">
-                3. Use of Data
-              </AccordionTrigger>
-              <AccordionContent className="">
-                <p>The data collected is used to:</p>
-                <ol className="list-decimal pl-6 mt-2 space-y-1">
-                  <li>
-                    Improve the App&apos;s AI recommendations and functionality.
-                  </li>
-                  <li>
-                    Analyze trends and user behavior for performance
-                    enhancement.
-                  </li>
-                </ol>
-              </AccordionContent>
-            </AccordionItem>
+
             <AccordionItem value="item-4">
-              <AccordionTrigger className="text-lg font-semibold ">
-                4. Data Sharing
+              <AccordionTrigger className="text-lg font-semibold">
+                4. Data Sharing and Disclosure
               </AccordionTrigger>
-              <AccordionContent className="">
-                The App does not share your data with third parties unless
-                required by law or to protect the rights and safety of users.
+              <AccordionContent>
+                <p>
+                  Your data is not shared with third parties except in the
+                  following cases:
+                </p>
+                <ul className="list-disc pl-6 mt-2 space-y-1">
+                  <li>
+                    <strong>Public Sharing</strong>: If you choose to share
+                    product searches, comparisons, or chat sessions publicly,
+                    the shared content will be accessible via unique links.
+                  </li>
+                  <li>
+                    <strong>Legal Requirements</strong>: Data may be disclosed
+                    if required by law or to protect the rights and safety of
+                    others.
+                  </li>
+                </ul>
+                <p className="mt-4 font-semibold">No Commercial Use:</p>
+                <p>
+                  Your data will not be sold, rented, or used for commercial
+                  purposes.
+                </p>
               </AccordionContent>
             </AccordionItem>
+
             <AccordionItem value="item-5">
-              <AccordionTrigger className="text-lg font-semibold ">
+              <AccordionTrigger className="text-lg font-semibold">
                 5. Data Security
               </AccordionTrigger>
-              <AccordionContent className="">
-                The App employs reasonable measures to protect collected data
-                from unauthorized access, alteration, or disclosure. However, no
-                system is entirely secure, and the App cannot guarantee absolute
-                data security.
+              <AccordionContent>
+                <p>
+                  We implement reasonable security measures to protect your
+                  data, including:
+                </p>
+                <ul className="list-disc pl-6 mt-2 space-y-1">
+                  <li>Encryption of data in transit.</li>
+                  <li>
+                    Regular security reviews of the App&apos;s infrastructure.
+                  </li>
+                </ul>
+                <p className="mt-4 font-semibold">Limitations:</p>
+                <p>
+                  No system is entirely secure. While we strive to protect your
+                  data, we cannot guarantee absolute security.
+                </p>
               </AccordionContent>
             </AccordionItem>
+
             <AccordionItem value="item-6">
-              <AccordionTrigger className="text-lg font-semibold ">
+              <AccordionTrigger className="text-lg font-semibold">
                 6. Data Retention
               </AccordionTrigger>
-              <AccordionContent className="">
-                Data collected through the App is stored temporarily for
-                analysis and improvement purposes and is deleted periodically.
+              <AccordionContent>
+                <p>Your data is retained only as long as necessary:</p>
+                <ul className="list-disc pl-6 mt-2 space-y-1">
+                  <li>
+                    User inputs and usage data are stored temporarily for
+                    analysis and deleted periodically.
+                  </li>
+                  <li>
+                    Publicly shared content (e.g., product comparisons) may
+                    persist until manually removed or the App is discontinued.
+                  </li>
+                </ul>
               </AccordionContent>
             </AccordionItem>
+
             <AccordionItem value="item-7">
-              <AccordionTrigger className="text-lg font-semibold ">
-                7. Third-Party Links
+              <AccordionTrigger className="text-lg font-semibold">
+                7. Your Rights
               </AccordionTrigger>
-              <AccordionContent className="">
-                The App may display links to third-party websites or platforms.
-                The developer is not responsible for the privacy practices or
-                content of these external sites.
+              <AccordionContent>
+                <p>You have the following rights regarding your data:</p>
+                <ul className="list-disc pl-6 mt-2 space-y-1">
+                  <li>
+                    <strong>Access</strong>: Request a copy of your data stored
+                    by the App.
+                  </li>
+                  <li>
+                    <strong>Deletion</strong>: Request deletion of your data,
+                    excluding publicly shared content.
+                  </li>
+                  <li>
+                    <strong>Opt-Out</strong>: Discontinue use of the App if you
+                    do not agree with this policy.
+                  </li>
+                </ul>
               </AccordionContent>
             </AccordionItem>
+
             <AccordionItem value="item-8">
-              <AccordionTrigger className="text-lg font-semibold ">
-                8. Changes to the Privacy Policy
+              <AccordionTrigger className="text-lg font-semibold">
+                8. Third-Party Links
               </AccordionTrigger>
-              <AccordionContent className="">
-                This Privacy Policy may be updated periodically. Continued use
-                of the App after such updates constitutes acceptance of the
-                revised Privacy Policy.
+              <AccordionContent>
+                The App may include links to third-party websites or platforms.
+                We are not responsible for their privacy practices or content.
+                Use third-party services at your own risk.
               </AccordionContent>
             </AccordionItem>
+
             <AccordionItem value="item-9">
-              <AccordionTrigger className="text-lg font-semibold ">
-                9. Contact Information
+              <AccordionTrigger className="text-lg font-semibold">
+                9. Changes to This Policy
               </AccordionTrigger>
-              <AccordionContent className="">
-                For questions or concerns regarding this Privacy Policy, please
-                contact: [Your Contact Information]
+              <AccordionContent>
+                This Privacy Policy may be updated periodically. Continued use
+                of the App after changes constitutes acceptance of the revised
+                policy. Significant changes will be communicated via the App or
+                repository.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-10">
+              <AccordionTrigger className="text-lg font-semibold">
+                10. Contact Us
+              </AccordionTrigger>
+              <AccordionContent>
+                For questions or concerns about this Privacy Policy, contact:
+                <span className="ml-1 font-semibold">
+                  rizzzky78@gmail.com
+                </span>{" "}
+                <br />
+                Report issues or contribute to the project via the
+                <Link
+                  href="https://github.com/rizzzky78/market-maven"
+                  className="text-blue-600 hover:underline ml-1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  GitHub repository
+                </Link>
+                .
               </AccordionContent>
             </AccordionItem>
           </Accordion>
+
           <div className="flex justify-center mt-6 space-x-5">
             <Button asChild variant={"ghost"} className="rounded-full">
               <Link href="/terms-of-service">View Terms of Service</Link>
