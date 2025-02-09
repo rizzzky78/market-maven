@@ -5,11 +5,27 @@ import {
   MarkdownStore,
   MarkdownStoreDTO,
   MarkdownType,
+  ObjectStoreDTO,
+  ObjectType,
+  ObjectTypeMap,
   StoredValue,
   StoreValue,
+  TypedObjectStore,
 } from "../types/neon";
 import logger from "../utility/logger";
 
+/**
+ * Stores a key-value pair in the database with associated metadata.
+ * This function provides a generic way to persist any JSON-serializable data
+ * with additional contextual information.
+ *
+ * @template T - The type of value being stored
+ * @param {Object} params - The parameters for storing the value
+ * @param {string} params.key - Unique identifier for the stored value
+ * @param {Record<string, unknown>} params.metadata - Additional contextual information about the stored value
+ * @param {T} params.value - The actual value to be stored
+ * @returns {Promise<StoredValue<T>>} - Returns the stored key and value
+ */
 export async function storeKeyValue<T>({
   key,
   metadata,
@@ -36,6 +52,15 @@ export async function storeKeyValue<T>({
   };
 }
 
+/**
+ * Retrieves a previously stored value from the database using its key.
+ * Returns null if no value is found for the given key.
+ *
+ * @template T - The expected type of the stored value
+ * @param {Object} params - The parameters for retrieving the value
+ * @param {string} params.key - The unique identifier of the value to retrieve
+ * @returns {Promise<StoredValue<T> | null>} - Returns the stored value and key if found, null otherwise
+ */
 export async function retrieveKeyValue<T>({
   key,
 }: {
@@ -59,6 +84,15 @@ export async function retrieveKeyValue<T>({
   };
 }
 
+/**
+ * Creates a new markdown entry in the database.
+ * This function is used to store markdown content with associated metadata such as
+ * chat ID, owner, and type classification.
+ *
+ * @template T - The specific markdown type, defaults to MarkdownType
+ * @param {MarkdownStoreDTO} payload - The markdown entry data to be stored
+ * @returns {Promise<MarkdownStore<T>>} - Returns the created markdown entry
+ */
 export async function createMarkdownEntry<T = MarkdownType>(
   payload: MarkdownStoreDTO
 ): Promise<MarkdownStore<T>> {
@@ -70,6 +104,14 @@ export async function createMarkdownEntry<T = MarkdownType>(
   return result[0] as MarkdownStore<T>;
 }
 
+/**
+ * Retrieves a markdown entry from the database using its key.
+ * Returns null if no entry is found for the given key.
+ *
+ * @template T - The expected markdown type, defaults to MarkdownType
+ * @param {string} key - The unique identifier of the markdown entry
+ * @returns {Promise<MarkdownStore<T> | null>} - Returns the markdown entry if found, null otherwise
+ */
 export async function getMarkdownEntry<T = MarkdownType>(
   key: string
 ): Promise<MarkdownStore<T> | null> {
@@ -79,28 +121,44 @@ export async function getMarkdownEntry<T = MarkdownType>(
   return (result[0] as MarkdownStore<T>) || null;
 }
 
-export type KeyValueStore = {
-  /** A type coresponding contained data */
-  type: "markdown" | "object";
-  /** A key to access this data, the key are in form of uuid v4 */
-  key: string;
-  /** Contained data, a string if the type is markdown and record if type is object*/
-  data: string | Record<string, any>;
-  metadata: {
-    chatId: string;
-    owner: string;
-  };
-};
+/**
+ * Creates a new typed object entry in the database.
+ * This function provides type-safe storage for different kinds of objects,
+ * ensuring that objects are stored with their correct type classification.
+ *
+ * @template T - The specific object type extending ObjectType
+ * @param {Omit<ObjectStoreDTO, "object"> & { object: ObjectTypeMap[T] }} payload - The object entry data to be stored
+ * @returns {Promise<TypedObjectStore<T>>} - Returns the created object entry
+ */
+export async function createObjectEntry<T extends ObjectType>(
+  payload: Omit<ObjectStoreDTO, "object"> & { object: ObjectTypeMap[T] }
+): Promise<TypedObjectStore<T>> {
+  const result = await sql`
+      INSERT INTO object_store (key, chat_id, owner, type, object)
+      VALUES (${payload.key}, ${payload.chatId}, ${payload.owner}, ${
+    payload.type
+  }, ${JSON.stringify(payload.object)})
+      RETURNING *
+  `;
+  return result[0] as TypedObjectStore<T>;
+}
 
-export type ContainedBoth = {
-  /** A key to access this data, the key are in form of uuid v4 */
-  key: string;
-  data: {
-    markdown: string;
-    object: Record<string, any>;
-  };
-  metadata: {
-    chatId: string;
-    owner: string;
-  };
-};
+/**
+ * Retrieves a typed object entry from the database using its key and type.
+ * Returns null if no entry is found matching both the key and type.
+ *
+ * @template T - The specific object type extending ObjectType
+ * @param {string} key - The unique identifier of the object entry
+ * @param {T} type - The type classification of the object
+ * @returns {Promise<TypedObjectStore<T> | null>} - Returns the object entry if found, null otherwise
+ */
+export async function getObjectEntry<T extends ObjectType>(
+  key: string,
+  type: T
+): Promise<TypedObjectStore<T> | null> {
+  const result = await sql`
+      SELECT * FROM object_store 
+      WHERE key = ${key} AND type = ${type}
+  `;
+  return (result[0] as TypedObjectStore<T>) || null;
+}
