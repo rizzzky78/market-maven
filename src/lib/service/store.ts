@@ -149,16 +149,14 @@ export async function createObjectEntry<T extends ObjectType>(
  *
  * @template T - The specific object type extending ObjectType
  * @param {string} key - The unique identifier of the object entry
- * @param {T} type - The type classification of the object
  * @returns {Promise<TypedObjectStore<T> | null>} - Returns the object entry if found, null otherwise
  */
 export async function getObjectEntry<T extends ObjectType>(
-  key: string,
-  type: T
+  key: string
 ): Promise<TypedObjectStore<T> | null> {
   const result = await sql`
       SELECT * FROM object_store 
-      WHERE key = ${key} AND type = ${type}
+      WHERE key = ${key}
   `;
   return (result[0] as TypedObjectStore<T>) || null;
 }
