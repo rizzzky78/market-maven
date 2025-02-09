@@ -15,10 +15,10 @@ const uuidV4Schema = z.string().uuid();
 
 // Define props type
 type SharePageProps = {
-  searchParams: {
+  searchParams: Promise<{
     type?: string;
     "component-id"?: string;
-  };
+  }>;
 };
 
 export default async function SharePage({ searchParams }: SharePageProps) {
