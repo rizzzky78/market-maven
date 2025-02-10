@@ -2,11 +2,11 @@ import { ChatProperties } from "@/lib/types/ai";
 import { FC } from "react";
 import { ChatHistoryItem } from "./chat-history-item";
 
-interface ChatGridProps {
+interface ChatHistoryProps {
   chats: ChatProperties[];
 }
 
-export const ChatHistoryGrid: FC<ChatGridProps> = ({ chats }) => {
+export const ChatHistoryGrid: FC<ChatHistoryProps> = ({ chats }) => {
   const filtered = chats.filter((c) => c.title !== "");
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
