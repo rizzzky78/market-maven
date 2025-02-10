@@ -155,7 +155,7 @@ export type CachedScrape<T = any> = {
  * @template ARGS - Type of arguments passed to the tool
  * @template DATA - Type of data returned by the tool
  */
-export type ToolData<ARGS = unknown, DATA = unknown> = {
+export type ToolDataStore<ARGS = unknown, DATA = unknown> = {
   /** UUID primary key to access the data */
   key: string;
   /** Associated chat ID */

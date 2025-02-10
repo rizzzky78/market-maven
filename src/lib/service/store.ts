@@ -10,6 +10,7 @@ import {
   ObjectTypeMap,
   StoredValue,
   StoreValue,
+  ToolDataStore,
   TypedObjectStore,
 } from "../types/neon";
 import logger from "../utility/logger";
@@ -159,4 +160,101 @@ export async function getObjectEntry<T extends ObjectType>(
       WHERE key = ${key}
   `;
   return (result[0] as TypedObjectStore<T>) || null;
+}
+
+/**
+ * Creates a new tool data entry in the database
+ * @template ARGS - Type of tool arguments
+ * @template DATA - Type of tool data
+ * @param {ToolDataStore<ARGS, DATA>} data - Tool data to store
+ * @returns {Promise<ToolDataStore<ARGS, DATA>>} - Stored tool data
+ */
+export async function createToolDataStore<ARGS, DATA>(
+  data: ToolDataStore<ARGS, DATA>
+): Promise<ToolDataStore<ARGS, DATA>> {
+  const result = await sql`
+    INSERT INTO tool_data_store (
+      key,
+      chat_id,
+      owner,
+      tool_success,
+      tool_name,
+      tool_args,
+      tool_data
+    ) VALUES (
+      ${data.key},
+      ${data.chatId},
+      ${data.owner},
+      ${data.tool.success},
+      ${data.tool.name},
+      ${JSON.stringify(data.tool.args)},
+      ${JSON.stringify(data.tool.data)}
+    )
+    RETURNING 
+      key,
+      chat_id as "chatId",
+      owner,
+      timestamp,
+      tool_success as "tool.success",
+      tool_name as "tool.name",
+      tool_args as "tool.args",
+      tool_data as "tool.data"
+  `;
+
+  return result[0] as ToolDataStore<ARGS, DATA>;
+}
+
+/**
+ * Retrieves tool data by its key
+ * @template ARGS - Type of tool arguments
+ * @template DATA - Type of tool data
+ * @param {string} key - The unique identifier of the tool data
+ * @returns {Promise<ToolDataStore<ARGS, DATA> | null>} - The tool data or null if not found
+ */
+export async function getToolDataStoreByKey<ARGS, DATA>(
+  key: string
+): Promise<ToolDataStore<ARGS, DATA> | null> {
+  const result = await sql`
+    SELECT
+      key,
+      chat_id as "chatId",
+      owner,
+      timestamp,
+      tool_success as "tool.success",
+      tool_name as "tool.name",
+      tool_args as "tool.args",
+      tool_data as "tool.data"
+    FROM tool_data_store
+    WHERE key = ${key}
+  `;
+
+  return (result[0] as ToolDataStore<ARGS, DATA>) || null;
+}
+
+/**
+ * Retrieves all tool data for a specific chat
+ * @template ARGS - Type of tool arguments
+ * @template DATA - Type of tool data
+ * @param {string} chatId - The chat identifier
+ * @returns {Promise<ToolDataStore<ARGS, DATA>[]>} - Array of tool data entries
+ */
+export async function getToolDataStoreByChatId<ARGS, DATA>(
+  chatId: string
+): Promise<ToolDataStore<ARGS, DATA>[]> {
+  const result = await sql`
+    SELECT
+      key,
+      chat_id as "chatId",
+      owner,
+      timestamp,
+      tool_success as "tool.success",
+      tool_name as "tool.name",
+      tool_args as "tool.args",
+      tool_data as "tool.data"
+    FROM tool_data_store
+    WHERE chat_id = ${chatId}
+    ORDER BY timestamp DESC
+  `;
+
+  return result as ToolDataStore<ARGS, DATA>[];
 }
