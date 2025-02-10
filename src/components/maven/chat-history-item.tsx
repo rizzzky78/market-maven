@@ -52,7 +52,7 @@ export const ChatHistoryItem: FC<ChatProps> = ({ chat }) => {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         className={cn(
-          "group relative rounded-2xl p-[2px] bg-[#eeeeee15] overflow-hidden w-full transition-all duration-300 hover:shadow-lg"
+          "group relative rounded-2xl p-[2px] bg-gray-100 dark:bg-[#eeeeee15] overflow-hidden w-full transition-all duration-300 hover:shadow-lg"
         )}
       >
         {isHovered && (
@@ -62,31 +62,29 @@ export const ChatHistoryItem: FC<ChatProps> = ({ chat }) => {
               background: `
                 radial-gradient(
                   250px circle at ${overlayColor.x}px ${overlayColor.y}px,
-                  rgba(255, 255, 255, 0.1),
+                  rgba(0, 0, 0, 0.1),
                   transparent 80%
                 )
               `,
             }}
           />
         )}
-
         <div
           className="absolute inset-0 z-0 bg-fixed"
           style={{
-            background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(255, 255, 255, 0.03) 0%, transparent 20%, transparent) fixed`,
+            background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(0, 0, 0, 0.03) 0%, transparent 20%, transparent) fixed`,
           }}
         />
-
-        <div className="relative z-20 h-full min-h-32 flex flex-col rounded-2xl px-4 py-3">
+        <div className="relative z-20 h-full min-h-32 bg-white dark:bg-[#1A1A1D]/80 flex flex-col rounded-2xl px-4 py-3">
           <div className="h-10 mb-2">
-            <h3 className="text-sm text-white font-semibold line-clamp-2">
+            <h3 className="text-sm text-gray-800 dark:text-white font-semibold line-clamp-2">
               {chat.title}
             </h3>
           </div>
-          <div className="flex items-center text-black/90 dark:text-white/70 bg-white dark:bg-[#1A1A1D] py-1 px-2 rounded-r-3xl w-fit">
+          <div className="flex items-center text-black/90 dark:text-white/70 bg-gray-100 dark:bg-[#1A1A1D] py-1 px-2 rounded-r-3xl w-fit">
             <p className="text-[0.65rem]">{formatDateWithTime(chat.created)}</p>
           </div>
-          <div className="mt-2 flex items-center dark:text-white/80">
+          <div className="mt-2 flex items-center text-gray-600 dark:text-white/80">
             <p className="text-xs line-clamp-1">{text_input}</p>
           </div>
         </div>
