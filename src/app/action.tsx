@@ -285,7 +285,10 @@ const orchestrator = async (
               streamableText.update(finalizedText);
             }
 
-            const { toolResult } = mutateTool(state, {
+            const { toolResult } = mutateTool<
+              { query: string },
+              ProductsResponse
+            >(state, {
               name: "searchProduct",
               args: { query },
               result: finalizedProductSearch,
@@ -509,7 +512,10 @@ const orchestrator = async (
               streamableText.update(finalizedText);
             }
 
-            const { toolResult } = mutateTool(state, {
+            const { toolResult } = mutateTool<
+              { query: string; link: string },
+              ProductDetailsResponse
+            >(state, {
               name: "getProductDetails",
               args: { link, query },
               result: finalizedObject,
@@ -711,7 +717,15 @@ const orchestrator = async (
               streamableText.update(finalizedText);
             }
 
-            const { toolResult } = mutateTool(state, {
+            const { toolResult } = mutateTool<
+              {
+                compare: {
+                  callId: string;
+                  title: string;
+                }[];
+              },
+              ProductsComparisonResponse
+            >(state, {
               name: "productsComparison",
               args: { compare },
               result: finalizedCompare,
@@ -783,7 +797,22 @@ const orchestrator = async (
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
-          mutateTool(state, {
+          mutateTool<
+            {
+              inquiry: {
+                options: {
+                  value: string;
+                  label: string;
+                }[];
+                question: string;
+                allowsInput: boolean;
+                isMultiSelection: boolean;
+                inputLabel?: string | undefined;
+                inputPlaceholder?: string | undefined;
+              };
+            },
+            { data: "no-result" }
+          >(state, {
             name: "inquireUser",
             args: { inquiry },
             result: { data: "no-result" },

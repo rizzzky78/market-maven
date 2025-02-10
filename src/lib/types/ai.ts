@@ -332,13 +332,13 @@ export type AvailableTool =
  * Represents a mutation payload for tools, supporting flexible
  * tool execution and result handling.
  */
-export type MutationPayload = {
+export type MutationPayload<ARGS, DATA> = {
   /** Name of the tool being used */
   name: AvailableTool;
   /** Arguments passed to the tool */
-  args: unknown;
+  args: ARGS;
   /** Result of the tool execution */
-  result: unknown;
+  result: DATA;
   /** Optional override for assistant response */
   overrideAssistant?: {
     /** Content to override the assistant's response */
