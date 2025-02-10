@@ -65,7 +65,7 @@ export class ToolMutationError extends Error {
  */
 export function mutateTool<ARGS = unknown, DATA = unknown>(
   state: MutableAIState<AIState>,
-  payload: MutationPayload,
+  payload: MutationPayload<ARGS, DATA>,
   config?: ToolMutationConfig
 ): MutationResult<ARGS, DATA> {
   const { name, args, result, overrideAssistant } = payload;
