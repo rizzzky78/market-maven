@@ -141,6 +141,8 @@ const orchestrator = async (
         description: TEMPLATE.SearchProductDescription,
         parameters: searchProductSchema,
         generate: async function* ({ query }) {
+          const toolRequestId = v4();
+
           logger.info("Using searchProduct tool", {
             progress: "initial",
             request: { query },
@@ -154,7 +156,7 @@ const orchestrator = async (
           yield <LoadingText text={`Searching for ${query}`} />;
 
           const { data: scrapeContent } = await handleScrapingWithCache(
-            query,
+            { query, key: toolRequestId },
             async (payload) => {
               return await scrapeUrl({
                 url: processURLQuery(payload),
@@ -177,7 +179,7 @@ const orchestrator = async (
             yield <LoadingText text="Found products, saving the state..." />;
 
             const finalizedProductSearch: ProductsResponse = {
-              callId: v4(),
+              callId: toolRequestId,
               screenshot: scrapeContent.screenshot,
               data: [],
             };
@@ -339,6 +341,8 @@ const orchestrator = async (
         description: TEMPLATE.GetProductDetailsDescription,
         parameters: getProductDetailsSchema,
         generate: async function* ({ query, link }) {
+          const toolRequestId = v4();
+
           logger.info("Using getProductDetails tool", {
             progress: "initial",
             request: { query, link },
@@ -354,7 +358,7 @@ const orchestrator = async (
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
           const { data: scrapeContent } = await handleScrapingWithCache(
-            link,
+            { query, key: toolRequestId },
             async (payload) => {
               return await scrapeUrl({
                 url: payload,
@@ -370,7 +374,7 @@ const orchestrator = async (
             scrapeContent.screenshot
           ) {
             const finalizedObject: ProductDetailsResponse = {
-              callId: v4(),
+              callId: toolRequestId,
               screenshot: scrapeContent.screenshot,
               productDetails: {},
             };
