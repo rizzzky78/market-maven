@@ -40,6 +40,7 @@ import { handleScrapingWithCache } from "@/lib/service/cache-store";
 import {
   createMarkdownEntry,
   createObjectEntry,
+  createToolDataEntry,
   retrieveKeyValue,
   storeKeyValue,
 } from "@/lib/service/store";
@@ -293,6 +294,13 @@ const orchestrator = async (
               },
             });
 
+            await createToolDataEntry({
+              key: finalizedProductSearch.callId,
+              chatId: state.get().chatId,
+              owner: state.get().username,
+              tool: toolResult,
+            });
+
             logger.info("Done using searchProduct tool", {
               progress: "finish",
               request: { query },
@@ -510,6 +518,13 @@ const orchestrator = async (
               },
             });
 
+            await createToolDataEntry({
+              key: finalizedObject.callId,
+              chatId: state.get().chatId,
+              owner: state.get().username,
+              tool: toolResult,
+            });
+
             logger.info("Done using getProductDetails tool", {
               progress: "finish",
               request: { query, link },
@@ -705,6 +720,13 @@ const orchestrator = async (
               },
             });
 
+            await createToolDataEntry({
+              key: finalizedCompare.callId,
+              chatId: state.get().chatId,
+              owner: state.get().username,
+              tool: toolResult,
+            });
+
             logger.info("Done using productsComparison tool", {
               progress: "finish",
               request: { compare },
@@ -761,7 +783,7 @@ const orchestrator = async (
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
-          const { toolResult } = mutateTool(state, {
+          mutateTool(state, {
             name: "inquireUser",
             args: { inquiry },
             result: { data: "no-result" },
