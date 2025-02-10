@@ -41,8 +41,7 @@ import {
   createMarkdownEntry,
   createObjectEntry,
   createToolDataEntry,
-  retrieveKeyValue,
-  storeKeyValue,
+  getObjectEntry,
 } from "@/lib/service/store";
 import {
   AIState,
@@ -236,15 +235,6 @@ const orchestrator = async (
                 streamableProducts.update(chunk.data);
               }
             }
-
-            await storeKeyValue<ProductsResponse>({
-              key: finalizedProductSearch.callId,
-              value: finalizedProductSearch,
-              metadata: {
-                chatId: state.get().chatId,
-                email: state.get().username,
-              },
-            });
 
             const streamableText = createStreamableValue<string>("");
 
@@ -455,15 +445,6 @@ const orchestrator = async (
               streamableObject.update(objProduct as Record<string, any>);
             }
 
-            await storeKeyValue<ProductDetailsResponse>({
-              key: finalizedObject.callId,
-              value: finalizedObject,
-              metadata: {
-                chatId: state.get().chatId,
-                email: state.get().username,
-              },
-            });
-
             const streamableText = createStreamableValue<string>("");
 
             yield (
@@ -590,7 +571,7 @@ const orchestrator = async (
 
             const resulted = await Promise.all(
               compare.map((v) =>
-                retrieveKeyValue<ProductDetailsResponse>({ key: v.callId })
+                getObjectEntry<ProductDetailsResponse>(v.callId)
               )
             );
 
@@ -624,7 +605,7 @@ const orchestrator = async (
             const finalizedCompare: ProductsComparisonResponse = {
               callId: v4(),
               productImages: previousProductsData.map(
-                (v) => v.value.screenshot
+                (v) => v.object.screenshot
               ),
               comparison: {},
             };
@@ -637,7 +618,7 @@ const orchestrator = async (
               createStreamableValue<Record<string, any>>();
 
             const payloadPrevProductsData = previousProductsData.map(
-              (v) => v.value.productDetails
+              (v) => v.object.productDetails
             );
 
             // append stream-ui here
@@ -664,15 +645,6 @@ const orchestrator = async (
             for await (const chunk of partialObjectStream) {
               streamableObject.update(chunk as Record<string, any>);
             }
-
-            await storeKeyValue<ProductsComparisonResponse>({
-              key: finalizedCompare.callId,
-              value: finalizedCompare,
-              metadata: {
-                chatId: state.get().chatId,
-                email: state.get().username,
-              },
-            });
 
             const streamableText = createStreamableValue<string>("");
 
