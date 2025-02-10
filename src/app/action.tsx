@@ -284,18 +284,13 @@ const orchestrator = async (
               streamableText.update(finalizedText);
             }
 
-            const { mutate } = mutateTool({
+            const { toolResult } = mutateTool(state, {
               name: "searchProduct",
               args: { query },
               result: finalizedProductSearch,
               overrideAssistant: {
                 content: finalizedText,
               },
-            });
-
-            state.done({
-              ...state.get(),
-              messages: [...state.get().messages, ...mutate],
             });
 
             logger.info("Done using searchProduct tool", {
@@ -506,18 +501,13 @@ const orchestrator = async (
               streamableText.update(finalizedText);
             }
 
-            const { mutate } = mutateTool({
+            const { toolResult } = mutateTool(state, {
               name: "getProductDetails",
               args: { link, query },
               result: finalizedObject,
               overrideAssistant: {
                 content: finalizedText,
               },
-            });
-
-            state.done({
-              ...state.get(),
-              messages: [...state.get().messages, ...mutate],
             });
 
             logger.info("Done using getProductDetails tool", {
@@ -706,18 +696,13 @@ const orchestrator = async (
               streamableText.update(finalizedText);
             }
 
-            const { mutate } = mutateTool({
+            const { toolResult } = mutateTool(state, {
               name: "productsComparison",
               args: { compare },
               result: finalizedCompare,
               overrideAssistant: {
                 content: finalizedText,
               },
-            });
-
-            state.done({
-              ...state.get(),
-              messages: [...state.get().messages, ...mutate],
             });
 
             logger.info("Done using productsComparison tool", {
@@ -776,18 +761,13 @@ const orchestrator = async (
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
-          const { mutate } = mutateTool({
+          const { toolResult } = mutateTool(state, {
             name: "inquireUser",
             args: { inquiry },
             result: { data: "no-result" },
             overrideAssistant: {
               content: `Inquiry have been provided, please fill them in accordingly.`,
             },
-          });
-
-          state.done({
-            ...state.get(),
-            messages: [...state.get().messages, ...mutate],
           });
 
           logger.info("Done using inquireUser tool");
