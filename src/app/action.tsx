@@ -37,7 +37,11 @@ import {
 import { SYSTEM_INSTRUCT_CORE } from "@/lib/agents/system-instructions/core";
 import { scrapeUrl } from "@/lib/agents/tools/api/firecrawl";
 import { handleScrapingWithCache } from "@/lib/service/cache-store";
-import { retrieveKeyValue, storeKeyValue } from "@/lib/service/store";
+import {
+  createMarkdownEntry,
+  retrieveKeyValue,
+  storeKeyValue,
+} from "@/lib/service/store";
 import {
   AIState,
   MutableAIState,
@@ -136,8 +140,6 @@ const orchestrator = async (
         description: TEMPLATE.SearchProductDescription,
         parameters: searchProductSchema,
         generate: async function* ({ query }) {
-          const toolRequestId = v4();
-
           logger.info("Using searchProduct tool", {
             progress: "initial",
             request: { query },
@@ -171,21 +173,23 @@ const orchestrator = async (
               loading: true,
             });
 
+            yield <LoadingText text="Found products, saving the state..." />;
+
             const finalizedProductSearch: ProductsResponse = {
               callId: v4(),
               screenshot: scrapeContent.screenshot,
               data: [],
             };
 
-            yield (
-              <LoadingText text="Found products, proceed to data extraction..." />
-            );
+            await createMarkdownEntry({
+              key: finalizedProductSearch.callId,
+              chatId: state.get().chatId,
+              owner: state.get().username,
+              type: "product-search",
+              markdown: scrapeContent.markdown,
+            });
 
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-
-            yield (
-              <LoadingText text="Extracting products data from raw data..." />
-            );
+            yield <LoadingText text="Proceed to data extraction..." />;
 
             const payload = JSON.stringify({
               objective: TEMPLATE.ExtractionOjective,
@@ -360,22 +364,34 @@ const orchestrator = async (
             scrapeContent.markdown &&
             scrapeContent.screenshot
           ) {
+            const finalizedObject: ProductDetailsResponse = {
+              callId: v4(),
+              screenshot: scrapeContent.screenshot,
+              productDetails: {},
+            };
+
             generation.update({
               process: "api_success",
               loading: true,
             });
 
             yield (
-              <LoadingText text="Found product details, please hang on..." />
+              <LoadingText text="Raw data retrieved, saving the state data..." />
+            );
+
+            await createMarkdownEntry({
+              key: finalizedObject.callId,
+              chatId: state.get().chatId,
+              owner: state.get().username,
+              type: "product-details",
+              markdown: scrapeContent.markdown,
+            });
+
+            yield (
+              <LoadingText text="Proceed to data extraction, please hang on..." />
             );
 
             await new Promise((resolve) => setTimeout(resolve, 3000));
-
-            const finalizedObject: ProductDetailsResponse = {
-              callId: v4(),
-              screenshot: scrapeContent.screenshot,
-              productDetails: {},
-            };
 
             const payloadContent = JSON.stringify({
               prompt: TEMPLATE.ExtractionDetails,
@@ -408,7 +424,6 @@ const orchestrator = async (
                     any
                   >;
                 }
-
                 streamableObject.done();
               },
             });
