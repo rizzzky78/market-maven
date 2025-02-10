@@ -1,4 +1,4 @@
-import { ScrapeResponse } from "@mendable/firecrawl-js";
+import { ErrorResponse, ScrapeResponse } from "@mendable/firecrawl-js";
 import { z } from "zod";
 
 /**
@@ -142,7 +142,9 @@ export type QueryKey = {
   query: string;
 };
 
+export type ResultedScrapeOperation<T> = ScrapeResponse<T> | ErrorResponse;
+
 export type CachedScrape<T = any> = {
   payload: QueryKey;
-  data: ScrapeResponse<T>;
+  data: ResultedScrapeOperation<T>;
 };
