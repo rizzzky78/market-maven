@@ -71,14 +71,12 @@ export const ChatHistoryItem: FC<ChatProps> = ({ chat }) => {
               }}
             />
           )}
-
           <div
             className="absolute inset-0 z-0 bg-fixed"
             style={{
               background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(255, 255, 255, 0.03) 0%, transparent 20%, transparent) fixed`,
             }}
           />
-          
           <div className="relative z-20 h-full min-h-32 flex flex-col bg-[#1A1A1D]/20 dark:bg-none rounded-2xl px-4 py-3">
             <div className="h-10 mb-2">
               <h3 className="text-sm text-black/90 dark:text-white font-semibold line-clamp-2">
