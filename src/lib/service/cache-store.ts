@@ -11,11 +11,11 @@ import { ScrapeResponse } from "@mendable/firecrawl-js";
  * @returns Promise<CachedScrape> - The saved cache entry
  * @throws {Error} If database operation fails
  */
-export async function saveScrapeCache(
+export async function saveScrapeCache<T>(
   payload: QueryKey,
   data: ScrapeResponse
-): Promise<CachedScrape> {
-  const response: CachedScrape = {
+): Promise<CachedScrape<T>> {
+  const response: CachedScrape<T> = {
     payload,
     data,
   };
@@ -44,9 +44,9 @@ export async function saveScrapeCache(
  * @returns Promise<CachedScrape | null> - The cached response or null if not found
  * @throws {Error} If database operation fails
  */
-export async function getScrapeCache(
+export async function getScrapeCache<T>(
   query: string
-): Promise<CachedScrape | null> {
+): Promise<CachedScrape<T> | null> {
   const result = await sql`
     SELECT query, response
     FROM scrape_cache
@@ -68,21 +68,21 @@ export async function getScrapeCache(
  * Checks cache first and only performs scraping if no cached data exists.
  *
  * @param query - The search query to scrape
- * @param scrapeFunction - The function that performs the actual scraping
+ * @param scrapeFn - The function that performs the actual scraping
  * @returns Promise<CachedScrape> - Either cached or freshly scraped data
  */
-export async function handleScrapingWithCache(
+export async function handleScrapingWithCache<T>(
   query: string,
-  scrapeFunction: (query: string) => Promise<ScrapeResponse>
-): Promise<CachedScrape> {
+  scrapeFn: (query: string) => Promise<ScrapeResponse>
+): Promise<CachedScrape<T>> {
   // Check cache first
-  const cached = await getScrapeCache(query);
+  const cached = await getScrapeCache<T>(query);
   if (cached) {
     return cached;
   }
 
   // If not in cache, perform scraping
-  const scrapedData = await scrapeFunction(query);
+  const scrapedData = await scrapeFn(query);
 
   // Save to cache and return
   return await saveScrapeCache({ query }, scrapedData);
