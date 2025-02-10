@@ -39,6 +39,7 @@ import { scrapeUrl } from "@/lib/agents/tools/api/firecrawl";
 import { handleScrapingWithCache } from "@/lib/service/cache-store";
 import {
   createMarkdownEntry,
+  createObjectEntry,
   retrieveKeyValue,
   storeKeyValue,
 } from "@/lib/service/store";
@@ -218,6 +219,14 @@ const orchestrator = async (
                 }
 
                 streamableProducts.done();
+
+                await createObjectEntry({
+                  key: finalizedProductSearch.callId,
+                  chatId: state.get().chatId,
+                  owner: state.get().username,
+                  type: "searchProduct",
+                  object: finalizedProductSearch,
+                });
               },
             });
 
@@ -425,6 +434,14 @@ const orchestrator = async (
                   >;
                 }
                 streamableObject.done();
+
+                await createObjectEntry({
+                  key: finalizedObject.callId,
+                  chatId: state.get().chatId,
+                  owner: state.get().username,
+                  type: "getProductDetails",
+                  object: finalizedObject,
+                });
               },
             });
 
@@ -622,6 +639,14 @@ const orchestrator = async (
               onFinish: async ({ object }) => {
                 finalizedCompare.comparison = object as Record<string, any>;
                 streamableObject.done();
+
+                await createObjectEntry({
+                  key: finalizedCompare.callId,
+                  chatId: state.get().chatId,
+                  owner: state.get().username,
+                  type: "productsComparison",
+                  object: finalizedCompare,
+                });
               },
             });
 
