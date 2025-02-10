@@ -45,8 +45,17 @@ export const ChatHistoryItem: FC<ChatProps> = ({ chat }) => {
     firstUserMessage as string
   );
 
+  const item = {
+    hidden: { y: 20, opacity: 0 },
+    show: { y: 0, opacity: 1 },
+  };
+
   return (
-    <motion.div whileHover={{ scale: 1.02 }}>
+    <motion.div
+      variants={item}
+      whileHover={{ scale: 1.02 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+    >
       <Link href={`/chat/c/${chat.chatId}`} className="block">
         <div
           ref={boxWrapper}

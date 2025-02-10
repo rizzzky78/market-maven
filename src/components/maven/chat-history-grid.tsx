@@ -1,3 +1,5 @@
+'use client'
+
 import { ChatProperties } from "@/lib/types/ai";
 import { FC } from "react";
 import { ChatHistoryItem } from "./chat-history-item";
