@@ -97,6 +97,11 @@ export async function retrieveKeyValue<T>({
 export async function createMarkdownEntry<T = MarkdownType>(
   payload: MarkdownStoreDTO
 ): Promise<MarkdownStore<T>> {
+  logger.info("Storing Value", {
+    on: "createMarkdownEntry",
+    reffKey: payload.key,
+  });
+
   const result = await sql`
       INSERT INTO markdown_store (key, chat_id, owner, type, markdown)
       VALUES (${payload.key}, ${payload.chatId}, ${payload.owner}, ${payload.type}, ${payload.markdown})
@@ -119,6 +124,13 @@ export async function getMarkdownEntry<T = MarkdownType>(
   const result = await sql`
       SELECT * FROM markdown_store WHERE key = ${key}
   `;
+
+  logger.info("Retrieving Value", {
+    on: "getMarkdownEntry",
+    reffKey: key,
+    exists: Boolean(result[0]),
+  });
+
   return (result[0] as MarkdownStore<T>) || null;
 }
 
@@ -134,6 +146,11 @@ export async function getMarkdownEntry<T = MarkdownType>(
 export async function createObjectEntry<T extends ObjectType>(
   payload: Omit<ObjectStoreDTO, "object"> & { object: ObjectTypeMap[T] }
 ): Promise<TypedObjectStore<T>> {
+  logger.info("Storing Value", {
+    on: "createObjectEntry",
+    reffKey: payload.key,
+  });
+
   const result = await sql`
       INSERT INTO object_store (key, chat_id, owner, type, object)
       VALUES (${payload.key}, ${payload.chatId}, ${payload.owner}, ${
@@ -159,6 +176,13 @@ export async function getObjectEntry<T extends ObjectType>(
       SELECT * FROM object_store 
       WHERE key = ${key}
   `;
+
+  logger.info("Retrieving Value", {
+    on: "getObjectEntry",
+    reffKey: key,
+    exists: Boolean(result[0]),
+  });
+
   return (result[0] as TypedObjectStore<T>) || null;
 }
 
@@ -173,6 +197,11 @@ export async function createToolDataEntry<ARGS, DATA>(
   data: Omit<ToolDataStore<ARGS, DATA>, "timestamp">
 ): Promise<ToolDataStore<ARGS, DATA>> {
   const { key, chatId, owner, tool } = data;
+
+  logger.info("Storing Value", {
+    on: "createToolDataEntry",
+    reffKey: key,
+  });
 
   const result = await sql`
     INSERT INTO tool_data_store (
@@ -230,6 +259,12 @@ export async function getToolDataEntryByKey<ARGS, DATA>(
     WHERE key = ${key}
   `;
 
+  logger.info("Retrieving Value", {
+    on: "getToolDataEntryByKey",
+    reffKey: key,
+    exists: Boolean(result[0]),
+  });
+
   return (result[0] as ToolDataStore<ARGS, DATA>) || null;
 }
 
@@ -257,6 +292,12 @@ export async function getToolDataEntryByChatId<ARGS, DATA>(
     WHERE chat_id = ${chatId}
     ORDER BY timestamp DESC
   `;
+
+  logger.info("Retrieving Value", {
+    on: "getToolDataEntryByChatId",
+    reffChatId: chatId,
+    exists: Boolean(result[0]),
+  });
 
   return result as ToolDataStore<ARGS, DATA>[];
 }
