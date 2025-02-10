@@ -134,6 +134,28 @@ export type AIState = {
 };
 
 /**
+ * Configuration options for tool mutation validation and transformation
+ */
+export type ToolMutationConfig = {
+  /** Optional function to validate tool arguments */
+  validateArgs?: (args: unknown) => boolean;
+  /** Optional function to validate tool results */
+  validateResult?: (result: unknown) => boolean;
+  /** Optional function to transform the result before storing */
+  transformResult?: (result: unknown) => unknown;
+};
+
+/**
+ * Structure representing the result of a tool mutation operation
+ */
+export type MutationResult = {
+  /** Array of messages generated during mutation */
+  mutate: MessageProperty[];
+  /** Result of the tool execution */
+  toolResult: ExtendedToolResult;
+};
+
+/**
  * Represents a type that can either be a ReactNode or a Promise resolving to a ReactNode.
  */
 export type Streamable = ReactNode | Promise<ReactNode>;

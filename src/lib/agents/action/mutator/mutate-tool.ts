@@ -1,42 +1,75 @@
 import { generateId } from "ai";
 import {
+  AIState,
   ExtendedToolResult,
   MessageProperty,
+  MutableAIState,
   MutationPayload,
+  MutationResult,
+  ToolMutationConfig,
 } from "@/lib/types/ai";
-import { ToolMutationError } from "../thrower/tool-mutation-error";
 
 /**
- * Type for tool mutation configuration
+ * Custom error class for handling tool mutation-related errors with specific error codes
+ * and tool identification.
+ *
+ * @example
+ * throw new ToolMutationError("Invalid arguments provided", "searchTool", "INVALID_ARGS");
  */
-type ToolMutationConfig = {
-  validateArgs?: (args: unknown) => boolean;
-  validateResult?: (result: unknown) => boolean;
-  transformResult?: (result: unknown) => unknown;
-};
+export class ToolMutationError extends Error {
+  constructor(
+    message: string,
+    public readonly toolName: string,
+    public readonly code: string
+  ) {
+    super(message);
+    this.name = "ToolMutationError";
+    Object.setPrototypeOf(this, ToolMutationError.prototype);
+  }
+}
 
 /**
- * Type for mutation result
+ * Creates a validated tool mutation with proper typing and error handling. This function
+ * processes tool executions, validates inputs/outputs, and manages the message flow.
+ *
+ * @template ARGS - Type of the tool arguments
+ * @template DATA - Type of the tool result data
+ *
+ * @param {MutableAIState<AIState>} state - Mutable state object for managing AI context
+ * @param {MutationPayload} payload - Mutation payload containing tool execution details
+ * @param {ToolMutationConfig} [config] - Optional configuration for validation and transformation
+ *
+ * @returns {MutationResult} Object containing mutation messages and tool result
+ *
+ * @throws {ToolMutationError} When:
+ * - Tool name is missing (code: MISSING_TOOL_NAME)
+ * - Arguments validation fails (code: INVALID_ARGS)
+ * - Result validation fails (code: INVALID_RESULT)
+ * - Unexpected errors occur (code: UNEXPECTED_ERROR)
+ *
+ * @example
+ * ```typescript
+ * const result = mutateTool(
+ *   state,
+ *   {
+ *     name: "searchTool",
+ *     args: { query: "example" },
+ *     result: { found: true, items: [] }
+ *   },
+ *   {
+ *     validateArgs: (args) => args.query && typeof args.query === "string",
+ *     validateResult: (result) => result.found !== undefined
+ *   }
+ * );
+ * ```
  */
-type MutationResult = {
-  mutate: MessageProperty[];
-  toolResult: ExtendedToolResult;
-};
-
-/**
- * Creates a validated tool mutation with proper typing and error handling
- * @param payload - The mutation payload containing tool name, arguments, and result
- * @param config - Optional configuration for validation and transformation
- * @returns Object containing mutation messages and tool result
- * @throws ToolMutationError if validation fails or required data is missing
- */
-export function mutateTool<A = unknown, D = unknown>(
+export function mutateTool<ARGS = unknown, DATA = unknown>(
+  state: MutableAIState<AIState>,
   payload: MutationPayload,
   config?: ToolMutationConfig
 ): MutationResult {
   const { name, args, result, overrideAssistant } = payload;
 
-  // Validate required fields
   if (!name) {
     throw new ToolMutationError(
       "Tool name is required",
@@ -46,7 +79,6 @@ export function mutateTool<A = unknown, D = unknown>(
   }
 
   try {
-    // Validate arguments if configured
     if (config?.validateArgs && !config.validateArgs(args)) {
       throw new ToolMutationError(
         "Invalid tool arguments",
@@ -55,7 +87,6 @@ export function mutateTool<A = unknown, D = unknown>(
       );
     }
 
-    // Validate result if configured
     if (config?.validateResult && !config.validateResult(result)) {
       throw new ToolMutationError(
         "Invalid tool result",
@@ -67,17 +98,14 @@ export function mutateTool<A = unknown, D = unknown>(
     const toolCallId = generateId();
     const transformedResult = config?.transformResult?.(result) ?? result;
 
-    // Construct the tool result with proper typing
-    const constructToolResult: ExtendedToolResult<A, D> = {
+    const constructToolResult: ExtendedToolResult<ARGS, DATA> = {
       success: Boolean(transformedResult),
       name,
-      args: args as A,
-      data: transformedResult as D,
+      args: args as ARGS,
+      data: transformedResult as DATA,
     };
 
-    // Build the mutation messages array
     const mutationMessages: MessageProperty[] = [
-      // Tool call message
       {
         id: generateId(),
         role: "assistant",
@@ -90,7 +118,6 @@ export function mutateTool<A = unknown, D = unknown>(
           },
         ],
       },
-      // Tool result message
       {
         id: generateId(),
         role: "tool",
@@ -105,7 +132,6 @@ export function mutateTool<A = unknown, D = unknown>(
       },
     ];
 
-    // Add override assistant message if provided
     if (overrideAssistant?.content) {
       mutationMessages.push({
         id: generateId(),
@@ -113,6 +139,11 @@ export function mutateTool<A = unknown, D = unknown>(
         content: overrideAssistant.content,
       });
     }
+
+    state.done({
+      ...state.get(),
+      messages: [...state.get().messages, ...mutationMessages],
+    });
 
     return {
       mutate: mutationMessages,
@@ -134,11 +165,25 @@ export function mutateTool<A = unknown, D = unknown>(
 }
 
 /**
- * Type guard to check if a value is a valid tool result
+ * Type guard to verify if a value matches the ExtendedToolResult interface structure.
+ *
+ * @template ARGS - Type of the tool arguments
+ * @template DATA - Type of the tool result data
+ * @param {unknown} value - Value to check
+ * @returns {boolean} True if value matches ExtendedToolResult structure
+ *
+ * @example
+ * ```typescript
+ * const result = someOperation();
+ * if (isToolResult<SearchArgs, SearchData>(result)) {
+ *   // TypeScript now knows result is ExtendedToolResult<SearchArgs, SearchData>
+ *   console.log(result.data);
+ * }
+ * ```
  */
-export function isToolResult<A, D>(
+export function isToolResult<ARGS, DATA>(
   value: unknown
-): value is ExtendedToolResult<A, D> {
+): value is ExtendedToolResult<ARGS, DATA> {
   if (!value || typeof value !== "object") return false;
 
   const result = value as ExtendedToolResult;
