@@ -1,7 +1,6 @@
 import { ChatHistoryGrid } from "@/components/maven/chat-history-grid";
-import { ClearChats } from "@/components/maven/clear-chats";
 import { getChats } from "@/lib/agents/action/chat-service";
-import { ChatProperties } from "@/lib/types/ai";
+import { History } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { cache } from "react";
 
@@ -10,14 +9,19 @@ const loadChats = cache(async (userId: string) => {
 });
 
 export default async function ChatHistoryPage() {
-  // const chats = await getChatHistory();
   const session = await getServerSession();
-  const chats = await loadChats(session?.user?.email || "anonymous");
+  const chats = await loadChats(session?.user?.email || "anonymous@gmail.com");
   return (
-    <div className="mx-auto px-4 py-8 max-w-3xl">
-      <h1 className="text-md font-semibold mb-6 mx-4">
-        Chat History {session?.user?.email}
-      </h1>
+    <div className="mx-auto py-8 max-w-3xl">
+      <div className="p-5 mb-4 rounded-[2rem] bg-[#1A1A1D]">
+        <div className="flex items-center">
+          <History className="size-8 mr-4 shrink-0 text-purple-400" />
+          <div className="flex flex-col">
+            <h1 className="text-lg font-semibold text-white/90">User Chat History</h1>
+            <p className="text-xs text-white/70">*click to go to chat</p>
+          </div>
+        </div>
+      </div>
       <ChatHistoryGrid chats={chats} />
     </div>
   );
