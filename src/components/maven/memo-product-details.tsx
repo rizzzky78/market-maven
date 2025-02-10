@@ -234,7 +234,7 @@ const PureProductDetails: FC<ProductDetailsProps> = ({
         <div className="flex items-center justify-between bg-[#1A1A1D] text-white dark:bg-white dark:text-black py-1 px-1 w-full rounded-[2rem]">
           <div className="flex items-center mx-3">
             <FlaskConical
-              className={`size-6 text-purple-400 mr-2 ${
+              className={`size-6 text-purple-400 mr-2 shrink-0 ${
                 isGenerating ? "animate-spin" : "animate-none"
               }`}
             />
