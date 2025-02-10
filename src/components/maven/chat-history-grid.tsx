@@ -7,7 +7,7 @@ interface ChatHistoryProps {
 }
 
 export const ChatHistoryGrid: FC<ChatHistoryProps> = ({ chats }) => {
-  const filtered = chats.filter((c) => c.title !== "");
+  const filtered = chats.filter((c) => c.title !== "" && c.chatId !== "");
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
       {filtered.map((chat, index) => (
