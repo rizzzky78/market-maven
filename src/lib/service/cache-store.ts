@@ -1,5 +1,10 @@
 import { sql } from "@/database/neon";
-import { CachedScrape, QueryKey, ResultedScrapeOperation } from "../types/neon";
+import {
+  CachedScrape,
+  CacheResultedScrape,
+  QueryKey,
+  ResultedScrapeOperation,
+} from "../types/neon";
 
 /**
  * Saves scraped content to the database cache.
@@ -105,7 +110,7 @@ export async function getScrapeCacheByQuery<T>(
 export async function handleScrapingWithCache<T>(
   payload: QueryKey,
   scrapeFunction: (query: string) => Promise<ResultedScrapeOperation<T>>
-): Promise<{ cached: boolean; response: CachedScrape<T> }> {
+): Promise<CacheResultedScrape<T>> {
   // Check cache first by query
   const cached = await getScrapeCacheByQuery<T>(payload.query);
   if (cached) {

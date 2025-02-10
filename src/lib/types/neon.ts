@@ -141,6 +141,13 @@ export type CachedScrape<T = any> = {
   data: ResultedScrapeOperation<T>;
 };
 
+export type CacheResultedScrape<T> = {
+  /** A type represent is data are cached or not cached, `true` if cached othwerise is not cached */
+  cached: boolean;
+  /** The cached scrape response from scrapeFn */
+  response: CachedScrape<T>;
+};
+
 /**
  * Generic interface representing a data store for tool operations.
  *
