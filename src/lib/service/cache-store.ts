@@ -3,12 +3,13 @@ import { CachedScrape, QueryKey, ResultedScrapeOperation } from "../types/neon";
 
 /**
  * Saves scraped content to the database cache.
+ * Requires a UUID key for storage and retrieval.
  * If a record with the same query exists, it will be updated with the new response.
  *
- * @param payload - Contains the query string used for scraping
+ * @param payload - Contains the query string and UUID key
  * @param data - The scraped content response
- * @returns Promise<CachedScrape> - The saved cache entry
- * @throws {Error} If database operation fails
+ * @returns Promise<ScrapeResponse> - The saved cache entry
+ * @throws {Error} If database operation fails or if UUID is invalid
  */
 export async function saveScrapeCache<T>(
   payload: QueryKey,
@@ -20,10 +21,11 @@ export async function saveScrapeCache<T>(
   };
 
   const result = await sql`
-    INSERT INTO scrape_cache (query, response)
-    VALUES (${payload.query}, ${JSON.stringify(data)})
-    ON CONFLICT (query) 
+    INSERT INTO scrape_cache (key, query, response)
+    VALUES (${payload.key}::uuid, ${payload.query}, ${JSON.stringify(data)})
+    ON CONFLICT (key) 
     DO UPDATE SET 
+      query = ${payload.query},
       response = ${JSON.stringify(data)},
       created_at = CURRENT_TIMESTAMP
     RETURNING *;
@@ -35,19 +37,46 @@ export async function saveScrapeCache<T>(
 
   return response;
 }
-
 /**
- * Retrieves cached scrape content for a given query.
+ * Retrieves cached scrape content by UUID key.
  *
- * @param query - The query string to look up in the cache
- * @returns Promise<CachedScrape | null> - The cached response or null if not found
+ * @param key - The UUID key to look up in the cache
+ * @returns Promise<ScrapeResponse | null> - The cached response or null if not found
  * @throws {Error} If database operation fails
  */
-export async function getScrapeCache<T>(
+export async function getScrapeCacheByKey<T>(
+  key: string
+): Promise<CachedScrape<T> | null> {
+  const result = await sql`
+    SELECT key, query, response
+    FROM scrape_cache
+    WHERE key = ${key}::uuid;
+  `;
+
+  if (!result[0]) {
+    return null;
+  }
+
+  return {
+    payload: {
+      key: result[0].key,
+      query: result[0].query,
+    },
+    data: result[0].response,
+  };
+}
+
+/**
+ * Retrieves cached scrape content by query string.
+ *
+ * @param query - The query string to look up in the cache
+ * @returns Promise<ScrapeResponse | null> - The cached response or null if not found
+ */
+export async function getScrapeCacheByQuery<T>(
   query: string
 ): Promise<CachedScrape<T> | null> {
   const result = await sql`
-    SELECT query, markdown
+    SELECT key, query, response
     FROM scrape_cache
     WHERE query = ${query};
   `;
@@ -57,8 +86,11 @@ export async function getScrapeCache<T>(
   }
 
   return {
-    payload: { query: result[0].query },
-    data: result[0].markdown,
+    payload: {
+      key: result[0].key,
+      query: result[0].query,
+    },
+    data: result[0].response,
   };
 }
 
@@ -66,23 +98,23 @@ export async function getScrapeCache<T>(
  * Handles scraping operation with caching capability.
  * Checks cache first and only performs scraping if no cached data exists.
  *
- * @param query - The search query to scrape
- * @param scrapeFn - The function that performs the actual scraping
- * @returns Promise<CachedScrape> - Either cached or freshly scraped data
+ * @param payload - Contains query string and UUID key
+ * @param scrapeFunction - The function that performs the actual scraping
+ * @returns Promise<ScrapeResponse> - Either cached or freshly scraped data
  */
 export async function handleScrapingWithCache<T>(
-  query: string,
-  scrapeFn: (query: string) => Promise<ResultedScrapeOperation<T>>
+  payload: QueryKey,
+  scrapeFunction: (query: string) => Promise<ResultedScrapeOperation<T>>
 ): Promise<CachedScrape<T>> {
-  // Check cache first
-  const cached = await getScrapeCache<T>(query);
+  // Check cache first by query
+  const cached = await getScrapeCacheByQuery<T>(payload.query);
   if (cached) {
     return cached;
   }
 
   // If not in cache, perform scraping
-  const scrapedData = await scrapeFn(query);
+  const scrapedData = await scrapeFunction(payload.query);
 
-  // Save to cache and return
-  return await saveScrapeCache({ query }, scrapedData);
+  // Save to cache with provided key and return
+  return await saveScrapeCache(payload, scrapedData);
 }
