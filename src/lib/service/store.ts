@@ -170,8 +170,10 @@ export async function getObjectEntry<T extends ObjectType>(
  * @returns {Promise<ToolDataStore<ARGS, DATA>>} - Stored tool data
  */
 export async function createToolDataEntry<ARGS, DATA>(
-  data: ToolDataStore<ARGS, DATA>
+  data: Omit<ToolDataStore<ARGS, DATA>, "timestamp">
 ): Promise<ToolDataStore<ARGS, DATA>> {
+  const { key, chatId, owner, tool } = data;
+
   const result = await sql`
     INSERT INTO tool_data_store (
       key,
@@ -182,13 +184,13 @@ export async function createToolDataEntry<ARGS, DATA>(
       tool_args,
       tool_data
     ) VALUES (
-      ${data.key},
-      ${data.chatId},
-      ${data.owner},
-      ${data.tool.success},
-      ${data.tool.name},
-      ${JSON.stringify(data.tool.args)},
-      ${JSON.stringify(data.tool.data)}
+      ${key},
+      ${chatId},
+      ${owner},
+      ${tool.success},
+      ${tool.name},
+      ${JSON.stringify(tool.args)},
+      ${JSON.stringify(tool.data)}
     )
     RETURNING 
       key,
