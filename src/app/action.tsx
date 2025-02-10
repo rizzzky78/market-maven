@@ -36,6 +36,7 @@ import {
 } from "@/lib/agents/system-instructions";
 import { SYSTEM_INSTRUCT_CORE } from "@/lib/agents/system-instructions/core";
 import { scrapeUrl } from "@/lib/agents/tools/api/firecrawl";
+import { handleScrapingWithCache } from "@/lib/service/cache-store";
 import { retrieveKeyValue, storeKeyValue } from "@/lib/service/store";
 import {
   AIState,
@@ -135,6 +136,8 @@ const orchestrator = async (
         description: TEMPLATE.SearchProductDescription,
         parameters: searchProductSchema,
         generate: async function* ({ query }) {
+          const toolRequestId = v4();
+
           logger.info("Using searchProduct tool", {
             progress: "initial",
             request: { query },
@@ -147,11 +150,16 @@ const orchestrator = async (
 
           yield <LoadingText text={`Searching for ${query}`} />;
 
-          const scrapeContent = await scrapeUrl({
-            url: processURLQuery(query),
-            formats: ["markdown", "screenshot"],
-            waitFor: 4000,
-          });
+          const { data: scrapeContent } = await handleScrapingWithCache(
+            query,
+            async (payload) => {
+              return await scrapeUrl({
+                url: processURLQuery(payload),
+                formats: ["markdown", "screenshot"],
+                waitFor: 4000,
+              });
+            }
+          );
 
           if (
             scrapeContent.success &&
@@ -173,7 +181,7 @@ const orchestrator = async (
               <LoadingText text="Found products, proceed to data extraction..." />
             );
 
-            await new Promise((resolve) => setTimeout(resolve, 3000));
+            await new Promise((resolve) => setTimeout(resolve, 2000));
 
             yield (
               <LoadingText text="Extracting products data from raw data..." />
@@ -336,11 +344,16 @@ const orchestrator = async (
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
-          const scrapeContent = await scrapeUrl({
-            url: link,
-            formats: ["markdown", "screenshot"],
-            waitFor: 4000,
-          });
+          const { data: scrapeContent } = await handleScrapingWithCache(
+            link,
+            async (payload) => {
+              return await scrapeUrl({
+                url: payload,
+                formats: ["markdown", "screenshot"],
+                waitFor: 4000,
+              });
+            }
+          );
 
           if (
             scrapeContent.success &&
