@@ -148,11 +148,11 @@ export type ToolMutationConfig = {
 /**
  * Structure representing the result of a tool mutation operation
  */
-export type MutationResult = {
+export type MutationResult<ARGS, DATA> = {
   /** Array of messages generated during mutation */
   mutate: MessageProperty[];
   /** Result of the tool execution */
-  toolResult: ExtendedToolResult;
+  toolResult: ExtendedToolResult<ARGS, DATA>;
 };
 
 /**

@@ -147,7 +147,7 @@ export function mutateTool<ARGS = unknown, DATA = unknown>(
 
     return {
       mutate: mutationMessages,
-      toolResult: constructToolResult,
+      toolResult: constructToolResult as ExtendedToolResult<ARGS, DATA>,
     };
   } catch (error) {
     if (error instanceof ToolMutationError) {
