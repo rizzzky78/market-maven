@@ -1,6 +1,6 @@
 import { sql } from "@/database/neon";
-import { CachedScrape, QueryKey } from "../types/neon";
-import { ScrapeResponse } from "@mendable/firecrawl-js";
+import { CachedScrape, QueryKey, ResultedScrapeOperation } from "../types/neon";
+import { ErrorResponse, ScrapeResponse } from "@mendable/firecrawl-js";
 
 /**
  * Saves scraped content to the database cache.
@@ -13,7 +13,7 @@ import { ScrapeResponse } from "@mendable/firecrawl-js";
  */
 export async function saveScrapeCache<T>(
   payload: QueryKey,
-  data: ScrapeResponse
+  data: ResultedScrapeOperation<T>
 ): Promise<CachedScrape<T>> {
   const response: CachedScrape<T> = {
     payload,
@@ -73,7 +73,7 @@ export async function getScrapeCache<T>(
  */
 export async function handleScrapingWithCache<T>(
   query: string,
-  scrapeFn: (query: string) => Promise<ScrapeResponse>
+  scrapeFn: (query: string) => Promise<ResultedScrapeOperation<T>>
 ): Promise<CachedScrape<T>> {
   // Check cache first
   const cached = await getScrapeCache<T>(query);
