@@ -1,85 +1,51 @@
 import { ScrapeResponse } from "@mendable/firecrawl-js";
-import { z } from "zod";
 import { ErrorResponse } from "./firecrawl";
 
 /**
- * Store schema validation
+ * Represents the supported types of markdown data.
  */
-export const storeValueSchema = z.object({
-  key: z.string().uuid(),
-  metadata: z.object({
-    chatId: z.string(),
-    email: z.string().email(),
-  }),
-  value: z.record(z.unknown()),
-});
-
-/**
- * Type inference from schema
- */
-export type StoreValue = z.infer<typeof storeValueSchema>;
-
-/**
- * Stored value type with additional T value type
- */
-export type StoredValue<T = unknown> = {
-  key: string;
-  value: T;
-};
-
-export type KeyValueType = "markdown" | "object";
-
-export type BaseKeyValue = {
-  chatId: string;
-  owner: string;
-};
-
-export type KeyValueMarkdown = {
-  key: string;
-  data: string;
-  createdAt: Date;
-} & BaseKeyValue;
-
-export type KeyValueObject<T> = {
-  key: string;
-  data: T;
-  createdAt: Date;
-} & BaseKeyValue;
-
-export type ResultedTypeTool =
-  | "search-product"
-  | "get-product-details"
-  | "products-comparison";
-
-export type Shape = {
-  key: string;
-  chatId: string;
-  owner: string;
-  data: {
-    type: ResultedTypeTool;
-    content: Record<string, any>[];
-  };
-};
-
 export type MarkdownType = "product-search" | "product-details";
 
-/** A representation type of stored markdown data also the schema of data type */
+/**
+ * Represents stored markdown data and defines the schema for markdown storage.
+ *
+ * @template T - The type of markdown data (defaults to `MarkdownType`).
+ */
 export type MarkdownStore<T = MarkdownType> = {
-  /** A uuid primary key to access the data, this are inputed manualy from API */
+  /**
+   * A UUID that serves as the primary key for accessing the data.
+   * This value is provided manually via the API.
+   */
   key: string;
-  /** This data inputed manualy from API */
+  /**
+   * The chat identifier associated with this markdown data.
+   * This value is provided manually via the API.
+   */
   chatId: string;
-  /** This data inputed manualy from API */
+  /**
+   * The identifier of the owner of the markdown data.
+   * This value is provided manually via the API.
+   */
   owner: string;
-  /** Timestamp to tract data time data created, this handled automaticaly by database */
+  /**
+   * The timestamp indicating when the data was created.
+   * This is managed automatically by the database.
+   */
   timestamp: string;
-  /** A type that represent what type markdown are stored */
+  /**
+   * The type of markdown data stored.
+   */
   type: T;
-  /** Contained raw markdown data from scrape result without stringifycation or string modification */
+  /**
+   * The raw markdown content obtained from a scrape result.
+   * This content is stored without any stringification or modification.
+   */
   markdown: string;
 };
 
-/** A representation type of payload API to store the markdown data */
+/**
+ * Data Transfer Object (DTO) representing the payload to store markdown data via the API.
+ */
 export type MarkdownStoreDTO = {
   key: string;
   chatId: string;
@@ -88,88 +54,133 @@ export type MarkdownStoreDTO = {
   markdown: string;
 };
 
+/**
+ * Represents the supported object operation types.
+ */
 export type ObjectType =
   | "searchProduct"
   | "getProductDetails"
   | "productsComparison";
 
 /**
- * A type represent stored Object Data type
+ * Represents stored object data.
+ *
+ * @template T - The type of the contained object data.
  */
 export type ObjectStore<T = Record<string, any>> = {
-  /** A uuid primary key to access the data, this are inputed manualy from API */
+  /**
+   * A UUID that serves as the primary key for accessing the data.
+   * This value is provided manually via the API.
+   */
   key: string;
-  /** This data inputed manualy from API */
+  /**
+   * The chat identifier associated with this object data.
+   * This value is provided manually via the API.
+   */
   chatId: string;
-  /** This data inputed manualy from API */
+  /**
+   * The identifier of the owner of the object data.
+   * This value is provided manually via the API.
+   */
   owner: string;
-  /** Timestamp to tract data time data created, this handled automaticaly by database */
+  /**
+   * The timestamp indicating when the data was created.
+   * This is managed automatically by the database.
+   */
   timestamp: string;
-  /** A source type coresponding contained object data */
+  /**
+   * The type of object data stored.
+   */
   type: ObjectType;
-  /** A type represent the contained object data */
-  object: T;
-};
-
-/** A representation type of payload API to store the object data */
-export type ObjectStoreDTO<T = Record<string, unknown>> = {
-  key: string;
-  chatId: string;
-  owner: string;
-  type: ObjectType;
+  /**
+   * The actual object data.
+   */
   object: T;
 };
 
 /**
- * Map object types to their corresponding data structures
- */
-export type ObjectTypeMap = {
-  searchProduct: Record<string, any>;
-  getProductDetails: Record<string, any>;
-  productsComparison: Record<string, any>;
-};
-
-/**
- * Enhanced ObjectStore type with generic support
+ * A strongly typed version of the {@link ObjectStore} type.
+ *
+ * @template T - The specific type for the contained object data.
  */
 export type TypedObjectStore<T> = Omit<ObjectStore, "object"> & {
   object: T;
 };
 
+/**
+ * Represents a query key used in scraping operations.
+ */
 export type QueryKey = {
   query: string;
 };
 
+/**
+ * Represents the result of a scraping operation, which can either be a successful scrape response
+ * or an error response.
+ *
+ * @template T - The type of data returned on a successful scrape.
+ */
 export type ResultedScrapeOperation<T> = ScrapeResponse<T> | ErrorResponse;
 
+/**
+ * Represents a cached scrape operation, including both the query key payload and its associated data.
+ *
+ * @template T - The type of data associated with the scrape operation.
+ */
 export type CachedScrape<T = any> = {
+  /**
+   * The payload containing the query key.
+   */
   payload: QueryKey;
+  /**
+   * The data resulting from the scrape operation.
+   */
   data: ResultedScrapeOperation<T>;
 };
 
 /**
- * Generic interface for tool arguments
- * @template ARGS - Type of arguments passed to the tool
- * @template DATA - Type of data returned by the tool
+ * Generic interface representing a data store for tool operations.
+ *
+ * @template ARGS - The type of arguments passed to the tool.
+ * @template DATA - The type of data returned by the tool.
  */
 export type ToolDataStore<ARGS = unknown, DATA = unknown> = {
-  /** UUID primary key to access the data */
+  /**
+   * A UUID that serves as the primary key for accessing the stored data.
+   */
   key: string;
-  /** Associated chat ID */
+  /**
+   * The chat identifier associated with this data.
+   */
   chatId: string;
-  /** Owner identifier */
+  /**
+   * The identifier for the owner of the data.
+   */
   owner: string;
-  /** Timestamp handled by database */
+  /**
+   * The timestamp indicating when the record was created.
+   * This is managed automatically by the database.
+   */
   timestamp: Date;
-  /** Tool-specific information */
+  /**
+   * Information specific to the tool operation.
+   */
   tool: {
-    /** Indicates if the tool operation was successful */
+    /**
+     * Indicates whether the tool operation was successful.
+     */
     success: boolean;
-    /** Name of the tool */
+    /**
+     * The name of the tool.
+     */
     name: string;
-    /** Generic arguments passed to the tool */
+    /**
+     * The arguments passed to the tool.
+     */
     args: ARGS;
-    /** Generic data returned by the tool */
+    /**
+     * The data returned by the tool.
+     */
     data: DATA;
   };
 };

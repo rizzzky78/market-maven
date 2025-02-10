@@ -5,85 +5,11 @@ import {
   MarkdownStore,
   MarkdownStoreDTO,
   MarkdownType,
-  ObjectStoreDTO,
-  ObjectType,
-  ObjectTypeMap,
-  StoredValue,
-  StoreValue,
+  ObjectStore,
   ToolDataStore,
   TypedObjectStore,
 } from "../types/neon";
 import logger from "../utility/logger";
-
-/**
- * Stores a key-value pair in the database with associated metadata.
- * This function provides a generic way to persist any JSON-serializable data
- * with additional contextual information.
- *
- * @template T - The type of value being stored
- * @param {Object} params - The parameters for storing the value
- * @param {string} params.key - Unique identifier for the stored value
- * @param {Record<string, unknown>} params.metadata - Additional contextual information about the stored value
- * @param {T} params.value - The actual value to be stored
- * @returns {Promise<StoredValue<T>>} - Returns the stored key and value
- */
-export async function storeKeyValue<T>({
-  key,
-  metadata,
-  value,
-}: StoreValue): Promise<StoredValue<T>> {
-  logger.info("Storing value", {
-    key: key,
-    metadata: metadata,
-    operation: "store",
-  });
-
-  await sql`
-    INSERT INTO key_value_store (key, metadata, value)
-    VALUES (
-      ${key},  
-      ${JSON.stringify(metadata)}::jsonb,
-      ${JSON.stringify(value)}::jsonb
-    )
-  `;
-
-  return {
-    key: key,
-    value: value as T,
-  };
-}
-
-/**
- * Retrieves a previously stored value from the database using its key.
- * Returns null if no value is found for the given key.
- *
- * @template T - The expected type of the stored value
- * @param {Object} params - The parameters for retrieving the value
- * @param {string} params.key - The unique identifier of the value to retrieve
- * @returns {Promise<StoredValue<T> | null>} - Returns the stored value and key if found, null otherwise
- */
-export async function retrieveKeyValue<T>({
-  key,
-}: {
-  key: string;
-}): Promise<StoredValue<T> | null> {
-  logger.info("Retrieving value", { key, operation: "retrieve" });
-
-  const result = await sql`
-    SELECT key, value
-    FROM key_value_store
-    WHERE key = ${key}
-  `;
-
-  if (result.length === 0) {
-    return null;
-  }
-
-  return {
-    key: result[0].key,
-    value: result[0].value,
-  };
-}
 
 /**
  * Creates a new markdown entry in the database.
@@ -143,8 +69,8 @@ export async function getMarkdownEntry<T = MarkdownType>(
  * @param {Omit<ObjectStoreDTO, "object"> & { object: ObjectTypeMap[T] }} payload - The object entry data to be stored
  * @returns {Promise<TypedObjectStore<T>>} - Returns the created object entry
  */
-export async function createObjectEntry<T extends ObjectType>(
-  payload: Omit<ObjectStoreDTO, "object"> & { object: ObjectTypeMap[T] }
+export async function createObjectEntry<T>(
+  payload: Omit<ObjectStore<T>, "timestamp">
 ): Promise<TypedObjectStore<T>> {
   logger.info("Storing Value", {
     on: "createObjectEntry",
@@ -169,7 +95,7 @@ export async function createObjectEntry<T extends ObjectType>(
  * @param {string} key - The unique identifier of the object entry
  * @returns {Promise<TypedObjectStore<T> | null>} - Returns the object entry if found, null otherwise
  */
-export async function getObjectEntry<T extends ObjectType>(
+export async function getObjectEntry<T>(
   key: string
 ): Promise<TypedObjectStore<T> | null> {
   const result = await sql`
