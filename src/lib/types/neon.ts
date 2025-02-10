@@ -1,5 +1,6 @@
-import { ErrorResponse, ScrapeResponse } from "@mendable/firecrawl-js";
+import { ScrapeResponse } from "@mendable/firecrawl-js";
 import { z } from "zod";
+import { ErrorResponse } from "./firecrawl";
 
 /**
  * Store schema validation

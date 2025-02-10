@@ -1,6 +1,5 @@
 import { sql } from "@/database/neon";
 import { CachedScrape, QueryKey, ResultedScrapeOperation } from "../types/neon";
-import { ErrorResponse, ScrapeResponse } from "@mendable/firecrawl-js";
 
 /**
  * Saves scraped content to the database cache.
