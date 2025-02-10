@@ -67,7 +67,7 @@ export function mutateTool<ARGS = unknown, DATA = unknown>(
   state: MutableAIState<AIState>,
   payload: MutationPayload,
   config?: ToolMutationConfig
-): MutationResult {
+): MutationResult<ARGS, DATA> {
   const { name, args, result, overrideAssistant } = payload;
 
   if (!name) {
@@ -147,7 +147,7 @@ export function mutateTool<ARGS = unknown, DATA = unknown>(
 
     return {
       mutate: mutationMessages,
-      toolResult: constructToolResult as ExtendedToolResult<ARGS, DATA>,
+      toolResult: constructToolResult,
     };
   } catch (error) {
     if (error instanceof ToolMutationError) {
