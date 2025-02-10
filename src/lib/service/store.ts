@@ -169,7 +169,7 @@ export async function getObjectEntry<T extends ObjectType>(
  * @param {ToolDataStore<ARGS, DATA>} data - Tool data to store
  * @returns {Promise<ToolDataStore<ARGS, DATA>>} - Stored tool data
  */
-export async function createToolDataStore<ARGS, DATA>(
+export async function createToolDataEntry<ARGS, DATA>(
   data: ToolDataStore<ARGS, DATA>
 ): Promise<ToolDataStore<ARGS, DATA>> {
   const result = await sql`
@@ -211,7 +211,7 @@ export async function createToolDataStore<ARGS, DATA>(
  * @param {string} key - The unique identifier of the tool data
  * @returns {Promise<ToolDataStore<ARGS, DATA> | null>} - The tool data or null if not found
  */
-export async function getToolDataStoreByKey<ARGS, DATA>(
+export async function getToolDataEntryByKey<ARGS, DATA>(
   key: string
 ): Promise<ToolDataStore<ARGS, DATA> | null> {
   const result = await sql`
@@ -238,7 +238,7 @@ export async function getToolDataStoreByKey<ARGS, DATA>(
  * @param {string} chatId - The chat identifier
  * @returns {Promise<ToolDataStore<ARGS, DATA>[]>} - Array of tool data entries
  */
-export async function getToolDataStoreByChatId<ARGS, DATA>(
+export async function getToolDataEntryByChatId<ARGS, DATA>(
   chatId: string
 ): Promise<ToolDataStore<ARGS, DATA>[]> {
   const result = await sql`
