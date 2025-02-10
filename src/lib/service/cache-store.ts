@@ -105,16 +105,23 @@ export async function getScrapeCacheByQuery<T>(
 export async function handleScrapingWithCache<T>(
   payload: QueryKey,
   scrapeFunction: (query: string) => Promise<ResultedScrapeOperation<T>>
-): Promise<CachedScrape<T>> {
+): Promise<{ cached: boolean; response: CachedScrape<T> }> {
   // Check cache first by query
   const cached = await getScrapeCacheByQuery<T>(payload.query);
   if (cached) {
-    return cached;
+    return {
+      cached: true,
+      response: cached,
+    };
   }
 
   // If not in cache, perform scraping
   const scrapedData = await scrapeFunction(payload.query);
 
+  const noCached = await saveScrapeCache(payload, scrapedData);
   // Save to cache with provided key and return
-  return await saveScrapeCache(payload, scrapedData);
+  return {
+    cached: false,
+    response: noCached,
+  };
 }
