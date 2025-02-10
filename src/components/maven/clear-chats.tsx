@@ -18,7 +18,7 @@ export const ClearChats: FC = () => {
   if (error) {
     return (
       <div>
-        <ErrorMessage name="Clear Chats Error" messsage="Unknown Error!" />
+        <ErrorMessage errorName="Clear Chats Error" reason="Unknown Error!" />
       </div>
     );
   }

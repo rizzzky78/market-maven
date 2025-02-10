@@ -47,7 +47,7 @@ export async function getScrapeCache<T>(
   query: string
 ): Promise<CachedScrape<T> | null> {
   const result = await sql`
-    SELECT query, response
+    SELECT query, markdown
     FROM scrape_cache
     WHERE query = ${query};
   `;
@@ -58,7 +58,7 @@ export async function getScrapeCache<T>(
 
   return {
     payload: { query: result[0].query },
-    data: result[0].response,
+    data: result[0].markdown,
   };
 }
 

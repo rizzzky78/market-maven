@@ -111,7 +111,10 @@ export type TypedObjectStore<T> = Omit<ObjectStore, "object"> & {
  * Represents a query key used in scraping operations.
  */
 export type QueryKey = {
+  /** A query input */
   query: string;
+  /** UUID string */
+  key: string;
 };
 
 /**
