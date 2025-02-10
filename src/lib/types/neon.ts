@@ -149,3 +149,30 @@ export type CachedScrape<T = any> = {
   payload: QueryKey;
   data: ResultedScrapeOperation<T>;
 };
+
+/**
+ * Generic interface for tool arguments
+ * @template ARGS - Type of arguments passed to the tool
+ * @template DATA - Type of data returned by the tool
+ */
+export type ToolData<ARGS = unknown, DATA = unknown> = {
+  /** UUID primary key to access the data */
+  key: string;
+  /** Associated chat ID */
+  chatId: string;
+  /** Owner identifier */
+  owner: string;
+  /** Timestamp handled by database */
+  timestamp: Date;
+  /** Tool-specific information */
+  tool: {
+    /** Indicates if the tool operation was successful */
+    success: boolean;
+    /** Name of the tool */
+    name: string;
+    /** Generic arguments passed to the tool */
+    args: ARGS;
+    /** Generic data returned by the tool */
+    data: DATA;
+  };
+};
