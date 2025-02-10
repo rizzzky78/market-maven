@@ -155,7 +155,10 @@ const orchestrator = async (
 
           yield <LoadingText text={`Searching for ${query}`} />;
 
-          const { data: scrapeContent } = await handleScrapingWithCache(
+          const {
+            cached,
+            response: { data: scrapeContent },
+          } = await handleScrapingWithCache(
             { query, key: toolRequestId },
             async (payload) => {
               return await scrapeUrl({
@@ -165,6 +168,16 @@ const orchestrator = async (
               });
             }
           );
+
+          if (cached) {
+            yield (
+              <LoadingText
+                text={`The query is cached!. Proceed to do data extraction`}
+              />
+            );
+
+            await new Promise((resolve) => setTimeout(resolve, 3000));
+          }
 
           if (
             scrapeContent.success &&
@@ -357,8 +370,11 @@ const orchestrator = async (
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
-          const { data: scrapeContent } = await handleScrapingWithCache(
-            { query, key: toolRequestId },
+          const {
+            cached,
+            response: { data: scrapeContent },
+          } = await handleScrapingWithCache(
+            { query: link, key: toolRequestId },
             async (payload) => {
               return await scrapeUrl({
                 url: payload,
@@ -367,6 +383,16 @@ const orchestrator = async (
               });
             }
           );
+
+          if (cached) {
+            yield (
+              <LoadingText
+                text={`The query is cached!. Proceed to do data extraction`}
+              />
+            );
+
+            await new Promise((resolve) => setTimeout(resolve, 3000));
+          }
 
           if (
             scrapeContent.success &&
