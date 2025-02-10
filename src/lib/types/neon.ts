@@ -96,7 +96,7 @@ export type ObjectType =
 /**
  * A type represent stored Object Data type
  */
-export type ObjectStore = {
+export type ObjectStore<T = Record<string, any>> = {
   /** A uuid primary key to access the data, this are inputed manualy from API */
   key: string;
   /** This data inputed manualy from API */
@@ -108,16 +108,16 @@ export type ObjectStore = {
   /** A source type coresponding contained object data */
   type: ObjectType;
   /** A type represent the contained object data */
-  object: Record<string, any>;
+  object: T;
 };
 
 /** A representation type of payload API to store the object data */
-export type ObjectStoreDTO = {
+export type ObjectStoreDTO<T = Record<string, unknown>> = {
   key: string;
   chatId: string;
   owner: string;
   type: ObjectType;
-  object: Record<string, any>;
+  object: T;
 };
 
 /**
@@ -132,11 +132,8 @@ export type ObjectTypeMap = {
 /**
  * Enhanced ObjectStore type with generic support
  */
-export type TypedObjectStore<T extends ObjectType> = Omit<
-  ObjectStore,
-  "object"
-> & {
-  object: ObjectTypeMap[T];
+export type TypedObjectStore<T> = Omit<ObjectStore, "object"> & {
+  object: T;
 };
 
 export type QueryKey = {
