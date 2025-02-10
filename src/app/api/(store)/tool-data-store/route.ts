@@ -7,6 +7,12 @@ import { NextRequest, NextResponse } from "next/server";
 
 /**
  * Handles GET requests to fetch tool data
+ * @example
+ * ```typescript
+ * const response = await fetch('/api/tool-data-store?key=2883cf1b-cd8a-4dd2-94b0-b633ce625a11')
+ * // or
+ * const response = await fetch('/api/tool-data-store?chatId=chat-123')
+ * ```
  */
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -45,6 +51,23 @@ export async function GET(request: NextRequest) {
 
 /**
  * Handles POST requests to create new tool data
+ * @example
+ * ```typescript
+* const response = await fetch("/api/tool-data-store", {
+  method: "POST",
+  body: JSON.stringify({
+    key: "2883cf1b-cd8a-4dd2-94b0-b633ce625a11",
+    chatId: "come-chat-id",
+    owner: "whoaiam@gmail.com",
+    tool: {
+      success: true,
+      name: "searchProduct",
+      args: { query: "Lenovo Yoga" },
+      data: {},
+    },
+  }),
+});
+ * ```
  */
 export async function POST(request: NextRequest) {
   try {
