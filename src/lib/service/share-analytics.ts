@@ -6,7 +6,6 @@ import { createShareReferenceId } from "./share";
 import { createId } from "@paralleldrive/cuid2";
 
 export async function createShare(
-  userId: string,
   userEmail: string,
   componentId: string,
   componentType: ComponentType
@@ -16,10 +15,10 @@ export async function createShare(
 
   await sql`
       INSERT INTO shares (
-          id, user_id, user_email, reference_id, 
+          id, user_email, reference_id, 
           component_id, component_type
       ) VALUES (
-          ${id}, ${userId}, ${userEmail}, ${referenceId}, 
+          ${id}, ${userEmail}, ${referenceId}, 
           ${componentId}, ${componentType}
       )
   `;
