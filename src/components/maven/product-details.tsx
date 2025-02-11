@@ -98,7 +98,9 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
                     <div>
                       <ShareButton
                         title={"Product Details"}
-                        link={`http://localhost:3000/share?type=getProductDetails?component-id=${callId}?reff-id=`}
+                        type={"product-details"}
+                        callId={callId}
+                        // link={`http://localhost:3000/share?type=getProductDetails?component-id=${callId}?reff-id=`}
                       />
                     </div>
                     <TooltipProvider>

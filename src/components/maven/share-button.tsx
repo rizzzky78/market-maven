@@ -19,17 +19,48 @@ import {
   TooltipTrigger,
   TooltipProvider,
 } from "../ui/tooltip";
+import useSWRMutation from "swr/mutation";
 
 interface ShareButtonProps {
   title: string;
-  link: string;
+  callId: string;
+  type: "product-search" | "product-details" | "products-comparison";
 }
 
-export const ShareButton: FC<ShareButtonProps> = ({ title, link }) => {
+async function postRequest(
+  url: string,
+  { arg }: { arg: { callId: string; type: string } }
+) {
+  return fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      componentId: arg.callId,
+      componentType: arg.type,
+    }),
+  }).then((res) => res.json());
+}
+
+export const ShareButton: FC<ShareButtonProps> = ({ title, callId, type }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const [done, setDone] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [link, setLink] = useState("");
+  const { trigger, isMutating } = useSWRMutation("/api/share", postRequest);
+
+  const handleActionShare = async () => {
+    try {
+      const result = await trigger({ callId, type });
+
+      if (result) {
+        setDone(true);
+        setLink(result.shareUrl);
+      }
+      console.log("POST Success:", result);
+    } catch (err) {
+      console.error("POST Error:", err);
+    }
+  };
 
   const handleCopy = async () => {
     try {
@@ -39,14 +70,6 @@ export const ShareButton: FC<ShareButtonProps> = ({ title, link }) => {
     } catch (error) {
       console.error("Failed to copy:", error);
     }
-  };
-
-  const handleShare = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setDone(true);
-    }, 3000);
   };
 
   return (
@@ -109,9 +132,13 @@ export const ShareButton: FC<ShareButtonProps> = ({ title, link }) => {
             <Button
               size="sm"
               className="px-3 rounded-3xl min-w-20"
-              onClick={handleShare}
+              onClick={handleActionShare}
             >
-              {loading ? <Loader className="size-6 animate-spin" /> : "Share"}
+              {isMutating ? (
+                <Loader className="size-6 animate-spin" />
+              ) : (
+                "Share"
+              )}
             </Button>
           )}
         </div>
