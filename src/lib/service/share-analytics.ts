@@ -1,7 +1,7 @@
-'use server'
+"use server";
 
 import { sql } from "@/database/neon";
-import { ComponentType, ShareRecord } from "../types/neon";
+import { ComponentType, ShareAnalytics, ShareRecord } from "../types/neon";
 import { createShareReferenceId } from "./share";
 import { createId } from "@paralleldrive/cuid2";
 
@@ -44,4 +44,33 @@ export async function incrementShareAccess(referenceId: string): Promise<void> {
           last_accessed_at = CURRENT_TIMESTAMP
       WHERE reference_id = ${referenceId}
   `;
+}
+
+export async function getShareAnalytics(
+  userId?: string
+): Promise<ShareAnalytics[]> {
+  const query = userId
+    ? await sql`
+          SELECT 
+              component_type,
+              COUNT(*) as total_shares,
+              SUM(access_count) as total_accesses,
+              COUNT(DISTINCT user_id) as unique_sharers
+          FROM shares
+          WHERE user_id = ${userId}
+          GROUP BY component_type
+          ORDER BY total_accesses DESC
+      `
+    : await sql`
+          SELECT 
+              component_type,
+              COUNT(*) as total_shares,
+              SUM(access_count) as total_accesses,
+              COUNT(DISTINCT user_id) as unique_sharers
+          FROM shares
+          GROUP BY component_type
+          ORDER BY total_accesses DESC
+      `;
+
+  return query as ShareAnalytics[];
 }
