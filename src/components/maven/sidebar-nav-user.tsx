@@ -83,7 +83,10 @@ export const NavUser: FC = () => {
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <SquareCode />
-                View Portfolio of creator App
+                <Link href={"/dev-portfolio"} className="flex items-center">
+                  <HistoryIcon className="size-4 mr-1" />
+                  View Portfolio of creator App
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => signOut({ callbackUrl: "/login" })}

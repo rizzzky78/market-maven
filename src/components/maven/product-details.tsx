@@ -18,6 +18,7 @@ import {
 } from "../ui/tooltip";
 import Link from "next/link";
 import { useSmartTextarea } from "../hooks/use-smart-textare";
+import { ShareButton } from "./share-button";
 
 export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
   const { success, args, data } = content;
@@ -95,24 +96,11 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
                   </div>
                   <div className="flex items-center">
                     <div>
-                      <TooltipProvider>
-                        <Tooltip delayDuration={100}>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant={"outline"}
-                              className="rounded-full mr-2 size-8"
-                            >
-                              <Share2 className="size-2 shrink-0" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent className="rounded-3xl">
-                            <p className="max-w-sm font-semibold">
-                              Share this product details, anyone with link can
-                              view
-                            </p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+                      <ShareButton
+                        title={"Product Details"}
+                        type={"getProductDetails"}
+                        link={`http://localhost:3000/share?type=getProductDetails?component-id=$${callId}`}
+                      />
                     </div>
                     <TooltipProvider>
                       <Tooltip delayDuration={100}>
