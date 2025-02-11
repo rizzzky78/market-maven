@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Share2 } from "lucide-react";
+import { Copy, CopyCheck, Link2, Loader, Share2 } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -22,13 +22,14 @@ import {
 
 interface ShareButtonProps {
   title: string;
-  type: string;
   link: string;
 }
 
-export const ShareButton: FC<ShareButtonProps> = ({ title, type, link }) => {
+export const ShareButton: FC<ShareButtonProps> = ({ title, link }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const [done, setDone] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleCopy = async () => {
     try {
@@ -38,6 +39,14 @@ export const ShareButton: FC<ShareButtonProps> = ({ title, type, link }) => {
     } catch (error) {
       console.error("Failed to copy:", error);
     }
+  };
+
+  const handleShare = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setDone(true);
+    }, 3000);
   };
 
   return (
@@ -58,33 +67,53 @@ export const ShareButton: FC<ShareButtonProps> = ({ title, type, link }) => {
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <DialogContent className="sm:max-w-md rounded-3xl bg-black/80">
+      <DialogContent className="max-w-sm lg:max-w-md rounded-3xl md:rounded-3xl lg:rounded-3xl bg-white/80 dark:bg-black/80">
         <DialogHeader>
           <DialogTitle>Share link for {title}</DialogTitle>
           <DialogDescription>
-            Anyone with the link will be able to view this search result.
+            Anyone with the link will be able to view the content.
           </DialogDescription>
         </DialogHeader>
         <div className="flex items-center space-x-2">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="link" className="sr-only">
-              Link
-            </Label>
-            <Input
-              id="link"
-              defaultValue={link}
-              readOnly
-              className="rounded-3xl"
-            />
-          </div>
-          <Button
-            type="submit"
-            size="sm"
-            className="px-3 rounded-3xl min-w-16"
-            onClick={handleCopy}
-          >
-            {isCopied ? "Copied" : "Copy"}
-          </Button>
+          {done ? (
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="link" className="sr-only">
+                Link
+              </Label>
+              <Input
+                id="link"
+                defaultValue={link}
+                readOnly
+                className="rounded-3xl text-xs"
+              />
+            </div>
+          ) : (
+            <div className="bg-white/80 h-8 dark:bg-black/80 w-full rounded-3xl flex items-center justify-center">
+              <Link2 className="size-6 mr-2" />
+              <span className="text-xs">This will make the link publicly</span>
+            </div>
+          )}
+          {done ? (
+            <Button
+              size="icon"
+              className="px-3 rounded-3xl min-w-4"
+              onClick={handleCopy}
+            >
+              {isCopied ? (
+                <CopyCheck className="size-7" />
+              ) : (
+                <Copy className="size-7" />
+              )}
+            </Button>
+          ) : (
+            <Button
+              size="sm"
+              className="px-3 rounded-3xl min-w-20"
+              onClick={handleShare}
+            >
+              {loading ? <Loader className="size-6 animate-spin" /> : "Share"}
+            </Button>
+          )}
         </div>
       </DialogContent>
     </Dialog>
