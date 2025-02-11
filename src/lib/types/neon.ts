@@ -194,3 +194,28 @@ export type ToolDataStore<ARGS = unknown, DATA = unknown> = {
     data: DATA;
   };
 };
+
+export type ComponentType =
+  | "product-search"
+  | "product-details"
+  | "products-comparison"
+  | "public-chat";
+
+export type ShareRecord = {
+  id: string;
+  userId: string;
+  userEmail: string;
+  referenceId: string;
+  componentId: string;
+  componentType: ComponentType;
+  createdAt: Date;
+  lastAccessedAt: Date;
+  accessCount: number;
+};
+
+export type ShareAnalytics = {
+  componentType: ComponentType;
+  totalShares: number;
+  totalAccesses: number;
+  uniqueSharers: number;
+};
