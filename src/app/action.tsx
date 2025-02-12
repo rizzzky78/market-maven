@@ -290,10 +290,7 @@ const orchestrator = async (
               streamableText.update(finalizedText);
             }
 
-            const { toolResult } = mutateTool<
-              { query: string },
-              ProductsResponse
-            >(state, {
+            const { toolResult } = mutateTool(state, {
               name: "searchProduct",
               args: { query },
               result: finalizedProductSearch,
@@ -356,6 +353,8 @@ const orchestrator = async (
         generate: async function* ({ query, link }) {
           const toolRequestId = v4();
 
+          yield <LoadingText text={`Getting data product for ${query}`} />;
+
           logger.info("Using getProductDetails tool", {
             progress: "initial",
             request: { query, link },
@@ -365,8 +364,6 @@ const orchestrator = async (
             process: "generating",
             loading: true,
           });
-
-          yield <LoadingText text={`Getting data product for ${query}`} />;
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
@@ -393,6 +390,10 @@ const orchestrator = async (
 
             await new Promise((resolve) => setTimeout(resolve, 3000));
           }
+
+          yield <LoadingText text={`Performing caching the query...`} />;
+
+          await new Promise((resolve) => setTimeout(resolve, 2000));
 
           if (
             scrapeContent.success &&
@@ -523,10 +524,7 @@ const orchestrator = async (
               streamableText.update(finalizedText);
             }
 
-            const { toolResult } = mutateTool<
-              { query: string; link: string },
-              ProductDetailsResponse
-            >(state, {
+            const { toolResult } = mutateTool(state, {
               name: "getProductDetails",
               args: { link, query },
               result: finalizedObject,
@@ -719,15 +717,7 @@ const orchestrator = async (
               streamableText.update(finalizedText);
             }
 
-            const { toolResult } = mutateTool<
-              {
-                compare: {
-                  callId: string;
-                  title: string;
-                }[];
-              },
-              ProductsComparisonResponse
-            >(state, {
+            const { toolResult } = mutateTool(state, {
               name: "productsComparison",
               args: { compare },
               result: finalizedCompare,
@@ -799,22 +789,7 @@ const orchestrator = async (
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
-          mutateTool<
-            {
-              inquiry: {
-                options: {
-                  value: string;
-                  label: string;
-                }[];
-                question: string;
-                allowsInput: boolean;
-                isMultiSelection: boolean;
-                inputLabel?: string | undefined;
-                inputPlaceholder?: string | undefined;
-              };
-            },
-            { data: "no-result" }
-          >(state, {
+          mutateTool(state, {
             name: "inquireUser",
             args: { inquiry },
             result: { data: "no-result" },
