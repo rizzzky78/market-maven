@@ -9,6 +9,7 @@ export type ProductDetailsProps = {
     { query: string; link: string },
     { productDetails: Record<string, any>; screenshot: string; callId: string }
   >;
+  isSharedContent?: boolean;
 };
 
 export type ProductsComparisonProps = {
@@ -22,7 +23,7 @@ export type ProductsComparisonProps = {
     {
       callId: string;
       productImages: string[];
-      comparison: Record<string, any>
+      comparison: Record<string, any>;
     }
   >;
 };

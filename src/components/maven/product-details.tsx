@@ -20,7 +20,10 @@ import Link from "next/link";
 import { useSmartTextarea } from "../hooks/use-smart-textare";
 import { ShareButton } from "./share-button";
 
-export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
+export const ProductDetails: FC<ProductDetailsProps> = ({
+  content,
+  isSharedContent,
+}) => {
   const { success, args, data } = content;
 
   const [hovering, setHovering] = useState(false);
@@ -43,7 +46,8 @@ export const ProductDetails: FC<ProductDetailsProps> = ({ content }) => {
       Boolean(activeComparison.for.find((v) => v.callId === callId))
     : false;
 
-  const isButtonDisabled = Boolean(attachment) || comparisonState;
+  const isButtonDisabled =
+    Boolean(attachment) || comparisonState || !isSharedContent;
 
   const attachComparison = () => {
     addToComparison({
