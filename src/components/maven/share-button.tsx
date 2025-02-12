@@ -24,6 +24,7 @@ import useSWRMutation from "swr/mutation";
 interface ShareButtonProps {
   title: string;
   callId: string;
+  disabled?: boolean;
   type: "product-search" | "product-details" | "products-comparison";
 }
 
@@ -41,7 +42,12 @@ async function postRequest(
   }).then((res) => res.json());
 }
 
-export const ShareButton: FC<ShareButtonProps> = ({ title, callId, type }) => {
+export const ShareButton: FC<ShareButtonProps> = ({
+  title,
+  callId,
+  type,
+  disabled,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const [done, setDone] = useState(false);
@@ -78,7 +84,11 @@ export const ShareButton: FC<ShareButtonProps> = ({ title, callId, type }) => {
         <Tooltip delayDuration={100}>
           <TooltipTrigger asChild>
             <DialogTrigger asChild>
-              <Button variant="outline" className="rounded-full mr-2 size-8">
+              <Button
+                variant="outline"
+                disabled={disabled}
+                className="rounded-full mr-2 size-8"
+              >
                 <Share2 className="mr-0.5 h-4 w-4" />
               </Button>
             </DialogTrigger>
