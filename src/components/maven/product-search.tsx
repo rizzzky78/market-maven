@@ -62,9 +62,14 @@ const animations = {
 interface ProductsProps {
   content: ExtendedToolResult<{ query: string }, ProductsResponse>;
   isFinished?: boolean;
+  isSharedContent?: boolean;
 }
 
-export const ProductSearch: FC<ProductsProps> = ({ content, isFinished }) => {
+export const ProductSearch: FC<ProductsProps> = ({
+  content,
+  isFinished,
+  isSharedContent,
+}) => {
   const [isContentReady, setIsContentReady] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [open, setOpen] = useState(true);
