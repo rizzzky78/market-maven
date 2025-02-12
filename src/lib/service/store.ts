@@ -171,16 +171,18 @@ export async function createToolDataEntry<ARGS, DATA>(
 export async function getToolDataEntryByKey<ARGS, DATA>(
   key: string
 ): Promise<ToolDataStore<ARGS, DATA> | null> {
-  const result = await sql`
+  const [row] = await sql`
     SELECT
       key,
       chat_id as "chatId",
       owner,
       timestamp,
-      tool_success as "tool.success",
-      tool_name as "tool.name",
-      tool_args as "tool.args",
-      tool_data as "tool.data"
+      json_build_object(
+        'success', tool_success,
+        'name', tool_name,
+        'args', tool_args,
+        'data', tool_data
+      ) as tool
     FROM tool_data_store
     WHERE key = ${key}
   `;
@@ -188,10 +190,10 @@ export async function getToolDataEntryByKey<ARGS, DATA>(
   logger.info("Retrieving Value", {
     on: "getToolDataEntryByKey",
     reffKey: key,
-    exists: Boolean(result[0]),
+    exists: Boolean(row),
   });
 
-  return (result[0] as ToolDataStore<ARGS, DATA>) || null;
+  return row as ToolDataStore<ARGS, DATA> | null;
 }
 
 /**

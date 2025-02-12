@@ -6410,3 +6410,416 @@
     }
   ]
 }
+[90m[2025-02-12 13:08:28.169][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-12 13:08:28.576][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-12 13:20:08.549][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-12 13:20:16.788][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-12 13:21:00.044][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo Yoga Slim 7 Pro X 14 3K Touch RTX3050 Ryzen 9 6900 32GB 1TB SSD",
+        "link": "https://www.tokopedia.com/rogsstoreid/lenovo-yoga-slim-7-pro-x-14-3k-touch-rtx3050-ryzen-9-6900-32gb-1tb-ssd-laptop?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250210124327E5AF7B92904D6F277Y5T%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-12 13:21:20.296][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae"
+    }
+  ]
+}
+[90m[2025-02-12 13:21:26.901][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae"
+    }
+  ]
+}
+[90m[2025-02-12 13:21:31.431][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae"
+    }
+  ]
+}
+[90m[2025-02-12 13:21:31.545][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Yoga Slim 7 Pro X 14 3K Touch RTX3050 Ryzen 9 6900 32GB 1TB SSD",
+        "link": "https://www.tokopedia.com/rogsstoreid/lenovo-yoga-slim-7-pro-x-14-3k-touch-rtx3050-ryzen-9-6900-32gb-1tb-ssd-laptop?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250210124327E5AF7B92904D6F277Y5T%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-12 13:21:31.677][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-12 13:22:27.244][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:29:53.218][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-12 13:29:54.971][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:29:56.213][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:30:00.546][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:30:00.584][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:30:03.560][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-12 13:34:40.297][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:34:40.323][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:34:40.403][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:34:40.931][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:34:40.953][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:34:40.965][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:34:41.246][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-12 13:34:41.645][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:34:41.658][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:34:41.677][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:34:43.295][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-12 13:34:43.638][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-12 13:56:48.769][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:56:48.822][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:56:48.836][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:56:48.961][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-12 13:56:49.098][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:56:49.116][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:56:49.153][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:56:50.128][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:56:50.533][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:56:50.598][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:56:50.650][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:56:50.720][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:56:50.798][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 13:56:52.748][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-12 13:56:53.141][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
