@@ -34,9 +34,15 @@ interface ProductProps {
   product: Partial<Product>;
   isFinished?: boolean;
   id?: number;
+  isSharedContent?: boolean;
 }
 
-export const ProductCard: FC<ProductProps> = ({ product, isFinished, id }) => {
+export const ProductCard: FC<ProductProps> = ({
+  product,
+  isFinished,
+  id,
+  isSharedContent,
+}) => {
   const { isGenerating } = useAppState();
   const { attach, detach, activeComparison } = useSmartTextarea();
 
@@ -90,7 +96,8 @@ export const ProductCard: FC<ProductProps> = ({ product, isFinished, id }) => {
     ? activeComparison.for.length > 0
     : false;
 
-  const isButtonDisabled = !isFinished || isGenerating || comparisonState;
+  const isButtonDisabled =
+    !isFinished || isGenerating || comparisonState || !isSharedContent;
 
   return (
     <motion.div
