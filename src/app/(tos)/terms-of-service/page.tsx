@@ -13,11 +13,14 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { getServerSession } from "next-auth";
 
-export default function TermsOfService() {
+export default async function TermsOfService() {
+  const session = await getServerSession();
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <Card className="w-full max-w-4xl mx-auto min-h-screen bg-transparent border-none *:text-black/80">
+      <Card className="w-full max-w-4xl mx-auto min-h-screen bg-transparent border-none  *:text-black/80 *:dark:text-white/90">
         <CardHeader className="text-center flex items-center">
           <svg
             className="coolshapes moon-4 max-w-[20rem]"
@@ -324,7 +327,9 @@ export default function TermsOfService() {
               variant={"ghost"}
               className="hover:text-slate-900 hover:bg-slate-200 rounded-full"
             >
-              <Link href="/login">Go to Login</Link>
+              <Link href={session ? "/chat" : "/login"}>
+                {session ? "Go to App" : "Go to Login"}
+              </Link>
             </Button>
           </div>
         </CardContent>
