@@ -26,20 +26,5 @@ export type ProductsComparisonProps = {
       comparison: Record<string, any>;
     }
   >;
+  isSharedContent?: boolean;
 };
-
-type Example = ExtendedToolResult<
-  {
-    compare: Array<{
-      title: string;
-      callId: string;
-    }>;
-  },
-  {
-    images: [string, string];
-    comparison: {
-      products: Record<string, any>[];
-      differences: Record<string, any>;
-    };
-  }
->;
