@@ -37,7 +37,6 @@ export default async function RootLayout({
           attribute="class"
           defaultTheme="light"
           enableSystem
-          disableTransitionOnChange
         >
           <Toaster />
           <SessionProvider session={session}>{children}</SessionProvider>
