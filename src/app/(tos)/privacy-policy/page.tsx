@@ -13,10 +13,14 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-export default function PrivacyPolicy() {
+import { getServerSession } from "next-auth";
+
+export default async function PrivacyPolicy() {
+  const session = await getServerSession();
+
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen">
-      <Card className="w-full max-w-4xl mx-auto bg-transparent border-none *:text-black/80">
+      <Card className="w-full max-w-4xl mx-auto bg-transparent border-none *:text-black/80 *:dark:text-white/90">
         <CardHeader className="text-center flex items-center">
           <svg
             className="coolshapes moon-8 max-w-[20rem]"
@@ -318,9 +322,7 @@ export default function PrivacyPolicy() {
               </AccordionTrigger>
               <AccordionContent>
                 For questions or concerns about this Privacy Policy, contact:
-                <span className="ml-1 font-semibold">
-                  rizzzky78@gmail.com
-                </span>{" "}
+                <span className="ml-1 font-semibold">rizzzky78@gmail.com</span>
                 <br />
                 Report issues or contribute to the project via the
                 <Link
@@ -341,7 +343,9 @@ export default function PrivacyPolicy() {
               <Link href="/terms-of-service">View Terms of Service</Link>
             </Button>
             <Button asChild variant={"ghost"} className="rounded-full">
-              <Link href="/login">Go to Login</Link>
+              <Link href={session ? "/chat" : "/login"}>
+                {session ? "Go to App" : "Go to Login"}
+              </Link>
             </Button>
           </div>
         </CardContent>
