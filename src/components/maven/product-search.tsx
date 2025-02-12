@@ -92,7 +92,12 @@ export const ProductSearch: FC<ProductsProps> = ({
   const renderProducts = () =>
     content.data.data.map((product, index) => (
       <motion.div key={`product-${index}`} variants={animations.item}>
-        <ProductCard product={product} isFinished={isFinished} id={index} />
+        <ProductCard
+          product={product}
+          isFinished={isFinished}
+          id={index}
+          isSharedContent={isSharedContent}
+        />
       </motion.div>
     ));
 
