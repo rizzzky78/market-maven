@@ -1,5 +1,3 @@
-"use client";
-
 import { ChatProperties } from "@/lib/types/ai";
 import { ComponentType, ToolDataStore } from "@/lib/types/neon";
 import { FC } from "react";
@@ -9,70 +7,83 @@ import { ProductSearch } from "./product-search";
 import { ProductDetails } from "./product-details";
 import { ProductComparison } from "./product-comparison";
 
+// Types
 interface SharedContentProps {
   type: ComponentType;
   data: ToolDataStore<any, any> | ChatProperties;
 }
 
-export const MapSharedContent: FC<SharedContentProps> = ({ type, data }) => {
-  if (type === "public-chat") {
-    const state = data as ChatProperties;
-    const ui = mapUIState({
-      chatId: "",
-      username: "",
-      messages: state.messages,
-      isSharedPage: true,
-    });
+type ProductSearchData = ToolDataStore<{ query: string }, ProductsResponse>;
 
-    return <div>{ui.map((component) => component.display)}</div>;
+type ProductDetailsData = ToolDataStore<
+  { query: string; link: string },
+  {
+    productDetails: Record<string, any>;
+    screenshot: string;
+    callId: string;
   }
+>;
 
-  const componentMapper = () => {
+type ProductComparisonData = ToolDataStore<
+  {
+    compare: Array<{
+      title: string;
+      callId: string;
+    }>;
+  },
+  {
+    callId: string;
+    productImages: string[];
+    comparison: Record<string, any>;
+  }
+>;
+
+// Helper Components
+const ChatContent: FC<{ data: ChatProperties }> = ({ data }) => {
+  const ui = mapUIState({
+    chatId: "",
+    username: "",
+    messages: data.messages,
+    isSharedPage: true,
+  });
+
+  return <div>{ui.map((component) => component.display)}</div>;
+};
+
+const ProductSearchContent: FC<{ data: ProductSearchData }> = ({ data }) => (
+  <ProductSearch content={data.tool} isSharedContent isFinished />
+);
+
+const ProductDetailsContent: FC<{ data: ProductDetailsData }> = ({ data }) => (
+  <ProductDetails content={data.tool} isSharedContent />
+);
+
+const ProductComparisonContent: FC<{ data: ProductComparisonData }> = ({
+  data,
+}) => <ProductComparison content={data.tool} isSharedContent />;
+
+// Main Component
+export const SharedContent: FC<SharedContentProps> = ({ type, data }) => {
+  const renderContent = () => {
     switch (type) {
+      case "public-chat":
+        return <ChatContent data={data as ChatProperties} />;
+
       case "product-search":
-        const propsSearch = data as ToolDataStore<
-          { query: string },
-          ProductsResponse
-        >;
-        return (
-          <ProductSearch
-            content={propsSearch.tool}
-            isSharedContent
-            isFinished
-          />
-        );
+        return <ProductSearchContent data={data as ProductSearchData} />;
+
       case "product-details":
-        const propsDetails = data as ToolDataStore<
-          {
-            query: string;
-            link: string;
-          },
-          {
-            productDetails: Record<string, any>;
-            screenshot: string;
-            callId: string;
-          }
-        >;
-        return <ProductDetails content={propsDetails.tool} isSharedContent />;
+        return <ProductDetailsContent data={data as ProductDetailsData} />;
+
       case "products-comparison":
-        const propsComparison = data as ToolDataStore<
-          {
-            compare: Array<{
-              title: string;
-              callId: string;
-            }>;
-          },
-          {
-            callId: string;
-            productImages: string[];
-            comparison: Record<string, any>;
-          }
-        >;
         return (
-          <ProductComparison content={propsComparison.tool} isSharedContent />
+          <ProductComparisonContent data={data as ProductComparisonData} />
         );
+
+      default:
+        return null;
     }
   };
 
-  return <div>{componentMapper()}</div>;
+  return <div>{renderContent()}</div>;
 };

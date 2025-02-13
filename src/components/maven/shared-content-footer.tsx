@@ -4,8 +4,9 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { ToggleTheme } from "./toggle-theme";
+import { FC } from "react";
 
-export function FooterSharedContent() {
+export const ContentSharedFooter: FC = () => {
   const { data: session } = useSession();
 
   return (
@@ -53,4 +54,4 @@ export function FooterSharedContent() {
       </footer>
     </div>
   );
-}
+};

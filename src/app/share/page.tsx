@@ -1,5 +1,5 @@
-import { FooterSharedContent } from "@/components/maven/footer-shared-content";
-import { MapSharedContent } from "@/components/maven/map-shared-content";
+import { ContentSharedFooter } from "@/components/maven/shared-content-footer";
+import { SharedContent } from "@/components/maven/shared-content";
 import { ShareNotFound } from "@/components/maven/share-not-found";
 import { getChat } from "@/lib/agents/action/chat-service";
 import {
@@ -168,9 +168,9 @@ export default async function SharePage({ searchParams }: SharePageProps) {
             </div>
           </div>
         </section>
-        <MapSharedContent type={validatedType} data={contentData} />
+        <SharedContent type={validatedType} data={contentData} />
       </main>
-      <FooterSharedContent />
+      <ContentSharedFooter />
     </div>
   );
 }
