@@ -62,6 +62,16 @@ export const AttachCompareBadge: FC<BadgeProps> = ({
                 </TooltipProvider>
               </Badge>
             ))}
+            {compare.for.length === 1 && (
+              <Badge
+                variant={"secondary"}
+                className="flex border-black dark:border-white border-dashed border-spacing-2 bg-none w-full py-1 my-0.5 justify-center items-center rounded-3xl"
+              >
+                <p className="line-clamp-1 text-xs font-normal">
+                  Add one more product to perform comparison
+                </p>
+              </Badge>
+            )}
           </div>
           <div className="ml-1">
             <TooltipProvider>
