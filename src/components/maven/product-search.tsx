@@ -15,6 +15,7 @@ import { ExtendedToolResult } from "@/lib/types/ai";
 import { ErrorMessage } from "./error-message";
 import { StreamableValue, useStreamableValue } from "ai/rsc";
 import { DeepPartial } from "ai";
+import { ShareButton } from "./share-button";
 
 // Animation configurations
 const ANIMATION_CONSTANTS = {
@@ -121,7 +122,7 @@ export const ProductSearch: FC<ProductsProps> = ({
       </div>
       <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-[2rem] px-4 py-2">
         {content.data.screenshot && (
-          <div className="mb-4 mt-2">
+          <div className="my-1">
             {isContentReady && isFinished ? (
               <motion.div
                 variants={animations.item}
@@ -140,6 +141,22 @@ export const ProductSearch: FC<ProductsProps> = ({
                     className="rounded-3xl object-cover"
                   />
                 </Lens>
+                <div className="w-fit p-1 mt-1 flex items-center justify-between">
+                  <div className="flex items-start">
+                    <Info className="size-4 shrink-0 mr-1 text-purple-500 dark:text-purple-300" />
+                    <p className="text-xs">
+                      MarketMaven is not affiliated with the relevant online
+                      marketplace, the displayed results may not match the
+                      user&apos;s intent.
+                    </p>
+                  </div>
+                  <ShareButton
+                    title={"Product Search"}
+                    type={"product-search"}
+                    callId={content.data.callId}
+                    disabled={isSharedContent}
+                  />
+                </div>
               </motion.div>
             ) : (
               <div className="bg-muted rounded-3xl animate-pulse w-full h-[240px] lg:h-[360px]" />
@@ -174,7 +191,7 @@ export const ProductSearch: FC<ProductsProps> = ({
         </div>
         <AnimatePresence mode={"wait"}>
           {open && (
-            <div className="mt-4">
+            <div className="mt-4 mb-2">
               <motion.div
                 className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2"
                 variants={animations.container}
@@ -185,16 +202,6 @@ export const ProductSearch: FC<ProductsProps> = ({
                   ? renderProducts()
                   : renderSkeletons()}
               </motion.div>
-              <div className="w-fit p-1 mt-2 mb-1 rounded-full">
-                <div className="flex items-start space-x-2">
-                  <Info className="size-4 shrink-0" />
-                  <p className="text-xs">
-                    MarketMaven is not affiliated with the relevant online
-                    marketplace, the displayed results may not match the
-                    user&apos;s intent.
-                  </p>
-                </div>
-              </div>
             </div>
           )}
         </AnimatePresence>

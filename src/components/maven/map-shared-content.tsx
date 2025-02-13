@@ -34,7 +34,13 @@ export const MapSharedContent: FC<SharedContentProps> = ({ type, data }) => {
           { query: string },
           ProductsResponse
         >;
-        return <ProductSearch content={propsSearch.tool} isSharedContent />;
+        return (
+          <ProductSearch
+            content={propsSearch.tool}
+            isSharedContent
+            isFinished
+          />
+        );
       case "product-details":
         const propsDetails = data as ToolDataStore<
           {
@@ -62,7 +68,9 @@ export const MapSharedContent: FC<SharedContentProps> = ({ type, data }) => {
             comparison: Record<string, any>;
           }
         >;
-        return <ProductComparison content={propsComparison.tool} />;
+        return (
+          <ProductComparison content={propsComparison.tool} isSharedContent />
+        );
     }
   };
 
