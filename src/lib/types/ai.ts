@@ -72,6 +72,19 @@ export type PayloadData = {
 };
 
 /**
+ * Type represent optional arguments non-payload value passed to server-action
+ */
+export type ExtendedRequestOption = {
+  /** On request argument properties */
+  onRequest?: {
+    /** Enable response enhancement through external data via APIs */
+    search?: boolean;
+    /** Enable related query injection based on latest chat conversation data */
+    related?: boolean;
+  };
+};
+
+/**
  * Interface defining the contract for message sending actions,
  * providing a method to send messages with optional controller assignments.
  */
@@ -84,7 +97,7 @@ export type UseAction = {
    */
   orchestrator: (
     payload: PayloadData,
-    assignController?: AssignController
+    requestOption?: ExtendedRequestOption
   ) => Promise<OrchestratorCallback>;
   extractor?: (product: AttachProduct) => Promise<ExtractorCallback>;
   // testing: (payload: PayloadData) => Promise<TestingMessageCallback>;
