@@ -160,7 +160,14 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     [actionSubmit, isGenerating]
   );
 
-  const isButtonDisabled = isGenerating || value.length === 0;
+  const invalidComparison = activeComparison
+    ? activeComparison.for.length === 1
+      ? true
+      : false
+    : false;
+
+  const isButtonDisabled =
+    isGenerating || value.length === 0 || invalidComparison;
 
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     handleChange(e.target.value);
