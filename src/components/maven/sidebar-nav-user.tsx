@@ -82,9 +82,8 @@ export const NavUser: FC = () => {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <SquareCode />
                 <Link href={"/dev-portfolio"} className="flex items-center">
-                  <HistoryIcon className="size-4 mr-1" />
+                  <SquareCode className="size-4 mr-1" />
                   View Portfolio of creator App
                 </Link>
               </DropdownMenuItem>

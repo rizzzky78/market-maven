@@ -17206,3 +17206,547 @@
     }
   ]
 }
+[90m[2025-02-13 16:05:53.485][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:05:53.918][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:08:55.386][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:08:55.405][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:08:57.008][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:08:57.029][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:08:57.201][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:08:57.217][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:08:57.890][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:08:57.963][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:08:59.628][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-13 16:09:02.512][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:09:02.529][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:09:02.614][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:09:02.636][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:09:03.203][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:09:03.220][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:09:04.148][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-13 16:09:04.219][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:09:04.235][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:09:05.103][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:09:05.118][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:09:05.822][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:09:05.838][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:09:06.340][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:09:06.356][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:09:06.783][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-13 16:09:06.944][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:09:06.959][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:09:07.681][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-13 16:10:21.302][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:21.418][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:22.354][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:22.393][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:22.917][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:22.935][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:23.670][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:23.690][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:24.729][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:24.753][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:25.595][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:25.608][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:25.882][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-13 16:10:26.219][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:26.237][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:27.081][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:27.099][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:27.600][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:27.618][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:28.184][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:28.198][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:28.506][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:28.523][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 16:10:31.457][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-13 16:10:39.220][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-13 16:10:45.752][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
