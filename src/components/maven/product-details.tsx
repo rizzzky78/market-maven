@@ -46,14 +46,15 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
       Boolean(activeComparison.for.find((v) => v.callId === callId))
     : false;
 
-  const isButtonDisabled =
-    Boolean(attachment) || comparisonState || !isSharedContent;
+  const isButtonDisabled = Boolean(attachment) || comparisonState;
 
   const attachComparison = () => {
     addToComparison({
       for: { title: args.query, callId },
     });
   };
+
+  const sharedContent = isSharedContent ?? false;
 
   return (
     <div className="w-full mb-8">
@@ -115,7 +116,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
                             size={"sm"}
                             className="rounded-3xl py-1 font-normal bg-[#1A1A1D] dark:bg-background text-white hover:border-[#1A1A1D]"
                             onClick={attachComparison}
-                            disabled={isButtonDisabled}
+                            disabled={sharedContent ? true : isButtonDisabled}
                           >
                             <FlipHorizontal className="size-4 text-purple-500 dark:text-purple-300" />
                             <span>Compare</span>
