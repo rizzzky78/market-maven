@@ -9,7 +9,7 @@ export function FooterSharedContent() {
   const { data: session } = useSession();
 
   return (
-    <div className="max-w-2xl pt-28">
+    <div className="max-w-2xl w-full mx-auto flex flex-col">
       <footer className="relative w-full py-10 px-3">
         <div className="absolute inset-0 z-0 rounded-3xl">
           <Image
