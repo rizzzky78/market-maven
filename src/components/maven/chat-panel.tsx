@@ -229,7 +229,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                 onKeyDown={handleKeydown}
               />
             </ScrollArea>
-            <div className="flex justify-between px-1 pb-3 -mt-3">
+            <div className="flex justify-between px-1 pb-3 -mt-1">
               <div className="flex items-center space-x-1">
                 <TooltipProvider>
                   <Tooltip delayDuration={100}>
@@ -249,10 +249,17 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                         <span className="text-xs font-normal">Search</span>
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent className="rounded-3xl">
+                    <TooltipContent className="rounded-xl">
                       <p>
                         Reinforce answer by allowing models to get additional
-                        data from external sources
+                        data from external sources.
+                        {search && (
+                          <span>
+                            <br />
+                            When using the search, final response maybe
+                            different from displayed data.
+                          </span>
+                        )}
                       </p>
                     </TooltipContent>
                   </Tooltip>
