@@ -14,99 +14,141 @@ import Link from "next/link";
 import React from "react";
 import { z } from "zod";
 
-// Define the allowed types
-const allowedTypes = [
+// Constants
+const ALLOWED_COMPONENT_TYPES = [
   "product-search",
   "product-details",
   "products-comparison",
   "public-chat",
 ] as const;
-type AllowedType = (typeof allowedTypes)[number];
 
-// Zod schema for UUID v4
+// Types
+type AllowedComponentType = (typeof ALLOWED_COMPONENT_TYPES)[number];
+
+interface SearchParams {
+  type?: string;
+  "component-id"?: string;
+  "reff-id"?: string;
+}
+
+interface SharePageProps {
+  searchParams: Promise<SearchParams>;
+}
+
+// Validation schemas
 const uuidV4Schema = z.string().uuid();
 
-// Define props type
-type SharePageProps = {
-  searchParams: Promise<{
-    type?: string;
-    "component-id"?: string;
-    "reff-id"?: string;
-  }>;
-};
-
-const generateTitle = async (type?: string, key?: string): Promise<string> => {
-  if (type && key) {
-    if (type === "public-chat") {
-      const chatProp = await getChat(key);
-      if (chatProp) {
-        return chatProp.title;
-      }
-    } else {
-      const prop = await getToolDataEntryByKey(key);
-      if (prop) {
-        const cProp = await getChat(prop.chatId);
-        if (cProp) {
-          return cProp.title;
-        }
-      }
-    }
-  }
-
-  return "Maven Shared Content";
-};
-
-export const generateMetadata = async ({
-  searchParams,
-}: SharePageProps): Promise<Metadata> => {
-  const { type, "component-id": key } = await searchParams;
-
-  const title = await generateTitle(type, key);
-
-  return {
-    title,
-  };
-};
-
-export default async function SharePage({ searchParams }: SharePageProps) {
-  // Await the searchParams
-  const {
-    type,
-    "component-id": componentId,
-    "reff-id": reffId,
-  } = await searchParams;
-
-  // Validate type and component-id
-  const isValidType = type && allowedTypes.includes(type as AllowedType);
+// Helper functions
+const validateShareParams = (
+  type?: string,
+  componentId?: string,
+  referenceId?: string
+): {
+  isValid: boolean;
+  validatedType?: ComponentType;
+  validatedComponentId?: string;
+} => {
+  const isValidType =
+    type && ALLOWED_COMPONENT_TYPES.includes(type as AllowedComponentType);
   const isValidComponentId =
     componentId && uuidV4Schema.safeParse(componentId).success;
 
-  // If either parameter is invalid, render the CustomNotFound component
-  if (!isValidType || !isValidComponentId || !reffId) {
+  if (isValidType && isValidComponentId && referenceId) {
+    return {
+      isValid: true,
+      validatedType: type as ComponentType,
+      validatedComponentId: componentId,
+    };
+  }
+
+  return { isValid: false };
+};
+
+const fetchContentData = async (type: ComponentType, componentId: string) => {
+  return type === "public-chat"
+    ? await getChat(componentId)
+    : await getToolDataEntryByKey(componentId);
+};
+
+const generatePageTitle = async (
+  type?: string,
+  componentId?: string
+): Promise<string> => {
+  const defaultTitle = "Maven Shared Content";
+
+  if (!type || !componentId) {
+    return defaultTitle;
+  }
+
+  try {
+    if (type === "public-chat") {
+      const chatData = await getChat(componentId);
+      return chatData?.title ?? defaultTitle;
+    }
+
+    const toolData = await getToolDataEntryByKey(componentId);
+    if (!toolData) {
+      return defaultTitle;
+    }
+
+    const chatData = await getChat(toolData.chatId);
+    return chatData?.title ?? defaultTitle;
+  } catch {
+    return defaultTitle;
+  }
+};
+
+// Metadata generator
+export const generateMetadata = async ({
+  searchParams,
+}: SharePageProps): Promise<Metadata> => {
+  const { type, "component-id": componentId } = await searchParams;
+  const title = await generatePageTitle(type, componentId);
+
+  return { title };
+};
+
+// Main component
+export default async function SharePage({ searchParams }: SharePageProps) {
+  const {
+    type,
+    "component-id": componentId,
+    "reff-id": referenceId,
+  } = await searchParams;
+
+  // Validate parameters
+  const { isValid, validatedType, validatedComponentId } = validateShareParams(
+    type,
+    componentId,
+    referenceId
+  );
+
+  if (!isValid || !validatedType || !validatedComponentId || !referenceId) {
     return <ShareNotFound />;
   }
 
-  const shareRecord = await getShareByReferenceId(reffId);
-
+  // Fetch share record
+  const shareRecord = await getShareByReferenceId(referenceId);
   if (!shareRecord) {
     return <ShareNotFound />;
   }
 
-  await incrementShareAccess(reffId);
+  // Increment access count
+  await incrementShareAccess(referenceId);
 
-  const contentData =
-    (type as ComponentType) === "public-chat"
-      ? await getChat(componentId)
-      : await getToolDataEntryByKey(componentId);
-
+  // Fetch content data
+  const contentData = await fetchContentData(
+    validatedType,
+    validatedComponentId
+  );
   if (!contentData) {
     return <ShareNotFound />;
   }
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="px-2 sm:px-12 pt-5 md:pt-8 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4 flex-grow">
-        <div className="bg-[#1A1A1D] dark:bg-white rounded-3xl py-4 px-6 mb-6">
+      <main className="px-2 sm:px-12 pt-5 md:pt-8 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4 flex-grow">
+        <section className="bg-[#1A1A1D] dark:bg-white rounded-3xl py-4 px-6 mb-6">
           <div className="flex flex-col">
             <h2 className="text-md font-semibold text-white/90 dark:text-black/90">
               Shared Content
@@ -116,7 +158,7 @@ export default async function SharePage({ searchParams }: SharePageProps) {
               <p className="text-xs text-white/80 dark:text-black/80">
                 You are currently viewing the shared content, please go to the
                 <Link
-                  href={"/chat"}
+                  href="/chat"
                   className="mx-1 underline text-purple-300 dark:text-purple-400 hover:no-underline hover:text-purple-500 dark:hover:text-purple-600"
                 >
                   App
@@ -125,9 +167,9 @@ export default async function SharePage({ searchParams }: SharePageProps) {
               </p>
             </div>
           </div>
-        </div>
-        <MapSharedContent type={type as ComponentType} data={contentData} />
-      </div>
+        </section>
+        <MapSharedContent type={validatedType} data={contentData} />
+      </main>
       <FooterSharedContent />
     </div>
   );
