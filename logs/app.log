@@ -17906,3 +17906,292 @@
     }
   ]
 }
+[90m[2025-02-13 16:39:17.545][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-13 16:39:19.924][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-13 16:39:24.298][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-13 16:39:48.827][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-13 16:41:11.521][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-13 16:41:42.845][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-13 16:45:39.200][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-13 16:46:06.946][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-13 16:46:09.758][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-13 16:47:38.385][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-13 16:47:40.732][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-13 16:48:32.988][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-13 16:48:37.766][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-13 16:48:55.931][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-13 16:49:16.334][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-13 16:49:50.948][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-13 16:49:57.451][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-13 16:52:29.883][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-13 17:17:31.612][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-13 17:17:38.403][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "dBE Headphone"
+      }
+    }
+  ]
+}
+[90m[2025-02-13 17:17:42.288][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "9da636c0-164d-4cad-ac56-5b75a062ae13"
+    }
+  ]
+}
+[90m[2025-02-13 17:17:52.600][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "9da636c0-164d-4cad-ac56-5b75a062ae13"
+    }
+  ]
+}
+[90m[2025-02-13 17:17:56.971][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "9da636c0-164d-4cad-ac56-5b75a062ae13"
+    }
+  ]
+}
+[90m[2025-02-13 17:17:57.045][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "dBE Headphone"
+      }
+    }
+  ]
+}
+[90m[2025-02-13 17:17:58.006][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-13 17:20:17.571][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "dbE W100 2.4Ghz Three Mode Wireless Gaming Headphone",
+        "link": "https://www.tokopedia.com/dbeofficial/dbe-w100-2-4ghz-three-mode-wireless-gaming-headphone?extParam=ivf%3Dtrue%26keyword%3Ddbe+headphone%26search_id%3D20250210151526163A73B7622B9228E47I%26src%3Dsearch&refined=true"
+      }
+    }
+  ]
+}
+[90m[2025-02-13 17:20:25.742][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "df55e4f8-dfd4-4c67-9758-bcd9a7a8d3a2"
+    }
+  ]
+}
+[90m[2025-02-13 17:20:30.254][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "df55e4f8-dfd4-4c67-9758-bcd9a7a8d3a2"
+    }
+  ]
+}
+[90m[2025-02-13 17:20:31.779][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "df55e4f8-dfd4-4c67-9758-bcd9a7a8d3a2"
+    }
+  ]
+}
+[90m[2025-02-13 17:20:31.839][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "dbE W100 2.4Ghz Three Mode Wireless Gaming Headphone",
+        "link": "https://www.tokopedia.com/dbeofficial/dbe-w100-2-4ghz-three-mode-wireless-gaming-headphone?extParam=ivf%3Dtrue%26keyword%3Ddbe+headphone%26search_id%3D20250210151526163A73B7622B9228E47I%26src%3Dsearch&refined=true"
+      }
+    }
+  ]
+}
+[90m[2025-02-13 17:20:32.050][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-13 17:20:58.724][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "dbE DJ80 Foldable DJ Headphone with Detachable Microphone",
+        "link": "https://www.tokopedia.com/dbeofficial/dbe-dj80-foldable-dj-headphone-with-detachable-microphone-hitam?extParam=ivf%3Dfalse%26keyword%3Ddbe+headphone%26search_id%3D20250210151526163A73B7622B9228E47I%26src%3Dsearch&refined=true"
+      }
+    }
+  ]
+}
+[90m[2025-02-13 17:21:18.898][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "475ab2e6-b3d0-4d75-81b8-c201ec9f42e2"
+    }
+  ]
+}
+[90m[2025-02-13 17:21:32.043][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "475ab2e6-b3d0-4d75-81b8-c201ec9f42e2"
+    }
+  ]
+}
+[90m[2025-02-13 17:21:37.954][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "475ab2e6-b3d0-4d75-81b8-c201ec9f42e2"
+    }
+  ]
+}
+[90m[2025-02-13 17:21:38.073][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "dbE DJ80 Foldable DJ Headphone with Detachable Microphone",
+        "link": "https://www.tokopedia.com/dbeofficial/dbe-dj80-foldable-dj-headphone-with-detachable-microphone-hitam?extParam=ivf%3Dfalse%26keyword%3Ddbe+headphone%26search_id%3D20250210151526163A73B7622B9228E47I%26src%3Dsearch&refined=true"
+      }
+    }
+  ]
+}
+[90m[2025-02-13 17:21:38.310][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}

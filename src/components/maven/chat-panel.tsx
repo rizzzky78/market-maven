@@ -11,17 +11,12 @@ import {
   KeyboardEvent,
   FC,
   useCallback,
+  useState,
 } from "react";
 import { UserMessage } from "./user-message";
 import { AnimatePresence } from "framer-motion";
 import { Button } from "../ui/button";
-import {
-  BarChartIcon as ChartNoAxesCombined,
-  CircleArrowUp,
-  ImageIcon,
-  Loader,
-  Paperclip,
-} from "lucide-react";
+import { ArrowUp, Globe, ListEnd, Loader } from "lucide-react";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Textarea } from "../ui/textarea";
 import {
@@ -38,6 +33,7 @@ import { useSmartTextarea } from "../hooks/use-smart-textare";
 import { AttachProductBadge } from "./attach-product";
 import { AI } from "@/app/action";
 import { AttachCompareBadge } from "./attach-compare";
+import { cn } from "@/lib/utils";
 
 interface ChatPanelProps {
   uiState: UIState;
@@ -55,6 +51,8 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
   } = useSmartTextarea();
   const { value, handleChange, handleBlur, handleReset } = useDebounceInput();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [search, enableSearch] = useState(false);
+  const [related, enableRelated] = useState(false);
 
   useEffect(() => {
     if (input) handleChange(input);
@@ -231,21 +229,31 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                 onKeyDown={handleKeydown}
               />
             </ScrollArea>
-            <div className="flex justify-between px-1 pb-2 -mt-3">
-              <div className="flex items-center *:hover:bg-transparent *:bg-transparent">
+            <div className="flex justify-between px-1 pb-3 -mt-3">
+              <div className="flex items-center space-x-1">
                 <TooltipProvider>
                   <Tooltip delayDuration={100}>
                     <TooltipTrigger asChild>
                       <Button
-                        size={"icon"}
-                        className="text-[#4A4947] dark:text-white rounded-full *:hover:text-purple-500 *:dark:hover:text-purple-200"
+                        type={"button"}
+                        className={cn(
+                          "dark:text-white rounded-full",
+                          search
+                            ? "bg-[#1A1A1D] dark:hover:bg-muted hover:bg-[#1A1A1D]/90"
+                            : "*:hover:text-purple-500 *:dark:hover:text-purple-200 hover:bg-transparent text-[#4A4947] bg-transparent"
+                        )}
                         disabled={isGenerating}
+                        onClick={() => enableSearch((prev) => !prev)}
                       >
-                        <Paperclip className="h-6 w-6 hover:text-purple-200 -rotate-45" />
+                        <Globe className="h-6 w-6 hover:text-purple-200 shrink-0" />
+                        <span className="text-xs font-normal">Search</span>
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent className="rounded-3xl">
-                      <p>Attach some files</p>
+                      <p>
+                        Reinforce answer by allowing models to get additional
+                        data from external sources
+                      </p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
@@ -253,49 +261,43 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                   <Tooltip delayDuration={100}>
                     <TooltipTrigger asChild>
                       <Button
-                        size={"icon"}
-                        className="text-[#4A4947] dark:text-white rounded-full *:hover:text-purple-500 *:dark:hover:text-purple-200"
+                        type={"button"}
+                        className={cn(
+                          "dark:text-white rounded-full",
+                          related
+                            ? "bg-[#1A1A1D] dark:hover:bg-muted hover:bg-[#1A1A1D]/90"
+                            : "*:hover:text-purple-500 *:dark:hover:text-purple-200 hover:bg-transparent text-[#4A4947] bg-transparent"
+                        )}
                         disabled={isGenerating}
+                        onClick={() => enableRelated((prev) => !prev)}
                       >
-                        <ImageIcon className="h-6 w-6 hover:text-purple-200" />
+                        <ListEnd className="h-6 w-6 shrink-0 hover:text-purple-200" />{" "}
+                        <span className="text-xs font-normal">Related</span>
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent className="rounded-3xl">
-                      <p>Attach some images</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-                <TooltipProvider>
-                  <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
-                      <Button
-                        size={"icon"}
-                        className="text-[#4A4947] dark:text-white rounded-full *:hover:text-purple-500 *:dark:hover:text-purple-200"
-                        disabled={isGenerating}
-                      >
-                        <ChartNoAxesCombined className="h-6 w-6 hover:text-purple-200" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent className="rounded-3xl">
-                      <p>Do trends research</p>
+                      <p>
+                        Enable related query based on latest data conversation
+                      </p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
               </div>
-              <div className="text-[#4A4947] dark:text-white *:hover:bg-transparent *:bg-transparent *:hover:text-purple-500 *:dark:hover:text-purple-200">
+              <div className="">
                 <TooltipProvider>
                   <Tooltip delayDuration={100}>
                     <TooltipTrigger asChild>
                       <Button
+                        variant={"secondary"}
                         size={"icon"}
-                        className="cursor-pointer text-[#4A4947] dark:text-white rounded-full"
+                        className="dark:text-white rounded-full bg-[#1A1A1D] dark:hover:bg-muted hover:bg-[#1A1A1D]/90"
                         type={"submit"}
                         disabled={isButtonDisabled}
                       >
                         {isGenerating ? (
-                          <Loader className="h-6 w-6 animate-spin" />
+                          <Loader className="h-6 w-6 text-white animate-spin" />
                         ) : (
-                          <CircleArrowUp className="h-6 w-6" />
+                          <ArrowUp className="size-10 text-white shrink-0" />
                         )}
                       </Button>
                     </TooltipTrigger>
