@@ -95,7 +95,7 @@ export const ShareButton: FC<ShareButtonProps> = ({
           </TooltipTrigger>
           <TooltipContent className="rounded-3xl">
             <p className="max-w-sm font-semibold">
-              Share this product details, anyone with link can view
+              Share this {title}, anyone with link can view
             </p>
           </TooltipContent>
         </Tooltip>
