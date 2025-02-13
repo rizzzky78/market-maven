@@ -36,6 +36,10 @@ import {
 } from "@/lib/agents/system-instructions";
 import { SYSTEM_INSTRUCT_CORE } from "@/lib/agents/system-instructions/core";
 import { scrapeUrl } from "@/lib/agents/tools/api/firecrawl";
+import {
+  externalTavilySearch,
+  tavilySearch,
+} from "@/lib/agents/tools/api/tavily";
 import { handleScrapingWithCache } from "@/lib/service/cache-store";
 import {
   createMarkdownEntry,
@@ -45,6 +49,7 @@ import {
 } from "@/lib/service/store";
 import {
   AIState,
+  ExtendedRequestOption,
   MutableAIState,
   OrchestratorCallback,
   PayloadData,
@@ -73,7 +78,8 @@ import {
 import { v4 } from "uuid";
 
 const orchestrator = async (
-  payload: PayloadData
+  payload: PayloadData,
+  requestOption?: ExtendedRequestOption
 ): Promise<OrchestratorCallback> => {
   "use server";
 
@@ -496,10 +502,18 @@ const orchestrator = async (
               </>
             );
 
+            const externalData = await externalTavilySearch(
+              requestOption?.onRequest?.search ?? false,
+              {
+                query,
+              }
+            );
+
             const payloadInsight = {
               prompt:
                 payloadUserMessage.text_input ?? "no-instructions-from-user",
               data: finalizedObject.productDetails,
+              externalData: externalData.data,
             };
 
             let finalizedText: string = "";

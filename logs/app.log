@@ -18355,3 +18355,831 @@
     }
   ]
 }
+[90m[2025-02-13 22:13:05.699][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-13 22:23:34.970][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:23:35.418][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:24:26.805][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:24:26.946][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:24:46.426][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:24:46.517][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:27:34.831][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:27:34.969][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:28:45.035][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:28:45.167][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:37.761][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:37.792][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:37.812][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:37.831][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:38.145][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:38.164][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:40.794][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:40.818][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:40.918][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:40.980][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:41.156][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:41.201][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:43.306][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:43.316][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:43.391][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:43.407][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:43.509][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:43.523][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:45.535][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:45.545][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:45.673][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:45.682][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:45.765][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:45.781][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:47.192][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:47.201][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:47.294][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:47.309][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:47.397][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:47.408][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:48.527][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:48.536][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:48.635][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:48.650][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:48.768][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:49.215][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:50.825][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:50.833][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:50.903][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:50.922][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:50.997][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:51.012][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:52.306][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:52.326][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:52.429][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:52.453][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:52.555][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:52.564][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:54.113][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:54.127][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:54.225][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:54.236][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:54.341][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:54.357][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:55.795][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:55.809][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:55.931][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:55.944][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:56.062][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 22:52:56.076][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 23:15:09.645][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 23:15:09.755][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 23:15:13.129][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 23:15:13.159][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 23:15:13.432][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 23:15:13.451][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 23:15:14.439][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 23:15:14.456][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 23:15:15.111][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 23:15:15.138][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "23154951-c466-4ba5-bb80-e7975c92c37d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 23:15:15.514][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-13 23:15:15.534][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
