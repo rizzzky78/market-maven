@@ -7775,3 +7775,194 @@
     }
   ]
 }
+[90m[2025-02-12 19:28:59.379][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo Yoga Slim 7 Aura Edition 15ILL9 Ultra 7 258V 32GB 1TB SSD 15.3 2.8K 120Hz Touch",
+        "link": "https://www.tokopedia.com/lenovoyogaofficial/lenovo-yoga-slim-7-aura-edition-15ill9-ultra-7-258v-32gb-1tb-ssd-15-3-2-8k-120hz-touch-tanpa-paket-windows-11-home-e696f?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250210124327E5AF7B92904D6F277Y5T%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-12 19:29:17.827][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056"
+    }
+  ]
+}
+[90m[2025-02-12 19:29:25.053][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056"
+    }
+  ]
+}
+[90m[2025-02-12 19:29:31.198][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056"
+    }
+  ]
+}
+[90m[2025-02-12 19:29:31.380][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Yoga Slim 7 Aura Edition 15ILL9 Ultra 7 258V 32GB 1TB SSD 15.3 2.8K 120Hz Touch",
+        "link": "https://www.tokopedia.com/lenovoyogaofficial/lenovo-yoga-slim-7-aura-edition-15ill9-ultra-7-258v-32gb-1tb-ssd-15-3-2-8k-120hz-touch-tanpa-paket-windows-11-home-e696f?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250210124327E5AF7B92904D6F277Y5T%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-12 19:29:31.499][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-12 19:31:08.859][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 19:31:08.946][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 19:31:22.005][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 19:31:22.048][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 19:35:49.241][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using productsComparison tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-12 19:35:49.576][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "3967438a-996d-44ff-8959-57de4bd440ae",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 19:35:49.595][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-12 19:36:03.196][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30"
+    }
+  ]
+}
+[90m[2025-02-12 19:36:09.038][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "0f1ce028-6ae0-41a9-a1ba-a10c33b75e30"
+    }
+  ]
+}
+[90m[2025-02-12 19:36:09.209][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using productsComparison tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "compare": [
+          {
+            "title": "Lenovo Yoga Slim 7 Pro X 14 3K Touch RTX3050 Ryzen 9 6900 32GB 1TB SSD",
+            "callId": "3967438a-996d-44ff-8959-57de4bd440ae"
+          },
+          {
+            "title": "Lenovo Yoga Slim 7 Aura Edition 15ILL9 Ultra 7 258V 32GB 1TB SSD 15.3 2.8K 120Hz Touch",
+            "callId": "591999e8-ec10-4ed2-a1a6-8ca2c8b75056"
+          }
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-02-12 19:36:09.424][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-12 19:36:14.685][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-12 19:38:01.181][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-13 10:33:48.633][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}

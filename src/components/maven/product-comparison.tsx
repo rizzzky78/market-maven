@@ -1,24 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { Columns2, FlipHorizontal, Info, Share2 } from "lucide-react";
+import { Columns2, Info } from "lucide-react";
 import { FC, useState } from "react";
 import { MemoProductComparison } from "./memo-product-comparison";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import { StreamableValue } from "ai/rsc";
 import { Lens } from "./lens";
 import { Separator } from "../ui/separator";
 import { ProductsComparisonProps } from "@/lib/types/props";
 import { ErrorMessage } from "./error-message";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-  TooltipProvider,
-} from "../ui/tooltip";
-import { Button } from "../ui/button";
+import { ShareButton } from "./share-button";
 
-export const ProductComparison: FC<ProductsComparisonProps> = ({ content }) => {
+export const ProductComparison: FC<ProductsComparisonProps> = ({
+  content,
+  isSharedContent,
+}) => {
   const { success, args, data } = content;
   const { isGenerating } = useAppState();
   const [hovering_1, setHovering_1] = useState(false);
@@ -80,24 +76,12 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({ content }) => {
               </div>
               <div className="flex items-center">
                 <div>
-                  <TooltipProvider>
-                    <Tooltip delayDuration={100}>
-                      <TooltipTrigger asChild>
-                        <Button
-                          variant={"outline"}
-                          className="rounded-full size-8"
-                        >
-                          <Share2 className="size-2 shrink-0" />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent className="rounded-3xl">
-                        <p className="max-w-sm font-semibold">
-                          Share this product comparison, anyone with link can
-                          view
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <ShareButton
+                    title={"Products Comparison"}
+                    type={"products-comparison"}
+                    callId={data.callId}
+                    disabled={isSharedContent}
+                  />
                 </div>
               </div>
             </div>
@@ -120,9 +104,3 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({ content }) => {
     </div>
   );
 };
-
-interface StramProductComparisonProps {
-  content: StreamableValue<Record<string, any>>;
-  /** The call id for both requested products */
-  callId: [string, string];
-}

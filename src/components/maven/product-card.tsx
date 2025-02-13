@@ -96,8 +96,7 @@ export const ProductCard: FC<ProductProps> = ({
     ? activeComparison.for.length > 0
     : false;
 
-  const isButtonDisabled =
-    !isFinished || isGenerating || comparisonState || !isSharedContent;
+  const isButtonDisabled = !isFinished || isGenerating || comparisonState;
 
   return (
     <motion.div
@@ -195,7 +194,7 @@ export const ProductCard: FC<ProductProps> = ({
                   <Button
                     className="relative ml-2 h-7 w-full overflow-hidden rounded-3xl px-6 font-bold bg-gray-300 text-black shadow-sm transition-all duration-300 hover:bg-blue-200 hover:text-indigo-900"
                     onClick={handleAttach}
-                    disabled={isButtonDisabled}
+                    disabled={isSharedContent ? true : isButtonDisabled}
                   >
                     {isFinished ? (
                       <span className="relative z-7">Ask AI</span>

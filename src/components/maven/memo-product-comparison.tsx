@@ -275,7 +275,10 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
             exit="exit"
             className="my-3"
           >
-            <div className="*:text-xs grid grid-cols-1 lg:grid-cols-2 gap-2">
+            <div className="overflow-x-auto max-w-xl">
+              <pre className="text-xs">{JSON.stringify(data, null, 2)}</pre>
+            </div>
+            {/* <div className="*:text-xs grid grid-cols-1 lg:grid-cols-2 gap-2">
               <div className="lg:border-r border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
                 {Array.isArray(data.data.products) &&
                   [data.data.products[0]].map(
@@ -348,7 +351,7 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
                   </motion.div>
                 </motion.div>
               </div>
-            )}
+            )} */}
           </motion.div>
         )}
       </AnimatePresence>

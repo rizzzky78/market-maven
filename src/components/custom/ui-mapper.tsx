@@ -155,7 +155,7 @@ const processContentArray = (
 // Type-safe role handlers
 const roleHandlers: Record<
   MessageProperty["role"],
-  (message: MessageProperty, index: number) => UIState
+  (message: MessageProperty, index: number, isSharedPage?: boolean) => UIState
 > = {
   assistant: (message, index) => {
     if (!Array.isArray(message.content)) {
