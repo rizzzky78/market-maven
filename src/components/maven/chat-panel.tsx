@@ -114,11 +114,14 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       flush();
       handleReset();
 
-      const { id, display, generation } = await orchestrator({
-        textInput: value.length > 0 ? value : undefined,
-        attachProduct: attachment,
-        productCompare: activeComparison,
-      });
+      const { id, display, generation } = await orchestrator(
+        {
+          textInput: value.length > 0 ? value : undefined,
+          attachProduct: attachment,
+          productCompare: activeComparison,
+        },
+        { onRequest: { search, related } }
+      );
 
       setUIState((prevUI) => [...prevUI, { id, display }]);
 
@@ -142,6 +145,8 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     flush,
     handleReset,
     orchestrator,
+    related,
+    search,
     setIsGenerating,
     setUIState,
     value,
@@ -249,15 +254,15 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                         <span className="text-xs font-normal">Search</span>
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent className="rounded-xl">
+                    <TooltipContent className="rounded-xl max-w-sm">
                       <p>
-                        Reinforce answer by allowing models to get additional
-                        data from external sources.
+                        Enhance answers by allowing models to retrieve
+                        additional data from external sources. Using search may
+                        extend response time and provide insights beyond the
+                        displayed data.
                         {search && (
-                          <span>
-                            <br />
-                            When using the search, final response maybe
-                            different from displayed data.
+                          <span className="ml-1 font-semibold">
+                            Search is enabled.
                           </span>
                         )}
                       </p>
@@ -282,9 +287,17 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                         <span className="text-xs font-normal">Related</span>
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent className="rounded-3xl">
+                    <TooltipContent className="rounded-xl max-w-sm">
                       <p>
-                        Enable related query based on latest data conversation
+                        Enable related queries using the latest conversation
+                        data. These suggestions offer users the most relevant
+                        follow-up questions that align with the agent&apos;s
+                        capabilities.
+                        {related && (
+                          <span className="ml-1 font-semibold">
+                            Related query is enabled.
+                          </span>
+                        )}
                       </p>
                     </TooltipContent>
                   </Tooltip>
