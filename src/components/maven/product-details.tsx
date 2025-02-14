@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { StreamableValue, useStreamableValue } from "ai/rsc";
@@ -19,6 +18,7 @@ import {
 import Link from "next/link";
 import { useSmartTextarea } from "../hooks/use-smart-textare";
 import { ShareButton } from "./share-button";
+import Image from "next/image";
 
 export const ProductDetails: FC<ProductDetailsProps> = ({
   content,
@@ -84,10 +84,14 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
                 zoomFactor={2}
                 lensSize={270}
               >
-                <img
+                <Image
                   src={screenshot}
                   alt="Searched Product"
-                  className="object-cover"
+                  width={1200} // Original width of the image
+                  height={800} // Original height of the image
+                  layout="responsive"
+                  quality={100}
+                  className=""
                 />
               </Lens>
               <div className="w-full pl-1 mt-2 rounded-full">
@@ -212,10 +216,14 @@ export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
               zoomFactor={2}
               lensSize={270}
             >
-              <img
+              <Image
                 src={screenshot}
                 alt="Searched Product"
-                className="object-cover"
+                width={1200} // Original width of the image
+                height={800} // Original height of the image
+                layout="responsive"
+                quality={100}
+                className=""
               />
             </Lens>
             <div className="w-full pl-1 mt-2 rounded-full">

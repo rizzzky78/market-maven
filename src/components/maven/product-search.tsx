@@ -16,6 +16,7 @@ import { ErrorMessage } from "./error-message";
 import { StreamableValue, useStreamableValue } from "ai/rsc";
 import { DeepPartial } from "ai";
 import { ShareButton } from "./share-button";
+import Image from "next/image";
 
 // Animation configurations
 const ANIMATION_CONSTANTS = {
@@ -122,8 +123,8 @@ export const ProductSearch: FC<ProductsProps> = ({
       </div>
       <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-[2rem] px-4 py-2">
         {content.data.screenshot && (
-          <div className="my-1">
-            {isContentReady && isFinished ? (
+          <div className="my-1 pt-1">
+            {isFinished && (
               <motion.div
                 variants={animations.item}
                 initial="hidden"
@@ -135,10 +136,14 @@ export const ProductSearch: FC<ProductsProps> = ({
                   zoomFactor={2}
                   lensSize={270}
                 >
-                  <img
+                  <Image
                     src={content.data.screenshot}
-                    alt="Searhced Products"
-                    className="rounded-3xl object-cover"
+                    alt="Searched Product"
+                    width={1200} // Original width of the image
+                    height={800} // Original height of the image
+                    layout="responsive"
+                    quality={100}
+                    className=""
                   />
                 </Lens>
                 <div className="w-fit p-1 mt-1 flex items-center justify-between">
@@ -158,8 +163,6 @@ export const ProductSearch: FC<ProductsProps> = ({
                   />
                 </div>
               </motion.div>
-            ) : (
-              <div className="bg-muted rounded-3xl animate-pulse w-full h-[240px] lg:h-[360px]" />
             )}
           </div>
         )}
