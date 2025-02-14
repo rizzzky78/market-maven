@@ -56,6 +56,11 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
 
   const sharedContent = isSharedContent ?? false;
 
+  const tabVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
     <div className="w-full mb-8">
       <div className="absolute ml-4 -mt-4">
@@ -140,13 +145,16 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
           )}
         </div>
         <Separator className="mt-2 mb-4 bg-[#1A1A1D] dark:bg-muted" />
-        <MemoProductDetails
-          callId={callId}
-          query={args.query}
-          link={args.link}
-          data={[productDetails]}
-          isGenerating={false}
-        />
+        <div>
+          <MemoProductDetails
+            callId={callId}
+            query={args.query}
+            link={args.link}
+            data={[productDetails]}
+            isGenerating={false}
+          />
+        </div>
+
         <div className="mb-2 flex items-center space-x-2 justify-center">
           <Info className="size-4 text-purple-500 dark:text-purple-300" />
           <p className="text-xs">
