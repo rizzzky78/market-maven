@@ -123,46 +123,44 @@ export const ProductSearch: FC<ProductsProps> = ({
       <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-[2rem] px-4 py-2">
         {content.data.screenshot && (
           <div className="my-1 pt-1">
-            {isFinished && (
-              <motion.div
-                variants={animations.item}
-                initial="hidden"
-                animate="visible"
+            <motion.div
+              variants={animations.item}
+              initial="hidden"
+              animate="visible"
+            >
+              <Lens
+                hovering={hovering}
+                setHovering={setHovering}
+                zoomFactor={2}
+                lensSize={270}
               >
-                <Lens
-                  hovering={hovering}
-                  setHovering={setHovering}
-                  zoomFactor={2}
-                  lensSize={270}
-                >
-                  <Image
-                    src={content.data.screenshot}
-                    alt={content.args.query}
-                    width={1400}
-                    height={788}
-                    quality={100}
-                    placeholder={"blur"}
-                    blurDataURL="/blured-placeholder.webp"
-                  />
-                </Lens>
-                <div className="w-fit p-1 mt-1 flex items-center justify-between">
-                  <div className="flex items-start">
-                    <Info className="size-4 shrink-0 mr-1 text-purple-500 dark:text-purple-300" />
-                    <p className="text-xs">
-                      MarketMaven is not affiliated with the relevant online
-                      marketplace, the displayed results may not match the
-                      user&apos;s intent.
-                    </p>
-                  </div>
-                  <ShareButton
-                    title={"Product Search"}
-                    type={"product-search"}
-                    callId={content.data.callId}
-                    disabled={isSharedContent}
-                  />
+                <Image
+                  src={content.data.screenshot}
+                  alt={content.args.query}
+                  width={1400}
+                  height={788}
+                  quality={100}
+                  placeholder={"blur"}
+                  blurDataURL="/blured-placeholder.webp"
+                />
+              </Lens>
+              <div className="w-fit p-1 mt-1 flex items-center justify-between">
+                <div className="flex items-start">
+                  <Info className="size-4 shrink-0 mr-1 text-purple-500 dark:text-purple-300" />
+                  <p className="text-xs">
+                    MarketMaven is not affiliated with the relevant online
+                    marketplace, the displayed results may not match the
+                    user&apos;s intent.
+                  </p>
                 </div>
-              </motion.div>
-            )}
+                <ShareButton
+                  title={"Product Search"}
+                  type={"product-search"}
+                  callId={content.data.callId}
+                  disabled={isSharedContent}
+                />
+              </div>
+            </motion.div>
           </div>
         )}
         <Separator className="mb-4 bg-[#1A1A1D] dark:bg-muted" />
