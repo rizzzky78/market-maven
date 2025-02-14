@@ -145,16 +145,13 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
           )}
         </div>
         <Separator className="mt-2 mb-4 bg-[#1A1A1D] dark:bg-muted" />
-        <div>
-          <MemoProductDetails
-            callId={callId}
-            query={args.query}
-            link={args.link}
-            data={[productDetails]}
-            isGenerating={false}
-          />
-        </div>
-
+        <MemoProductDetails
+          callId={callId}
+          query={args.query}
+          link={args.link}
+          data={[productDetails]}
+          isGenerating={false}
+        />
         <div className="mb-2 flex items-center space-x-2 justify-center">
           <Info className="size-4 text-purple-500 dark:text-purple-300" />
           <p className="text-xs">

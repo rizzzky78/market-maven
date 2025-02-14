@@ -7,8 +7,6 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { FC } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@radix-ui/react-separator";
 
 const containerVariants = {
   initial: {
@@ -78,11 +76,6 @@ const cardVariants = {
       duration: 0.2,
     },
   },
-};
-
-const tabVariants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0 },
 };
 
 const sanitizeStr = (url: string) => {
@@ -269,80 +262,40 @@ const PureProductDetails: FC<ProductDetailsProps> = ({
       </div>
       <AnimatePresence mode="wait">
         {open && (
-          <motion.div
-            variants={containerVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-          >
-            <Tabs defaultValue="primary">
-              <TabsList className="grid w-full grid-cols-3 rounded-3xl *:rounded-2xl mt-4">
-                <TabsTrigger value="primary">Product Details</TabsTrigger>
-                <TabsTrigger value="secondary">Web Sources</TabsTrigger>
-                <TabsTrigger value="tertiary">Cites</TabsTrigger>
-              </TabsList>
-              <TabsContent value="primary" className="-mt-2">
+          <div>
+            <motion.div
+              variants={containerVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="space-y-1 *:text-sm flex flex-wrap"
+            >
+              {data.map((item, index) => (
                 <motion.div
-                  variants={containerVariants}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  className="space-y-1 *:text-sm flex flex-wrap"
+                  key={index}
+                  variants={itemVariants}
+                  className="border-t pt-1 first:border-t-0 first:pt-0"
                 >
-                  {data.map((item, index) => (
-                    <motion.div
-                      key={index}
-                      variants={itemVariants}
-                      className="border-t pt-1 first:border-t-0 first:pt-0"
-                    >
-                      <div className="rounded-[2rem] w-fit bg-purple-400 dark:bg-[#FBF5E5] py-1 pl-4 pr-20 mt-6 mb-2">
-                        <div className="flex items-center space-x-2 text-black">
-                          <p className="font-semibold text-sm">Product:</p>
-                        </div>
-                      </div>
-                      <motion.div
-                        variants={containerVariants}
-                        initial="initial"
-                        animate="animate"
-                        exit="exit"
-                        className="space-y-1"
-                      >
-                        {Object.entries(item).map(([key, value]) => (
-                          <Fragment key={key}>
-                            {renderValue(value, key)}
-                          </Fragment>
-                        ))}
-                      </motion.div>
-                    </motion.div>
-                  ))}
+                  <div className="rounded-[2rem] w-fit bg-purple-400 dark:bg-[#FBF5E5] py-1 pl-4 pr-20 mt-6 mb-2">
+                    <div className="flex items-center space-x-2 text-black">
+                      <p className="font-semibold text-sm">Product:</p>
+                    </div>
+                  </div>
+                  <motion.div
+                    variants={containerVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    className="space-y-1"
+                  >
+                    {Object.entries(item).map(([key, value]) => (
+                      <Fragment key={key}>{renderValue(value, key)}</Fragment>
+                    ))}
+                  </motion.div>
                 </motion.div>
-              </TabsContent>
-              <TabsContent value="secondary">
-                <motion.div
-                  variants={tabVariants}
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ duration: 0.3 }}
-                >
-                  <p className="text-sm md:text-base">
-                    Secondary content goes here.
-                  </p>
-                </motion.div>
-              </TabsContent>
-              <TabsContent value="tertiary">
-                <motion.div
-                  variants={tabVariants}
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ duration: 0.3 }}
-                >
-                  <p className="text-sm md:text-base">
-                    Tertiary content goes here.
-                  </p>
-                </motion.div>
-              </TabsContent>
-            </Tabs>
-          </motion.div>
+              ))}
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </motion.div>
