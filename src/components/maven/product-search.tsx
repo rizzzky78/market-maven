@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { FC, useEffect, useState } from "react";
@@ -138,12 +137,12 @@ export const ProductSearch: FC<ProductsProps> = ({
                 >
                   <Image
                     src={content.data.screenshot}
-                    alt="Searched Product"
-                    width={1200} // Original width of the image
-                    height={800} // Original height of the image
-                    layout="responsive"
+                    alt={content.args.query}
+                    width={1400}
+                    height={788}
                     quality={100}
-                    className=""
+                    placeholder={"blur"}
+                    blurDataURL="/blured-placeholder.webp"
                   />
                 </Lens>
                 <div className="w-fit p-1 mt-1 flex items-center justify-between">
@@ -217,12 +216,14 @@ interface StreamProps {
   query: string;
   products: StreamableValue<DeepPartial<Product[]>>;
   screenshot?: string;
+  callId: string;
 }
 
 export const StreamProductSearch: FC<StreamProps> = ({
   query,
   products,
   screenshot,
+  callId,
 }) => {
   const [raw, error, pending] = useStreamableValue(products);
   const [data, setData] = useState<DeepPartial<Product[]>>([]);
@@ -244,7 +245,7 @@ export const StreamProductSearch: FC<StreamProps> = ({
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full mb-5">
       <div className="absolute ml-4 -mt-4">
         <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center">
           <Search className="size-4 mr-1" />
@@ -263,21 +264,44 @@ export const StreamProductSearch: FC<StreamProps> = ({
       </div>
       <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-[2rem] px-4 py-2">
         {screenshot && (
-          <div className="mb-4 mt-3">
-            <Separator className="mb-3" />
-
-            <Lens
-              hovering={hovering}
-              setHovering={setHovering}
-              zoomFactor={2}
-              lensSize={270}
+          <div className="my-1 pt-1">
+            <motion.div
+              variants={animations.item}
+              initial="hidden"
+              animate="visible"
             >
-              <img
-                src={screenshot}
-                alt="Searhced Products"
-                className="rounded-3xl object-cover"
-              />
-            </Lens>
+              <Lens
+                hovering={hovering}
+                setHovering={setHovering}
+                zoomFactor={2}
+                lensSize={270}
+              >
+                <Image
+                  src={screenshot}
+                  alt={query}
+                  width={1400}
+                  height={788}
+                  quality={100}
+                  placeholder={"blur"}
+                  blurDataURL="/blured-placeholder.webp"
+                />
+              </Lens>
+              <div className="w-fit p-1 mt-1 flex items-center justify-between">
+                <div className="flex items-start">
+                  <Info className="size-4 shrink-0 mr-1 text-purple-500 dark:text-purple-300" />
+                  <p className="text-xs">
+                    MarketMaven is not affiliated with the relevant online
+                    marketplace, the displayed results may not match the
+                    user&apos;s intent.
+                  </p>
+                </div>
+                <ShareButton
+                  title={"Product Search"}
+                  type={"product-search"}
+                  callId={callId}
+                />
+              </div>
+            </motion.div>
           </div>
         )}
         <Separator className="mb-4 bg-[#1A1A1D] dark:bg-muted" />
@@ -286,7 +310,7 @@ export const StreamProductSearch: FC<StreamProps> = ({
             <div className="flex items-center space-x-2">
               <SearchCheck className="size-4 shrink-0" />
               <h3 className="text-sm line-clamp-1">
-                Product Search Results:
+                Product Search:
                 <span className="ml-1 font-semibold">{query}</span>
               </h3>
             </div>
@@ -308,7 +332,7 @@ export const StreamProductSearch: FC<StreamProps> = ({
         </div>
         <AnimatePresence mode={"wait"}>
           {open && (
-            <div className="mt-4">
+            <div className="mt-4 mb-2">
               <motion.div
                 className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2"
                 variants={animations.container}
@@ -330,16 +354,6 @@ export const StreamProductSearch: FC<StreamProps> = ({
                     ))
                   : null}
               </motion.div>
-              <div className="w-fit p-1 mt-2 rounded-full">
-                <div className="flex items-start space-x-2">
-                  <Info className="size-4 shrink-0" />
-                  <p className="text-xs">
-                    MarketMaven is not affiliated with the relevant online
-                    marketplace, the displayed results may not match the
-                    user&apos;s intent.
-                  </p>
-                </div>
-              </div>
             </div>
           )}
         </AnimatePresence>
