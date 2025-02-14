@@ -229,6 +229,7 @@ const orchestrator = async (
             yield (
               <StreamProductSearch
                 query={query}
+                callId={finalizedProductSearch.callId}
                 screenshot={scrapeContent.screenshot}
                 products={streamableProducts.value}
               />
