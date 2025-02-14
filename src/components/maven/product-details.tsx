@@ -86,12 +86,12 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
               >
                 <Image
                   src={screenshot}
-                  alt="Searched Product"
-                  width={1200} // Original width of the image
-                  height={800} // Original height of the image
-                  layout="responsive"
+                  alt={args.query}
+                  width={1400}
+                  height={788}
                   quality={100}
-                  className=""
+                  placeholder={"blur"}
+                  blurDataURL="/blured-placeholder.webp"
                 />
               </Lens>
               <div className="w-full pl-1 mt-2 rounded-full">
@@ -218,12 +218,12 @@ export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
             >
               <Image
                 src={screenshot}
-                alt="Searched Product"
-                width={1200} // Original width of the image
-                height={800} // Original height of the image
-                layout="responsive"
+                alt={query}
+                width={1400}
+                height={788}
                 quality={100}
-                className=""
+                placeholder={"blur"}
+                blurDataURL="/blured-placeholder.webp"
               />
             </Lens>
             <div className="w-full pl-1 mt-2 rounded-full">
