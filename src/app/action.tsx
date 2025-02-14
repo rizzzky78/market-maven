@@ -36,10 +36,7 @@ import {
 } from "@/lib/agents/system-instructions";
 import { SYSTEM_INSTRUCT_CORE } from "@/lib/agents/system-instructions/core";
 import { scrapeUrl } from "@/lib/agents/tools/api/firecrawl";
-import {
-  externalTavilySearch,
-  tavilySearch,
-} from "@/lib/agents/tools/api/tavily";
+import { externalTavilySearch } from "@/lib/agents/tools/api/tavily";
 import { handleScrapingWithCache } from "@/lib/service/cache-store";
 import {
   createMarkdownEntry,
@@ -108,11 +105,19 @@ const orchestrator = async (
 
   const textUi = <StreamAssistantMessage content={streamableText.value} />;
 
+  let errorState: { isError: boolean; error: unknown } = {
+    isError: false,
+    error: null,
+  };
+
   const { value } = await streamUI({
     model: google("gemini-2.0-flash-exp"),
     system: SYSTEM_INSTRUCT_CORE,
     messages: toCoreMessage(state.get().messages),
     initial: <LoadingText text="Maven is thinking..." />,
+    onFinish: ({ usage }) => {
+      logger.info("Orchestrator Usage: first layer", { usage });
+    },
     text: async function* ({ content, done }) {
       if (done) {
         state.done({
@@ -249,6 +254,13 @@ const orchestrator = async (
                   object: finalizedProductSearch,
                 });
               },
+              onError: ({ error }) => {
+                streamableProducts.error(error);
+                errorState = {
+                  isError: true,
+                  error,
+                };
+              },
             });
 
             for await (const chunk of partialObjectStream) {
@@ -289,11 +301,37 @@ const orchestrator = async (
                   loading: false,
                 });
               },
+              onError: ({ error }) => {
+                streamableText.error(error);
+                errorState = {
+                  isError: true,
+                  error,
+                };
+              },
             });
 
             for await (const texts of textStream) {
               finalizedText += texts;
               streamableText.update(finalizedText);
+            }
+
+            if (errorState.isError) {
+              generation.done({
+                process: "fatal_error",
+                loading: false,
+                error: "LLM Generation Error",
+              });
+
+              return (
+                <ErrorMessage
+                  errorName="LLM Error"
+                  reason="There was an error on LLMs Agent generation, that's all we know :("
+                  raw={{
+                    payload: { query },
+                    error: errorState,
+                  }}
+                />
+              );
             }
 
             const { toolResult } = mutateTool(state, {
@@ -476,6 +514,13 @@ const orchestrator = async (
                   object: finalizedObject,
                 });
               },
+              onError: ({ error }) => {
+                streamableObject.error(error);
+                errorState = {
+                  isError: true,
+                  error,
+                };
+              },
             });
 
             for await (const objProduct of partialObjectStream) {
@@ -531,11 +576,37 @@ const orchestrator = async (
                   loading: false,
                 });
               },
+              onError: ({ error }) => {
+                streamableText.error(error);
+                errorState = {
+                  isError: true,
+                  error,
+                };
+              },
             });
 
             for await (const text of textStream) {
               finalizedText += text;
               streamableText.update(finalizedText);
+            }
+
+            if (errorState.isError) {
+              generation.done({
+                process: "fatal_error",
+                loading: false,
+                error: "LLM Generation Error",
+              });
+
+              return (
+                <ErrorMessage
+                  errorName="LLM Error"
+                  reason="There was an error on LLMs Agent generation, that's all we know :("
+                  raw={{
+                    payload: { query, link },
+                    error: errorState,
+                  }}
+                />
+              );
             }
 
             const { toolResult } = mutateTool(state, {
@@ -682,6 +753,13 @@ const orchestrator = async (
                   object: finalizedCompare,
                 });
               },
+              onError: ({ error }) => {
+                streamableObject.error(error);
+                errorState = {
+                  isError: true,
+                  error,
+                };
+              },
             });
 
             for await (const chunk of partialObjectStream) {
@@ -724,11 +802,37 @@ const orchestrator = async (
                   loading: false,
                 });
               },
+              onError: ({ error }) => {
+                streamableText.error(error);
+                errorState = {
+                  isError: true,
+                  error,
+                };
+              },
             });
 
             for await (const text of textStream) {
               finalizedText += text;
               streamableText.update(finalizedText);
+            }
+
+            if (errorState.isError) {
+              generation.done({
+                process: "fatal_error",
+                loading: false,
+                error: "LLM Generation Error",
+              });
+
+              return (
+                <ErrorMessage
+                  errorName="LLM Error"
+                  reason="There was an error on LLMs Agent generation, that's all we know :("
+                  raw={{
+                    payload: { compare },
+                    error: errorState,
+                  }}
+                />
+              );
             }
 
             const { toolResult } = mutateTool(state, {
