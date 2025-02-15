@@ -22881,3 +22881,322 @@
     }
   ]
 }
+[90m[2025-02-15 12:00:52.217][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-15 14:18:02.836][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Poco x6"
+      }
+    }
+  ]
+}
+[90m[2025-02-15 14:18:15.650][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "0999118a-98b9-45bb-a2d0-d872af942f75"
+    }
+  ]
+}
+[90m[2025-02-15 14:18:29.082][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "0999118a-98b9-45bb-a2d0-d872af942f75"
+    }
+  ]
+}
+[90m[2025-02-15 14:18:31.617][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "0999118a-98b9-45bb-a2d0-d872af942f75"
+    }
+  ]
+}
+[90m[2025-02-15 14:18:31.687][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Poco x6"
+      }
+    }
+  ]
+}
+[90m[2025-02-15 14:18:31.691][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 1351,
+        "completionTokens": 6,
+        "totalTokens": 1357
+      }
+    }
+  ]
+}
+[90m[2025-02-15 14:18:32.653][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-15 14:37:42.719][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Official POCO X6 Pro 5G | Dimensity 8300-Ultra 120Hz FIow AMOLED 67W T",
+        "link": "https://www.tokopedia.com/xiaomi/official-poco-x6-pro-5g-dimensity-8300-ultra-120hz-fiow-amoled-67w-t-grey-12-512g-ed3b0?extParam=ivf%3Dfalse%26keyword%3Dpoco+x6%26search_id%3D2025021507180795C86292085D9D095TJY%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-15 14:38:02.680][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "a546af5a-1e29-4777-b380-3baf3c6d82f0"
+    }
+  ]
+}
+[90m[2025-02-15 14:38:23.311][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "a546af5a-1e29-4777-b380-3baf3c6d82f0"
+    }
+  ]
+}
+[90m[2025-02-15 14:38:25.433][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "a546af5a-1e29-4777-b380-3baf3c6d82f0"
+    }
+  ]
+}
+[90m[2025-02-15 14:38:25.493][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Official POCO X6 Pro 5G | Dimensity 8300-Ultra 120Hz FIow AMOLED 67W T",
+        "link": "https://www.tokopedia.com/xiaomi/official-poco-x6-pro-5g-dimensity-8300-ultra-120hz-fiow-amoled-67w-t-grey-12-512g-ed3b0?extParam=ivf%3Dfalse%26keyword%3Dpoco+x6%26search_id%3D2025021507180795C86292085D9D095TJY%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-15 14:38:25.498][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 3854,
+        "completionTokens": 173,
+        "totalTokens": 4027
+      }
+    }
+  ]
+}
+[90m[2025-02-15 14:38:25.816][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-15 14:54:06.357][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Xiaomi Poco M6 Pro 8/256 GB Garansi Resmi Poco M6 Pro Not X5 X6 M4 Pro",
+        "link": "https://www.tokopedia.com/distriponsel/xiaomi-poco-m6-pro-8-256-gb-garansi-resmi-poco-m6-pro-not-x5-x6-m4-pro-m6pro-256-black-bundle-lengkap-7a2bf?extParam=ivf%3Dtrue%26keyword%3Dpoco+x6%26search_id%3D2025021507180795C86292085D9D095TJY%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-15 14:54:27.155][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "52e7a58a-c0e9-4d1d-87e5-e8e50ecaa1de"
+    }
+  ]
+}
+[90m[2025-02-15 14:54:33.531][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "52e7a58a-c0e9-4d1d-87e5-e8e50ecaa1de"
+    }
+  ]
+}
+[90m[2025-02-15 14:54:34.972][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "52e7a58a-c0e9-4d1d-87e5-e8e50ecaa1de"
+    }
+  ]
+}
+[90m[2025-02-15 14:54:35.024][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Xiaomi Poco M6 Pro 8/256 GB Garansi Resmi Poco M6 Pro Not X5 X6 M4 Pro",
+        "link": "https://www.tokopedia.com/distriponsel/xiaomi-poco-m6-pro-8-256-gb-garansi-resmi-poco-m6-pro-not-x5-x6-m4-pro-m6pro-256-black-bundle-lengkap-7a2bf?extParam=ivf%3Dtrue%26keyword%3Dpoco+x6%26search_id%3D2025021507180795C86292085D9D095TJY%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-15 14:54:35.032][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 7328,
+        "completionTokens": 179,
+        "totalTokens": 7507
+      }
+    }
+  ]
+}
+[90m[2025-02-15 14:54:35.264][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-15 14:58:31.684][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using productsComparison tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-15 14:58:31.820][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "52e7a58a-c0e9-4d1d-87e5-e8e50ecaa1de",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-15 14:58:31.830][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "a546af5a-1e29-4777-b380-3baf3c6d82f0",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-15 14:58:43.432][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "855a61b6-d2f7-46f4-ba15-727ed32bc764"
+    }
+  ]
+}
+[90m[2025-02-15 14:59:08.694][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "855a61b6-d2f7-46f4-ba15-727ed32bc764"
+    }
+  ]
+}
+[90m[2025-02-15 14:59:08.799][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using productsComparison tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "compare": [
+          {
+            "title": "Official POCO X6 Pro 5G | Dimensity 8300-Ultra 120Hz FIow AMOLED 67W T",
+            "callId": "a546af5a-1e29-4777-b380-3baf3c6d82f0"
+          },
+          {
+            "title": "Xiaomi Poco M6 Pro 8/256 GB Garansi Resmi Poco M6 Pro Not X5 X6 M4 Pro",
+            "callId": "52e7a58a-c0e9-4d1d-87e5-e8e50ecaa1de"
+          }
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-02-15 14:59:08.804][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 8154,
+        "completionTokens": 136,
+        "totalTokens": 8290
+      }
+    }
+  ]
+}
+[90m[2025-02-15 14:59:09.026][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-15 15:17:50.781][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-15 15:17:51.408][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-15 15:17:53.628][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}

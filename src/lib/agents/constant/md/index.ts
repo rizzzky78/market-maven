@@ -1,6 +1,10 @@
 import { readFileSync } from "fs";
 
 const SYSTEM_INSTRUCTION = {
+  CORE_ORCHESTRATOR: readFileSync(
+    "./src/lib/agents/constant/md/orchestrator.md",
+    "utf-8"
+  ),
   PRODUCT_DETAILS_EXTRACTOR: readFileSync(
     "./src/lib/agents/constant/md/product-details-extractor.md",
     "utf-8"
