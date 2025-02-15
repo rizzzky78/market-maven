@@ -194,3 +194,47 @@ export function isToolResult<ARGS, DATA>(
     "data" in result
   );
 }
+
+export function transformTool<ARGS, DATA>(
+  payload: MutationPayload<ARGS, DATA>
+) {
+  const { name, args, result } = payload;
+
+  const toolCallId = generateId();
+  const constructToolResult: ExtendedToolResult<ARGS, DATA> = {
+    success: Boolean(result),
+    name,
+    args: args as ARGS,
+    data: result as DATA,
+  };
+  const mutation: MessageProperty[] = [
+    {
+      id: generateId(),
+      role: "assistant",
+      content: [
+        {
+          type: "tool-call",
+          toolCallId,
+          toolName: name,
+          args,
+        },
+      ],
+    },
+    {
+      id: generateId(),
+      role: "tool",
+      content: [
+        {
+          type: "tool-result",
+          toolCallId,
+          toolName: name,
+          result: JSON.stringify(constructToolResult),
+        },
+      ],
+    },
+  ];
+
+  return {
+    transformResult: mutation,
+  };
+}
