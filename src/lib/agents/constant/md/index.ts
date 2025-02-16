@@ -1,26 +1,63 @@
 import { readFileSync } from "fs";
 
 const SYSTEM_INSTRUCTION = {
+  /**
+   * LLM Instruct for main Agent (orchestrator)
+   */
   CORE_ORCHESTRATOR: readFileSync(
     "./src/lib/agents/constant/md/orchestrator.md",
     "utf-8"
   ),
-  PRODUCT_SEARCH_INSIGHT: readFileSync(
-    "./src/lib/agents/constant/md/search-product-insight.md",
+  /**
+   * LLM Instruct for **Product Search Extractor**
+   *
+   * Output: Structured Data (JSON)
+   */
+  PRODUCT_SEARCH_EXTRACTOR: readFileSync(
+    "./src/lib/agents/constant/md/product-search-extractor.md",
     "utf-8"
   ),
+  /**
+   * LLM Instruct for **Product Search Insight**
+   *
+   * Output: Markdown
+   */
+  PRODUCT_SEARCH_INSIGHT: readFileSync(
+    "./src/lib/agents/constant/md/product-search-insight.md",
+    "utf-8"
+  ),
+  /**
+   * LLM Instruct for **Product Search Extractor**
+   *
+   * Output: Structured Data (JSON)
+   */
   PRODUCT_DETAILS_EXTRACTOR: readFileSync(
     "./src/lib/agents/constant/md/product-details-extractor.md",
     "utf-8"
   ),
+  /**
+   * LLM Instruct for **Product Details Insight**
+   *
+   * Output: Markdown
+   */
   PRODUCT_DETAILS_INSIGHT: readFileSync(
     "./src/lib/agents/constant/md/product-details-extractor.md",
     "utf-8"
   ),
+  /**
+   * LLM Instruct for **Product Compare Extractor**
+   *
+   * Output: Structured Data (JSON)
+   */
   PRODUCT_COMPARE_EXTRACTOR: readFileSync(
     "./src/lib/agents/constant/md/product-compare-extractor.md",
     "utf-8"
   ),
+  /**
+   * LLM Instruct for **Product Compare Insight**
+   *
+   * Output: Markdown
+   */
   PRODUCT_COMPARE_INSIGHT: readFileSync(
     "./src/lib/agents/constant/md/product-compare-insight.md",
     "utf-8"
