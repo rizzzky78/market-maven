@@ -13,6 +13,10 @@ const SYSTEM_INSTRUCTION = {
     "./src/lib/agents/constant/md/product-details-extractor.md",
     "utf-8"
   ),
+  PRODUCT_DETAILS_INSIGHT: readFileSync(
+    "./src/lib/agents/constant/md/product-details-extractor.md",
+    "utf-8"
+  ),
   PRODUCT_COMPARE_EXTRACTOR: readFileSync(
     "./src/lib/agents/constant/md/product-compare-extractor.md",
     "utf-8"
