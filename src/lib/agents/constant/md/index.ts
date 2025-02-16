@@ -5,6 +5,10 @@ const SYSTEM_INSTRUCTION = {
     "./src/lib/agents/constant/md/orchestrator.md",
     "utf-8"
   ),
+  PRODUCT_SEARCH_INSIGHT: readFileSync(
+    "./src/lib/agents/constant/md/search-product-insight.md",
+    "utf-8"
+  ),
   PRODUCT_DETAILS_EXTRACTOR: readFileSync(
     "./src/lib/agents/constant/md/product-details-extractor.md",
     "utf-8"
