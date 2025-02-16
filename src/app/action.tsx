@@ -469,12 +469,24 @@ const orchestrator = async (
               <LoadingText text="Proceed to data extraction, please hang on..." />
             );
 
-            await new Promise((resolve) => setTimeout(resolve, 3000));
+            if (requestOption?.onRequest?.search) {
+              yield (
+                <LoadingText text="Perform search to get additonal information..." />
+              );
+              await new Promise((resolve) => setTimeout(resolve, 3000));
+            }
+
+            const externalData = await externalTavilySearch(
+              requestOption?.onRequest?.search ?? false,
+              {
+                query,
+              }
+            );
 
             const payloadContent = JSON.stringify({
-              prompt: TEMPLATE.ExtractionDetails,
               refference: { query, link },
               markdown: scrapeContent.markdown,
+              externalData: externalData.data,
             });
 
             const streamableObject =
@@ -543,13 +555,6 @@ const orchestrator = async (
                 />
                 <StreamAssistantMessage content={streamableText.value} />
               </>
-            );
-
-            const externalData = await externalTavilySearch(
-              requestOption?.onRequest?.search ?? false,
-              {
-                query,
-              }
             );
 
             const payloadInsight = {

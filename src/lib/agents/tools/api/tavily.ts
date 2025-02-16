@@ -38,6 +38,7 @@ export async function externalTavilySearch(
   const tavilyClient = tavily({ apiKey: getEnv("TAVILY_API_KEY") });
 
   if (!trigger) {
+    logger.info("External Data", { ext: "disabled" });
     return {
       data: null,
       error: null,
@@ -52,6 +53,8 @@ export async function externalTavilySearch(
       includeImages: true,
       includeImageDescriptions: true,
     });
+
+    logger.info("External Data", { ext: "enabled", eta: data.responseTime });
 
     return {
       data,

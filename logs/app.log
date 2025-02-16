@@ -23851,3 +23851,489 @@
     }
   ]
 }
+[90m[2025-02-16 13:00:48.566][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 13:00:48.598][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 13:01:32.866][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 13:01:59.648][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Asus TUF laptop"
+      }
+    }
+  ]
+}
+[90m[2025-02-16 13:02:12.654][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "4b8524ac-c857-42ab-a783-a1a5325b8dab"
+    }
+  ]
+}
+[90m[2025-02-16 13:02:25.269][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "4b8524ac-c857-42ab-a783-a1a5325b8dab"
+    }
+  ]
+}
+[90m[2025-02-16 13:02:30.172][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "4b8524ac-c857-42ab-a783-a1a5325b8dab"
+    }
+  ]
+}
+[90m[2025-02-16 13:02:30.319][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Asus TUF laptop"
+      }
+    }
+  ]
+}
+[90m[2025-02-16 13:02:30.325][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 2367,
+        "completionTokens": 7,
+        "totalTokens": 2374
+      }
+    }
+  ]
+}
+[90m[2025-02-16 13:02:31.039][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-16 13:03:51.778][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Laptop Asus TUF A15 FA507NUR-R745K6M-O AMD Ryzen 7-7435HS 16GB 512GB SSD RTX4050 6GB 15.6″ FHD 144Hz Win 11 - Mecha Gray",
+        "link": "https://www.tokopedia.com/asusrogindonesia/laptop-asus-tuf-a15-fa507nur-r745k6m-o-amd-ryzen-7-7435hs-16gb-512gb-ssd-rtx4050-6gb-15-6-fhd-144hz-win-11-mecha-gray-laptop-16gb-512gb-6488d?extParam=ivf%3Dfalse%26keyword%3Dasus+tuf+laptop%26search_id%3D2025021606020495C86292085D9D374KDE%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-16 13:04:10.150][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "be6bcda9-c064-492a-a8c2-52eed8a11a83"
+    }
+  ]
+}
+[90m[2025-02-16 13:04:22.842][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "be6bcda9-c064-492a-a8c2-52eed8a11a83"
+    }
+  ]
+}
+[90m[2025-02-16 13:04:25.128][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "be6bcda9-c064-492a-a8c2-52eed8a11a83"
+    }
+  ]
+}
+[90m[2025-02-16 13:04:25.176][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Laptop Asus TUF A15 FA507NUR-R745K6M-O AMD Ryzen 7-7435HS 16GB 512GB SSD RTX4050 6GB 15.6″ FHD 144Hz Win 11 - Mecha Gray",
+        "link": "https://www.tokopedia.com/asusrogindonesia/laptop-asus-tuf-a15-fa507nur-r745k6m-o-amd-ryzen-7-7435hs-16gb-512gb-ssd-rtx4050-6gb-15-6-fhd-144hz-win-11-mecha-gray-laptop-16gb-512gb-6488d?extParam=ivf%3Dfalse%26keyword%3Dasus+tuf+laptop%26search_id%3D2025021606020495C86292085D9D374KDE%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-16 13:04:25.180][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 5274,
+        "completionTokens": 261,
+        "totalTokens": 5535
+      }
+    }
+  ]
+}
+[90m[2025-02-16 13:04:25.431][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-16 13:20:21.428][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 13:20:21.707][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 13:20:23.823][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 13:20:24.088][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 13:20:41.147][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 13:20:41.485][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 13:20:59.838][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 13:21:39.670][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-02-16 13:21:43.539][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "dc472fe4-b206-43d6-84cb-1694ec3bdbd5"
+    }
+  ]
+}
+[90m[2025-02-16 13:21:57.668][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "dc472fe4-b206-43d6-84cb-1694ec3bdbd5"
+    }
+  ]
+}
+[90m[2025-02-16 13:22:02.079][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "dc472fe4-b206-43d6-84cb-1694ec3bdbd5"
+    }
+  ]
+}
+[90m[2025-02-16 13:22:02.194][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-02-16 13:22:02.199][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 7248,
+        "completionTokens": 6,
+        "totalTokens": 7254
+      }
+    }
+  ]
+}
+[90m[2025-02-16 13:22:02.353][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-16 13:22:52.466][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo Yoga Slim 7 Aura Edition 15ILL9 Ultra 7 258V 32GB 1TB SSD 15.3 2.8K 120Hz Touch",
+        "link": "https://www.tokopedia.com/lenovoyogaofficial/lenovo-yoga-slim-7-aura-edition-15ill9-ultra-7-258v-32gb-1tb-ssd-15-3-2-8k-120hz-touch-tanpa-paket-windows-11-home-e696f?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250210124327E5AF7B92904D6F277Y5T%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-16 13:23:00.636][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "750d1aee-ebba-40d3-a557-1417ec134c36"
+    }
+  ]
+}
+[90m[2025-02-16 13:23:09.056][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "750d1aee-ebba-40d3-a557-1417ec134c36"
+    }
+  ]
+}
+[90m[2025-02-16 13:23:09.170][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "External Data",
+  "meta": [
+    {
+      "ext": "disabled"
+    }
+  ]
+}
+[90m[2025-02-16 13:23:11.841][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "750d1aee-ebba-40d3-a557-1417ec134c36"
+    }
+  ]
+}
+[90m[2025-02-16 13:23:11.901][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Yoga Slim 7 Aura Edition 15ILL9 Ultra 7 258V 32GB 1TB SSD 15.3 2.8K 120Hz Touch",
+        "link": "https://www.tokopedia.com/lenovoyogaofficial/lenovo-yoga-slim-7-aura-edition-15ill9-ultra-7-258v-32gb-1tb-ssd-15-3-2-8k-120hz-touch-tanpa-paket-windows-11-home-e696f?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250210124327E5AF7B92904D6F277Y5T%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-16 13:23:11.908][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 9805,
+        "completionTokens": 201,
+        "totalTokens": 10006
+      }
+    }
+  ]
+}
+[90m[2025-02-16 13:23:12.137][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-16 13:25:20.855][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "LENOVO YOGA SLIM PRO 9 3K CORE i9 13095H 32GB 1T RTX4050 6G W11PRO 16\"",
+        "link": "https://www.tokopedia.com/toptech/lenovo-yoga-slim-pro-9-3k-core-i9-13095h-32gb-1t-rtx4050-6g-w11pro-16-non-bundling-bc6ed?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250210124327E5AF7B92904D6F277Y5T%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-16 13:25:38.849][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "045f13c5-abcc-4c21-a46c-2d5fe655731c"
+    }
+  ]
+}
+[90m[2025-02-16 13:25:53.289][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "045f13c5-abcc-4c21-a46c-2d5fe655731c"
+    }
+  ]
+}
+[90m[2025-02-16 13:26:03.235][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "External Data",
+  "meta": [
+    {
+      "ext": "enabled",
+      "eta": 8.8
+    }
+  ]
+}
+[90m[2025-02-16 13:26:06.851][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "045f13c5-abcc-4c21-a46c-2d5fe655731c"
+    }
+  ]
+}
+[90m[2025-02-16 13:26:06.967][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "LENOVO YOGA SLIM PRO 9 3K CORE i9 13095H 32GB 1T RTX4050 6G W11PRO 16\"",
+        "link": "https://www.tokopedia.com/toptech/lenovo-yoga-slim-pro-9-3k-core-i9-13095h-32gb-1t-rtx4050-6g-w11pro-16-non-bundling-bc6ed?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250210124327E5AF7B92904D6F277Y5T%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-16 13:26:06.970][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 11217,
+        "completionTokens": 188,
+        "totalTokens": 11405
+      }
+    }
+  ]
+}
+[90m[2025-02-16 13:26:07.384][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-16 13:26:53.721][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 13:26:54.569][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 13:28:23.328][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 13:28:23.982][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 13:34:14.269][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 13:34:15.240][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
