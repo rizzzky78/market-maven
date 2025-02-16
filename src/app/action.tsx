@@ -234,7 +234,7 @@ const orchestrator = async (
 
             const { partialObjectStream } = streamObject({
               model: google("gemini-2.0-flash-exp"),
-              system: SYSTEM_INSTRUCT_PRODUCTS,
+              system: SYSTEM_INSTRUCTION.PRODUCT_SEARCH_EXTRACTOR,
               prompt: payload,
               schema: productsSchema,
               onFinish: async ({ object }) => {
@@ -288,8 +288,8 @@ const orchestrator = async (
 
             const { textStream } = streamText({
               model: google("gemini-2.0-pro-exp-02-05"),
-              system: SYSTEM_INSTRUCTION.CORE_ORCHESTRATOR,
-              prompt: JSON.stringify(finalizedProductSearch),
+              system: SYSTEM_INSTRUCTION.PRODUCT_SEARCH_INSIGHT,
+              prompt: JSON.stringify(finalizedProductSearch.data),
               onFinish: ({ text }) => {
                 finalizedText = text;
                 streamableText.done();
@@ -563,7 +563,7 @@ const orchestrator = async (
 
             const { textStream } = streamText({
               model: google("gemini-2.0-flash-exp"),
-              system: "UNDEFINED",
+              system: SYSTEM_INSTRUCTION.PRODUCT_DETAILS_INSIGHT,
               prompt: JSON.stringify(payloadInsight),
               onFinish: async ({ text }) => {
                 finalizedText = text;

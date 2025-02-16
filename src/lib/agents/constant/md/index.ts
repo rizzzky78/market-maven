@@ -41,7 +41,7 @@ const SYSTEM_INSTRUCTION = {
    * Output: Markdown
    */
   PRODUCT_DETAILS_INSIGHT: readFileSync(
-    "./src/lib/agents/constant/md/product-details-extractor.md",
+    "./src/lib/agents/constant/md/product-details-insight.md",
     "utf-8"
   ),
   /**

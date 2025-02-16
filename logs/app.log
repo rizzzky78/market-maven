@@ -23584,3 +23584,270 @@
     }
   ]
 }
+[90m[2025-02-16 11:23:39.403][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 11:23:50.398][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 12:09:39.125][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 12:39:44.962][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo LOQ"
+      }
+    }
+  ]
+}
+[90m[2025-02-16 12:39:55.032][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "b1c940df-82ac-4f9f-8a79-b0d1a16d3660"
+    }
+  ]
+}
+[90m[2025-02-16 12:40:08.772][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "b1c940df-82ac-4f9f-8a79-b0d1a16d3660"
+    }
+  ]
+}
+[90m[2025-02-16 12:40:10.984][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "b1c940df-82ac-4f9f-8a79-b0d1a16d3660"
+    }
+  ]
+}
+[90m[2025-02-16 12:40:11.045][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo LOQ"
+      }
+    }
+  ]
+}
+[90m[2025-02-16 12:40:11.050][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 2366,
+        "completionTokens": 6,
+        "totalTokens": 2372
+      }
+    }
+  ]
+}
+[90m[2025-02-16 12:40:11.788][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-16 12:43:44.362][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 12:43:44.686][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 12:43:46.480][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 12:43:46.721][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-16 12:44:15.466][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-02-16 12:44:18.746][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "42856994-519e-4314-88a5-41e1aac77555"
+    }
+  ]
+}
+[90m[2025-02-16 12:44:31.773][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "42856994-519e-4314-88a5-41e1aac77555"
+    }
+  ]
+}
+[90m[2025-02-16 12:44:37.241][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "42856994-519e-4314-88a5-41e1aac77555"
+    }
+  ]
+}
+[90m[2025-02-16 12:44:37.357][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-02-16 12:44:37.364][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 2365,
+        "completionTokens": 5,
+        "totalTokens": 2370
+      }
+    }
+  ]
+}
+[90m[2025-02-16 12:44:38.055][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-16 12:45:41.923][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo Yoga Slim 7 Aura Edition 15ILL9 Ultra 7 258V 32GB 1TB SSD 15.3 2.8K 120Hz Touch",
+        "link": "https://www.tokopedia.com/lenovoyogaofficial/lenovo-yoga-slim-7-aura-edition-15ill9-ultra-7-258v-32gb-1tb-ssd-15-3-2-8k-120hz-touch-tanpa-paket-windows-11-home-e696f?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250210124327E5AF7B92904D6F277Y5T%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-16 12:45:50.162][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "81b72834-96b5-48d0-87ba-1f116e5099f0"
+    }
+  ]
+}
+[90m[2025-02-16 12:45:56.865][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "81b72834-96b5-48d0-87ba-1f116e5099f0"
+    }
+  ]
+}
+[90m[2025-02-16 12:45:59.607][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "81b72834-96b5-48d0-87ba-1f116e5099f0"
+    }
+  ]
+}
+[90m[2025-02-16 12:45:59.668][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Yoga Slim 7 Aura Edition 15ILL9 Ultra 7 258V 32GB 1TB SSD 15.3 2.8K 120Hz Touch",
+        "link": "https://www.tokopedia.com/lenovoyogaofficial/lenovo-yoga-slim-7-aura-edition-15ill9-ultra-7-258v-32gb-1tb-ssd-15-3-2-8k-120hz-touch-tanpa-paket-windows-11-home-e696f?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250210124327E5AF7B92904D6F277Y5T%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-16 12:45:59.675][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 4916,
+        "completionTokens": 201,
+        "totalTokens": 5117
+      }
+    }
+  ]
+}
+[90m[2025-02-16 12:45:59.866][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-16 12:46:56.696][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
