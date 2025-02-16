@@ -62,6 +62,10 @@ const SYSTEM_INSTRUCTION = {
     "./src/lib/agents/constant/md/product-compare-insight.md",
     "utf-8"
   ),
+  RELATED_QUERY_CRAFTER: readFileSync(
+    "./src/lib/agents/constant/md/related-query-crafter.md",
+    "utf-8"
+  ),
 } as const;
 
 export default SYSTEM_INSTRUCTION;
