@@ -196,6 +196,7 @@ export function isToolResult<ARGS, DATA>(
 }
 
 export function transformTool<ARGS, DATA>(
+  state: MutableAIState<AIState>,
   payload: MutationPayload<ARGS, DATA>
 ) {
   const { name, args, result } = payload;
@@ -235,6 +236,6 @@ export function transformTool<ARGS, DATA>(
   ];
 
   return {
-    transformResult: mutation,
+    transformResult: [...state.get().messages, ...mutation],
   };
 }

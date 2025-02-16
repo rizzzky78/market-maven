@@ -30,10 +30,7 @@ import {
   productsComparionSchema,
   searchProductSchema,
 } from "@/lib/agents/schema/tool-parameters";
-import {
-  SYSTEM_INSTRUCT_INSIGHT,
-  SYSTEM_INSTRUCT_PRODUCTS,
-} from "@/lib/agents/system-instructions";
+import { SYSTEM_INSTRUCT_PRODUCTS } from "@/lib/agents/system-instructions";
 import { SYSTEM_INSTRUCT_CORE } from "@/lib/agents/system-instructions/core";
 import { scrapeUrl } from "@/lib/agents/tools/api/firecrawl";
 import { externalTavilySearch } from "@/lib/agents/tools/api/tavily";
@@ -63,7 +60,6 @@ import {
 import logger from "@/lib/utility/logger";
 import { processURLQuery } from "@/lib/utils";
 import { google } from "@ai-sdk/google";
-import { groq } from "@ai-sdk/groq";
 import { DeepPartial, generateId, streamObject, streamText } from "ai";
 import {
   createAI,
@@ -290,8 +286,8 @@ const orchestrator = async (
             let finalizedText: string = "";
 
             const { textStream } = streamText({
-              model: groq("llama-3.3-70b-versatile"),
-              system: SYSTEM_INSTRUCT_INSIGHT,
+              model: google("gemini-2.0-pro-exp-02-05"),
+              system: SYSTEM_INSTRUCTION.CORE_ORCHESTRATOR,
               prompt: JSON.stringify(finalizedProductSearch),
               onFinish: ({ text }) => {
                 finalizedText = text;
