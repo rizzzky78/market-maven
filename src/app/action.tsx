@@ -113,6 +113,8 @@ const orchestrator = async (
     initial: <LoadingText text="Maven is thinking..." />,
     onFinish: ({ usage }) => {
       logger.info("Orchestrator Usage: first layer", { usage });
+      /** Keep close this stream even textUI is not depleted to prevent hanging */
+      streamableText.done();
     },
     text: async function* ({ content, done }) {
       if (done) {
@@ -128,7 +130,6 @@ const orchestrator = async (
           ],
         });
 
-        streamableText.done();
         generation.done({
           process: "done",
           loading: false,
