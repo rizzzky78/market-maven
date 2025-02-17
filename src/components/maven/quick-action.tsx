@@ -9,8 +9,16 @@ import {
   Laptop2,
   Smartphone,
 } from "lucide-react";
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useCallback } from "react";
 import { motion } from "framer-motion";
+import { StreamGeneration } from "@/lib/types/ai";
+import { generateId } from "ai";
+import { readStreamableValue, useActions, useUIState } from "ai/rsc";
+import { UserMessage } from "./user-message";
+import { AI } from "@/app/action";
+import { useAppState } from "@/lib/utility/provider/app-state-provider";
+import { useSmartTextarea } from "../hooks/use-smart-textare";
+import { toast } from "sonner";
 
 const predefinedActions: {
   label: string;
@@ -51,11 +59,76 @@ const predefinedActions: {
   },
 ];
 
-interface QuickActionProps {
-  onAction: (query: string) => Promise<void>;
-}
+export const QuickActionButton: FC = () => {
+  const [, setUIState] = useUIState<typeof AI>();
+  const { orchestrator } = useActions<typeof AI>();
+  const { isGenerating, setIsGenerating } = useAppState();
+  const { attachment, flush, activeComparison } = useSmartTextarea();
 
-export const QuickActionButton: FC<QuickActionProps> = ({ onAction }) => {
+  const actionSubmit = useCallback(
+    async (query: string) => {
+      if (isGenerating) return;
+
+      try {
+        setIsGenerating(true);
+
+        const componentId = generateId();
+
+        setUIState((prevUI) => [
+          ...prevUI,
+          {
+            id: generateId(),
+            display: (
+              <UserMessage
+                key={componentId}
+                content={{
+                  text_input: query,
+                  attach_product: attachment,
+                  product_compare: activeComparison,
+                }}
+              />
+            ),
+          },
+        ]);
+
+        flush();
+
+        const { id, display, generation } = await orchestrator({
+          textInput: query,
+        });
+
+        setUIState((prevUI) => [...prevUI, { id, display }]);
+
+        if (generation) {
+          const gens = readStreamableValue(
+            generation
+          ) as AsyncIterable<StreamGeneration>;
+          for await (const { loading } of gens) {
+            setIsGenerating(loading);
+          }
+        }
+      } catch (error) {
+        console.error("An Error occured when submitting the query!", error);
+        toast.error("Error When Submitting the Query!", {
+          position: "top-center",
+          richColors: true,
+          className:
+            "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
+        });
+      } finally {
+        setIsGenerating(false);
+      }
+    },
+    [
+      activeComparison,
+      attachment,
+      flush,
+      isGenerating,
+      orchestrator,
+      setIsGenerating,
+      setUIState,
+    ]
+  );
   return (
     <div className="w-full">
       <div className="flex justify-center mb-2">
@@ -90,7 +163,7 @@ export const QuickActionButton: FC<QuickActionProps> = ({ onAction }) => {
         {predefinedActions.map((actionItem, index) => (
           <motion.button
             key={index}
-            onClick={async () => await onAction(actionItem.action)}
+            onClick={async () => await actionSubmit(actionItem.action)}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}

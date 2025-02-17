@@ -267,7 +267,7 @@ export default function Page() {
         raw={productDetailsData}
       />
       <AssistantMessage content={markdownText} />
-      <RelatedMessage related={related} />
+      {/* <RelatedMessage related={related} /> */}
     </div>
   );
 }
