@@ -313,6 +313,8 @@ const orchestrator = async (
               streamableText.update(finalizedText);
             }
 
+            if ()
+
             if (errorState.isError) {
               generation.done({
                 process: "fatal_error",
