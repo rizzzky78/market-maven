@@ -11,7 +11,6 @@ import {
   KeyboardEvent,
   FC,
   useCallback,
-  useState,
 } from "react";
 import { UserMessage } from "./user-message";
 import { AnimatePresence } from "framer-motion";
@@ -48,11 +47,13 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     flush,
     removeFromComparison,
     activeComparison,
+    search,
+    related,
+    setSearch,
+    setRelated,
   } = useSmartTextarea();
   const { value, handleChange, handleBlur, handleReset } = useDebounceInput();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [search, enableSearch] = useState(false);
-  const [related, enableRelated] = useState(false);
 
   useEffect(() => {
     if (input) handleChange(input);
@@ -76,16 +77,6 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     setInput("");
     handleChange("");
     detach();
-  };
-
-  const handleError = (error: unknown) => {
-    console.error("An Error occured when submitting the query!", error);
-    toast.error("Error When Submitting the Query!", {
-      position: "top-center",
-      richColors: true,
-      className:
-        "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
-    });
   };
 
   const actionSubmit = useCallback(
@@ -135,9 +126,14 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
           }
         }
       } catch (error) {
-        handleError(error);
+        console.error("An Error occured when submitting the query!", error);
+        toast.error("Error When Submitting the Query!", {
+          position: "top-center",
+          richColors: true,
+          className:
+            "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
+        });
       } finally {
-        // router.refresh();
         setIsGenerating(false);
       }
     },
@@ -199,9 +195,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     <div className="">
       <div className={`w-full shrink-0 flex justify-center z-20 bg-background`}>
         <div className="w-full md:px-0 lg:px-0 max-w-[468px] md:max-w-[500px] lg:max-w-2xl flex flex-col pb-4 mb-0 rounded-t-3xl">
-          {uiState.length === 0 && (
-            <QuickActionButton onAction={actionSubmit} />
-          )}
+          {uiState.length === 0 && <QuickActionButton />}
           <AnimatePresence mode="sync">
             {attachment && (
               <AttachProductBadge
@@ -253,7 +247,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                             : "*:hover:text-purple-500 *:dark:hover:text-purple-200 hover:bg-transparent text-[#4A4947] bg-transparent"
                         )}
                         disabled={isGenerating}
-                        onClick={() => enableSearch((prev) => !prev)}
+                        onClick={() => setSearch(!search)}
                       >
                         <Globe className="h-6 w-6 hover:text-purple-200 shrink-0" />
                         <span className="text-xs font-normal">Search</span>
@@ -286,7 +280,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                             : "*:hover:text-purple-500 *:dark:hover:text-purple-200 hover:bg-transparent text-[#4A4947] bg-transparent"
                         )}
                         disabled={isGenerating}
-                        onClick={() => enableRelated((prev) => !prev)}
+                        onClick={() => setRelated(!related)}
                       >
                         <ListEnd className="h-6 w-6 shrink-0 hover:text-purple-200" />{" "}
                         <span className="text-xs font-normal">Related</span>

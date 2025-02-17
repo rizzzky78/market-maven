@@ -63,7 +63,8 @@ export const QuickActionButton: FC = () => {
   const [, setUIState] = useUIState<typeof AI>();
   const { orchestrator } = useActions<typeof AI>();
   const { isGenerating, setIsGenerating } = useAppState();
-  const { attachment, flush, activeComparison } = useSmartTextarea();
+  const { attachment, flush, activeComparison, search, related } =
+    useSmartTextarea();
 
   const actionSubmit = useCallback(
     async (query: string) => {
@@ -93,9 +94,12 @@ export const QuickActionButton: FC = () => {
 
         flush();
 
-        const { id, display, generation } = await orchestrator({
-          textInput: query,
-        });
+        const { id, display, generation } = await orchestrator(
+          {
+            textInput: query,
+          },
+          { onRequest: { search, related } }
+        );
 
         setUIState((prevUI) => [...prevUI, { id, display }]);
 
@@ -125,6 +129,8 @@ export const QuickActionButton: FC = () => {
       flush,
       isGenerating,
       orchestrator,
+      related,
+      search,
       setIsGenerating,
       setUIState,
     ]
