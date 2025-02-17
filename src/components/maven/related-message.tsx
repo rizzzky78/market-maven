@@ -91,7 +91,7 @@ export const RelatedMessage: FC<RelatedProps> = ({ related }) => {
   return (
     <div className="w-full max-w-2xl text-sm border-[#1A1A1D] dark:border-inherit border rounded-3xl">
       <div className="flex items-center ml-3.5 pt-3">
-        <ArrowRightLeft className="size-4 mr-1 shrink-0 animate-spin" />
+        <ArrowRightLeft className="size-4 mr-1 shrink-0" />
         <h3 className="text-sm font-medium">
           Related
           <span className="ml-2 text-xs opacity-60 font-normal">
@@ -213,7 +213,11 @@ export const StreamRelatedMessage: FC<StreamRelatedProps> = ({ content }) => {
   return (
     <div className="w-full max-w-2xl text-sm border-[#1A1A1D] dark:border-inherit border rounded-3xl">
       <div className="flex items-center ml-3.5 pt-3">
-        <ArrowRightLeft className="size-4 mr-1 shrink-0" />
+        <ArrowRightLeft
+          className={`size-4 mr-1 shrink-0 ${
+            pending ? "animate-spin" : "animate-none"
+          }`}
+        />
         <h3 className="text-sm font-medium">
           Related
           <span className="ml-2 text-xs opacity-60 font-normal">
