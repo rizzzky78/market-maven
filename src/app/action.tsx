@@ -13,6 +13,10 @@ import {
   ProductSearch,
   StreamProductSearch,
 } from "@/components/maven/product-search";
+import {
+  RelatedMessage,
+  StreamRelatedMessage,
+} from "@/components/maven/related-message";
 import { LoadingText } from "@/components/maven/shining-glass";
 import { UserInquiry } from "@/components/maven/user-inquiry";
 import {
@@ -21,17 +25,21 @@ import {
 } from "@/lib/agents/action/mutator/mutate-messages";
 import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
 import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
+import { generateRelatedQuery } from "@/lib/agents/action/server-action/generate-related";
 import { TEMPLATE } from "@/lib/agents/constant";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
 import { productsSchema } from "@/lib/agents/schema/product";
+import {
+  PartialRelated,
+  RelatedQuery,
+  relatedQuerySchema,
+} from "@/lib/agents/schema/related";
 import {
   getProductDetailsSchema,
   inquireUserSchema,
   productsComparionSchema,
   searchProductSchema,
 } from "@/lib/agents/schema/tool-parameters";
-import { SYSTEM_INSTRUCT_PRODUCTS } from "@/lib/agents/system-instructions";
-import { SYSTEM_INSTRUCT_CORE } from "@/lib/agents/system-instructions/core";
 import { scrapeUrl } from "@/lib/agents/tools/api/firecrawl";
 import { externalTavilySearch } from "@/lib/agents/tools/api/tavily";
 import { handleScrapingWithCache } from "@/lib/service/cache-store";
@@ -76,6 +84,8 @@ const orchestrator = async (
 ): Promise<OrchestratorCallback> => {
   "use server";
 
+  logger.info("Debug: payload orchestrator", { payload });
+
   const payloadUserMessage = toUnifiedUserMessage(payload);
 
   const state: MutableAIState<AIState> = getMutableAIState<typeof AI>();
@@ -99,7 +109,15 @@ const orchestrator = async (
 
   const streamableText = createStreamableValue<string>("");
 
+  const streamableRelated = createStreamableValue<PartialRelated>();
+
   const textUi = <StreamAssistantMessage content={streamableText.value} />;
+
+  const relatedUi = <StreamRelatedMessage content={streamableRelated.value} />;
+
+  const payloadRelated = JSON.stringify({
+    datasetConversation: toCoreMessage(state.get().messages),
+  });
 
   let errorState: { isError: boolean; error: unknown } = {
     isError: false,
@@ -118,6 +136,27 @@ const orchestrator = async (
     },
     text: async function* ({ content, done }) {
       if (done) {
+        const { partialObjectStream: relatedStream } = streamObject({
+          model: google("gemini-2.0-pro-exp-02-05"),
+          system: SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
+          prompt: payloadRelated,
+          schema: relatedQuerySchema,
+          onFinish: () => {
+            streamableRelated.done();
+          },
+          onError: ({ error }) => {
+            streamableRelated.done();
+            errorState = {
+              isError: true,
+              error,
+            };
+          },
+        });
+
+        for await (const relatedChunk of relatedStream) {
+          streamableRelated.update(relatedChunk);
+        }
+
         state.done({
           ...state.get(),
           messages: [
@@ -142,7 +181,12 @@ const orchestrator = async (
         });
       }
 
-      return textUi;
+      return (
+        <>
+          {textUi}
+          {requestOption?.onRequest?.related && relatedUi}
+        </>
+      );
     },
     tools: {
       searchProduct: {
@@ -313,26 +357,20 @@ const orchestrator = async (
               streamableText.update(finalizedText);
             }
 
-            if ()
-
-            if (errorState.isError) {
-              generation.done({
-                process: "fatal_error",
-                loading: false,
-                error: "LLM Generation Error",
-              });
-
-              return (
-                <ErrorMessage
-                  errorName="LLM Error"
-                  reason="There was an error on LLMs Agent generation, that's all we know :("
-                  raw={{
-                    payload: { query },
-                    error: errorState,
+            const searchProductUiNode = (
+              <>
+                <ProductSearch
+                  content={{
+                    success: true,
+                    name: "searchProduct",
+                    args: { query },
+                    data: finalizedProductSearch,
                   }}
+                  isFinished={true}
                 />
-              );
-            }
+                <AssistantMessage content={finalizedText} />
+              </>
+            );
 
             const { toolResult } = mutateTool(state, {
               name: "searchProduct",
@@ -355,18 +393,66 @@ const orchestrator = async (
               request: { query },
             });
 
+            let relatedObject: RelatedQuery | null = null;
+
+            if (requestOption?.onRequest?.related) {
+              yield (
+                <>
+                  {searchProductUiNode}
+                  {relatedUi}
+                </>
+              );
+            }
+
+            const { partialObjectStream: relatedStream } = streamObject({
+              model: google("gemini-2.0-pro-exp-02-05"),
+              system: SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
+              prompt: payloadRelated,
+              schema: relatedQuerySchema,
+              onFinish: async ({ object }) => {
+                if (object) {
+                  relatedObject = object;
+                }
+                streamableRelated.done();
+              },
+              onError: ({ error }) => {
+                streamableRelated.done();
+                errorState = {
+                  isError: true,
+                  error,
+                };
+              },
+            });
+
+            for await (const relatedChunk of relatedStream) {
+              streamableRelated.update(relatedChunk);
+            }
+
+            if (errorState.isError) {
+              generation.done({
+                process: "fatal_error",
+                loading: false,
+                error: "LLM Generation Error",
+              });
+
+              return (
+                <ErrorMessage
+                  errorName="LLM Error"
+                  reason="There was an error on LLMs Agent generation, that's all we know :("
+                  raw={{
+                    payload: { query },
+                    error: errorState,
+                  }}
+                />
+              );
+            }
+
             return (
               <>
-                <ProductSearch
-                  content={{
-                    success: true,
-                    name: "searchProduct",
-                    args: { query },
-                    data: finalizedProductSearch,
-                  }}
-                  isFinished={true}
-                />
-                <AssistantMessage content={finalizedText} />
+                {searchProductUiNode}
+                {requestOption?.onRequest?.related && (
+                  <RelatedMessage related={relatedObject} />
+                )}
               </>
             );
           } else if (!scrapeContent.success) {

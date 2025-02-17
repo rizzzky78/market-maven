@@ -1,7 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
+import { AssistantMessage } from "@/components/maven/assistant-message";
 import { ErrorMessage } from "@/components/maven/error-message";
 import { ProductComparison } from "@/components/maven/product-comparison";
 import { ProductDetails } from "@/components/maven/product-details";
+import { RelatedMessage } from "@/components/maven/related-message";
+import { RelatedQuery } from "@/lib/agents/schema/related";
 import { ExtendedToolResult } from "@/lib/types/ai";
 import { ProductSpecifications } from "@/lib/types/product";
 import { FC } from "react";
@@ -114,11 +117,8 @@ type ComparisonTool = ExtendedToolResult<
   },
   {
     callId: string;
-    images: [string, string];
-    comparison: {
-      products: Record<string, any>[];
-      differences: Record<string, any>;
-    };
+    productImages: string[];
+    comparison: Record<string, any>;
   }
 >;
 
@@ -198,7 +198,7 @@ const contentToolComparison: ComparisonTool = {
   },
   data: {
     callId: "70d8dadc-fef6-4698-b91f-d9f9b95eedc4",
-    images: [
+    productImages: [
       "https://service.firecrawl.dev/storage/v1/object/public/media/screenshot-1770c871-3340-4cdd-b00e-ff7544cc79b0.png",
       "https://service.firecrawl.dev/storage/v1/object/public/media/screenshot-84e577ab-2792-4801-8b43-f622d02cc759.png",
     ],
@@ -208,7 +208,7 @@ const contentToolComparison: ComparisonTool = {
 
 type ProductDetailsTool = ExtendedToolResult<
   { link: string; query: string },
-  { insight: Record<string, any>; screenshot: string; callId: string }
+  { productDetails: Record<string, any>; screenshot: string; callId: string }
 >;
 
 const contentToolDetails: ProductDetailsTool = {
@@ -218,7 +218,42 @@ const contentToolDetails: ProductDetailsTool = {
     query: "LENOVO LOQ 15 GeForce RTX 3050 - I5 12450HX 12GB 512SSD OHS",
     link: "https://www.tokopedia.com/nvidiageforcelt/lenovo-loq-15-geforce-rtx-3050-i5-12450hx-12gb-512ssd-ohs-ram-12gb-tanpa-antigores-d46d5?extParam=ivf%3Dtrue%26keyword%3Dlenovo+loq%26search_id%3D20250131114341841F9DA1BCE6F603B87T%26src%3Dsearch",
   },
-  data: productDetailsData,
+  data: {
+    callId: "70d8dadc-fef6-4698-b91f-d9f9b95eedc4",
+    productDetails: productDetailsData,
+    screenshot:
+      "https://service.firecrawl.dev/storage/v1/object/public/media/screenshot-1770c871-3340-4cdd-b00e-ff7544cc79b0.png",
+  },
+};
+
+const markdownText = `**Insights for Lenovo Yoga**
+
+1.  **Price Range**: The products range from **Rp2.200.000** (Lenovo Thinkpad Yoga 11e) to **Rp27.999.000** (Lenovo Yoga Slim 7 Aura Edition), showing a very wide range of options from budget-friendly to high-end premium.
+
+2.  **Best Value**: The **Lenovo Thinkpad Yoga X13 G2** offers a good balance of features and price at **Rp4.090.000**, with a 5.0 rating and 40+ units sold, making it a solid mid-range option.
+
+3.  **Top Performer**: The **Lenovo Yoga Pro 7i** stands out with a **5.0 rating** and **90+ units sold**, indicating high customer satisfaction. It also features a high-end RTX4050 GPU and OLED display.
+
+4.  **Store Reputation**: **ROGS STORE**, **Top Tech**, **Sinarmulia Sukses Makmur**, and **Lenovo Yoga Official** are official retailers, providing assurance of product authenticity and reliable customer service.
+
+5. **Feature Trends**: The list includes both traditional ThinkPad Yogas and the newer, more premium Yoga Slim and Pro series. The higher-end models offer features like OLED displays, high refresh rates (120Hz), and dedicated RTX GPUs.
+`;
+
+const related: RelatedQuery = {
+  items: [
+    {
+      label: "Weather",
+      query: "What's the weather like today?",
+    },
+    {
+      label: "Recipe",
+      query: "How do I make a vegetarian lasagna?",
+    },
+    {
+      label: "Tech",
+      query: "Why is my Wi-Fi so slow?",
+    },
+  ],
 };
 
 export default function Page() {
@@ -231,6 +266,8 @@ export default function Page() {
         reason="There was an error while fetching data from the server. Please try again later or contact support if the problem persists."
         raw={productDetailsData}
       />
+      <AssistantMessage content={markdownText} />
+      <RelatedMessage related={related} />
     </div>
   );
 }

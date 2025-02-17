@@ -88,69 +88,72 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     });
   };
 
-  const actionSubmit = useCallback(async () => {
-    try {
-      setIsGenerating(true);
+  const actionSubmit = useCallback(
+    async (query?: string) => {
+      try {
+        setIsGenerating(true);
 
-      const componentId = generateId();
+        const componentId = generateId();
 
-      setUIState((prevUI) => [
-        ...prevUI,
-        {
-          id: generateId(),
-          display: (
-            <UserMessage
-              key={componentId}
-              content={{
-                text_input: value,
-                attach_product: attachment,
-                product_compare: activeComparison,
-              }}
-            />
-          ),
-        },
-      ]);
+        setUIState((prevUI) => [
+          ...prevUI,
+          {
+            id: generateId(),
+            display: (
+              <UserMessage
+                key={componentId}
+                content={{
+                  text_input: query ?? value,
+                  attach_product: attachment,
+                  product_compare: activeComparison,
+                }}
+              />
+            ),
+          },
+        ]);
 
-      flush();
-      handleReset();
+        flush();
+        handleReset();
 
-      const { id, display, generation } = await orchestrator(
-        {
-          textInput: value.length > 0 ? value : undefined,
-          attachProduct: attachment,
-          productCompare: activeComparison,
-        },
-        { onRequest: { search, related } }
-      );
+        const { id, display, generation } = await orchestrator(
+          {
+            textInput: query ?? value.length > 0 ? value : undefined,
+            attachProduct: attachment,
+            productCompare: activeComparison,
+          },
+          { onRequest: { search, related } }
+        );
 
-      setUIState((prevUI) => [...prevUI, { id, display }]);
+        setUIState((prevUI) => [...prevUI, { id, display }]);
 
-      if (generation) {
-        const gens = readStreamableValue(
-          generation
-        ) as AsyncIterable<StreamGeneration>;
-        for await (const { process, loading, error } of gens) {
-          setIsGenerating(loading);
+        if (generation) {
+          const gens = readStreamableValue(
+            generation
+          ) as AsyncIterable<StreamGeneration>;
+          for await (const { loading } of gens) {
+            setIsGenerating(loading);
+          }
         }
+      } catch (error) {
+        handleError(error);
+      } finally {
+        // router.refresh();
+        setIsGenerating(false);
       }
-    } catch (error) {
-      handleError(error);
-    } finally {
-      // router.refresh();
-      setIsGenerating(false);
-    }
-  }, [
-    activeComparison,
-    attachment,
-    flush,
-    handleReset,
-    orchestrator,
-    related,
-    search,
-    setIsGenerating,
-    setUIState,
-    value,
-  ]);
+    },
+    [
+      activeComparison,
+      attachment,
+      flush,
+      handleReset,
+      orchestrator,
+      related,
+      search,
+      setIsGenerating,
+      setUIState,
+      value,
+    ]
+  );
 
   const handleSubmit = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
@@ -196,7 +199,9 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     <div className="">
       <div className={`w-full shrink-0 flex justify-center z-20 bg-background`}>
         <div className="w-full md:px-0 lg:px-0 max-w-[468px] md:max-w-[500px] lg:max-w-2xl flex flex-col pb-4 mb-0 rounded-t-3xl">
-          {uiState.length === 0 && <QuickActionButton />}
+          {uiState.length === 0 && (
+            <QuickActionButton onAction={actionSubmit} />
+          )}
           <AnimatePresence mode="sync">
             {attachment && (
               <AttachProductBadge

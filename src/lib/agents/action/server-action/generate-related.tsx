@@ -1,11 +1,15 @@
 "use server";
 
-import { AIState, MutableAIState, StreamGeneration } from "@/lib/types/ai";
-import { CoreMessage, streamObject } from "ai";
+import { AIState, MutableAIState } from "@/lib/types/ai";
+import { streamObject } from "ai";
 import { toCoreMessage } from "../mutator/mutate-messages";
 import SYSTEM_INSTRUCTION from "../../constant/md";
 import { google } from "@ai-sdk/google";
-import { PartialRelated, relatedQuerySchema } from "../../schema/related";
+import {
+  PartialRelated,
+  RelatedQuery,
+  relatedQuerySchema,
+} from "../../schema/related";
 import { createStreamableValue } from "ai/rsc";
 
 type RelatedRequest = {
@@ -28,6 +32,8 @@ export async function generateRelatedQuery(req: RelatedRequest) {
     isError: false,
   };
 
+  let objectRelated: RelatedQuery | null = null;
+
   if (onRequest.enable) {
     (async () => {
       const { partialObjectStream } = streamObject({
@@ -37,6 +43,7 @@ export async function generateRelatedQuery(req: RelatedRequest) {
         schema: relatedQuerySchema,
         onFinish: async ({ object }) => {
           streamableRelated.done();
+          objectRelated = object as RelatedQuery;
         },
         onError: ({ error }) => {
           streamableRelated.done();
@@ -53,11 +60,13 @@ export async function generateRelatedQuery(req: RelatedRequest) {
     })();
   } else {
     streamableRelated.done();
+    objectRelated = null;
   }
 
   return {
     useRelated: onRequest.enable ?? false,
     streamRelated: streamableRelated.value,
+    relatedObject: objectRelated,
     error: errorState,
   };
 }

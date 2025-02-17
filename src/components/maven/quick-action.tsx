@@ -9,16 +9,8 @@ import {
   Laptop2,
   Smartphone,
 } from "lucide-react";
-import { ReactNode, useCallback } from "react";
+import { FC, ReactNode } from "react";
 import { motion } from "framer-motion";
-import { generateId } from "ai";
-import { UserMessage } from "./user-message";
-import { toast } from "sonner";
-import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import { useDebounceInput } from "../hooks/use-debounced-input";
-import { useSmartTextarea } from "../hooks/use-smart-textare";
-import { useActions, useUIState } from "ai/rsc";
-import { AI } from "@/app/action";
 
 const predefinedActions: {
   label: string;
@@ -59,75 +51,11 @@ const predefinedActions: {
   },
 ];
 
-export function QuickActionButton() {
-  const [_, setUIState] = useUIState<typeof AI>();
-  const { isGenerating, setIsGenerating } = useAppState();
-  const { flush } = useSmartTextarea();
-  const { handleReset } = useDebounceInput();
-  const { orchestrator } = useActions<typeof AI>();
+interface QuickActionProps {
+  onAction: (query: string) => Promise<void>;
+}
 
-  const handleError = useCallback((error: unknown) => {
-    console.error("An Error occurred when submitting the query!", error);
-    toast.error("Error When Submitting the Query!", {
-      position: "top-center",
-      richColors: true,
-      className:
-        "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
-    });
-  }, []);
-
-  const onAction = useCallback(
-    async (action: string) => {
-      if (isGenerating) return;
-
-      try {
-        setIsGenerating(true);
-
-        const componentId = generateId();
-        // Add user message to UI
-        setUIState((prevUI) => [
-          ...prevUI,
-          {
-            id: generateId(),
-            display: (
-              <UserMessage
-                key={componentId}
-                content={{
-                  text_input: action,
-                }}
-              />
-            ),
-          },
-        ]);
-
-        // Send the message and wait for response
-        const { id, display } = await orchestrator({
-          textInput: action,
-        });
-
-        // Add response to UI
-        setUIState((prevUI) => [...prevUI, { id, display }]);
-
-        // Clean up
-        flush();
-        handleReset();
-      } catch (error) {
-        handleError(error);
-      } finally {
-        setIsGenerating(false);
-      }
-    },
-    [
-      flush,
-      handleError,
-      handleReset,
-      isGenerating,
-      orchestrator,
-      setIsGenerating,
-      setUIState,
-    ]
-  );
-
+export const QuickActionButton: FC<QuickActionProps> = ({ onAction }) => {
   return (
     <div className="w-full">
       <div className="flex justify-center mb-2">
@@ -175,4 +103,4 @@ export function QuickActionButton() {
       </div>
     </div>
   );
-}
+};
