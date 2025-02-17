@@ -69,6 +69,13 @@ interface SmartTextareaState extends TextareaEventHandlers {
   comparison: ProductComparison | undefined;
 
   activeComparison: ProductCompare | undefined;
+
+  /** Request properties of invocation on request */
+  search: boolean;
+  related: boolean;
+
+  setSearch: (v: boolean) => void;
+  setRelated: (v: boolean) => void;
   /**
    * Set input with validation
    */
@@ -175,6 +182,12 @@ export const useSmartTextarea = create<SmartTextareaState>()(
         // New comparison state
         comparison: undefined,
         activeComparison: undefined,
+
+        search: false,
+        related: false,
+
+        setSearch: (v) => set({ search: v }),
+        setRelated: (v) => set({ related: v }),
 
         // Existing methods remain unchanged
         setInput: (text, options) => {
