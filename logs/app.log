@@ -25607,3 +25607,36 @@
     }
   ]
 }
+[90m[2025-02-18 18:55:18.518][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 18:55:18.624][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 18:59:23.922][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Do you have any recommendations?",
+        "productCompare": {
+          "for": []
+        }
+      }
+    }
+  ]
+}

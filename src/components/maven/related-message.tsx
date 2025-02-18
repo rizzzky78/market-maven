@@ -86,7 +86,7 @@ export const RelatedMessage: FC<RelatedProps> = ({ related }) => {
     [flush, isGenerating, orchestrator, setIsGenerating, setUIState]
   );
 
-  const isButtonDisabled = Boolean(attachment) || Boolean(activeComparison);
+  const isButtonDisabled = attachment ? true : activeComparison ? true : false;
 
   return (
     <div className="w-full my-10 max-w-2xl text-sm border-[#1A1A1D] dark:border-inherit border rounded-3xl">
@@ -208,7 +208,7 @@ export const StreamRelatedMessage: FC<StreamRelatedProps> = ({ content }) => {
       />
     );
 
-  const isButtonDisabled = Boolean(attachment) || Boolean(activeComparison);
+  const isButtonDisabled = attachment ? true : activeComparison ? true : false;
 
   return (
     <div className="w-full my-10 max-w-2xl text-sm border-[#1A1A1D] dark:border-inherit border rounded-3xl">
