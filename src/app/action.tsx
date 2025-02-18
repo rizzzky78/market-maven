@@ -1073,6 +1073,22 @@ const orchestrator = async (
             loading: true,
           });
 
+          const parse = inquireUserSchema.safeParse(inquiry);
+
+          if (!parse.success) {
+            generation.done({
+              process: "fatal_error",
+              loading: false,
+            });
+            return (
+              <ErrorMessage
+                errorName="Invalid Payload on Inquire Property"
+                reason="An error occured when try to parse inquiry payload from LLM"
+                raw={{ parse }}
+              />
+            );
+          }
+
           const callId = generateId();
 
           yield <LoadingText key={callId} text="Creating an Inquiry" />;

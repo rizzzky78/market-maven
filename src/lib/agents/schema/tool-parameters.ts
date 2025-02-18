@@ -34,6 +34,39 @@ export const productsComparionSchema = z.object({
   ),
 });
 
+export const inputInquirySchema = z.object({
+  purpose: z
+    .string()
+    .describe(
+      "The primary purpose of the inquiry, describing what information needs to be gathered from the user. Must be clear and concise, limited to 300 characters."
+    ),
+
+  scope: z
+    .array(z.string())
+    .describe(
+      "An array of topics or areas the inquiry should cover. Each topic should be specific and relevant to the purpose. Limited to 5 topics to maintain focus."
+    ),
+
+  data: z
+    .array(
+      z.object({
+        focus: z
+          .string()
+          .describe(
+            "The specific aspect or feature the data relates to (e.g., 'budget', 'brand preference', 'usage type'). Must be clear and concise, limited to 100 characters."
+          ),
+        data: z
+          .string()
+          .describe(
+            "The actual data or context related to the focus. Must be relevant and concise, limited to 500 characters."
+          ),
+      })
+    )
+    .describe(
+      "An array of additional data points to be injected into the inquiry. Each object should contain a focus and corresponding data to guide the inquiry crafting process."
+    ),
+});
+
 export const inquireUserSchema = z.object({
   inquiry: z.object({
     question: z
