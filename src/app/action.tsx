@@ -815,8 +815,8 @@ const orchestrator = async (
 
               return (
                 <ErrorMessage
-                  errorName="Scrape Operation Failed"
-                  reason="There was an error while scrapping the content from the firecrawl service."
+                  errorName="Database Error"
+                  reason="There was an error while getting the content from the database."
                   raw={{
                     payload: { compare },
                     resulted: null,
@@ -930,26 +930,21 @@ const orchestrator = async (
               streamableText.update(finalizedText);
             }
 
-            if (errorState.isError) {
-              generation.done({
-                process: "fatal_error",
-                loading: false,
-                error: "LLM Generation Error",
-              });
-
-              return (
-                <ErrorMessage
-                  errorName="LLM Error"
-                  reason="There was an error on LLMs Agent generation, that's all we know :("
-                  raw={{
-                    payload: { compare },
-                    error: errorState,
+            const productsComparisonUiNode = (
+              <>
+                <ProductComparison
+                  content={{
+                    success: true,
+                    name: "productsComparison",
+                    args: { compare },
+                    data: finalizedCompare,
                   }}
                 />
-              );
-            }
+                <AssistantMessage content={finalizedText} />
+              </>
+            );
 
-            const { toolResult } = mutateTool(state, {
+            const { toolResult, mutate } = mutateTool(state, {
               name: "productsComparison",
               args: { compare },
               result: finalizedCompare,
@@ -970,17 +965,72 @@ const orchestrator = async (
               request: { compare },
             });
 
-            return (
-              <>
-                <ProductComparison
-                  content={{
-                    success: true,
-                    name: "productsComparison",
-                    args: { compare },
-                    data: finalizedCompare,
+            let relatedObject: RelatedQuery | null = null;
+
+            const streamableRelated = createStreamableValue<PartialRelated>();
+
+            if (requestOption?.onRequest?.related) {
+              yield (
+                <>
+                  {productsComparisonUiNode}
+                  <StreamRelatedMessage content={streamableRelated.value} />
+                </>
+              );
+            }
+
+            const payloadRelated = JSON.stringify(
+              toPayloadRelatedMessage([...state.get().messages, ...mutate])
+            );
+
+            const { partialObjectStream: relatedStream } = streamObject({
+              model: google("gemini-2.0-pro-exp-02-05"),
+              system: SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
+              prompt: payloadRelated,
+              schema: relatedQuerySchema,
+              onFinish: async ({ object }) => {
+                if (object) {
+                  relatedObject = object;
+                }
+                streamableRelated.done();
+              },
+              onError: ({ error }) => {
+                streamableRelated.done();
+                errorState = {
+                  isError: true,
+                  error,
+                };
+              },
+            });
+
+            for await (const relatedChunk of relatedStream) {
+              streamableRelated.update(relatedChunk);
+            }
+
+            if (errorState.isError) {
+              generation.done({
+                process: "fatal_error",
+                loading: false,
+                error: "LLM Generation Error",
+              });
+
+              return (
+                <ErrorMessage
+                  errorName="LLM Error"
+                  reason="There was an error on LLMs Agent generation, that's all we know :("
+                  raw={{
+                    payload: { compare },
+                    error: errorState,
                   }}
                 />
-                <AssistantMessage content={finalizedText} />
+              );
+            }
+
+            return (
+              <>
+                {productsComparisonUiNode}
+                {requestOption?.onRequest?.related && (
+                  <RelatedMessage related={relatedObject} />
+                )}
               </>
             );
           } catch (error) {
