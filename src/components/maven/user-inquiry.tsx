@@ -10,7 +10,7 @@ import type { Inquiry } from "@/lib/agents/schema/inquiry";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import {
-  CircleArrowRight,
+  ArrowRight,
   Loader,
   MessageCircleQuestion,
   SkipForward,
@@ -42,7 +42,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [_, setUIState] = useUIState<typeof AI>();
+  const [, setUIState] = useUIState<typeof AI>();
   const { setIsGenerating } = useAppState();
   const { flush } = useSmartTextarea();
   const { handleReset } = useDebounceInput();
@@ -147,29 +147,29 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
 
   return (
     <motion.div
-      className="mt-10"
+      className="py-10"
       initial="hidden"
       animate="visible"
       variants={fadeIn}
     >
       <motion.div className="absolute ml-6 -mt-3" variants={fadeIn}>
-        <div className="bg-white w-fit rounded-3xl p-1 px-3 flex items-center">
-          <MessageCircleQuestion className="size-4 text-black mr-1" />
-          <p className="text-xs text-black font-semibold">Inquiry</p>
+        <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-black w-fit rounded-3xl p-1 px-3 flex items-center">
+          <MessageCircleQuestion className="size-4 mr-1" />
+          <p className="text-xs font-semibold">Inquiry</p>
         </div>
       </motion.div>
       <motion.div
-        className="w-full mx-auto border rounded-3xl"
+        className="w-full mx-auto border-[#1A1A1D] dark:border-inherit border rounded-[2rem]"
         variants={staggerChildren}
       >
-        <CardContent className="">
-          <motion.h3 className="pt-6 font-semibold" variants={fadeIn}>
+        <CardContent className="mt-3">
+          <motion.h3 className="pt-6 font-semibold ml-2" variants={fadeIn}>
             {inquiry.question}
           </motion.h3>
-          <Separator className="my-3" />
+          <Separator className="my-3 bg-[#1A1A1D] dark:bg-muted" />
           <AnimatePresence>
             {!inquiry.isMultiSelection ? (
-              <motion.div variants={staggerChildren}>
+              <motion.div variants={staggerChildren} className="ml-2">
                 <RadioGroup
                   onValueChange={handleOptionChange}
                   value={selectedOptions[0]}
@@ -193,7 +193,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
                 </RadioGroup>
               </motion.div>
             ) : (
-              <motion.div className="space-y-1" variants={staggerChildren}>
+              <motion.div className="space-y-1 ml-2" variants={staggerChildren}>
                 {inquiry.options.map((option) => (
                   <motion.div
                     key={option.value}
@@ -216,9 +216,8 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
               </motion.div>
             )}
           </AnimatePresence>
-
           {inquiry.allowsInput && (
-            <motion.div className="mt-4" variants={fadeIn}>
+            <motion.div className="mt-4 ml-2" variants={fadeIn}>
               <Label
                 htmlFor="additionalInput"
                 className="font-normal text-sm mb-1 block"
@@ -246,7 +245,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
                 disabled={isSubmitting}
               >
                 <span className="-mr-1">Skip</span>
-                <SkipForward className="size-4" />
+                <SkipForward className="size-4 shrink-0" />
               </Button>
             </motion.div>
             <motion.div variants={fadeIn}>
@@ -258,9 +257,9 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
               >
                 <span className="-mr-1">Submit</span>
                 {isSubmitting ? (
-                  <Loader className="size-4" />
+                  <Loader className="size-4 shrink-0" />
                 ) : (
-                  <CircleArrowRight className="size-4" />
+                  <ArrowRight className="size-4 shrink-0" />
                 )}
               </Button>
             </motion.div>

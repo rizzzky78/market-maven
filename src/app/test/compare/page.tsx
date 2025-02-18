@@ -4,6 +4,8 @@ import { ErrorMessage } from "@/components/maven/error-message";
 import { ProductComparison } from "@/components/maven/product-comparison";
 import { ProductDetails } from "@/components/maven/product-details";
 import { RelatedMessage } from "@/components/maven/related-message";
+import { UserInquiry } from "@/components/maven/user-inquiry";
+import { InquirySkeleton } from "@/components/maven/user-inquiry-skeleton";
 import { RelatedQuery } from "@/lib/agents/schema/related";
 import { ExtendedToolResult } from "@/lib/types/ai";
 import { ProductSpecifications } from "@/lib/types/product";
@@ -256,6 +258,26 @@ const related: RelatedQuery = {
   ],
 };
 
+const dummyInquiry = {
+  question: "What type of smartphone features are most important to you?",
+
+  options: [
+    { value: "camera_quality", label: "High-quality camera" },
+    { value: "battery_life", label: "Long battery life" },
+    { value: "performance", label: "Fast performance and smooth experience" },
+    { value: "storage", label: "Large storage capacity" },
+    { value: "display", label: "High-resolution and smooth display" },
+    { value: "durability", label: "Durable and water-resistant design" },
+    { value: "price", label: "Affordable price range" },
+  ],
+
+  allowsInput: true,
+  inputLabel: "Other preferences",
+  inputPlaceholder: "Specify any other features you value",
+
+  isMultiSelection: true,
+};
+
 export default function Page() {
   return (
     <div className="px-2 sm:px-12 pt-12 md:pt-14 pb-14 md:pb-24 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4">
@@ -268,6 +290,8 @@ export default function Page() {
       />
       <AssistantMessage content={markdownText} />
       {/* <RelatedMessage related={related} /> */}
+      <InquirySkeleton />
+      {/* <UserInquiry inquiry={dummyInquiry} /> */}
     </div>
   );
 }
