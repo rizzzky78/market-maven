@@ -25379,3 +25379,231 @@
     }
   ]
 }
+[90m[2025-02-18 18:28:11.875][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 18:40:29.412][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-02-18 18:40:31.308][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-02-18 18:40:35.142][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "a2a19518-cfbb-4523-9afb-9fd3ab7242b8"
+    }
+  ]
+}
+[90m[2025-02-18 18:40:47.621][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "a2a19518-cfbb-4523-9afb-9fd3ab7242b8"
+    }
+  ]
+}
+[90m[2025-02-18 18:40:52.723][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "a2a19518-cfbb-4523-9afb-9fd3ab7242b8"
+    }
+  ]
+}
+[90m[2025-02-18 18:40:52.870][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-02-18 18:40:53.636][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-18 18:40:55.313][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 2315,
+        "completionTokens": 5,
+        "totalTokens": 2320
+      }
+    }
+  ]
+}
+[90m[2025-02-18 18:45:50.851][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Which stores are official retailers for Lenovo Yoga laptops?"
+      }
+    }
+  ]
+}
+[90m[2025-02-18 18:45:51.768][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 4654,
+        "completionTokens": 33,
+        "totalTokens": 4687
+      }
+    }
+  ]
+}
+[90m[2025-02-18 18:45:52.146][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-18 18:46:28.916][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Does this laptop capable to play 3A games?",
+        "attachProduct": {
+          "product": {
+            "id": "RwDUdpnv9ZZsIwuu",
+            "title": "Lenovo Yoga Slim 7 Pro X 14 3K Touch RTX3050 Ryzen 9 6900 32GB 1TB SSD",
+            "link": "https://www.tokopedia.com/rogsstoreid/lenovo-yoga-slim-7-pro-x-14-3k-touch-rtx3050-ryzen-9-6900-32gb-1tb-ssd-laptop?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250210124327E5AF7B92904D6F277Y5T%26src%3Dsearch"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-02-18 18:46:30.678][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo Yoga Slim 7 Pro X 14 3K Touch RTX3050 Ryzen 9 6900 32GB 1TB SSD",
+        "link": "https://www.tokopedia.com/rogsstoreid/lenovo-yoga-slim-7-pro-x-14-3k-touch-rtx3050-ryzen-9-6900-32gb-1tb-ssd-laptop?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250210124327E5AF7B92904D6F277Y5T%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-18 18:46:39.582][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c"
+    }
+  ]
+}
+[90m[2025-02-18 18:46:58.145][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "External Data",
+  "meta": [
+    {
+      "ext": "enabled",
+      "eta": 14.44
+    }
+  ]
+}
+[90m[2025-02-18 18:47:03.750][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c"
+    }
+  ]
+}
+[90m[2025-02-18 18:47:06.605][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c"
+    }
+  ]
+}
+[90m[2025-02-18 18:47:06.660][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Yoga Slim 7 Pro X 14 3K Touch RTX3050 Ryzen 9 6900 32GB 1TB SSD",
+        "link": "https://www.tokopedia.com/rogsstoreid/lenovo-yoga-slim-7-pro-x-14-3k-touch-rtx3050-ryzen-9-6900-32gb-1tb-ssd-laptop?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250210124327E5AF7B92904D6F277Y5T%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-18 18:47:06.905][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-18 18:47:08.902][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 4906,
+        "completionTokens": 170,
+        "totalTokens": 5076
+      }
+    }
+  ]
+}
+[90m[2025-02-18 18:51:38.126][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 18:51:38.264][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}

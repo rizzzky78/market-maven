@@ -89,7 +89,7 @@ export const RelatedMessage: FC<RelatedProps> = ({ related }) => {
   const isButtonDisabled = Boolean(attachment) || Boolean(activeComparison);
 
   return (
-    <div className="w-full max-w-2xl text-sm border-[#1A1A1D] dark:border-inherit border rounded-3xl">
+    <div className="w-full my-10 max-w-2xl text-sm border-[#1A1A1D] dark:border-inherit border rounded-3xl">
       <div className="flex items-center ml-3.5 pt-3">
         <ArrowRightLeft className="size-4 mr-1 shrink-0" />
         <h3 className="text-sm font-medium">
@@ -107,7 +107,7 @@ export const RelatedMessage: FC<RelatedProps> = ({ related }) => {
               key={index}
               className="flex w-full items-center space-x-2 pb-1 last:pb-0"
             >
-              <p className="ml-2 text-xs min-w-12 font-medium whitespace-nowrap">
+              <p className="ml-2 text-xs font-medium whitespace-nowrap">
                 {item?.label}:
               </p>
               <Button
@@ -211,7 +211,7 @@ export const StreamRelatedMessage: FC<StreamRelatedProps> = ({ content }) => {
   const isButtonDisabled = Boolean(attachment) || Boolean(activeComparison);
 
   return (
-    <div className="w-full max-w-2xl text-sm border-[#1A1A1D] dark:border-inherit border rounded-3xl">
+    <div className="w-full my-10 max-w-2xl text-sm border-[#1A1A1D] dark:border-inherit border rounded-3xl">
       <div className="flex items-center ml-3.5 pt-3">
         <ArrowRightLeft
           className={`size-4 mr-1 shrink-0 ${
@@ -233,7 +233,7 @@ export const StreamRelatedMessage: FC<StreamRelatedProps> = ({ content }) => {
               key={index}
               className="flex w-full items-center space-x-2 pb-1 last:pb-0"
             >
-              <p className="ml-2 text-xs min-w-12 font-medium whitespace-nowrap">
+              <p className="ml-2 text-xs font-medium whitespace-nowrap">
                 {item?.label}:
               </p>
               <Button
