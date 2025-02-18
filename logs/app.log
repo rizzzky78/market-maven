@@ -25151,3 +25151,191 @@
     }
   ]
 }
+[90m[2025-02-17 23:40:40.437][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-02-17 23:40:42.213][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-02-17 23:40:46.226][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "12adbde7-7b10-47f7-b894-874b6084fd0d"
+    }
+  ]
+}
+[90m[2025-02-17 23:40:59.601][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "12adbde7-7b10-47f7-b894-874b6084fd0d"
+    }
+  ]
+}
+[90m[2025-02-17 23:41:04.663][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "12adbde7-7b10-47f7-b894-874b6084fd0d"
+    }
+  ]
+}
+[90m[2025-02-17 23:41:04.807][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-02-17 23:41:05.568][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-17 23:41:06.682][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 2315,
+        "completionTokens": 5,
+        "totalTokens": 2320
+      }
+    }
+  ]
+}
+[90m[2025-02-17 23:42:56.695][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Is good for productivity especially for 3d rendering?",
+        "attachProduct": {
+          "product": {
+            "id": "qA8tkGVWVDphd248",
+            "title": "Lenovo Yoga Slim 7 Aura Edition 15ILL9 Ultra 7 258V 32GB 1TB SSD 15.3 2.8K 120Hz Touch",
+            "link": "https://www.tokopedia.com/lenovoyogaofficial/lenovo-yoga-slim-7-aura-edition-15ill9-ultra-7-258v-32gb-1tb-ssd-15-3-2-8k-120hz-touch-tanpa-paket-windows-11-home-e696f?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250210124327E5AF7B92904D6F277Y5T%26src%3Dsearch"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-02-17 23:42:59.586][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo Yoga Slim 7 Aura Edition 15ILL9 Ultra 7 258V 32GB 1TB SSD 15.3 2.8K 120Hz Touch",
+        "link": "https://www.tokopedia.com/lenovoyogaofficial/lenovo-yoga-slim-7-aura-edition-15ill9-ultra-7-258v-32gb-1tb-ssd-15-3-2-8k-120hz-touch-tanpa-paket-windows-11-home-e696f?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250210124327E5AF7B92904D6F277Y5T%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-17 23:43:07.773][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "db8cf5f1-2b58-4e4b-a413-97b13af962bf"
+    }
+  ]
+}
+[90m[2025-02-17 23:43:22.295][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "External Data",
+  "meta": [
+    {
+      "ext": "enabled",
+      "eta": 10.01
+    }
+  ]
+}
+[90m[2025-02-17 23:43:26.342][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "db8cf5f1-2b58-4e4b-a413-97b13af962bf"
+    }
+  ]
+}
+[90m[2025-02-17 23:43:28.999][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "db8cf5f1-2b58-4e4b-a413-97b13af962bf"
+    }
+  ]
+}
+[90m[2025-02-17 23:43:29.052][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Yoga Slim 7 Aura Edition 15ILL9 Ultra 7 258V 32GB 1TB SSD 15.3 2.8K 120Hz Touch",
+        "link": "https://www.tokopedia.com/lenovoyogaofficial/lenovo-yoga-slim-7-aura-edition-15ill9-ultra-7-258v-32gb-1tb-ssd-15-3-2-8k-120hz-touch-tanpa-paket-windows-11-home-e696f?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250210124327E5AF7B92904D6F277Y5T%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-17 23:43:29.057][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 4919,
+        "completionTokens": 201,
+        "totalTokens": 5120
+      }
+    }
+  ]
+}
+[90m[2025-02-17 23:43:29.262][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-18 10:37:45.887][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 11:22:11.937][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}

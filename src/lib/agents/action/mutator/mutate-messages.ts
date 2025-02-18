@@ -31,3 +31,33 @@ export const toUnifiedUserMessage = (payload: PayloadData) => {
     inquiry_response: inquiryResponse ?? null,
   } as UserContentMessage;
 };
+
+/**
+ * Filters an array of messages to return only the last 4 items.
+ *
+ * @param {MessageProperty} messages - Array of messages to be filtered
+ * @param {number} slice - The last index messages to be filtered
+ * @returns `CoreMessage` Array containing only the last 4 messages, or all messages if less than 4
+ *
+ * @example
+ * const messages: MessageProperty[] = [
+ *   { id: "1", role: "user", content: "Hello" },
+ *   { id: "2", role: "assistant", content: "Hi" },
+ *   // ... more messages
+ * ];
+ * const lastFourMessages = toPayloadRelatedMessage(messages, 4);
+ */
+export function toPayloadRelatedMessage(
+  messages: MessageProperty[],
+  slice: number = 4
+): CoreMessage[] {
+  // If array is empty or undefined, return empty array
+  if (!messages || messages.length === 0) {
+    return [];
+  }
+
+  // Calculate start index to get last 4 items
+  const startIndex = Math.max(messages.length - slice, 0);
+
+  return toCoreMessage(messages.slice(startIndex));
+}
