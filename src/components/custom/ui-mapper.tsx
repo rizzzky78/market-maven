@@ -83,15 +83,11 @@ const handleProductsComparison = (id: string, result: string): UIStateItem => {
 };
 
 const handleInquireUser = (id: string, result: string): UIStateItem => {
-  const resulted_inquireUser: ExtendedToolResult<
-    { inquiry: Inquiry },
-    { data: string }
-  > = JSON.parse(result);
+  const resulted_inquireUser: ExtendedToolResult<Inquiry, { data: string }> =
+    JSON.parse(result);
   return {
     id,
-    display: (
-      <UserInquiry inquiry={resulted_inquireUser.args.inquiry.inquiry} />
-    ),
+    display: <UserInquiry inquiry={resulted_inquireUser.args.inquiry} />,
   };
 };
 

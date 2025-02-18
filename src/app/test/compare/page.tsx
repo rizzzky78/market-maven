@@ -6,8 +6,9 @@ import { ProductDetails } from "@/components/maven/product-details";
 import { RelatedMessage } from "@/components/maven/related-message";
 import { UserInquiry } from "@/components/maven/user-inquiry";
 import { InquirySkeleton } from "@/components/maven/user-inquiry-skeleton";
+import { UserMessage } from "@/components/maven/user-message";
 import { RelatedQuery } from "@/lib/agents/schema/related";
-import { ExtendedToolResult } from "@/lib/types/ai";
+import { ExtendedToolResult, UserContentMessage } from "@/lib/types/ai";
 import { ProductSpecifications } from "@/lib/types/product";
 import { FC } from "react";
 
@@ -278,20 +279,97 @@ const dummyInquiry = {
   isMultiSelection: true,
 };
 
+const exampleResponses = [
+  {
+    question: "What's your favorite color?",
+    selected: ["Blue", "Green"],
+    input: "I also like teal!",
+  },
+  {
+    question: "How often do you exercise?",
+    selected: ["2-3 times a week"],
+    input: null,
+  },
+  {
+    question: "What's your preferred programming language?",
+    selected: ["JavaScript", "Python", "TypeScript"],
+    input: "I'm currently learning Rust.",
+  },
+  {
+    skipped: true,
+  },
+  {
+    question: "Do you have any dietary restrictions?",
+    selected: ["Vegetarian"],
+    input: "I'm allergic to nuts.",
+  },
+];
+
 export default function Page() {
+  // return (
+  //   <div className="px-2 sm:px-12 pt-12 md:pt-14 pb-14 md:pb-24 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4">
+  //     <ProductDetails content={contentToolDetails} />
+  //     <ProductComparison content={contentToolComparison} />
+  //     <ErrorMessage
+  //       errorName="Scrape Operation Error"
+  //       reason="There was an error while fetching data from the server. Please try again later or contact support if the problem persists."
+  //       raw={productDetailsData}
+  //     />
+  //     <AssistantMessage content={markdownText} />
+  //     {/* <RelatedMessage related={related} /> */}
+  //     <InquirySkeleton />
+  //     {/* <UserInquiry inquiry={dummyInquiry} /> */}
+  //
+  //   </div>
+  // );
+
+  const contentMessage: UserContentMessage[] = [
+    {
+      inquiry_response: {
+        question: "What's your favorite color?",
+        selected: ["Blue", "Green"],
+        input: "I also like teal!",
+      },
+      text_input: "Hello World!"
+    },
+    {
+      inquiry_response: {
+        question: "How often do you exercise?",
+        selected: ["2-3 times a week"],
+        input: null,
+      },
+    },
+    {
+      inquiry_response: {
+        question: "What's your preferred programming language?",
+        selected: ["JavaScript", "Python", "TypeScript"],
+        input: "I'm currently learning Rust.",
+      },
+    },
+    {
+      inquiry_response: {
+        skipped: true,
+      },
+    },
+    {
+      inquiry_response: {
+        question: "Do you have any dietary restrictions?",
+        selected: ["Vegetarian"],
+        input: "I'm allergic to nuts.",
+      },
+    },
+  ];
+
   return (
-    <div className="px-2 sm:px-12 pt-12 md:pt-14 pb-14 md:pb-24 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4">
-      <ProductDetails content={contentToolDetails} />
-      <ProductComparison content={contentToolComparison} />
-      <ErrorMessage
-        errorName="Scrape Operation Error"
-        reason="There was an error while fetching data from the server. Please try again later or contact support if the problem persists."
-        raw={productDetailsData}
-      />
-      <AssistantMessage content={markdownText} />
-      {/* <RelatedMessage related={related} /> */}
-      <InquirySkeleton />
-      {/* <UserInquiry inquiry={dummyInquiry} /> */}
+    <div className="p-4">
+      <div className="max-w-2xl mx-auto">
+        <h1 className="text-xl font-bold mb-6">
+          Inquiry Response Examples
+        </h1>
+        {contentMessage.map((response, index) => (
+          <UserMessage key={index} content={response} />
+        ))}
+      </div>
     </div>
   );
 }

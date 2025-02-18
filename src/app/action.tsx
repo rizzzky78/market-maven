@@ -19,6 +19,7 @@ import {
 } from "@/components/maven/related-message";
 import { LoadingText } from "@/components/maven/shining-glass";
 import { UserInquiry } from "@/components/maven/user-inquiry";
+import { InquirySkeleton } from "@/components/maven/user-inquiry-skeleton";
 import {
   toCoreMessage,
   toPayloadRelatedMessage,
@@ -28,6 +29,7 @@ import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
 import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
 import { TEMPLATE } from "@/lib/agents/constant";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
+import { Inquiry } from "@/lib/agents/schema/inquiry";
 import { productsSchema } from "@/lib/agents/schema/product";
 import {
   PartialRelated,
@@ -36,6 +38,7 @@ import {
 } from "@/lib/agents/schema/related";
 import {
   getProductDetailsSchema,
+  inputInquirySchema,
   inquireUserSchema,
   productsComparionSchema,
   searchProductSchema,
@@ -68,7 +71,13 @@ import {
 import logger from "@/lib/utility/logger";
 import { processURLQuery } from "@/lib/utils";
 import { google } from "@ai-sdk/google";
-import { DeepPartial, generateId, streamObject, streamText } from "ai";
+import {
+  DeepPartial,
+  generateId,
+  generateObject,
+  streamObject,
+  streamText,
+} from "ai";
 import {
   createAI,
   createStreamableValue,
@@ -1064,18 +1073,20 @@ const orchestrator = async (
       /** GAP */
       inquireUser: {
         description: TEMPLATE.INQUIRE_USER_DESCIRPTION,
-        parameters: inquireUserSchema,
-        generate: async function* ({ inquiry }) {
+        parameters: inputInquirySchema,
+        generate: async function* (inquiryProp) {
           logger.info("Using inquireUser tool");
+
+          console.log(JSON.stringify({ inquiry: inquiryProp }, null, 2));
 
           generation.update({
             process: "generating",
             loading: true,
           });
 
-          const parse = inquireUserSchema.safeParse(inquiry);
+          const parse = inputInquirySchema.safeParse(inquiryProp);
 
-          if (!parse.success) {
+          if (!parse.success || parse.error) {
             generation.done({
               process: "fatal_error",
               loading: false,
@@ -1095,9 +1106,18 @@ const orchestrator = async (
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
+          yield <InquirySkeleton />;
+
+          const inquiryObject = await generateObject({
+            model: google("gemini-2.0-pro-exp-02-05"),
+            system: SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
+            prompt: JSON.stringify(parse.data),
+            schema: inquireUserSchema,
+          });
+
           mutateTool(state, {
             name: "inquireUser",
-            args: { inquiry },
+            args: { inquiry: inquiryObject.object.inquiry },
             result: { data: "no-result" },
             overrideAssistant: {
               content: `Inquiry have been provided, please fill them in accordingly.`,
@@ -1115,7 +1135,7 @@ const orchestrator = async (
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
-          return <UserInquiry inquiry={inquiry} />;
+          return <UserInquiry inquiry={inquiryObject.object.inquiry} />;
         },
       },
     },

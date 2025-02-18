@@ -26768,3 +26768,2518 @@
     }
   ]
 }
+[90m[2025-02-18 20:38:48.860][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 20:38:48.890][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 20:39:28.810][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 20:39:28.845][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 20:39:28.961][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 20:39:32.442][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 20:39:33.845][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 20:39:33.862][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 20:39:34.014][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 20:39:35.076][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 20:39:35.098][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 20:41:01.927][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 20:41:03.020][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 20:41:03.115][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 20:48:23.651][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "What are the important key points in buying a product?"
+      }
+    }
+  ]
+}
+[90m[2025-02-18 20:48:25.712][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using inquireUser tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-18 20:48:25.805][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 2322,
+        "completionTokens": 66,
+        "totalTokens": 2388
+      }
+    }
+  ]
+}
+[90m[2025-02-18 20:49:44.887][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 20:49:44.940][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 20:49:45.730][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 20:49:46.590][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 20:49:46.620][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 20:49:48.153][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 20:49:50.880][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 20:49:51.186][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 20:50:24.373][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 20:50:24.393][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 20:50:27.080][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 20:50:28.498][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 20:50:28.522][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 20:50:29.437][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 20:50:33.586][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "What are the important key points in buying a product?"
+      }
+    }
+  ]
+}
+[90m[2025-02-18 20:50:35.472][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 2241,
+        "completionTokens": 58,
+        "totalTokens": 2299
+      }
+    }
+  ]
+}
+[90m[2025-02-18 20:50:36.856][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-18 20:50:58.173][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 20:51:00.407][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "A smartphone with good specifications at an affordable price"
+      }
+    }
+  ]
+}
+[90m[2025-02-18 20:51:01.933][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using inquireUser tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-18 20:51:07.624][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using inquireUser tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-18 20:51:08.622][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-18 20:51:10.638][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 2239,
+        "completionTokens": 61,
+        "totalTokens": 2300
+      }
+    }
+  ]
+}
+[90m[2025-02-18 20:52:44.867][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "inquiryResponse": {
+          "question": "What are your priorities for this smartphone?",
+          "selected": [
+            "everyday",
+            "camera"
+          ],
+          "input": "cool on hands maybe"
+        }
+      }
+    }
+  ]
+}
+[90m[2025-02-18 20:52:46.442][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "smartphone for everyday use and good camera"
+      }
+    }
+  ]
+}
+[90m[2025-02-18 20:52:59.987][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "acd69721-f0e5-44ec-bd66-feea7f84488d"
+    }
+  ]
+}
+[90m[2025-02-18 20:53:07.975][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "acd69721-f0e5-44ec-bd66-feea7f84488d"
+    }
+  ]
+}
+[90m[2025-02-18 20:53:13.839][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "acd69721-f0e5-44ec-bd66-feea7f84488d"
+    }
+  ]
+}
+[90m[2025-02-18 20:53:13.959][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "smartphone for everyday use and good camera"
+      }
+    }
+  ]
+}
+[90m[2025-02-18 20:53:14.083][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-18 20:53:16.144][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 2485,
+        "completionTokens": 38,
+        "totalTokens": 2523
+      }
+    }
+  ]
+}
+[90m[2025-02-18 21:44:13.608][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:44:13.630][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:44:14.845][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 21:44:16.952][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 21:44:18.480][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 21:45:50.806][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 21:45:50.883][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:45:50.890][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:45:51.606][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:45:51.617][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:45:51.735][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 21:50:23.588][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:50:23.618][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:50:24.159][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 21:54:04.378][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 21:54:06.490][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:54:06.513][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:55:03.250][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:55:03.271][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:55:03.508][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 21:55:34.298][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:55:34.342][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:55:35.634][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 21:55:44.850][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:55:44.946][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:55:50.017][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 21:55:51.167][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:55:51.225][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:55:52.137][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 21:55:52.297][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:55:52.311][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:55:53.040][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 21:55:53.053][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:55:53.067][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:55:54.575][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:55:54.601][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:55:54.993][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 21:55:56.128][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:55:56.136][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:55:56.255][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 21:55:56.745][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 21:57:15.441][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:57:15.515][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:57:19.915][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 21:57:34.899][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:57:34.911][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:57:35.174][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 21:57:42.532][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:57:42.564][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:57:42.787][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 21:59:49.570][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:59:49.700][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:59:50.826][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 21:59:53.877][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:59:53.894][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 21:59:54.181][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:00:57.879][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:00:58.678][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:00:58.740][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:01:04.117][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:01:04.151][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:01:06.128][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:01:07.917][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:01:07.944][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:01:08.326][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:01:10.502][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:01:10.517][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:01:10.712][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:01:12.015][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:01:12.035][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:01:12.710][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:01:13.496][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:01:13.509][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:01:14.449][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:01:15.335][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:01:15.351][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:01:16.262][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:01:17.622][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:01:17.642][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:01:19.099][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:01:20.583][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:01:20.600][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:01:20.862][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:19:55.693][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:19:55.789][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:19:56.558][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:19:57.556][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:19:57.570][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:19:57.832][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:19:58.322][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:19:58.332][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:19:58.505][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:19:58.964][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:19:58.973][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:19:59.145][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:20:21.545][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:20:21.633][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:20:22.477][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:20:25.747][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:20:25.795][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:20:26.071][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:20:27.117][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:20:27.181][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:20:27.194][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:20:28.099][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:20:28.107][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:20:28.202][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:20:44.219][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:20:44.255][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:20:45.237][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:20:46.634][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:20:46.655][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:20:46.915][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:20:47.754][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:20:47.763][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:20:48.013][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:20:48.876][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:20:48.889][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:20:49.138][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:21:07.700][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:21:07.732][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:21:08.786][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:21:10.228][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:21:10.239][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:21:10.535][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:21:11.525][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:21:11.534][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:21:11.783][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:21:13.307][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:21:13.330][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:21:13.552][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:21:25.261][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:21:25.295][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:21:28.315][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:21:28.760][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:21:28.782][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:21:30.331][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:21:30.506][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:21:30.529][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:21:32.166][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:21:32.407][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:21:32.420][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:21:34.722][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:22:55.372][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:22:55.406][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:22:56.138][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:22:57.673][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:22:57.686][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:22:58.162][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:22:59.465][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:22:59.481][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:22:59.681][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:23:00.521][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:23:00.529][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:23:01.063][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:23:21.705][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:23:21.734][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:23:22.251][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:23:24.409][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:23:24.429][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:23:24.697][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:23:28.058][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:23:28.076][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:23:28.399][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:23:29.874][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:23:29.893][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:23:30.203][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:23:44.145][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:23:45.787][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:23:45.869][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:23:50.258][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:23:50.679][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:23:50.713][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:23:53.014][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:23:53.164][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:23:53.186][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:23:54.962][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:23:55.278][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:23:55.294][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 22:35:17.294][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:35:27.174][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 22:35:30.058][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "A smartphone with good specifications at an affordable price"
+      }
+    }
+  ]
+}
+[90m[2025-02-18 22:35:31.504][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using inquireUser tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-18 22:35:37.325][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using inquireUser tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-18 22:35:38.107][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-18 22:35:40.338][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 2239,
+        "completionTokens": 61,
+        "totalTokens": 2300
+      }
+    }
+  ]
+}
+[90m[2025-02-18 22:36:17.196][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "inquiryResponse": {
+          "question": "What are your priorities for this smartphone?",
+          "selected": [
+            "camera",
+            "performance"
+          ],
+          "input": "Not too hot on handheld"
+        }
+      }
+    }
+  ]
+}
+[90m[2025-02-18 22:36:18.329][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using inquireUser tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-18 22:36:24.096][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using inquireUser tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-18 22:36:24.378][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-18 22:36:27.132][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 2498,
+        "completionTokens": 25,
+        "totalTokens": 2523
+      }
+    }
+  ]
+}
+[90m[2025-02-18 23:17:16.401][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 23:20:47.590][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 23:20:48.326][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 23:20:48.742][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 23:20:48.768][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 23:20:48.818][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 23:20:50.903][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 23:20:50.919][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 23:20:52.329][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 23:20:52.368][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 23:20:53.984][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 23:20:54.030][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 23:20:54.764][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 23:20:54.774][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 23:20:55.363][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 23:20:55.372][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 23:22:09.330][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 23:22:10.015][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 23:22:10.046][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 23:22:13.013][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 23:22:13.516][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 23:22:13.594][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 23:22:16.012][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 23:22:17.644][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 23:22:17.662][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 23:22:18.851][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 23:22:20.412][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 23:22:20.424][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 23:22:21.444][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-18 23:22:22.679][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 23:22:22.712][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "ba6a012b-fce6-4424-b33f-d46ca00e892c",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-18 23:22:26.227][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
