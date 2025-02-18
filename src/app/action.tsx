@@ -26,7 +26,6 @@ import {
 } from "@/lib/agents/action/mutator/mutate-messages";
 import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
 import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
-import { generateRelatedQuery } from "@/lib/agents/action/server-action/generate-related";
 import { TEMPLATE } from "@/lib/agents/constant";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
 import { productsSchema } from "@/lib/agents/schema/product";
@@ -544,10 +543,19 @@ const orchestrator = async (
               }
             );
 
+            if (requestOption?.onRequest?.search && externalData.data?.answer) {
+              yield (
+                <LoadingText
+                  text={`Retrieved addional information, thought for ${externalData.data.responseTime} seconds`}
+                />
+              );
+              await new Promise((resolve) => setTimeout(resolve, 3000));
+            }
+
             const payloadContent = JSON.stringify({
               refference: { query, link },
               markdown: scrapeContent.markdown,
-              externalData: externalData.data,
+              externalData: externalData.data?.answer ?? null,
             });
 
             const streamableObject =
