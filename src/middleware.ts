@@ -11,4 +11,6 @@ export default withAuth(
   }
 );
 
-export const config = { matcher: ["/chat", "/chat/:path*"] };
+export const config = {
+  matcher: ["/chat", "/chat/:path*", "/history", "/profile"],
+};
