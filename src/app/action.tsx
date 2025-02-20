@@ -1104,12 +1104,10 @@ const orchestrator = async (
 
           yield <LoadingText key={callId} text="Creating an Inquiry" />;
 
-          await new Promise((resolve) => setTimeout(resolve, 3000));
-
           yield <InquirySkeleton />;
 
           const inquiryObject = await generateObject({
-            model: google("gemini-2.0-pro-exp-02-05"),
+            model: google("gemini-2.0-flash-001"),
             system: SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
             prompt: JSON.stringify(parse.data),
             schema: inquireUserSchema,
@@ -1130,10 +1128,6 @@ const orchestrator = async (
             process: "done",
             loading: false,
           });
-
-          yield <LoadingText key={callId} text="Finalizing Inquiry" />;
-
-          await new Promise((resolve) => setTimeout(resolve, 3000));
 
           return <UserInquiry inquiry={inquiryObject.object.inquiry} />;
         },

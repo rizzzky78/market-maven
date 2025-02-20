@@ -29283,3 +29283,96 @@
     }
   ]
 }
+[90m[2025-02-18 23:23:44.131][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-19 11:56:11.509][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-19 12:07:38.889][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-02-19 12:07:39.666][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-02-19 12:07:43.517][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "3c9aac16-2237-475f-aec2-4831a30e39f9"
+    }
+  ]
+}
+[90m[2025-02-19 12:07:54.592][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "3c9aac16-2237-475f-aec2-4831a30e39f9"
+    }
+  ]
+}
+[90m[2025-02-19 12:08:03.122][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "3c9aac16-2237-475f-aec2-4831a30e39f9"
+    }
+  ]
+}
+[90m[2025-02-19 12:08:03.257][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-02-19 12:08:04.924][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-19 12:08:10.282][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 2234,
+        "completionTokens": 5,
+        "totalTokens": 2239
+      }
+    }
+  ]
+}
