@@ -1108,7 +1108,7 @@ const orchestrator = async (
 
           const inquiryObject = await generateObject({
             model: google("gemini-2.0-flash-001"),
-            system: SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
+            system: SYSTEM_INSTRUCTION.INQUIRY_CRAFTER,
             prompt: JSON.stringify(parse.data),
             schema: inquireUserSchema,
           });
