@@ -29,7 +29,6 @@ import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
 import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
 import { TEMPLATE } from "@/lib/agents/constant";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
-import { Inquiry } from "@/lib/agents/schema/inquiry";
 import { productsSchema } from "@/lib/agents/schema/product";
 import {
   PartialRelated,
@@ -42,6 +41,7 @@ import {
   inquireUserSchema,
   productsComparionSchema,
   searchProductSchema,
+  Inquiry,
 } from "@/lib/agents/schema/tool-parameters";
 import { scrapeUrl } from "@/lib/agents/tools/api/firecrawl";
 import { externalTavilySearch } from "@/lib/agents/tools/api/tavily";
@@ -1077,8 +1077,6 @@ const orchestrator = async (
         generate: async function* (inquiryProp) {
           logger.info("Using inquireUser tool");
 
-          console.log(JSON.stringify({ inquiry: inquiryProp }, null, 2));
-
           generation.update({
             process: "generating",
             loading: true,
@@ -1106,16 +1104,49 @@ const orchestrator = async (
 
           yield <InquirySkeleton />;
 
-          const inquiryObject = await generateObject({
-            model: google("gemini-2.0-flash-001"),
-            system: SYSTEM_INSTRUCTION.INQUIRY_CRAFTER,
-            prompt: JSON.stringify(parse.data),
-            schema: inquireUserSchema,
-          });
+          const { partialObjectStream: inquiryStream, object: inquiryObject } =
+            streamObject({
+              model: google("gemini-2.0-flash-001"),
+              system: SYSTEM_INSTRUCTION.INQUIRY_CRAFTER,
+              prompt: JSON.stringify(parse.data),
+              schema: inquireUserSchema,
+
+              onError: ({ error }) => {
+                errorState = {
+                  isError: true,
+                  error,
+                };
+              },
+            });
+
+          for await (const chunkInquiry of inquiryStream) {
+            // will be append value update on streamable value
+          }
+
+          if (errorState.isError) {
+            generation.done({
+              process: "fatal_error",
+              loading: false,
+              error: "LLM Generation Error",
+            });
+
+            return (
+              <ErrorMessage
+                errorName="LLM Error"
+                reason="There was an error on LLMs Agent generation, that's all we know :("
+                raw={{
+                  payload: { inquiry: parse.data },
+                  error: errorState,
+                }}
+              />
+            );
+          }
+
+          const inquiryProperty = (await inquiryObject).inquiry;
 
           mutateTool(state, {
             name: "inquireUser",
-            args: { inquiry: inquiryObject.object.inquiry },
+            args: { inquiry: inquiryProperty },
             result: { data: "no-result" },
             overrideAssistant: {
               content: `Inquiry have been provided, please fill them in accordingly.`,
@@ -1129,7 +1160,7 @@ const orchestrator = async (
             loading: false,
           });
 
-          return <UserInquiry inquiry={inquiryObject.object.inquiry} />;
+          return <UserInquiry inquiry={inquiryProperty} />;
         },
       },
     },
