@@ -62,8 +62,22 @@ const SYSTEM_INSTRUCTION = {
     "./src/lib/agents/constant/md/product-compare-insight.md",
     "utf-8"
   ),
+  /**
+   * LLM Instruct for **Related Query Crafter**
+   *
+   * Output: Structured Data (JSON)
+   */
   RELATED_QUERY_CRAFTER: readFileSync(
     "./src/lib/agents/constant/md/related-query-crafter.md",
+    "utf-8"
+  ),
+  /**
+   * LLM Instruct for **Inquiry Crafter**
+   *
+   * Output: Structured Data (JSON)
+   */
+  INQUIRY_CRAFTER: readFileSync(
+    "./src/lib/agents/constant/md/inquiry-crafter.md",
     "utf-8"
   ),
 } as const;
