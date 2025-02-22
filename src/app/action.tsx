@@ -182,6 +182,10 @@ const orchestrator = async (
 
           yield <LoadingText text={`Searching for ${query}`} />;
 
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+
+          yield <LoadingText text={`Perform scrape operation...`} />;
+
           const {
             cached,
             response: { data: scrapeContent },
@@ -216,7 +220,7 @@ const orchestrator = async (
               loading: true,
             });
 
-            yield <LoadingText text="Found products, saving the state..." />;
+            yield <LoadingText text="Found products..." />;
 
             const finalizedProductSearch: ProductsResponse = {
               callId: toolRequestId,
@@ -478,6 +482,8 @@ const orchestrator = async (
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
+          yield <LoadingText text={`Perform scrape operation...`} />;
+
           const {
             cached,
             response: { data: scrapeContent },
@@ -502,10 +508,6 @@ const orchestrator = async (
             await new Promise((resolve) => setTimeout(resolve, 3000));
           }
 
-          yield <LoadingText text={`Performing caching the query...`} />;
-
-          await new Promise((resolve) => setTimeout(resolve, 2000));
-
           if (
             scrapeContent.success &&
             scrapeContent.markdown &&
@@ -523,9 +525,7 @@ const orchestrator = async (
               loading: true,
             });
 
-            yield (
-              <LoadingText text="Raw data retrieved, saving the state data..." />
-            );
+            yield <LoadingText text="Retrieved raw data..." />;
 
             await createMarkdownEntry({
               key: finalizedObject.callId,
@@ -535,9 +535,7 @@ const orchestrator = async (
               markdown: scrapeContent.markdown,
             });
 
-            yield (
-              <LoadingText text="Proceed to data extraction, please hang on..." />
-            );
+            yield <LoadingText text="Proceed to data extraction..." />;
 
             if (requestOption?.onRequest?.search) {
               yield (
@@ -556,7 +554,7 @@ const orchestrator = async (
             if (requestOption?.onRequest?.search && externalData.data?.answer) {
               yield (
                 <LoadingText
-                  text={`Retrieved addional information, thought for ${externalData.data.responseTime} seconds`}
+                  text={`Retrieved additional information, thought for ${externalData.data.responseTime} seconds`}
                 />
               );
 
