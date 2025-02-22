@@ -6,7 +6,6 @@ import { ChevronUp, FlaskConical, Grip, Minus, Plus } from "lucide-react";
 import Link from "next/link";
 import { FC, Fragment, JSX, memo, useState } from "react";
 import { Button } from "../ui/button";
-import { Separator } from "@radix-ui/react-separator";
 
 const containerVariants = {
   initial: {
@@ -128,7 +127,7 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
 }) => {
   const [open, setOpen] = useState(true);
 
-  const renderValue = (value: any, key: string): JSX.Element => {
+  const renderValue = (value: any, key: string): JSX.Element | null => {
     if (
       typeof value === "string" ||
       typeof value === "number" ||
@@ -139,7 +138,7 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
           variants={itemVariants}
           className="px-4 mb-1 flex lg:items-center flex-wrap"
         >
-          <div className="rounded-[2rem] bg-gray-400 dark:bg-muted py-2 px-4 shrink-0 mr-1">
+          <div className="rounded-[2rem] bg-gray-400/60 dark:bg-muted py-2 px-4 shrink-0 mr-1">
             <p className="font-medium">{sanitizeKeyName(key)}</p>
           </div>
           <div className="rounded-2xl bg-gray-300 dark:bg-[#4A4947] py-2 px-4">
@@ -213,11 +212,8 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
         </motion.div>
       );
     }
-    return (
-      <div className="py-1 px-3 rounded-3xl bg-muted">
-        <p className="text-xs">{key}: (Unsupported data type)</p>
-      </div>
-    );
+    /** Return NULL if no specified key-value  */
+    return null;
   };
 
   return (
@@ -275,39 +271,34 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
             exit="exit"
             className="my-3"
           >
-            <div className="overflow-x-auto max-w-xl">
-              <pre className="text-xs">{JSON.stringify(data, null, 2)}</pre>
-            </div>
-            {/* <div className="*:text-xs grid grid-cols-1 lg:grid-cols-2 gap-2">
+            <div className="*:text-xs grid grid-cols-1 lg:grid-cols-2 gap-2">
               <div className="lg:border-r border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
-                {Array.isArray(data.data.products) &&
-                  [data.data.products[0]].map(
-                    (item: Record<string, any>, index) => (
+                {Array.isArray(data.products) &&
+                  [data.products[0]].map((item: Record<string, any>, index) => (
+                    <motion.div
+                      key={index}
+                      variants={itemVariants}
+                      className="pt-4"
+                    >
                       <motion.div
-                        key={index}
-                        variants={itemVariants}
-                        className="pt-4"
+                        variants={containerVariants}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        className="space-y-3"
                       >
-                        <motion.div
-                          variants={containerVariants}
-                          initial="initial"
-                          animate="animate"
-                          exit="exit"
-                          className="space-y-3"
-                        >
-                          {Object.entries(item).map(([key, value]) => (
-                            <Fragment key={key}>
-                              {renderValue(value, key)}
-                            </Fragment>
-                          ))}
-                        </motion.div>
+                        {Object.entries(item).map(([key, value]) => (
+                          <Fragment key={key}>
+                            {renderValue(value, key)}
+                          </Fragment>
+                        ))}
                       </motion.div>
-                    )
-                  )}
+                    </motion.div>
+                  ))}
               </div>
               <div className="lg:border-l border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
-                {Array.isArray(data.data.products) &&
-                  [data.data.products[1]].map((item, index) => (
+                {Array.isArray(data.products) &&
+                  [data.products[1]].map((item, index) => (
                     <motion.div
                       key={index}
                       variants={itemVariants}
@@ -330,28 +321,41 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
                   ))}
               </div>
             </div>
-            {data?.data.differences && (
+            {data.key_differences && (
               <div className="border-y border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 *:text-xs my-2 py-2">
                 <motion.div
                   variants={itemVariants}
                   className="border-t pt-4 first:border-t-0 first:pt-0"
                 >
+                  <div className="rounded-[2rem] w-fit bg-[#1A1A1D] py-1 pl-2 pr-8 mb-0.5 mt-1">
+                    <div className="flex items-center space-x-1 text-white">
+                      <Plus className="size-5" />
+                      <p className="font-semibold text-sm">Key Differences:</p>
+                    </div>
+                  </div>
                   <motion.div
                     variants={containerVariants}
                     initial="initial"
                     animate="animate"
                     exit="exit"
-                    className="space-y-3"
                   >
-                    {Object.entries(data.data.differences).map(
-                      ([key, value]) => (
-                        <Fragment key={key}>{renderValue(value, key)}</Fragment>
-                      )
+                    {Array.isArray(data.key_differences) && (
+                      <div>
+                        {data.key_differences.map((diff: string, index) => (
+                          <motion.div
+                            key={index}
+                            variants={itemVariants}
+                            className=" flex lg:items-center flex-wrap"
+                          >
+                            {sanitizeStr(diff)}
+                          </motion.div>
+                        ))}
+                      </div>
                     )}
                   </motion.div>
                 </motion.div>
               </div>
-            )} */}
+            )}
           </motion.div>
         )}
       </AnimatePresence>
