@@ -514,6 +514,7 @@ const orchestrator = async (
             const finalizedObject: ProductDetailsResponse = {
               callId: toolRequestId,
               screenshot: scrapeContent.screenshot,
+              externalData: null,
               productDetails: {},
             };
 
@@ -558,6 +559,9 @@ const orchestrator = async (
                   text={`Retrieved addional information, thought for ${externalData.data.responseTime} seconds`}
                 />
               );
+
+              finalizedObject.externalData = externalData.data.answer;
+
               await new Promise((resolve) => setTimeout(resolve, 3000));
             }
 
@@ -636,8 +640,7 @@ const orchestrator = async (
             );
 
             const payloadInsight = {
-              prompt:
-                payloadUserMessage.text_input ?? "no-instructions-from-user",
+              prompt: payloadUserMessage.text_input ?? null,
               data: finalizedObject.productDetails,
               externalData: externalData.data,
             };
