@@ -20,6 +20,7 @@ import { generateId } from "ai";
 import { UserMessage } from "./user-message";
 import { toast } from "sonner";
 import { Separator } from "../ui/separator";
+import { Skeleton } from "../ui/skeleton";
 
 interface RelatedProps {
   related: RelatedQuery | null;
@@ -89,40 +90,42 @@ export const RelatedMessage: FC<RelatedProps> = ({ related }) => {
   const isButtonDisabled = attachment ? true : activeComparison ? true : false;
 
   return (
-    <div className="w-full my-10 max-w-2xl text-sm border-[#1A1A1D] dark:border-inherit border rounded-3xl">
+    <div className="w-full my-10 text-sm border-[#1A1A1D] dark:border-inherit border rounded-3xl">
       <div className="flex items-center ml-3.5 pt-3">
         <ArrowRightLeft className="size-4 mr-1 shrink-0" />
         <h3 className="text-sm font-medium">
           Related
           <span className="ml-2 text-xs opacity-60 font-normal">
-            (related query only appears on stream generation)
+            (tap to append query)
           </span>
         </h3>
       </div>
       <div className="space-y-1 rounded-3xl py-2 px-2">
         <Separator className="bg-[#1A1A1D] dark:bg-muted" />
-        {related &&
-          related.items.map((item, index) => (
-            <div
-              key={index}
-              className="flex w-full items-center space-x-2 pb-1 last:pb-0"
-            >
-              <p className="ml-2 text-xs font-medium whitespace-nowrap">
-                {item?.label}:
-              </p>
-              <Button
-                variant={"link"}
-                className="h-auto rounded-2xl w-full py-1 px-2 text-xs font-normal justify-between hover:bg-purple-400/50 dark:hover:bg-purple-400/20"
-                onClick={async () =>
-                  await relatedActionSubmit(item?.query as string)
-                }
-                disabled={isButtonDisabled}
+        <div className="pt-1">
+          {related &&
+            related.items.map((item, index) => (
+              <div
+                key={index}
+                className="flex w-full flex-wrap lg:flex-nowrap items-center pb-1 last:pb-0"
               >
-                <span className="truncate text-left">{item?.query}</span>
-                <ArrowRight className="size-4 shrink-0 ml-1" />
-              </Button>
-            </div>
-          ))}
+                <p className="ml-2 text-xs mr-0 md:mr-1 font-medium whitespace-nowrap">
+                  {item?.label}:
+                </p>
+                <Button
+                  variant={"link"}
+                  className="h-auto rounded-2xl w-full py-1 px-2 text-xs font-normal justify-between hover:bg-purple-400/50 dark:hover:bg-purple-400/20"
+                  onClick={async () =>
+                    await relatedActionSubmit(item?.query as string)
+                  }
+                  disabled={isButtonDisabled}
+                >
+                  <span className="truncate text-left">{item?.query}</span>
+                  <ArrowRight className="size-4 shrink-0 ml-1" />
+                </Button>
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   );
@@ -221,39 +224,41 @@ export const StreamRelatedMessage: FC<StreamRelatedProps> = ({ content }) => {
         <h3 className="text-sm font-medium">
           Related
           <span className="ml-2 text-xs opacity-60 font-normal">
-            (related query only appears on stream generation)
+            (tap to append query)
           </span>
         </h3>
       </div>
       <div className="space-y-1 rounded-3xl py-2 px-2">
         <Separator className="bg-[#1A1A1D] dark:bg-muted" />
-        {Array.isArray(related?.items) ? (
-          related.items.map((item, index) => (
-            <div
-              key={index}
-              className="flex w-full items-center space-x-2 pb-1 last:pb-0"
-            >
-              <p className="ml-2 text-xs font-medium whitespace-nowrap">
-                {item?.label}:
-              </p>
-              <Button
-                variant={"link"}
-                className="h-auto rounded-2xl w-full py-1 px-2 text-xs font-normal justify-between hover:bg-purple-400/50"
-                onClick={async () =>
-                  await relatedActionSubmit(item?.query as string)
-                }
-                disabled={isButtonDisabled}
+        <div className="pt-1">
+          {Array.isArray(related?.items) ? (
+            related.items.map((item, index) => (
+              <div
+                key={index}
+                className="flex w-full items-center space-x-2 pb-1 last:pb-0"
               >
-                <span className="truncate text-left">{item?.query}</span>
-                <ArrowRight className="size-4 shrink-0 ml-1" />
-              </Button>
+                <p className="ml-2 text-xs font-medium whitespace-nowrap">
+                  {item?.label}:
+                </p>
+                <Button
+                  variant={"link"}
+                  className="h-auto rounded-2xl w-full py-1 px-2 text-xs font-normal justify-between hover:bg-purple-400/50"
+                  onClick={async () =>
+                    await relatedActionSubmit(item?.query as string)
+                  }
+                  disabled={isButtonDisabled}
+                >
+                  <span className="truncate text-left">{item?.query}</span>
+                  <ArrowRight className="size-4 shrink-0 ml-1" />
+                </Button>
+              </div>
+            ))
+          ) : (
+            <div>
+              <Skeleton />
             </div>
-          ))
-        ) : (
-          <div>
-            <p>Invalid Related Query Items</p>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

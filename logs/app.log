@@ -29376,3 +29376,837 @@
     }
   ]
 }
+[90m[2025-02-22 09:33:05.341][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-22 10:43:42.406][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 10:43:43.321][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 10:43:47.555][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "cb61913e-5c22-4ba3-9596-693b2d904d9c"
+    }
+  ]
+}
+[90m[2025-02-22 10:44:01.677][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "cb61913e-5c22-4ba3-9596-693b2d904d9c"
+    }
+  ]
+}
+[90m[2025-02-22 10:44:06.024][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "cb61913e-5c22-4ba3-9596-693b2d904d9c"
+    }
+  ]
+}
+[90m[2025-02-22 10:44:06.159][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Yoga"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 10:44:06.917][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-22 10:44:08.506][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 2234,
+        "completionTokens": 5,
+        "totalTokens": 2239
+      }
+    }
+  ]
+}
+[90m[2025-02-22 10:46:32.506][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Does the RTX capability are equal to desktop version?",
+        "attachProduct": {
+          "product": {
+            "id": "uNqnSLvgonEubYcJ",
+            "title": "Lenovo Yoga Slim 7 Pro X 14 3K Touch RTX3050 Ryzen 9 6900 32GB 1TB SSD",
+            "link": "https://www.tokopedia.com/rogsstoreid/lenovo-yoga-slim-7-pro-x-14-3k-touch-rtx3050-ryzen-9-6900-32gb-1tb-ssd-laptop?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250210124327E5AF7B92904D6F277Y5T%26src%3Dsearch"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-02-22 10:46:34.483][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo Yoga Slim 7 Pro X 14 3K Touch RTX3050 Ryzen 9 6900 32GB 1TB SSD",
+        "link": "https://www.tokopedia.com/rogsstoreid/lenovo-yoga-slim-7-pro-x-14-3k-touch-rtx3050-ryzen-9-6900-32gb-1tb-ssd-laptop?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250210124327E5AF7B92904D6F277Y5T%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 10:46:42.784][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "c43654fa-795d-493e-bfc9-98532d71c9a5"
+    }
+  ]
+}
+[90m[2025-02-22 10:46:56.109][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "External Data",
+  "meta": [
+    {
+      "ext": "enabled",
+      "eta": 9.23
+    }
+  ]
+}
+[90m[2025-02-22 10:47:02.266][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "c43654fa-795d-493e-bfc9-98532d71c9a5"
+    }
+  ]
+}
+[90m[2025-02-22 10:47:05.066][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "c43654fa-795d-493e-bfc9-98532d71c9a5"
+    }
+  ]
+}
+[90m[2025-02-22 10:47:05.110][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Yoga Slim 7 Pro X 14 3K Touch RTX3050 Ryzen 9 6900 32GB 1TB SSD",
+        "link": "https://www.tokopedia.com/rogsstoreid/lenovo-yoga-slim-7-pro-x-14-3k-touch-rtx3050-ryzen-9-6900-32gb-1tb-ssd-laptop?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga%26search_id%3D20250210124327E5AF7B92904D6F277Y5T%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 10:47:05.805][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-22 10:47:06.984][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 4743,
+        "completionTokens": 169,
+        "totalTokens": 4912
+      }
+    }
+  ]
+}
+[90m[2025-02-22 10:57:13.767][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-22 10:57:29.466][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Xiaomi 14 pro"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 10:57:31.242][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Xiaomi 14 pro"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 10:57:47.453][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "19002238-5361-4e9e-80c5-239aa67b049f"
+    }
+  ]
+}
+[90m[2025-02-22 10:57:58.308][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "19002238-5361-4e9e-80c5-239aa67b049f"
+    }
+  ]
+}
+[90m[2025-02-22 10:58:02.704][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "19002238-5361-4e9e-80c5-239aa67b049f"
+    }
+  ]
+}
+[90m[2025-02-22 10:58:02.839][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Xiaomi 14 pro"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 10:58:03.000][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-22 10:58:05.155][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 2237,
+        "completionTokens": 8,
+        "totalTokens": 2245
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:00:57.271][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Which store has the best rating for the Xiaomi 14 Pro?"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:00:59.317][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Xiaomi 14 pro"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:01:02.799][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "b20afed1-7d42-4b7d-8bfa-bc9bf058f89a"
+    }
+  ]
+}
+[90m[2025-02-22 11:01:16.700][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "b20afed1-7d42-4b7d-8bfa-bc9bf058f89a"
+    }
+  ]
+}
+[90m[2025-02-22 11:01:22.273][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "b20afed1-7d42-4b7d-8bfa-bc9bf058f89a"
+    }
+  ]
+}
+[90m[2025-02-22 11:01:22.408][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Xiaomi 14 pro"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:01:22.560][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-22 11:01:25.479][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 4607,
+        "completionTokens": 8,
+        "totalTokens": 4615
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:02:13.473][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "What is LEICA camera from?",
+        "attachProduct": {
+          "product": {
+            "id": "PWxw1TwBq6tRj6Tb",
+            "title": "Xiaomi Mi 14T Pro 5G 12/512GB 256GB Leica MD 9300+ Garansi Resmi 14 T",
+            "link": "https://www.tokopedia.com/digitechmall/xiaomi-mi-14t-pro-5g-12-512gb-256gb-leica-md-9300-garansi-resmi-14-t-14t-12-256-promo-387bc?extParam=ivf%3Dtrue%26keyword%3Dxiaomi+14+pro%26search_id%3D202502220357395A2B7C3ED7DFF418CGLZ%26src%3Dsearch"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:02:16.344][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Xiaomi Mi 14T Pro 5G 12/512GB 256GB Leica MD 9300+ Garansi Resmi 14 T",
+        "link": "https://www.tokopedia.com/digitechmall/xiaomi-mi-14t-pro-5g-12-512gb-256gb-leica-md-9300-garansi-resmi-14-t-14t-12-256-promo-387bc?extParam=ivf%3Dtrue%26keyword%3Dxiaomi+14+pro%26search_id%3D202502220357395A2B7C3ED7DFF418CGLZ%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:02:35.903][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "003d1894-3a54-4963-a2fd-c8ba4ad14a4c"
+    }
+  ]
+}
+[90m[2025-02-22 11:02:51.151][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "External Data",
+  "meta": [
+    {
+      "ext": "enabled",
+      "eta": 11.27
+    }
+  ]
+}
+[90m[2025-02-22 11:02:56.272][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "003d1894-3a54-4963-a2fd-c8ba4ad14a4c"
+    }
+  ]
+}
+[90m[2025-02-22 11:02:57.434][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "003d1894-3a54-4963-a2fd-c8ba4ad14a4c"
+    }
+  ]
+}
+[90m[2025-02-22 11:02:57.512][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Xiaomi Mi 14T Pro 5G 12/512GB 256GB Leica MD 9300+ Garansi Resmi 14 T",
+        "link": "https://www.tokopedia.com/digitechmall/xiaomi-mi-14t-pro-5g-12-512gb-256gb-leica-md-9300-garansi-resmi-14-t-14t-12-256-promo-387bc?extParam=ivf%3Dtrue%26keyword%3Dxiaomi+14+pro%26search_id%3D202502220357395A2B7C3ED7DFF418CGLZ%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:02:57.821][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-22 11:02:59.490][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 7192,
+        "completionTokens": 190,
+        "totalTokens": 7382
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:05:18.047][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for ROG phone"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:05:19.898][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "ROG phone"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:05:30.901][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "943e1805-905b-4023-905a-eb76b91492e5"
+    }
+  ]
+}
+[90m[2025-02-22 11:05:43.316][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "943e1805-905b-4023-905a-eb76b91492e5"
+    }
+  ]
+}
+[90m[2025-02-22 11:05:48.943][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "943e1805-905b-4023-905a-eb76b91492e5"
+    }
+  ]
+}
+[90m[2025-02-22 11:05:49.073][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "ROG phone"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:05:49.571][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-22 11:05:51.265][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 7890,
+        "completionTokens": 5,
+        "totalTokens": 7895
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:09:52.304][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "",
+        "attachProduct": {
+          "product": {
+            "id": "xfTLN48naJhpd3WH",
+            "title": "ASUS ROG Phone 8 12/256GB SNAPDRAGON 8 Gen 3 AMOLED GARANSI RESMI ASUS - Phantom Black",
+            "link": "https://www.tokopedia.com/asusrogindonesia/asus-rog-phone-8-12-256gb-snapdragon-8-gen-3-amoled-garansi-resmi-asus-phantom-black-1730769223501907594?extParam=ivf%3Dfalse%26keyword%3Drog+phone%26search_id%3D2025022204052372B35641DCBC5928B7EI%26src%3Dsearch"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:09:55.221][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "ASUS ROG Phone 8 12/256GB SNAPDRAGON 8 Gen 3 AMOLED GARANSI RESMI ASUS - Phantom Black",
+        "link": "https://www.tokopedia.com/asusrogindonesia/asus-rog-phone-8-12-256gb-snapdragon-8-gen-3-amoled-garansi-resmi-asus-phantom-black-1730769223501907594?extParam=ivf%3Dfalse%26keyword%3Drog+phone%26search_id%3D2025022204052372B35641DCBC5928B7EI%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:10:04.504][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-22 11:10:07.689][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-22 11:10:11.899][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-22 11:10:14.085][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "04efaba4-98c0-4f45-87b1-71dff6cdc254"
+    }
+  ]
+}
+[90m[2025-02-22 11:10:19.025][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-22 11:10:30.008][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "External Data",
+  "meta": [
+    {
+      "ext": "enabled",
+      "eta": 11.25
+    }
+  ]
+}
+[90m[2025-02-22 11:10:36.942][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "04efaba4-98c0-4f45-87b1-71dff6cdc254"
+    }
+  ]
+}
+[90m[2025-02-22 11:10:39.959][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Asus TUF laptop"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:10:40.967][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "04efaba4-98c0-4f45-87b1-71dff6cdc254"
+    }
+  ]
+}
+[90m[2025-02-22 11:10:41.077][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "ASUS ROG Phone 8 12/256GB SNAPDRAGON 8 Gen 3 AMOLED GARANSI RESMI ASUS - Phantom Black",
+        "link": "https://www.tokopedia.com/asusrogindonesia/asus-rog-phone-8-12-256gb-snapdragon-8-gen-3-amoled-garansi-resmi-asus-phantom-black-1730769223501907594?extParam=ivf%3Dfalse%26keyword%3Drog+phone%26search_id%3D2025022204052372B35641DCBC5928B7EI%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:10:41.342][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-22 11:10:41.875][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Asus TUF laptop"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:10:42.953][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 10358,
+        "completionTokens": 174,
+        "totalTokens": 10532
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:10:45.009][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "e0f072a7-440f-40d7-86a2-8145525b5677"
+    }
+  ]
+}
+[90m[2025-02-22 11:10:59.045][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "e0f072a7-440f-40d7-86a2-8145525b5677"
+    }
+  ]
+}
+[90m[2025-02-22 11:11:04.512][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "e0f072a7-440f-40d7-86a2-8145525b5677"
+    }
+  ]
+}
+[90m[2025-02-22 11:11:04.643][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Asus TUF laptop"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:11:04.846][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-22 11:11:06.763][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 5710,
+        "completionTokens": 7,
+        "totalTokens": 5717
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:11:33.422][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Does it good for 3d rendering?",
+        "attachProduct": {
+          "product": {
+            "id": "N5TleVDLwmKiIqa5",
+            "title": "Laptop Asus TUF A15 FA507NUR-R745K6M-O AMD Ryzen 7-7435HS 16GB 512GB SSD RTX4050 6GB 15.6″ FHD 144Hz Win 11 - Mecha Gray",
+            "link": "https://www.tokopedia.com/asusrogindonesia/laptop-asus-tuf-a15-fa507nur-r745k6m-o-amd-ryzen-7-7435hs-16gb-512gb-ssd-rtx4050-6gb-15-6-fhd-144hz-win-11-mecha-gray-laptop-16gb-512gb-6488d?extParam=ivf%3Dfalse%26keyword%3Dasus+tuf+laptop%26search_id%3D2025021606020495C86292085D9D374KDE%26src%3Dsearch"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:11:36.806][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Laptop Asus TUF A15 FA507NUR-R745K6M-O AMD Ryzen 7-7435HS 16GB 512GB SSD RTX4050 6GB 15.6″ FHD 144Hz Win 11 - Mecha Gray",
+        "link": "https://www.tokopedia.com/asusrogindonesia/laptop-asus-tuf-a15-fa507nur-r745k6m-o-amd-ryzen-7-7435hs-16gb-512gb-ssd-rtx4050-6gb-15-6-fhd-144hz-win-11-mecha-gray-laptop-16gb-512gb-6488d?extParam=ivf%3Dfalse%26keyword%3Dasus+tuf+laptop%26search_id%3D2025021606020495C86292085D9D374KDE%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:11:44.983][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "9de6c882-d340-404d-adc0-1bd36e7f43fb"
+    }
+  ]
+}
+[90m[2025-02-22 11:11:46.017][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "External Data",
+  "meta": [
+    {
+      "ext": "disabled"
+    }
+  ]
+}
+[90m[2025-02-22 11:11:49.622][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "9de6c882-d340-404d-adc0-1bd36e7f43fb"
+    }
+  ]
+}
+[90m[2025-02-22 11:11:51.996][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "9de6c882-d340-404d-adc0-1bd36e7f43fb"
+    }
+  ]
+}
+[90m[2025-02-22 11:11:52.068][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Laptop Asus TUF A15 FA507NUR-R745K6M-O AMD Ryzen 7-7435HS 16GB 512GB SSD RTX4050 6GB 15.6″ FHD 144Hz Win 11 - Mecha Gray",
+        "link": "https://www.tokopedia.com/asusrogindonesia/laptop-asus-tuf-a15-fa507nur-r745k6m-o-amd-ryzen-7-7435hs-16gb-512gb-ssd-rtx4050-6gb-15-6-fhd-144hz-win-11-mecha-gray-laptop-16gb-512gb-6488d?extParam=ivf%3Dfalse%26keyword%3Dasus+tuf+laptop%26search_id%3D2025021606020495C86292085D9D374KDE%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:11:52.384][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-22 11:11:54.193][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 8652,
+        "completionTokens": 260,
+        "totalTokens": 8912
+      }
+    }
+  ]
+}
+[90m[2025-02-22 11:15:06.108][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Which has better in terms of versatility?, especially in 3D rendering and video editing and multi tasking?",
+        "productCompare": {
+          "for": [
+            {
+              "title": "Lenovo Yoga Slim 7 Pro X 14 3K Touch RTX3050 Ryzen 9 6900 32GB 1TB SSD",
+              "callId": "c43654fa-795d-493e-bfc9-98532d71c9a5"
+            },
+            {
+              "title": "Laptop Asus TUF A15 FA507NUR-R745K6M-O AMD Ryzen 7-7435HS 16GB 512GB SSD RTX4050 6GB 15.6″ FHD 144Hz Win 11 - Mecha Gray",
+              "callId": "9de6c882-d340-404d-adc0-1bd36e7f43fb"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
