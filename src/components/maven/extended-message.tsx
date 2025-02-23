@@ -9,9 +9,8 @@ import {
 } from "@/components/ui/accordion";
 import { FC } from "react";
 import { Markdown } from "./markdown";
-import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
+import { Card, CardContent } from "../ui/card";
 import { ScrollArea } from "../ui/scroll-area";
-import { ChevronDown } from "lucide-react";
 
 interface ExtendedMessageProps {
   title: string;
@@ -24,9 +23,13 @@ export const ExtendedMessage: FC<ExtendedMessageProps> = ({
 }) => {
   return (
     <Card className="border-[#1A1A1D] dark:border-inherit border rounded-3xl">
-      <Accordion type="single" collapsible className="px-2 py-1 rounded-3xl bg-background *:border-none">
+      <Accordion
+        type="single"
+        collapsible
+        className="px-2 py-1 rounded-3xl bg-background *:border-none"
+      >
         <AccordionItem value="item-1" className="border-b-0">
-          <AccordionTrigger className="p-2 flex items-start text-black/90 dark:text-white/90 text-xs font-medium rounded-3xl bg-background">
+          <AccordionTrigger className="p-2 flex items-start text-black/90 dark:text-white/90 text-sm font-medium rounded-3xl bg-background">
             {title}
           </AccordionTrigger>
           <AccordionContent className="rounded-3xl">
@@ -37,7 +40,7 @@ export const ExtendedMessage: FC<ExtendedMessageProps> = ({
                   animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="pr-2"
+                  className="pr-2 *:leading-tight *:dark:text-white/80 *:text-black/80"
                 >
                   <ScrollArea className="h-[300px] px-2">
                     <Markdown className="leading-tight">{content}</Markdown>
