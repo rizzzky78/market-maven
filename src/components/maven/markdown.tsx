@@ -23,40 +23,71 @@ export const PureMarkdown: FC<MarkdownProps> = ({ children, className }) => {
       rehypePlugins={[rehypeRaw]}
       components={{
         h1: ({ children }) => (
-          <h1 className="scroll-m-20 text-sm font-bold tracking-tight mb-4">
+          <h1
+            className={cn(
+              "scroll-m-20 text-sm font-bold tracking-tight mb-4",
+              className
+            )}
+          >
             {children}
           </h1>
         ),
         h2: ({ children }) => (
-          <h2 className="scroll-m-20 text-sm font-semibold tracking-tight mb-3">
+          <h2
+            className={cn(
+              "scroll-m-20 text-sm font-semibold tracking-tight mb-3",
+              className
+            )}
+          >
             {children}
           </h2>
         ),
         h3: ({ children }) => (
-          <h3 className="scroll-m-20 text-sm font-semibold tracking-tight mb-2">
+          <h3
+            className={cn(
+              "scroll-m-20 text-sm font-semibold tracking-tight mb-2",
+              className
+            )}
+          >
             {children}
           </h3>
         ),
         h4: ({ children }) => (
-          <h4 className="scroll-m-20 text-sm font-semibold tracking-tight mb-2">
+          <h4
+            className={cn(
+              "scroll-m-20 text-sm font-semibold tracking-tight mb-2",
+              className
+            )}
+          >
             {children}
           </h4>
         ),
         p: ({ children }) => (
-          <p className="text-sm leading-7 [&:not(:first-child)]:mt-4">
+          <p
+            className={cn(
+              "text-sm leading-7 [&:not(:first-child)]:mt-4 mb-3",
+              className
+            )}
+          >
             {children}
           </p>
         ),
         ul: ({ children }) => (
-          <ul className="my-4 ml-6 list-disc [&>li]:mt-2">{children}</ul>
+          <ul className={cn("my-4 ml-6 list-disc [&>li]:mt-2", className)}>
+            {children}
+          </ul>
         ),
         ol: ({ children }) => (
-          <ol className="my-4 ml-6 list-decimal [&>li]:mt-2">{children}</ol>
+          <ol className={cn("my-4 ml-6 list-decimal [&>li]:mt-2", className)}>
+            {children}
+          </ol>
         ),
-        li: ({ children }) => <li className="text-sm leading-7">{children}</li>,
+        li: ({ children }) => (
+          <li className={cn("text-sm leading-7", className)}>{children}</li>
+        ),
         table({ children }) {
           return (
-            <div className="my-2 w-full overflow-y-auto">
+            <div className={cn("my-2 w-full overflow-y-auto", className)}>
               <table className="w-full border-collapse border dark:border-white/50 border-black/50">
                 {children}
               </table>
@@ -64,25 +95,60 @@ export const PureMarkdown: FC<MarkdownProps> = ({ children, className }) => {
           );
         },
         thead({ children }) {
-          return <thead className="text-xs bg-black/20 dark:bg-white/20 dark:border-white/50 border-black/50">{children}</thead>;
+          return (
+            <thead
+              className={cn(
+                "text-xs bg-black/20 dark:bg-white/20 dark:border-white/50 border-black/50",
+                className
+              )}
+            >
+              {children}
+            </thead>
+          );
         },
         tr({ children }) {
-          return <tr className="border-b text-xs dark:border-white/50 border-black/50">{children}</tr>;
+          return (
+            <tr
+              className={cn(
+                "border-b text-xs dark:border-white/50 border-black/50",
+                className
+              )}
+            >
+              {children}
+            </tr>
+          );
         },
         th({ children }) {
           return (
-            <th className="border text-xs dark:border-white/50 border-black/50 px-4 py-2 text-left font-semibold">
+            <th
+              className={cn(
+                "border text-xs dark:border-white/50 border-black/50 px-4 py-2 text-left font-semibold",
+                className
+              )}
+            >
               {children}
             </th>
           );
         },
         td({ children }) {
           return (
-            <td className="border text-xs dark:border-white/50 border-black/50 px-4 py-2">{children}</td>
+            <td
+              className={cn(
+                "border text-xs dark:border-white/50 border-black/50 px-4 py-2",
+                className
+              )}
+            >
+              {children}
+            </td>
           );
         },
         blockquote: ({ children }) => (
-          <blockquote className="mt-4 border-l-4 text-sm border-gray-700 pl-4 italic">
+          <blockquote
+            className={cn(
+              "mt-4 border-l-4 text-sm border-gray-700 pl-4 italic",
+              className
+            )}
+          >
             {children}
           </blockquote>
         ),
@@ -95,7 +161,10 @@ export const PureMarkdown: FC<MarkdownProps> = ({ children, className }) => {
                 <TooltipTrigger asChild>
                   <a
                     href={href}
-                    className="inline-flex text-sm items-center gap-1 text-blue-400 hover:text-blue-300 transition-colors"
+                    className={cn(
+                      "inline-flex text-sm items-center gap-1 text-blue-400 hover:text-blue-300 transition-colors",
+                      className
+                    )}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
