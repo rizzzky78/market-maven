@@ -25,7 +25,7 @@ export const AttachProductBadge: FC<BadgeProps> = ({
   onSubmit,
 }) => {
   return (
-    <div className="flex flex-wrap gap-1">
+    <div className="flex flex-wrap">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -35,7 +35,7 @@ export const AttachProductBadge: FC<BadgeProps> = ({
       >
         <Badge
           variant="secondary"
-          className="flex w-full justify-between items-center gap-2 py-2 pl-5 rounded-3xl mb-1 bg-[#D8D2C2] hover:bg-[#D8D2C2] dark:bg-[#343131] dark:hover:bg-[#343131]"
+          className="flex w-full justify-between items-center py-1.5 pl-5 pr-1.5 rounded-3xl mb-1 bg-[#D8D2C2] hover:bg-[#D8D2C2] dark:bg-[#343131] dark:hover:bg-[#343131]"
         >
           <p className="line-clamp-1 text-xs font-normal">{attach.title}</p>
           <div className="flex items-center bg-muted rounded-full">
@@ -44,7 +44,7 @@ export const AttachProductBadge: FC<BadgeProps> = ({
                 <TooltipTrigger asChild>
                   <Button
                     variant={"ghost"}
-                    className="rounded-full size-8 mr-1 hover:bg-black/50"
+                    className="rounded-full size-9 mr-1 hover:bg-black/50"
                     onClick={onRemove}
                   >
                     <X className="size-4" />
@@ -62,7 +62,7 @@ export const AttachProductBadge: FC<BadgeProps> = ({
                 <TooltipTrigger asChild>
                   <Button
                     variant={"ghost"}
-                    className="rounded-full size-8 hover:bg-black/50"
+                    className="rounded-full size-9 hover:bg-black/50"
                     onClick={onSubmit}
                   >
                     <MoveUpRight className="size-4" />
