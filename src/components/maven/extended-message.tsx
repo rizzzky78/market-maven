@@ -11,6 +11,7 @@ import { FC } from "react";
 import { Markdown } from "./markdown";
 import { Card, CardContent } from "../ui/card";
 import { ScrollArea } from "../ui/scroll-area";
+import { Separator } from "../ui/separator";
 
 interface ExtendedMessageProps {
   title: string;
@@ -42,6 +43,7 @@ export const ExtendedMessage: FC<ExtendedMessageProps> = ({
                   transition={{ duration: 0.2 }}
                   className="pr-2 *:leading-tight *:dark:text-white/80 *:text-black/80"
                 >
+                  <Separator className="mb-3"/>
                   <ScrollArea className="h-[300px] px-2">
                     <Markdown className="leading-tight">{content}</Markdown>
                   </ScrollArea>
