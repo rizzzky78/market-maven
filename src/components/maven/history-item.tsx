@@ -15,14 +15,14 @@ export const HistoryItem: FC<HistoryItemProps> = ({ chat, disabled }) => {
     <Button
       disabled={disabled}
       variant={"ghost"}
-      className="text-start flex justify-start font-normal mx-0 px-0"
+      className="text-start rounded-3xl flex py-1.5 justify-start font-normal my-0 mx-0 px-0"
     >
       <Link
         href={`/chat/c/${chat.chatId}`}
-        className="flex whitespace-nowrap px-2 py-1 text-sm leading-relaxed last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground rounded-sm"
+        className="flex whitespace-nowrap px-2 text-sm leading-relaxed last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground rounded-sm"
         onClick={() => setChatTitle(chat.title)}
       >
-        <span className="line-clamp-2 whitespace-break-spaces text-xs">
+        <span className="line-clamp-1 whitespace-break-spaces text-xs">
           {chat.title}
         </span>
       </Link>
