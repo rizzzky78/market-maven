@@ -1677,7 +1677,7 @@ export function MavenSidebar({
                 asChild
                 className="rounded-full md:h-8 md:p-0"
               >
-                <a href="#">
+                <Link href="/chat">
                   <div className="flex aspect-square size-8 items-center justify-center">
                     <ScanQrCode className="size-4" />
                   </div>
@@ -1687,7 +1687,7 @@ export function MavenSidebar({
                       AI & Data Driven purchase decision
                     </span>
                   </div>
-                </a>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
