@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Accordion,
   AccordionContent,
@@ -8,42 +8,46 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { FC } from "react";
+import { Markdown } from "./markdown";
+import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
+import { ScrollArea } from "../ui/scroll-area";
+import { ChevronDown } from "lucide-react";
 
 interface ExtendedMessageProps {
-  author: string;
+  title: string;
   content: string;
 }
 
 export const ExtendedMessage: FC<ExtendedMessageProps> = ({
-  author,
+  title,
   content,
 }) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <Accordion type="single" collapsible className="w-full max-w-2xl">
-        <AccordionItem value="comment" className="border-none">
-          <AccordionTrigger className="rounded-t-lg bg-background/40 backdrop-blur-md border border-background/20 px-4 py-2 text-sm hover:bg-background/60 transition-all duration-300 [&[data-state=open]>svg]:rotate-180">
-            <span className="font-medium">{author}</span>
+    <Card className="border-[#1A1A1D] dark:border-inherit border rounded-3xl">
+      <Accordion type="single" collapsible className="px-2 py-1 rounded-3xl bg-background *:border-none">
+        <AccordionItem value="item-1" className="border-b-0">
+          <AccordionTrigger className="p-2 flex items-start text-black/90 dark:text-white/90 text-xs font-medium rounded-3xl bg-background">
+            {title}
           </AccordionTrigger>
-          <AccordionContent>
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="rounded-b-lg bg-background/40 backdrop-blur-md border-x border-b border-background/20 px-4 py-2"
-            >
-              <p className="text-xs sm:text-sm text-muted-foreground">
-                {content}
-              </p>
-            </motion.div>
+          <AccordionContent className="rounded-3xl">
+            <CardContent className="p-0 rounded-3xl">
+              <AnimatePresence>
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="pr-2"
+                >
+                  <ScrollArea className="h-[300px] px-2">
+                    <Markdown className="leading-tight">{content}</Markdown>
+                  </ScrollArea>
+                </motion.div>
+              </AnimatePresence>
+            </CardContent>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-    </motion.div>
+    </Card>
   );
 };
