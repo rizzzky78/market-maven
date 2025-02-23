@@ -218,9 +218,9 @@ const exampleMessages: MessageProperty[] = [
 
 const chat: ChatProperties = {
   created: new Date("2025-02-22T03:44:06.877Z"),
-  title: "",
-  userId: "",
-  chatId: "",
+  title: "Lenovo Yoga Laptops: Prices, Specs & Top Picks",
+  userId: "agungprase9957@gmail.com",
+  chatId: "5936071e-ace4-4973-8176-8c84a1dfb45e",
   messages: exampleMessages,
 };
 

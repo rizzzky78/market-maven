@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { ChatProperties } from "@/lib/types/ai";
 import { FC } from "react";
