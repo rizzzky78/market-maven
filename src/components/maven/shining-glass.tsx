@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-interface ShinyProps {
+interface AnimationProps {
   /** Text content */
   text: string;
   /** Disable animation? */
@@ -10,7 +10,7 @@ interface ShinyProps {
   className?: string;
 }
 
-export const LoadingText: FC<ShinyProps> = ({
+export const LoadingText: FC<AnimationProps> = ({
   text,
   disabled = false,
   speed = 1,
@@ -21,7 +21,7 @@ export const LoadingText: FC<ShinyProps> = ({
   return (
     <div className="px-5">
       <div
-        className={`text-[#b5b5b5a4] bg-clip-text inline-block text-sm ${
+        className={`text-[#b5b5b5a4] dark:bg-clip-text bg-black inline-block text-sm ${
           disabled ? "" : "animate-shine"
         } ${className}`}
         style={{
@@ -32,7 +32,7 @@ export const LoadingText: FC<ShinyProps> = ({
           animationDuration: animationDuration,
         }}
       >
-        {text}
+        <span>{text}</span>
       </div>
     </div>
   );
