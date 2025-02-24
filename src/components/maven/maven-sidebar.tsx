@@ -22,7 +22,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
 import { SidebarUserNavigation } from "./sidebar-navigation";
@@ -33,16 +32,6 @@ import { formatDateWithTime } from "@/lib/utils";
 import { ScrollArea } from "../ui/scroll-area";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
-import { Button } from "../ui/button";
-
-// This is sample data
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-};
 
 const exampleMessages: MessageProperty[] = [
   {
@@ -53,7 +42,7 @@ const exampleMessages: MessageProperty[] = [
   },
 ];
 
-const chats: ChatProperties[] = [
+const mockupChatProps: ChatProperties[] = [
   {
     created: new Date("2025-02-22T03:44:06.877Z"),
     title: "Lenovo Yoga Laptops: Prices, Specs & Top Picks",
@@ -62,8 +51,6 @@ const chats: ChatProperties[] = [
     messages: exampleMessages,
   },
 ];
-
-const mockupChatProps = [];
 
 // Helper function to create teaser message
 const createTeaserMessage = (messages: MessageProperty[]) => {
@@ -111,7 +98,7 @@ export function MavenSidebar({
               >
                 <Link href="/chat">
                   <div className="flex aspect-square size-8 items-center justify-center">
-                    <ScanQrCode className="size-4" />
+                    <ScanQrCode className="size-4 text-purple-400" />
                   </div>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">Market Maven</span>
@@ -161,7 +148,7 @@ export function MavenSidebar({
               <ScrollArea className="h-[280px] pr-3">
                 {mockupChatProps.length === 0 ? (
                   <div className="flex flex-col rounded-none items-start gap-2 whitespace-nowrap px-4 py-2 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
-                    <div className="w-[230px]">
+                    <div className="w-[230px] flex items-center justify-center">
                       <p className="truncate">No chat available</p>
                     </div>
                   </div>
@@ -211,7 +198,7 @@ export function MavenSidebar({
                   >
                     <SidebarMenuButton
                       tooltip={{
-                        children: "Toggle theme",
+                        children: "Toggle Theme",
                         hidden: false,
                       }}
                       className="px-2.5 md:px-2 rounded-full"
@@ -257,7 +244,7 @@ export function MavenSidebar({
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
-          <SidebarUserNavigation user={data.user} />
+          <SidebarUserNavigation />
         </SidebarFooter>
       </Sidebar>
 
@@ -275,8 +262,10 @@ export function MavenSidebar({
           <SidebarGroup className="px-0 ">
             <SidebarGroupContent className="">
               {mockupChatProps.length === 0 ? (
-                <div>
-                  <p>No chat available</p>
+                <div className="h-full w-full">
+                  <div className="flex items-center justify-center">
+                    <p>No chat available</p>
+                  </div>
                 </div>
               ) : (
                 mockupChatProps.map((chat) => (
