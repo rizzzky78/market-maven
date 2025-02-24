@@ -1,6 +1,6 @@
 import { ChatProperties } from "@/lib/types/ai";
 import { ComponentType, ToolDataStore } from "@/lib/types/neon";
-import { FC } from "react";
+import { FC, Fragment } from "react";
 import { mapUIState } from "../custom/ui-mapper";
 import { ProductsResponse } from "@/lib/types/product";
 import { ProductSearch } from "./product-search";
@@ -41,13 +41,19 @@ type ProductComparisonData = ToolDataStore<
 // Helper Components
 const ChatContent: FC<{ data: ChatProperties }> = ({ data }) => {
   const ui = mapUIState({
-    chatId: "",
-    username: "",
+    chatId: data.chatId,
+    username: data.userId,
     messages: data.messages,
     isSharedPage: true,
   });
 
-  return <div>{ui.map((component) => component.display)}</div>;
+  return (
+    <div>
+      {ui.map((component) => (
+        <Fragment key={component.id}>{component.display}</Fragment>
+      ))}
+    </div>
+  );
 };
 
 const ProductSearchContent: FC<{ data: ProductSearchData }> = ({ data }) => (
