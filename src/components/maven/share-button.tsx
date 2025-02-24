@@ -25,7 +25,11 @@ interface ShareButtonProps {
   title: string;
   callId: string;
   disabled?: boolean;
-  type: "product-search" | "product-details" | "products-comparison";
+  type:
+    | "product-search"
+    | "product-details"
+    | "products-comparison"
+    | "public-chat";
 }
 
 async function postRequest(
