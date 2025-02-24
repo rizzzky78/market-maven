@@ -2,8 +2,8 @@ import { notFound, redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { getChat, getChats } from "@/lib/agents/action/chat-service";
 import { cache } from "react";
-import { Chat } from "@/components/maven/chat";
 import { AI } from "@/app/action";
+import { Chat } from "@/components/maven/main-chat";
 
 export const maxDuration = 60;
 
