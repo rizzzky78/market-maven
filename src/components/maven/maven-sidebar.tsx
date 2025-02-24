@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { ComponentProps, FC, useEffect, useState } from "react";
 import {
   CodeXml,
   History,
@@ -33,25 +33,6 @@ import { ScrollArea } from "../ui/scroll-area";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 
-const exampleMessages: MessageProperty[] = [
-  {
-    id: "L91jUORZzQJkeh6V",
-    role: "user",
-    content:
-      '{"text_input":"Search for Lenovo Yoga","attach_product":null,"product_compare":null,"inquiry_response":null}',
-  },
-];
-
-const mockupChatProps: ChatProperties[] = [
-  {
-    created: new Date("2025-02-22T03:44:06.877Z"),
-    title: "Lenovo Yoga Laptops: Prices, Specs & Top Picks",
-    userId: "agungprase9957@gmail.com",
-    chatId: "5936071e-ace4-4973-8176-8c84a1dfb45e",
-    messages: exampleMessages,
-  },
-];
-
 // Helper function to create teaser message
 const createTeaserMessage = (messages: MessageProperty[]) => {
   if (messages.length === 0) return "No messages";
@@ -64,14 +45,19 @@ const createTeaserMessage = (messages: MessageProperty[]) => {
   }
 };
 
-export function MavenSidebar({
+interface MavenSidebarProps extends ComponentProps<typeof Sidebar> {
+  userChats: ChatProperties[];
+}
+
+export const MavenSidebar: FC<MavenSidebarProps> = ({
+  userChats,
   ...props
-}: React.ComponentProps<typeof Sidebar>) {
+}) => {
   const { setOpen, isMobile, toggleSidebar } = useSidebar();
-  const [mounted, setMounted] = React.useState(false);
+  const [mounted, setMounted] = useState(false);
   const { setTheme, resolvedTheme } = useTheme();
 
-  React.useEffect(() => {
+  useEffect(() => {
     setMounted(true);
   }, []);
 
@@ -146,14 +132,14 @@ export function MavenSidebar({
           <SidebarGroup className="px-0 md:hidden">
             <SidebarGroupContent className="px-2">
               <ScrollArea className="h-[280px] pr-3">
-                {mockupChatProps.length === 0 ? (
+                {userChats.length === 0 ? (
                   <div className="flex flex-col rounded-none items-start gap-2 whitespace-nowrap px-4 py-2 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
                     <div className="w-[230px] flex items-center justify-center">
                       <p className="truncate">No chat available</p>
                     </div>
                   </div>
                 ) : (
-                  mockupChatProps.map((chat) => (
+                  userChats.map((chat) => (
                     <Link
                       href={`/chat/${chat.chatId}`}
                       key={chat.chatId}
@@ -261,14 +247,14 @@ export function MavenSidebar({
         <SidebarContent className="scrollbar-thin">
           <SidebarGroup className="px-0 ">
             <SidebarGroupContent className="">
-              {mockupChatProps.length === 0 ? (
+              {userChats.length === 0 ? (
                 <div className="h-full w-full">
                   <div className="flex items-center justify-center">
                     <p>No chat available</p>
                   </div>
                 </div>
               ) : (
-                mockupChatProps.map((chat) => (
+                userChats.map((chat) => (
                   <Link
                     href={`/chat/c/${chat.chatId}`}
                     key={chat.chatId}
@@ -294,4 +280,4 @@ export function MavenSidebar({
       </Sidebar>
     </Sidebar>
   );
-}
+};
