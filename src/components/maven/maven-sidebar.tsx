@@ -32,6 +32,12 @@ import { formatDateWithTime } from "@/lib/utils";
 import { ScrollArea } from "../ui/scroll-area";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
+import { AI } from "@/app/action";
+import { useAppState } from "@/lib/utility/provider/app-state-provider";
+import { useUIState, useAIState } from "ai/rsc";
+import { useSession } from "next-auth/react";
+import { useSmartTextarea } from "../hooks/use-smart-textare";
+import { useRouter } from "next/navigation";
 
 // Helper function to create teaser message
 const createTeaserMessage = (messages: MessageProperty[]) => {
@@ -40,7 +46,7 @@ const createTeaserMessage = (messages: MessageProperty[]) => {
   try {
     const content = JSON.parse(firstMessage.content as string);
     return content.text_input || "No text input";
-  } catch (error) {
+  } catch {
     return "Unable to parse message content";
   }
 };
@@ -53,9 +59,23 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
   userChats,
   ...props
 }) => {
-  const { setOpen, isMobile, toggleSidebar } = useSidebar();
+  const { isMobile, toggleSidebar } = useSidebar();
   const [mounted, setMounted] = useState(false);
   const { setTheme, resolvedTheme } = useTheme();
+  const { isGenerating, setIsGenerating } = useAppState();
+  const { flush } = useSmartTextarea();
+  const [, setUIState] = useUIState<typeof AI>();
+  const [aiState, setAIState] = useAIState<typeof AI>();
+
+  const router = useRouter();
+
+  const handleNewChat = () => {
+    setIsGenerating(false);
+    flush();
+    setUIState([]);
+    setAIState((prevAIState) => ({ ...prevAIState, messages: [], chatId: "" }));
+    router.push("/chat");
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -67,9 +87,6 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
       className="overflow-hidden [&>[data-sidebar=sidebar]]:flex-row"
       {...props}
     >
-      {/* This is the first sidebar */}
-      {/* We disable collapsible and adjust width to icon. */}
-      {/* This will make the sidebar appear as icons. */}
       <Sidebar
         collapsible="none"
         className="!w-[calc(var(--sidebar-width-icon)_+_1px)] border-r"
@@ -108,6 +125,8 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                       hidden: false,
                     }}
                     className="px-2.5 md:px-2 rounded-full mb-3"
+                    onClick={handleNewChat}
+                    disabled={isGenerating}
                   >
                     <Plus />
                     <span>New Chat</span>
@@ -128,7 +147,6 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
-
           <SidebarGroup className="px-0 md:hidden">
             <SidebarGroupContent className="px-2">
               <ScrollArea className="h-[280px] pr-3">
@@ -205,37 +223,38 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
           <SidebarGroupContent className="px-1.5 md:px-0">
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton
-                  tooltip={{
-                    children: "Rate this App",
-                    hidden: false,
-                  }}
-                  className="px-2.5 md:px-2 rounded-full"
-                >
-                  <Sparkles />
-                  <span>Rate this App</span>
-                </SidebarMenuButton>
+                <Link href={"/rate-app"}>
+                  <SidebarMenuButton
+                    tooltip={{
+                      children: "Rate this App",
+                      hidden: false,
+                    }}
+                    className="px-2.5 md:px-2 rounded-full"
+                  >
+                    <Sparkles />
+                    <span>Rate this App</span>
+                  </SidebarMenuButton>
+                </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton
-                  tooltip={{
-                    children: "View Dev Portfolio",
-                    hidden: false,
-                  }}
-                  className="px-2.5 md:px-2 rounded-full"
-                >
-                  <CodeXml />
-                  <span>View Dev Portfolio</span>
-                </SidebarMenuButton>
+                <Link href={"/dev-portfolio"}>
+                  <SidebarMenuButton
+                    tooltip={{
+                      children: "View Dev Portfolio",
+                      hidden: false,
+                    }}
+                    className="px-2.5 md:px-2 rounded-full"
+                  >
+                    <CodeXml />
+                    <span>View Dev Portfolio</span>
+                  </SidebarMenuButton>
+                </Link>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
           <SidebarUserNavigation />
         </SidebarFooter>
       </Sidebar>
-
-      {/* This is the second sidebar */}
-      {/* We disable collapsible and let it fill remaining space */}
       <Sidebar collapsible="none" className="hidden flex-1 md:flex">
         <SidebarHeader className="gap-3.5 border-b p-4">
           <div className="flex w-full items-center justify-between">
