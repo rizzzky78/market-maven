@@ -17,42 +17,70 @@ import { ProductSearch } from "../maven/product-search";
 import { ProductDetails } from "../maven/product-details";
 import { ProductComparison } from "../maven/product-comparison";
 
-// Core message content types based on the existing system
-type MessageContent = {
+/**
+ * Core message content structure representing different types of content in the system
+ */
+interface MessageContent {
   type: string;
   text?: string;
   data?: string;
   image?: string;
   toolName?: AvailableTool;
   result?: string;
-};
+}
 
-// UI State item type
-type UIStateItem = {
+/**
+ * Represents a single item in the UI state with a unique identifier and display component
+ */
+interface UIStateItem {
   id: string;
   display: ReactNode;
-};
+}
 
-// Generate unique IDs
+/**
+ * Type definitions for tool results to ensure type safety
+ */
+type ProductSearchResult = ExtendedToolResult<
+  { query: string },
+  ProductsResponse
+>;
+
+type ProductDetailsResult = ExtendedToolResult<
+  { link: string; query: string },
+  { productDetails: Record<string, any>; screenshot: string; callId: string }
+>;
+
+type ProductComparisonResult = ExtendedToolResult<
+  { compare: Array<{ title: string; callId: string }> },
+  { callId: string; productImages: string[]; comparison: Record<string, any> }
+>;
+
+type UserInquiryResult = ExtendedToolResult<Inquiry, { data: string }>;
+
+/**
+ * Generates a unique identifier for UI state items
+ * @param baseId - Base identifier string
+ * @param index - Numeric index for uniqueness
+ * @returns Concatenated unique identifier
+ */
 const generateUniqueId = (baseId: string, index: number): string =>
   `${baseId}-${index}`;
 
-// Type-safe handler for tool results
+/**
+ * Handles product search tool results and generates corresponding UI components
+ */
 const handleProductSearch = (
   result: string,
   id: string,
   isSharedPage?: boolean
 ): UIStateItem => {
-  const resulted_searchProduct: ExtendedToolResult<
-    { query: string },
-    ProductsResponse
-  > = JSON.parse(result);
+  const searchResult: ProductSearchResult = JSON.parse(result);
   return {
     id,
     display: (
       <ProductSearch
         key={id}
-        content={resulted_searchProduct}
+        content={searchResult}
         isFinished
         isSharedContent={isSharedPage}
       />
@@ -60,116 +88,105 @@ const handleProductSearch = (
   };
 };
 
+/**
+ * Handles product details tool results and generates corresponding UI components
+ */
 const handleGetProductDetails = (
   id: string,
   result: string,
   isSharedPage?: boolean
 ): UIStateItem => {
-  const resulted_getProductDetails: ExtendedToolResult<
-    { link: string; query: string },
-    { productDetails: Record<string, any>; screenshot: string; callId: string }
-  > = JSON.parse(result);
+  const detailsResult: ProductDetailsResult = JSON.parse(result);
   return {
     id,
     display: (
-      <ProductDetails
-        content={resulted_getProductDetails}
-        isSharedContent={isSharedPage}
-      />
+      <ProductDetails content={detailsResult} isSharedContent={isSharedPage} />
     ),
   };
 };
 
+/**
+ * Handles product comparison tool results and generates corresponding UI components
+ */
 const handleProductsComparison = (
   id: string,
   result: string,
   isSharedPage?: boolean
 ): UIStateItem => {
-  const resulted_productsComparison: ExtendedToolResult<
-    {
-      compare: Array<{
-        title: string;
-        callId: string;
-      }>;
-    },
-    {
-      callId: string;
-      productImages: string[];
-      comparison: Record<string, any>;
-    }
-  > = JSON.parse(result);
+  const comparisonResult: ProductComparisonResult = JSON.parse(result);
   return {
     id,
     display: (
       <ProductComparison
-        content={resulted_productsComparison}
+        content={comparisonResult}
         isSharedContent={isSharedPage}
       />
     ),
   };
 };
 
+/**
+ * Handles user inquiry tool results and generates corresponding UI components
+ */
 const handleInquireUser = (id: string, result: string): UIStateItem => {
-  const resulted_inquireUser: ExtendedToolResult<Inquiry, { data: string }> =
-    JSON.parse(result);
+  const inquiryResult: UserInquiryResult = JSON.parse(result);
   return {
     id,
-    display: <UserInquiry inquiry={resulted_inquireUser.args.inquiry} />,
+    display: <UserInquiry inquiry={inquiryResult.args.inquiry} />,
   };
 };
 
-// Handle tool results with proper typing
+/**
+ * Maps tool results to their corresponding handler functions
+ */
+const toolResultHandlers: Record<
+  AvailableTool,
+  (id: string, result: string, isSharedPage?: boolean) => UIStateItem
+> = {
+  searchProduct: (id, result, isSharedPage) =>
+    handleProductSearch(result, id, isSharedPage),
+  getProductDetails: (id, result, isSharedPage) =>
+    handleGetProductDetails(id, result, isSharedPage),
+  productsComparison: (id, result, isSharedPage) =>
+    handleProductsComparison(id, result, isSharedPage),
+  inquireUser: (id, result) => handleInquireUser(id, result),
+};
+
+/**
+ * Processes tool results and returns appropriate UI components
+ */
 const handleToolResult = (
   toolContent: MessageContent,
   id: string,
   isSharedPage?: boolean
 ): UIStateItem => {
-  switch (toolContent.toolName) {
-    case "searchProduct":
-      return handleProductSearch(toolContent.result || "", id, isSharedPage);
-    case "getProductDetails":
-      return handleGetProductDetails(
-        id,
-        toolContent.result || "",
-        isSharedPage
-      );
-    case "productsComparison":
-      return handleProductsComparison(
-        id,
-        toolContent.result || "",
-        isSharedPage
-      );
-    default:
-      return {
-        id,
-        display: null,
-      };
-  }
+  const handler =
+    toolContent.toolName && toolResultHandlers[toolContent.toolName];
+  return handler
+    ? handler(id, toolContent.result || "", isSharedPage)
+    : { id, display: null };
 };
 
-// Type-safe content handlers
+/**
+ * Maps different content types to their corresponding UI handlers
+ */
 const contentTypeHandlers: Record<
   string,
   (content: MessageContent, id: string) => UIStateItem | null
 > = {
   text: (content, id) =>
     content.text
-      ? {
-          id,
-          display: <AssistantMessage content={content.text} />,
-        }
+      ? { id, display: <AssistantMessage content={content.text} /> }
       : null,
-
-  file: (content, id) => null,
-
-  image: (content, id) => null,
-
-  "tool-call": (content, id) => null,
-
+  file: () => null,
+  image: () => null,
+  "tool-call": () => null,
   "tool-result": (content, id) => handleToolResult(content, id),
 };
 
-// Process content arrays with type safety
+/**
+ * Processes an array of content items and returns corresponding UI state items
+ */
 const processContentArray = (
   content: MessageContent[],
   baseId: string,
@@ -184,7 +201,9 @@ const processContentArray = (
     .filter((item): item is UIStateItem => item !== null);
 };
 
-// Type-safe role handlers
+/**
+ * Handles different message roles and returns appropriate UI state
+ */
 const roleHandlers: Record<
   MessageProperty["role"],
   (message: MessageProperty, index: number, isSharedPage?: boolean) => UIState
@@ -211,12 +230,8 @@ const roleHandlers: Record<
   user: (message, index) => {
     if (!Array.isArray(message.content)) {
       const userContent: UserContentMessage = JSON.parse(message.content);
-
       return [
-        {
-          id: message.id,
-          display: <UserMessage content={userContent} />,
-        },
+        { id: message.id, display: <UserMessage content={userContent} /> },
       ];
     }
     return processContentArray(
@@ -226,10 +241,7 @@ const roleHandlers: Record<
         const userContent: UserContentMessage = JSON.parse(
           content as unknown as string
         );
-        return {
-          id,
-          display: <UserMessage content={userContent} />,
-        };
+        return { id, display: <UserMessage content={userContent} /> };
       }
     );
   },
@@ -237,42 +249,22 @@ const roleHandlers: Record<
   tool: (message, index, isSharedPage) => {
     if (!Array.isArray(message.content)) return [];
     const toolContent = message.content as unknown as ToolContent;
-    switch (toolContent[0].toolName as AvailableTool) {
-      case "searchProduct":
-        return [
-          handleProductSearch(
-            toolContent[0].result as string,
-            message.id,
-            isSharedPage
-          ),
-        ];
-      case "getProductDetails":
-        return [
-          handleGetProductDetails(
-            message.id,
-            toolContent[0].result as string,
-            isSharedPage
-          ),
-        ];
-      case "inquireUser":
-        return [handleInquireUser(message.id, toolContent[0].result as string)];
-      case "productsComparison":
-        return [
-          handleProductsComparison(
-            message.id,
-            toolContent[0].result as string,
-            isSharedPage
-          ),
-        ];
-      default:
-        return [];
-    }
+    const handler =
+      toolContent[0].toolName &&
+      toolResultHandlers[toolContent[0].toolName as AvailableTool];
+    return handler
+      ? [handler(message.id, toolContent[0].result as string, isSharedPage)]
+      : [];
   },
 
-  system: () => [], // Handle system messages (usually ignored in UI)
+  system: () => [],
 };
 
-// Main mapping function with proper typing
+/**
+ * Main function to map AI state to UI state
+ * @param state - Current AI state
+ * @returns Array of UI state items
+ */
 export const mapUIState = (state: AIState): UIState => {
   const messages = Array.isArray(state.messages) ? state.messages : [];
   return messages.flatMap((message, index) =>
