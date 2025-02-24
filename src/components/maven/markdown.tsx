@@ -65,7 +65,7 @@ export const PureMarkdown: FC<MarkdownProps> = ({ children, className }) => {
         p: ({ children }) => (
           <p
             className={cn(
-              "text-sm leading-7 [&:not(:first-child)]:mt-4 mb-3",
+              "text-sm leading-7 [&:not(:first-child)]:mt-4",
               className
             )}
           >
