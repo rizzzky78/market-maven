@@ -38,7 +38,11 @@ const generateUniqueId = (baseId: string, index: number): string =>
   `${baseId}-${index}`;
 
 // Type-safe handler for tool results
-const handleProductSearch = (result: string, id: string): UIStateItem => {
+const handleProductSearch = (
+  result: string,
+  id: string,
+  isSharedPage?: boolean
+): UIStateItem => {
   const resulted_searchProduct: ExtendedToolResult<
     { query: string },
     ProductsResponse
@@ -46,23 +50,41 @@ const handleProductSearch = (result: string, id: string): UIStateItem => {
   return {
     id,
     display: (
-      <ProductSearch key={id} content={resulted_searchProduct} isFinished />
+      <ProductSearch
+        key={id}
+        content={resulted_searchProduct}
+        isFinished
+        isSharedContent={isSharedPage}
+      />
     ),
   };
 };
 
-const handleGetProductDetails = (id: string, result: string): UIStateItem => {
+const handleGetProductDetails = (
+  id: string,
+  result: string,
+  isSharedPage?: boolean
+): UIStateItem => {
   const resulted_getProductDetails: ExtendedToolResult<
     { link: string; query: string },
     { productDetails: Record<string, any>; screenshot: string; callId: string }
   > = JSON.parse(result);
   return {
     id,
-    display: <ProductDetails content={resulted_getProductDetails} />,
+    display: (
+      <ProductDetails
+        content={resulted_getProductDetails}
+        isSharedContent={isSharedPage}
+      />
+    ),
   };
 };
 
-const handleProductsComparison = (id: string, result: string): UIStateItem => {
+const handleProductsComparison = (
+  id: string,
+  result: string,
+  isSharedPage?: boolean
+): UIStateItem => {
   const resulted_productsComparison: ExtendedToolResult<
     {
       compare: Array<{
@@ -78,7 +100,12 @@ const handleProductsComparison = (id: string, result: string): UIStateItem => {
   > = JSON.parse(result);
   return {
     id,
-    display: <ProductComparison content={resulted_productsComparison} />,
+    display: (
+      <ProductComparison
+        content={resulted_productsComparison}
+        isSharedContent={isSharedPage}
+      />
+    ),
   };
 };
 
@@ -94,15 +121,24 @@ const handleInquireUser = (id: string, result: string): UIStateItem => {
 // Handle tool results with proper typing
 const handleToolResult = (
   toolContent: MessageContent,
-  id: string
+  id: string,
+  isSharedPage?: boolean
 ): UIStateItem => {
   switch (toolContent.toolName) {
     case "searchProduct":
-      return handleProductSearch(toolContent.result || "", id);
+      return handleProductSearch(toolContent.result || "", id, isSharedPage);
     case "getProductDetails":
-      return handleGetProductDetails(id, toolContent.result || "");
+      return handleGetProductDetails(
+        id,
+        toolContent.result || "",
+        isSharedPage
+      );
     case "productsComparison":
-      return handleProductsComparison(id, toolContent.result || "");
+      return handleProductsComparison(
+        id,
+        toolContent.result || "",
+        isSharedPage
+      );
     default:
       return {
         id,
@@ -198,23 +234,35 @@ const roleHandlers: Record<
     );
   },
 
-  tool: (message) => {
+  tool: (message, index, isSharedPage) => {
     if (!Array.isArray(message.content)) return [];
     const toolContent = message.content as unknown as ToolContent;
     switch (toolContent[0].toolName as AvailableTool) {
       case "searchProduct":
         return [
-          handleProductSearch(toolContent[0].result as string, message.id),
+          handleProductSearch(
+            toolContent[0].result as string,
+            message.id,
+            isSharedPage
+          ),
         ];
       case "getProductDetails":
         return [
-          handleGetProductDetails(message.id, toolContent[0].result as string),
+          handleGetProductDetails(
+            message.id,
+            toolContent[0].result as string,
+            isSharedPage
+          ),
         ];
       case "inquireUser":
         return [handleInquireUser(message.id, toolContent[0].result as string)];
       case "productsComparison":
         return [
-          handleProductsComparison(message.id, toolContent[0].result as string),
+          handleProductsComparison(
+            message.id,
+            toolContent[0].result as string,
+            isSharedPage
+          ),
         ];
       default:
         return [];
@@ -228,6 +276,6 @@ const roleHandlers: Record<
 export const mapUIState = (state: AIState): UIState => {
   const messages = Array.isArray(state.messages) ? state.messages : [];
   return messages.flatMap((message, index) =>
-    roleHandlers[message.role](message, index)
+    roleHandlers[message.role](message, index, state.isSharedPage)
   );
 };
