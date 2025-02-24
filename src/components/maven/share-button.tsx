@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Copy, CopyCheck, Link2, Loader, Share2 } from "lucide-react";
+import { Copy, CopyCheck, Link2, Loader, Share, Share2 } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -23,6 +23,7 @@ import useSWRMutation from "swr/mutation";
 
 interface ShareButtonProps {
   title: string;
+  subtitle?: string;
   callId: string;
   disabled?: boolean;
   type:
@@ -51,6 +52,7 @@ export const ShareButton: FC<ShareButtonProps> = ({
   callId,
   type,
   disabled,
+  subtitle,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
@@ -89,11 +91,15 @@ export const ShareButton: FC<ShareButtonProps> = ({
           <TooltipTrigger asChild>
             <DialogTrigger asChild>
               <Button
-                variant="outline"
+                variant={type === "public-chat" ? "ghost" : "outline"}
                 disabled={disabled}
                 className="rounded-full mr-2 size-8"
               >
-                <Share2 className="mr-0.5 h-4 w-4" />
+                {type === "public-chat" ? (
+                  <Share className="h-4 w-4" />
+                ) : (
+                  <Share2 className="mr-0.5 h-4 w-4" />
+                )}
               </Button>
             </DialogTrigger>
           </TooltipTrigger>
@@ -106,8 +112,13 @@ export const ShareButton: FC<ShareButtonProps> = ({
       </TooltipProvider>
       <DialogContent className="max-w-sm lg:max-w-md rounded-3xl md:rounded-3xl lg:rounded-3xl bg-white/80 dark:bg-black/80">
         <DialogHeader>
-          <DialogTitle>Share link for {title}</DialogTitle>
+          <DialogTitle className="line-clamp-1">
+            Share link for {title}
+          </DialogTitle>
           <DialogDescription>
+            {subtitle && (
+              <span className="line-clamp-1 underline">{subtitle}</span>
+            )}
             Anyone with the link will be able to view the content.
           </DialogDescription>
         </DialogHeader>

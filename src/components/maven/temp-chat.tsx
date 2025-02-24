@@ -8,14 +8,7 @@ import {
 } from "@/components/ui/sidebar";
 import { MavenSidebar } from "./maven-sidebar";
 import { ChatProperties } from "@/lib/types/ai";
-import { Share } from "lucide-react";
-import { Button } from "../ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../ui/tooltip";
+import { ShareButton } from "./share-button";
 
 export function Chat({ chat }: { chat: ChatProperties }) {
   return (
@@ -41,22 +34,12 @@ export function Chat({ chat }: { chat: ChatProperties }) {
               </div>
             </div>
             <div className="flex items-center space-x-2">
-              <TooltipProvider>
-                <Tooltip delayDuration={100}>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant={"ghost"}
-                      size={"icon"}
-                      className="rounded-full"
-                    >
-                      <Share />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent className="rounded-xl max-w-sm">
-                    <p>Share this chat, anyone with link can view</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <ShareButton
+                title="Chat"
+                subtitle="Lenovo Yoga Laptops: Prices, Specs & Top Picks"
+                callId="5936071e-ace4-4973-8176-8c84a1dfb45e"
+                type={"public-chat"}
+              />
             </div>
           </div>
         </header>
