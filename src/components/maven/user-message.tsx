@@ -28,7 +28,7 @@ export const UserMessage: FC<MessageProps> = ({ content }) => {
       {content.product_compare && (
         <div className="flex justify-end">
           <div className="max-w-[90%] my-1">
-            <div className="flex flex-row gap-1">
+            <div className="grid grid-cols-2 gap-1">
               {content.product_compare.for.map((compare, index) => (
                 <Badge
                   key={index}
