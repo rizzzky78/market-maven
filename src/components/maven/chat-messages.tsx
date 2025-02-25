@@ -6,5 +6,7 @@ interface MessagesProps {
 }
 
 export const ChatMessages: FC<MessagesProps> = ({ ui }) => {
-  return <>{ui.map((component) => component.display)}</>;
+  return (
+    <div className="space-y-10">{ui.map((component) => component.display)}</div>
+  );
 };
