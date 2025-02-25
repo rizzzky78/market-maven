@@ -335,23 +335,17 @@ The Lenovo Yoga Slim 7 is a highperformance laptop designed for content creators
 -   The "Durability Ratings" and "Benchmarks" are not available.
 `;
 
-  const tavilyAnswer = ``;
+  const tavilyAnswer = `The Lenovo Yoga Slim 7 Pro X 14 is a high-performance laptop featuring a 14.5-inch 3K IPS touchscreen display with a 120Hz refresh rate. It is powered by an AMD Ryzen 9 6900HS Creator Edition processor with 8 cores and 16 threads, capable of speeds up to 4.9GHz. The laptop comes with 32GB of soldered LPDDR5-6400 RAM and a 1TB PCIe SSD Gen 4 for storage. Graphics are handled by an NVIDIA GeForce RTX 3050 with 4GB GDDR6 memory. The device runs on Windows 11 and includes features such as WiFi 6, Bluetooth 5.1, a FHD 1080P IR hybrid camera, and Dolby Atmos audio with 2x2W Harman speakers. It has a slim profile at 15.9mm thick and weighs starting from 1.45kg. The laptop is available in Storm Grey color and offers various connectivity options including USB-C and USB-A ports.`;
 
   return (
     <div className="px-2 sm:px-12 pt-12 md:pt-14 pb-14 md:pb-24 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4">
       <LoadingText text="Helo World from another world!" />
-      <ExtendedMessage title="Agent Search" content={exampleData} />
+      <ExtendedMessage
+        title="Agent Search"
+        content={exampleData}
+        tavilyAnswer={tavilyAnswer}
+      />
       <ExtendedMessage title="Tavily Search" content={tavilyAnswer} />
-      <pre className="text-xs overflow-x-auto">
-        {JSON.stringify(
-          {
-            products: attachment,
-            comparison: activeComparison,
-          },
-          null,
-          2
-        )}
-      </pre>
     </div>
   );
   // return (

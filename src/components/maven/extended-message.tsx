@@ -13,21 +13,26 @@ import { Card, CardContent } from "../ui/card";
 import { ScrollArea } from "../ui/scroll-area";
 import { Separator } from "../ui/separator";
 import { StreamableValue, useStreamableValue } from "ai/rsc";
+import { Loader } from "lucide-react";
+import { ErrorMessage } from "./error-message";
 
 interface ExtendedMessageProps {
   title: string;
   content: string;
+  tavilyAnswer?: string;
 }
 
 export const ExtendedMessage: FC<ExtendedMessageProps> = ({
   title,
   content,
+  tavilyAnswer,
 }) => {
   return (
     <Card className="border-[#1A1A1D] dark:border-inherit border rounded-3xl">
       <Accordion
         type="single"
         collapsible
+        defaultValue="item-1"
         className="px-2 py-1 rounded-3xl bg-background *:border-none"
       >
         <AccordionItem value="item-1" className="border-b-0">
@@ -45,8 +50,16 @@ export const ExtendedMessage: FC<ExtendedMessageProps> = ({
                   className="pr-2 *:leading-tight *:dark:text-white/80 *:text-black/80"
                 >
                   <Separator className="mb-3" />
-                  <ScrollArea className="h-[300px] px-2">
+                  <ScrollArea className="h-[220px] px-2">
                     <Markdown className="leading-tight">{content}</Markdown>
+                    {tavilyAnswer && (
+                      <div>
+                        <Separator className="mb-3" />
+                        <p className="text-sm leading-relaxed">
+                          {tavilyAnswer}
+                        </p>
+                      </div>
+                    )}
                   </ScrollArea>
                 </motion.div>
               </AnimatePresence>
@@ -76,16 +89,32 @@ export const StreamExtendedMessage: FC<StreamExtendedMessageProps> = ({
     if (raw) setText(raw);
   }, [raw]);
 
+  if (error) {
+    return (
+      <ErrorMessage
+        errorName="Stream Text Parsing Operation Failed"
+        reason="There was an error while parsing the streamable-value input. This error was occured by server."
+        raw={{ trace: raw }}
+      />
+    );
+  }
+
   return (
     <Card className="border-[#1A1A1D] dark:border-inherit border rounded-3xl">
       <Accordion
         type="single"
         collapsible
+        defaultValue="item-1"
         className="px-2 py-1 rounded-3xl bg-background *:border-none"
       >
         <AccordionItem value="item-1" className="border-b-0">
           <AccordionTrigger className="p-2 flex items-start text-black/90 dark:text-white/90 text-sm font-medium rounded-3xl bg-background">
-            {title}
+            <div className="flex items-center">
+              {pending && (
+                <Loader className="size-4 shrink-0 animate-spin mr-2" />
+              )}
+              <span>{title}</span>
+            </div>
           </AccordionTrigger>
           <AccordionContent className="rounded-3xl">
             <CardContent className="p-0 rounded-3xl">
@@ -102,8 +131,10 @@ export const StreamExtendedMessage: FC<StreamExtendedMessageProps> = ({
                     <Markdown className="leading-tight">{text}</Markdown>
                     {tavilyAnswer && (
                       <div>
-                        <Separator />
-                        <p className="text-xs">{tavilyAnswer}</p>
+                        <Separator className="mb-3" />
+                        <p className="text-sm leading-relaxed">
+                          {tavilyAnswer}
+                        </p>
                       </div>
                     )}
                   </ScrollArea>
