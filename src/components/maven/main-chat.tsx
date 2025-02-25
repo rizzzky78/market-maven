@@ -47,14 +47,16 @@ export const Chat: FC<ChatProps> = ({ id, query, chats }) => {
         <header className="sticky top-0 flex shrink-0 items-center gap-2 bg-background/90 px-4 py-2 z-20">
           <div className="flex justify-between w-full">
             <div className="flex items-center">
-              <SidebarTrigger className="-ml-1 md:hidden" />
+              <SidebarTrigger className="md:hidden" />
               <Separator
                 orientation="vertical"
-                className="mr-2 h-4 md:hidden"
+                className="mx-2 h-4 md:hidden"
               />
               <div>
                 {selectedChat && (
-                  <p className="font-semibold line-clamp-1">{selectedChat.title}</p>
+                  <p className="font-semibold line-clamp-1">
+                    {selectedChat.title}
+                  </p>
                 )}
               </div>
             </div>
