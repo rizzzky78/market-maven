@@ -35,7 +35,6 @@ import { motion } from "framer-motion";
 import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { useUIState, useAIState } from "ai/rsc";
-import { useSession } from "next-auth/react";
 import { useSmartTextarea } from "../hooks/use-smart-textare";
 import { useRouter } from "next/navigation";
 
@@ -65,7 +64,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
   const { isGenerating, setIsGenerating } = useAppState();
   const { flush } = useSmartTextarea();
   const [, setUIState] = useUIState<typeof AI>();
-  const [aiState, setAIState] = useAIState<typeof AI>();
+  const [, setAIState] = useAIState<typeof AI>();
 
   const router = useRouter();
 
