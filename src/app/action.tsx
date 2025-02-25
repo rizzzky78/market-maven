@@ -562,7 +562,6 @@ const orchestrator = async (
 
               yield (
                 <ExtendedMessage
-                  title={query}
                   content={finalizedObject.externalData.tavily}
                 />
               );
@@ -570,10 +569,7 @@ const orchestrator = async (
               const streamableResearch = createStreamableValue("");
 
               yield (
-                <StreamExtendedMessage
-                  title={query}
-                  content={streamableResearch.value}
-                />
+                <StreamExtendedMessage content={streamableResearch.value} />
               );
 
               let researcherText = "";
@@ -617,6 +613,7 @@ const orchestrator = async (
                 callId={finalizedObject.callId}
                 content={streamableObject.value}
                 screenshot={scrapeContent.screenshot}
+                externalData={finalizedObject.externalData}
               />
             );
 

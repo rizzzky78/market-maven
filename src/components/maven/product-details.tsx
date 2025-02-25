@@ -2,7 +2,7 @@
 
 import { StreamableValue, useStreamableValue } from "ai/rsc";
 import { FC, useEffect, useState } from "react";
-import { FlipHorizontal, Info, NotepadText, Share2 } from "lucide-react";
+import { FlipHorizontal, Info, NotepadText } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { Lens } from "./lens";
 import { MemoProductDetails } from "./memo-product-details";
@@ -61,7 +61,6 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
     <div className="w-full">
       {externalData.tavily && externalData.markdown && (
         <ExtendedMessage
-          title={args.query}
           content={externalData.markdown}
           tavilyAnswer={externalData.tavily}
         />
@@ -221,7 +220,6 @@ export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
     <div className="w-full">
       {externalData.markdown && externalData.tavily && (
         <ExtendedMessage
-          title={query}
           content={externalData.markdown}
           tavilyAnswer={externalData.tavily}
         />

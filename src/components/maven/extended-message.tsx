@@ -17,27 +17,26 @@ import { Loader } from "lucide-react";
 import { ErrorMessage } from "./error-message";
 
 interface ExtendedMessageProps {
-  title: string;
   content: string;
   tavilyAnswer?: string;
 }
 
 export const ExtendedMessage: FC<ExtendedMessageProps> = ({
-  title,
   content,
   tavilyAnswer,
 }) => {
   return (
-    <Card className="border-[#1A1A1D] dark:border-inherit border rounded-3xl">
+    <Card className="w-full border-[#1A1A1D] dark:border-inherit border rounded-3xl mb-8">
       <Accordion
         type="single"
         collapsible
-        defaultValue="item-1"
         className="px-2 py-1 rounded-3xl bg-background *:border-none"
       >
         <AccordionItem value="item-1" className="border-b-0">
-          <AccordionTrigger className="p-2 flex items-start text-black/90 dark:text-white/90 text-sm font-medium rounded-3xl bg-background">
-            {title}
+          <AccordionTrigger className="p-2 flex justify-start items-start text-black/90 dark:text-white/90 text-sm font-medium rounded-3xl bg-background">
+            <span className="line-clamp-1 font-normal text-sm">
+              Deep Search
+            </span>
           </AccordionTrigger>
           <AccordionContent className="rounded-3xl">
             <CardContent className="p-0 rounded-3xl">
@@ -49,12 +48,12 @@ export const ExtendedMessage: FC<ExtendedMessageProps> = ({
                   transition={{ duration: 0.2 }}
                   className="pr-2 *:leading-tight *:dark:text-white/80 *:text-black/80"
                 >
-                  <Separator className="mb-3" />
+                  <Separator className="mb-3 bg-[#1A1A1D] dark:bg-muted" />
                   <ScrollArea className="h-[220px] px-2">
                     <Markdown className="leading-tight">{content}</Markdown>
                     {tavilyAnswer && (
                       <div>
-                        <Separator className="mb-3" />
+                        <Separator className="mb-3 bg-[#1A1A1D] dark:bg-muted" />
                         <p className="text-sm leading-relaxed">
                           {tavilyAnswer}
                         </p>
@@ -72,13 +71,11 @@ export const ExtendedMessage: FC<ExtendedMessageProps> = ({
 };
 
 interface StreamExtendedMessageProps {
-  title: string;
   tavilyAnswer?: string;
   content: StreamableValue<string>;
 }
 
 export const StreamExtendedMessage: FC<StreamExtendedMessageProps> = ({
-  title,
   content,
   tavilyAnswer,
 }) => {
@@ -100,7 +97,7 @@ export const StreamExtendedMessage: FC<StreamExtendedMessageProps> = ({
   }
 
   return (
-    <Card className="border-[#1A1A1D] dark:border-inherit border rounded-3xl">
+    <Card className="border-[#1A1A1D] dark:border-inherit border rounded-3xl mb-8">
       <Accordion
         type="single"
         collapsible
@@ -113,7 +110,7 @@ export const StreamExtendedMessage: FC<StreamExtendedMessageProps> = ({
               {pending && (
                 <Loader className="size-4 shrink-0 animate-spin mr-2" />
               )}
-              <span>{title}</span>
+              <span className="line-clamp-1">Deep Search</span>
             </div>
           </AccordionTrigger>
           <AccordionContent className="rounded-3xl">
