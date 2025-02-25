@@ -831,271 +831,247 @@ const orchestrator = async (
         description: TEMPLATE.PRODUCTS_COMPARISON_DESCRIPTION,
         parameters: productsComparionSchema,
         generate: async function* ({ compare }) {
-          try {
-            logger.info("Using productsComparison tool");
+          logger.info("Using productsComparison tool");
 
-            generation.update({
-              process: "generating",
-              loading: true,
-            });
+          generation.update({
+            process: "generating",
+            loading: true,
+          });
 
-            yield <LoadingText text="Getting given products data..." />;
+          yield <LoadingText text="Getting given products data..." />;
 
-            const resulted = await Promise.all(
-              compare.map((v) =>
-                getObjectEntry<ProductDetailsResponse>(v.callId)
-              )
-            );
+          const resulted = await Promise.all(
+            compare.map((v) => getObjectEntry<ProductDetailsResponse>(v.callId))
+          );
 
-            const previousProductsData = resulted.filter((v) => v !== null);
+          const previousProductsData = resulted.filter((v) => v !== null);
 
-            if (previousProductsData.length === 0) {
-              const getKeys = compare.map((v) => v.callId).join(", ");
+          if (previousProductsData.length === 0) {
+            const getKeys = compare.map((v) => v.callId).join(", ");
 
-              generation.done({
-                process: "database_error",
-                loading: false,
-                error: `Error cannot access data with keys: [${getKeys}]`,
-              });
-
-              return (
-                <ErrorMessage
-                  errorName="Database Error"
-                  reason="There was an error while getting the content from the database."
-                  raw={{
-                    payload: { compare },
-                    resulted: null,
-                  }}
-                />
-              );
-            }
-
-            yield <LoadingText text="Found previous products data" />;
-
-            await new Promise((resolve) => setTimeout(resolve, 3000));
-
-            const finalizedCompare: ProductsComparisonResponse = {
-              callId: v4(),
-              productImages: previousProductsData.map(
-                (v) => v.object.screenshot
-              ),
-              comparison: {},
-            };
-
-            yield <LoadingText text="Generating comparison..." />;
-
-            await new Promise((resolve) => setTimeout(resolve, 3000));
-
-            const streamableObject =
-              createStreamableValue<Record<string, any>>();
-
-            const payloadPrevProductsData = previousProductsData.map(
-              (v) => v.object.productDetails
-            );
-
-            // append stream-ui here
-
-            const { partialObjectStream } = streamObject({
-              model: google("gemini-2.0-flash-exp"),
-              system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_EXTRACTOR,
-              prompt: JSON.stringify(payloadPrevProductsData),
-              output: "no-schema",
-              onFinish: async ({ object }) => {
-                finalizedCompare.comparison = object as Record<string, any>;
-                streamableObject.done();
-
-                await createObjectEntry({
-                  key: finalizedCompare.callId,
-                  chatId: state.get().chatId,
-                  owner: state.get().username,
-                  type: "productsComparison",
-                  object: finalizedCompare,
-                });
-              },
-              onError: ({ error }) => {
-                streamableObject.error(error);
-                errorState = {
-                  isError: true,
-                  error,
-                };
-              },
-            });
-
-            for await (const chunk of partialObjectStream) {
-              streamableObject.update(chunk as Record<string, any>);
-            }
-
-            const streamableText = createStreamableValue<string>("");
-
-            yield (
-              <>
-                <ProductComparison
-                  content={{
-                    success: true,
-                    name: "productsComparison",
-                    args: { compare },
-                    data: finalizedCompare,
-                  }}
-                />
-                <StreamAssistantMessage content={streamableText.value} />
-              </>
-            );
-
-            const payloadComparisonInsight = {
-              prompt:
-                payloadUserMessage.text_input ?? "no-instructions-from-user",
-              data: finalizedCompare.comparison,
-            };
-
-            let finalizedText = "";
-
-            const { textStream } = streamText({
-              model: google("gemini-2.0-flash-exp"),
-              system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_INSIGHT,
-              prompt: JSON.stringify(payloadComparisonInsight),
-              onFinish: async ({ text }) => {
-                finalizedText = text;
-                streamableText.done();
-                generation.done({
-                  process: "done",
-                  loading: false,
-                });
-              },
-              onError: ({ error }) => {
-                streamableText.error(error);
-                errorState = {
-                  isError: true,
-                  error,
-                };
-              },
-            });
-
-            for await (const text of textStream) {
-              finalizedText += text;
-              streamableText.update(finalizedText);
-            }
-
-            const productsComparisonUiNode = (
-              <>
-                <ProductComparison
-                  content={{
-                    success: true,
-                    name: "productsComparison",
-                    args: { compare },
-                    data: finalizedCompare,
-                  }}
-                />
-                <AssistantMessage content={finalizedText} />
-              </>
-            );
-
-            const { toolResult, mutate } = mutateTool(state, {
-              name: "productsComparison",
-              args: { compare },
-              result: finalizedCompare,
-              overrideAssistant: {
-                content: finalizedText,
-              },
-            });
-
-            await createToolDataEntry({
-              key: finalizedCompare.callId,
-              chatId: state.get().chatId,
-              owner: state.get().username,
-              tool: toolResult,
-            });
-
-            logger.info("Done using productsComparison tool", {
-              progress: "finish",
-              request: { compare },
-            });
-
-            let relatedObject: RelatedQuery | null = null;
-
-            const streamableRelated = createStreamableValue<PartialRelated>();
-
-            if (requestOption?.onRequest?.related) {
-              yield (
-                <>
-                  {productsComparisonUiNode}
-                  <StreamRelatedMessage content={streamableRelated.value} />
-                </>
-              );
-            }
-
-            const payloadRelated = JSON.stringify(
-              toPayloadRelatedMessage([...state.get().messages, ...mutate])
-            );
-
-            const { partialObjectStream: relatedStream } = streamObject({
-              model: google("gemini-2.0-pro-exp-02-05"),
-              system: SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
-              prompt: payloadRelated,
-              schema: relatedQuerySchema,
-              onFinish: async ({ object }) => {
-                if (object) {
-                  relatedObject = object;
-                }
-                streamableRelated.done();
-              },
-              onError: ({ error }) => {
-                streamableRelated.done();
-                errorState = {
-                  isError: true,
-                  error,
-                };
-              },
-            });
-
-            for await (const relatedChunk of relatedStream) {
-              streamableRelated.update(relatedChunk);
-            }
-
-            if (errorState.isError) {
-              generation.done({
-                process: "fatal_error",
-                loading: false,
-                error: "LLM Generation Error",
-              });
-
-              return (
-                <ErrorMessage
-                  errorName="LLM Error"
-                  reason="There was an error on LLMs Agent generation, that's all we know :("
-                  raw={{
-                    payload: { compare },
-                    error: errorState,
-                  }}
-                />
-              );
-            }
-
-            return (
-              <>
-                {productsComparisonUiNode}
-                {requestOption?.onRequest?.related && (
-                  <RelatedMessage related={relatedObject} />
-                )}
-              </>
-            );
-          } catch (error) {
             generation.done({
-              process: "fatal_error",
+              process: "database_error",
               loading: false,
+              error: `Error cannot access data with keys: [${getKeys}]`,
             });
 
             return (
               <ErrorMessage
-                errorName="Unknown Error"
-                reason="There was an error while comparing data products, this error occur from internal server"
+                errorName="Database Error"
+                reason="There was an error while getting the content from the database."
                 raw={{
                   payload: { compare },
-                  error:
-                    error instanceof Error ? error.message : "Unkown Error",
+                  resulted: null,
                 }}
               />
             );
           }
+
+          yield <LoadingText text="Found previous products data" />;
+
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+
+          const finalizedCompare: ProductsComparisonResponse = {
+            callId: v4(),
+            productImages: previousProductsData.map((v) => v.object.screenshot),
+            comparison: {},
+          };
+
+          yield <LoadingText text="Generating comparison..." />;
+
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+
+          const streamableObject = createStreamableValue<Record<string, any>>();
+
+          const payloadPrevProductsData = previousProductsData.map(
+            (v) => v.object.productDetails
+          );
+
+          // append stream-ui here
+
+          const { partialObjectStream } = streamObject({
+            model: google("gemini-2.0-flash-exp"),
+            system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_EXTRACTOR,
+            prompt: JSON.stringify(payloadPrevProductsData),
+            output: "no-schema",
+            onFinish: async ({ object }) => {
+              finalizedCompare.comparison = object as Record<string, any>;
+              streamableObject.done();
+
+              await createObjectEntry({
+                key: finalizedCompare.callId,
+                chatId: state.get().chatId,
+                owner: state.get().username,
+                type: "productsComparison",
+                object: finalizedCompare,
+              });
+            },
+            onError: ({ error }) => {
+              streamableObject.error(error);
+              errorState = {
+                isError: true,
+                error,
+              };
+            },
+          });
+
+          for await (const chunk of partialObjectStream) {
+            streamableObject.update(chunk as Record<string, any>);
+          }
+
+          const streamableText = createStreamableValue<string>("");
+
+          yield (
+            <>
+              <ProductComparison
+                content={{
+                  success: true,
+                  name: "productsComparison",
+                  args: { compare },
+                  data: finalizedCompare,
+                }}
+              />
+              <StreamAssistantMessage content={streamableText.value} />
+            </>
+          );
+
+          const payloadComparisonInsight = {
+            prompt:
+              payloadUserMessage.text_input ?? "no-instructions-from-user",
+            data: finalizedCompare.comparison,
+          };
+
+          let finalizedText = "";
+
+          const { textStream } = streamText({
+            model: google("gemini-2.0-flash-exp"),
+            system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_INSIGHT,
+            prompt: JSON.stringify(payloadComparisonInsight),
+            onFinish: async ({ text }) => {
+              finalizedText = text;
+              streamableText.done();
+              generation.done({
+                process: "done",
+                loading: false,
+              });
+            },
+            onError: ({ error }) => {
+              streamableText.error(error);
+              errorState = {
+                isError: true,
+                error,
+              };
+            },
+          });
+
+          for await (const text of textStream) {
+            finalizedText += text;
+            streamableText.update(finalizedText);
+          }
+
+          const productsComparisonUiNode = (
+            <>
+              <ProductComparison
+                content={{
+                  success: true,
+                  name: "productsComparison",
+                  args: { compare },
+                  data: finalizedCompare,
+                }}
+              />
+              <AssistantMessage content={finalizedText} />
+            </>
+          );
+
+          const { toolResult, mutate } = mutateTool(state, {
+            name: "productsComparison",
+            args: { compare },
+            result: finalizedCompare,
+            overrideAssistant: {
+              content: finalizedText,
+            },
+          });
+
+          await createToolDataEntry({
+            key: finalizedCompare.callId,
+            chatId: state.get().chatId,
+            owner: state.get().username,
+            tool: toolResult,
+          });
+
+          logger.info("Done using productsComparison tool", {
+            progress: "finish",
+            request: { compare },
+          });
+
+          let relatedObject: RelatedQuery | null = null;
+
+          const streamableRelated = createStreamableValue<PartialRelated>();
+
+          if (requestOption?.onRequest?.related) {
+            yield (
+              <>
+                {productsComparisonUiNode}
+                <StreamRelatedMessage content={streamableRelated.value} />
+              </>
+            );
+          }
+
+          const payloadRelated = JSON.stringify(
+            toPayloadRelatedMessage([...state.get().messages, ...mutate])
+          );
+
+          const { partialObjectStream: relatedStream } = streamObject({
+            model: google("gemini-2.0-pro-exp-02-05"),
+            system: SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
+            prompt: payloadRelated,
+            schema: relatedQuerySchema,
+            onFinish: async ({ object }) => {
+              if (object) {
+                relatedObject = object;
+              }
+              streamableRelated.done();
+            },
+            onError: ({ error }) => {
+              streamableRelated.done();
+              errorState = {
+                isError: true,
+                error,
+              };
+            },
+          });
+
+          for await (const relatedChunk of relatedStream) {
+            streamableRelated.update(relatedChunk);
+          }
+
+          if (errorState.isError) {
+            generation.done({
+              process: "fatal_error",
+              loading: false,
+              error: "LLM Generation Error",
+            });
+
+            return (
+              <ErrorMessage
+                errorName="LLM Error"
+                reason="There was an error on LLMs Agent generation, that's all we know :("
+                raw={{
+                  payload: { compare },
+                  error: errorState,
+                }}
+              />
+            );
+          }
+
+          return (
+            <>
+              {productsComparisonUiNode}
+              {requestOption?.onRequest?.related && (
+                <RelatedMessage related={relatedObject} />
+              )}
+            </>
+          );
         },
       },
       /** GAP */

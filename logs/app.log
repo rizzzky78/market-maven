@@ -33166,3 +33166,93 @@
     }
   ]
 }
+[90m[2025-02-25 16:40:28.717][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "e4f2a36a-b298-4e74-a94e-26e4c890819e"
+    }
+  ]
+}
+[90m[2025-02-25 16:40:33.707][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "External Data",
+  "meta": [
+    {
+      "ext": "enabled",
+      "eta": 1.03
+    }
+  ]
+}
+[90m[2025-02-25 16:40:41.023][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "e4f2a36a-b298-4e74-a94e-26e4c890819e"
+    }
+  ]
+}
+[90m[2025-02-25 16:40:43.474][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "e4f2a36a-b298-4e74-a94e-26e4c890819e"
+    }
+  ]
+}
+[90m[2025-02-25 16:40:43.531][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "LENOVO LEGION GO S 8ARP1 AMD Ryzen Z2 Go 16GB 512GB W11 8\" WUXGA 120HZ - WHITE",
+        "link": "https://www.tokopedia.com/lenovolegion/lenovo-legion-go-s-8arp1-amd-ryzen-z2-go-16gb-512gb-w11-8-wuxga-120hz-white-1730836314222986956?extParam=ivf%3Dfalse%26keyword%3Dlenovo+legion+go%26search_id%3D20250225085045FDF26D69866B0438F80F%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-25 16:40:43.784][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-25 16:40:45.538][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 8674,
+        "completionTokens": 195,
+        "totalTokens": 8869
+      }
+    }
+  ]
+}
+[90m[2025-02-25 18:41:08.344][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-25 18:44:22.890][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-25 18:44:24.219][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}

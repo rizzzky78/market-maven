@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { Columns2, Info } from "lucide-react";
@@ -10,12 +9,17 @@ import { Separator } from "../ui/separator";
 import { ProductsComparisonProps } from "@/lib/types/props";
 import { ErrorMessage } from "./error-message";
 import { ShareButton } from "./share-button";
+import Image from "next/image";
 
 export const ProductComparison: FC<ProductsComparisonProps> = ({
   content,
   isSharedContent,
 }) => {
-  const { success, args, data } = content;
+  const {
+    success,
+    args: { compare },
+    data,
+  } = content;
   const { isGenerating } = useAppState();
   const [hovering_1, setHovering_1] = useState(false);
   const [hovering_2, setHovering_2] = useState(false);
@@ -25,12 +29,12 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
       <ErrorMessage
         errorName="Invalid Data Tool Results"
         reason="Data tool results failed to render. This occur when received data tool are invalid on pre-processing the results."
-        raw={{ args, data }}
+        raw={{ args: { compare }, data }}
       />
     );
   }
 
-  const [one, two] = data.productImages;
+  const { callId, productImages, comparison } = data;
 
   return (
     <div className="w-full mb-8">
@@ -54,7 +58,15 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
               zoomFactor={2}
               lensSize={270}
             >
-              <img src={one} alt="Searched Product" className="object-cover" />
+              <Image
+                src={productImages[0]}
+                alt={compare[0].title}
+                width={1400}
+                height={788}
+                quality={100}
+                placeholder={"blur"}
+                blurDataURL="/blured-placeholder.webp"
+              />
             </Lens>
             <Lens
               hovering={hovering_2}
@@ -62,7 +74,15 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
               zoomFactor={2}
               lensSize={270}
             >
-              <img src={two} alt="Searched Product" className="object-cover" />
+              <Image
+                src={productImages[1]}
+                alt={compare[1].title}
+                width={1400}
+                height={788}
+                quality={100}
+                placeholder={"blur"}
+                blurDataURL="/blured-placeholder.webp"
+              />
             </Lens>
           </div>
           <div className="w-full pl-1 mt-2 rounded-full">
@@ -89,9 +109,9 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
         </div>
         <Separator className="mt-2 mb-4 bg-[#1A1A1D] dark:bg-muted" />
         <MemoProductComparison
-          callId={data.callId}
-          compare={args.compare}
-          data={data.comparison}
+          callId={callId}
+          compare={compare}
+          data={comparison}
           isGenerating={isGenerating}
         />
         <div className="mt-3 -mb-1 flex items-center justify-center">
