@@ -33384,3 +33384,115 @@
     }
   ]
 }
+[90m[2025-02-25 19:23:38.203][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "What is the most versatile? not constraint by price but performance and long term usage.",
+        "productCompare": {
+          "for": [
+            {
+              "title": "ASUS ROG ALLY X AMD Z1 EXTREME 24GB 1TB W11 7.0FHD 120HZ BLK",
+              "callId": "b1320919-c478-43e0-bd02-bb491cb33300"
+            },
+            {
+              "title": "LENOVO LEGION GO S 8ARP1 AMD Ryzen Z2 Go 16GB 512GB W11 8\" WUXGA 120HZ - WHITE",
+              "callId": "e4f2a36a-b298-4e74-a94e-26e4c890819e"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+[90m[2025-02-25 19:23:40.145][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using productsComparison tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-25 19:23:41.316][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "b1320919-c478-43e0-bd02-bb491cb33300",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-25 19:23:41.483][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "e4f2a36a-b298-4e74-a94e-26e4c890819e",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-25 19:23:52.689][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "f85485e1-88fd-44e5-b845-f5f824dca69b"
+    }
+  ]
+}
+[90m[2025-02-25 19:23:54.255][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "f85485e1-88fd-44e5-b845-f5f824dca69b"
+    }
+  ]
+}
+[90m[2025-02-25 19:23:54.340][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using productsComparison tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "compare": [
+          {
+            "title": "ASUS ROG ALLY X AMD Z1 EXTREME 24GB 1TB W11 7.0FHD 120HZ BLK",
+            "callId": "b1320919-c478-43e0-bd02-bb491cb33300"
+          },
+          {
+            "title": "LENOVO LEGION GO S 8ARP1 AMD Ryzen Z2 Go 16GB 512GB W11 8\" WUXGA 120HZ - WHITE",
+            "callId": "e4f2a36a-b298-4e74-a94e-26e4c890819e"
+          }
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-02-25 19:23:54.614][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-25 19:23:56.508][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 10864,
+        "completionTokens": 151,
+        "totalTokens": 11015
+      }
+    }
+  ]
+}
+[90m[2025-02-25 19:24:06.008][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
