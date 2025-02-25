@@ -4,7 +4,10 @@ import {
   StreamAssistantMessage,
 } from "@/components/maven/assistant-message";
 import { ErrorMessage } from "@/components/maven/error-message";
-import { ExtendedMessage } from "@/components/maven/extended-message";
+import {
+  ExtendedMessage,
+  StreamExtendedMessage,
+} from "@/components/maven/extended-message";
 import { ProductComparison } from "@/components/maven/product-comparison";
 import {
   ProductDetails,
@@ -564,16 +567,44 @@ const orchestrator = async (
                 />
               );
 
-              const {} = streamText({
-                model: google('gemini-2.0-flash-lite-preview-02-05'),
-                system: SYSTEM_INSTRUCTION.PRODUCT_RESEARCHER
-              })
+              const streamableResearch = createStreamableValue("");
+
+              yield (
+                <StreamExtendedMessage
+                  title={query}
+                  content={streamableResearch.value}
+                />
+              );
+
+              let researcherText = "";
+
+              const { textStream: researcherStream } = streamText({
+                model: google("gemini-2.0-flash-lite-preview-02-05"),
+                system: SYSTEM_INSTRUCTION.PRODUCT_RESEARCHER,
+                prompt: JSON.stringify({ query }),
+                onFinish: ({ text }) => {
+                  finalizedObject.externalData.markdown = text;
+                  streamableResearch.done(text);
+                },
+                onError: ({ error }) => {
+                  streamableResearch.error(error);
+                  errorState = {
+                    isError: true,
+                    error,
+                  };
+                },
+              });
+
+              for await (const t of researcherStream) {
+                researcherText += t;
+                streamableResearch.update(researcherText);
+              }
             }
 
             const payloadContent = JSON.stringify({
               refference: { query, link },
               markdown: scrapeContent.markdown,
-              externalData: externalData.data?.answer ?? null,
+              externalData: finalizedObject.externalData,
             });
 
             const streamableObject =
