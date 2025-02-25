@@ -54,7 +54,7 @@ export const Chat: FC<ChatProps> = ({ id, query, chats }) => {
               />
               <div>
                 {selectedChat && (
-                  <p className="font-semibold">{selectedChat.title}</p>
+                  <p className="font-semibold line-clamp-1">{selectedChat.title}</p>
                 )}
               </div>
             </div>

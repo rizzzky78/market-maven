@@ -1,7 +1,10 @@
+"use client";
+
 import { ExtendedMessage } from "@/components/maven/extended-message";
 import { LoadingText } from "@/components/maven/shining-glass";
 import { Chat } from "@/components/maven/main-chat";
 import { ChatProperties, MessageProperty } from "@/lib/types/ai";
+import { useSmartTextarea } from "@/components/hooks/use-smart-textare";
 
 const exampleMessages: MessageProperty[] = [
   {
@@ -225,6 +228,20 @@ const chat: ChatProperties = {
 };
 
 export default function Page() {
+  const {
+    input,
+    attachment,
+    setInput,
+    detach,
+    flush,
+    removeFromComparison,
+    activeComparison,
+    search,
+    related,
+    setSearch,
+    setRelated,
+  } = useSmartTextarea();
+
   const exampleData = `
 ## Laptop Lenovo Yoga Slim 7 14
 ## Overview
@@ -325,6 +342,16 @@ The Lenovo Yoga Slim 7 is a highperformance laptop designed for content creators
       <LoadingText text="Helo World from another world!" />
       <ExtendedMessage title="Agent Search" content={exampleData} />
       <ExtendedMessage title="Tavily Search" content={tavilyAnswer} />
+      <pre className="text-xs overflow-x-auto">
+        {JSON.stringify(
+          {
+            products: attachment,
+            comparison: activeComparison,
+          },
+          null,
+          2
+        )}
+      </pre>
     </div>
   );
   // return (

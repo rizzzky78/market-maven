@@ -191,10 +191,19 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     }
   };
 
+  const dynamicPlaceholder =
+    attachment !== undefined
+      ? "Ask a question about this product"
+      : activeComparison?.for.length
+      ? "What interests you about this comparison?"
+      : uiState.length === 0
+      ? "What would you like to search for?"
+      : "Ask a follow-up question";
+
   return (
     <div className="">
       <div className={`w-full shrink-0 flex justify-center z-20 bg-background`}>
-        <div className="w-full md:px-0 lg:px-0 max-w-[468px] md:max-w-[500px] lg:max-w-2xl flex flex-col pb-4 mb-0 rounded-t-3xl">
+        <div className="w-full md:px-0 lg:px-0 max-w-2xl flex flex-col pb-4 mb-0 rounded-t-3xl">
           {uiState.length === 0 && <QuickActionButton />}
           <AnimatePresence mode="sync">
             {attachment && (
@@ -221,11 +230,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                 ref={textareaRef}
                 name="text_input"
                 className="resize-none active:border-transparent w-full border-transparent focus:border-none hover:border-none text-sm overflow-hidden"
-                placeholder={
-                  uiState.length
-                    ? "Reply an follow up question"
-                    : "What stuff are you wanted to search for?"
-                }
+                placeholder={dynamicPlaceholder}
                 spellCheck={true}
                 value={value}
                 onChange={handleInputChange}
