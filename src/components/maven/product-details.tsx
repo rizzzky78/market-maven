@@ -174,7 +174,7 @@ interface StreamProductDetailsProps {
   query: string;
   link: string;
   screenshot?: string;
-  externalData?: { markdown: string; tavily: string };
+  externalData: { markdown: string | null; tavily: string | null };
 }
 
 export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
@@ -219,7 +219,7 @@ export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
 
   return (
     <div className="w-full">
-      {externalData && (
+      {externalData.markdown && externalData.tavily && (
         <ExtendedMessage
           title={query}
           content={externalData.markdown}
