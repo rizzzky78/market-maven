@@ -79,77 +79,74 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     detach();
   };
 
-  const actionSubmit = useCallback(
-    async (query?: string) => {
-      try {
-        setIsGenerating(true);
+  const actionSubmit = useCallback(async () => {
+    try {
+      setIsGenerating(true);
 
-        const componentId = generateId();
+      const componentId = generateId();
 
-        setUIState((prevUI) => [
-          ...prevUI,
-          {
-            id: generateId(),
-            display: (
-              <UserMessage
-                key={componentId}
-                content={{
-                  text_input: query ?? value,
-                  attach_product: attachment,
-                  product_compare: activeComparison,
-                }}
-              />
-            ),
-          },
-        ]);
+      setUIState((prevUI) => [
+        ...prevUI,
+        {
+          id: generateId(),
+          display: (
+            <UserMessage
+              key={componentId}
+              content={{
+                text_input: value,
+                attach_product: attachment,
+                product_compare: activeComparison,
+              }}
+            />
+          ),
+        },
+      ]);
 
-        flush();
-        handleReset();
+      flush();
+      handleReset();
 
-        const { id, display, generation } = await orchestrator(
-          {
-            textInput: query ?? value.length > 0 ? value : undefined,
-            attachProduct: attachment,
-            productCompare: activeComparison,
-          },
-          { onRequest: { search, related } }
-        );
+      const { id, display, generation } = await orchestrator(
+        {
+          textInput: value.length > 0 ? value : undefined,
+          attachProduct: attachment,
+          productCompare: activeComparison,
+        },
+        { onRequest: { search, related } }
+      );
 
-        setUIState((prevUI) => [...prevUI, { id, display }]);
+      setUIState((prevUI) => [...prevUI, { id, display }]);
 
-        if (generation) {
-          const gens = readStreamableValue(
-            generation
-          ) as AsyncIterable<StreamGeneration>;
-          for await (const { loading } of gens) {
-            setIsGenerating(loading);
-          }
+      if (generation) {
+        const gens = readStreamableValue(
+          generation
+        ) as AsyncIterable<StreamGeneration>;
+        for await (const { loading } of gens) {
+          setIsGenerating(loading);
         }
-      } catch (error) {
-        console.error("An Error occured when submitting the query!", error);
-        toast.error("Error When Submitting the Query!", {
-          position: "top-center",
-          richColors: true,
-          className:
-            "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
-        });
-      } finally {
-        setIsGenerating(false);
       }
-    },
-    [
-      activeComparison,
-      attachment,
-      flush,
-      handleReset,
-      orchestrator,
-      related,
-      search,
-      setIsGenerating,
-      setUIState,
-      value,
-    ]
-  );
+    } catch (error) {
+      console.error("An Error occured when submitting the query!", error);
+      toast.error("Error When Submitting the Query!", {
+        position: "top-center",
+        richColors: true,
+        className:
+          "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
+      });
+    } finally {
+      setIsGenerating(false);
+    }
+  }, [
+    activeComparison,
+    attachment,
+    flush,
+    handleReset,
+    orchestrator,
+    related,
+    search,
+    setIsGenerating,
+    setUIState,
+    value,
+  ]);
 
   const handleSubmit = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {

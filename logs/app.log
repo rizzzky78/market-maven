@@ -32881,3 +32881,288 @@
     }
   ]
 }
+[90m[2025-02-25 16:26:35.728][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-25 16:34:53.931][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for ROG ally"
+      }
+    }
+  ]
+}
+[90m[2025-02-25 16:34:54.860][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "ROG ally"
+      }
+    }
+  ]
+}
+[90m[2025-02-25 16:35:10.466][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "be69e9f2-77fc-41f3-bbb4-af2338f192b9"
+    }
+  ]
+}
+[90m[2025-02-25 16:35:20.863][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "be69e9f2-77fc-41f3-bbb4-af2338f192b9"
+    }
+  ]
+}
+[90m[2025-02-25 16:35:27.247][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "be69e9f2-77fc-41f3-bbb4-af2338f192b9"
+    }
+  ]
+}
+[90m[2025-02-25 16:35:27.506][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "ROG ally"
+      }
+    }
+  ]
+}
+[90m[2025-02-25 16:35:28.146][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-25 16:35:29.597][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 2234,
+        "completionTokens": 5,
+        "totalTokens": 2239
+      }
+    }
+  ]
+}
+[90m[2025-02-25 16:37:04.079][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Is this device able to connect it to a tv or monitor? is so does affect the output bandwidth? for an example connect it to 4K or 8K tv/monitor?",
+        "attachProduct": {
+          "product": {
+            "id": "fitRNZw7g8hzVjuA",
+            "title": "ASUS ROG ALLY X AMD Z1 EXTREME 24GB 1TB W11 7.0FHD 120HZ BLK",
+            "link": "https://www.tokopedia.com/alienwareofficial/asus-rog-ally-x-amd-z1-extreme-24gb-1tb-w11-7-0fhd-120hz-blk-rog-ally-x-6a53a?extParam=ivf%3Dtrue%26keyword%3Drog+ally%26search_id%3D20250225093502B3D8A60F7A982531F2M1%26src%3Dsearch"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-02-25 16:37:05.554][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "ASUS ROG ALLY X AMD Z1 EXTREME 24GB 1TB W11 7.0FHD 120HZ BLK",
+        "link": "https://www.tokopedia.com/alienwareofficial/asus-rog-ally-x-amd-z1-extreme-24gb-1tb-w11-7-0fhd-120hz-blk-rog-ally-x-6a53a?extParam=ivf%3Dtrue%26keyword%3Drog+ally%26search_id%3D20250225093502B3D8A60F7A982531F2M1%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-25 16:37:21.849][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "b1320919-c478-43e0-bd02-bb491cb33300"
+    }
+  ]
+}
+[90m[2025-02-25 16:37:35.244][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "External Data",
+  "meta": [
+    {
+      "ext": "enabled",
+      "eta": 9.05
+    }
+  ]
+}
+[90m[2025-02-25 16:37:43.289][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "b1320919-c478-43e0-bd02-bb491cb33300"
+    }
+  ]
+}
+[90m[2025-02-25 16:37:45.183][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "b1320919-c478-43e0-bd02-bb491cb33300"
+    }
+  ]
+}
+[90m[2025-02-25 16:37:45.256][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "ASUS ROG ALLY X AMD Z1 EXTREME 24GB 1TB W11 7.0FHD 120HZ BLK",
+        "link": "https://www.tokopedia.com/alienwareofficial/asus-rog-ally-x-amd-z1-extreme-24gb-1tb-w11-7-0fhd-120hz-blk-rog-ally-x-6a53a?extParam=ivf%3Dtrue%26keyword%3Drog+ally%26search_id%3D20250225093502B3D8A60F7A982531F2M1%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-25 16:37:45.966][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-25 16:37:47.854][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 4641,
+        "completionTokens": 171,
+        "totalTokens": 4812
+      }
+    }
+  ]
+}
+[90m[2025-02-25 16:39:37.724][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Lenovo Legion Go"
+      }
+    }
+  ]
+}
+[90m[2025-02-25 16:39:38.519][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo Legion Go"
+      }
+    }
+  ]
+}
+[90m[2025-02-25 16:39:44.729][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "7c845b1f-2f75-4416-9bea-19e8c065356f"
+    }
+  ]
+}
+[90m[2025-02-25 16:39:55.080][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "7c845b1f-2f75-4416-9bea-19e8c065356f"
+    }
+  ]
+}
+[90m[2025-02-25 16:40:01.237][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "7c845b1f-2f75-4416-9bea-19e8c065356f"
+    }
+  ]
+}
+[90m[2025-02-25 16:40:01.562][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-25 16:40:01.643][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Legion Go"
+      }
+    }
+  ]
+}
+[90m[2025-02-25 16:40:03.819][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 6391,
+        "completionTokens": 6,
+        "totalTokens": 6397
+      }
+    }
+  ]
+}
+[90m[2025-02-25 16:40:20.248][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "attachProduct": {
+          "product": {
+            "id": "3RkYcJ6QrZjzI7N8",
+            "title": "LENOVO LEGION GO S 8ARP1 AMD Ryzen Z2 Go 16GB 512GB W11 8\" WUXGA 120HZ - WHITE",
+            "link": "https://www.tokopedia.com/lenovolegion/lenovo-legion-go-s-8arp1-amd-ryzen-z2-go-16gb-512gb-w11-8-wuxga-120hz-white-1730836314222986956?extParam=ivf%3Dfalse%26keyword%3Dlenovo+legion+go%26search_id%3D20250225085045FDF26D69866B0438F80F%26src%3Dsearch"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-02-25 16:40:22.403][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "LENOVO LEGION GO S 8ARP1 AMD Ryzen Z2 Go 16GB 512GB W11 8\" WUXGA 120HZ - WHITE",
+        "link": "https://www.tokopedia.com/lenovolegion/lenovo-legion-go-s-8arp1-amd-ryzen-z2-go-16gb-512gb-w11-8-wuxga-120hz-white-1730836314222986956?extParam=ivf%3Dfalse%26keyword%3Dlenovo+legion+go%26search_id%3D20250225085045FDF26D69866B0438F80F%26src%3Dsearch"
+      }
+    }
+  ]
+}
