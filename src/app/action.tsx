@@ -562,7 +562,7 @@ const orchestrator = async (
 
               yield (
                 <ExtendedMessage
-                  title="Tavily Search"
+                  title={query}
                   content={finalizedObject.externalData.tavily}
                 />
               );
