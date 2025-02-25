@@ -4,7 +4,7 @@ import { cache } from "react";
 import { getChats } from "@/lib/agents/action/chat-service";
 import { v4 } from "uuid";
 import { AI } from "@/app/action";
-import { Chat } from "@/components/maven/chat";
+import { Chat } from "@/components/maven/main-chat";
 
 export const maxDuration = 60;
 

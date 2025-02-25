@@ -44,7 +44,7 @@ export const Chat: FC<ChatProps> = ({ id, query, chats }) => {
     >
       <MavenSidebar userChats={chats} />
       <SidebarInset>
-        <header className="sticky top-0 flex shrink-0 items-center gap-2 bg-background/90 px-4 py-2 z-20">
+        <header className="sticky top-0 flex shrink-0 items-center gap-2 bg-white px-4 py-2 z-20">
           <div className="flex justify-between w-full">
             <div className="flex items-center">
               <SidebarTrigger className="-ml-1 md:hidden" />
@@ -53,16 +53,20 @@ export const Chat: FC<ChatProps> = ({ id, query, chats }) => {
                 className="mr-2 h-4 md:hidden"
               />
               <div>
-                <p>{selectedChat?.title ?? "Untitled Chat"}</p>
+                <p className="font-semibold">
+                  {selectedChat?.title ?? "Untitled Chat"}
+                </p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
-              <ShareButton
-                title="Chat"
-                subtitle="Lenovo Yoga Laptops: Prices, Specs & Top Picks"
-                callId="5936071e-ace4-4973-8176-8c84a1dfb45e"
-                type={"public-chat"}
-              />
+              {selectedChat && (
+                <ShareButton
+                  title="Chat"
+                  subtitle="Lenovo Yoga Laptops: Prices, Specs & Top Picks"
+                  callId={selectedChat.chatId}
+                  type={"public-chat"}
+                />
+              )}
             </div>
           </div>
         </header>
