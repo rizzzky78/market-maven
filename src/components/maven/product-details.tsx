@@ -59,7 +59,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
 
   return (
     <div className="w-full">
-      {externalData.tavily && externalData.markdown && (
+      {externalData?.tavily && externalData?.markdown && (
         <ExtendedMessage
           content={externalData.markdown}
           tavilyAnswer={externalData.tavily}
@@ -218,7 +218,7 @@ export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
 
   return (
     <div className="w-full">
-      {externalData.markdown && externalData.tavily && (
+      {externalData?.markdown && externalData?.tavily && (
         <ExtendedMessage
           content={externalData.markdown}
           tavilyAnswer={externalData.tavily}
