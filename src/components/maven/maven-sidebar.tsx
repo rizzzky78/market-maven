@@ -256,7 +256,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
         </SidebarFooter>
       </Sidebar>
       <Sidebar collapsible="none" className="hidden flex-1 md:flex">
-        <SidebarHeader className="gap-3.5 border-b p-4">
+        <SidebarHeader className="gap-3.5 border-b px-4 py-3">
           <div className="flex w-full items-center justify-between">
             <div className="text-base font-medium text-foreground">
               Market Maven

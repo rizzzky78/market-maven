@@ -9,7 +9,7 @@ import {
 import { MavenSidebar } from "./maven-sidebar";
 import { ChatProperties } from "@/lib/types/ai";
 import { ShareButton } from "./share-button";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { AI } from "@/app/action";
 import { useUIState } from "ai/rsc";
@@ -44,7 +44,7 @@ export const Chat: FC<ChatProps> = ({ id, query, chats }) => {
     >
       <MavenSidebar userChats={chats} />
       <SidebarInset>
-        <header className="sticky top-0 flex shrink-0 items-center gap-2 bg-white px-4 py-2 z-20">
+        <header className="sticky top-0 flex shrink-0 items-center gap-2 bg-background/90 px-4 py-2 z-20">
           <div className="flex justify-between w-full">
             <div className="flex items-center">
               <SidebarTrigger className="-ml-1 md:hidden" />
@@ -53,16 +53,16 @@ export const Chat: FC<ChatProps> = ({ id, query, chats }) => {
                 className="mr-2 h-4 md:hidden"
               />
               <div>
-                <p className="font-semibold">
-                  {selectedChat?.title ?? "Untitled Chat"}
-                </p>
+                {selectedChat && (
+                  <p className="font-semibold">{selectedChat.title}</p>
+                )}
               </div>
             </div>
             <div className="flex items-center space-x-2">
               {selectedChat && (
                 <ShareButton
                   title="Chat"
-                  subtitle="Lenovo Yoga Laptops: Prices, Specs & Top Picks"
+                  subtitle={selectedChat.title}
                   callId={selectedChat.chatId}
                   type={"public-chat"}
                 />

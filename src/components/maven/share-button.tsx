@@ -117,7 +117,9 @@ export const ShareButton: FC<ShareButtonProps> = ({
           </DialogTitle>
           <DialogDescription>
             {subtitle && (
-              <span className="line-clamp-1 underline">{subtitle}</span>
+              <span className="line-clamp-1 underline dark:text-white/80 text-black/80">
+                {subtitle}
+              </span>
             )}
             Anyone with the link will be able to view the content.
           </DialogDescription>
