@@ -80,6 +80,15 @@ const SYSTEM_INSTRUCTION = {
     "./src/lib/agents/constant/md/inquiry-crafter.md",
     "utf-8"
   ),
+  /**
+   * LLM Instruct for **Product Researcher**
+   *
+   * Output: Markdown
+   */
+  PRODUCT_RESEARCHER: readFileSync(
+    "./src/lib/agents/constant/md/product-researcher.md",
+    "utf-8"
+  ),
 } as const;
 
 export default SYSTEM_INSTRUCTION;

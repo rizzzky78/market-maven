@@ -23,7 +23,7 @@ export type ProductsResponse = {
 export type ProductDetailsResponse = {
   callId: string;
   screenshot: string;
-  externalData: string | null;
+  externalData: { tavily: string | null; markdown: string | null };
   productDetails: Record<string, any>;
 };
 

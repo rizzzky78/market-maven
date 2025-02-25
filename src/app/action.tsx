@@ -4,6 +4,7 @@ import {
   StreamAssistantMessage,
 } from "@/components/maven/assistant-message";
 import { ErrorMessage } from "@/components/maven/error-message";
+import { ExtendedMessage } from "@/components/maven/extended-message";
 import { ProductComparison } from "@/components/maven/product-comparison";
 import {
   ProductDetails,
@@ -41,7 +42,6 @@ import {
   inquireUserSchema,
   productsComparionSchema,
   searchProductSchema,
-  Inquiry,
 } from "@/lib/agents/schema/tool-parameters";
 import { scrapeUrl } from "@/lib/agents/tools/api/firecrawl";
 import { externalTavilySearch } from "@/lib/agents/tools/api/tavily";
@@ -71,13 +71,7 @@ import {
 import logger from "@/lib/utility/logger";
 import { processURLQuery } from "@/lib/utils";
 import { google } from "@ai-sdk/google";
-import {
-  DeepPartial,
-  generateId,
-  generateObject,
-  streamObject,
-  streamText,
-} from "ai";
+import { DeepPartial, generateId, streamObject, streamText } from "ai";
 import {
   createAI,
   createStreamableValue,
@@ -501,7 +495,7 @@ const orchestrator = async (
           if (cached) {
             yield (
               <LoadingText
-                text={`The query is cached!. Proceed to do data extraction`}
+                text={`The query is cached!. Proceed to data extraction`}
               />
             );
 
@@ -516,7 +510,10 @@ const orchestrator = async (
             const finalizedObject: ProductDetailsResponse = {
               callId: toolRequestId,
               screenshot: scrapeContent.screenshot,
-              externalData: null,
+              externalData: {
+                tavily: null,
+                markdown: null,
+              },
               productDetails: {},
             };
 
@@ -558,9 +555,19 @@ const orchestrator = async (
                 />
               );
 
-              finalizedObject.externalData = externalData.data.answer;
+              finalizedObject.externalData.tavily = externalData.data.answer;
 
-              await new Promise((resolve) => setTimeout(resolve, 3000));
+              yield (
+                <ExtendedMessage
+                  title="Tavily Search"
+                  content={finalizedObject.externalData.tavily}
+                />
+              );
+
+              const {} = streamText({
+                model: google('gemini-2.0-flash-lite-preview-02-05'),
+                system: SYSTEM_INSTRUCTION.PRODUCT_RESEARCHER
+              })
             }
 
             const payloadContent = JSON.stringify({
