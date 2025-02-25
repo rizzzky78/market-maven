@@ -56,11 +56,6 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
 
   const sharedContent = isSharedContent ?? false;
 
-  const tabVariants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: { opacity: 1, y: 0 },
-  };
-
   return (
     <div className="w-full mb-8">
       <div className="absolute ml-4 -mt-4">

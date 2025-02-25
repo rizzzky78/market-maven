@@ -1,4 +1,5 @@
 import { ExtendedToolResult } from "./ai";
+import { ProductDetailsResponse } from "./product";
 
 /**
  * Reusable Component Props
@@ -7,7 +8,7 @@ import { ExtendedToolResult } from "./ai";
 export type ProductDetailsProps = {
   content: ExtendedToolResult<
     { query: string; link: string },
-    { productDetails: Record<string, any>; screenshot: string; callId: string }
+    ProductDetailsResponse
   >;
   isSharedContent?: boolean;
 };

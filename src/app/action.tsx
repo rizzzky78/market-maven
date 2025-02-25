@@ -664,11 +664,7 @@ const orchestrator = async (
                     success: true,
                     name: "getProductDetails",
                     args: { query, link },
-                    data: {
-                      productDetails: finalizedObject.productDetails,
-                      callId: finalizedObject.callId!,
-                      screenshot: finalizedObject.screenshot!,
-                    },
+                    data: finalizedObject,
                   }}
                 />
                 <StreamAssistantMessage content={streamableText.value} />
@@ -717,11 +713,7 @@ const orchestrator = async (
                     success: true,
                     name: "getProductDetails",
                     args: { query, link },
-                    data: {
-                      productDetails: finalizedObject.productDetails,
-                      callId: finalizedObject.callId!,
-                      screenshot: finalizedObject.screenshot!,
-                    },
+                    data: finalizedObject,
                   }}
                 />
                 <AssistantMessage content={finalizedText} />
