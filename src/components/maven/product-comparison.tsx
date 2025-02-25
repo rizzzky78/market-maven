@@ -157,7 +157,7 @@ export const StreamProductsComparison: FC<StreamProductsComparisonProps> = ({
       <ErrorMessage
         errorName="Stream Object Parsing Operation Failed"
         reason="There was an error while parsing the streamable-value input."
-        raw={{ trace: raw }}
+        raw={{ args, data, trace: raw }}
       />
     );
   }

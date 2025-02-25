@@ -8,7 +8,10 @@ import {
   ExtendedMessage,
   StreamExtendedMessage,
 } from "@/components/maven/extended-message";
-import { ProductComparison } from "@/components/maven/product-comparison";
+import {
+  ProductComparison,
+  StreamProductsComparison,
+} from "@/components/maven/product-comparison";
 import {
   ProductDetails,
   StreamProductDetails,
@@ -887,7 +890,13 @@ const orchestrator = async (
             (v) => v.object.productDetails
           );
 
-          // append stream-ui here
+          yield (
+            <StreamProductsComparison
+              args={{ compare }}
+              data={finalizedCompare}
+              content={streamableObject.value}
+            />
+          );
 
           const { partialObjectStream } = streamObject({
             model: google("gemini-2.0-flash-exp"),
