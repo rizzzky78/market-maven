@@ -272,7 +272,7 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
             className="my-3"
           >
             <div className="*:text-xs grid grid-cols-1 lg:grid-cols-2 gap-2">
-              <div className="lg:border-r border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
+              <div className="lg:border-r border-y border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
                 {Array.isArray(data.products) &&
                   [data.products[0]].map((item: Record<string, any>, index) => (
                     <motion.div
@@ -296,7 +296,7 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
                     </motion.div>
                   ))}
               </div>
-              <div className="lg:border-l border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
+              <div className="lg:border-l border-y border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
                 {Array.isArray(data.products) &&
                   [data.products[1]].map((item, index) => (
                     <motion.div
