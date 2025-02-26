@@ -45,6 +45,7 @@ import {
   inputInquirySchema,
   inquireUserSchema,
   productsComparionSchema,
+  recommendatorSchema,
   searchProductSchema,
 } from "@/lib/agents/schema/tool-parameters";
 import { scrapeUrl } from "@/lib/agents/tools/api/firecrawl";
@@ -84,6 +85,7 @@ import {
   streamUI,
 } from "ai/rsc";
 import { v4 } from "uuid";
+import { z } from "zod";
 
 const orchestrator = async (
   payload: PayloadData,
@@ -162,6 +164,71 @@ const orchestrator = async (
       return textUi;
     },
     tools: {
+      recommendator: {
+        description: `This tool provides product recommendations based on the current context. It generates a final output in the form of a list of recommended products tailored to the user's intent. Utilize this tool as a means of interpreting user intent to deliver personalized product suggestions.`,
+        parameters: recommendatorSchema,
+        generate: async function* ({ intent, scope }) {
+          let finalizedRecommendator: Record<string, any> = {};
+          const streamableRecommendator = createStreamableValue();
+
+          yield (
+            <StreamExtendedMessage content={streamableRecommendator.value} />
+          );
+
+          const { partialObjectStream } = streamObject({
+            model: google('gemini-2.0-flash-exp', {
+              useSearchGrounding: true,
+            }),
+            system: ``,
+            prompt: JSON.stringify({ intent, scope }),
+            schema: z.object({
+              recommendation: z.array(
+                z.object({
+                  name: z.string(),
+                  productType: z.string(),
+                  brand: z.string(),
+                })
+              ),
+            }),
+            onFinish: ({ object }) => {
+              if (object) {
+                finalizedRecommendator = object;
+              }
+              streamableRecommendator.done();
+            },
+            onError: ({ error }) => {
+              streamableRecommendator.error(error);
+              errorState = {
+                isError: true,
+                error,
+              };
+            },
+          });
+
+          for await (const t of partialObjectStream) {
+            streamableRecommendator.update(t);
+          }
+
+          if (errorState.isError) {
+            generation.done({
+              process: "fatal_error",
+              loading: false,
+              error: "LLM Generation Error",
+            });
+
+            return (
+              <ErrorMessage
+                errorName="LLM Error"
+                reason="There was an error on LLMs Agent generation, that's all we know :("
+                raw={{
+                  payload: { intent, scope },
+                  error: errorState,
+                }}
+              />
+            );
+          }
+        },
+      },
       searchProduct: {
         description: TEMPLATE.SearchProductDescription,
         parameters: searchProductSchema,
@@ -891,7 +958,7 @@ const orchestrator = async (
           /**
            * Change to static/non-streamed component instead
            * has error when parsing undefined/null object :(
-          */
+           */
           yield (
             <ProductComparison
               content={{

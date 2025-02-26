@@ -62,3 +62,23 @@ export const productsSchema = z.object({
  * Represents the validated structure of the product data.
  */
 export type Products = z.infer<typeof productsSchema>;
+
+const recommendationSchema = z.object({
+  recommendation: z
+    .array(
+      z.object({
+        name: z
+          .string()
+          .describe(
+            "The full name of product including brand and product model, e.g, Samsung S24 Ultra"
+          ),
+        productModel: z
+          .string()
+          .describe("The product model or variant, e.g, S24 Ultra"),
+        brand: z
+          .string()
+          .describe("The brand of the product, e.g, Samsung, Apple, Asus, etc"),
+      })
+    )
+    .max(5),
+});
