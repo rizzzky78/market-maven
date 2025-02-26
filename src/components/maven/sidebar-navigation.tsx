@@ -1,16 +1,12 @@
 "use client";
 
 import {
-  BadgeCheck,
-  Bell,
   BookText,
   ChevronsUpDown,
-  CreditCard,
   History,
   LogOut,
   MonitorCheck,
   ShieldAlert,
-  Sparkles,
 } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

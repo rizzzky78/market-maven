@@ -138,6 +138,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                       hidden: false,
                     }}
                     className="px-2.5 md:px-2 rounded-full"
+                    onClick={() => toggleSidebar()}
                   >
                     <History />
                     <span>History</span>
@@ -263,8 +264,8 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
           </div>
         </SidebarHeader>
         <SidebarContent className="scrollbar-thin">
-          <SidebarGroup className="px-0 ">
-            <SidebarGroupContent className="">
+          <SidebarGroup className="p-0">
+            <SidebarGroupContent>
               {userChats.length === 0 ? (
                 <div className="h-full w-full">
                   <div className="flex items-center justify-center">
@@ -276,10 +277,10 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                   <Link
                     href={`/chat/c/${chat.chatId}`}
                     key={chat.chatId}
-                    className="flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                    className="flex flex-col items-start gap-1 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                   >
                     <div className="flex w-full max-w-sm items-center gap-2">
-                      <span className="ml-auto text-xs">
+                      <span className="ml-auto text-[0.65rem]">
                         {formatDateWithTime(chat.created)}
                       </span>
                     </div>
