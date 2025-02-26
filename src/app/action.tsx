@@ -33,7 +33,7 @@ import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
 import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
 import { TEMPLATE } from "@/lib/agents/constant";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
-import { productsSchema } from "@/lib/agents/schema/product";
+import { productsSchema, recommendationSchema } from "@/lib/agents/schema/product";
 import { comparisonOutputSchema } from "@/lib/agents/schema/products-comparison";
 import {
   PartialRelated,
@@ -179,17 +179,9 @@ const orchestrator = async (
             model: google('gemini-2.0-flash-exp', {
               useSearchGrounding: true,
             }),
-            system: ``,
+            system: SYSTEM_INSTRUCTION.RECOMMENDATOR_EXTRACTOR,
             prompt: JSON.stringify({ intent, scope }),
-            schema: z.object({
-              recommendation: z.array(
-                z.object({
-                  name: z.string(),
-                  productType: z.string(),
-                  brand: z.string(),
-                })
-              ),
-            }),
+            schema: recommendationSchema,
             onFinish: ({ object }) => {
               if (object) {
                 finalizedRecommendator = object;
