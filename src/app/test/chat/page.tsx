@@ -5,7 +5,6 @@ import { LoadingText } from "@/components/maven/shining-glass";
 import { Chat } from "@/components/maven/main-chat";
 import { ChatProperties, MessageProperty } from "@/lib/types/ai";
 import { useSmartTextarea } from "@/components/hooks/use-smart-textare";
-import { ProductComparisonSkeleton } from "@/components/maven/products-comparison-skeleton";
 import { ProductComparison } from "@/components/maven/product-comparison";
 
 const exampleMessages: MessageProperty[] = [
@@ -459,7 +458,6 @@ The Lenovo Yoga Slim 7 is a highperformance laptop designed for content creators
           data: payloadComparison.data,
         }}
       />
-      <ProductComparisonSkeleton />
     </div>
   );
   // return (

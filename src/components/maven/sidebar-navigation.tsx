@@ -29,11 +29,14 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
+import { FC } from "react";
 
-export function SidebarUserNavigation() {
+export const SidebarUserNavigation: FC = () => {
   const { isMobile } = useSidebar();
   const { data: session } = useSession();
+
   const user = {
     name: session?.user?.name as string,
     email: session?.user?.email as string,
@@ -83,22 +86,47 @@ export function SidebarUserNavigation() {
             <DropdownMenuSeparator />
             <DropdownMenuGroup className="*:rounded-3xl *:gap-1 *:text-xs *:cursor-pointer">
               <DropdownMenuItem>
-                <History />
-                My Chat History
+                <Link href={"/history"} className="flex items-center">
+                  <History className="size-4 mr-1" />
+                  My Chat History
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <BookText />
-                Cookbook
+                <Link
+                  href={"/cookbook"}
+                  className="flex items-center"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <BookText className="size-4 mr-1" />
+                  Cookbook
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <MonitorCheck />
-                Terms of Use
+                <Link
+                  href={"/terms-of-service"}
+                  className="flex items-center"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <MonitorCheck className="size-4 mr-1" />
+                  Terms of Service
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <ShieldAlert />
-                Privacy Policy
+                <Link
+                  href={"/privacy-policy"}
+                  className="flex items-center"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ShieldAlert className="size-4 mr-1" />
+                  Privacy Policy
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => signOut({ callbackUrl: "/login" })}
+              >
                 <LogOut className="text-red-400" />
                 Log out
               </DropdownMenuItem>
@@ -108,4 +136,4 @@ export function SidebarUserNavigation() {
       </SidebarMenuItem>
     </SidebarMenu>
   );
-}
+};
