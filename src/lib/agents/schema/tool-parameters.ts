@@ -1,5 +1,18 @@
 import { z } from "zod";
 
+export const recommendatorSchema = z.object({
+  intent: z
+    .string()
+    .describe(
+      "A narative natural language description of the user's intent or what they are seeking in the product recommendations. Think this as for guide the agent to search the exact product."
+    ),
+  scope: z
+    .array(z.string())
+    .describe(
+      "An array of strings representing additional context, such as categories, brands, or other filters, to refine the product recommendations."
+    ),
+});
+
 export const searchProductSchema = z.object({
   query: z
     .string()
