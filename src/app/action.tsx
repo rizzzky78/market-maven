@@ -8,10 +8,7 @@ import {
   ExtendedMessage,
   StreamExtendedMessage,
 } from "@/components/maven/extended-message";
-import {
-  ProductComparison,
-  StreamProductsComparison,
-} from "@/components/maven/product-comparison";
+import { ProductComparison } from "@/components/maven/product-comparison";
 import {
   ProductDetails,
   StreamProductDetails,
@@ -37,6 +34,7 @@ import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
 import { TEMPLATE } from "@/lib/agents/constant";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
 import { productsSchema } from "@/lib/agents/schema/product";
+import { comparisonOutputSchema } from "@/lib/agents/schema/products-comparison";
 import {
   PartialRelated,
   RelatedQuery,
@@ -890,11 +888,18 @@ const orchestrator = async (
             (v) => v.object.productDetails
           );
 
+          /**
+           * Change to static/non-streamed component instead
+           * has error when parsing undefined/null object :(
+          */
           yield (
-            <StreamProductsComparison
-              args={{ compare }}
-              data={finalizedCompare}
-              content={streamableObject.value}
+            <ProductComparison
+              content={{
+                success: true,
+                name: "productsComparison",
+                args: { compare },
+                data: finalizedCompare,
+              }}
             />
           );
 

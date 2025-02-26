@@ -5,6 +5,8 @@ import { LoadingText } from "@/components/maven/shining-glass";
 import { Chat } from "@/components/maven/main-chat";
 import { ChatProperties, MessageProperty } from "@/lib/types/ai";
 import { useSmartTextarea } from "@/components/hooks/use-smart-textare";
+import { ProductComparisonSkeleton } from "@/components/maven/products-comparison-skeleton";
+import { ProductComparison } from "@/components/maven/product-comparison";
 
 const exampleMessages: MessageProperty[] = [
   {
@@ -337,11 +339,128 @@ The Lenovo Yoga Slim 7 is a highperformance laptop designed for content creators
 
   const tavilyAnswer = `The Lenovo Yoga Slim 7 Pro X 14 is a high-performance laptop featuring a 14.5-inch 3K IPS touchscreen display with a 120Hz refresh rate. It is powered by an AMD Ryzen 9 6900HS Creator Edition processor with 8 cores and 16 threads, capable of speeds up to 4.9GHz. The laptop comes with 32GB of soldered LPDDR5-6400 RAM and a 1TB PCIe SSD Gen 4 for storage. Graphics are handled by an NVIDIA GeForce RTX 3050 with 4GB GDDR6 memory. The device runs on Windows 11 and includes features such as WiFi 6, Bluetooth 5.1, a FHD 1080P IR hybrid camera, and Dolby Atmos audio with 2x2W Harman speakers. It has a slim profile at 15.9mm thick and weighs starting from 1.45kg. The laptop is available in Storm Grey color and offers various connectivity options including USB-C and USB-A ports.`;
 
+  const payloadComparison = {
+    success: true,
+    name: "productsComparison",
+    args: {
+      compare: [
+        {
+          title:
+            'LENOVO LEGION GO S 8ARP1 AMD Ryzen Z2 Go 16GB 512GB W11 8" WUXGA 120HZ - WHITE',
+          callId: "7c65dbd8-5614-4001-9b7e-5ba0aa13f1ba",
+        },
+        {
+          title: "ASUS ROG ALLY X AMD Z1 EXTREME 24GB 1TB W11 7.0FHD 120HZ BLK",
+          callId: "060457aa-fc0b-4f5a-806d-1fc9ec8b0f0d",
+        },
+      ],
+    },
+    data: {
+      callId: "8c305561-be1a-4e52-be7d-88b550c6e5af",
+      productImages: [
+        "https://service.firecrawl.dev/storage/v1/object/public/media/screenshot-be6319c5-45e8-4083-8e35-8b8d4661a149.png",
+        "https://service.firecrawl.dev/storage/v1/object/public/media/screenshot-081e76cc-8b16-4c6f-822e-15be9c69facb.png",
+      ],
+      comparison: {
+        products: [
+          {
+            product_name: "LENOVO LEGION GO S 8ARP1",
+            brand: "Lenovo",
+            price: "Rp8.939.000",
+            external_data: null,
+            common_specs: {
+              display_size: "8 in",
+              processor: "AMD Ryzen Z2 Go",
+              storage: "512GB",
+              ram: "16GB",
+              battery: "55.5Wh",
+            },
+            category_specific_specs: {
+              display_resolution: "1920x1200",
+              display_technology: "IPS",
+              display_refresh_rate: "120Hz",
+              audio_speakers: "Stereo speakers, 2W x2",
+              audio_microphone: "2x, Array",
+              connectivity_wifi: "Wi-Fi 6E",
+              connectivity_bluetooth: "BT5.3",
+              connectivity_ports: [
+                "USB4",
+                "Headphone / microphone combo jack (3.5mm)",
+                "Card reader",
+              ],
+              additional_features: [
+                "Touchscreen",
+                "microSD Card Reader",
+                "Firmware TPM 2.0 Enabled",
+              ],
+            },
+          },
+          {
+            product_name:
+              "ASUS ROG ALLY X AMD Z1 EXTREME 24GB 1TB W11 7.0FHD 120HZ BLK - ROG ALLY X",
+            brand: "ASUS",
+            price: "Rp13.999.000",
+            external_data: null,
+            common_specs: {
+              display_size: "7.0 in",
+              processor: "AMD Ryzen Z1 Extreme",
+              storage: "1TB",
+              ram: "24GB",
+              battery: "80WHrs",
+            },
+            category_specific_specs: {
+              display_resolution: "1920 x 1080",
+              display_technology: "IPS-level glossy",
+              display_refresh_rate: "120Hz",
+              audio_speakers:
+                "2-speaker system with Smart Amplifier Technology, Dolby Atmos",
+              audio_microphone:
+                "Built-in array microphone, AI noise-canceling technology",
+              connectivity_wifi: "Wi-Fi 6E(802.11ax) (Triple band) 2*2",
+              connectivity_bluetooth: "Bluetooth 5.2",
+              connectivity_ports: [
+                "1x 3.5mm Combo Audio Jack",
+                "1x USB 3.2 Gen 2 Type-C support DisplayPort / power delivery",
+                "1x Type C support USB 4 (Thunderbolt 4 compliance, DisplayPort 1.4 with Freesync support, Power Delivery 3.0)",
+                "1x UHS-II microSD card reader (supports SD, SDXC and SDHC)",
+              ],
+              additional_features: [
+                "AURA SYNC",
+                "Built-in Fingerprint Sensor",
+                "Microsoft Pluton security processor",
+                "Xbox Game Pass Ultimate_3 months",
+              ],
+              gpu: "AMD Radeon Graphics (AMD RDNA 3, 12 CUs, up to 2.7 GHz, up to 8.6 Teraflops)",
+            },
+          },
+        ],
+        key_differences: [
+          "display_size: Lenovo has a larger display (8 in vs 7 in)",
+          "ram: ASUS has more RAM (24GB vs 16GB)",
+          "storage: ASUS has more storage (1TB vs 512GB)",
+          "battery: ASUS has a larger battery capacity (80WHrs vs 55.5Wh)",
+          "processor: Different processors (AMD Ryzen Z2 Go vs AMD Ryzen Z1 Extreme)",
+          "price: ASUS is more expensive (Rp13.999.000 vs Rp8.939.000)",
+        ],
+      },
+    },
+  };
+
   return (
     <div className="px-2 sm:px-12 pt-12 md:pt-14 pb-14 md:pb-24 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4">
-      <LoadingText text="Helo World from another world!" />
+      {/* <LoadingText text="Helo World from another world!" />
       <ExtendedMessage content={exampleData} tavilyAnswer={tavilyAnswer} />
-      <ExtendedMessage content={tavilyAnswer} />
+      <ExtendedMessage content={tavilyAnswer} /> */}
+      <ProductComparison
+        content={{
+          success: true,
+          name: "productsComparison",
+          args: payloadComparison.args,
+          data: payloadComparison.data,
+        }}
+        isGenerating
+      />
+      <ProductComparisonSkeleton />
     </div>
   );
   // return (

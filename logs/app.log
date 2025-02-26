@@ -33496,3 +33496,518 @@
     }
   ]
 }
+[90m[2025-02-26 08:52:08.168][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 09:37:51.985][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:10:54.904][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "What is the most versatile device?",
+        "productCompare": {
+          "for": [
+            {
+              "title": "LENOVO LEGION GO S 8ARP1 AMD Ryzen Z2 Go 16GB 512GB W11 8\" WUXGA 120HZ - WHITE",
+              "callId": "7c65dbd8-5614-4001-9b7e-5ba0aa13f1ba"
+            },
+            {
+              "title": "ASUS ROG ALLY X AMD Z1 EXTREME 24GB 1TB W11 7.0FHD 120HZ BLK",
+              "callId": "060457aa-fc0b-4f5a-806d-1fc9ec8b0f0d"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+[90m[2025-02-26 10:10:57.035][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using productsComparison tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-26 10:10:58.061][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "060457aa-fc0b-4f5a-806d-1fc9ec8b0f0d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-26 10:10:58.075][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "7c65dbd8-5614-4001-9b7e-5ba0aa13f1ba",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-26 10:11:09.546][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "8c305561-be1a-4e52-be7d-88b550c6e5af"
+    }
+  ]
+}
+[90m[2025-02-26 10:11:12.304][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "8c305561-be1a-4e52-be7d-88b550c6e5af"
+    }
+  ]
+}
+[90m[2025-02-26 10:11:12.360][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using productsComparison tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "compare": [
+          {
+            "title": "LENOVO LEGION GO S 8ARP1 AMD Ryzen Z2 Go 16GB 512GB W11 8\" WUXGA 120HZ - WHITE",
+            "callId": "7c65dbd8-5614-4001-9b7e-5ba0aa13f1ba"
+          },
+          {
+            "title": "ASUS ROG ALLY X AMD Z1 EXTREME 24GB 1TB W11 7.0FHD 120HZ BLK",
+            "callId": "060457aa-fc0b-4f5a-806d-1fc9ec8b0f0d"
+          }
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-02-26 10:11:12.593][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-26 10:11:14.247][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 10119,
+        "completionTokens": 145,
+        "totalTokens": 10264
+      }
+    }
+  ]
+}
+[90m[2025-02-26 10:11:21.036][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:14:32.440][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:14:33.067][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:15:56.032][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:17:13.200][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "What is the most versatile device regardless of price?",
+        "productCompare": {
+          "for": [
+            {
+              "title": "LENOVO LEGION GO S 8ARP1 AMD Ryzen Z2 Go 16GB 512GB W11 8\" WUXGA 120HZ - WHITE",
+              "callId": "7c65dbd8-5614-4001-9b7e-5ba0aa13f1ba"
+            },
+            {
+              "title": "ASUS ROG ALLY X AMD Z1 EXTREME 24GB 1TB W11 7.0FHD 120HZ BLK",
+              "callId": "060457aa-fc0b-4f5a-806d-1fc9ec8b0f0d"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+[90m[2025-02-26 10:17:15.946][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using productsComparison tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-26 10:17:16.699][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "7c65dbd8-5614-4001-9b7e-5ba0aa13f1ba",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-26 10:17:17.117][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "060457aa-fc0b-4f5a-806d-1fc9ec8b0f0d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-26 10:17:28.283][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "25684ede-7577-4503-a37d-21fc4553048a"
+    }
+  ]
+}
+[90m[2025-02-26 10:17:28.419][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using productsComparison tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "compare": [
+          {
+            "title": "LENOVO LEGION GO S 8ARP1 AMD Ryzen Z2 Go 16GB 512GB W11 8\" WUXGA 120HZ - WHITE",
+            "callId": "7c65dbd8-5614-4001-9b7e-5ba0aa13f1ba"
+          },
+          {
+            "title": "ASUS ROG ALLY X AMD Z1 EXTREME 24GB 1TB W11 7.0FHD 120HZ BLK",
+            "callId": "060457aa-fc0b-4f5a-806d-1fc9ec8b0f0d"
+          }
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-02-26 10:17:28.670][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-26 10:23:27.047][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:31:24.890][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:37:28.673][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:37:30.259][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:38:28.255][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:38:31.810][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:38:56.056][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:39:08.455][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:39:08.981][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:39:09.419][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:39:19.569][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:39:20.539][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:39:35.335][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:40:24.342][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:41:12.862][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:41:16.288][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:41:24.157][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:41:24.751][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:44:14.187][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:47:23.105][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:47:23.290][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:48:25.326][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:48:26.311][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:48:27.062][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:48:28.191][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:48:43.808][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:48:44.754][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:48:45.654][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:48:46.524][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:48:47.564][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:50:39.315][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:50:41.667][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:50:44.424][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:50:46.384][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:51:41.318][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}

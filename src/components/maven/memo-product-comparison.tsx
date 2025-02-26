@@ -6,6 +6,8 @@ import { ChevronUp, FlaskConical, Grip, Minus, Plus } from "lucide-react";
 import Link from "next/link";
 import { FC, Fragment, JSX, memo, useState } from "react";
 import { Button } from "../ui/button";
+import { DeepPartial } from "ai";
+import { Skeleton } from "../ui/skeleton";
 
 const containerVariants = {
   initial: {
@@ -116,7 +118,7 @@ interface ProductComparisonProps {
   callId: string;
   isGenerating?: boolean;
   compare: { title: string; callId: string }[];
-  data: Record<string, any>;
+  data: DeepPartial<Record<string, any>>;
 }
 
 const PureProductComparison: FC<ProductComparisonProps> = ({
@@ -273,7 +275,8 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
           >
             <div className="*:text-xs grid grid-cols-1 lg:grid-cols-2 gap-2">
               <div className="lg:border-r border-y border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
-                {Array.isArray(data.products) &&
+                {!isGenerating ? (
+                  Array.isArray(data?.products) &&
                   [data.products[0]].map((item: Record<string, any>, index) => (
                     <motion.div
                       key={index}
@@ -294,11 +297,22 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
                         ))}
                       </motion.div>
                     </motion.div>
-                  ))}
+                  ))
+                ) : (
+                  <div className="pt-4 space-y-3 pb-3">
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-5/6" />
+                    <Skeleton className="h-4 w-4/5" />
+                    <Skeleton className="h-4 w-3/4" />
+                    <Skeleton className="h-4 w-5/6" />
+                    <Skeleton className="h-4 w-3/4" />
+                  </div>
+                )}
               </div>
               <div className="lg:border-l border-y border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
-                {Array.isArray(data.products) &&
-                  [data.products[1]].map((item, index) => (
+                {!isGenerating ? (
+                  Array.isArray(data?.products) &&
+                  [data.products[1]].map((item: Record<string, any>, index) => (
                     <motion.div
                       key={index}
                       variants={itemVariants}
@@ -318,42 +332,66 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
                         ))}
                       </motion.div>
                     </motion.div>
-                  ))}
+                  ))
+                ) : (
+                  <div className="pt-4 space-y-3 pb-3">
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-5/6" />
+                    <Skeleton className="h-4 w-4/5" />
+                    <Skeleton className="h-4 w-3/4" />
+                    <Skeleton className="h-4 w-5/6" />
+                    <Skeleton className="h-4 w-3/4" />
+                  </div>
+                )}
               </div>
             </div>
-            {data.key_differences && (
-              <div className="border-y border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 *:text-xs my-2 py-2">
-                <motion.div
-                  variants={itemVariants}
-                  className="border-t pt-4 first:border-t-0 first:pt-0"
-                >
-                  <div className="rounded-[2rem] w-fit bg-[#1A1A1D] py-1 pl-2 pr-8 mb-0.5 mt-1">
-                    <div className="flex items-center space-x-1 text-white">
-                      <Plus className="size-5" />
-                      <p className="font-semibold text-sm">Key Differences:</p>
-                    </div>
-                  </div>
+            {!isGenerating ? (
+              data?.key_differences && (
+                <div className="border-y border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 *:text-xs my-2 py-2">
                   <motion.div
-                    variants={containerVariants}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
+                    variants={itemVariants}
+                    className="border-t pt-4 first:border-t-0 first:pt-0"
                   >
-                    {Array.isArray(data.key_differences) && (
-                      <div>
-                        {data.key_differences.map((diff: string, index) => (
-                          <motion.div
-                            key={index}
-                            variants={itemVariants}
-                            className=" flex lg:items-center flex-wrap"
-                          >
-                            {sanitizeStr(diff)}
-                          </motion.div>
-                        ))}
+                    <div className="rounded-[2rem] w-fit bg-[#1A1A1D] py-1 pl-2 pr-8 mb-0.5 mt-1">
+                      <div className="flex items-center space-x-1 text-white">
+                        <Plus className="size-5" />
+                        <p className="font-semibold text-sm">
+                          Key Differences:
+                        </p>
                       </div>
-                    )}
+                    </div>
+                    <motion.div
+                      variants={containerVariants}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                    >
+                      {Array.isArray(data?.key_differences) && (
+                        <div>
+                          {data.key_differences.map((diff: string, index) => (
+                            <motion.div
+                              key={index}
+                              variants={itemVariants}
+                              className=" flex lg:items-center flex-wrap"
+                            >
+                              {sanitizeStr(diff)}
+                            </motion.div>
+                          ))}
+                        </div>
+                      )}
+                    </motion.div>
                   </motion.div>
-                </motion.div>
+                </div>
+              )
+            ) : (
+              <div className="border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 my-2 py-2">
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-1/3" />
+                  {/* Placeholder for "Key Differences" title */}
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-5/6" />
+                  <Skeleton className="h-4 w-4/5" />
+                </div>
               </div>
             )}
           </motion.div>
