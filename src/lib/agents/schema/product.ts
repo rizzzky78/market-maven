@@ -63,8 +63,8 @@ export const productsSchema = z.object({
  */
 export type Products = z.infer<typeof productsSchema>;
 
-const recommendationSchema = z.object({
-  recommendation: z
+export const recommendationSchema = z.object({
+  recommendations: z
     .array(
       z.object({
         name: z
@@ -82,3 +82,5 @@ const recommendationSchema = z.object({
     )
     .max(5),
 });
+
+export type ProductsRecommendationSchema = z.infer<typeof recommendationSchema>;

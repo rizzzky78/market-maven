@@ -48,7 +48,7 @@ Your output must be a structured JSON object conforming to the following schema:
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
-    "recommendation": {
+    "recommendations": {
       "type": "array",
       "items": {
         "type": "object",
@@ -71,11 +71,11 @@ Your output must be a structured JSON object conforming to the following schema:
       "maxItems": 5
     }
   },
-  "required": ["recommendation"]
+  "required": ["recommendations"]
 }
 ```
 
-- **recommendation**: An array containing up to five product objects.
+- **recommendations**: An array containing up to five product objects.
   - **name**: The full name of the product, including the brand and model.
   - **productModel**: The specific model or variant of the product.
   - **brand**: The brand name of the product.
@@ -84,7 +84,7 @@ Your output must be a structured JSON object conforming to the following schema:
 
 ```json
 {
-  "recommendation": [
+  "recommendations": [
     {
       "name": "Apple MacBook Pro 16 M2 Max",
       "productModel": "M2 Max",

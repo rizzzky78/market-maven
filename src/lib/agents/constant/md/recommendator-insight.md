@@ -11,7 +11,7 @@ You will receive input in the following JSON format:
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
-    "recommendation": {
+    "recommendations": {
       "type": "array",
       "items": {
         "type": "object",
@@ -34,17 +34,17 @@ You will receive input in the following JSON format:
       "maxItems": 5
     }
   },
-  "required": ["recommendation"]
+  "required": ["recommendations"]
 }
 ```
 
-- **recommendation**: An array of up to five product objects, each with `name`, `productModel`, and `brand` fields.
+- **recommendations**: An array of up to five product objects, each with `name`, `productModel`, and `brand` fields.
 
 ### Example Input
 
 ```json
 {
-  "recommendation": [
+  "recommendations": [
     {
       "name": "Apple MacBook Pro 16 M2 Max",
       "productModel": "M2 Max",

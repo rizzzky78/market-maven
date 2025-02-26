@@ -4,7 +4,7 @@ export const recommendatorSchema = z.object({
   intent: z
     .string()
     .describe(
-      "A narative natural language description of the user's intent or what they are seeking in the product recommendations. Think this as for guide the agent to search the exact product."
+      "A narative natural language description of the user's intent or what they are seeking in the product recommendations. Think this as for guide the agent to search the exact product. Example: 'The user looking a laptop for daily usage with long lasting battery as wel as color accuracy for editing'"
     ),
   scope: z
     .array(z.string())
