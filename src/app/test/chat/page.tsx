@@ -458,7 +458,6 @@ The Lenovo Yoga Slim 7 is a highperformance laptop designed for content creators
           args: payloadComparison.args,
           data: payloadComparison.data,
         }}
-        isGenerating
       />
       <ProductComparisonSkeleton />
     </div>

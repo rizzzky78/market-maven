@@ -72,14 +72,12 @@ export const Chat: FC<ChatProps> = ({ id, query, chats }) => {
             </div>
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4">
+        <div className="flex flex-1 flex-col px-4">
           <div className="px-2 sm:px-12 pt-12 md:pt-14 pb-14 md:pb-24 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4">
             <ChatMessages ui={uiMessage} />
           </div>
-          <div className="sticky bottom-0">
-            <div className="w-full mx-auto">
-              <ChatPanel uiState={uiMessage} />
-            </div>
+          <div className="sticky mx-0 w-full bottom-0">
+            <ChatPanel uiState={uiMessage} />
           </div>
         </div>
       </SidebarInset>
