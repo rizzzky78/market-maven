@@ -185,7 +185,6 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
                 )}
               </motion.div>
             ))}
-            {/* <Separator className="mt-1" /> */}
           </motion.div>
         </motion.div>
       );
@@ -276,7 +275,7 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
             <div className="*:text-xs grid grid-cols-1 lg:grid-cols-2 gap-2">
               <div className="lg:border-r border-y border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
                 {!isGenerating ? (
-                  Array.isArray(data?.products) &&
+                  Array.isArray(data.products) &&
                   [data.products[0]].map((item: Record<string, any>, index) => (
                     <motion.div
                       key={index}
@@ -311,7 +310,7 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
               </div>
               <div className="lg:border-l border-y border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
                 {!isGenerating ? (
-                  Array.isArray(data?.products) &&
+                  Array.isArray(data.products) &&
                   [data.products[1]].map((item: Record<string, any>, index) => (
                     <motion.div
                       key={index}
@@ -346,7 +345,7 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
               </div>
             </div>
             {!isGenerating ? (
-              data?.key_differences && (
+              data.key_differences && (
                 <div className="border-y border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 *:text-xs my-2 py-2">
                   <motion.div
                     variants={itemVariants}
@@ -366,7 +365,7 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
                       animate="animate"
                       exit="exit"
                     >
-                      {Array.isArray(data?.key_differences) && (
+                      {Array.isArray(data.key_differences) && (
                         <div>
                           {data.key_differences.map((diff: string, index) => (
                             <motion.div
@@ -387,7 +386,6 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
               <div className="border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 my-2 py-2">
                 <div className="space-y-2">
                   <Skeleton className="h-4 w-1/3" />
-                  {/* Placeholder for "Key Differences" title */}
                   <Skeleton className="h-4 w-full" />
                   <Skeleton className="h-4 w-5/6" />
                   <Skeleton className="h-4 w-4/5" />

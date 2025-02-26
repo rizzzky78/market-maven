@@ -34011,3 +34011,187 @@
     }
   ]
 }
+[90m[2025-02-26 10:53:29.611][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "What is the most versatile device?",
+        "productCompare": {
+          "for": [
+            {
+              "title": "LENOVO LEGION GO S 8ARP1 AMD Ryzen Z2 Go 16GB 512GB W11 8\" WUXGA 120HZ - WHITE",
+              "callId": "7c65dbd8-5614-4001-9b7e-5ba0aa13f1ba"
+            },
+            {
+              "title": "ASUS ROG ALLY X AMD Z1 EXTREME 24GB 1TB W11 7.0FHD 120HZ BLK",
+              "callId": "060457aa-fc0b-4f5a-806d-1fc9ec8b0f0d"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+[90m[2025-02-26 10:53:31.456][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using productsComparison tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-26 10:53:32.621][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "060457aa-fc0b-4f5a-806d-1fc9ec8b0f0d",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-26 10:53:32.681][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "7c65dbd8-5614-4001-9b7e-5ba0aa13f1ba",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-26 10:53:43.993][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "eb7271ba-e4f6-4998-9a22-490412d3accb"
+    }
+  ]
+}
+[90m[2025-02-26 10:53:46.007][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "eb7271ba-e4f6-4998-9a22-490412d3accb"
+    }
+  ]
+}
+[90m[2025-02-26 10:53:46.072][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using productsComparison tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "compare": [
+          {
+            "title": "LENOVO LEGION GO S 8ARP1 AMD Ryzen Z2 Go 16GB 512GB W11 8\" WUXGA 120HZ - WHITE",
+            "callId": "7c65dbd8-5614-4001-9b7e-5ba0aa13f1ba"
+          },
+          {
+            "title": "ASUS ROG ALLY X AMD Z1 EXTREME 24GB 1TB W11 7.0FHD 120HZ BLK",
+            "callId": "060457aa-fc0b-4f5a-806d-1fc9ec8b0f0d"
+          }
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-02-26 10:53:46.325][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-26 10:53:48.089][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 10119,
+        "completionTokens": 145,
+        "totalTokens": 10264
+      }
+    }
+  ]
+}
+[90m[2025-02-26 10:57:51.898][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:57:57.138][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:57:59.940][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:58:01.545][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:58:04.479][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:58:06.438][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:58:07.481][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:58:08.288][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:58:09.017][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-26 10:58:31.354][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
