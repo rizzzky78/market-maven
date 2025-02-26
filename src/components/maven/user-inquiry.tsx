@@ -147,7 +147,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
 
   return (
     <motion.div
-      className="py-10"
+      className="pt-10"
       initial="hidden"
       animate="visible"
       variants={fadeIn}
