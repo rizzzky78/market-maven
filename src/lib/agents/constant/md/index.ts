@@ -89,6 +89,24 @@ const SYSTEM_INSTRUCTION = {
     "./src/lib/agents/constant/md/product-researcher.md",
     "utf-8"
   ),
+  /**
+   * LLM Instruct for **Product Researcher**
+   *
+   * Output: Markdown
+   */
+  RECOMMENDATOR_EXTRACTOR: readFileSync(
+    "./src/lib/agents/constant/md/recommendator-extractor.md",
+    "utf-8"
+  ),
+  /**
+   * LLM Instruct for **Product Researcher**
+   *
+   * Output: Markdown
+   */
+  RECOMMENDATOR_INSIGHT: readFileSync(
+    "./src/lib/agents/constant/md/recommendator-insight.md",
+    "utf-8"
+  ),
 } as const;
 
 export default SYSTEM_INSTRUCTION;
