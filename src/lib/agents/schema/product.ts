@@ -83,4 +83,4 @@ export const recommendationSchema = z.object({
     .max(5),
 });
 
-export type ProductsRecommendationSchema = z.infer<typeof recommendationSchema>;
+export type ProductsRecommendation = z.infer<typeof recommendationSchema>;

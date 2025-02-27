@@ -1,3 +1,5 @@
+import { ProductsRecommendation } from "../agents/schema/product";
+
 export type Store = {
   name: string;
   location: string;
@@ -31,4 +33,9 @@ export type ProductsComparisonResponse = {
   callId: string;
   productImages: string[];
   comparison: Record<string, any>;
+};
+
+export type RecommendationResponse = {
+  callId: string;
+  recommendations: ProductsRecommendation["recommendations"];
 };

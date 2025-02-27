@@ -33,7 +33,10 @@ import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
 import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
 import { TEMPLATE } from "@/lib/agents/constant";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
-import { productsSchema, recommendationSchema } from "@/lib/agents/schema/product";
+import {
+  productsSchema,
+  recommendationSchema,
+} from "@/lib/agents/schema/product";
 import { comparisonOutputSchema } from "@/lib/agents/schema/products-comparison";
 import {
   PartialRelated,
@@ -172,11 +175,13 @@ const orchestrator = async (
           const streamableRecommendator = createStreamableValue();
 
           yield (
-            <StreamExtendedMessage content={streamableRecommendator.value} />
+            <>
+              <p>REPLACE RECOMMENDATOR ACTION BUTTON (STREAMED)</p>
+            </>
           );
 
           const { partialObjectStream } = streamObject({
-            model: google('gemini-2.0-flash-exp', {
+            model: google("gemini-2.0-flash-exp", {
               useSearchGrounding: true,
             }),
             system: SYSTEM_INSTRUCTION.RECOMMENDATOR_EXTRACTOR,
@@ -200,6 +205,17 @@ const orchestrator = async (
           for await (const t of partialObjectStream) {
             streamableRecommendator.update(t);
           }
+
+          const streamableInsight = createStreamableValue("");
+
+          yield <></>;
+
+          const {} = streamText({
+            model: google("gemini-2.0-flash-lite-preview-02-05"),
+            system: SYSTEM_INSTRUCTION.RECOMMENDATOR_INSIGHT,
+            onFinish: () => {},
+            onError: ({ error }) => {},
+          });
 
           if (errorState.isError) {
             generation.done({
