@@ -1,8 +1,8 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { FC } from "react";
 import { InquiryResponse } from "@/lib/types/ai";
-import { NotepadText, Link, ArrowDownLeft } from "lucide-react";
+import { ArrowDownLeft } from "lucide-react";
 
 interface InquiryProps {
   inquiryResponse: InquiryResponse;

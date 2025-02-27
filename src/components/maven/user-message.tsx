@@ -27,8 +27,8 @@ export const UserMessage: FC<MessageProps> = ({ content }) => {
       )}
       {content.product_compare && (
         <div className="flex justify-end">
-          <div className="max-w-[90%] my-1">
-            <div className="grid grid-cols-2 gap-1">
+          <div className="max-w-[90%]">
+            <div className="grid grid-cols-2 gap-x-1">
               {content.product_compare.for.map((compare, index) => (
                 <Badge
                   key={index}
@@ -50,7 +50,7 @@ export const UserMessage: FC<MessageProps> = ({ content }) => {
       )}
       {content.text_input && (
         <div className="flex justify-end">
-          <div className="bg-[#343131] w-fit max-w-[90%] py-3 px-5 rounded-[2rem]">
+          <div className="bg-[#343131] w-fit max-w-[90%] py-3 px-5 rounded-t-[2rem] rounded-bl-[2rem] rounded-br-lg">
             <div className="group relative">
               <Markdown className="whitespace-pre-wrap text-white">
                 {content.text_input}
