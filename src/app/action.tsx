@@ -75,6 +75,7 @@ import {
   ProductDetailsResponse,
   ProductsComparisonResponse,
   ProductsResponse,
+  RecommendationResponse,
 } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
 import { processURLQuery } from "@/lib/utils";
@@ -171,7 +172,13 @@ const orchestrator = async (
         description: `This tool provides product recommendations based on the current context. It generates a final output in the form of a list of recommended products tailored to the user's intent. Utilize this tool as a means of interpreting user intent to deliver personalized product suggestions.`,
         parameters: recommendatorSchema,
         generate: async function* ({ intent, scope }) {
-          let finalizedRecommendator: Record<string, any> = {};
+          const toolRequestId = v4();
+
+          const finalizedRecommendator: RecommendationResponse = {
+            callId: toolRequestId,
+            recommendations: [],
+          };
+
           const streamableRecommendator = createStreamableValue();
 
           yield (
@@ -189,7 +196,7 @@ const orchestrator = async (
             schema: recommendationSchema,
             onFinish: ({ object }) => {
               if (object) {
-                finalizedRecommendator = object;
+                finalizedRecommendator.recommendations = object.recommendations;
               }
               streamableRecommendator.done();
             },
@@ -208,14 +215,99 @@ const orchestrator = async (
 
           const streamableInsight = createStreamableValue("");
 
-          yield <></>;
+          yield (
+            <>
+              <p>EXISTING RECOMMENDATOR UI</p>
+              <StreamAssistantMessage content={streamableInsight.value} />
+            </>
+          );
 
-          const {} = streamText({
+          let finalizedInsight = "";
+
+          const { textStream } = streamText({
             model: google("gemini-2.0-flash-lite-preview-02-05"),
             system: SYSTEM_INSTRUCTION.RECOMMENDATOR_INSIGHT,
-            onFinish: () => {},
-            onError: ({ error }) => {},
+            onFinish: ({ text }) => {
+              finalizedInsight = text;
+              streamableInsight.done();
+            },
+            onError: ({ error }) => {
+              streamableInsight.error(error);
+              errorState = {
+                isError: true,
+                error,
+              };
+            },
           });
+
+          for await (const t of textStream) {
+            finalizedInsight += t;
+            streamableInsight.update(finalizedInsight);
+          }
+
+          const recommendatorUiNode = (
+            <>
+              <p>EXISTING RECOMMENDATOR UI</p>
+              <AssistantMessage content={finalizedInsight} />
+            </>
+          );
+
+          const { toolResult, mutate } = mutateTool(state, {
+            name: "getProductDetails",
+            args: { intent, scope },
+            result: finalizedRecommendator,
+            overrideAssistant: {
+              content: finalizedInsight,
+            },
+          });
+
+          await createToolDataEntry({
+            key: finalizedRecommendator.callId,
+            chatId: state.get().chatId,
+            owner: state.get().username,
+            tool: toolResult,
+          });
+
+          let relatedObject: RelatedQuery | null = null;
+
+          const streamableRelated = createStreamableValue<PartialRelated>();
+
+          if (requestOption?.onRequest?.related) {
+            yield (
+              <>
+                {recommendatorUiNode}
+                <StreamRelatedMessage content={streamableRelated.value} />
+              </>
+            );
+          }
+
+          const payloadRelated = JSON.stringify(
+            toPayloadRelatedMessage([...state.get().messages, ...mutate])
+          );
+
+          const { partialObjectStream: relatedStream } = streamObject({
+            model: google("gemini-2.0-pro-exp-02-05"),
+            system: SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
+            prompt: payloadRelated,
+            schema: relatedQuerySchema,
+            onFinish: async ({ object }) => {
+              if (object) {
+                relatedObject = object;
+              }
+              streamableRelated.done();
+            },
+            onError: ({ error }) => {
+              streamableRelated.done();
+              errorState = {
+                isError: true,
+                error,
+              };
+            },
+          });
+
+          for await (const relatedChunk of relatedStream) {
+            streamableRelated.update(relatedChunk);
+          }
 
           if (errorState.isError) {
             generation.done({
@@ -235,6 +327,15 @@ const orchestrator = async (
               />
             );
           }
+
+          return (
+            <>
+              {recommendatorUiNode}
+              {requestOption?.onRequest?.related && (
+                <RelatedMessage related={relatedObject} />
+              )}
+            </>
+          );
         },
       },
       searchProduct: {
