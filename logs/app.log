@@ -37331,3 +37331,51 @@
     }
   ]
 }
+[90m[2025-02-28 22:47:36.027][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "9670cfd6-87e2-4223-a44c-0518ceab7bd2",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-28 22:47:36.050][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "9670cfd6-87e2-4223-a44c-0518ceab7bd2",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-28 22:47:39.818][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-28 22:48:37.325][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "9670cfd6-87e2-4223-a44c-0518ceab7bd2",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-28 22:48:37.342][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "9670cfd6-87e2-4223-a44c-0518ceab7bd2",
+      "exists": true
+    }
+  ]
+}

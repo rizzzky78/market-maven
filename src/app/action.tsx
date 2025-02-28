@@ -173,7 +173,7 @@ const orchestrator = async (
     },
     tools: {
       recommendator: {
-        description: `This tool provides product recommendations based on the current context. It generates a final output in the form of a list of recommended products tailored to the user's intent. Utilize this tool as a means of interpreting user intent to deliver personalized product suggestions.`,
+        description: TEMPLATE.recommendator_description,
         parameters: recommendatorSchema,
         generate: async function* ({ intent, scope }) {
           const toolRequestId = v4();
@@ -393,7 +393,7 @@ const orchestrator = async (
         },
       },
       searchProduct: {
-        description: TEMPLATE.SearchProductDescription,
+        description: TEMPLATE.search_product_description,
         parameters: searchProductSchema,
         generate: async function* ({ query }) {
           const toolRequestId = v4();
@@ -467,7 +467,7 @@ const orchestrator = async (
             yield <LoadingText text="Proceed to data extraction..." />;
 
             const payload = JSON.stringify({
-              objective: TEMPLATE.ExtractionOjective,
+              objective: TEMPLATE.gpd_extraction_objective,
               markdown: scrapeContent.markdown,
             });
 
@@ -691,7 +691,7 @@ const orchestrator = async (
       },
       /** GAP */
       getProductDetails: {
-        description: TEMPLATE.GetProductDetailsDescription,
+        description: TEMPLATE.get_product_details_description,
         parameters: getProductDetailsSchema,
         generate: async function* ({ query, link }) {
           const toolRequestId = v4();
@@ -1059,7 +1059,7 @@ const orchestrator = async (
       },
       /** GAP */
       productsComparison: {
-        description: TEMPLATE.PRODUCTS_COMPARISON_DESCRIPTION,
+        description: TEMPLATE.products_comparison_description,
         parameters: productsComparionSchema,
         generate: async function* ({ compare }) {
           logger.info("Using productsComparison tool");
@@ -1320,7 +1320,7 @@ const orchestrator = async (
       },
       /** GAP */
       inquireUser: {
-        description: TEMPLATE.INQUIRE_USER_DESCIRPTION,
+        description: TEMPLATE.inquire_user_description,
         parameters: inputInquirySchema,
         generate: async function* (inquiryProp) {
           logger.info("Using inquireUser tool");
