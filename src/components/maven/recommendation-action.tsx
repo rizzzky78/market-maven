@@ -1,16 +1,97 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import { RotateCwSquare, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { RecommendationResponse } from "@/lib/types/product";
+import { AI } from "@/app/action";
+import { useAppState } from "@/lib/utility/provider/app-state-provider";
+import { useUIState, useActions, readStreamableValue } from "ai/rsc";
+import { useSmartTextarea } from "../hooks/use-smart-textare";
+import { StreamGeneration } from "@/lib/types/ai";
+import { generateId } from "ai";
+import { toast } from "sonner";
+import { UserMessage } from "./user-message";
 
 interface RecommendationsProps {
   content: RecommendationResponse;
 }
 
 export const RecommendationAction: FC<RecommendationsProps> = ({ content }) => {
+  const [, setUIState] = useUIState<typeof AI>();
+  const { orchestrator } = useActions<typeof AI>();
+  const { isGenerating, setIsGenerating } = useAppState();
+  const { flush, search, related } = useSmartTextarea();
+
+  const actionSubmit = useCallback(
+    async (query: string) => {
+      if (isGenerating) return;
+
+      try {
+        const template = `Search for ${query}`;
+
+        setIsGenerating(true);
+
+        const componentId = generateId();
+
+        setUIState((prevUI) => [
+          ...prevUI,
+          {
+            id: generateId(),
+            display: (
+              <UserMessage
+                key={componentId}
+                content={{
+                  text_input: template,
+                }}
+              />
+            ),
+          },
+        ]);
+
+        flush();
+
+        const { id, display, generation } = await orchestrator(
+          {
+            textInput: template,
+          },
+          { onRequest: { search, related } }
+        );
+
+        setUIState((prevUI) => [...prevUI, { id, display }]);
+
+        if (generation) {
+          const gens = readStreamableValue(
+            generation
+          ) as AsyncIterable<StreamGeneration>;
+          for await (const { loading } of gens) {
+            setIsGenerating(loading);
+          }
+        }
+      } catch (error) {
+        console.error("An Error occured when submitting the query!", error);
+        toast.error("Error When Submitting the Query!", {
+          position: "top-center",
+          richColors: true,
+          className:
+            "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
+        });
+      } finally {
+        setIsGenerating(false);
+      }
+    },
+    [
+      flush,
+      isGenerating,
+      orchestrator,
+      related,
+      search,
+      setIsGenerating,
+      setUIState,
+    ]
+  );
+
   return (
     <motion.div
       key={content.callId}
@@ -67,7 +148,7 @@ export const RecommendationAction: FC<RecommendationsProps> = ({ content }) => {
           >
             <Search className="w-4 h-4 mr-2" />
             <p className="text-sm font-semibold">
-              Quick Search Shortcuts
+              Quick Search
               <span className="ml-2 font-normal text-muted-foreground">
                 (tap to append query search)
               </span>
@@ -101,6 +182,8 @@ export const RecommendationAction: FC<RecommendationsProps> = ({ content }) => {
                   variant="outline"
                   size="sm"
                   className="h-auto bg-[#1A1A1D]/20 w-full flex flex-col rounded-3xl items-start p-2 text-left hover:bg-muted-foreground/50 dark:hover:bg-muted/50 transition-colors"
+                  onClick={async () => await actionSubmit(item.name)}
+                  disabled={isGenerating}
                 >
                   <div className="flex items-center">
                     <motion.div
@@ -111,9 +194,14 @@ export const RecommendationAction: FC<RecommendationsProps> = ({ content }) => {
                     >
                       <p>{item.brand}</p>
                     </motion.div>
-                    <p className="ml-3 text-sm font-medium w-full line-clamp-2">
-                      {item.name}
-                    </p>
+                    <div className="ml-3 flex flex-col">
+                      <p className="text-sm font-medium w-full line-clamp-2">
+                        {item.name}
+                      </p>
+                      <p className="text-xs font-normal text-muted-foreground">
+                        Model: {item.productModel}
+                      </p>
+                    </div>
                   </div>
                 </Button>
               </motion.div>
