@@ -2,7 +2,7 @@ import { ChatProperties } from "@/lib/types/ai";
 import { ComponentType, ToolDataStore } from "@/lib/types/neon";
 import { FC, Fragment } from "react";
 import { mapUIState } from "../custom/ui-mapper";
-import { ProductsResponse } from "@/lib/types/product";
+import { ProductDetailsResponse, ProductsResponse } from "@/lib/types/product";
 import { ProductSearch } from "./product-search";
 import { ProductDetails } from "./product-details";
 import { ProductComparison } from "./product-comparison";
@@ -17,11 +17,7 @@ type ProductSearchData = ToolDataStore<{ query: string }, ProductsResponse>;
 
 type ProductDetailsData = ToolDataStore<
   { query: string; link: string },
-  {
-    productDetails: Record<string, any>;
-    screenshot: string;
-    callId: string;
-  }
+  ProductDetailsResponse
 >;
 
 type ProductComparisonData = ToolDataStore<
@@ -48,7 +44,7 @@ const ChatContent: FC<{ data: ChatProperties }> = ({ data }) => {
   });
 
   return (
-    <div>
+    <div className="space-y-6">
       {ui.map((component) => (
         <Fragment key={component.id}>{component.display}</Fragment>
       ))}

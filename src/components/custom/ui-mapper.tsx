@@ -20,7 +20,10 @@ import {
   ProductDetailsProps,
   ProductRecommendationProps,
 } from "@/lib/types/props";
-import { RecommendationAction } from "../maven/recommendation-action";
+import {
+  RecommendationAction,
+  TemplateRecommendationAction,
+} from "../maven/recommendation-action";
 
 /**
  * Core message content structure representing different types of content in the system
@@ -66,12 +69,20 @@ type UserInquiryResult = ExtendedToolResult<Inquiry, { data: string }>;
 const generateUniqueId = (baseId: string, index: number): string =>
   `${baseId}-${index}`;
 
-const handleRecommendator = (result: string, id: string) => {
+const handleRecommendator = (
+  result: string,
+  id: string,
+  isSharedPage?: boolean
+) => {
   const recommendations: ProductRecommendationProps["content"] =
     JSON.parse(result);
   return {
     id,
-    display: <RecommendationAction content={recommendations} />,
+    display: isSharedPage ? (
+      <TemplateRecommendationAction content={recommendations} />
+    ) : (
+      <RecommendationAction content={recommendations} />
+    ),
   };
 };
 
@@ -152,7 +163,8 @@ const toolResultHandlers: Record<
   AvailableTool,
   (id: string, result: string, isSharedPage?: boolean) => UIStateItem
 > = {
-  recommendator: (id, result) => handleRecommendator(result, id),
+  recommendator: (id, result, isSharedPage) =>
+    handleRecommendator(result, id, isSharedPage),
   searchProduct: (id, result, isSharedPage) =>
     handleProductSearch(result, id, isSharedPage),
   getProductDetails: (id, result, isSharedPage) =>
