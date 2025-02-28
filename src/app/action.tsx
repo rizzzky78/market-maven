@@ -17,6 +17,8 @@ import {
   ProductSearch,
   StreamProductSearch,
 } from "@/components/maven/product-search";
+import { RecommendationAction } from "@/components/maven/recommendation-action";
+import { RecommendationSkeleton } from "@/components/maven/recommendation-skeleton";
 import {
   RelatedMessage,
   StreamRelatedMessage,
@@ -37,7 +39,6 @@ import {
   productsSchema,
   recommendationSchema,
 } from "@/lib/agents/schema/product";
-import { comparisonOutputSchema } from "@/lib/agents/schema/products-comparison";
 import {
   PartialRelated,
   RelatedQuery,
@@ -89,7 +90,6 @@ import {
   streamUI,
 } from "ai/rsc";
 import { v4 } from "uuid";
-import { z } from "zod";
 
 const orchestrator = async (
   payload: PayloadData,
@@ -174,16 +174,28 @@ const orchestrator = async (
         generate: async function* ({ intent, scope }) {
           const toolRequestId = v4();
 
+          yield (
+            <LoadingText text="Crafting an recommendations based on your thought..." />
+          );
+
+          logger.info("Using recommendator tool", {
+            progress: "initial",
+            request: { intent, scope },
+          });
+
+          generation.update({
+            process: "generating",
+            loading: true,
+          });
+
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+
           const finalizedRecommendator: RecommendationResponse = {
             callId: toolRequestId,
             recommendations: [],
           };
 
-          yield (
-            <>
-              <p>YIELD RECOMMENDATOR SKELETON UI</p>
-            </>
-          );
+          yield <RecommendationSkeleton />;
 
           const { object: recommendatorResult } = streamObject({
             model: google("gemini-2.0-flash-exp", {
@@ -207,17 +219,16 @@ const orchestrator = async (
 
           const { recommendations } = await recommendatorResult;
 
-          yield (
-            <>
-              <p>APPEND RECOMMENDATOR RESULT COMPONENT</p>
-            </>
-          );
-
           const streamableInsight = createStreamableValue("");
 
           yield (
             <>
-              <p>EXISTING RECOMMENDATOR UI</p>
+              <RecommendationAction
+                content={{
+                  callId: finalizedRecommendator.callId,
+                  recommendations,
+                }}
+              />
               <StreamAssistantMessage content={streamableInsight.value} />
             </>
           );
@@ -247,13 +258,18 @@ const orchestrator = async (
 
           const recommendatorUiNode = (
             <>
-              <p>EXISTING RECOMMENDATOR UI</p>
+              <RecommendationAction
+                content={{
+                  callId: finalizedRecommendator.callId,
+                  recommendations,
+                }}
+              />
               <AssistantMessage content={finalizedInsight} />
             </>
           );
 
           const { toolResult, mutate } = mutateTool(state, {
-            name: "getProductDetails",
+            name: "recommendator",
             args: { intent, scope },
             result: finalizedRecommendator,
             overrideAssistant: {
@@ -266,6 +282,11 @@ const orchestrator = async (
             chatId: state.get().chatId,
             owner: state.get().username,
             tool: toolResult,
+          });
+
+          logger.info("Done using recommendator tool", {
+            progress: "finish",
+            request: { intent, scope },
           });
 
           let relatedObject: RelatedQuery | null = null;

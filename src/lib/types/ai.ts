@@ -333,6 +333,8 @@ export const AvailableTools = {
   PRODUCTS_COMPARISON: "productsComparison",
   /** Tool for user inquiry */
   INQUIRE_USER: "inquireUser",
+  /** Tool to do research products based on user intent and scopes */
+  RECOMMENDATOR: "recommendator",
 } as const;
 
 /**
