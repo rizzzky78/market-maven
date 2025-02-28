@@ -4,10 +4,10 @@ import { ComponentProps, FC, useEffect, useState } from "react";
 import {
   CodeXml,
   History,
+  MessageCircleQuestion,
   Moon,
   PanelRightClose,
   Plus,
-  ScanQrCode,
   Sparkles,
   Sun,
 } from "lucide-react";
@@ -98,9 +98,9 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                 asChild
                 className="rounded-full md:h-8 md:p-0"
               >
-                <Link href="/chat">
+                <Link href="/">
                   <div className="flex aspect-square size-8 items-center justify-center">
-                    <ScanQrCode className="size-4 text-purple-400" />
+                    <MessageCircleQuestion className="size-4 text-purple-400" />
                   </div>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">Market Maven</span>
@@ -258,8 +258,9 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
       <Sidebar collapsible="none" className="hidden flex-1 md:flex">
         <SidebarHeader className="gap-3.5 border-b px-4 py-3">
           <div className="flex w-full items-center justify-between">
-            <div className="text-base font-medium text-foreground">
-              Market Maven
+            <div className="flex items-center text-base font-medium text-foreground">
+              <MessageCircleQuestion className="size-5 shrink-0 mr-2" />
+              <p>Market Maven</p>
             </div>
           </div>
         </SidebarHeader>
