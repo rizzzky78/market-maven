@@ -16,7 +16,7 @@ import {
   TooltipProvider,
 } from "../ui/tooltip";
 import Link from "next/link";
-import { useSmartTextarea } from "../hooks/maven-state-controller";
+import { useMavenStateController } from "../hooks/maven-state-controller";
 import { ShareButton } from "./share-button";
 import Image from "next/image";
 import { ExtendedMessage } from "./extended-message";
@@ -28,7 +28,8 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
   const { success, args, data } = content;
 
   const [hovering, setHovering] = useState(false);
-  const { addToComparison, activeComparison, attachment } = useSmartTextarea();
+  const { addToComparison, activeComparison, attachment } =
+    useMavenStateController();
 
   if (!success) {
     return (
@@ -187,7 +188,6 @@ export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
   const [raw, error, pending] = useStreamableValue(content);
   const [data, setData] = useState<Record<string, any>>({});
   const [hovering, setHovering] = useState(false);
-  const { addToComparison, activeComparison, attachment } = useSmartTextarea();
 
   useEffect(() => {
     if (raw) setData(raw);
@@ -202,19 +202,6 @@ export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
       />
     );
   }
-
-  const comparisonState = activeComparison
-    ? activeComparison.for.length === 2 ||
-      Boolean(activeComparison.for.find((v) => v.callId === callId))
-    : false;
-
-  const isButtonDisabled = attachment ? true : false || comparisonState;
-
-  const attachComparison = () => {
-    addToComparison({
-      for: { title: query, callId },
-    });
-  };
 
   return (
     <div className="w-full">
@@ -276,6 +263,7 @@ export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
                           title={"Product Details"}
                           type={"product-details"}
                           callId={callId}
+                          disabled
                         />
                       </div>
                       <TooltipProvider>
@@ -285,8 +273,7 @@ export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
                               variant={"outline"}
                               size={"sm"}
                               className="rounded-3xl py-1 font-normal bg-[#1A1A1D] dark:bg-background text-white hover:border-[#1A1A1D]"
-                              onClick={attachComparison}
-                              disabled={isButtonDisabled}
+                              disabled
                             >
                               <FlipHorizontal className="size-4 text-purple-500 dark:text-purple-300" />
                               <span>Compare</span>
