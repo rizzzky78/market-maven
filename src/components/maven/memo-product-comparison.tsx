@@ -6,7 +6,6 @@ import { ChevronUp, FlaskConical, Grip, Minus, Plus } from "lucide-react";
 import Link from "next/link";
 import { FC, Fragment, JSX, memo, useState } from "react";
 import { Button } from "../ui/button";
-import { DeepPartial } from "ai";
 import { Skeleton } from "../ui/skeleton";
 
 const containerVariants = {
@@ -118,7 +117,7 @@ interface ProductComparisonProps {
   callId: string;
   isGenerating?: boolean;
   compare: { title: string; callId: string }[];
-  data: DeepPartial<Record<string, any>>;
+  data: Record<string, any>;
 }
 
 const PureProductComparison: FC<ProductComparisonProps> = ({

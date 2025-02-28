@@ -36986,3 +36986,284 @@
     }
   ]
 }
+[90m[2025-02-28 21:07:13.413][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "af36e46a-9384-477f-bfdd-404d187dca52"
+    }
+  ]
+}
+[90m[2025-02-28 21:07:25.363][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "af36e46a-9384-477f-bfdd-404d187dca52"
+    }
+  ]
+}
+[90m[2025-02-28 21:07:31.683][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "af36e46a-9384-477f-bfdd-404d187dca52"
+    }
+  ]
+}
+[90m[2025-02-28 21:07:31.812][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "BenQ ZOWIE XL2546K"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:07:32.088][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-28 21:07:34.436][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 16453,
+        "completionTokens": 14,
+        "totalTokens": 16467
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:12:24.821][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "attachProduct": {
+          "product": {
+            "id": "EUvX0qmM8EjNPDH7",
+            "title": "ASUS ROG Swift PG259QN",
+            "link": "https://www.tokopedia.com/cockomputer/asus-rog-swift-pg259qn?extParam=ivf%3Dfalse%26keyword%3Dasus+rog+swift+pg259qn%26search_id%3D20250228140407822C846D2BB9B41B7AR7%26src%3Dsearch"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:12:27.550][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "ASUS ROG Swift PG259QN",
+        "link": "https://www.tokopedia.com/cockomputer/asus-rog-swift-pg259qn?extParam=ivf%3Dfalse%26keyword%3Dasus+rog+swift+pg259qn%26search_id%3D20250228140407822C846D2BB9B41B7AR7%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:12:40.712][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "61588ea1-99e2-4e39-bb98-3ab432ff6287"
+    }
+  ]
+}
+[90m[2025-02-28 21:12:53.713][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "External Data",
+  "meta": [
+    {
+      "ext": "enabled",
+      "eta": 8.97
+    }
+  ]
+}
+[90m[2025-02-28 21:13:03.934][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "61588ea1-99e2-4e39-bb98-3ab432ff6287"
+    }
+  ]
+}
+[90m[2025-02-28 21:13:06.883][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "61588ea1-99e2-4e39-bb98-3ab432ff6287"
+    }
+  ]
+}
+[90m[2025-02-28 21:13:06.951][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "ASUS ROG Swift PG259QN",
+        "link": "https://www.tokopedia.com/cockomputer/asus-rog-swift-pg259qn?extParam=ivf%3Dfalse%26keyword%3Dasus+rog+swift+pg259qn%26search_id%3D20250228140407822C846D2BB9B41B7AR7%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:13:07.400][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-28 21:13:09.001][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 18957,
+        "completionTokens": 113,
+        "totalTokens": 19070
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:16:44.967][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "productCompare": {
+          "for": [
+            {
+              "title": "ASUS ROG Swift PG259QN",
+              "callId": "61588ea1-99e2-4e39-bb98-3ab432ff6287"
+            },
+            {
+              "title": "ASUS ProArt Display PA279CV | 27\" IPS 4K UHD 60Hz 5ms Monitor",
+              "callId": "e3608d42-4434-4642-8cb3-f506a1aecaea"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:16:46.692][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using productsComparison tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-28 21:16:46.875][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "e3608d42-4434-4642-8cb3-f506a1aecaea",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-28 21:16:47.156][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "61588ea1-99e2-4e39-bb98-3ab432ff6287",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-28 21:16:56.979][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "9670cfd6-87e2-4223-a44c-0518ceab7bd2"
+    }
+  ]
+}
+[90m[2025-02-28 21:16:58.538][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "9670cfd6-87e2-4223-a44c-0518ceab7bd2"
+    }
+  ]
+}
+[90m[2025-02-28 21:16:58.592][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using productsComparison tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "compare": [
+          {
+            "title": "ASUS ROG Swift PG259QN",
+            "callId": "61588ea1-99e2-4e39-bb98-3ab432ff6287"
+          },
+          {
+            "title": "ASUS ProArt Display PA279CV | 27\" IPS 4K UHD 60Hz 5ms Monitor",
+            "callId": "e3608d42-4434-4642-8cb3-f506a1aecaea"
+          }
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:16:58.944][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-28 21:17:00.663][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 21022,
+        "completionTokens": 108,
+        "totalTokens": 21130
+      }
+    }
+  ]
+}
+[90m[2025-02-28 22:02:47.827][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "9670cfd6-87e2-4223-a44c-0518ceab7bd2",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-28 22:02:47.878][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "9670cfd6-87e2-4223-a44c-0518ceab7bd2",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-28 22:04:34.530][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
