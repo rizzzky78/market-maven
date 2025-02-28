@@ -17,7 +17,10 @@ import {
   ProductSearch,
   StreamProductSearch,
 } from "@/components/maven/product-search";
-import { RecommendationAction } from "@/components/maven/recommendation-action";
+import {
+  RecommendationAction,
+  StreamRecommendationAction,
+} from "@/components/maven/recommendation-action";
 import { RecommendationSkeleton } from "@/components/maven/recommendation-skeleton";
 import {
   RelatedMessage,
@@ -36,6 +39,7 @@ import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
 import { TEMPLATE } from "@/lib/agents/constant";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
 import {
+  ProductsRecommendation,
   productsSchema,
   recommendationSchema,
 } from "@/lib/agents/schema/product";
@@ -197,7 +201,20 @@ const orchestrator = async (
 
           yield <RecommendationSkeleton />;
 
-          const { object: recommendatorResult } = streamObject({
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+
+          const streamableRecommendation = createStreamableValue<
+            DeepPartial<ProductsRecommendation>
+          >({ recommendations: [] });
+
+          yield (
+            <StreamRecommendationAction
+              callId={toolRequestId}
+              content={streamableRecommendation.value}
+            />
+          );
+
+          const { partialObjectStream } = streamObject({
             model: google("gemini-2.0-flash-exp", {
               useSearchGrounding: true,
             }),
@@ -208,8 +225,10 @@ const orchestrator = async (
               if (object) {
                 finalizedRecommendator.recommendations = object.recommendations;
               }
+              streamableRecommendation.done();
             },
             onError: ({ error }) => {
+              streamableRecommendation.error(error);
               errorState = {
                 isError: true,
                 error,
@@ -217,18 +236,15 @@ const orchestrator = async (
             },
           });
 
-          const { recommendations } = await recommendatorResult;
+          for await (const chunkRecommendator of partialObjectStream) {
+            streamableRecommendation.update(chunkRecommendator);
+          }
 
           const streamableInsight = createStreamableValue("");
 
           yield (
             <>
-              <RecommendationAction
-                content={{
-                  callId: finalizedRecommendator.callId,
-                  recommendations,
-                }}
-              />
+              <RecommendationAction content={finalizedRecommendator} />
               <StreamAssistantMessage content={streamableInsight.value} />
             </>
           );
@@ -238,9 +254,17 @@ const orchestrator = async (
           const { textStream } = streamText({
             model: google("gemini-2.0-flash-lite-preview-02-05"),
             system: SYSTEM_INSTRUCTION.RECOMMENDATOR_INSIGHT,
+            prompt: JSON.stringify({
+              payload: finalizedRecommendator.recommendations,
+            }),
             onFinish: ({ text }) => {
               finalizedInsight = text;
               streamableInsight.done();
+
+              generation.done({
+                process: "done",
+                loading: false,
+              });
             },
             onError: ({ error }) => {
               streamableInsight.error(error);
@@ -258,12 +282,7 @@ const orchestrator = async (
 
           const recommendatorUiNode = (
             <>
-              <RecommendationAction
-                content={{
-                  callId: finalizedRecommendator.callId,
-                  recommendations,
-                }}
-              />
+              <RecommendationAction content={finalizedRecommendator} />
               <AssistantMessage content={finalizedInsight} />
             </>
           );

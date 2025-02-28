@@ -35665,3 +35665,503 @@
     }
   ]
 }
+[90m[2025-02-28 14:32:08.640][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "578310dc-a160-4b81-9b71-d558d2776de8"
+    }
+  ]
+}
+[90m[2025-02-28 14:32:20.979][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "External Data",
+  "meta": [
+    {
+      "ext": "enabled",
+      "eta": 8.31
+    }
+  ]
+}
+[90m[2025-02-28 14:32:36.232][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "578310dc-a160-4b81-9b71-d558d2776de8"
+    }
+  ]
+}
+[90m[2025-02-28 14:32:38.100][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "578310dc-a160-4b81-9b71-d558d2776de8"
+    }
+  ]
+}
+[90m[2025-02-28 14:32:38.361][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-28 14:32:38.633][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Samsung Galaxy S24 Ultra 12/256GB \\| 12/512GB \\| 12/1TB Garansi Resmi",
+        "link": "https://www.tokopedia.com/studioponsel/samsung-galaxy-s24-ultra-12-256gb-12-512gb-12-1tb-garansi-resmi-12-256gb-titanium-gray-94e4e?extParam=ivf%3Dfalse%26keyword%3Dsamsung+galaxy+s24+ultra%26search_id%3D2025022807303307D0D6B53A3FD80E0EXU%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 14:32:40.731][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 3019,
+        "completionTokens": 180,
+        "totalTokens": 3199
+      }
+    }
+  ]
+}
+[90m[2025-02-28 15:57:06.654][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-28 15:57:14.250][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "I want to buy a new laptop with gaming specs"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 15:57:16.084][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using recommendator tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "intent": "The user looking for a laptop with gaming specs",
+        "scope": [
+          "laptop",
+          "gaming"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-02-28 15:58:29.994][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-28 15:58:31.013][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-28 15:58:37.998][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-28 16:10:05.544][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-28 16:10:06.347][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-28 16:15:39.160][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-28 16:15:39.754][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-28 16:15:52.335][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "I want to buy a new laptop with gaming specs"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 16:15:53.414][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using recommendator tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "intent": "The user looking for a laptop with gaming specs",
+        "scope": [
+          "laptop",
+          "gaming"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-02-28 16:17:21.790][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-28 16:17:22.314][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-28 16:17:25.085][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-28 16:17:25.532][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-28 16:17:41.414][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-28 16:17:53.405][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "I want to buy a new laptop with gaming specs"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 16:17:55.177][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using recommendator tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "intent": "The user looking for a laptop with gaming specs",
+        "scope": [
+          "laptop",
+          "gaming"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-02-28 16:18:05.387][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "b5d26a7f-9d4f-4181-8feb-a6119d8ec1b8"
+    }
+  ]
+}
+[90m[2025-02-28 16:18:06.273][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using recommendator tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "intent": "The user looking for a laptop with gaming specs",
+        "scope": [
+          "laptop",
+          "gaming"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-02-28 16:18:06.291][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-28 16:18:08.670][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 506,
+        "completionTokens": 15,
+        "totalTokens": 521
+      }
+    }
+  ]
+}
+[90m[2025-02-28 16:19:54.907][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-28 16:19:58.751][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-28 16:20:00.035][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-28 16:20:13.347][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-28 16:20:54.753][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-02-28 16:21:02.260][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "I want to buy a new laptop with gaming specs"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 16:21:04.010][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using recommendator tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "intent": "The user looking for a laptop with gaming specs",
+        "scope": [
+          "laptop",
+          "gaming"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-02-28 16:21:13.216][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "0d17f773-55eb-4cbb-b38d-4f5197b6046c"
+    }
+  ]
+}
+[90m[2025-02-28 16:21:13.340][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using recommendator tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "intent": "The user looking for a laptop with gaming specs",
+        "scope": [
+          "laptop",
+          "gaming"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-02-28 16:21:14.234][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-28 16:21:15.539][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 506,
+        "completionTokens": 15,
+        "totalTokens": 521
+      }
+    }
+  ]
+}
+[90m[2025-02-28 16:21:33.788][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for ASUS ROG Zephyrus G14"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 16:21:35.442][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "ASUS ROG Zephyrus G14"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 16:21:49.421][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "e9a148da-a6c1-41c2-b6e9-d7d4e92dafb6"
+    }
+  ]
+}
+[90m[2025-02-28 16:22:02.104][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "e9a148da-a6c1-41c2-b6e9-d7d4e92dafb6"
+    }
+  ]
+}
+[90m[2025-02-28 16:22:09.988][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "e9a148da-a6c1-41c2-b6e9-d7d4e92dafb6"
+    }
+  ]
+}
+[90m[2025-02-28 16:22:10.104][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "ASUS ROG Zephyrus G14"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 16:22:10.257][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-28 16:22:12.367][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 878,
+        "completionTokens": 11,
+        "totalTokens": 889
+      }
+    }
+  ]
+}
+[90m[2025-02-28 16:23:16.927][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Does this device capable to run 4K gaming on external display?",
+        "attachProduct": {
+          "product": {
+            "id": "pbDlFrwCKthaKISu",
+            "title": "Asus ROG Zephyrus G14 GA403UV-R946OL7W-O AMD Ryzen 9-8945HS 32GB 1TB SSD RTX4060 8GB 14″ 3K OLED Win 11 OHS - Platinum White",
+            "link": "https://www.tokopedia.com/asusrogindonesia/asus-rog-zephyrus-g14-ga403uv-r946ol7w-o-amd-ryzen-9-8945hs-32gb-1tb-ssd-rtx4060-8gb-14-3k-oled-win-11-ohs-platinum-white-laptop-b3f17?extParam=ivf%3Dfalse%26keyword%3Dasus+rog+zephyrus+g14%26search_id%3D20250228092142892F7A9776070B21F3YA%26src%3Dsearch"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-02-28 16:23:18.828][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Asus ROG Zephyrus G14 GA403UV-R946OL7W-O AMD Ryzen 9-8945HS 32GB 1TB SSD RTX4060 8GB 14″ 3K OLED Win 11 OHS - Platinum White",
+        "link": "https://www.tokopedia.com/asusrogindonesia/asus-rog-zephyrus-g14-ga403uv-r946ol7w-o-amd-ryzen-9-8945hs-32gb-1tb-ssd-rtx4060-8gb-14-3k-oled-win-11-ohs-platinum-white-laptop-b3f17?extParam=ivf%3Dfalse%26keyword%3Dasus+rog+zephyrus+g14%26search_id%3D20250228092142892F7A9776070B21F3YA%26src%3Dsearch"
+      }
+    }
+  ]
+}
