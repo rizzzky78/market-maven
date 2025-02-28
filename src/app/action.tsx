@@ -179,15 +179,13 @@ const orchestrator = async (
             recommendations: [],
           };
 
-          const streamableRecommendator = createStreamableValue();
-
           yield (
             <>
-              <p>REPLACE RECOMMENDATOR ACTION BUTTON (STREAMED)</p>
+              <p>YIELD RECOMMENDATOR SKELETON UI</p>
             </>
           );
 
-          const { partialObjectStream } = streamObject({
+          const { object: recommendatorResult } = streamObject({
             model: google("gemini-2.0-flash-exp", {
               useSearchGrounding: true,
             }),
@@ -198,10 +196,8 @@ const orchestrator = async (
               if (object) {
                 finalizedRecommendator.recommendations = object.recommendations;
               }
-              streamableRecommendator.done();
             },
             onError: ({ error }) => {
-              streamableRecommendator.error(error);
               errorState = {
                 isError: true,
                 error,
@@ -209,9 +205,13 @@ const orchestrator = async (
             },
           });
 
-          for await (const t of partialObjectStream) {
-            streamableRecommendator.update(t);
-          }
+          const { recommendations } = await recommendatorResult;
+
+          yield (
+            <>
+              <p>APPEND RECOMMENDATOR RESULT COMPONENT</p>
+            </>
+          );
 
           const streamableInsight = createStreamableValue("");
 
