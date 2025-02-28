@@ -107,6 +107,15 @@ const SYSTEM_INSTRUCTION = {
     "./src/lib/agents/constant/md/recommendator-insight.md",
     "utf-8"
   ),
+  /**
+   * LLM Instruct for **Title Crafter**
+   *
+   * Output: String
+   */
+  TITLE_CRAFTER: readFileSync(
+    "./src/lib/agents/constant/md/title-crafter.md",
+    "utf-8"
+  ),
 } as const;
 
 export default SYSTEM_INSTRUCTION;
