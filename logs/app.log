@@ -36333,3 +36333,656 @@
     }
   ]
 }
+[90m[2025-02-28 20:52:39.358][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Is this device able to gaming on 4K on external display?",
+        "attachProduct": {
+          "product": {
+            "id": "h9InXqL4DgEVqGUz",
+            "title": "Asus ROG Zephyrus G14 GA403UV-R946OL7W-O AMD Ryzen 9-8945HS 32GB 1TB SSD RTX4060 8GB 14″ 3K OLED Win 11 OHS - Platinum White",
+            "link": "https://www.tokopedia.com/asusrogindonesia/asus-rog-zephyrus-g14-ga403uv-r946ol7w-o-amd-ryzen-9-8945hs-32gb-1tb-ssd-rtx4060-8gb-14-3k-oled-win-11-ohs-platinum-white-laptop-b3f17?extParam=ivf%3Dfalse%26keyword%3Dasus+rog+zephyrus+g14%26search_id%3D20250228092142892F7A9776070B21F3YA%26src%3Dsearch"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-02-28 20:52:42.297][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Asus ROG Zephyrus G14 GA403UV-R946OL7W-O AMD Ryzen 9-8945HS 32GB 1TB SSD RTX4060 8GB 14″ 3K OLED Win 11 OHS - Platinum White",
+        "link": "https://www.tokopedia.com/asusrogindonesia/asus-rog-zephyrus-g14-ga403uv-r946ol7w-o-amd-ryzen-9-8945hs-32gb-1tb-ssd-rtx4060-8gb-14-3k-oled-win-11-ohs-platinum-white-laptop-b3f17?extParam=ivf%3Dfalse%26keyword%3Dasus+rog+zephyrus+g14%26search_id%3D20250228092142892F7A9776070B21F3YA%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 20:52:58.676][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "288316b7-1cf3-45ea-ac64-65fb3f76ccb4"
+    }
+  ]
+}
+[90m[2025-02-28 20:53:11.291][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "External Data",
+  "meta": [
+    {
+      "ext": "enabled",
+      "eta": 8.53
+    }
+  ]
+}
+[90m[2025-02-28 20:53:23.161][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "288316b7-1cf3-45ea-ac64-65fb3f76ccb4"
+    }
+  ]
+}
+[90m[2025-02-28 20:53:25.388][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "288316b7-1cf3-45ea-ac64-65fb3f76ccb4"
+    }
+  ]
+}
+[90m[2025-02-28 20:53:25.445][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Asus ROG Zephyrus G14 GA403UV-R946OL7W-O AMD Ryzen 9-8945HS 32GB 1TB SSD RTX4060 8GB 14″ 3K OLED Win 11 OHS - Platinum White",
+        "link": "https://www.tokopedia.com/asusrogindonesia/asus-rog-zephyrus-g14-ga403uv-r946ol7w-o-amd-ryzen-9-8945hs-32gb-1tb-ssd-rtx4060-8gb-14-3k-oled-win-11-ohs-platinum-white-laptop-b3f17?extParam=ivf%3Dfalse%26keyword%3Dasus+rog+zephyrus+g14%26search_id%3D20250228092142892F7A9776070B21F3YA%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 20:53:25.665][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-28 20:53:28.436][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 3601,
+        "completionTokens": 246,
+        "totalTokens": 3847
+      }
+    }
+  ]
+}
+[90m[2025-02-28 20:53:50.704][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Which 4K monitors work best with the Zephyrus G14?"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 20:53:51.714][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using recommendator tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "intent": "The user looking for a 4k monitor that works best with Zephyrus G14",
+        "scope": [
+          "4K monitor",
+          "Zephyrus G14"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-02-28 20:54:03.232][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "c33723f8-52ce-4a46-8dec-2ad2b1c6326e"
+    }
+  ]
+}
+[90m[2025-02-28 20:54:03.347][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using recommendator tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "intent": "The user looking for a 4k monitor that works best with Zephyrus G14",
+        "scope": [
+          "4K monitor",
+          "Zephyrus G14"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-02-28 20:54:03.516][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-28 20:54:05.377][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 6253,
+        "completionTokens": 32,
+        "totalTokens": 6285
+      }
+    }
+  ]
+}
+[90m[2025-02-28 20:55:28.357][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for ASUS ProArt Display PA279CV"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 20:55:29.217][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "ASUS ProArt Display PA279CV"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 20:55:49.518][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "ca712936-43e4-4337-8682-bbb0eba3d507"
+    }
+  ]
+}
+[90m[2025-02-28 20:56:00.993][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "ca712936-43e4-4337-8682-bbb0eba3d507"
+    }
+  ]
+}
+[90m[2025-02-28 20:56:06.316][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "ca712936-43e4-4337-8682-bbb0eba3d507"
+    }
+  ]
+}
+[90m[2025-02-28 20:56:06.434][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "ASUS ProArt Display PA279CV"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 20:56:06.652][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-28 20:56:10.091][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 6686,
+        "completionTokens": 12,
+        "totalTokens": 6698
+      }
+    }
+  ]
+}
+[90m[2025-02-28 20:59:01.433][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Is it good for fast paced gaming?",
+        "attachProduct": {
+          "product": {
+            "id": "WpHdyaT4DIcTqvx8",
+            "title": "ASUS ProArt Display PA279CV | 27\" IPS 4K UHD 60Hz 5ms Monitor",
+            "link": "https://www.tokopedia.com/lezzcom/asus-proart-display-pa279cv-27-ips-4k-uhd-60hz-5ms-monitor?extParam=ivf%3Dfalse%26keyword%3Dasus+proart+display+pa279cv%26search_id%3D20250228135540F44B441242A2AE167NRY%26src%3Dsearch"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-02-28 20:59:03.220][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "ASUS ProArt Display PA279CV | 27\" IPS 4K UHD 60Hz 5ms Monitor",
+        "link": "https://www.tokopedia.com/lezzcom/asus-proart-display-pa279cv-27-ips-4k-uhd-60hz-5ms-monitor?extParam=ivf%3Dfalse%26keyword%3Dasus+proart+display+pa279cv%26search_id%3D20250228135540F44B441242A2AE167NRY%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 20:59:18.249][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "e3608d42-4434-4642-8cb3-f506a1aecaea"
+    }
+  ]
+}
+[90m[2025-02-28 20:59:31.192][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "External Data",
+  "meta": [
+    {
+      "ext": "enabled",
+      "eta": 8.32
+    }
+  ]
+}
+[90m[2025-02-28 20:59:42.322][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "e3608d42-4434-4642-8cb3-f506a1aecaea"
+    }
+  ]
+}
+[90m[2025-02-28 20:59:44.732][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "e3608d42-4434-4642-8cb3-f506a1aecaea"
+    }
+  ]
+}
+[90m[2025-02-28 20:59:44.790][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "ASUS ProArt Display PA279CV | 27\" IPS 4K UHD 60Hz 5ms Monitor",
+        "link": "https://www.tokopedia.com/lezzcom/asus-proart-display-pa279cv-27-ips-4k-uhd-60hz-5ms-monitor?extParam=ivf%3Dfalse%26keyword%3Dasus+proart+display+pa279cv%26search_id%3D20250228135540F44B441242A2AE167NRY%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 20:59:45.156][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-28 20:59:46.889][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 9023,
+        "completionTokens": 154,
+        "totalTokens": 9177
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:01:38.772][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Can you show me some monitors with a 144Hz or higher refresh rate?"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:01:40.840][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using recommendator tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "intent": "The user looking for a monitor with a 144Hz or higher refresh rate",
+        "scope": [
+          "monitor",
+          "144Hz or higher"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:01:51.616][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "d6b92bc0-1809-463e-94f3-966e249cf578"
+    }
+  ]
+}
+[90m[2025-02-28 21:01:51.752][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using recommendator tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "intent": "The user looking for a monitor with a 144Hz or higher refresh rate",
+        "scope": [
+          "monitor",
+          "144Hz or higher"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:01:51.920][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-28 21:01:53.689][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 11080,
+        "completionTokens": 28,
+        "totalTokens": 11108
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:03:11.390][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Alienware AW2521H"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:03:13.468][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Alienware AW2521H"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:03:25.010][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "ea460163-ce06-4ec7-80fd-be3a3d28e224"
+    }
+  ]
+}
+[90m[2025-02-28 21:03:27.410][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "ea460163-ce06-4ec7-80fd-be3a3d28e224"
+    }
+  ]
+}
+[90m[2025-02-28 21:03:30.365][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "ea460163-ce06-4ec7-80fd-be3a3d28e224"
+    }
+  ]
+}
+[90m[2025-02-28 21:03:30.421][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Alienware AW2521H"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:03:30.738][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-28 21:03:32.365][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 11506,
+        "completionTokens": 11,
+        "totalTokens": 11517
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:03:58.619][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for ASUS ROG Swift PG259QN"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:03:59.957][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "ASUS ROG Swift PG259QN"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:04:12.267][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "20145622-edbd-4b2e-b8ff-637740db2573"
+    }
+  ]
+}
+[90m[2025-02-28 21:04:23.427][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "20145622-edbd-4b2e-b8ff-637740db2573"
+    }
+  ]
+}
+[90m[2025-02-28 21:04:28.840][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "20145622-edbd-4b2e-b8ff-637740db2573"
+    }
+  ]
+}
+[90m[2025-02-28 21:04:29.040][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "ASUS ROG Swift PG259QN"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:04:29.314][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-28 21:04:31.165][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 12091,
+        "completionTokens": 11,
+        "totalTokens": 12102
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:05:40.369][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Xiaomi G27i"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:05:41.950][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Xiaomi G27i"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:05:55.263][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "a7c93472-6d2a-4100-8f2a-326164565aae"
+    }
+  ]
+}
+[90m[2025-02-28 21:06:07.671][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "a7c93472-6d2a-4100-8f2a-326164565aae"
+    }
+  ]
+}
+[90m[2025-02-28 21:06:12.756][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "a7c93472-6d2a-4100-8f2a-326164565aae"
+    }
+  ]
+}
+[90m[2025-02-28 21:06:12.924][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Xiaomi G27i"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:06:13.377][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-02-28 21:06:14.899][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 14229,
+        "completionTokens": 8,
+        "totalTokens": 14237
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:06:59.452][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for BenQ ZOWIE XL2546K"
+      }
+    }
+  ]
+}
+[90m[2025-02-28 21:07:00.635][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "BenQ ZOWIE XL2546K"
+      }
+    }
+  ]
+}

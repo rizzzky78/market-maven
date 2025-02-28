@@ -87,7 +87,11 @@ export const RelatedMessage: FC<RelatedProps> = ({ related }) => {
     [flush, isGenerating, orchestrator, setIsGenerating, setUIState]
   );
 
-  const isButtonDisabled = attachment ? true : activeComparison ? true : false;
+  const isButtonDisabled = attachment
+    ? true
+    : activeComparison
+    ? true
+    : isGenerating;
 
   return (
     <div className="w-full my-10 text-sm border-[#1A1A1D] dark:border-inherit border rounded-3xl">
@@ -138,65 +142,6 @@ interface StreamRelatedProps {
 export const StreamRelatedMessage: FC<StreamRelatedProps> = ({ content }) => {
   const [data, error, pending] = useStreamableValue(content);
   const [related, setRelated] = useState<PartialRelated>();
-  const [, setUIState] = useUIState<typeof AI>();
-  const { orchestrator } = useActions<typeof AI>();
-  const { isGenerating, setIsGenerating } = useAppState();
-  const { attachment, flush, activeComparison } = useSmartTextarea();
-
-  const relatedActionSubmit = useCallback(
-    async (query: string) => {
-      if (isGenerating) return;
-
-      try {
-        setIsGenerating(true);
-
-        const componentId = generateId();
-
-        setUIState((prevUI) => [
-          ...prevUI,
-          {
-            id: generateId(),
-            display: (
-              <UserMessage
-                key={componentId}
-                content={{
-                  text_input: query,
-                }}
-              />
-            ),
-          },
-        ]);
-
-        flush();
-
-        const { id, display, generation } = await orchestrator({
-          textInput: query,
-        });
-
-        setUIState((prevUI) => [...prevUI, { id, display }]);
-
-        if (generation) {
-          const gens = readStreamableValue(
-            generation
-          ) as AsyncIterable<StreamGeneration>;
-          for await (const { loading } of gens) {
-            setIsGenerating(loading);
-          }
-        }
-      } catch (error) {
-        console.error("An Error occurred when submitting the query!", error);
-        toast.error("Error When Submitting the Query!", {
-          position: "top-center",
-          richColors: true,
-          className:
-            "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
-        });
-      } finally {
-        setIsGenerating(false);
-      }
-    },
-    [flush, isGenerating, orchestrator, setIsGenerating, setUIState]
-  );
 
   useEffect(() => {
     if (data) setRelated(data);
@@ -210,8 +155,6 @@ export const StreamRelatedMessage: FC<StreamRelatedProps> = ({ content }) => {
         raw={{ data }}
       />
     );
-
-  const isButtonDisabled = attachment ? true : activeComparison ? true : false;
 
   return (
     <div className="w-full my-10 max-w-2xl text-sm border-[#1A1A1D] dark:border-inherit border rounded-3xl">
@@ -243,10 +186,7 @@ export const StreamRelatedMessage: FC<StreamRelatedProps> = ({ content }) => {
                 <Button
                   variant={"link"}
                   className="h-auto rounded-2xl w-full py-1 px-2 text-xs font-normal justify-between hover:bg-purple-400/50"
-                  onClick={async () =>
-                    await relatedActionSubmit(item?.query as string)
-                  }
-                  disabled={isButtonDisabled}
+                  disabled
                 >
                   <span className="truncate text-left">{item?.query}</span>
                   <ArrowRight className="size-4 shrink-0 ml-1" />
