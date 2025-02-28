@@ -4,8 +4,8 @@ import { AIState, ChatProperties, MessageProperty } from "@/lib/types/ai";
 import { generateText, TextPart } from "ai";
 import { google } from "@ai-sdk/google";
 import { getChat, saveChat } from "../chat-service";
-import { SYSTEM_INSTRUCT_TITLE_CRAFTER } from "../../system-instructions";
 import logger from "@/lib/utility/logger";
+import SYSTEM_INSTRUCTION from "../../constant/md";
 
 const generateChatTitle = async (
   messages: MessageProperty[]
@@ -13,7 +13,7 @@ const generateChatTitle = async (
   const { text } = await generateText({
     model: google("gemini-1.5-flash"),
     prompt: JSON.stringify(messages),
-    system: SYSTEM_INSTRUCT_TITLE_CRAFTER,
+    system: SYSTEM_INSTRUCTION.TITLE_CRAFTER,
   });
   return text;
 };

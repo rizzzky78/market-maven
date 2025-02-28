@@ -37303,3 +37303,31 @@
     }
   ]
 }
+[90m[2025-02-28 22:36:54.594][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "9670cfd6-87e2-4223-a44c-0518ceab7bd2",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-28 22:36:54.619][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getToolDataEntryByKey",
+      "reffKey": "9670cfd6-87e2-4223-a44c-0518ceab7bd2",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-02-28 22:36:57.891][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
