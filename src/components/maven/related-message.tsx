@@ -14,7 +14,7 @@ import { FC, useCallback, useEffect, useState } from "react";
 import { ErrorMessage } from "./error-message";
 import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import { useSmartTextarea } from "../hooks/use-smart-textare";
+import { useSmartTextarea } from "../hooks/maven-state-controller";
 import { StreamGeneration } from "@/lib/types/ai";
 import { generateId } from "ai";
 import { UserMessage } from "./user-message";

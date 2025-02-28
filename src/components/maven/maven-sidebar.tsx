@@ -35,7 +35,7 @@ import { motion } from "framer-motion";
 import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { useUIState, useAIState } from "ai/rsc";
-import { useSmartTextarea } from "../hooks/use-smart-textare";
+import { useSmartTextarea } from "../hooks/maven-state-controller";
 import { useRouter } from "next/navigation";
 
 // Helper function to create teaser message

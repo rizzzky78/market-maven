@@ -27,7 +27,7 @@ import { FC, useState } from "react";
 import { toast } from "sonner";
 import { Product } from "@/lib/types/product";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import { useSmartTextarea } from "../hooks/use-smart-textare";
+import { useSmartTextarea } from "../hooks/maven-state-controller";
 import { generateId } from "ai";
 
 interface ProductProps {

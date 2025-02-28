@@ -4,7 +4,7 @@ import { ExtendedMessage } from "@/components/maven/extended-message";
 import { LoadingText } from "@/components/maven/shining-glass";
 import { Chat } from "@/components/maven/main-chat";
 import { ChatProperties, MessageProperty } from "@/lib/types/ai";
-import { useSmartTextarea } from "@/components/hooks/use-smart-textare";
+import { useSmartTextarea } from "@/components/hooks/maven-state-controller";
 import { ProductComparison } from "@/components/maven/product-comparison";
 
 const exampleMessages: MessageProperty[] = [

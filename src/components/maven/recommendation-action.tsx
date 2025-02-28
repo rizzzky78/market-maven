@@ -13,7 +13,7 @@ import {
   StreamableValue,
   useStreamableValue,
 } from "ai/rsc";
-import { useSmartTextarea } from "../hooks/use-smart-textare";
+import { useSmartTextarea } from "../hooks/maven-state-controller";
 import { StreamGeneration } from "@/lib/types/ai";
 import { DeepPartial, generateId } from "ai";
 import { toast } from "sonner";

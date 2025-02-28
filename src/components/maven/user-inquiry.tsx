@@ -18,7 +18,7 @@ import {
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { readStreamableValue, useActions, useUIState } from "ai/rsc";
 import { useDebounceInput } from "../hooks/use-debounced-input";
-import { useSmartTextarea } from "../hooks/use-smart-textare";
+import { useSmartTextarea } from "../hooks/maven-state-controller";
 import { UserMessage } from "./user-message";
 import { generateId } from "ai";
 import type { InquiryResponse, StreamGeneration } from "@/lib/types/ai";

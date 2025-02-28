@@ -13,7 +13,7 @@ import { ChatProperties } from "@/lib/types/ai";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import { useSmartTextarea } from "../hooks/use-smart-textare";
+import { useSmartTextarea } from "../hooks/maven-state-controller";
 import { Button } from "../ui/button";
 import { ComponentProps, FC } from "react";
 import { HistoryItem } from "./history-item";

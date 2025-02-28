@@ -16,7 +16,7 @@ import { readStreamableValue, useActions, useUIState } from "ai/rsc";
 import { UserMessage } from "./user-message";
 import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import { useSmartTextarea } from "../hooks/use-smart-textare";
+import { useSmartTextarea } from "../hooks/maven-state-controller";
 import { toast } from "sonner";
 
 const predefinedActions: {

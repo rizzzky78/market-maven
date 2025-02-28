@@ -16,7 +16,7 @@ import {
   TooltipProvider,
 } from "../ui/tooltip";
 import Link from "next/link";
-import { useSmartTextarea } from "../hooks/use-smart-textare";
+import { useSmartTextarea } from "../hooks/maven-state-controller";
 import { ShareButton } from "./share-button";
 import Image from "next/image";
 import { ExtendedMessage } from "./extended-message";

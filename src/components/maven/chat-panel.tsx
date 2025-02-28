@@ -28,7 +28,7 @@ import { QuickActionButton } from "./quick-action";
 import { toast } from "sonner";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { useDebounceInput } from "../hooks/use-debounced-input";
-import { useSmartTextarea } from "../hooks/use-smart-textare";
+import { useMavenStateController } from "../hooks/maven-state-controller";
 import { AttachProductBadge } from "./attach-product";
 import { AI } from "@/app/action";
 import { AttachCompareBadge } from "./attach-compare";
@@ -51,7 +51,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     related,
     setSearch,
     setRelated,
-  } = useSmartTextarea();
+  } = useMavenStateController();
   const { value, handleChange, handleBlur, handleReset } = useDebounceInput();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 

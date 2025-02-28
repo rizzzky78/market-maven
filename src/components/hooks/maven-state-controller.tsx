@@ -37,7 +37,7 @@ interface TextareaEventHandlers {
 /**
  * Enhanced state interface for smart textarea
  */
-interface SmartTextareaState extends TextareaEventHandlers {
+interface MavenStateController extends TextareaEventHandlers {
   /**
    * The text area regular input
    */
@@ -162,7 +162,7 @@ const validateInput = (
 /**
  * Enhanced Smart TextArea Hook with persistence and dev tools
  */
-export const useSmartTextarea = create<SmartTextareaState>()(
+export const useMavenStateController = create<MavenStateController>()(
   devtools(
     persist(
       (set, get) => ({
@@ -310,12 +310,14 @@ export const useSmartTextarea = create<SmartTextareaState>()(
         }),
       }
     ),
-    { name: "SmartTextarea" }
+    { name: "MavenStateController" }
   )
 );
 
 // Optional: Export a hook for handling keyboard shortcuts
-export const useTextareaShortcuts = (textareaState: SmartTextareaState) => {
+export const useMavenStateControllerShortcuts = (
+  textareaState: MavenStateController
+) => {
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     // Handle Ctrl/Cmd + Z for undo
     if ((e.ctrlKey || e.metaKey) && e.key === "z" && !e.shiftKey) {
