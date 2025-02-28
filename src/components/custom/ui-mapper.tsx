@@ -7,7 +7,7 @@ import {
   ExtendedToolResult,
   UserContentMessage,
 } from "@/lib/types/ai";
-import { ProductsResponse } from "@/lib/types/product";
+import { ProductsResponse, RecommendationResponse } from "@/lib/types/product";
 import { AssistantMessage } from "../maven/assistant-message";
 import { UserMessage } from "../maven/user-message";
 import { ToolContent } from "ai";
@@ -16,6 +16,8 @@ import { UserInquiry } from "../maven/user-inquiry";
 import { ProductSearch } from "../maven/product-search";
 import { ProductDetails } from "../maven/product-details";
 import { ProductComparison } from "../maven/product-comparison";
+import { ProductDetailsProps } from "@/lib/types/props";
+import { RecommendationAction } from "../maven/recommendation-action";
 
 /**
  * Core message content structure representing different types of content in the system
@@ -66,6 +68,19 @@ type UserInquiryResult = ExtendedToolResult<Inquiry, { data: string }>;
 const generateUniqueId = (baseId: string, index: number): string =>
   `${baseId}-${index}`;
 
+const handleRecommendator = (result: string, id: string) => {
+  const recommendations: RecommendationResponse = JSON.parse(result);
+  return {
+    id,
+    // display: <RecommendationAction content={recommendations} />,
+    display: (
+      <div className="overflow-x-auto text-xs">
+        <pre>{JSON.stringify(recommendations, null, 2)}</pre>
+      </div>
+    ),
+  };
+};
+
 /**
  * Handles product search tool results and generates corresponding UI components
  */
@@ -96,7 +111,7 @@ const handleGetProductDetails = (
   result: string,
   isSharedPage?: boolean
 ): UIStateItem => {
-  const detailsResult: ProductDetailsResult = JSON.parse(result);
+  const detailsResult: ProductDetailsProps["content"] = JSON.parse(result);
   return {
     id,
     display: (
@@ -143,6 +158,7 @@ const toolResultHandlers: Record<
   AvailableTool,
   (id: string, result: string, isSharedPage?: boolean) => UIStateItem
 > = {
+  recommendator: (id, result) => handleRecommendator(result, id),
   searchProduct: (id, result, isSharedPage) =>
     handleProductSearch(result, id, isSharedPage),
   getProductDetails: (id, result, isSharedPage) =>

@@ -1,5 +1,5 @@
 import { ExtendedToolResult } from "./ai";
-import { ProductDetailsResponse } from "./product";
+import { ProductDetailsResponse, RecommendationResponse } from "./product";
 
 /**
  * Reusable Component Props
@@ -28,4 +28,14 @@ export type ProductsComparisonProps = {
     }
   >;
   isSharedContent?: boolean;
+};
+
+export type ProductRecommendationProps = {
+  content: ExtendedToolResult<
+    {
+      intent: string;
+      scope: string[];
+    },
+    RecommendationResponse
+  >;
 };

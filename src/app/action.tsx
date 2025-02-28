@@ -244,7 +244,14 @@ const orchestrator = async (
 
           yield (
             <>
-              <RecommendationAction content={finalizedRecommendator} />
+              <RecommendationAction
+                content={{
+                  success: true,
+                  name: "recommendator",
+                  args: { intent, scope },
+                  data: finalizedRecommendator,
+                }}
+              />
               <StreamAssistantMessage content={streamableInsight.value} />
             </>
           );
@@ -282,7 +289,14 @@ const orchestrator = async (
 
           const recommendatorUiNode = (
             <>
-              <RecommendationAction content={finalizedRecommendator} />
+              <RecommendationAction
+                content={{
+                  success: true,
+                  name: "recommendator",
+                  args: { intent, scope },
+                  data: finalizedRecommendator,
+                }}
+              />
               <AssistantMessage content={finalizedInsight} />
             </>
           );

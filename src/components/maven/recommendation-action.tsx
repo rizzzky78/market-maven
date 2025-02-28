@@ -4,7 +4,6 @@ import { FC, useCallback, useEffect, useState } from "react";
 import { RotateCwSquare, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { RecommendationResponse } from "@/lib/types/product";
 import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import {
@@ -21,12 +20,11 @@ import { toast } from "sonner";
 import { UserMessage } from "./user-message";
 import { ProductsRecommendation } from "@/lib/agents/schema/product";
 import { ErrorMessage } from "./error-message";
+import { ProductRecommendationProps } from "@/lib/types/props";
 
-interface RecommendationsProps {
-  content: RecommendationResponse;
-}
-
-export const RecommendationAction: FC<RecommendationsProps> = ({ content }) => {
+export const RecommendationAction: FC<ProductRecommendationProps> = ({
+  content,
+}) => {
   const [, setUIState] = useUIState<typeof AI>();
   const { orchestrator } = useActions<typeof AI>();
   const { isGenerating, setIsGenerating } = useAppState();
@@ -102,7 +100,7 @@ export const RecommendationAction: FC<RecommendationsProps> = ({ content }) => {
 
   return (
     <motion.div
-      key={content.callId}
+      key={content.data.callId}
       initial="hidden"
       animate="visible"
       variants={{
@@ -164,7 +162,7 @@ export const RecommendationAction: FC<RecommendationsProps> = ({ content }) => {
           </motion.div>
 
           <motion.div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-2">
-            {content.recommendations.map((item, index) => (
+            {content.data.recommendations.map((item, index) => (
               <motion.div
                 key={item.name}
                 variants={{
