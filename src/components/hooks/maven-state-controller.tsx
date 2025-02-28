@@ -160,7 +160,7 @@ const validateInput = (
 };
 
 /**
- * Enhanced Smart TextArea Hook with persistence and dev tools
+ * Main state controller for Maven App
  */
 export const useMavenStateController = create<MavenStateController>()(
   devtools(

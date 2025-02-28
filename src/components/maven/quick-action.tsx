@@ -16,7 +16,7 @@ import { readStreamableValue, useActions, useUIState } from "ai/rsc";
 import { UserMessage } from "./user-message";
 import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import { useSmartTextarea } from "../hooks/maven-state-controller";
+import { useMavenStateController } from "../hooks/maven-state-controller";
 import { toast } from "sonner";
 
 const predefinedActions: {
@@ -54,7 +54,7 @@ export const QuickActionButton: FC = () => {
   const { orchestrator } = useActions<typeof AI>();
   const { isGenerating, setIsGenerating } = useAppState();
   const { attachment, flush, activeComparison, search, related } =
-    useSmartTextarea();
+    useMavenStateController();
 
   const actionSubmit = useCallback(
     async (query: string) => {

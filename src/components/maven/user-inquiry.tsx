@@ -18,7 +18,7 @@ import {
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { readStreamableValue, useActions, useUIState } from "ai/rsc";
 import { useDebounceInput } from "../hooks/use-debounced-input";
-import { useSmartTextarea } from "../hooks/maven-state-controller";
+import { useMavenStateController } from "../hooks/maven-state-controller";
 import { UserMessage } from "./user-message";
 import { generateId } from "ai";
 import type { InquiryResponse, StreamGeneration } from "@/lib/types/ai";
@@ -44,7 +44,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [, setUIState] = useUIState<typeof AI>();
   const { setIsGenerating } = useAppState();
-  const { flush } = useSmartTextarea();
+  const { flush } = useMavenStateController();
   const { handleReset } = useDebounceInput();
   const { orchestrator } = useActions<typeof AI>();
 

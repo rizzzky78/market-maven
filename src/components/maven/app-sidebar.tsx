@@ -13,7 +13,7 @@ import { ChatProperties } from "@/lib/types/ai";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import { useSmartTextarea } from "../hooks/maven-state-controller";
+import { useMavenStateController } from "../hooks/maven-state-controller";
 import { Button } from "../ui/button";
 import { ComponentProps, FC } from "react";
 import { HistoryItem } from "./history-item";
@@ -28,7 +28,7 @@ interface AppProps extends ComponentProps<typeof Sidebar> {
 
 export const AppSidebar: FC<AppProps> = ({ chats, ...props }) => {
   const { isGenerating, setIsGenerating } = useAppState();
-  const { flush } = useSmartTextarea();
+  const { flush } = useMavenStateController();
   const [, setUIState] = useUIState<typeof AI>();
   const { data: session } = useSession();
   const [aiState, setAIState] = useAIState<typeof AI>();

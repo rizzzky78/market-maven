@@ -27,7 +27,7 @@ import { FC, useState } from "react";
 import { toast } from "sonner";
 import { Product } from "@/lib/types/product";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import { useSmartTextarea } from "../hooks/maven-state-controller";
+import { useMavenStateController } from "../hooks/maven-state-controller";
 import { generateId } from "ai";
 
 interface ProductProps {
@@ -44,7 +44,7 @@ export const ProductCard: FC<ProductProps> = ({
   isSharedContent,
 }) => {
   const { isGenerating } = useAppState();
-  const { attach, detach, activeComparison } = useSmartTextarea();
+  const { attach, detach, activeComparison } = useMavenStateController();
 
   const [copied, setCopied] = useState(false);
 

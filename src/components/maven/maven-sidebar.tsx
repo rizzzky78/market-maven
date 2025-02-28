@@ -35,7 +35,7 @@ import { motion } from "framer-motion";
 import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { useUIState, useAIState } from "ai/rsc";
-import { useSmartTextarea } from "../hooks/maven-state-controller";
+import { useMavenStateController } from "../hooks/maven-state-controller";
 import { useRouter } from "next/navigation";
 
 // Helper function to create teaser message
@@ -62,7 +62,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
   const [mounted, setMounted] = useState(false);
   const { setTheme, resolvedTheme } = useTheme();
   const { isGenerating, setIsGenerating } = useAppState();
-  const { flush } = useSmartTextarea();
+  const { flush } = useMavenStateController();
   const [, setUIState] = useUIState<typeof AI>();
   const [, setAIState] = useAIState<typeof AI>();
 

@@ -13,7 +13,7 @@ import {
   StreamableValue,
   useStreamableValue,
 } from "ai/rsc";
-import { useSmartTextarea } from "../hooks/maven-state-controller";
+import { useMavenStateController } from "../hooks/maven-state-controller";
 import { StreamGeneration } from "@/lib/types/ai";
 import { DeepPartial, generateId } from "ai";
 import { toast } from "sonner";
@@ -28,7 +28,7 @@ export const RecommendationAction: FC<ProductRecommendationProps> = ({
   const [, setUIState] = useUIState<typeof AI>();
   const { orchestrator } = useActions<typeof AI>();
   const { isGenerating, setIsGenerating } = useAppState();
-  const { flush, search, related } = useSmartTextarea();
+  const { flush, search, related } = useMavenStateController();
 
   const actionSubmit = useCallback(
     async (query: string) => {

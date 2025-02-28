@@ -4,7 +4,7 @@ import { ExtendedMessage } from "@/components/maven/extended-message";
 import { LoadingText } from "@/components/maven/shining-glass";
 import { Chat } from "@/components/maven/main-chat";
 import { ChatProperties, MessageProperty } from "@/lib/types/ai";
-import { useSmartTextarea } from "@/components/hooks/maven-state-controller";
+import { useMavenStateController } from "@/components/hooks/maven-state-controller";
 import { ProductComparison } from "@/components/maven/product-comparison";
 
 const exampleMessages: MessageProperty[] = [
@@ -241,7 +241,7 @@ export default function Page() {
     related,
     setSearch,
     setRelated,
-  } = useSmartTextarea();
+  } = useMavenStateController();
 
   const exampleData = `
 ## Laptop Lenovo Yoga Slim 7 14

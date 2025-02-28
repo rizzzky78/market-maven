@@ -14,7 +14,7 @@ import { FC, useCallback, useEffect, useState } from "react";
 import { ErrorMessage } from "./error-message";
 import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import { useSmartTextarea } from "../hooks/maven-state-controller";
+import { useMavenStateController } from "../hooks/maven-state-controller";
 import { StreamGeneration } from "@/lib/types/ai";
 import { generateId } from "ai";
 import { UserMessage } from "./user-message";
@@ -30,7 +30,7 @@ export const RelatedMessage: FC<RelatedProps> = ({ related }) => {
   const [, setUIState] = useUIState<typeof AI>();
   const { orchestrator } = useActions<typeof AI>();
   const { isGenerating, setIsGenerating } = useAppState();
-  const { attachment, flush, activeComparison } = useSmartTextarea();
+  const { attachment, flush, activeComparison } = useMavenStateController();
 
   const relatedActionSubmit = useCallback(
     async (query: string) => {
