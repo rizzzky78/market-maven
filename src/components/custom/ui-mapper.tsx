@@ -7,7 +7,7 @@ import {
   ExtendedToolResult,
   UserContentMessage,
 } from "@/lib/types/ai";
-import { ProductsResponse, RecommendationResponse } from "@/lib/types/product";
+import { ProductsResponse } from "@/lib/types/product";
 import { AssistantMessage } from "../maven/assistant-message";
 import { UserMessage } from "../maven/user-message";
 import { ToolContent } from "ai";
@@ -16,7 +16,10 @@ import { UserInquiry } from "../maven/user-inquiry";
 import { ProductSearch } from "../maven/product-search";
 import { ProductDetails } from "../maven/product-details";
 import { ProductComparison } from "../maven/product-comparison";
-import { ProductDetailsProps } from "@/lib/types/props";
+import {
+  ProductDetailsProps,
+  ProductRecommendationProps,
+} from "@/lib/types/props";
 import { RecommendationAction } from "../maven/recommendation-action";
 
 /**
@@ -47,11 +50,6 @@ type ProductSearchResult = ExtendedToolResult<
   ProductsResponse
 >;
 
-type ProductDetailsResult = ExtendedToolResult<
-  { link: string; query: string },
-  { productDetails: Record<string, any>; screenshot: string; callId: string }
->;
-
 type ProductComparisonResult = ExtendedToolResult<
   { compare: Array<{ title: string; callId: string }> },
   { callId: string; productImages: string[]; comparison: Record<string, any> }
@@ -69,15 +67,11 @@ const generateUniqueId = (baseId: string, index: number): string =>
   `${baseId}-${index}`;
 
 const handleRecommendator = (result: string, id: string) => {
-  const recommendations: RecommendationResponse = JSON.parse(result);
+  const recommendations: ProductRecommendationProps["content"] =
+    JSON.parse(result);
   return {
     id,
-    // display: <RecommendationAction content={recommendations} />,
-    display: (
-      <div className="overflow-x-auto text-xs">
-        <pre>{JSON.stringify(recommendations, null, 2)}</pre>
-      </div>
-    ),
+    display: <RecommendationAction content={recommendations} />,
   };
 };
 
