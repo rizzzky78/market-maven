@@ -15,9 +15,10 @@ const loadChats = cache(async (userId: string) => {
 export default async function Page({
   searchParams,
 }: {
-  searchParams: { q: string };
+  searchParams: Promise<{ q: string }>;
 }) {
-  if (!searchParams.q) {
+  const params = (await searchParams).q;
+  if (!params) {
     redirect("/chat");
   }
   const id = v4();
@@ -28,7 +29,7 @@ export default async function Page({
 
   return (
     <AI initialAIState={{ chatId: id, username, messages: [] }}>
-      <Chat id={id} query={searchParams.q} chats={chats} />
+      <Chat id={id} query={params} chats={chats} />
     </AI>
   );
 }

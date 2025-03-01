@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useState } from "react";
-import { Star, Code, Lightbulb, Coffee, BookUp } from "lucide-react";
+import { Star, Lightbulb, Coffee, BookUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {

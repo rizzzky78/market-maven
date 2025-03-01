@@ -3,7 +3,6 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getRedisClient, RedisWrapper } from "@/database/redis";
-import fs from "fs";
 import { ChatProperties } from "@/lib/types/ai";
 import logger from "@/lib/utility/logger";
 

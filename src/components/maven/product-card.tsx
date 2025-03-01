@@ -33,14 +33,12 @@ import { generateId } from "ai";
 interface ProductProps {
   product: Partial<Product>;
   isFinished?: boolean;
-  id?: number;
   isSharedContent?: boolean;
 }
 
 export const ProductCard: FC<ProductProps> = ({
   product,
   isFinished,
-  id,
   isSharedContent,
 }) => {
   const { isGenerating } = useAppState();

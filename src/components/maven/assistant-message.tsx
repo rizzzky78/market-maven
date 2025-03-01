@@ -12,6 +12,7 @@ import { Button } from "../ui/button";
 import { Check, Copy } from "lucide-react";
 import { StreamableValue, useStreamableValue } from "ai/rsc";
 import { toast } from "sonner";
+import { ErrorMessage } from "./error-message";
 
 interface MessageProps {
   content: string;
@@ -70,7 +71,7 @@ interface StreamMessageProps {
 export const StreamAssistantMessage: FC<StreamMessageProps> = ({ content }) => {
   const [copied, setCopied] = useState(false);
 
-  const [data, error, pending] = useStreamableValue(content);
+  const [data, error] = useStreamableValue(content);
   const [contentText, setContentText] = useState<string>("");
 
   useEffect(() => {
@@ -88,6 +89,15 @@ export const StreamAssistantMessage: FC<StreamMessageProps> = ({ content }) => {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  if (error) {
+    return (
+      <ErrorMessage
+        errorName="Stream Text Error"
+        reason="An Error occured when streaming the text value. This error are occur in server."
+      />
+    );
+  }
 
   return (
     <div className="flex justify-start mb-4 py-5">
