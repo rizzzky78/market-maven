@@ -135,7 +135,6 @@ const orchestrator = async (
 
   const { value } = await streamUI({
     model: google("gemini-2.0-flash-exp"),
-    // system: SYSTEM_INSTRUCTION.CORE_ORCHESTRATOR,
     messages: toCoreMessage(state.get().messages),
     initial: <LoadingText text="Maven is thinking..." />,
     onFinish: ({ usage }) => {

@@ -48,6 +48,7 @@
     "redis": "^4.7.0",
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.0",
+    "sass": "^1.85.1",
     "sonner": "^1.7.2",
     "swr": "^2.3.2",
     "tailwind-merge": "^2.6.0",
