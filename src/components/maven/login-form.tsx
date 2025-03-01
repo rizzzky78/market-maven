@@ -30,7 +30,7 @@ export const LoginForm: FC = () => {
         position: "top-center",
         richColors: true,
         className:
-          "text-xs flex justify-center rounded-3xl border-none text-red-500 dark:text-red-500 bg-[#1A1A1D] dark:bg-white",
+          "text-xs flex justify-center rounded-3xl border-none text-red-300 dark:text-red-500 bg-[#1A1A1D] dark:bg-white",
       });
       setIsLoading(false);
       return;
@@ -67,17 +67,17 @@ export const LoginForm: FC = () => {
                 transition={{ delay: 0.2 }}
               >
                 <h1 className="text-3xl font-bold text-black dark:text-white">
-                  Welcome back
+                  Login to MarketMaven
                 </h1>
                 <p className="text-balance text-muted-foreground mt-2">
-                  Login to your account using your preferred method using
+                  Log in to your account using your preferred method with
                   <Link
                     href={"https://oauth.net/2/"}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="ml-1 text-blue-500 underline"
                   >
-                    oAuth
+                    OAuth
                   </Link>
                 </p>
               </motion.div>
@@ -98,7 +98,7 @@ export const LoginForm: FC = () => {
                         variant={"outline"}
                         className="w-full rounded-3xl text-black dark:text-white hover:text-white/90 dark:hover:text-black/80 py-6 flex items-center justify-center space-x-2 transition-all hover:bg-primary"
                         onClick={() => login(provider.id)}
-                        disabled={isLoading}
+                        disabled={isLoading || !provider.enabled}
                       >
                         {provider.node}
                       </Button>
@@ -157,9 +157,10 @@ export const LoginForm: FC = () => {
   );
 };
 
-const authProvider: { id: string; node: ReactNode }[] = [
+const authProvider: { id: string; node: ReactNode; enabled?: boolean }[] = [
   {
     id: "google",
+    enabled: true,
     node: (
       <>
         <svg
@@ -192,6 +193,7 @@ const authProvider: { id: string; node: ReactNode }[] = [
   },
   {
     id: "twitter",
+    enabled: false,
     node: (
       <>
         <svg
@@ -210,6 +212,7 @@ const authProvider: { id: string; node: ReactNode }[] = [
   },
   {
     id: "github",
+    enabled: true,
     node: (
       <>
         <svg
@@ -226,6 +229,7 @@ const authProvider: { id: string; node: ReactNode }[] = [
   },
   {
     id: "tiktok",
+    enabled: false,
     node: (
       <>
         <svg
@@ -249,6 +253,7 @@ const authProvider: { id: string; node: ReactNode }[] = [
   },
   {
     id: "instagram",
+    enabled: false,
     node: (
       <>
         <svg
