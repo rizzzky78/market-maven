@@ -12,15 +12,17 @@ const loadChats = cache(async (userId: string) => {
   return await getChats(userId);
 });
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{ q: string }>;
-}) {
-  const params = (await searchParams).q;
-  if (!params) {
+interface PageProps {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}
+
+export default async function Page(props: PageProps) {
+  const { query } = await props.searchParams;
+
+  if (!query) {
     redirect("/chat");
   }
+
   const id = v4();
   const session = await getServerSession();
   const username = session?.user?.email || "anonymous";
@@ -29,7 +31,7 @@ export default async function Page({
 
   return (
     <AI initialAIState={{ chatId: id, username, messages: [] }}>
-      <Chat id={id} query={params} chats={chats} />
+      <Chat id={id} query={query} chats={chats} />
     </AI>
   );
 }
