@@ -223,7 +223,11 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
           <SidebarGroupContent className="px-1.5 md:px-0">
             <SidebarMenu>
               <SidebarMenuItem>
-                <Link href={"/rate-app"}>
+                <Link
+                  href={"/rate-app"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <SidebarMenuButton
                     tooltip={{
                       children: "Rate this App",
@@ -237,7 +241,11 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <Link href={"/dev-portfolio"}>
+                <Link
+                  href={"/dev-portfolio"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <SidebarMenuButton
                     tooltip={{
                       children: "View Dev Portfolio",

@@ -37607,3 +37607,86 @@
     }
   ]
 }
+[90m[2025-03-01 09:20:58.925][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Samsung Galaxy S24 Ultra"
+      }
+    }
+  ]
+}
+[90m[2025-03-01 09:21:05.922][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "1d3e1eeb-7af1-4b09-a63a-15ee142f8f1d"
+    }
+  ]
+}
+[90m[2025-03-01 09:21:18.298][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "1d3e1eeb-7af1-4b09-a63a-15ee142f8f1d"
+    }
+  ]
+}
+[90m[2025-03-01 09:21:23.508][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "1d3e1eeb-7af1-4b09-a63a-15ee142f8f1d"
+    }
+  ]
+}
+[90m[2025-03-01 09:21:23.790][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Samsung Galaxy S24 Ultra"
+      }
+    }
+  ]
+}
+[90m[2025-03-01 09:21:24.792][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-01 09:21:26.797][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 504,
+        "completionTokens": 9,
+        "totalTokens": 513
+      }
+    }
+  ]
+}
+[90m[2025-03-01 09:31:09.935][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-01 09:33:49.970][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}

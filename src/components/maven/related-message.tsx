@@ -111,22 +111,22 @@ export const RelatedMessage: FC<RelatedProps> = ({ related }) => {
             related.items.map((item, index) => (
               <div
                 key={index}
-                className="flex w-full flex-wrap lg:flex-nowrap items-center pb-1 last:pb-0"
+                className="flex w-full flex-col sm:flex-row items-start sm:items-center pb-1 last:pb-0"
               >
-                <p className="ml-2 text-xs mr-0 md:mr-1 font-medium whitespace-nowrap">
+                <p className="ml-2 text-xs font-medium whitespace-nowrap mb-1 sm:mb-0 sm:mr-2">
                   {item?.label}:
                 </p>
-                <Button
-                  variant={"link"}
-                  className="h-auto rounded-2xl w-full py-1 px-2 text-xs font-normal justify-between hover:bg-purple-400/50 dark:hover:bg-purple-400/20"
-                  onClick={async () =>
-                    await relatedActionSubmit(item?.query as string)
-                  }
-                  disabled={isButtonDisabled}
-                >
-                  <span className="truncate text-left">{item?.query}</span>
-                  <ArrowRight className="size-4 shrink-0 ml-1" />
-                </Button>
+                <div className="w-full px-2 sm:px-0">
+                  <Button
+                    variant="link"
+                    className="h-auto rounded-2xl w-full py-1 px-2 text-xs font-normal justify-between hover:bg-purple-400/50 dark:hover:bg-purple-400/20"
+                    onClick={async () => await relatedActionSubmit(item.query)}
+                    disabled={isButtonDisabled}
+                  >
+                    <span className="truncate text-left">{item?.query}</span>
+                    <ArrowRight className="size-4 shrink-0 ml-1" />
+                  </Button>
+                </div>
               </div>
             ))}
         </div>
