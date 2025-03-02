@@ -4,6 +4,7 @@ import { NavigationBar } from "@/components/maven/navigation-bar";
 import { StickyScroll } from "@/components/maven/sticky-scroll";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import {
@@ -22,6 +23,7 @@ import {
   Laptop,
   Moon,
   Sun,
+  Grip,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
@@ -537,9 +539,9 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border/40 py-12 px-4 md:px-12">
+      <footer className="border-t border-border/40 mt-32 py-12 px-4 md:px-12">
         <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className=" flex flex-wrap gap-5 xl:justify-between">
             <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <Hexagon className="h-6 w-6 text-purple-500" />
@@ -549,67 +551,99 @@ export default function LandingPage() {
                 Your AI-powered product assistant for smarter decisions.
               </p>
             </div>
-            <div>
-              <h3 className="font-semibold mb-4">Application</h3>
-              <ul className="space-y-2">
+            <div className="bg-[#1A1A1D] text-white pt-2 pb-4 px-4 h-fit w-fit rounded-2xl">
+              <h3 className="font-semibold">Application</h3>
+              <Separator className="my-2 bg-purple-500" />
+              <ul className="space-y-2 *:text-sm">
                 <li>
                   <Link
-                    href="/features"
-                    className="text-muted-foreground hover:text-foreground transition-colors"
+                    href="/privacy-policy"
+                    className="flex items-center space-x-2 text-white/90 hover:text-purple-500 transition-colors"
                   >
-                    Features
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    Cookbook
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    Pubic Reviews
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    Workflow
+                    <Grip className="size-4 shrink-0" />
+                    <span>Features</span>
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/privacy-policy"
-                    className="text-muted-foreground hover:text-foreground transition-colors"
+                    className="flex items-center space-x-2 text-white/90 hover:text-purple-500 transition-colors"
                   >
-                    Privacy Policy
+                    <Grip className="size-4 shrink-0" />
+                    <span>Cookbook</span>
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/terms-of-service"
-                    className="text-muted-foreground hover:text-foreground transition-colors"
+                    href="/privacy-policy"
+                    className="flex items-center space-x-2 text-white/90 hover:text-purple-500 transition-colors"
                   >
-                    Terms of Service
+                    <Grip className="size-4 shrink-0" />
+                    <span>Public Reviews</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/privacy-policy"
+                    className="flex items-center space-x-2 text-white/90 hover:text-purple-500 transition-colors"
+                  >
+                    <Grip className="size-4 shrink-0" />
+                    <span>Workflow</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/privacy-policy"
+                    className="flex items-center space-x-2 text-white/90 hover:text-purple-500 transition-colors"
+                  >
+                    <Grip className="size-4 shrink-0" />
+                    <span>Privacy Policy</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/privacy-policy"
+                    className="flex items-center space-x-2 text-white/90 hover:text-purple-500 transition-colors"
+                  >
+                    <Grip className="size-4 shrink-0" />
+                    <span>Terms of Service</span>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div className="bg-[#1A1A1D] text-white pt-2 pb-4 px-4 h-fit w-fit rounded-2xl">
+              <h3 className="font-semibold">Legal</h3>
+              <Separator className="my-2 bg-purple-500" />
+              <ul className="space-y-2 *:text-sm">
+                <li>
+                  <Link
+                    href="/privacy-policy"
+                    className="flex items-center space-x-2 text-white/90 hover:text-purple-500 transition-colors"
+                  >
+                    <Grip className="size-4 shrink-0" />
+                    <span>Privacy Policy</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/privacy-policy"
+                    className="flex items-center space-x-2 text-white/90 hover:text-purple-500 transition-colors"
+                  >
+                    <Grip className="size-4 shrink-0" />
+                    <span>Terms of Service</span>
                   </Link>
                 </li>
               </ul>
             </div>
 
-            <div className="bg-[#212121] p-2 h-fit w-fit rounded-xl">
-              <h3 className="font-semibold mb-4">Developer Contacts</h3>
-              <ul className="space-y-2">
+            <div className="bg-[#1A1A1D] text-white pt-2 pb-4 px-4 h-fit w-fit rounded-2xl">
+              <h3 className="font-semibold">Developer Contacts</h3>
+              <Separator className="my-2 bg-purple-500" />
+              <ul className="space-y-2 *:text-sm">
                 <li>
                   <Link
                     href="/privacy-policy"
-                    className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors"
+                    className="flex items-center space-x-2 text-white/90 hover:text-purple-500 transition-colors"
                   >
                     <svg
                       width="1em"
@@ -629,7 +663,7 @@ export default function LandingPage() {
                 <li>
                   <Link
                     href="/privacy-policy"
-                    className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors"
+                    className="flex items-center space-x-2 text-white/90 hover:text-purple-500 transition-colors"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -649,7 +683,7 @@ export default function LandingPage() {
                 <li>
                   <Link
                     href="/privacy-policy"
-                    className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors"
+                    className="flex items-center space-x-2 text-white/90 hover:text-purple-500 transition-colors"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -669,7 +703,7 @@ export default function LandingPage() {
                 <li>
                   <Link
                     href="/privacy-policy"
-                    className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors"
+                    className="flex items-center space-x-2 text-white/90 hover:text-purple-500 transition-colors"
                   >
                     <svg
                       viewBox="0 0 256 199"
@@ -703,7 +737,7 @@ export default function LandingPage() {
                   onClick={() => setTheme("system")}
                   aria-label="System theme"
                 >
-                  <Laptop className="h-4 w-4" />
+                  <Laptop className="h-4 w-4 text-purple-500" />
                   <span>System</span>
                 </Button>
                 <Button
@@ -718,7 +752,7 @@ export default function LandingPage() {
                   onClick={() => setTheme("light")}
                   aria-label="Light theme"
                 >
-                  <Sun className="h-4 w-4" />
+                  <Sun className="h-4 w-4 text-purple-500" />
                   <span>Light</span>
                 </Button>
                 <Button
@@ -733,7 +767,7 @@ export default function LandingPage() {
                   onClick={() => setTheme("dark")}
                   aria-label="Dark theme"
                 >
-                  <Moon className="h-4 w-4" />
+                  <Moon className="h-4 w-4 text-purple-500" />
                   <span>Dark</span>
                 </Button>
               </div>
@@ -741,7 +775,7 @@ export default function LandingPage() {
           </div>
           <div className="mt-12 pt-8 border-purple-500 border-t border-border/40 text-center text-muted-foreground">
             <p className="text-sm text-black/90 dark:text-white/80">
-              © {new Date().getFullYear()} Maven AI. All rights reserved.
+              © 2025 Maven AI. All rights reserved.
             </p>
           </div>
         </div>
