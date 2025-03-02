@@ -38632,3 +38632,354 @@
     }
   ]
 }
+[90m[2025-03-02 18:33:53.301][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-02 19:24:04.860][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-02 19:24:28.584][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-02 19:24:41.549][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-02 19:26:30.109][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-02 19:26:34.117][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Samsung Galaxy S24 Ultra"
+      }
+    }
+  ]
+}
+[90m[2025-03-02 19:26:34.922][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Samsung Galaxy S24 Ultra"
+      }
+    }
+  ]
+}
+[90m[2025-03-02 19:26:42.034][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "49e196cf-2a8a-464f-940c-a1287fe6d8fc"
+    }
+  ]
+}
+[90m[2025-03-02 19:26:54.237][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "49e196cf-2a8a-464f-940c-a1287fe6d8fc"
+    }
+  ]
+}
+[90m[2025-03-02 19:26:58.214][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "49e196cf-2a8a-464f-940c-a1287fe6d8fc"
+    }
+  ]
+}
+[90m[2025-03-02 19:26:58.270][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Samsung Galaxy S24 Ultra"
+      }
+    }
+  ]
+}
+[90m[2025-03-02 19:27:00.033][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-02 19:27:00.833][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 504,
+        "completionTokens": 9,
+        "totalTokens": 513
+      }
+    }
+  ]
+}
+[90m[2025-03-02 19:27:33.144][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "attachProduct": {
+          "product": {
+            "id": "JljW1R8rJzAOPObx",
+            "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+            "link": "https://www.tokopedia.com/studioponsel/samsung-galaxy-s24-ultra-12-256gb-12-512gb-12-1tb-garansi-resmi-12-256gb-titanium-gray-94e4e?extParam=ivf%3Dfalse%26keyword%3Dsamsung+galaxy+s24+ultra%26search_id%3D2025022807303307D0D6B53A3FD80E0EXU%26src%3Dsearch"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-03-02 19:27:34.665][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+        "link": "https://www.tokopedia.com/studioponsel/samsung-galaxy-s24-ultra-12-256gb-12-512gb-12-1tb-garansi-resmi-12-256gb-titanium-gray-94e4e?extParam=ivf%3Dfalse%26keyword%3Dsamsung+galaxy+s24+ultra%26search_id%3D2025022807303307D0D6B53A3FD80E0EXU%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-03-02 19:27:40.825][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "ca1cf980-8b9c-437f-bf08-360e81c7e90d"
+    }
+  ]
+}
+[90m[2025-03-02 19:27:40.947][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "External Data",
+  "meta": [
+    {
+      "ext": "disabled"
+    }
+  ]
+}
+[90m[2025-03-02 19:27:43.587][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "ca1cf980-8b9c-437f-bf08-360e81c7e90d"
+    }
+  ]
+}
+[90m[2025-03-02 19:27:46.301][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "ca1cf980-8b9c-437f-bf08-360e81c7e90d"
+    }
+  ]
+}
+[90m[2025-03-02 19:27:46.361][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+        "link": "https://www.tokopedia.com/studioponsel/samsung-galaxy-s24-ultra-12-256gb-12-512gb-12-1tb-garansi-resmi-12-256gb-titanium-gray-94e4e?extParam=ivf%3Dfalse%26keyword%3Dsamsung+galaxy+s24+ultra%26search_id%3D2025022807303307D0D6B53A3FD80E0EXU%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-03-02 19:27:46.899][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-02 19:27:48.275][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 2956,
+        "completionTokens": 180,
+        "totalTokens": 3136
+      }
+    }
+  ]
+}
+[90m[2025-03-02 19:27:53.532][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "attachProduct": {
+          "product": {
+            "id": "F6JZifST3PuHQoJU",
+            "title": "Samsung Galaxy S24 Ultra 12/256 12/512 12/1TB 12GB 256GB 512GB 1TB",
+            "link": "https://www.tokopedia.com/supergadgettt/samsung-galaxy-s24-ultra-12-256-12-512-12-1tb-12gb-256gb-512gb-1tb-titanium-gray-12-256gb-3840d?extParam=ivf%3Dtrue%26keyword%3Dsamsung+galaxy+s24+ultra%26search_id%3D2025022807303307D0D6B53A3FD80E0EXU%26src%3Dsearch"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-03-02 19:27:56.165][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Samsung Galaxy S24 Ultra 12/256 12/512 12/1TB 12GB 256GB 512GB 1TB",
+        "link": "https://www.tokopedia.com/supergadgettt/samsung-galaxy-s24-ultra-12-256-12-512-12-1tb-12gb-256gb-512gb-1tb-titanium-gray-12-256gb-3840d?extParam=ivf%3Dtrue%26keyword%3Dsamsung+galaxy+s24+ultra%26search_id%3D2025022807303307D0D6B53A3FD80E0EXU%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-03-02 19:28:13.407][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "2d3abb86-c157-4799-ad88-7065c42fbe12"
+    }
+  ]
+}
+[90m[2025-03-02 19:28:13.603][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "External Data",
+  "meta": [
+    {
+      "ext": "disabled"
+    }
+  ]
+}
+[90m[2025-03-02 19:28:17.342][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "2d3abb86-c157-4799-ad88-7065c42fbe12"
+    }
+  ]
+}
+[90m[2025-03-02 19:28:20.419][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "2d3abb86-c157-4799-ad88-7065c42fbe12"
+    }
+  ]
+}
+[90m[2025-03-02 19:28:20.469][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Samsung Galaxy S24 Ultra 12/256 12/512 12/1TB 12GB 256GB 512GB 1TB",
+        "link": "https://www.tokopedia.com/supergadgettt/samsung-galaxy-s24-ultra-12-256-12-512-12-1tb-12gb-256gb-512gb-1tb-titanium-gray-12-256gb-3840d?extParam=ivf%3Dtrue%26keyword%3Dsamsung+galaxy+s24+ultra%26search_id%3D2025022807303307D0D6B53A3FD80E0EXU%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-03-02 19:28:20.722][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-02 19:28:22.360][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 4185,
+        "completionTokens": 199,
+        "totalTokens": 4384
+      }
+    }
+  ]
+}
+[90m[2025-03-02 19:44:17.315][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-02 19:44:18.317][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-02 19:44:19.411][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-02 19:44:20.287][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-02 19:44:21.594][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-02 19:44:22.067][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}

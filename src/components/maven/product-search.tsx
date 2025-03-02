@@ -96,7 +96,6 @@ export const ProductSearch: FC<ProductsProps> = ({
         <ProductCard
           product={product}
           isFinished={isFinished}
-          id={index}
           isSharedContent={isSharedContent}
         />
       </motion.div>
@@ -346,7 +345,6 @@ export const StreamProductSearch: FC<StreamProps> = ({
                         <ProductCard
                           product={product as Partial<Product>}
                           isFinished={!pending}
-                          id={index}
                         />
                       </motion.div>
                     ))

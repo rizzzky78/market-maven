@@ -10,9 +10,6 @@ import { motion } from "framer-motion";
 import {
   Brain,
   Search,
-  ListFilter,
-  FileText,
-  BarChart3,
   MessageSquare,
   CheckCircle,
   Clock,
@@ -39,7 +36,7 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <section className="*:font-sans min-h-screen container flex justify-center mx-auto py-20 px-4 md:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -64,14 +61,14 @@ export default function LandingPage() {
                 size="lg"
                 className="font-medium rounded-full hover:bg-purple-500 hover:text-white"
               >
-                Try Maven Now
+                <Link href={"/register"}>Try Maven Now</Link>
               </Button>
               <Button
                 size="lg"
                 variant="link"
                 className="font-medium rounded-full hover:text-purple-500"
               >
-                Learn More
+                <Link href={"/understanding-app"}>Learn More</Link>
               </Button>
             </div>
           </motion.div>
@@ -197,24 +194,24 @@ export default function LandingPage() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
           {[
             {
-              icon: <MessageSquare className="h-10 w-10 text-purple-400" />,
+              icon: <MessageSquare className="h-10 w-10" />,
               title: "You Ask",
               description: "Start with a question or request about a product.",
             },
             {
-              icon: <Brain className="h-10 w-10 text-purple-400" />,
+              icon: <Brain className="h-10 w-10" />,
               title: "Maven Thinks",
               description:
                 "Maven's intelligent orchestrator analyzes your input.",
             },
             {
-              icon: <Search className="h-10 w-10 text-purple-400" />,
+              icon: <Search className="h-10 w-10" />,
               title: "Smart Actions",
               description:
                 "Maven selects the best tools to get you the answers you need.",
             },
             {
-              icon: <CheckCircle className="h-10 w-10 text-purple-400" />,
+              icon: <CheckCircle className="h-10 w-10" />,
               title: "Clear Results",
               description:
                 "Get clear, concise, and insightful results, powered by AI.",
@@ -231,7 +228,7 @@ export default function LandingPage() {
               <div className="h-20 w-20 flex items-center justify-center mb-4">
                 {step.icon}
               </div>
-              <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
+              <h3 className="text-xl font-semibold text-purple-500 mb-2">{step.title}</h3>
               <p className="text-black/90 dark:text-white/70">
                 {step.description}
               </p>

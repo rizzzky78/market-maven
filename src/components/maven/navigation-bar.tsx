@@ -12,6 +12,7 @@ import navbarFooter from "@/components/scss/navbar-footer.module.scss";
 import insetImg from "@/components/scss/navbar-inset-img.module.scss";
 import navbarNav from "@/components/scss/navbar-nav.module.scss";
 import navbarRoot from "@/components/scss/navbar-root.module.scss";
+import { cn } from "@/lib/utils";
 
 // Animation configurations
 const transition = { duration: 1, ease: [0.76, 0, 0.24, 1] };
@@ -229,7 +230,7 @@ export function NavigationBar() {
   const [isActive, setIsActive] = useState(false);
 
   return (
-    <div className={navbarRoot.header}>
+    <div className={cn(navbarRoot.header, "rounded-b-3xl xl:rounded-b-[2rem]")}>
       <div className={navbarRoot.bar}>
         <Link href="/">
           <div className="flex items-center">
@@ -264,7 +265,9 @@ export function NavigationBar() {
           className={navbarRoot.shopContainer}
           whileHover={{ x: -5 }}
         >
-          <p className={navbarRoot.shop}>Get Started</p>
+          <Link href={"/register"}>
+            <p className={navbarRoot.shop}>Get Started</p>
+          </Link>
           <div className={navbarRoot.el}>
             <p>Get Started</p>
             <MoveRight className="size-4 shrink-0" />
