@@ -4,7 +4,7 @@ import Link from "next/link";
 import { JSX, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { MoveRight } from "lucide-react";
+import { Hexagon, MoveRight } from "lucide-react";
 
 // Style imports
 import navbarBody from "@/components/scss/navbar-body.module.scss";
@@ -60,8 +60,8 @@ const animations = {
 const navigationLinks = [
   { title: "Features", href: "/", src: "/rate-img-2.jpg" },
   { title: "How_it_Works", href: "/shop", src: "/rate-img-3.jpg" },
-  { title: "Benefits", href: "/about", src: "/rate-img-4.jpg" },
-  { title: "Public_Reviews", href: "/lookbook", src: "/rate-img-5.jpg" },
+  { title: "Cookbook", href: "/about", src: "/rate-img-4.jpg" },
+  { title: "Reviews", href: "/lookbook", src: "/rate-img-5.jpg" },
   { title: "Devs_Portfolio", href: "/contact", src: "/rate-img-1.jpg" },
 ];
 
@@ -231,8 +231,11 @@ export function NavigationBar() {
   return (
     <div className={navbarRoot.header}>
       <div className={navbarRoot.bar}>
-        <Link href="/" className="text-purple-400">
-          Market Maven
+        <Link href="/">
+          <div className="flex items-center">
+            <Hexagon className="size-4 lg:size-7 shrink-0 mr-2 text-purple-500" />
+            <span>Market Maven</span>
+          </div>
         </Link>
         <div onClick={() => setIsActive(!isActive)} className={navbarRoot.el}>
           <div
