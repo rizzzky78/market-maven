@@ -1,6 +1,8 @@
 "use client";
 
-import { FC, useState } from "react";
+import { useState } from "react";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Check, Copy } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -8,9 +10,15 @@ interface CodeBlockProps {
   language: string;
   code: string;
   title?: string;
+  className?: string;
 }
 
-export const CodeBlock: FC<CodeBlockProps> = ({ language, code, title }) => {
+export function CodeBlock({
+  language,
+  code,
+  title,
+  className,
+}: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = async () => {
@@ -20,35 +28,49 @@ export const CodeBlock: FC<CodeBlockProps> = ({ language, code, title }) => {
   };
 
   return (
-    <div className="relative rounded-lg border bg-muted">
-      {title && (
-        <div className="flex items-center justify-between border-b bg-muted px-4 py-2">
-          <div className="text-sm font-medium">{title}</div>
-          <div className="flex items-center gap-1">
-            <div className="text-xs text-muted-foreground">{language}</div>
-          </div>
+    <div className={cn("relative rounded-lg overflow-hidden my-4", className)}>
+      <div className="flex items-center justify-between px-4 py-2 bg-zinc-900 text-zinc-400 text-sm">
+        <div className="flex items-center gap-2">
+          {title && <span className="font-medium text-white">{title}</span>}
+          {title && <span className="text-zinc-500">|</span>}
+          <span className="font-mono">{language}</span>
         </div>
-      )}
-      <div className="relative">
-        <pre
-          className={cn(
-            "overflow-x-auto p-4 text-sm",
-            !title && "rounded-t-lg"
-          )}
-        >
-          <code>{code}</code>
-        </pre>
         <button
           onClick={copyToClipboard}
-          className="absolute right-2 top-2 rounded-md border bg-background p-1.5 text-muted-foreground hover:bg-muted-foreground/10"
+          className="flex items-center gap-1 hover:text-white transition-colors"
+          aria-label="Copy code"
         >
           {copied ? (
-            <Check className="h-4 w-4" />
+            <>
+              <Check className="h-4 w-4" />
+              <span>Copied!</span>
+            </>
           ) : (
-            <Copy className="h-4 w-4" />
+            <>
+              <Copy className="h-4 w-4" />
+              <span>Copy</span>
+            </>
           )}
         </button>
       </div>
+      <SyntaxHighlighter
+        language={language}
+        style={atomDark}
+        showLineNumbers
+        customStyle={{
+          margin: 0,
+          borderRadius: "0 0 0.5rem 0.5rem",
+          fontSize: "14px",
+        }}
+        lineNumberStyle={{
+          minWidth: "2.5em",
+          paddingRight: "1em",
+          textAlign: "right",
+          color: "rgba(156, 163, 175, 0.5)",
+        }}
+      >
+        {code}
+      </SyntaxHighlighter>
     </div>
   );
-};
+}

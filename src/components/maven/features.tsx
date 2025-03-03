@@ -18,10 +18,8 @@ import { NavigationBar } from "./navigation-bar";
 export const Features: FC = () => {
   return (
     <div className="bg-background">
-      <NavigationBar />
-
       {/* Header section */}
-      <header className="container mx-auto px-4 py-[30vh]">
+      <header className="container mx-auto px-4 py-[0vh]">
         <div className="text-center max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
             Maven Features: Your AI-Powered Product Toolkit
