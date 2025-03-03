@@ -25,9 +25,21 @@ import {
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function LandingPage() {
   const { setTheme, theme } = useTheme();
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Set isMounted to true after the component mounts on the client
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Define base and selected classes for the buttons
+  const baseClass =
+    "inline-flex items-center justify-center rounded-2xl px-2.5 py-1.5 text-xs font-medium transition-all hover:bg-muted hover:text-foreground";
+  const selectedClass = "bg-secondary text-secondary-foreground shadow-sm";
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-background/80 font-sans">
@@ -48,7 +60,7 @@ export default function LandingPage() {
               <span className="mx-2 text-purple-500">AI</span>
               for
               <span className="mx-2 text-purple-500">Smarter</span>
-              Product Decisions
+              Electronic Product Decisions
             </h1>
             <p className="text-xl text-black/80 dark:text-white/80">
               From research to recommendations, Maven helps you
@@ -228,7 +240,9 @@ export default function LandingPage() {
               <div className="h-20 w-20 flex items-center justify-center mb-4">
                 {step.icon}
               </div>
-              <h3 className="text-xl font-semibold text-purple-500 mb-2">{step.title}</h3>
+              <h3 className="text-xl font-semibold text-purple-500 mb-2">
+                {step.title}
+              </h3>
               <p className="text-black/90 dark:text-white/70">
                 {step.description}
               </p>
@@ -726,10 +740,8 @@ export default function LandingPage() {
                   variant={"ghost"}
                   size={"sm"}
                   className={cn(
-                    "inline-flex items-center justify-center rounded-2xl px-2.5 py-1.5 text-xs font-medium transition-all",
-                    theme === "system"
-                      ? "bg-secondary text-secondary-foreground shadow-sm"
-                      : "hover:bg-muted hover:text-foreground"
+                    baseClass,
+                    isMounted && theme === "system" ? selectedClass : ""
                   )}
                   onClick={() => setTheme("system")}
                   aria-label="System theme"
@@ -741,10 +753,8 @@ export default function LandingPage() {
                   variant={"ghost"}
                   size={"sm"}
                   className={cn(
-                    "inline-flex items-center justify-center rounded-2xl px-2.5 py-1.5 text-xs font-medium transition-all",
-                    theme === "light"
-                      ? "bg-secondary text-secondary-foreground shadow-sm"
-                      : "hover:bg-muted hover:text-foreground"
+                    baseClass,
+                    isMounted && theme === "light" ? selectedClass : ""
                   )}
                   onClick={() => setTheme("light")}
                   aria-label="Light theme"
@@ -756,10 +766,8 @@ export default function LandingPage() {
                   variant={"ghost"}
                   size={"sm"}
                   className={cn(
-                    "inline-flex items-center justify-center rounded-2xl px-2.5 py-1.5 text-xs font-medium transition-all",
-                    theme === "dark"
-                      ? "bg-secondary text-secondary-foreground shadow-sm"
-                      : "hover:bg-muted hover:text-foreground"
+                    baseClass,
+                    isMounted && theme === "dark" ? selectedClass : ""
                   )}
                   onClick={() => setTheme("dark")}
                   aria-label="Dark theme"

@@ -180,7 +180,7 @@ function NavigationImage({ src, isActive }: NavigationImageProps) {
 // Component for the navigation footer
 function NavigationFooter() {
   const footerLinks = [
-    { label: "Made by:", value: "RZKY" },
+    { label: "Made by:", value: "Rzky" },
     { label: "Typography:", value: "Google Fonts" },
     { label: "Images:", value: "Unsplash, Devianart" },
   ];
@@ -209,7 +209,9 @@ function NavigationFooter() {
           animate="enter"
           exit="exit"
         >
-          <Link href="/privacy-policy">Privacy Policy</Link>
+          <Link href="/privacy-policy" className="text-purple-500">
+            Privacy Policy
+          </Link>
         </motion.li>
         <motion.li
           custom={[0.3, 0]}
@@ -218,7 +220,9 @@ function NavigationFooter() {
           animate="enter"
           exit="exit"
         >
-          <Link href="/terms-of-service">Terms & Conditions</Link>
+          <Link href="/terms-of-service" className="text-purple-500">
+            Terms & Conditions
+          </Link>
         </motion.li>
       </ul>
     </div>
@@ -230,7 +234,7 @@ export function NavigationBar() {
   const [isActive, setIsActive] = useState(false);
 
   return (
-    <div className={cn(navbarRoot.header, "rounded-b-3xl xl:rounded-b-[2rem]")}>
+    <div className={navbarRoot.header}>
       <div className={navbarRoot.bar}>
         <Link href="/">
           <div className="flex items-center">
@@ -242,7 +246,7 @@ export function NavigationBar() {
           <div
             className={`${navbarRoot.burger} ${
               isActive ? navbarRoot.burgerActive : ""
-            }`}
+            } dark:text-white`}
           ></div>
           <div className={navbarRoot.label}>
             <motion.p
