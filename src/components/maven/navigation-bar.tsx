@@ -13,6 +13,7 @@ import insetImg from "@/components/scss/navbar-inset-img.module.scss";
 import navbarNav from "@/components/scss/navbar-nav.module.scss";
 import navbarRoot from "@/components/scss/navbar-root.module.scss";
 import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
 
 // Animation configurations
 const transition = { duration: 1, ease: [0.76, 0, 0.24, 1] };
@@ -263,20 +264,6 @@ export function NavigationBar() {
             </motion.p>
           </div>
         </div>
-        <motion.div
-          variants={animations.opacity}
-          animate={!isActive ? "open" : "closed"}
-          className={navbarRoot.shopContainer}
-          whileHover={{ x: -5 }}
-        >
-          <Link href={"/register"}>
-            <p className={navbarRoot.shop}>Get Started</p>
-          </Link>
-          <div className={navbarRoot.el}>
-            <p>Get Started</p>
-            <MoveRight className="size-4 shrink-0" />
-          </div>
-        </motion.div>
       </div>
       <motion.div
         variants={animations.background}
