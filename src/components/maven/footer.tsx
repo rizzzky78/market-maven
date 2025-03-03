@@ -1,3 +1,5 @@
+'use client'
+
 import { cn } from "@/lib/utils";
 import { Separator } from "@radix-ui/react-separator";
 import { Hexagon, MoveRight, Laptop, Sun, Moon } from "lucide-react";
