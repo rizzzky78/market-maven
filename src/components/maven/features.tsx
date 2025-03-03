@@ -13,12 +13,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
 import { Footer } from "./footer";
+import { NavigationBar } from "./navigation-bar";
 
 export const Features: FC = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background">
+      <NavigationBar />
+
       {/* Header section */}
-      <header className="container mx-auto px-4 py-8">
+      <header className="container mx-auto px-4 py-[30vh]">
         <div className="text-center max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
             Maven Features: Your AI-Powered Product Toolkit
