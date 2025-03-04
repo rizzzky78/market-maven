@@ -6,8 +6,6 @@ import { NavigationBar } from "@/components/maven/navigation-bar";
 import { StickyScroll } from "@/components/maven/sticky-scroll";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import {
   Brain,
@@ -18,15 +16,8 @@ import {
   Lightbulb,
   UserCircle,
   MoveRight,
-  Hexagon,
-  Laptop,
-  Moon,
-  Sun,
 } from "lucide-react";
-import { useTheme } from "next-themes";
 import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
 
 export default function LandingPage() {
   return (

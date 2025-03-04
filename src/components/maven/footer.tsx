@@ -1,12 +1,12 @@
-'use client'
+"use client";
 
 import { cn } from "@/lib/utils";
-import { Separator } from "@radix-ui/react-separator";
 import { Hexagon, MoveRight, Laptop, Sun, Moon } from "lucide-react";
 import { FC, useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { useTheme } from "next-themes";
+import { Separator } from "../ui/separator";
 
 export const Footer: FC = () => {
   const { setTheme, theme } = useTheme();
