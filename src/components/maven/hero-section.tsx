@@ -2,15 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useMotionValue,
-  useSpring,
-  AnimatePresence,
-} from "framer-motion";
-import { FC, ReactNode, useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { FC, ReactNode, useState } from "react";
 
 // Animation variants for better organization
 const containerVariants = {

@@ -5,7 +5,6 @@ import {
   CodeXml,
   Hexagon,
   History,
-  MessageCircleQuestion,
   Moon,
   PanelRightClose,
   Plus,
