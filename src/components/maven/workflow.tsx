@@ -1,18 +1,19 @@
 "use client";
 import {
-  MessageSquare,
   Paperclip,
   GitCompare,
   MessageCircleQuestion,
   Workflow,
-  PenToolIcon as Tool,
   Layout,
-  AlertTriangle,
   CheckCircle2,
   MessageSquareMore,
   RefreshCcwDot,
   AlertCircle,
   AppWindow,
+  RotateCwSquare,
+  Search,
+  NotepadText,
+  Columns2,
 } from "lucide-react";
 
 import {
@@ -114,15 +115,15 @@ export function WorkflowContent() {
       <div className="w-full max-w-5xl">
         <div className="space-y-12">
           <AnimatedSection>
-            <div className="space-y-4 py-[32vh]">
+            <div className="space-y-4 py-[20vh] md:py-[32vh]">
               <h1 className="text-5xl font-bold tracking-tight">
                 <span className="text-purple-500">Agentic</span> Application
                 Workflow
               </h1>
-              <h2 className="text-4xl font-bold tracking-tight">
+              <h2 className="text-2xl md:text-4xl font-bold tracking-tight">
                 How Maven Works: An End-to-End Workflow
               </h2>
-              <p className="text-xl text-muted-foreground">
+              <p className="text-lg md:text-xl text-muted-foreground">
                 Maven is an AI-powered product assistant designed to streamline
                 the process of researching, selecting, and comparing
                 <span className="mx-1 text-purple-500">Electronic</span>
@@ -409,8 +410,8 @@ export function WorkflowContent() {
                     >
                       <Card className="bg-background rounded-3xl">
                         <CardHeader>
-                          <CardTitle className="flex items-center gap-2">
-                            <Tool className="h-5 w-5 text-primary" />
+                          <CardTitle className="flex items-center gap-2 text-black/90 dark:text-white/90">
+                            <RotateCwSquare className="h-5 w-5 text-purple-500" />
                             AI Product Picks (recommendator)
                           </CardTitle>
                           <CardDescription>
@@ -475,8 +476,8 @@ export function WorkflowContent() {
                     >
                       <Card className="bg-background rounded-3xl">
                         <CardHeader>
-                          <CardTitle className="flex items-center gap-2">
-                            <Tool className="h-5 w-5 text-primary" />
+                          <CardTitle className="flex items-center gap-2 text-black/90 dark:text-white/90">
+                            <Search className="h-5 w-5 text-purple-500" />
                             Find Products Fast (searchProduct)
                           </CardTitle>
                           <CardDescription>
@@ -542,8 +543,8 @@ export function WorkflowContent() {
                     >
                       <Card className="bg-background rounded-3xl">
                         <CardHeader>
-                          <CardTitle className="flex items-center gap-2">
-                            <Tool className="h-5 w-5 text-primary" />
+                          <CardTitle className="flex items-center gap-2 text-black/90 dark:text-white/90">
+                            <NotepadText className="h-5 w-5 text-purple-500" />
                             Deep Product Insights (getProductDetails)
                           </CardTitle>
                           <CardDescription>
@@ -612,8 +613,8 @@ export function WorkflowContent() {
                     >
                       <Card className="bg-background rounded-3xl">
                         <CardHeader>
-                          <CardTitle className="flex items-center gap-2">
-                            <Tool className="h-5 w-5 text-primary" />
+                          <CardTitle className="flex items-center gap-2 text-black/90 dark:text-white/90">
+                            <Columns2 className="h-5 w-5 text-purple-500" />
                             Compare Side-by-Side (productsComparison)
                           </CardTitle>
                           <CardDescription>
@@ -678,8 +679,8 @@ export function WorkflowContent() {
                     <TabsContent value="inquireUser" className="mt-4 space-y-4">
                       <Card className="bg-background rounded-3xl">
                         <CardHeader>
-                          <CardTitle className="flex items-center gap-2">
-                            <Tool className="h-5 w-5 text-primary" />
+                          <CardTitle className="flex items-center gap-2 text-black/90 dark:text-white/90">
+                            <MessageCircleQuestion className="h-5 w-5 text-purple-500" />
                             User Inquiry (inquireUser)
                           </CardTitle>
                           <CardDescription>
@@ -1049,7 +1050,7 @@ export function WorkflowContent() {
                       </CardHeader>
                       <CardContent>
                         <div className="flex flex-col items-center justify-center p-6 text-center">
-                          <div className="mb-4 rounded-full bg-primary/10 p-3">
+                          <div className="mb-4 p-3">
                             <AppWindow className="size-10 text-purple-500" />
                           </div>
                           <h3 className="text-xl font-medium text-black/90 dark:text-white/90">
