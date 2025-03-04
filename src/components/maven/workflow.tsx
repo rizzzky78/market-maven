@@ -20,7 +20,6 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
 import { AnimatedSection } from "@/components/maven/animated-section";
 import { CodeBlock } from "@/components/maven/code-block";
 import Image from "next/image";
@@ -31,19 +30,20 @@ export function WorkflowContent() {
       <div className="w-full max-w-5xl">
         <div className="space-y-12">
           <AnimatedSection>
-            <div className="space-y-4">
-              <Badge variant="outline" className="px-3 py-1 text-sm">
-                Technical Documentation
-              </Badge>
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-                How Maven Works: An End-to-End Workflow
+            <div className="space-y-4 py-[32vh]">
+              <h1 className="text-5xl font-bold tracking-tight text-purple-500">
+                Workflow
               </h1>
+              <h2 className="text-4xl font-bold tracking-tight">
+                How Maven Works: An End-to-End Workflow
+              </h2>
               <p className="text-xl text-muted-foreground">
                 Maven is an AI-powered product assistant designed to streamline
-                the process of researching, comparing, and selecting products.
-                This document details the complete operational workflow of
-                Maven, from the initial user interaction to the delivery of
-                AI-powered results.
+                the process of researching, selecting, and comparing
+                <span className="mx-1 text-purple-500">Electronic</span>
+                categorized products. This document details the complete yet
+                simple operational workflow of Maven, from the initial user
+                interaction to the delivery of AI-powered results.
               </p>
             </div>
           </AnimatedSection>
@@ -51,8 +51,8 @@ export function WorkflowContent() {
           <AnimatedSection>
             <Card className="bg-white rounded-none">
               <CardHeader>
-                <CardTitle className="text-black flex items-center gap-2">
-                  <Workflow className="h-5 w-5 text-black" />
+                <CardTitle className="flex text-2xl text-purple-500 items-center gap-2">
+                  <Workflow className="size-7 shrink-0" />
                   Complete Workflow Overview
                 </CardTitle>
                 <CardDescription className="text-black/80">
@@ -74,8 +74,14 @@ export function WorkflowContent() {
           </AnimatedSection>
 
           <AnimatedSection>
+            <div>
+              <h2 className="text-4xl font-bold text-purple-500">Workflow</h2>
+            </div>
             <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tight" id="user-input">
+              <h2
+                className="text-3xl font-semibold tracking-tight"
+                id="user-input"
+              >
                 1. User Input Initiation
               </h2>
               <p className="text-muted-foreground">
@@ -163,7 +169,7 @@ export function WorkflowContent() {
           <AnimatedSection>
             <div className="space-y-2">
               <h2
-                className="text-3xl font-bold tracking-tight"
+                className="text-3xl font-semibold tracking-tight"
                 id="orchestrator"
               >
                 2. Orchestrator Processing
@@ -252,7 +258,7 @@ export function WorkflowContent() {
           <AnimatedSection>
             <div className="space-y-2">
               <h2
-                className="text-3xl font-bold tracking-tight"
+                className="text-3xl font-semibold tracking-tight"
                 id="agent-tools"
               >
                 3. Agent Tool Execution
@@ -640,7 +646,10 @@ export function WorkflowContent() {
 
           <AnimatedSection>
             <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tight" id="ui-update">
+              <h2
+                className="text-3xl font-semibold tracking-tight"
+                id="ui-update"
+              >
                 5. UI Update and Rendering
               </h2>
               <p className="text-muted-foreground">
@@ -707,7 +716,7 @@ export function WorkflowContent() {
           <AnimatedSection>
             <div className="space-y-2">
               <h2
-                className="text-3xl font-bold tracking-tight"
+                className="text-3xl font-semibold tracking-tight"
                 id="error-handling"
               >
                 6. Error Handling
@@ -803,7 +812,7 @@ export function WorkflowContent() {
           <AnimatedSection>
             <div className="space-y-2">
               <h2
-                className="text-3xl font-bold tracking-tight"
+                className="text-3xl font-semibold tracking-tight"
                 id="final-output"
               >
                 7. Final Output

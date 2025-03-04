@@ -241,6 +241,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                   <Tooltip delayDuration={100}>
                     <TooltipTrigger asChild>
                       <Button
+                      variant={'outline'}
                         type={"button"}
                         className={cn(
                           "dark:text-white rounded-full",
