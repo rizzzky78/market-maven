@@ -21,18 +21,20 @@ export const Features: FC = () => {
         <header className="container mx-auto px-4 py-[36vh]">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
-              Maven Features: Your AI-Powered Product Toolkit
+              <span className="text-purple-500">Maven Features:</span> Your
+              AI-Powered Product Toolkit
             </h1>
             <p className="text-lg text-muted-foreground mb-4">
-              Maven is designed to revolutionize the way you research and choose
-              products. Our suite of AI-powered tools provides everything you
+              Maven is designed to revolutionize the way you research and choose{" "}
+              <span className="text-purple-500"> electronic</span> categorized
+              products. This suite of AI-powered tools provides everything you
               need, from personalized recommendations to in-depth comparisons,
               all in one intuitive platform. Explore the features below to see
               how Maven can help you make smarter decisions, faster.
             </p>
             <p className="text-sm text-muted-foreground">
               Last Updated: March 2025 |{" "}
-              <span className="font-medium">Developer</span>
+              <span className="font-medium">Rzky</span>
             </p>
           </div>
         </header>
@@ -60,12 +62,13 @@ export const Features: FC = () => {
               </Link>
             </div>
             <div className="order-1 md:order-2">
-              <div className="rounded-[2rem] overflow-hidden border shadow-sm">
+              <div className="rounded-[2rem] overflow-hidden">
                 <Image
-                  src="/rate-img-1.jpg"
+                  src="/snapshot-recommendator.png"
                   alt="AI Product Picks screenshot showing personalized recommendations"
-                  width={600}
-                  height={400}
+                  width={1000}
+                  height={1000}
+                  quality={100}
                   className="w-full h-auto object-cover"
                 />
               </div>
@@ -77,10 +80,11 @@ export const Features: FC = () => {
             <div className="order-1">
               <div className="rounded-[2rem] overflow-hidden border shadow-sm">
                 <Image
-                  src="/rate-img-2.jpg"
+                  src="/snapshot-search.png"
                   alt="Find Products Fast screenshot showing search results"
-                  width={600}
-                  height={400}
+                  width={1000}
+                  height={1000}
+                  quality={100}
                   className="w-full h-auto object-cover"
                 />
               </div>
@@ -129,10 +133,11 @@ export const Features: FC = () => {
             <div className="order-1 md:order-2">
               <div className="rounded-[2rem] overflow-hidden border shadow-sm">
                 <Image
-                  src="/rate-img-3.jpg"
+                  src="/snapshot-details.png"
                   alt="Deep Product Insights screenshot showing detailed product information"
-                  width={600}
-                  height={400}
+                  width={1000}
+                  height={1000}
+                  quality={100}
                   className="w-full h-auto object-cover"
                 />
               </div>
