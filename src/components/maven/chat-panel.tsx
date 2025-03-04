@@ -220,13 +220,13 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
           </AnimatePresence>
           <form
             onSubmit={handleSubmit}
-            className="relative w-full rounded-3xl bg-purple-200 dark:bg-muted flex flex-col px-2 pt-2 h-full"
+            className="relative w-full rounded-3xl bg-[#1A1A1D] flex flex-col px-2 pt-2 h-full"
           >
-            <ScrollArea className="w-full rounded-none max-h-[500px] overflow-x-auto">
+            <ScrollArea className="w-full mb-1 bg-[#1A1A1D] rounded-none max-h-[500px] overflow-x-auto">
               <Textarea
                 ref={textareaRef}
                 name="text_input"
-                className="resize-none active:border-transparent w-full border-transparent focus:border-none hover:border-none text-sm overflow-hidden"
+                className="resize-none text-white/90 active:bg-[#1A1A1D] rounded-none active:border-transparent w-full border-transparent focus:border-none hover:border-none text-sm overflow-hidden"
                 placeholder={dynamicPlaceholder}
                 spellCheck={true}
                 value={value}
@@ -236,23 +236,23 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
               />
             </ScrollArea>
             <div className="flex justify-between px-1 pb-3 -mt-1">
-              <div className="flex items-center space-x-1">
+              <div className="flex items-center space-x-2">
                 <TooltipProvider>
                   <Tooltip delayDuration={100}>
                     <TooltipTrigger asChild>
                       <Button
-                      variant={'outline'}
+                        variant={"outline"}
                         type={"button"}
                         className={cn(
-                          "dark:text-white rounded-full",
+                          "rounded-full",
                           search
-                            ? "bg-[#1A1A1D] dark:hover:bg-muted hover:bg-[#1A1A1D]/90"
-                            : "*:hover:text-purple-500 *:dark:hover:text-purple-200 hover:bg-transparent text-[#4A4947] bg-transparent"
+                            ? " bg-purple-500/60 border-none hover:bg-white/10 *:text-white"
+                            : "bg-[#1A1A1D]/90 border-white/10 *:hover:text-purple-500 hover:bg-transparent text-white/90"
                         )}
                         disabled={isGenerating}
                         onClick={() => setSearch(!search)}
                       >
-                        <Globe className="h-6 w-6 hover:text-purple-200 shrink-0" />
+                        <Globe className="h-6 w-6 shrink-0" />
                         <span className="text-xs font-normal">Search</span>
                       </Button>
                     </TooltipTrigger>
@@ -275,12 +275,13 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                   <Tooltip delayDuration={100}>
                     <TooltipTrigger asChild>
                       <Button
+                        variant={"outline"}
                         type={"button"}
                         className={cn(
-                          "dark:text-white rounded-full",
+                          "rounded-full",
                           related
-                            ? "bg-[#1A1A1D] dark:hover:bg-muted hover:bg-[#1A1A1D]/90"
-                            : "*:hover:text-purple-500 *:dark:hover:text-purple-200 hover:bg-transparent text-[#4A4947] bg-transparent"
+                            ? " bg-purple-500/60 border-none hover:bg-white/10 *:text-white"
+                            : "bg-[#1A1A1D]/90 border-white/10 *:hover:text-purple-500 hover:bg-transparent text-white/90"
                         )}
                         disabled={isGenerating}
                         onClick={() => setRelated(!related)}
@@ -312,7 +313,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                       <Button
                         variant={"secondary"}
                         size={"icon"}
-                        className="dark:text-white rounded-full bg-[#1A1A1D] dark:hover:bg-muted hover:bg-[#1A1A1D]/90"
+                        className="dark:text-white rounded-full bg-muted/10 dark:bg-muted hover:bg-purple-500/50 dark:hover:bg-purple-500/50"
                         type={"submit"}
                         disabled={isButtonDisabled}
                       >
