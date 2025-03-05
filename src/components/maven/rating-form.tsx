@@ -75,8 +75,8 @@ export const RatingForm: FC<RatingFormProps> = ({ initialHasSubmitted }) => {
 
   if (hasSubmitted) {
     return (
-      <div>
-        <Card className="w-full border rounded-none bg-background">
+      <div className="max-w-3xl">
+        <Card className="w-full max-w-4xl border rounded-none bg-background">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <Coffee className="w-8 h-8 text-purple-400" />
@@ -116,7 +116,7 @@ export const RatingForm: FC<RatingFormProps> = ({ initialHasSubmitted }) => {
   }
 
   return (
-    <Card className="w-full rounded-none bg-background text-white border">
+    <Card className="max-w-3xl w-full rounded-none bg-background text-white border">
       <CardHeader className="space-y-4">
         <div className="flex items-center space-x-4">
           <BookUp className="w-10 h-10 text-purple-400" />

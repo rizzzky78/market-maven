@@ -178,7 +178,7 @@ export default function LandingPage() {
               ),
             },
             {
-              title: "Maven Understands You",
+              title: "User Inquirer",
               description:
                 "Experience a truly personalized interaction. When more information is needed, Maven proactively asks clarifying questions, ensuring it fully understands your requirements and delivers the most relevant and accurate results. This interactive approach ensures you get exactly what you're looking for.",
               content: (
