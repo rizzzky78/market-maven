@@ -100,7 +100,13 @@ export default function LandingPage() {
 
       {/* Features Section */}
 
-      <div className="p-2 my-20 flex items-center justify-center border-y">
+      <div className="flex items-center justify-center">
+        <h2 className="text-4xl font-semibold">
+          <span className="text-purple-500">Agentic</span> Tools
+        </h2>
+      </div>
+
+      <div className="p-2 my-10 flex items-center justify-center">
         <StickyScroll
           content={[
             {
@@ -110,10 +116,11 @@ export default function LandingPage() {
               content: (
                 <div className="h-full w-full flex items-center justify-center">
                   <Image
-                    src="/rate-img-5.jpg"
-                    width={500}
+                    src="/showcase/showcase-1.jpg"
+                    width={800}
                     height={500}
-                    className="h-full w-full object-cover rounded-[2rem]"
+                    quality={100}
+                    className="h-full w-full object-cover rounded-tr-[2rem]"
                     alt="linear board demo"
                   />
                 </div>
@@ -126,10 +133,11 @@ export default function LandingPage() {
               content: (
                 <div className="h-full w-full  flex items-center justify-center text-white">
                   <Image
-                    src="/rate-img-1.jpg"
-                    width={300}
-                    height={300}
-                    className="h-full w-full object-cover rounded-[2rem]"
+                    src="/showcase/showcase-2.jpg"
+                    width={800}
+                    height={500}
+                    quality={100}
+                    className="h-full w-full object-cover rounded-br-[2rem]"
                     alt="linear board demo"
                   />
                 </div>
@@ -142,10 +150,11 @@ export default function LandingPage() {
               content: (
                 <div className="h-full w-full  flex items-center justify-center text-white">
                   <Image
-                    src="/rate-img-2.jpg"
-                    width={300}
-                    height={300}
-                    className="h-full w-full object-cover rounded-[2rem]"
+                    src="/showcase/showcase-3.jpg"
+                    width={800}
+                    height={500}
+                    quality={100}
+                    className="h-full w-full object-cover rounded-bl-[2rem]"
                     alt="linear board demo"
                   />
                 </div>
@@ -158,10 +167,11 @@ export default function LandingPage() {
               content: (
                 <div className="h-full w-full  flex items-center justify-center text-white">
                   <Image
-                    src="/rate-img-3.jpg"
-                    width={300}
-                    height={300}
-                    className="h-full w-full object-cover rounded-[2rem]"
+                    src="/showcase/showcase-4.jpg"
+                    width={800}
+                    height={500}
+                    quality={100}
+                    className="h-full w-full object-cover rounded-tl-[2rem]"
                     alt="linear board demo"
                   />
                 </div>
@@ -174,10 +184,11 @@ export default function LandingPage() {
               content: (
                 <div className="h-full w-full  flex items-center justify-center text-white">
                   <Image
-                    src="/rate-img-4.jpg"
-                    width={300}
-                    height={300}
-                    className="h-full w-full object-cover rounded-[2rem]"
+                    src="/showcase/showcase-5.jpg"
+                    width={800}
+                    height={500}
+                    quality={100}
+                    className="h-full w-full object-cover rounded-tr-[2rem]"
                     alt="linear board demo"
                   />
                 </div>

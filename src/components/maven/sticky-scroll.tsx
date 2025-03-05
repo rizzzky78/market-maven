@@ -105,7 +105,7 @@ export const StickyScroll: FC<StickyScrollProps> = ({
       </div>
       <div
         className={cn(
-          "hidden lg:block size-[50vh] sticky top-4",
+          "hidden lg:block h-[50vh] w-[40vw] sticky top-4",
           contentClassName
         )}
       >

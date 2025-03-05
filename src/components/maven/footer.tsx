@@ -103,7 +103,7 @@ export const Footer: FC = () => {
           </div>
 
           <div className="bg-[#1A1A1D] text-white pt-2 pb-4 px-4 h-fit w-fit">
-            <h3 className="font-semibold">Developer Contacts</h3>
+            <h3 className="font-semibold">Dev Contacts</h3>
             <Separator className="my-2 bg-purple-500" />
             <ul className="space-y-2 *:text-sm">
               <li>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { JSX, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Hexagon, MoveRight } from "lucide-react";
+import { Hexagon } from "lucide-react";
 
 // Style imports
 import navbarBody from "@/components/scss/navbar-body.module.scss";
@@ -12,8 +12,6 @@ import navbarFooter from "@/components/scss/navbar-footer.module.scss";
 import insetImg from "@/components/scss/navbar-inset-img.module.scss";
 import navbarNav from "@/components/scss/navbar-nav.module.scss";
 import navbarRoot from "@/components/scss/navbar-root.module.scss";
-import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
 
 // Animation configurations
 const transition = { duration: 1, ease: [0.76, 0, 0.24, 1] };
@@ -60,11 +58,11 @@ const animations = {
 
 // Navigation links data
 const navigationLinks = [
-  { title: "Features", href: "/", src: "/rate-img-2.jpg" },
-  { title: "How_it_Works", href: "/shop", src: "/rate-img-3.jpg" },
-  { title: "Cookbook", href: "/about", src: "/rate-img-4.jpg" },
-  { title: "Reviews", href: "/lookbook", src: "/rate-img-5.jpg" },
-  { title: "Devs_Portfolio", href: "/contact", src: "/rate-img-1.jpg" },
+  { title: "Features", href: "/features", src: "/nav/nav-2.jpg" },
+  { title: "How_it_Works", href: "/workflow", src: "/nav/nav-3.jpg" },
+  { title: "Cookbook", href: "/cookbook", src: "/nav/nav-4.jpg" },
+  { title: "Reviews", href: "/reviews", src: "/nav/nav-5.jpg" },
+  { title: "Devs_Portfolio", href: "/contact", src: "/nav/nav-6.jpg" },
 ];
 
 // Character animation helper
