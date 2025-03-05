@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { FC } from "react";
-import VideoPlayer from "./video-player";
+import { VideoPlayer } from "./video-player";
 
 export const Features: FC = () => {
   return (
