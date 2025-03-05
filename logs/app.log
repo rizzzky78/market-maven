@@ -39999,3 +39999,3499 @@
     }
   ]
 }
+[90m[2025-03-05 11:56:53.336][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:00:49.799][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Samsung Galaxy S24 Ultra"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 12:00:51.101][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Samsung Galaxy S24 Ultra"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 12:00:57.890][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "0ce7a94b-a6b0-4465-be5d-95a7ba306ef3"
+    }
+  ]
+}
+[90m[2025-03-05 12:01:11.559][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "0ce7a94b-a6b0-4465-be5d-95a7ba306ef3"
+    }
+  ]
+}
+[90m[2025-03-05 12:01:16.249][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "0ce7a94b-a6b0-4465-be5d-95a7ba306ef3"
+    }
+  ]
+}
+[90m[2025-03-05 12:01:16.995][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Samsung Galaxy S24 Ultra"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 12:01:17.095][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 12:01:20.112][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 504,
+        "completionTokens": 9,
+        "totalTokens": 513
+      }
+    }
+  ]
+}
+[90m[2025-03-05 12:02:56.613][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:03:49.411][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Samsung Galaxy S24 Ultra"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 12:03:51.380][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Samsung Galaxy S24 Ultra"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 12:03:57.652][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "4db9fa25-ce48-49fc-a39e-dcece32140bc"
+    }
+  ]
+}
+[90m[2025-03-05 12:04:10.989][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "4db9fa25-ce48-49fc-a39e-dcece32140bc"
+    }
+  ]
+}
+[90m[2025-03-05 12:06:35.340][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:06:37.907][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:07:56.213][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for lenovo yoga"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 12:07:56.978][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "lenovo yoga"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 12:08:14.045][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "233a68a4-e85b-420f-8a22-c700d0808277"
+    }
+  ]
+}
+[90m[2025-03-05 12:08:27.557][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "233a68a4-e85b-420f-8a22-c700d0808277"
+    }
+  ]
+}
+[90m[2025-03-05 12:08:31.395][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "233a68a4-e85b-420f-8a22-c700d0808277"
+    }
+  ]
+}
+[90m[2025-03-05 12:08:31.461][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "lenovo yoga"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 12:08:33.532][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 12:08:33.785][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 500,
+        "completionTokens": 5,
+        "totalTokens": 505
+      }
+    }
+  ]
+}
+[90m[2025-03-05 12:10:41.883][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:11:22.993][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "I want to buy a new laptop with gaming specs"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 12:11:25.129][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using recommendator tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "intent": "The user looking for a laptop with gaming specs",
+        "scope": [
+          "laptop",
+          "gaming"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 12:11:35.442][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "0112aea2-9a57-4fe5-b9eb-4941d9cdd906"
+    }
+  ]
+}
+[90m[2025-03-05 12:11:35.556][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using recommendator tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "intent": "The user looking for a laptop with gaming specs",
+        "scope": [
+          "laptop",
+          "gaming"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 12:11:35.726][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 12:11:37.739][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 506,
+        "completionTokens": 15,
+        "totalTokens": 521
+      }
+    }
+  ]
+}
+[90m[2025-03-05 12:21:43.776][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:21:44.210][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:21:46.581][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:21:51.955][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:21:58.807][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:22:48.769][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:22:58.515][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:23:05.215][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:23:12.340][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:24:03.910][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:24:06.775][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:24:43.783][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:24:47.588][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:27:26.183][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:27:49.892][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:28:06.686][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "I want to buy a new laptop with gaming specs"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 12:28:08.440][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using recommendator tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "intent": "The user is looking for a laptop with gaming specs",
+        "scope": [
+          "laptop",
+          "gaming"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 12:28:20.009][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "43dba926-90b5-4f1b-91e7-941c15bf35a6"
+    }
+  ]
+}
+[90m[2025-03-05 12:28:20.795][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 12:28:20.951][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using recommendator tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "intent": "The user is looking for a laptop with gaming specs",
+        "scope": [
+          "laptop",
+          "gaming"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 12:28:23.050][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 506,
+        "completionTokens": 16,
+        "totalTokens": 522
+      }
+    }
+  ]
+}
+[90m[2025-03-05 12:35:13.045][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:35:18.087][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:35:18.911][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:35:21.863][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:35:26.096][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:35:47.938][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:35:51.037][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:37:00.952][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:37:07.483][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:37:48.889][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 12:37:50.022][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 13:39:00.011][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Alienware m15 R7"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 13:39:02.411][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Alienware m15 R7"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 13:39:19.718][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "4538f2b8-7504-4f9a-8670-524f3211857a"
+    }
+  ]
+}
+[90m[2025-03-05 13:39:33.733][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "4538f2b8-7504-4f9a-8670-524f3211857a"
+    }
+  ]
+}
+[90m[2025-03-05 13:39:39.283][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "4538f2b8-7504-4f9a-8670-524f3211857a"
+    }
+  ]
+}
+[90m[2025-03-05 13:39:39.411][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Alienware m15 R7"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 13:39:39.534][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 13:39:41.814][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 879,
+        "completionTokens": 10,
+        "totalTokens": 889
+      }
+    }
+  ]
+}
+[90m[2025-03-05 13:43:15.692][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 13:43:16.311][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 13:45:25.750][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 13:46:28.116][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 13:47:15.220][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 13:53:18.754][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 13:55:05.391][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "I want to buy a new laptop with gaming specs"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 13:55:07.228][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using recommendator tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "intent": "The user looking a laptop with gaming specs",
+        "scope": [
+          "laptop",
+          "gaming"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 13:55:17.058][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "b0e9b635-a654-4152-ba4a-c7a0cf58277d"
+    }
+  ]
+}
+[90m[2025-03-05 13:55:17.737][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using recommendator tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "intent": "The user looking a laptop with gaming specs",
+        "scope": [
+          "laptop",
+          "gaming"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 13:55:17.958][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 13:55:19.713][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 506,
+        "completionTokens": 14,
+        "totalTokens": 520
+      }
+    }
+  ]
+}
+[90m[2025-03-05 13:58:37.703][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 13:59:18.388][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 14:00:06.251][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "I want to buy a new laptop with gaming specs"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:00:07.144][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using recommendator tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "intent": "The user looking for a laptop with gaming specs",
+        "scope": [
+          "laptop",
+          "gaming"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:00:19.041][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "155bd301-14c3-45b5-877f-8222a292beb3"
+    }
+  ]
+}
+[90m[2025-03-05 14:00:19.242][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using recommendator tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "intent": "The user looking for a laptop with gaming specs",
+        "scope": [
+          "laptop",
+          "gaming"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:00:19.786][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 14:00:21.044][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 506,
+        "completionTokens": 15,
+        "totalTokens": 521
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:00:40.084][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 14:01:47.049][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "I want to buy a new laptop with gaming specs"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:01:48.878][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using recommendator tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "intent": "The user looking for a laptop with gaming specs",
+        "scope": [
+          "laptop",
+          "gaming"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:01:59.734][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "00964446-bb38-4b7f-ba31-415d0919fe89"
+    }
+  ]
+}
+[90m[2025-03-05 14:01:59.854][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using recommendator tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "intent": "The user looking for a laptop with gaming specs",
+        "scope": [
+          "laptop",
+          "gaming"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:01:59.994][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 14:02:01.873][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 506,
+        "completionTokens": 15,
+        "totalTokens": 521
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:03:32.610][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 14:03:43.070][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 14:03:44.360][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 14:06:55.645][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 14:12:54.863][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "I want to buy a new laptop with gaming specs"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:12:56.702][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using recommendator tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "intent": "The user looking a laptop with gaming specs",
+        "scope": [
+          "laptop",
+          "gaming"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:13:06.765][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "19651d6a-92b0-4877-91cf-35bd70757beb"
+    }
+  ]
+}
+[90m[2025-03-05 14:13:07.513][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 14:13:07.580][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using recommendator tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "intent": "The user looking a laptop with gaming specs",
+        "scope": [
+          "laptop",
+          "gaming"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:13:09.910][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 506,
+        "completionTokens": 14,
+        "totalTokens": 520
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:17:31.207][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 14:18:11.944][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "I want to buy a new laptop with gaming specs"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:18:14.133][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using recommendator tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "intent": "The user looking for a laptop with gaming specs",
+        "scope": [
+          "laptop",
+          "gaming"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:18:23.892][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "50fd5d34-042e-41f5-8199-7932dfd105ec"
+    }
+  ]
+}
+[90m[2025-03-05 14:18:24.103][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 14:18:25.688][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using recommendator tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "intent": "The user looking for a laptop with gaming specs",
+        "scope": [
+          "laptop",
+          "gaming"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:18:27.653][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 506,
+        "completionTokens": 15,
+        "totalTokens": 521
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:28:12.358][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 14:28:13.610][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 14:28:20.722][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 14:28:21.607][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 14:28:28.079][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 14:28:28.340][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 14:28:32.397][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 14:30:04.103][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Lenovo Legion 5 Pro"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:30:05.188][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo Legion 5 Pro"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:30:21.638][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "ee06a339-efba-43b6-a202-1f61470a0e39"
+    }
+  ]
+}
+[90m[2025-03-05 14:30:35.428][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "ee06a339-efba-43b6-a202-1f61470a0e39"
+    }
+  ]
+}
+[90m[2025-03-05 14:30:41.133][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "ee06a339-efba-43b6-a202-1f61470a0e39"
+    }
+  ]
+}
+[90m[2025-03-05 14:30:41.248][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Legion 5 Pro"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:30:41.499][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 14:30:43.196][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 872,
+        "completionTokens": 8,
+        "totalTokens": 880
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:31:47.576][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 14:35:38.086][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Does this laptop have display port?",
+        "attachProduct": {
+          "product": {
+            "id": "QmF5o8JgVuRseqwc",
+            "title": "LENOVO LEGION PRO 5 16 RTX4070 I9 13900HX 32GB 1TB SSD 16.0QHD IPS W11",
+            "link": "https://www.tokopedia.com/rogsstoreid/lenovo-legion-pro-5-16-rtx4070-i9-13900hx-32gb-1tb-ssd-16-0qhd-ips-w11-standar-16gb-8d880?extParam=ivf%3Dfalse%26keyword%3Dlenovo+legion+5+pro%26search_id%3D202503050730137659E76192BAE0317B1I%26src%3Dsearch"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:35:40.857][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "LENOVO LEGION PRO 5 16 RTX4070 I9 13900HX 32GB 1TB SSD 16.0QHD IPS W11",
+        "link": "https://www.tokopedia.com/rogsstoreid/lenovo-legion-pro-5-16-rtx4070-i9-13900hx-32gb-1tb-ssd-16-0qhd-ips-w11-standar-16gb-8d880?extParam=ivf%3Dfalse%26keyword%3Dlenovo+legion+5+pro%26search_id%3D202503050730137659E76192BAE0317B1I%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:35:55.449][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "c1e3b3a0-bc39-40fd-9039-6a0f4baef532"
+    }
+  ]
+}
+[90m[2025-03-05 14:36:05.670][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "External Data",
+  "meta": [
+    {
+      "ext": "enabled",
+      "eta": 6.21
+    }
+  ]
+}
+[90m[2025-03-05 14:36:20.708][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "c1e3b3a0-bc39-40fd-9039-6a0f4baef532"
+    }
+  ]
+}
+[90m[2025-03-05 14:36:22.053][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "c1e3b3a0-bc39-40fd-9039-6a0f4baef532"
+    }
+  ]
+}
+[90m[2025-03-05 14:36:22.103][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "LENOVO LEGION PRO 5 16 RTX4070 I9 13900HX 32GB 1TB SSD 16.0QHD IPS W11",
+        "link": "https://www.tokopedia.com/rogsstoreid/lenovo-legion-pro-5-16-rtx4070-i9-13900hx-32gb-1tb-ssd-16-0qhd-ips-w11-standar-16gb-8d880?extParam=ivf%3Dfalse%26keyword%3Dlenovo+legion+5+pro%26search_id%3D202503050730137659E76192BAE0317B1I%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:36:22.342][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 14:36:23.943][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 3458,
+        "completionTokens": 196,
+        "totalTokens": 3654
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:37:55.929][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 14:37:56.721][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 14:38:02.930][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 14:40:40.968][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Lenovo Yoga Pro 7i "
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:40:41.954][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo Yoga Pro 7i"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:40:56.865][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "0c51b530-55af-4415-8de3-a30b627c949d"
+    }
+  ]
+}
+[90m[2025-03-05 14:41:09.419][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "0c51b530-55af-4415-8de3-a30b627c949d"
+    }
+  ]
+}
+[90m[2025-03-05 14:41:15.990][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "0c51b530-55af-4415-8de3-a30b627c949d"
+    }
+  ]
+}
+[90m[2025-03-05 14:41:16.123][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Yoga Pro 7i"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:41:16.342][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 14:41:18.498][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 5943,
+        "completionTokens": 9,
+        "totalTokens": 5952
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:41:46.856][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 14:42:41.795][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Show me what is good from this laptop in terms of 3d rendering and video editing",
+        "attachProduct": {
+          "product": {
+            "id": "xop9BErkvYh4lARu",
+            "title": "Lenovo Yoga Pro 7i Intel Ultra 7 155H RTX4050 1TB SSD 32GB OLED 2.8K 120Hz Win11+OHS",
+            "link": "https://www.tokopedia.com/sinarmulia/lenovo-yoga-pro-7i-intel-ultra-7-155h-rtx4050-1tb-ssd-32gb-oled-2-8k-120hz-win11-ohs-tanpa-antigores-f4322?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga+pro+7i%26search_id%3D20250305074048822C846D2BB9B434DAAV%26src%3Dsearch"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:42:43.616][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Lenovo Yoga Pro 7i Intel Ultra 7 155H RTX4050 1TB SSD 32GB OLED 2.8K 120Hz Win11+OHS",
+        "link": "https://www.tokopedia.com/sinarmulia/lenovo-yoga-pro-7i-intel-ultra-7-155h-rtx4050-1tb-ssd-32gb-oled-2-8k-120hz-win11-ohs-tanpa-antigores-f4322?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga+pro+7i%26search_id%3D20250305074048822C846D2BB9B434DAAV%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:42:58.632][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "c37e6f37-3889-4a24-882b-cd0f02605283"
+    }
+  ]
+}
+[90m[2025-03-05 14:43:10.407][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "External Data",
+  "meta": [
+    {
+      "ext": "enabled",
+      "eta": 7.76
+    }
+  ]
+}
+[90m[2025-03-05 14:43:25.218][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "c37e6f37-3889-4a24-882b-cd0f02605283"
+    }
+  ]
+}
+[90m[2025-03-05 14:43:28.660][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "c37e6f37-3889-4a24-882b-cd0f02605283"
+    }
+  ]
+}
+[90m[2025-03-05 14:43:28.703][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Lenovo Yoga Pro 7i Intel Ultra 7 155H RTX4050 1TB SSD 32GB OLED 2.8K 120Hz Win11+OHS",
+        "link": "https://www.tokopedia.com/sinarmulia/lenovo-yoga-pro-7i-intel-ultra-7-155h-rtx4050-1tb-ssd-32gb-oled-2-8k-120hz-win11-ohs-tanpa-antigores-f4322?extParam=ivf%3Dfalse%26keyword%3Dlenovo+yoga+pro+7i%26search_id%3D20250305074048822C846D2BB9B434DAAV%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:43:28.922][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 14:43:31.103][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 8666,
+        "completionTokens": 201,
+        "totalTokens": 8867
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:44:15.844][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 14:44:23.376][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for Samsung Galaxy S24 Ultra"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:44:23.995][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Samsung Galaxy S24 Ultra"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:44:30.162][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "4209ca49-1548-4fa9-8a87-417aeb2778bf"
+    }
+  ]
+}
+[90m[2025-03-05 14:44:42.462][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "4209ca49-1548-4fa9-8a87-417aeb2778bf"
+    }
+  ]
+}
+[90m[2025-03-05 14:44:46.893][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "4209ca49-1548-4fa9-8a87-417aeb2778bf"
+    }
+  ]
+}
+[90m[2025-03-05 14:44:47.007][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Samsung Galaxy S24 Ultra"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:44:47.783][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 14:44:49.086][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 504,
+        "completionTokens": 9,
+        "totalTokens": 513
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:45:04.038][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "attachProduct": {
+          "product": {
+            "id": "3gxxJXhvDSEwdFQj",
+            "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+            "link": "https://www.tokopedia.com/studioponsel/samsung-galaxy-s24-ultra-12-256gb-12-512gb-12-1tb-garansi-resmi-12-256gb-titanium-gray-94e4e?extParam=ivf%3Dfalse%26keyword%3Dsamsung+galaxy+s24+ultra%26search_id%3D2025022807303307D0D6B53A3FD80E0EXU%26src%3Dsearch"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:45:05.591][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+        "link": "https://www.tokopedia.com/studioponsel/samsung-galaxy-s24-ultra-12-256gb-12-512gb-12-1tb-garansi-resmi-12-256gb-titanium-gray-94e4e?extParam=ivf%3Dfalse%26keyword%3Dsamsung+galaxy+s24+ultra%26search_id%3D2025022807303307D0D6B53A3FD80E0EXU%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:45:11.747][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "f931c331-2b06-4072-952d-7c8c54a16b50"
+    }
+  ]
+}
+[90m[2025-03-05 14:45:25.667][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "External Data",
+  "meta": [
+    {
+      "ext": "enabled",
+      "eta": 9.97
+    }
+  ]
+}
+[90m[2025-03-05 14:45:43.024][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "f931c331-2b06-4072-952d-7c8c54a16b50"
+    }
+  ]
+}
+[90m[2025-03-05 14:45:47.286][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "f931c331-2b06-4072-952d-7c8c54a16b50"
+    }
+  ]
+}
+[90m[2025-03-05 14:45:47.421][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+        "link": "https://www.tokopedia.com/studioponsel/samsung-galaxy-s24-ultra-12-256gb-12-512gb-12-1tb-garansi-resmi-12-256gb-titanium-gray-94e4e?extParam=ivf%3Dfalse%26keyword%3Dsamsung+galaxy+s24+ultra%26search_id%3D2025022807303307D0D6B53A3FD80E0EXU%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:45:47.619][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 14:45:49.646][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 2968,
+        "completionTokens": 180,
+        "totalTokens": 3148
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:47:45.369][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Search for OPPO Find X8"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:47:46.625][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using searchProduct tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "OPPO Find X8"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:48:02.250][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "1a762305-2ce4-44aa-96d3-d44be280c706"
+    }
+  ]
+}
+[90m[2025-03-05 14:48:15.043][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "1a762305-2ce4-44aa-96d3-d44be280c706"
+    }
+  ]
+}
+[90m[2025-03-05 14:48:19.614][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "1a762305-2ce4-44aa-96d3-d44be280c706"
+    }
+  ]
+}
+[90m[2025-03-05 14:48:19.728][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using searchProduct tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "OPPO Find X8"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:48:19.913][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 14:48:21.587][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 5936,
+        "completionTokens": 7,
+        "totalTokens": 5943
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:48:36.505][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "attachProduct": {
+          "product": {
+            "id": "gCIN4KQKweUJ6kuV",
+            "title": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+            "link": "https://www.tokopedia.com/oppo/new-oppo-find-x8-16gb-512gb-12gb-256gb-garansi-resmi-xyz8732op-1730759011198862431?extParam=ivf%3Dfalse%26keyword%3Doppo+find+x8%26search_id%3D202503050747540B52675175D0DD32ESDE%26src%3Dsearch"
+          }
+        }
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:48:39.146][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "query": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+        "link": "https://www.tokopedia.com/oppo/new-oppo-find-x8-16gb-512gb-12gb-256gb-garansi-resmi-xyz8732op-1730759011198862431?extParam=ivf%3Dfalse%26keyword%3Doppo+find+x8%26search_id%3D202503050747540B52675175D0DD32ESDE%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:48:57.575][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createMarkdownEntry",
+      "reffKey": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+    }
+  ]
+}
+[90m[2025-03-05 14:49:07.998][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "External Data",
+  "meta": [
+    {
+      "ext": "enabled",
+      "eta": 6.28
+    }
+  ]
+}
+[90m[2025-03-05 14:49:17.447][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+    }
+  ]
+}
+[90m[2025-03-05 14:49:20.644][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+    }
+  ]
+}
+[90m[2025-03-05 14:49:20.699][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using getProductDetails tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "query": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+        "link": "https://www.tokopedia.com/oppo/new-oppo-find-x8-16gb-512gb-12gb-256gb-garansi-resmi-xyz8732op-1730759011198862431?extParam=ivf%3Dfalse%26keyword%3Doppo+find+x8%26search_id%3D202503050747540B52675175D0DD32ESDE%26src%3Dsearch"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:49:21.041][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 14:49:22.500][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 8230,
+        "completionTokens": 183,
+        "totalTokens": 8413
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:50:48.043][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "What device is most optimal in terms of daily usage and vlogging?",
+        "productCompare": {
+          "for": [
+            {
+              "title": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+              "callId": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+            },
+            {
+              "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+              "callId": "f931c331-2b06-4072-952d-7c8c54a16b50"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:50:49.900][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using productsComparison tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 14:50:50.007][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "f931c331-2b06-4072-952d-7c8c54a16b50",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-03-05 14:50:50.018][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "7469e39c-818f-49b3-b2e5-7960a1a1cd73",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-03-05 14:51:02.477][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "26efcb39-8d9a-4f9a-af47-106c7d7281e2"
+    }
+  ]
+}
+[90m[2025-03-05 14:51:06.626][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "26efcb39-8d9a-4f9a-af47-106c7d7281e2"
+    }
+  ]
+}
+[90m[2025-03-05 14:51:06.750][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using productsComparison tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "compare": [
+          {
+            "title": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+            "callId": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+          },
+          {
+            "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+            "callId": "f931c331-2b06-4072-952d-7c8c54a16b50"
+          }
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:51:07.308][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 14:51:08.759][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 10678,
+        "completionTokens": 151,
+        "totalTokens": 10829
+      }
+    }
+  ]
+}
+[90m[2025-03-05 14:52:17.218][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:52:29.468][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:52:30.985][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:52:32.311][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:52:32.830][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:52:33.487][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:52:34.012][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:52:45.293][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:52:46.386][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:52:48.596][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:52:52.873][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:52:53.367][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:52:56.081][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:53:01.363][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:53:03.326][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:53:06.085][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:53:07.861][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:53:08.082][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:53:09.184][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:53:19.039][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:53:19.468][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:53:21.672][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:53:25.349][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:53:26.332][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:53:27.505][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:53:27.799][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:53:29.631][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:53:32.205][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:53:32.991][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:54:26.507][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:55:14.308][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "What is the most long lasting battery and good camera quality in low light?",
+        "productCompare": {
+          "for": [
+            {
+              "title": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+              "callId": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+            },
+            {
+              "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+              "callId": "f931c331-2b06-4072-952d-7c8c54a16b50"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+[90m[2025-03-05 18:55:17.318][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using productsComparison tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 18:55:18.360][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "7469e39c-818f-49b3-b2e5-7960a1a1cd73",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-03-05 18:55:18.384][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "f931c331-2b06-4072-952d-7c8c54a16b50",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-03-05 18:55:31.061][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "73953451-4c9b-4f93-b33d-45d63ee1bf41"
+    }
+  ]
+}
+[90m[2025-03-05 18:55:32.903][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "73953451-4c9b-4f93-b33d-45d63ee1bf41"
+    }
+  ]
+}
+[90m[2025-03-05 18:55:32.967][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using productsComparison tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "compare": [
+          {
+            "title": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+            "callId": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+          },
+          {
+            "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+            "callId": "f931c331-2b06-4072-952d-7c8c54a16b50"
+          }
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 18:55:33.260][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 18:55:35.226][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 10679,
+        "completionTokens": 151,
+        "totalTokens": 10830
+      }
+    }
+  ]
+}
+[90m[2025-03-05 18:59:26.292][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:59:26.369][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:59:29.837][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:59:32.521][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:59:33.660][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 18:59:35.379][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 19:01:52.185][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 19:10:31.110][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 19:10:31.963][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 19:10:37.495][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 19:10:41.199][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 19:10:42.732][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 19:11:01.690][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 19:15:20.903][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "show me of your analysis about both products, assume that you want to buy it by consider all possibility",
+        "productCompare": {
+          "for": [
+            {
+              "title": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+              "callId": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+            },
+            {
+              "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+              "callId": "f931c331-2b06-4072-952d-7c8c54a16b50"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+[90m[2025-03-05 19:15:22.672][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using productsComparison tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 19:15:23.629][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "7469e39c-818f-49b3-b2e5-7960a1a1cd73",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-03-05 19:15:23.657][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "f931c331-2b06-4072-952d-7c8c54a16b50",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-03-05 19:15:35.196][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "cebaaac4-75e7-4353-97ac-3b4d18b4159b"
+    }
+  ]
+}
+[90m[2025-03-05 19:15:46.588][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "cebaaac4-75e7-4353-97ac-3b4d18b4159b"
+    }
+  ]
+}
+[90m[2025-03-05 19:15:46.737][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using productsComparison tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "compare": [
+          {
+            "title": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+            "callId": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+          },
+          {
+            "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+            "callId": "f931c331-2b06-4072-952d-7c8c54a16b50"
+          }
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 19:15:46.923][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 19:15:48.943][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 10684,
+        "completionTokens": 151,
+        "totalTokens": 10835
+      }
+    }
+  ]
+}
+[90m[2025-03-05 20:05:33.559][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 20:05:34.635][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 20:06:41.812][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 20:06:42.011][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 20:08:01.911][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 20:19:23.009][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "What is the most reliable device?, give me the deep analysis",
+        "productCompare": {
+          "for": [
+            {
+              "title": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+              "callId": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+            },
+            {
+              "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+              "callId": "f931c331-2b06-4072-952d-7c8c54a16b50"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+[90m[2025-03-05 20:19:26.194][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using productsComparison tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 20:19:26.982][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "7469e39c-818f-49b3-b2e5-7960a1a1cd73",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-03-05 20:19:26.989][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "f931c331-2b06-4072-952d-7c8c54a16b50",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-03-05 20:19:39.974][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "b1d2315a-8c51-4193-b369-57db002453af"
+    }
+  ]
+}
+[90m[2025-03-05 20:19:48.231][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "b1d2315a-8c51-4193-b369-57db002453af"
+    }
+  ]
+}
+[90m[2025-03-05 20:19:48.343][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using productsComparison tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "compare": [
+          {
+            "title": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+            "callId": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+          },
+          {
+            "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+            "callId": "f931c331-2b06-4072-952d-7c8c54a16b50"
+          }
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 20:19:48.580][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 20:19:50.404][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 10676,
+        "completionTokens": 151,
+        "totalTokens": 10827
+      }
+    }
+  ]
+}
+[90m[2025-03-05 20:26:50.012][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 20:42:20.965][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 20:42:22.136][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 20:42:36.615][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 20:42:38.426][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 20:42:47.205][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 20:44:26.724][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Give me the deep analysis of both products, considering as for daily usage, photography, and content creation.",
+        "productCompare": {
+          "for": [
+            {
+              "title": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+              "callId": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+            },
+            {
+              "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+              "callId": "f931c331-2b06-4072-952d-7c8c54a16b50"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+[90m[2025-03-05 20:44:29.135][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using productsComparison tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 20:44:30.009][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "f931c331-2b06-4072-952d-7c8c54a16b50",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-03-05 20:44:30.022][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "7469e39c-818f-49b3-b2e5-7960a1a1cd73",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-03-05 20:44:43.406][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createObjectEntry",
+      "reffKey": "4b3fdaaa-5b29-4c60-b2bd-2ae981e60c92"
+    }
+  ]
+}
+[90m[2025-03-05 20:44:56.858][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "4b3fdaaa-5b29-4c60-b2bd-2ae981e60c92"
+    }
+  ]
+}
+[90m[2025-03-05 20:44:56.969][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using productsComparison tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "compare": [
+          {
+            "title": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+            "callId": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+          },
+          {
+            "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+            "callId": "f931c331-2b06-4072-952d-7c8c54a16b50"
+          }
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 20:44:57.177][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 20:44:59.173][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 10685,
+        "completionTokens": 151,
+        "totalTokens": 10836
+      }
+    }
+  ]
+}
+[90m[2025-03-05 20:45:25.468][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 20:45:26.806][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 20:51:32.895][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 20:51:33.259][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 20:58:48.328][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 20:59:15.397][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 20:59:46.441][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Give me the deep analysis of both products",
+        "productCompare": {
+          "for": [
+            {
+              "title": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+              "callId": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+            },
+            {
+              "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+              "callId": "f931c331-2b06-4072-952d-7c8c54a16b50"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+[90m[2025-03-05 20:59:49.223][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using productsComparison tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 20:59:50.541][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "7469e39c-818f-49b3-b2e5-7960a1a1cd73",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-03-05 20:59:50.634][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "f931c331-2b06-4072-952d-7c8c54a16b50",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-03-05 21:00:14.560][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "455fffda-aeeb-44b2-aed8-d99dd290e4d1"
+    }
+  ]
+}
+[90m[2025-03-05 21:00:14.664][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using productsComparison tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "compare": [
+          {
+            "title": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+            "callId": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+          },
+          {
+            "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+            "callId": "f931c331-2b06-4072-952d-7c8c54a16b50"
+          }
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 21:00:14.927][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 21:00:16.877][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 10672,
+        "completionTokens": 151,
+        "totalTokens": 10823
+      }
+    }
+  ]
+}
+[90m[2025-03-05 21:36:42.974][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 21:37:49.535][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 21:38:24.312][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Give me the deep analysis of both products",
+        "productCompare": {
+          "for": [
+            {
+              "title": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+              "callId": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+            },
+            {
+              "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+              "callId": "f931c331-2b06-4072-952d-7c8c54a16b50"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+[90m[2025-03-05 21:38:27.189][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using productsComparison tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 21:38:28.011][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "f931c331-2b06-4072-952d-7c8c54a16b50",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-03-05 21:38:28.041][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "7469e39c-818f-49b3-b2e5-7960a1a1cd73",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-03-05 21:38:52.304][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "8a8480b8-bc52-4346-9f2e-b67ceb66d6f9"
+    }
+  ]
+}
+[90m[2025-03-05 21:38:52.898][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using productsComparison tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "compare": [
+          {
+            "title": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+            "callId": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+          },
+          {
+            "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+            "callId": "f931c331-2b06-4072-952d-7c8c54a16b50"
+          }
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 21:38:53.879][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 21:38:55.116][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 10672,
+        "completionTokens": 151,
+        "totalTokens": 10823
+      }
+    }
+  ]
+}
+[90m[2025-03-05 21:43:34.929][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 21:43:35.108][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 21:43:55.881][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 21:43:56.299][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 21:45:00.592][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 21:46:09.397][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "give me deep analysis of both products",
+        "productCompare": {
+          "for": [
+            {
+              "title": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+              "callId": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+            },
+            {
+              "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+              "callId": "f931c331-2b06-4072-952d-7c8c54a16b50"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+[90m[2025-03-05 21:46:12.425][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using productsComparison tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 21:46:13.392][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "7469e39c-818f-49b3-b2e5-7960a1a1cd73",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-03-05 21:46:13.610][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "f931c331-2b06-4072-952d-7c8c54a16b50",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-03-05 21:47:00.229][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "49e5b611-3fce-4fab-8126-866776f4b921"
+    }
+  ]
+}
+[90m[2025-03-05 21:47:00.348][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using productsComparison tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "compare": [
+          {
+            "title": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+            "callId": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+          },
+          {
+            "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+            "callId": "f931c331-2b06-4072-952d-7c8c54a16b50"
+          }
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 21:47:01.078][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 21:47:48.815][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 21:52:23.968][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 21:52:24.252][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 21:53:54.645][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 21:54:34.672][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Give me deep analysis of both products",
+        "productCompare": {
+          "for": [
+            {
+              "title": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+              "callId": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+            },
+            {
+              "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+              "callId": "f931c331-2b06-4072-952d-7c8c54a16b50"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+[90m[2025-03-05 21:54:36.463][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using productsComparison tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 21:54:37.391][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "7469e39c-818f-49b3-b2e5-7960a1a1cd73",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-03-05 21:54:37.406][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "f931c331-2b06-4072-952d-7c8c54a16b50",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-03-05 21:54:57.369][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "a66a9037-ab09-4fe0-a95f-7542398f0446"
+    }
+  ]
+}
+[90m[2025-03-05 21:54:57.519][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using productsComparison tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "compare": [
+          {
+            "title": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+            "callId": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+          },
+          {
+            "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+            "callId": "f931c331-2b06-4072-952d-7c8c54a16b50"
+          }
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 21:54:57.819][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 21:54:59.755][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 10671,
+        "completionTokens": 151,
+        "totalTokens": 10822
+      }
+    }
+  ]
+}
+[90m[2025-03-05 21:58:07.390][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 21:58:41.664][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Give me deep analysis about both products",
+        "productCompare": {
+          "for": [
+            {
+              "title": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+              "callId": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+            },
+            {
+              "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+              "callId": "f931c331-2b06-4072-952d-7c8c54a16b50"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+[90m[2025-03-05 21:58:44.504][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using productsComparison tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 21:58:44.623][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "7469e39c-818f-49b3-b2e5-7960a1a1cd73",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-03-05 21:58:44.634][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "f931c331-2b06-4072-952d-7c8c54a16b50",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-03-05 21:59:04.321][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "861c398c-09ca-465e-8933-194fafb468c7"
+    }
+  ]
+}
+[90m[2025-03-05 21:59:04.459][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using productsComparison tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "compare": [
+          {
+            "title": "[NEW] OPPO Find X8 16GB/512GB & 12GB/256GB (Garansi Resmi) XYZ8732OP",
+            "callId": "7469e39c-818f-49b3-b2e5-7960a1a1cd73"
+          },
+          {
+            "title": "Samsung Galaxy S24 Ultra 12/256GB | 12/512GB | 12/1TB Garansi Resmi",
+            "callId": "f931c331-2b06-4072-952d-7c8c54a16b50"
+          }
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 21:59:04.622][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 21:59:06.753][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 10671,
+        "completionTokens": 151,
+        "totalTokens": 10822
+      }
+    }
+  ]
+}
+[90m[2025-03-05 22:03:06.234][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "Give me deep analysis of both products in term of versatility use",
+        "productCompare": {
+          "for": [
+            {
+              "title": "LENOVO LEGION PRO 5 16 RTX4070 I9 13900HX 32GB 1TB SSD 16.0QHD IPS W11",
+              "callId": "c1e3b3a0-bc39-40fd-9039-6a0f4baef532"
+            },
+            {
+              "title": "Lenovo Yoga Pro 7i Intel Ultra 7 155H RTX4050 1TB SSD 32GB OLED 2.8K 120Hz Win11+OHS",
+              "callId": "c37e6f37-3889-4a24-882b-cd0f02605283"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+[90m[2025-03-05 22:03:08.295][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using productsComparison tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 22:03:08.803][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "c1e3b3a0-bc39-40fd-9039-6a0f4baef532",
+      "exists": true
+    }
+  ]
+}
+[90m[2025-03-05 22:03:09.174][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Retrieving Value",
+  "meta": [
+    {
+      "on": "getObjectEntry",
+      "reffKey": "c37e6f37-3889-4a24-882b-cd0f02605283",
+      "exists": true
+    }
+  ]
+}

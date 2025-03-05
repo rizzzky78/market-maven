@@ -28,6 +28,7 @@ export type ProductsComparisonProps = {
     }
   >;
   isSharedContent?: boolean;
+  skeleton?: boolean;
 };
 
 export type ProductRecommendationProps = {

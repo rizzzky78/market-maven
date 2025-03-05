@@ -12,6 +12,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
+import VideoPlayer from "./video-player";
 
 export const Features: FC = () => {
   return (
@@ -40,9 +41,9 @@ export const Features: FC = () => {
         </header>
 
         {/* Features section */}
-        <main className="container mx-auto px-4 py-12">
+        <main className="max-w-7xl mx-auto px-4 py-12">
           {/* Feature 1: recommendator */}
-          <section className="grid md:grid-cols-2 gap-8 items-center mb-24">
+          <section className="grid md:grid-cols-2 gap-8 items-start mb-24">
             <div className="order-2 md:order-1">
               <div className="flex items-center gap-2 mb-4">
                 <Lightbulb className="h-8 w-8 text-primary" />
@@ -63,30 +64,24 @@ export const Features: FC = () => {
             </div>
             <div className="order-1 md:order-2">
               <div className="rounded-[2rem] overflow-hidden">
-                <Image
-                  src="/snapshot-recommendator.png"
+                {/* <Image
+                  src="/snp-recommendator.png"
                   alt="AI Product Picks screenshot showing personalized recommendations"
-                  width={1000}
+                  width={800}
                   height={1000}
                   quality={100}
                   className="w-full h-auto object-cover"
-                />
+                /> */}
+                <VideoPlayer url="/vid/v0-recommendator.webm" />
               </div>
             </div>
           </section>
 
           {/* Feature 2: searchProduct */}
-          <section className="grid md:grid-cols-2 gap-8 items-center mb-24">
+          <section className="grid md:grid-cols-2 gap-8 items-start mb-24">
             <div className="order-1">
-              <div className="rounded-[2rem] overflow-hidden border shadow-sm">
-                <Image
-                  src="/snapshot-search.png"
-                  alt="Find Products Fast screenshot showing search results"
-                  width={1000}
-                  height={1000}
-                  quality={100}
-                  className="w-full h-auto object-cover"
-                />
+              <div className="rounded-[2rem] overflow-hidden shadow-sm">
+                <VideoPlayer url="/vid/demo-search.webm" />
               </div>
             </div>
             <div className="order-2">
@@ -111,7 +106,7 @@ export const Features: FC = () => {
           </section>
 
           {/* Feature 3: getProductDetails */}
-          <section className="grid md:grid-cols-2 gap-8 items-center mb-24">
+          <section className="grid md:grid-cols-2 gap-8 items-start mb-24">
             <div className="order-2 md:order-1">
               <div className="flex items-center gap-2 mb-4">
                 <FileText className="h-8 w-8 text-primary" />
@@ -131,23 +126,16 @@ export const Features: FC = () => {
               </Link>
             </div>
             <div className="order-1 md:order-2">
-              <div className="rounded-[2rem] overflow-hidden border shadow-sm">
-                <Image
-                  src="/snapshot-details.png"
-                  alt="Deep Product Insights screenshot showing detailed product information"
-                  width={1000}
-                  height={1000}
-                  quality={100}
-                  className="w-full h-auto object-cover"
-                />
+              <div className="rounded-[2rem] overflow-hidden shadow-sm">
+                <VideoPlayer url="/vid/demo-insight.webm" />
               </div>
             </div>
           </section>
 
           {/* Feature 4: productsComparison */}
-          <section className="grid md:grid-cols-2 gap-8 items-center mb-24">
+          <section className="grid md:grid-cols-2 gap-8 items-start mb-24">
             <div className="order-1">
-              <div className="rounded-[2rem] overflow-hidden border shadow-sm">
+              <div className="rounded-[2rem] overflow-hidden  shadow-sm">
                 <Image
                   src="/rate-img-4.jpg"
                   alt="Compare Side-by-Side screenshot showing product comparison table"
@@ -178,7 +166,7 @@ export const Features: FC = () => {
           </section>
 
           {/* Feature 5: inquireUser */}
-          <section className="grid md:grid-cols-2 gap-8 items-center mb-24">
+          <section className="grid md:grid-cols-2 gap-8 items-start mb-24">
             <div className="order-2 md:order-1">
               <div className="flex items-center gap-2 mb-4">
                 <MessageSquareQuestion className="h-8 w-8 text-primary" />

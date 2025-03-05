@@ -216,6 +216,11 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
     return null;
   };
 
+  const comparison = data as {
+    products: Record<string, any>[];
+    key_differences: string[];
+  };
+
   return (
     <motion.div
       variants={cardVariants}
@@ -273,78 +278,60 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
           >
             <div className="*:text-xs grid grid-cols-1 lg:grid-cols-2 gap-2">
               <div className="lg:border-r border-y border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
-                {!isGenerating ? (
-                  Array.isArray(data.products) &&
-                  [data.products[0]].map((item: Record<string, any>, index) => (
-                    <motion.div
-                      key={index}
-                      variants={itemVariants}
-                      className="pt-4"
-                    >
+                {Array.isArray(comparison?.products) &&
+                  [comparison.products[0]].map(
+                    (item: Record<string, any>, index) => (
                       <motion.div
-                        variants={containerVariants}
-                        initial="initial"
-                        animate="animate"
-                        exit="exit"
-                        className="space-y-3"
+                        key={index}
+                        variants={itemVariants}
+                        className="pt-4"
                       >
-                        {Object.entries(item).map(([key, value]) => (
-                          <Fragment key={key}>
-                            {renderValue(value, key)}
-                          </Fragment>
-                        ))}
+                        <motion.div
+                          variants={containerVariants}
+                          initial="initial"
+                          animate="animate"
+                          exit="exit"
+                          className="space-y-3"
+                        >
+                          {Object.entries(item).map(([key, value]) => (
+                            <Fragment key={key}>
+                              {renderValue(value, key)}
+                            </Fragment>
+                          ))}
+                        </motion.div>
                       </motion.div>
-                    </motion.div>
-                  ))
-                ) : (
-                  <div className="pt-4 space-y-3 pb-3">
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-5/6" />
-                    <Skeleton className="h-4 w-4/5" />
-                    <Skeleton className="h-4 w-3/4" />
-                    <Skeleton className="h-4 w-5/6" />
-                    <Skeleton className="h-4 w-3/4" />
-                  </div>
-                )}
+                    )
+                  )}
               </div>
               <div className="lg:border-l border-y border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
-                {!isGenerating ? (
-                  Array.isArray(data.products) &&
-                  [data.products[1]].map((item: Record<string, any>, index) => (
-                    <motion.div
-                      key={index}
-                      variants={itemVariants}
-                      className="pt-4"
-                    >
+                {Array.isArray(comparison?.products) &&
+                  [comparison.products[1]].map(
+                    (item: Record<string, any>, index) => (
                       <motion.div
-                        variants={containerVariants}
-                        initial="initial"
-                        animate="animate"
-                        exit="exit"
-                        className="space-y-3"
+                        key={index}
+                        variants={itemVariants}
+                        className="pt-4"
                       >
-                        {Object.entries(item).map(([key, value]) => (
-                          <Fragment key={key}>
-                            {renderValue(value, key)}
-                          </Fragment>
-                        ))}
+                        <motion.div
+                          variants={containerVariants}
+                          initial="initial"
+                          animate="animate"
+                          exit="exit"
+                          className="space-y-3"
+                        >
+                          {Object.entries(item).map(([key, value]) => (
+                            <Fragment key={key}>
+                              {renderValue(value, key)}
+                            </Fragment>
+                          ))}
+                        </motion.div>
                       </motion.div>
-                    </motion.div>
-                  ))
-                ) : (
-                  <div className="pt-4 space-y-3 pb-3">
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-5/6" />
-                    <Skeleton className="h-4 w-4/5" />
-                    <Skeleton className="h-4 w-3/4" />
-                    <Skeleton className="h-4 w-5/6" />
-                    <Skeleton className="h-4 w-3/4" />
-                  </div>
-                )}
+                    )
+                  )}
               </div>
             </div>
-            {!isGenerating ? (
-              data.key_differences && (
+            {Array.isArray(comparison?.key_differences) &&
+              comparison.key_differences && (
                 <div className="border-y border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 *:text-xs my-2 py-2">
                   <motion.div
                     variants={itemVariants}
@@ -364,9 +351,9 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
                       animate="animate"
                       exit="exit"
                     >
-                      {Array.isArray(data.key_differences) && (
-                        <div>
-                          {data.key_differences.map((diff: string, index) => (
+                      <div>
+                        {comparison.key_differences.map(
+                          (diff: string, index) => (
                             <motion.div
                               key={index}
                               variants={itemVariants}
@@ -374,23 +361,13 @@ const PureProductComparison: FC<ProductComparisonProps> = ({
                             >
                               {sanitizeStr(diff)}
                             </motion.div>
-                          ))}
-                        </div>
-                      )}
+                          )
+                        )}
+                      </div>
                     </motion.div>
                   </motion.div>
                 </div>
-              )
-            ) : (
-              <div className="border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 my-2 py-2">
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-1/3" />
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-5/6" />
-                  <Skeleton className="h-4 w-4/5" />
-                </div>
-              </div>
-            )}
+              )}
           </motion.div>
         )}
       </AnimatePresence>
@@ -405,3 +382,108 @@ export const MemoProductComparison = memo(
     prev.data === next.data &&
     prev.isGenerating === next.isGenerating
 );
+
+interface SkeletonProductComparisonProps {
+  callId: string;
+  isGenerating?: boolean;
+  compare: { title: string; callId: string }[];
+}
+
+export const SkeletonProductComparison: FC<SkeletonProductComparisonProps> = ({
+  callId,
+  isGenerating,
+  compare,
+}) => {
+  const [open, setOpen] = useState(true);
+
+  return (
+    <motion.div
+      variants={cardVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      className=""
+    >
+      <div className="flex justify-center">
+        <div className="flex items-center justify-between bg-[#1A1A1D] text-white dark:bg-white dark:text-black py-1 px-1 w-full rounded-[2rem]">
+          <div className="flex items-center mx-3">
+            <FlaskConical
+              className={`size-6 text-purple-400 mr-2 ${
+                isGenerating ? "animate-spin" : "animate-none"
+              }`}
+            />
+            <div className="w-full">
+              <div className="flex flex-col">
+                <div className="grid grid-cols-2 gap-1 md:gap-2">
+                  {compare.map((v) => (
+                    <div key={v.callId} className="">
+                      <Link href={`/point/$${v.callId}`}>
+                        <h2 className="text-sm font-bold line-clamp-1 hover:text-muted/80">
+                          {v.title}
+                        </h2>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-xs text-gray-200 dark:text-gray-800">
+                  Request ID: {callId ?? "no-call-id"}
+                </p>
+              </div>
+            </div>
+          </div>
+          <Button
+            variant={"ghost"}
+            onClick={() => setOpen((prev) => !prev)}
+            className="size-10 rounded-full shrink-0"
+          >
+            <ChevronUp
+              className={`transition-all ${open ? "rotate-180" : ""}`}
+            />
+          </Button>
+        </div>
+      </div>
+      <AnimatePresence mode={"wait"}>
+        {open && (
+          <motion.div
+            variants={containerVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="my-3"
+          >
+            <div className="*:text-xs grid grid-cols-1 lg:grid-cols-2 gap-2">
+              <div className="lg:border-r border-y border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
+                <div className="pt-4 space-y-3 pb-3">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-5/6" />
+                  <Skeleton className="h-4 w-4/5" />
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-4 w-5/6" />
+                  <Skeleton className="h-4 w-3/4" />
+                </div>
+              </div>
+              <div className="lg:border-l border-y border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 pb-1">
+                <div className="pt-4 space-y-3 pb-3">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-5/6" />
+                  <Skeleton className="h-4 w-4/5" />
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-4 w-5/6" />
+                  <Skeleton className="h-4 w-3/4" />
+                </div>
+              </div>
+            </div>
+            <div className="border-[#1A1A1D] dark:border-inherit rounded-3xl px-3 my-2 py-2">
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-1/3" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-5/6" />
+                <Skeleton className="h-4 w-4/5" />
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+};

@@ -85,7 +85,13 @@ import {
 import logger from "@/lib/utility/logger";
 import { processURLQuery } from "@/lib/utils";
 import { google } from "@ai-sdk/google";
-import { DeepPartial, generateId, streamObject, streamText } from "ai";
+import {
+  DeepPartial,
+  generateId,
+  generateObject,
+  streamObject,
+  streamText,
+} from "ai";
 import {
   createAI,
   createStreamableValue,
@@ -1111,8 +1117,6 @@ const orchestrator = async (
 
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
-          const streamableObject = createStreamableValue<Record<string, any>>();
-
           const payloadPrevProductsData = previousProductsData.map(
             (v) => v.object.productDetails
           );
@@ -1123,6 +1127,7 @@ const orchestrator = async (
            */
           yield (
             <ProductComparison
+              skeleton
               content={{
                 success: true,
                 name: "productsComparison",
@@ -1132,35 +1137,19 @@ const orchestrator = async (
             />
           );
 
-          const { partialObjectStream } = streamObject({
+          const comparisonObjResult = await generateObject({
             model: google("gemini-2.0-flash-exp"),
             system: SYSTEM_INSTRUCTION.PRODUCT_COMPARE_EXTRACTOR,
             prompt: JSON.stringify(payloadPrevProductsData),
             output: "no-schema",
-            onFinish: async ({ object }) => {
-              finalizedCompare.comparison = object as Record<string, any>;
-              streamableObject.done();
-
-              await createObjectEntry({
-                key: finalizedCompare.callId,
-                chatId: state.get().chatId,
-                owner: state.get().username,
-                type: "productsComparison",
-                object: finalizedCompare,
-              });
-            },
-            onError: ({ error }) => {
-              streamableObject.error(error);
-              errorState = {
-                isError: true,
-                error,
-              };
-            },
           });
 
-          for await (const chunk of partialObjectStream) {
-            streamableObject.update(chunk as Record<string, any>);
-          }
+          const comparisonData = comparisonObjResult.object as Record<
+            string,
+            any
+          >;
+
+          finalizedCompare.comparison = comparisonData;
 
           const streamableText = createStreamableValue<string>("");
 
@@ -1171,7 +1160,10 @@ const orchestrator = async (
                   success: true,
                   name: "productsComparison",
                   args: { compare },
-                  data: finalizedCompare,
+                  data: {
+                    ...finalizedCompare,
+                    comparison: comparisonData,
+                  },
                 }}
               />
               <StreamAssistantMessage content={streamableText.value} />
@@ -1219,7 +1211,10 @@ const orchestrator = async (
                   success: true,
                   name: "productsComparison",
                   args: { compare },
-                  data: finalizedCompare,
+                  data: {
+                    ...finalizedCompare,
+                    comparison: comparisonData,
+                  },
                 }}
               />
               <AssistantMessage content={finalizedText} />

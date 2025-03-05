@@ -2,7 +2,10 @@
 
 import { Columns2, Info } from "lucide-react";
 import { FC, useState } from "react";
-import { MemoProductComparison } from "./memo-product-comparison";
+import {
+  MemoProductComparison,
+  SkeletonProductComparison,
+} from "./memo-product-comparison";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { Lens } from "./lens";
 import { Separator } from "../ui/separator";
@@ -14,6 +17,7 @@ import Image from "next/image";
 export const ProductComparison: FC<ProductsComparisonProps> = ({
   content,
   isSharedContent,
+  skeleton,
 }) => {
   const {
     success,
@@ -108,12 +112,16 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
           </div>
         </div>
         <Separator className="mt-2 mb-4 bg-[#1A1A1D] dark:bg-muted" />
-        <MemoProductComparison
-          callId={callId}
-          compare={compare}
-          data={comparison}
-          isGenerating={isGenerating}
-        />
+        {!skeleton ? (
+          <MemoProductComparison
+            callId={callId}
+            compare={compare}
+            data={comparison}
+            isGenerating={isGenerating}
+          />
+        ) : (
+          <SkeletonProductComparison callId={callId} compare={compare} />
+        )}
         <div className="mt-3 -mb-1 flex items-center justify-center">
           <Info className="size-4 mr-1 text-purple-500 dark:text-purple-300" />
           <p className="text-xs">
