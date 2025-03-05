@@ -43495,3 +43495,265 @@
     }
   ]
 }
+[90m[2025-03-05 22:03:27.800][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "0495f4a9-9e36-4fb5-8606-38bd1919962d"
+    }
+  ]
+}
+[90m[2025-03-05 22:03:27.923][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using productsComparison tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "compare": [
+          {
+            "title": "LENOVO LEGION PRO 5 16 RTX4070 I9 13900HX 32GB 1TB SSD 16.0QHD IPS W11",
+            "callId": "c1e3b3a0-bc39-40fd-9039-6a0f4baef532"
+          },
+          {
+            "title": "Lenovo Yoga Pro 7i Intel Ultra 7 155H RTX4050 1TB SSD 32GB OLED 2.8K 120Hz Win11+OHS",
+            "callId": "c37e6f37-3889-4a24-882b-cd0f02605283"
+          }
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 22:03:28.167][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 22:03:29.903][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 11559,
+        "completionTokens": 164,
+        "totalTokens": 11723
+      }
+    }
+  ]
+}
+[90m[2025-03-05 22:07:53.382][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 22:07:57.186][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 22:08:00.570][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 22:08:08.366][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 22:09:52.073][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 22:11:07.918][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "textInput": "I want to buy a smartphone"
+      }
+    }
+  ]
+}
+[90m[2025-03-05 22:11:09.847][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using inquireUser tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 22:11:12.699][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using inquireUser tool",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 22:11:12.702][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 502,
+        "completionTokens": 27,
+        "totalTokens": 529
+      }
+    }
+  ]
+}
+[90m[2025-03-05 22:11:13.446][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 22:11:21.443][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Debug: payload orchestrator",
+  "meta": [
+    {
+      "payload": {
+        "inquiryResponse": {
+          "question": "What is your budget for a new smartphone?",
+          "selected": [
+            "under_300"
+          ],
+          "input": null
+        }
+      }
+    }
+  ]
+}
+[90m[2025-03-05 22:11:23.211][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Using recommendator tool",
+  "meta": [
+    {
+      "progress": "initial",
+      "request": {
+        "intent": "The user is looking for a smartphone with a budget under $300",
+        "scope": [
+          "smartphone"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 22:11:34.888][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Storing Value",
+  "meta": [
+    {
+      "on": "createToolDataEntry",
+      "reffKey": "3b2ebca9-2787-4873-a6f3-0d8a95d9d51f"
+    }
+  ]
+}
+[90m[2025-03-05 22:11:35.126][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved successfully!",
+  "meta": [
+    null
+  ]
+}
+[90m[2025-03-05 22:11:35.676][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Done using recommendator tool",
+  "meta": [
+    {
+      "progress": "finish",
+      "request": {
+        "intent": "The user is looking for a smartphone with a budget under $300",
+        "scope": [
+          "smartphone"
+        ]
+      }
+    }
+  ]
+}
+[90m[2025-03-05 22:11:37.787][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "Orchestrator Usage: first layer",
+  "meta": [
+    {
+      "usage": {
+        "promptTokens": 859,
+        "completionTokens": 20,
+        "totalTokens": 879
+      }
+    }
+  ]
+}
+[90m[2025-03-05 22:12:28.930][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 22:12:34.972][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 22:14:04.045][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 22:14:15.381][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 22:23:34.557][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 22:23:36.265][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 22:23:43.501][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}
+[90m[2025-03-05 22:23:51.516][39m [[1m[34mINFO[39m[22m] {
+  "ctx": "User chat saved!",
+  "meta": [
+    {
+      "userId": "agungprase9957@gmail.com"
+    }
+  ]
+}

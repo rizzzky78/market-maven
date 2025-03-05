@@ -1,7 +1,9 @@
 "use client";
 
 import { useRef } from "react";
-import ReactPlayer from "react-player";
+import dynamic from "next/dynamic";
+
+const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
 interface VideoPlayerProps {
   url: string;
@@ -9,12 +11,10 @@ interface VideoPlayerProps {
 }
 
 export default function VideoPlayer({ url, className = "" }: VideoPlayerProps) {
-  const playerRef = useRef<ReactPlayer>(null);
+  const playerRef = useRef<typeof ReactPlayer>(null);
 
   return (
-    <div
-      className={`relative w-full overflow-hidden rounded-lg ${className}`}
-    >
+    <div className={`relative w-full overflow-hidden rounded-lg ${className}`}>
       <ReactPlayer
         ref={playerRef}
         url={url}

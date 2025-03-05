@@ -1,15 +1,16 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
-  Lightbulb,
   Search,
-  FileText,
-  LayoutList,
-  MessageSquareIcon as MessageSquareQuestion,
   Facebook,
   Twitter,
   Linkedin,
+  RotateCwSquare,
+  NotepadText,
+  Columns2,
+  MessageCircleQuestion,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
 import VideoPlayer from "./video-player";
@@ -25,7 +26,7 @@ export const Features: FC = () => {
               <span className="text-purple-500">Maven Features:</span> Your
               AI-Powered Product Toolkit
             </h1>
-            <p className="text-lg text-muted-foreground mb-4">
+            <p className="text-md md:text-lg text-muted-foreground mb-4">
               Maven is designed to revolutionize the way you research and choose{" "}
               <span className="text-purple-500"> electronic</span> categorized
               products. This suite of AI-powered tools provides everything you
@@ -41,15 +42,17 @@ export const Features: FC = () => {
         </header>
 
         {/* Features section */}
-        <main className="max-w-7xl mx-auto px-4 py-12">
+        <main className="max-w-6xl mx-auto px-4 py-12">
           {/* Feature 1: recommendator */}
-          <section className="grid md:grid-cols-2 gap-8 items-start mb-24">
+          <section className="lg:min-h-screen grid md:grid-cols-2 gap-8 items-center mb-24">
             <div className="order-2 md:order-1">
               <div className="flex items-center gap-2 mb-4">
-                <Lightbulb className="h-8 w-8 text-primary" />
-                <h2 className="text-3xl font-bold">AI Product Picks</h2>
+                <RotateCwSquare className="h-8 w-8 text-primary" />
+                <h2 className="text-2xl md:text-3xl font-bold text-purple-500">
+                  AI Product Picks
+                </h2>
               </div>
-              <p className="text-lg mb-6">
+              <p className="text-sm md:text-lg mb-6">
                 Discover the perfect products for you. Maven&apos;s intelligent
                 recommender analyzes your needs and preferences, providing
                 personalized suggestions and insightful explanations, guiding
@@ -57,39 +60,33 @@ export const Features: FC = () => {
               </p>
               <Link
                 href="#"
-                className="text-primary font-medium hover:underline inline-flex items-center"
+                className="text-primary text-sm hover:underline inline-flex items-center"
               >
                 Learn More <span className="ml-1">→</span>
               </Link>
             </div>
             <div className="order-1 md:order-2">
-              <div className="rounded-[2rem] overflow-hidden">
-                {/* <Image
-                  src="/snp-recommendator.png"
-                  alt="AI Product Picks screenshot showing personalized recommendations"
-                  width={800}
-                  height={1000}
-                  quality={100}
-                  className="w-full h-auto object-cover"
-                /> */}
+              <div className="rounded-[2rem] border overflow-hidden">
                 <VideoPlayer url="/vid/v0-recommendator.webm" />
               </div>
             </div>
           </section>
 
           {/* Feature 2: searchProduct */}
-          <section className="grid md:grid-cols-2 gap-8 items-start mb-24">
+          <section className="lg:min-h-screen grid md:grid-cols-2 gap-8 items-center mb-24">
             <div className="order-1">
-              <div className="rounded-[2rem] overflow-hidden shadow-sm">
+              <div className="rounded-[2rem] overflow-hidden border shadow-sm">
                 <VideoPlayer url="/vid/demo-search.webm" />
               </div>
             </div>
             <div className="order-2">
               <div className="flex items-center gap-2 mb-4">
                 <Search className="h-8 w-8 text-primary" />
-                <h2 className="text-3xl font-bold">Find Products Fast</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-purple-500">
+                  Find Products Fast
+                </h2>
               </div>
-              <p className="text-lg mb-6">
+              <p className="text-sm md:text-lg mb-6">
                 Instantly locate the products you&lsquo;re looking for.
                 Maven&apos;s precise search engine swiftly retrieves relevant
                 results from the web, even with partial names, presenting you
@@ -98,7 +95,7 @@ export const Features: FC = () => {
               </p>
               <Link
                 href="#"
-                className="text-primary font-medium hover:underline inline-flex items-center"
+                className="text-primary text-sm hover:underline inline-flex items-center"
               >
                 Learn More <span className="ml-1">→</span>
               </Link>
@@ -106,13 +103,15 @@ export const Features: FC = () => {
           </section>
 
           {/* Feature 3: getProductDetails */}
-          <section className="grid md:grid-cols-2 gap-8 items-start mb-24">
+          <section className="lg:min-h-screen grid md:grid-cols-2 gap-8 items-center mb-24">
             <div className="order-2 md:order-1">
               <div className="flex items-center gap-2 mb-4">
-                <FileText className="h-8 w-8 text-primary" />
-                <h2 className="text-3xl font-bold">Deep Product Insights</h2>
+                <NotepadText className="h-8 w-8 text-primary" />
+                <h2 className="text-2xl md:text-3xl font-bold text-purple-500">
+                  Deep Product Insights
+                </h2>
               </div>
-              <p className="text-lg mb-6">
+              <p className="text-sm md:text-lg mb-6">
                 Go beyond the surface. Maven gathers comprehensive product
                 information from multiple sources, including web scraping and
                 external databases, delivering in-depth details, specifications,
@@ -120,37 +119,33 @@ export const Features: FC = () => {
               </p>
               <Link
                 href="#"
-                className="text-primary font-medium hover:underline inline-flex items-center"
+                className="text-primary text-sm hover:underline inline-flex items-center"
               >
                 Learn More <span className="ml-1">→</span>
               </Link>
             </div>
             <div className="order-1 md:order-2">
-              <div className="rounded-[2rem] overflow-hidden shadow-sm">
+              <div className="rounded-[2rem] overflow-hidden border shadow-sm">
                 <VideoPlayer url="/vid/demo-insight.webm" />
               </div>
             </div>
           </section>
 
           {/* Feature 4: productsComparison */}
-          <section className="grid md:grid-cols-2 gap-8 items-start mb-24">
+          <section className="lg:min-h-screen grid md:grid-cols-2 gap-8 items-center mb-24">
             <div className="order-1">
-              <div className="rounded-[2rem] overflow-hidden  shadow-sm">
-                <Image
-                  src="/rate-img-4.jpg"
-                  alt="Compare Side-by-Side screenshot showing product comparison table"
-                  width={600}
-                  height={400}
-                  className="w-full h-auto object-cover"
-                />
+              <div className="rounded-[2rem] overflow-hidden border shadow-sm">
+                <VideoPlayer url="/vid/demo-comparison.webm" />
               </div>
             </div>
             <div className="order-2">
               <div className="flex items-center gap-2 mb-4">
-                <LayoutList className="h-8 w-8 text-primary" />
-                <h2 className="text-3xl font-bold">Compare Side-by-Side</h2>
+                <Columns2 className="h-8 w-8 text-primary" />
+                <h2 className="text-2xl md:text-3xl font-bold text-purple-500">
+                  Compare Side-by-Side
+                </h2>
               </div>
-              <p className="text-lg mb-6">
+              <p className="text-sm md:text-lg mb-6">
                 Make informed choices with ease. Maven lets you directly compare
                 multiple products, highlighting key differences and
                 similarities, providing clear, concise comparisons and expert
@@ -158,7 +153,7 @@ export const Features: FC = () => {
               </p>
               <Link
                 href="#"
-                className="text-primary font-medium hover:underline inline-flex items-center"
+                className="text-primary text-sm hover:underline inline-flex items-center"
               >
                 Learn More <span className="ml-1">→</span>
               </Link>
@@ -166,13 +161,15 @@ export const Features: FC = () => {
           </section>
 
           {/* Feature 5: inquireUser */}
-          <section className="grid md:grid-cols-2 gap-8 items-start mb-24">
+          <section className="lg:min-h-screen grid md:grid-cols-2 gap-8 items-center mb-24">
             <div className="order-2 md:order-1">
               <div className="flex items-center gap-2 mb-4">
-                <MessageSquareQuestion className="h-8 w-8 text-primary" />
-                <h2 className="text-3xl font-bold">Maven Understands You</h2>
+                <MessageCircleQuestion className="h-8 w-8 text-primary" />
+                <h2 className="text-2xl md:text-3xl font-bold text-purple-500">
+                  User Inquiry
+                </h2>
               </div>
-              <p className="text-lg mb-6">
+              <p className="text-sm md:text-lg mb-6">
                 Experience a truly personalized interaction. When more
                 information is needed, Maven proactively asks clarifying
                 questions, ensuring it fully understands your requirements and
@@ -182,34 +179,28 @@ export const Features: FC = () => {
               </p>
               <Link
                 href="#"
-                className="text-primary font-medium hover:underline inline-flex items-center"
+                className="text-primary text-sm hover:underline inline-flex items-center"
               >
                 Learn More <span className="ml-1">→</span>
               </Link>
             </div>
             <div className="order-1 md:order-2">
               <div className="rounded-[2rem] overflow-hidden border shadow-sm">
-                <Image
-                  src="/rate-img-5.jpg"
-                  alt="Maven Understands You screenshot showing inquiry prompt"
-                  width={600}
-                  height={400}
-                  className="w-full h-auto object-cover"
-                />
+                <VideoPlayer url="/vid/demo-inquiry.webm" />
               </div>
             </div>
           </section>
 
           {/* Call to Action section */}
-          <section className="bg-muted rounded-xl p-8 text-center max-w-3xl mx-auto mb-16">
-            <h3 className="text-2xl font-bold mb-4">
+          <section className="bg-muted rounded-[2rem] p-8 text-center max-w-3xl mx-auto mb-16">
+            <h3 className="text-xl md:text-2xl font-semibold mb-4">
               Ready to Experience Maven?
             </h3>
-            <p className="text-lg mb-6">
+            <p className="text-sm md:text-lg mb-6">
               Try Maven today and see how it can transform your product
               research.
             </p>
-            <Button size="lg" className="px-8">
+            <Button size="lg" className="px-8 rounded-full" variant={"default"}>
               Try Maven Now
             </Button>
           </section>
