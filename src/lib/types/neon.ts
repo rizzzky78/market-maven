@@ -219,3 +219,11 @@ export type ShareAnalytics = {
   totalAccesses: number;
   uniqueSharers: number;
 };
+
+export type Rating = {
+  id: number;
+  username: string;
+  rating: number;
+  comment: string;
+  created_at: string;
+};

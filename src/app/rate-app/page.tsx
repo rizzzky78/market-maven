@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 
 export default async function Page() {
   const cookieStore = await cookies();
-  const hasSubmitted = cookieStore.has("marketMavenRatingSubmitted");
+  const hasSubmitted = cookieStore.has("rating_has_submitted");
 
   return (
     <main className="w-full my-10 mx-auto flex flex-col max-w-6xl space-y-40 mt-14">
