@@ -486,7 +486,7 @@ function CoreConcepts() {
                     {concept.subItems.map((subItem, subIndex) => (
                       <motion.div
                         key={subIndex}
-                        className="bg-[#1A1A1D] rounded-b-2xl rounded-tr-2xl p-4"
+                        className="border rounded-b-2xl rounded-tr-2xl p-4"
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
@@ -689,38 +689,38 @@ function RecipesTabs() {
       icon: <SplitSquareVertical className="h-5 w-5 shrink-0" />,
       goal: "Learn how to use Maven to directly compare two products, analyze their differences, and make a well-informed decision.",
       ingredients: [
-        "Two products you want to compare (you should have already used `searchProduct` or `getProductDetails` to find them and obtained their `callId` values).",
+        "Two products you want to compare (you should have more than one product details/insight on current conversation).",
       ],
       steps: [
         {
           title: "Find and Detail the Products",
           description:
-            "Use Maven's `searchProduct` or `getProductDetails` tools to find the two products you want to compare. Crucially, you must use `getProductDetails` on each product before you can compare them. This ensures Maven has the necessary data.",
+            "Use Maven's Search Product and Get Product Details tools to find the two products you want to compare. Crucially, you must use Get Product Details on each product before you can compare them (to get detailed product data). This ensures Maven has the necessary data.",
         },
         {
-          title: "Obtain the `callId` Values",
+          title: "Attach Comparison",
           description:
-            "After using `getProductDetails`, each product will have a unique `callId` associated with it. You'll need these IDs for the comparison. The `callId` is typically displayed in the UI after you've retrieved the product details.",
+            "After using Get Product Details, each product will have a Compare UI button with it. You'll need to attach the compared product for the comparison. The Compare button is typically displayed in the UI after you've retrieved the product details.",
         },
         {
           title: "Initiate the Comparison",
           description:
-            "Use the product comparison feature, providing the `callId` values of the two products. The exact way to do this will depend on the UI design.",
+            "Use the product comparison feature, attaching the data values of the two products. You can also make custom request with text inputs along with comparison (optional).",
         },
         {
-          title: "Review the Comparison Table",
+          title: "Review the Comparison Result",
           description:
-            "Maven's `productsComparison` tool will generate a table that presents the key features and specifications of the two products side-by-side. This table will highlight differences and similarities, making it easy to evaluate the options.",
+            "Maven's Product Comparison tool will generate a UI that presents the key features and specifications of the two products side-by-side. This UI will highlight both product specifications, key differences, and similarities, making it easy to evaluate the options.",
         },
         {
           title: "Analyze the Insights",
           description:
-            "Read the AI-powered insights provided below the comparison table. These insights will summarize the key differences, point out the strengths and weaknesses of each product, and potentially offer a recommendation based on your (previously stated) needs.",
+            "Read the AI-powered insights provided below the comparison UI. Ths response is depends on text inputs (if provided), otherwise the insights will summarize the key differences, point out the strengths and weaknesses of each product, and potentially offer a recommendation based on your (previously stated) needs.",
         },
         {
           title: "Consider Your Priorities",
           description:
-            "Based on the comparison table and the insights, consider which product best aligns with your priorities and requirements.",
+            "Based on the comparison UI and the insights, consider which product best aligns with your priorities and requirements, or you can refine it on next conversation.",
         },
       ],
       outcome:
@@ -729,12 +729,12 @@ function RecipesTabs() {
         {
           problem: "I can't initiate the comparison.",
           solution:
-            "Make sure you have used `getProductDetails` on both products before attempting the comparison. Ensure you have the correct `callId` values for each product.",
+            "Make sure you have used Get Product Details on both targeted products before attempting the comparison. Ensure you have to attach comparison for each product, the mininum to perform comparison are two products at once.",
         },
         {
           problem: "The comparison is missing information.",
           solution:
-            "The comparison is based on the data retrieved by `getProductDetails`. If some information is missing, it might be because it wasn't available on the product pages that were scraped.",
+            "The comparison is based on the data retrieved by Get Product Details. If some information is missing, it might be because it wasn't available on the product pages that were scraped.",
         },
         {
           problem: "The insights are not helpful.",
@@ -751,12 +751,12 @@ function RecipesTabs() {
       ingredients: ["The product name or a link to the product page."],
       steps: [
         {
-          title: "Enter the Product Name or Link",
+          title: "Attach product via <Ask AI> shortcut button",
           description:
-            "Type the full product name or paste the product page URL into Maven's input field.",
+            "Access selected product via Ask AI button to get product details plus insight along with text inputs (optional).",
           examples: [
-            "User Input: `Apple MacBook Pro 14-inch M3 Pro`",
-            "User Input: `https://www.apple.com/macbook-pro-14-and-16/`",
+            "User Input: `Ask AI Button + wihout text inputs`",
+            "User Input: `Ask AI Button + text inputs`",
           ],
         },
         {
@@ -778,11 +778,6 @@ function RecipesTabs() {
           title: "(Optional) Request an External Search",
           description:
             'If the "external search" option is enabled, Maven can perform a broader search across the web to gather even more information, including news articles, blog posts, and forum discussions.',
-        },
-        {
-          title: "Attach Product",
-          description:
-            "If you have a product in mind, you can attach it to get a recommendation based on it.",
         },
       ],
       outcome:
@@ -902,40 +897,40 @@ function RecipesTabs() {
             "Begin with a general request, for example:\nUser: `I need a new laptop for video editing, and I'd like to compare it to my current one.`",
         },
         {
-          title: "Use `recommendator`",
+          title: "Use Recommendator",
           description:
-            "Maven might initially use the `recommendator` to suggest some video editing laptops.",
+            "Maven might initially use the Recommendator to suggest some video editing laptops.",
         },
         {
-          title: "Use `getProductDetails`",
+          title: "Use Get Product Details",
           description:
-            "Select a promising laptop from the recommendations and use `getProductDetails` to get more information.",
+            "Select a promising laptop from the recommendations and use Get Product Details to get more information.",
         },
         {
-          title: "Use `searchProduct` (if needed)",
+          title: "Use Search Product (if needed)",
           description:
             "If you have a specific laptop in mind (your current one, in this example), use `searchProduct` to find it.",
         },
         {
-          title: "Use `getProductDetails` (again)",
+          title: "Use Get Product Details (again)",
           description:
-            "Get the details of your current laptop using `getProductDetails`.",
+            "Get the details of your current laptop using Get Product Details.",
         },
         {
-          title: "Use `productsComparison`",
+          title: "Use Products Comparison",
           description:
-            "Now that you have details for both laptops (using their `callId` values), use `productsComparison` to compare them directly.",
+            "Now that you have details for both laptops (using their `callId` values), use Products Comparison to compare them directly.",
         },
         {
-          title: "Use `inquireUser` (throughout)",
+          title: "Use Inquire User (throughout)",
           description:
-            "Maven might use `inquireUser` at various points to clarify your needs (e.g., your budget, preferred screen size).",
+            "Maven might use Inquire User at various points to clarify your needs (e.g., your budget, preferred screen size).",
         },
       ],
       outcome:
         "You can perform a complex, multi-step research task by combining different Maven tools, leveraging the strengths of each.",
       exampleFlow:
-        "User requests recommendations for video editing laptops. → Maven uses `recommendator`. → User selects a recommended laptop. → Maven uses `getProductDetails`. → User requests to compare with their current laptop. → User provides details of their current laptop (or uses `searchProduct`). → Maven uses `getProductDetails` on the current laptop. → Maven uses `productsComparison`. → Maven uses `inquireUser` as needed throughout the process.",
+        "User requests recommendations for video editing laptops. → Maven uses Recommendator. → User selects a recommended laptop. → Maven uses Get Product Details. → User requests to compare with their current laptop. → User provides details of their current laptop (or uses Search Product). → Maven uses Get Product Details on the current laptop. → Maven uses Products Comparison. → Maven uses Inquire User as needed throughout the process.",
     },
   ];
 
@@ -1208,7 +1203,7 @@ function TipsAndTricks() {
             <div className="flex gap-3">
               <div className="flex-shrink-0 mt-1">
                 <div className="bg-primary/10 w-6 h-6 rounded-full flex items-center justify-center text-primary">
-                  <ArrowUpRight className="h-4 w-4" />
+                  <ArrowUpRight className="h-4 w-4 text-purple-500" />
                 </div>
               </div>
               <p className="text-sm md:text-md text-muted-foreground">{tip}</p>
