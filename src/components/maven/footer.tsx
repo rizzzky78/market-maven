@@ -23,7 +23,7 @@ export const Footer: FC = () => {
   const selectedClass = "bg-secondary text-secondary-foreground shadow-sm";
 
   return (
-    <footer className="border-t border-border/40 mt-32 py-12 px-4 md:px-12">
+    <footer className="border-t border-border/40 py-12 px-4 md:px-12">
       <div className="container mx-auto">
         <div className=" flex flex-wrap gap-5 xl:justify-between">
           <div className="space-y-4">
