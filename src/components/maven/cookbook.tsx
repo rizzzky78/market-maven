@@ -25,6 +25,8 @@ import {
 } from "lucide-react";
 import { useState, useEffect, ReactNode } from "react";
 import { Button } from "../ui/button";
+import Image from "next/image";
+import { Lens } from "./lens";
 
 type Recipe = {
   id: string;
@@ -38,6 +40,7 @@ type Recipe = {
     example?: string;
     examples?: string[];
     subPoints?: string[];
+    diagram?: ReactNode;
   }>;
   outcome: string;
   troubleshooting?: Array<{
@@ -45,6 +48,7 @@ type Recipe = {
     solution: string;
   }>;
   exampleFlow?: string;
+  exampleFlowDiagram?: ReactNode;
 };
 
 // Replace the entire MavenCookbook function with this updated version
@@ -548,7 +552,7 @@ function RecipesTabs() {
           title: "Start with a broad query",
           description:
             "Begin by entering a general description of the product you're interested in.",
-          example: "User Input: `I need new headphones.`",
+          example: 'User Input: "I need new headphones."',
         },
         {
           title: "Provide context (essential for best results)",
@@ -562,14 +566,14 @@ function RecipesTabs() {
             "Style Preferences: Do you have any preferences regarding style or design?",
           ],
           examples: [
-            "User Input: `I need new headphones for working from home. Noise-canceling is essential, and my budget is around $300. I prefer over-ear headphones.`",
-            "User Input: `Looking for a gaming laptop under $1500. It needs to have a good graphics card and at least 16GB of RAM.`",
+            'User Input: "I need new headphones for working from home. Noise-canceling is essential, and my budget is around $300. I prefer over-ear headphones."',
+            'User Input: "Looking for a gaming laptop under $1500. It needs to have a good graphics card and at least 16GB of RAM."',
           ],
         },
         {
           title: "Review the recommendations",
           description:
-            "Maven's `recommendator` tool will analyze your input and generate a list of personalized product suggestions. Pay attention to the order of the recommendations; they are typically ranked by relevance.",
+            "Maven's Recommendator tool will analyze your input and generate a list of personalized product suggestions. Pay attention to the order of the recommendations; they are typically ranked by relevance.",
         },
         {
           title: "Explore the insights",
@@ -633,9 +637,9 @@ function RecipesTabs() {
           description:
             "Type the full or partial product name into Maven's input field. Accuracy is key here.",
           examples: [
-            "User Input: `Sony WH-1000XM5` (Full Name - Ideal)",
-            "User Input: `WH-1000XM` (Partial Name - Less Precise)",
-            "User Input: `Sony noise canceling headphones` (Descriptive - Less Precise, relies more on interpretation)",
+            'User Input: "Sony WH-1000XM5" (Full Name - Ideal)',
+            'User Input: "WH-1000XM" (Partial Name - Less Precise)',
+            'User Input: "Sony noise canceling headphones" (Descriptive - Less Precise, relies more on interpretation)',
           ],
         },
         {
@@ -643,14 +647,14 @@ function RecipesTabs() {
           description:
             "If you're using a partial name or a description, provide as much additional information as possible to help Maven narrow down the search.",
           examples: [
-            "User Input: `WH-1000XM black over-ear`",
-            "User Input: `Sony noise canceling headphones around $300`",
+            'User Input: "WH-1000XM black over-ear"',
+            'User Input: "Sony noise canceling headphones around $300"',
           ],
         },
         {
           title: "Review the search results",
           description:
-            "Maven's `searchProduct` tool will use the provided information to find matching products. The results will be displayed, often with images and brief descriptions.",
+            "Maven's Search Product tool will use the provided information to find matching products. The results will be displayed, often with images and brief descriptions.",
         },
         {
           title: "Examine the insights",
@@ -665,7 +669,7 @@ function RecipesTabs() {
         {
           title: "Attach Product",
           description:
-            "If you have a product in mind, you can attach it to get a recommendation based on it.",
+            "If you have a product in mind, you can attach it to get a recommendation and refinement based on it.",
         },
       ],
       outcome:
@@ -755,14 +759,14 @@ function RecipesTabs() {
           description:
             "Access selected product via Ask AI button to get product details plus insight along with text inputs (optional).",
           examples: [
-            "User Input: `Ask AI Button + wihout text inputs`",
-            "User Input: `Ask AI Button + text inputs`",
+            'User Input: "Attach product via Ask AI Button + wihout text inputs"',
+            'User Input: "Attach product via Ask AI Button + with text inputs"',
           ],
         },
         {
           title: "Review the Product Details",
           description:
-            "Maven's `getProductDetails` tool will automatically gather information from various sources including web scraping and external APIs.",
+            "Maven's Get Product Details tool will automatically gather information from various sources including web scraping and external APIs.",
         },
         {
           title: "Explore the Different Sections",
@@ -834,7 +838,15 @@ function RecipesTabs() {
         {
           title: "Example",
           description:
-            "User: `Find me a good laptop.`\nMaven (inquireUser): `What will you primarily use the laptop for?`\n* `Work/Productivity`\n* `Gaming`\n* `Creative Tasks (Video Editing, Graphic Design)`\n* `General Use`\n* `Other (Please Specify)`\nUser: Selects `Work/Productivity`\nMaven: (Continues with the workflow, potentially asking more questions or providing results)",
+            'User: "Find me a good laptop."\nMaven (inquireUser): `What will you primarily use the laptop for?`\n* `Work/Productivity`\n* `Gaming`\n* `Creative Tasks (Video Editing, Graphic Design)`\n* `General Use`\n* `Other (Please Specify)`\nUser: Selects `Work/Productivity`\nMaven: (Continues with the workflow, potentially asking more questions or providing results)',
+          diagram: (
+            <Image
+              src={"/inquire-workflow.png"}
+              alt="workflow diagram"
+              width={500}
+              height={500}
+            />
+          ),
         },
       ],
       outcome:
@@ -931,6 +943,15 @@ function RecipesTabs() {
         "You can perform a complex, multi-step research task by combining different Maven tools, leveraging the strengths of each.",
       exampleFlow:
         "User requests recommendations for video editing laptops. → Maven uses Recommendator. → User selects a recommended laptop. → Maven uses Get Product Details. → User requests to compare with their current laptop. → User provides details of their current laptop (or uses Search Product). → Maven uses Get Product Details on the current laptop. → Maven uses Products Comparison. → Maven uses Inquire User as needed throughout the process.",
+      exampleFlowDiagram: (
+        <Image
+          src={"/combine-tool-workflow.svg"}
+          alt="Example Flow Diagram"
+          height={500}
+          width={500}
+          quality={100}
+        />
+      ),
     },
   ];
 
@@ -1062,6 +1083,12 @@ function RecipesTabs() {
                             {step.description}
                           </p>
 
+                          {step.diagram && (
+                            <div className="bg-white mt-3 flex items-center justify-center rounded-3xl">
+                              {step.diagram}
+                            </div>
+                          )}
+
                           {step.subPoints && (
                             <ul className="list-disc pl-5 mt-2 space-y-1">
                               {step.subPoints.map((point, pointIdx) => (
@@ -1110,6 +1137,14 @@ function RecipesTabs() {
                       <div className="bg-muted p-3 rounded-md mt-2 text-sm">
                         <h5 className="font-medium mb-1">Example Flow:</h5>
                         <p>{recipe.exampleFlow}</p>
+                      </div>
+                    )}
+
+                    {recipe.exampleFlowDiagram && (
+                      <div className="bg-white rounded-3xl mt-3 flex justify-center">
+                        <Lens zoomFactor={2} lensSize={270}>
+                          {recipe.exampleFlowDiagram}
+                        </Lens>
                       </div>
                     )}
                   </div>
