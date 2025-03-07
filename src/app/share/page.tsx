@@ -1,4 +1,3 @@
-import { ContentSharedFooter } from "@/components/maven/shared-content-footer";
 import { SharedContent } from "@/components/maven/shared-content";
 import { ShareNotFound } from "@/components/maven/share-not-found";
 import { getChat } from "@/lib/agents/action/chat-service";
@@ -13,6 +12,8 @@ import { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
 import { z } from "zod";
+import { NavigationBar } from "@/components/maven/navigation-bar";
+import { Footer } from "@/components/maven/footer";
 
 // Constants
 const ALLOWED_COMPONENT_TYPES = [
@@ -146,31 +147,34 @@ export default async function SharePage({ searchParams }: SharePageProps) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <main className="px-2 sm:px-12 pt-5 md:pt-8 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4 flex-grow">
-        <section className="bg-[#1A1A1D] dark:bg-white rounded-3xl py-4 px-6 mb-6">
-          <div className="flex flex-col">
-            <h2 className="text-md font-semibold text-white/90 dark:text-black/90">
-              Shared Content
-            </h2>
-            <div className="flex items-start">
-              <Info className="size-4 shrink-0 mr-1 text-purple-400" />
-              <p className="text-xs text-white/80 dark:text-black/80">
-                You are currently viewing the shared content, please go to the
-                <Link
-                  href="/chat"
-                  className="mx-1 underline text-purple-300 dark:text-purple-400 hover:no-underline hover:text-purple-500 dark:hover:text-purple-600"
-                >
-                  App
-                </Link>
-                for more features.
-              </p>
+    <div>
+      <NavigationBar />
+      <div className="min-h-screen flex flex-col">
+        <main className="px-2 sm:px-12 md:pt-8 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4 flex-grow">
+          <section className="bg-[#1A1A1D] dark:bg-white rounded-3xl py-4 px-6 mt-16 mb-6">
+            <div className="flex flex-col">
+              <h2 className="text-md font-semibold text-white/90 dark:text-black/90">
+                Shared Content
+              </h2>
+              <div className="flex items-start">
+                <Info className="size-4 shrink-0 mr-1 text-purple-400" />
+                <p className="text-xs text-white/80 dark:text-black/80">
+                  You are currently viewing the shared content, please go to the
+                  <Link
+                    href="/chat"
+                    className="mx-1 underline text-purple-300 dark:text-purple-400 hover:no-underline hover:text-purple-500 dark:hover:text-purple-600"
+                  >
+                    App
+                  </Link>
+                  for more features.
+                </p>
+              </div>
             </div>
-          </div>
-        </section>
-        <SharedContent type={validatedType} data={contentData} />
-      </main>
-      <ContentSharedFooter />
+          </section>
+          <SharedContent type={validatedType} data={contentData} />
+        </main>
+      </div>
+      <Footer />
     </div>
   );
 }

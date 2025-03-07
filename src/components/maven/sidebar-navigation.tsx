@@ -121,7 +121,7 @@ export const SidebarUserNavigation: FC = () => {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => signOut({ callbackUrl: "/login" })}
+                onClick={async () => await signOut({ callbackUrl: "/login" })}
               >
                 <LogOut className="text-red-400" />
                 Log out
