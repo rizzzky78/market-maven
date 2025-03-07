@@ -25,7 +25,7 @@ import {
 } from "lucide-react";
 import { useState, useEffect, ReactNode } from "react";
 import { Button } from "../ui/button";
-import ImagePreviewer from "./image-previewer";
+import { ImagePreviewer } from "./image-previewer";
 
 type Recipe = {
   id: string;

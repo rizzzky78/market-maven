@@ -27,10 +27,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { AnimatedSection } from "@/components/maven/animated-section";
 import { CodeBlock } from "@/components/maven/code-block";
-import Image from "next/image";
 import { TracingBeam } from "./tracing-beam";
 import { useState } from "react";
 import { Badge } from "../ui/badge";
+import { ImagePreviewer } from "./image-previewer";
 
 export function WorkflowContent() {
   const [activeTab, setActiveTab] = useState("all");
@@ -135,24 +135,23 @@ export function WorkflowContent() {
           </AnimatedSection>
 
           <AnimatedSection>
-            <Card className="bg-white rounded-none">
+            <Card className="bg-background rounded-3xl">
               <CardHeader>
                 <CardTitle className="flex text-2xl text-purple-500 items-center gap-2">
                   <Workflow className="size-7 shrink-0" />
                   Complete Workflow Overview
                 </CardTitle>
-                <CardDescription className="text-black/80">
-                  A high-level view of Maven&apos;s end-to-end workflow process
+                <CardDescription className="text-black/90 dark:text-white/90">
+                  A egde-level view of Maven&apos;s end-to-end workflow process
                 </CardDescription>
               </CardHeader>
-              <CardContent className="flex justify-center">
+              <CardContent className="">
                 <div className="">
-                  <Image
-                    src={"/app-workflow-simplyfied.png"}
+                  <ImagePreviewer
+                    src="/app-system-workflow.svg"
+                    alt="Combined Tool Diagram Usage"
                     width={800}
                     height={1000}
-                    className="object-fill"
-                    alt="Application Workflow"
                   />
                 </div>
               </CardContent>
@@ -1069,7 +1068,7 @@ export function WorkflowContent() {
             </TracingBeam>
           </div>
           <AnimatedSection>
-            <div className="border-none bg-background p-6">
+            <div className="border-none bg-background px-6 pb-[20vh]">
               <h2 className="text-2xl font-bold">Conclusion</h2>
               <p className="mt-2 text-muted-foreground">
                 This document provides a simple, technical overview of

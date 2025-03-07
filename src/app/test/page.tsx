@@ -1,4 +1,4 @@
-import ImagePreviewer from "@/components/maven/image-previewer";
+import { ImagePreviewer } from "@/components/maven/image-previewer";
 
 export default function Home() {
   return (

@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, FC } from "react";
 import Image from "next/image";
 import { ZoomIn, ZoomOut, MoveHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,13 +16,13 @@ interface ImagePreviewerProps {
   className?: string;
 }
 
-export default function ImagePreviewer({
+export const ImagePreviewer: FC<ImagePreviewerProps> = ({
   src,
   alt,
   width = 800,
   height = 600,
   className = "",
-}: ImagePreviewerProps) {
+}) => {
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -204,4 +204,4 @@ export default function ImagePreviewer({
       )}
     </div>
   );
-}
+};
