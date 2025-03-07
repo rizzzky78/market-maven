@@ -13,19 +13,22 @@ import {
   Lightbulb,
   Zap,
   Search,
-  Layers,
-  SplitSquareVertical,
-  FileText,
-  HelpCircle,
-  Compass,
   Workflow,
   ArrowUpRight,
   Hexagon,
   GitCompareArrows,
+  RotateCwSquare,
+  Columns2,
+  NotepadText,
+  MessageCircleQuestion,
+  ListEnd,
+  ArrowRight,
+  MoveRight,
 } from "lucide-react";
 import { useState, useEffect, ReactNode } from "react";
 import { Button } from "../ui/button";
 import { ImagePreviewer } from "./image-previewer";
+import Link from "next/link";
 
 type Recipe = {
   id: string;
@@ -540,7 +543,7 @@ function RecipesTabs() {
     {
       id: "recipe1",
       title: "Personalized Recommendations",
-      icon: <Compass className="h-5 w-5 shrink-0" />,
+      icon: <RotateCwSquare className="h-5 w-5 shrink-0" />,
       goal: "Learn how to use Maven to discover products tailored to your specific needs and preferences.",
       ingredients: [
         'A general idea of what you\'re looking for (e.g., "headphones," "gaming laptop").',
@@ -689,7 +692,7 @@ function RecipesTabs() {
     {
       id: "recipe3",
       title: "Comparing Two Products",
-      icon: <SplitSquareVertical className="h-5 w-5 shrink-0" />,
+      icon: <Columns2 className="h-5 w-5 shrink-0" />,
       goal: "Learn how to use Maven to directly compare two products, analyze their differences, and make a well-informed decision.",
       ingredients: [
         "Two products you want to compare (you should have more than one product details/insight on current conversation).",
@@ -749,7 +752,7 @@ function RecipesTabs() {
     {
       id: "recipe4",
       title: "Detailed Product Information",
-      icon: <FileText className="h-5 w-5 shrink-0" />,
+      icon: <NotepadText className="h-5 w-5 shrink-0" />,
       goal: "Learn how to use Maven to access comprehensive information about a specific product, including specifications, features, reviews, and more.",
       ingredients: ["The product name or a link to the product page."],
       steps: [
@@ -801,7 +804,7 @@ function RecipesTabs() {
     {
       id: "recipe5",
       title: "Interacting with Maven's Inquiries",
-      icon: <HelpCircle className="h-5 w-5 shrink-0" />,
+      icon: <MessageCircleQuestion className="h-5 w-5 shrink-0" />,
       goal: "Learn how to effectively respond to Maven's clarifying questions to ensure you receive the most accurate and personalized results.",
       ingredients: [
         "An initial query or request that is potentially ambiguous or requires further specification.",
@@ -866,7 +869,7 @@ function RecipesTabs() {
     {
       id: "recipe6",
       title: "Leveraging Related Queries",
-      icon: <Layers className="h-5 w-5 shrink-0" />,
+      icon: <ListEnd className="h-5 w-5 shrink-0" />,
       goal: "Learn how to use Maven's related query suggestions to explore alternative products and refine your search.",
       ingredients: ["An initial query or request."],
       steps: [
@@ -1164,9 +1167,12 @@ function RecipesTabs() {
                                 delay: 0.2 + idx * 0.1,
                               }}
                             >
-                              <h5 className="font-medium text-sm">
-                                {item.problem}
-                              </h5>
+                              <div className="flex items-center">
+                                <MoveRight className="size-4 mr-2 shrink-0 text-purple-500" />
+                                <h5 className="font-medium text-sm">
+                                  {item.problem}
+                                </h5>
+                              </div>
                               <p className="text-sm text-muted-foreground mt-1">
                                 {item.solution}
                               </p>
@@ -1257,7 +1263,7 @@ function Conclusion() {
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
     >
-      <div className="bg-primary/5 rounded-3xl p-8 text-center max-w-3xl mx-auto">
+      <div className="bg-primary/5 rounded-3xl px-8 pb-8 pt-10 text-center max-w-3xl mx-auto">
         <Hexagon className="h-12 w-12 mx-auto mb-4 text-purple-500" />
         <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
           Become a Maven Master!
@@ -1270,6 +1276,15 @@ function Conclusion() {
           you&apos;ll become a Maven master, making informed decisions with
           confidence and ease. Start exploring today!
         </p>
+        <div className="mt-6 flex items-center justify-center">
+          <Button
+            variant={"secondary"}
+            className="hover:text-purple-500 flex items-center rounded-full"
+          >
+            <Link href={"/chat"}>Go to App</Link>
+            <ArrowRight className="size-5 shrink-0" />
+          </Button>
+        </div>
       </div>
     </motion.section>
   );
