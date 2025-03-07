@@ -10,8 +10,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  BookOpen,
-  PenToolIcon as Tool,
   Lightbulb,
   Zap,
   Search,
@@ -22,11 +20,12 @@ import {
   Compass,
   Workflow,
   ArrowUpRight,
+  Hexagon,
+  GitCompareArrows,
 } from "lucide-react";
 import { useState, useEffect, ReactNode } from "react";
 import { Button } from "../ui/button";
-import Image from "next/image";
-import { Lens } from "./lens";
+import ImagePreviewer from "./image-previewer";
 
 type Recipe = {
   id: string;
@@ -192,7 +191,7 @@ function Sidebar({
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
     }
     if (window.innerWidth < 768) {
       setSidebarOpen(false);
@@ -391,14 +390,14 @@ function CoreConcepts() {
     {
       id: "core-concepts-sub-orchestrator",
       title: "The Orchestrator",
-      icon: <Workflow className="h-6 w-6" />,
+      icon: <Hexagon className="h-6 w-6" />,
       description:
         "Maven's orchestrator is the central intelligence that drives the entire process. It's responsible for understanding your input, selecting the appropriate tools, and managing the flow of information. Think of it as a highly skilled research assistant that knows exactly how to find and process the information you need. The orchestrator uses advanced natural language processing (NLP) to interpret your requests, even if they are complex or ambiguous.",
     },
     {
       id: "core-concepts-sub-agent-tools",
       title: "Agent Tools",
-      icon: <Tool className="h-6 w-6" />,
+      icon: <GitCompareArrows className="h-6 w-6" />,
       description:
         "Maven utilizes specialized tools to gather and process information, each designed for specific tasks.",
       subItems: [
@@ -462,7 +461,7 @@ function CoreConcepts() {
         </div>
       </motion.div>
 
-      <div className="space-y-10">
+      <div className="space-y-10 lg:space-y-20">
         {concepts.map((concept, index) => (
           <motion.div
             key={index}
@@ -838,13 +837,13 @@ function RecipesTabs() {
         {
           title: "Example",
           description:
-            'User: "Find me a good laptop."\nMaven (inquireUser): `What will you primarily use the laptop for?`\n* `Work/Productivity`\n* `Gaming`\n* `Creative Tasks (Video Editing, Graphic Design)`\n* `General Use`\n* `Other (Please Specify)`\nUser: Selects `Work/Productivity`\nMaven: (Continues with the workflow, potentially asking more questions or providing results)',
+            'When a user asked, "Find me a good laptop," Maven responded as by initiating a thoughtful inquiry to tailor the recommendation. Maven will ask "What will you primarily use the laptop for?" and provided options: Work/Productivity, Gaming, Creative Tasks (like video editing or graphic design), General Use, or Other (with a prompt to specify). When the user selected "Work/Productivity," Maven seamlessly continued the workflow, potentially refining the request with follow-up questions or delivering personalized laptop suggestions based on the response, ensuring the recommendation aligned with the user’s needs.',
           diagram: (
-            <Image
-              src={"/inquire-workflow.png"}
-              alt="workflow diagram"
-              width={500}
-              height={500}
+            <ImagePreviewer
+              src="/inquire-workflow.svg"
+              alt="User Inquiry Workflow"
+              width={800}
+              height={600}
             />
           ),
         },
@@ -942,14 +941,13 @@ function RecipesTabs() {
       outcome:
         "You can perform a complex, multi-step research task by combining different Maven tools, leveraging the strengths of each.",
       exampleFlow:
-        "User requests recommendations for video editing laptops. → Maven uses Recommendator. → User selects a recommended laptop. → Maven uses Get Product Details. → User requests to compare with their current laptop. → User provides details of their current laptop (or uses Search Product). → Maven uses Get Product Details on the current laptop. → Maven uses Products Comparison. → Maven uses Inquire User as needed throughout the process.",
+        "When a user requests recommendations for video editing laptops, the process begins with Maven utilizing the Recommendator tool to suggest suitable options. After the user selects one of the recommended laptops, Maven employs the Get Product Details tool to provide in-depth information about the chosen device. If the user then asks to compare this laptop with their current one, they can either provide the details of their existing laptop or Maven can use the Search Product tool to find them. Once the current laptop’s specifics are available, Maven applies the Get Product Details tool again to gather its information. With both sets of data in hand, Maven uses the Products Comparison tool to analyze and present a side-by-side comparison of the recommended laptop and the user’s current one. Throughout this process, Maven leverages the Inquire User tool as needed to clarify preferences, confirm details, or address any additional questions the user might have.",
       exampleFlowDiagram: (
-        <Image
-          src={"/combine-tool-workflow.svg"}
-          alt="Example Flow Diagram"
-          height={500}
-          width={500}
-          quality={100}
+        <ImagePreviewer
+          src="/combine-tool-workflow.svg"
+          alt="Combined Tool Diagram Usage"
+          width={800}
+          height={600}
         />
       ),
     },
@@ -1084,7 +1082,7 @@ function RecipesTabs() {
                           </p>
 
                           {step.diagram && (
-                            <div className="bg-white mt-3 flex items-center justify-center rounded-3xl">
+                            <div className="mt-3 bg-muted dark:bg-[#1A1A1D] p-3 rounded-3xl">
                               {step.diagram}
                             </div>
                           )}
@@ -1141,10 +1139,8 @@ function RecipesTabs() {
                     )}
 
                     {recipe.exampleFlowDiagram && (
-                      <div className="bg-white rounded-3xl mt-3 flex justify-center">
-                        <Lens zoomFactor={2} lensSize={270}>
-                          {recipe.exampleFlowDiagram}
-                        </Lens>
+                      <div className="mt-3 bg-muted dark:bg-[#1A1A1D] p-3 rounded-3xl">
+                        {recipe.exampleFlowDiagram}
                       </div>
                     )}
                   </div>
@@ -1255,14 +1251,14 @@ function Conclusion() {
   return (
     <motion.section
       id="conclusion"
-      className="my-16 md:my-24"
+      className="my-16 md:my-[32vh]"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
     >
       <div className="bg-primary/5 rounded-3xl p-8 text-center max-w-3xl mx-auto">
-        <BookOpen className="h-12 w-12 mx-auto mb-4 text-primary" />
+        <Hexagon className="h-12 w-12 mx-auto mb-4 text-purple-500" />
         <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
           Become a Maven Master!
         </h2>
