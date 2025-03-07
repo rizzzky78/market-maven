@@ -157,12 +157,12 @@ export default async function SharePage({ searchParams }: SharePageProps) {
                 Shared Content
               </h2>
               <div className="flex items-start">
-                <Info className="size-4 shrink-0 mr-1 text-purple-400" />
+                <Info className="size-4 shrink-0 mr-1 text-purple-500" />
                 <p className="text-xs text-white/80 dark:text-black/80">
                   You are currently viewing the shared content, please go to the
                   <Link
                     href="/chat"
-                    className="mx-1 underline text-purple-300 dark:text-purple-400 hover:no-underline hover:text-purple-500 dark:hover:text-purple-600"
+                    className="mx-1 underline text-purple-300 dark:text-purple-500 hover:no-underline hover:text-purple-500 dark:hover:text-purple-600"
                   >
                     App
                   </Link>
