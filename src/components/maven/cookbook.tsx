@@ -1009,18 +1009,18 @@ function RecipesTabs() {
       </div>
 
       {/* Recipe Tabs - Only show tabs for the active category */}
-      <Tabs defaultValue={defaultRecipeId} className="w-full">
-        <TabsList className="flex flex-wrap mb-8 rounded-3xl w-fit space-x-4 md:space-x-0">
+      <Tabs defaultValue={defaultRecipeId} className="">
+        <TabsList className="grid w-full grid-cols-3 md:grid-cols-3 rounded-3xl *:font-normal mb-8">
           {recipes
             .filter((recipe) => currentCategory.recipes.includes(recipe.id))
             .map((recipe) => (
               <TabsTrigger
                 key={recipe.id}
                 value={recipe.id}
-                className="flex px-5 md:px-2 items-center gap-2 rounded-2xl font-normal"
+                className="rounded-2xl gap-1"
               >
                 {recipe.icon}
-                <span className="hidden md:inline">
+                <span className="hidden sm:inline">
                   {recipe.title.split(":")[0]}
                 </span>
               </TabsTrigger>
