@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { FC, ReactNode, useState } from "react";
+import { MagneticWrapper } from "../ui/magnetic-wrapper";
 
 // Animation variants for better organization
 const containerVariants = {
@@ -169,17 +170,25 @@ export const HeroSection: FC = () => {
             variants={containerVariants}
           >
             <motion.div variants={itemVariants}>
-              <AnimatedButton href="/register">Try Maven Now</AnimatedButton>
+              <MagneticWrapper>
+                <Button
+                  variant={"secondary"}
+                  className="rounded-full bg-purple-500 text-white/90 hover:text-purple-500 hover:bg-white/90"
+                >
+                  <Link href={"/register"}>Try Maven Now</Link>
+                </Button>
+              </MagneticWrapper>
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <AnimatedButton
-                variant="link"
-                className="hover:text-purple-500"
-                href="/understanding-app"
-              >
-                Learn More
-              </AnimatedButton>
+              <MagneticWrapper>
+                <Button
+                  variant={"link"}
+                  className="text-purple-500 hover:text-purple-400"
+                >
+                  <Link href={"/register"}>Learn More</Link>
+                </Button>
+              </MagneticWrapper>
             </motion.div>
           </motion.div>
         </motion.div>
