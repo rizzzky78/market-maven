@@ -41,7 +41,7 @@ class Logger {
       return `${formattedTimestamp} ${formattedLevel} ${message}`;
     });
 
-    // Configure winston logger with enhanced options
+    // Configure winston logger with only console transport
     this.logger = winston.createLogger({
       level: (process.env.LOG_LEVEL as LogLevel) || "info",
       format: combine(
@@ -53,11 +53,7 @@ class Logger {
         new transports.Console({
           format: combine(colorize({ all: true }), customFormat),
         }),
-        // File transport (without colors)
-        new transports.File({
-          filename: "logs/app.log",
-          format: combine(format.uncolorize(), customFormat),
-        }),
+        // File transport has been removed
       ],
     });
   }
