@@ -373,33 +373,43 @@ export function WorkflowContent() {
                   </div>
 
                   <Tabs defaultValue="recommendator" className="mt-6">
-                    <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 rounded-3xl *:font-normal">
+                    <TabsList className="grid w-full grid-cols-5 md:grid-cols-5 rounded-3xl *:font-normal">
                       <TabsTrigger
                         value="recommendator"
-                        className="rounded-2xl"
+                        className="rounded-2xl gap-1"
                       >
-                        Recommendator
+                        <RotateCwSquare className="size-5" />
+                        <span className="hidden md:inline">Recommendator</span>
                       </TabsTrigger>
                       <TabsTrigger
                         value="searchProduct"
-                        className="rounded-2xl"
+                        className="rounded-2xl gap-1"
                       >
-                        Search Product
+                        <Search className="size-5" />
+                        <span className="hidden md:inline">Search Product</span>
                       </TabsTrigger>
                       <TabsTrigger
                         value="getProductDetails"
-                        className="rounded-2xl"
+                        className="rounded-2xl gap-1"
                       >
-                        Product Details
+                        <NotepadText className="size-5" />
+                        <span className="hidden md:inline">
+                          Product Details
+                        </span>
                       </TabsTrigger>
                       <TabsTrigger
                         value="productsComparison"
-                        className="rounded-2xl"
+                        className="rounded-2xl gap-1"
                       >
-                        Comparison
+                        <Columns2 className="size-5" />
+                        <span className="hidden md:inline">Comparison</span>
                       </TabsTrigger>
-                      <TabsTrigger value="inquireUser" className="rounded-2xl">
-                        Inquire User
+                      <TabsTrigger
+                        value="inquireUser"
+                        className="rounded-2xl gap-1"
+                      >
+                        <MessageCircleQuestion className="size-5" />
+                        <span className="hidden md:inline">Inquire User</span>
                       </TabsTrigger>
                     </TabsList>
 
