@@ -20,8 +20,8 @@ export const Features: FC = () => {
     <div className="w-full flex justify-center">
       <div className="bg-background">
         {/* Header section */}
-        <header className="container mx-auto px-4 py-[36vh]">
-          <div className="text-center max-w-4xl mx-auto">
+        <header className="px-4 pt-24 lg:pt-[18vh] pb-12 lg:pb-0 flex justify-start">
+          <div className="text-start max-w-4xl">
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
               <span className="text-purple-500">Maven Features:</span> Your
               AI-Powered Product Toolkit
@@ -42,7 +42,7 @@ export const Features: FC = () => {
         </header>
 
         {/* Features section */}
-        <main className="max-w-6xl mx-auto px-4 py-12">
+        <main className="max-w-6xl mx-auto px-4 pb-12">
           {/* Feature 1: recommendator */}
           <section className="lg:min-h-screen grid md:grid-cols-2 gap-8 items-center mb-24">
             <div className="order-2 md:order-1">

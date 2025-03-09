@@ -91,7 +91,7 @@ export const HeroSection: FC = () => {
             understand products with ease.
           </p>
           <motion.div
-            className="flex flex-col sm:flex-row gap-4"
+            className="flex flex-row gap-4"
             variants={containerVariants}
           >
             <motion.div variants={itemVariants}>

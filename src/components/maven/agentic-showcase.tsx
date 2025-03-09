@@ -20,7 +20,7 @@ const Card = memo(
       onMouseEnter={() => setHovered(index)}
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        "rounded-3xl relative bg-gray-100 dark:bg-neutral-900 overflow-hidden h-[500px] w-full transition-all duration-300 ease-out",
+        "rounded-[2rem] relative bg-gray-100 dark:bg-neutral-900 overflow-hidden h-[500px] w-full transition-all duration-300 ease-out",
         hovered !== null && hovered !== index && "blur-sm scale-[0.98]"
       )}
     >

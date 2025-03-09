@@ -128,7 +128,7 @@ export const Card: FC<CardProps> = ({
           scale,
           top: `calc(1vh + ${i * 25}px)`,
         }}
-        className="flex flex-col relative -top-[25%] h-[250px] lg:h-[700px] w-[97%] lg:w-[80%] rounded-3xl border p-2 lg:p-10 origin-top"
+        className="flex flex-col relative -top-[25%] h-[250px] lg:h-[700px] w-[97%] lg:w-[80%] rounded-[2rem] border p-2 lg:p-10 origin-top"
       >
         {/* Removed title and text content, keeping only the image */}
         <div className="w-full h-full flex items-center justify-center">

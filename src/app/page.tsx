@@ -135,7 +135,7 @@ export default function LandingPage() {
               <span className="mr-1 text-purple-500">Why Choose Maven?</span>{" "}
               Make Smarter Decisions, Faster.
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">
               Maven transforms how you research and choose products.
             </p>
           </motion.div>
@@ -146,7 +146,7 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="relative h-[400px] w-full rounded-[2rem] overflow-hidden"
+              className="relative h-[500px] lg:h-[700px] w-full rounded-[2rem] overflow-hidden"
             >
               <Image
                 src={`/tmp-foot.jpg`}
@@ -230,7 +230,7 @@ export default function LandingPage() {
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight mb-4">
               What Users Are Saying
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">
               Discover how Maven is transforming product research for users
               worldwide.
               <br />
@@ -316,7 +316,7 @@ export default function LandingPage() {
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight mb-4">
               Ready to Transform Your Product Research?
             </h2>
-            <p className="text-xl text-black/90 dark:text-white/90 max-w-2xl mx-auto mb-8">
+            <p className="text-lg lg:text-xl text-black/90 dark:text-white/90 max-w-2xl mx-auto mb-8">
               Join thousands of users who are making smarter product decisions
               with Maven.
             </p>
