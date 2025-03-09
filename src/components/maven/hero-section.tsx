@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { FC, ReactNode, useState } from "react";
+import { FC } from "react";
 import { MagneticWrapper } from "../ui/magnetic-wrapper";
 
 // Animation variants for better organization
@@ -68,13 +68,6 @@ const AnimatedText: FC<AnimatedTextProps> = ({
   );
 };
 
-interface AnimatedButtonProps {
-  children: ReactNode;
-  variant?: "default" | "link";
-  className?: string;
-  href: string;
-}
-
 export const HeroSection: FC = () => {
   return (
     <section className="*:font-sans min-h-screen container flex justify-center mx-auto py-20 px-4 md:px-6">
@@ -118,7 +111,7 @@ export const HeroSection: FC = () => {
                   variant={"link"}
                   className="text-purple-500 hover:text-purple-400"
                 >
-                  <Link href={"/register"}>Learn More</Link>
+                  <Link href={"/cookbook"}>Learn More</Link>
                 </Button>
               </MagneticWrapper>
             </motion.div>
