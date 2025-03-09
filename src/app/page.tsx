@@ -1,13 +1,13 @@
 "use client";
 
+import { AgenticShowcase } from "@/components/maven/agentic-showcase";
 import { Footer } from "@/components/maven/footer";
 import { HeroSection } from "@/components/maven/hero-section";
 import { NavigationBar } from "@/components/maven/navigation-bar";
 import { SnapshotCard } from "@/components/maven/snapshots-card";
-import { SnapshotsSection } from "@/components/maven/snapshots-section";
-import { StickyScroll } from "@/components/maven/sticky-scroll";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { MagneticWrapper } from "@/components/ui/magnetic-wrapper";
 import { motion } from "framer-motion";
 import ReactLenis from "lenis/react";
 import {
@@ -109,106 +109,21 @@ export default function LandingPage() {
 
         <section className="mt-[16vh] lg:mt-0">
           <div className="flex items-center justify-center">
-            <h2 className="text-4xl font-semibold">
+            <h2 className="text-5xl font-semibold mb-10">
               <span className="text-purple-500">Agentic</span> Tools
             </h2>
           </div>
 
           <div className="p-2 my-10 flex items-center justify-center">
-            <StickyScroll
-              content={[
-                {
-                  title: "AI Product Picks",
-                  description:
-                    "Discover the perfect products for you. Maven's intelligent recommender analyzes your needs and preferences, providing personalized suggestions and insightful explanations, guiding you to the best choices quickly and confidently.",
-                  content: (
-                    <div className="h-full w-full flex items-center justify-center">
-                      <Image
-                        src="/showcase/showcase-1.jpg"
-                        width={800}
-                        height={500}
-                        quality={100}
-                        className="h-full w-full object-cover rounded-tr-[2rem]"
-                        alt="linear board demo"
-                      />
-                    </div>
-                  ),
-                },
-                {
-                  title: "Find Products Fast",
-                  description:
-                    "Instantly locate the products you're looking for. Maven's precise search engine swiftly retrieves relevant results from the web, even with partial names, presenting you with concise summaries and key details to streamline your research.",
-                  content: (
-                    <div className="h-full w-full  flex items-center justify-center text-white">
-                      <Image
-                        src="/showcase/showcase-2.jpg"
-                        width={800}
-                        height={500}
-                        quality={100}
-                        className="h-full w-full object-cover rounded-br-[2rem]"
-                        alt="linear board demo"
-                      />
-                    </div>
-                  ),
-                },
-                {
-                  title: "Deep Product Insights",
-                  description:
-                    "Go beyond the surface. Maven gathers comprehensive product information from multiple sources, including web scraping and external databases, delivering in-depth details, specifications, and insightful summaries to empower your decision-making.",
-                  content: (
-                    <div className="h-full w-full  flex items-center justify-center text-white">
-                      <Image
-                        src="/showcase/showcase-3.jpg"
-                        width={800}
-                        height={500}
-                        quality={100}
-                        className="h-full w-full object-cover rounded-bl-[2rem]"
-                        alt="linear board demo"
-                      />
-                    </div>
-                  ),
-                },
-                {
-                  title: "Compare Side-by-Side",
-                  description:
-                    "Make informed choices with ease. Maven lets you directly compare multiple products, highlighting key differences and similarities, providing clear, concise comparisons and expert insights to help you choose the best option.",
-                  content: (
-                    <div className="h-full w-full  flex items-center justify-center text-white">
-                      <Image
-                        src="/showcase/showcase-4.jpg"
-                        width={800}
-                        height={500}
-                        quality={100}
-                        className="h-full w-full object-cover rounded-tl-[2rem]"
-                        alt="linear board demo"
-                      />
-                    </div>
-                  ),
-                },
-                {
-                  title: "User Inquirer",
-                  description:
-                    "Experience a truly personalized interaction. When more information is needed, Maven proactively asks clarifying questions, ensuring it fully understands your requirements and delivers the most relevant and accurate results. This interactive approach ensures you get exactly what you're looking for.",
-                  content: (
-                    <div className="h-full w-full  flex items-center justify-center text-white">
-                      <Image
-                        src="/showcase/showcase-5.jpg"
-                        width={800}
-                        height={500}
-                        quality={100}
-                        className="h-full w-full object-cover rounded-tr-[2rem]"
-                        alt="linear board demo"
-                      />
-                    </div>
-                  ),
-                },
-              ]}
-            />
+            <AgenticShowcase />
           </div>
         </section>
 
         {/* Benefits Section */}
-        <section id="benefits" className="container mx-auto py-20 px-4 md:px-6">
+        <section
+          id="benefits"
+          className="container mx-auto py-[20vh] px-4 md:px-6"
+        >
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -303,7 +218,7 @@ export default function LandingPage() {
         {/* Testimonials Section */}
         <section
           id="testimonials"
-          className="container mx-auto py-20 px-4 md:px-6 bg-muted/50 rounded-[2rem]"
+          className="container mx-auto my-[20vh] py-20 px-4 md:px-6 bg-muted/50 rounded-[2rem]"
         >
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -390,7 +305,7 @@ export default function LandingPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="container mx-auto py-20 px-4 md:px-6">
+        <section className="container mx-auto py-20 px-4 md:px-6 my-[20vh]">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -406,12 +321,14 @@ export default function LandingPage() {
               with Maven.
             </p>
             <motion.div>
-              <Button
-                size="lg"
-                className="font-medium text-lg px-8 rounded-full hover:bg-purple-500 hover:text-white/90"
-              >
-                Get Started <MoveRight className="ml-1 size-6 shrink-0" />
-              </Button>
+              <MagneticWrapper>
+                <Button
+                  size="lg"
+                  className="font-medium text-lg px-8 rounded-full hover:bg-purple-500 hover:text-white/90"
+                >
+                  Get Started <MoveRight className="ml-1 size-6 shrink-0" />
+                </Button>
+              </MagneticWrapper>
             </motion.div>
           </motion.div>
         </section>
