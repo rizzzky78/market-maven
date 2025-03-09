@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import { motion, useSpring, useTransform, MotionValue } from "framer-motion";
+import { motion, useSpring } from "framer-motion";
 
 interface MagneticProps {
   children: React.ReactElement;

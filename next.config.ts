@@ -18,6 +18,9 @@ const nextConfig: NextConfig = {
       {
         hostname: "res.cloudinary.com",
       },
+      {
+        hostname: "ac1wy0nbjb.ufs.sh",
+      },
     ],
   },
 };

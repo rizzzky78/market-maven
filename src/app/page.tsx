@@ -3,6 +3,7 @@
 import { Footer } from "@/components/maven/footer";
 import { HeroSection } from "@/components/maven/hero-section";
 import { NavigationBar } from "@/components/maven/navigation-bar";
+import { SnapshotsSection } from "@/components/maven/snapshots-section";
 import { StickyScroll } from "@/components/maven/sticky-scroll";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -97,6 +98,8 @@ export default function LandingPage() {
           ))}
         </div>
       </section>
+
+      <SnapshotsSection />
 
       {/* Features Section */}
 
