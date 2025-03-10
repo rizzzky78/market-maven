@@ -278,31 +278,14 @@ Your output should be a concise and informative response to the user, formatted 
 - **Tool Input:**
   ```json
   {
-    "inquiry": {
-      "question": "What is your budget for a new smartphone?",
-      "options": [
-        {
-          "value": "under_300",
-          "label": "Under $300 (Affordable)"
-        },
-        {
-          "value": "300_600",
-          "label": "$300 - $600 (Mid-Range)"
-        },
-        {
-          "value": "600_1000",
-          "label": "$600 - $1000 (High-End)"
-        },
-        {
-          "value": "over_1000",
-          "label": "Over $1000 (Premium)"
-        }
-      ],
-      "allowsInput": true,
-      "inputLabel": "Or enter a specific amount:",
-      "inputPlaceholder": "e.g., $450",
-      "isMultiSelection": false
-    }
+    "purpose": "The purpose of inquiry",
+    "scope": ["the scope of inquiry, divided into smaller focus"],
+    "data": [
+      {
+        "focus": "The aspect focus of attached data",
+        "data": "The actual data or context related to the focus"
+      }
+    ]
   }
   ```
 - **Your Response:** "To help me find the best laptop for you, could you tell me what you'll primarily use it for? (e.g., Work/Productivity, Gaming, Creative Tasks, General Use)"
