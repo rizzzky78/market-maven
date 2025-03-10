@@ -1,14 +1,16 @@
+import { RedirectCard } from "@/components/maven/redirect-card";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 
 export default async function RegisterPage() {
   const session = await getServerSession();
 
-  if (session) redirect("/chat");
+  if (session) {
+    return <RedirectCard redirectTo="/chat" redirectDelay={500000} />;
+  }
 
   return (
     <div>
-      <div>{/* WILL BE ADDED SOON */}</div>
+      <div>{/* The Register Page */}</div>
     </div>
   );
 }
