@@ -1,42 +1,20 @@
 import winston, { Logger as WinstonLogger, format, transports } from "winston";
-import chalk from "chalk";
 
 type LogLevel = "error" | "warn" | "info" | "debug";
 
-// Color configuration for different log levels
-const LOG_COLORS = {
-  error: chalk.bold.red,
-  warn: chalk.bold.yellow,
-  info: chalk.bold.blue,
-  debug: chalk.bold.green,
-};
-
-// Background color configuration (optional)
-const LOG_BG_COLORS = {
-  error: chalk.bgRed.white,
-  warn: chalk.bgYellow.black,
-  info: chalk.bgBlue.white,
-  debug: chalk.bgGreen.black,
-};
-
 /**
- * Enhanced Logger class to handle comprehensive logging using winston and chalk.
+ * Enhanced Logger class to handle comprehensive logging using winston.
  */
 class Logger {
   private logger: WinstonLogger;
 
   constructor() {
-    const { combine, timestamp, printf, colorize } = format;
+    const { combine, timestamp, printf } = format;
 
-    // Enhanced custom format for logs with more detailed styling
+    // Simple format without colorization
     const customFormat = printf(({ level, message, timestamp }) => {
-      const colorFunction = LOG_COLORS[level as LogLevel] || chalk.white;
-      const timestampColor = chalk.gray;
-      const levelColor = colorFunction(level.toUpperCase());
-
-      // Option to add context or additional metadata
-      const formattedTimestamp = timestampColor(`[${timestamp}]`);
-      const formattedLevel = `[${levelColor}]`;
+      const formattedTimestamp = `[${timestamp}]`;
+      const formattedLevel = `[${level.toUpperCase()}]`;
 
       return `${formattedTimestamp} ${formattedLevel} ${message}`;
     });
@@ -49,11 +27,10 @@ class Logger {
         customFormat
       ),
       transports: [
-        // Console transport with color support
+        // Console transport without color support
         new transports.Console({
-          format: combine(colorize({ all: true }), customFormat),
+          format: customFormat,
         }),
-        // File transport has been removed
       ],
     });
   }
@@ -124,7 +101,3 @@ class Logger {
 const logger = new Logger();
 
 export default logger;
-
-// Optional: Expose color utilities if needed
-export const LogColors = LOG_COLORS;
-export const LogBackgroundColors = LOG_BG_COLORS;
