@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState, useRef, useEffect, FC } from "react";
+import { useState, useRef, useEffect, type FC } from "react";
 import Image from "next/image";
 import { ZoomIn, ZoomOut, MoveHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -76,7 +76,7 @@ export const ImagePreviewer: FC<ImagePreviewerProps> = ({
     if (!isDragging) return;
 
     const newX = e.touches[0].clientX - dragStart.x;
-    const newY = e.touches[0].clientY - dragStart.y;
+    const newY = e.touches[0].clientY - position.y;
 
     setPosition({ x: newX, y: newY });
   };
@@ -92,6 +92,16 @@ export const ImagePreviewer: FC<ImagePreviewerProps> = ({
   const resetView = () => {
     setScale(1);
     setPosition({ x: 0, y: 0 });
+  };
+
+  const handleWheel = (e: React.WheelEvent) => {
+    e.preventDefault();
+
+    // Determine zoom direction based on wheel delta
+    const delta = e.deltaY * -0.001;
+    const newScale = Math.min(Math.max(scale + delta, 0.1), 3);
+
+    setScale(newScale);
   };
 
   // Add event listeners for mouse events outside the component
@@ -111,6 +121,24 @@ export const ImagePreviewer: FC<ImagePreviewerProps> = ({
     };
   }, [isDragging]);
 
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const preventDefaultScroll = (e: WheelEvent) => {
+      e.preventDefault();
+    };
+
+    // Add passive: false to allow preventDefault() in the wheel event
+    container.addEventListener("wheel", preventDefaultScroll, {
+      passive: false,
+    });
+
+    return () => {
+      container.removeEventListener("wheel", preventDefaultScroll);
+    };
+  }, []);
+
   return (
     <div className={`flex flex-col gap-4 ${className}`}>
       {!isValidExtension ? (
@@ -128,6 +156,7 @@ export const ImagePreviewer: FC<ImagePreviewerProps> = ({
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
+            onWheel={handleWheel}
             style={{ cursor: isDragging ? "grabbing" : "grab" }}
           >
             <div
@@ -142,7 +171,7 @@ export const ImagePreviewer: FC<ImagePreviewerProps> = ({
                 alt={alt}
                 width={width}
                 height={height}
-                className="pointer-events-none"
+                className="pointer-events-none select-none"
                 style={{
                   maxWidth: "100%",
                   height: "auto",
