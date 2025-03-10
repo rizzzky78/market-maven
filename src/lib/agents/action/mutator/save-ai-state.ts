@@ -13,7 +13,7 @@ const generateChatTitle = async (
   const { text } = await generateText({
     model: google("gemini-1.5-flash"),
     prompt: JSON.stringify(messages),
-    system: SYSTEM_INSTRUCTION.TITLE_CRAFTER,
+    system: await SYSTEM_INSTRUCTION.TITLE_CRAFTER,
   });
   return text;
 };
