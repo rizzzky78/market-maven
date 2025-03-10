@@ -1,11 +1,11 @@
-import { AgenticShowcase } from "@/components/maven/agentic-showcase";
-import { ImagePreviewer } from "@/components/maven/image-previewer";
-import { SnapshotCard } from "@/components/maven/snapshots-card";
+import { Markdown } from "@/components/maven/markdown";
+import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
 
-export default function Home() {
+export default async function ChatPage() {
+  const markdownContent = SYSTEM_INSTRUCTION.CORE_ORCHESTRATOR;
   return (
-    <main className="container mx-auto py-10 px-4">
-      <AgenticShowcase />
-    </main>
+    <div>
+      <Markdown>{markdownContent}</Markdown>
+    </div>
   );
 }
