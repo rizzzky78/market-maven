@@ -1,22 +1,17 @@
-import { unstable_cache } from "next/cache";
+import { cache } from "react";
 
-// Base URL for fetching markdown files (from your blob metadata)
+// Base URL for fetching markdown files
 const BASE_URL = "https://fxzeigptgmxrh96p.public.blob.vercel-storage.com";
 
-// Cache configuration
-const CACHE_TTL = 24 * 60 * 60; // Cache for 1 day (in seconds)
-const REVALIDATE_INTERVAL = 24 * 60 * 60; // Revalidate every day (in seconds)
-
 // Utility function to fetch and cache markdown content
-async function fetchMarkdownContent(url: string): Promise<string> {
-  const cacheKey = `markdown:${url}`;
-
-  // Use unstable_cache to cache the fetch result on the server
-  const cachedFetch = unstable_cache(
-    async () => {
+// Using React's built-in cache() function which is stable in Next.js
+export const fetchMarkdownContent = cache(
+  async (url: string): Promise<string> => {
+    try {
       const response = await fetch(url, {
-        // Ensure we don't cache the HTTP response itself, only the result in unstable_cache
-        cache: "no-store",
+        next: {
+          revalidate: 86400, // 24 hours in seconds
+        },
       });
 
       if (!response.ok) {
@@ -26,16 +21,12 @@ async function fetchMarkdownContent(url: string): Promise<string> {
       }
 
       return await response.text();
-    },
-    [cacheKey], // Cache key for this specific URL
-    {
-      revalidate: REVALIDATE_INTERVAL, // Revalidate cache after this interval
-      tags: [cacheKey], // Tag for manual revalidation if needed
+    } catch (error) {
+      console.error(`Error fetching markdown from ${url}:`, error);
+      return "Error loading content. Please try again later.";
     }
-  );
-
-  return cachedFetch();
-}
+  }
+);
 
 // Define the SYSTEM_INSTRUCTION object with remote fetching
 const SYSTEM_INSTRUCTION = {
@@ -43,7 +34,7 @@ const SYSTEM_INSTRUCTION = {
    * LLM Instruct for main Agent (orchestrator)
    */
   CORE_ORCHESTRATOR: fetchMarkdownContent(
-    `${BASE_URL}/maven-llm-instruct/orchestrator-gaoUzAQL6ghscCB5pvA9aP1FmJdRT4.md`
+    `${BASE_URL}/maven-llm-instruct/orchestrator-XNz4torSWQSds5n3GECbspIJoJRf4W.md`
   ),
   /**
    * LLM Instruct for **Product Search Extractor**

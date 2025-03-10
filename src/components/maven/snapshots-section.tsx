@@ -57,7 +57,7 @@ export const SnapshotsSection: FC = () => {
     {
       origin:
         "https://ac1wy0nbjb.ufs.sh/f/UTUjFq2sQuva3LeAwN0b9amcGQENDJXltVAUBCIdjoZ2ry0h",
-      blur: "/snapshots/blur/app-chat-2.webp",
+      blur: "/snapshots/blur/app-chat-1.webp",
     },
     {
       origin:
