@@ -1,11 +1,13 @@
 import { LoginForm } from "@/components/maven/login-form";
+import { RedirectCard } from "@/components/maven/redirect-card";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 
 export default async function LoginPage() {
   const session = await getServerSession();
 
-  if (session) redirect("/chat");
+  if (session) {
+    return <RedirectCard redirectTo="/chat" />;
+  }
 
   return (
     <div className="flex min-h-svh flex-col items-center justify-center p-6 md:p-10">

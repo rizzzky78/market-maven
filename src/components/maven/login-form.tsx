@@ -70,7 +70,7 @@ export const LoginForm: FC = () => {
                   Login to MarketMaven
                 </h1>
                 <p className="text-balance text-muted-foreground mt-2">
-                  Log in to your account using your preferred method with
+                  Login to your account using your preferred method with
                   <Link
                     href={"https://oauth.net/2/"}
                     target="_blank"
