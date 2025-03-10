@@ -80,6 +80,10 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
     setMounted(true);
   }, []);
 
+  const filteredChats = userChats.filter(
+    (chat) => chat.chatId !== "" && chat.title !== ""
+  );
+
   return (
     <Sidebar
       collapsible="icon"
@@ -243,14 +247,14 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
           <SidebarGroup className="px-0 md:hidden">
             <SidebarGroupContent className="px-2">
               <ScrollArea className="h-[280px] pr-3">
-                {userChats.length === 0 ? (
+                {filteredChats.length === 0 ? (
                   <div className="flex flex-col rounded-none items-start gap-2 whitespace-nowrap px-4 py-2 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
                     <div className="w-[230px] flex items-center justify-center">
                       <p className="truncate">No chat available</p>
                     </div>
                   </div>
                 ) : (
-                  userChats.map((chat) => (
+                  filteredChats.map((chat) => (
                     <Link
                       href={`/chat/${chat.chatId}`}
                       key={chat.chatId}
@@ -368,14 +372,14 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
         <SidebarContent className="scrollbar-thin">
           <SidebarGroup className="p-0">
             <SidebarGroupContent>
-              {userChats.length === 0 ? (
+              {filteredChats.length === 0 ? (
                 <div className="h-full w-full">
                   <div className="flex items-center justify-center">
                     <p>No chat available</p>
                   </div>
                 </div>
               ) : (
-                userChats.map((chat) => (
+                filteredChats.map((chat) => (
                   <Link
                     href={`/chat/c/${chat.chatId}`}
                     key={chat.chatId}
