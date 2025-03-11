@@ -130,27 +130,68 @@ const orchestrator = async (
     loading: true,
   });
 
-  const streamableText = createStreamableValue<string>("");
-
-  const textUi = <StreamAssistantMessage content={streamableText.value} />;
-
   let errorState: { isError: boolean; error: unknown } = {
     isError: false,
     error: null,
   };
 
   const { value } = await streamUI({
-    model: google("gemini-2.0-flash-exp"),
+    model: google("gemini-2.0-pro-exp-02-05"),
     messages: toCoreMessage(state.get().messages),
     system: await SYSTEM_INSTRUCTION.CORE_ORCHESTRATOR,
     initial: <LoadingText text="Maven is thinking..." />,
     onFinish: ({ usage }) => {
       logger.info("Orchestrator Usage: first layer", { usage });
-      /** Keep close this stream even textUI is not depleted to prevent hanging */
-      streamableText.done();
     },
     text: async function* ({ content, done }) {
+      const streamableText = createStreamableValue<string>("");
+
+      yield <StreamAssistantMessage content={streamableText.value} />;
+
+      let relatedObject: RelatedQuery | null = null;
+      let isFinished: boolean = false;
+
       if (done) {
+        isFinished = true;
+        streamableText.done(content);
+
+        const textUiNode = <AssistantMessage content={content} />;
+
+        if (requestOption?.onRequest?.related) {
+          const streamableRelated = createStreamableValue<PartialRelated>();
+
+          yield (
+            <>
+              {textUiNode}
+              <StreamRelatedMessage content={streamableRelated.value} />
+            </>
+          );
+
+          const payloadRelated = JSON.stringify(
+            toPayloadRelatedMessage(state.get().messages)
+          );
+
+          const { partialObjectStream: relatedStream } = streamObject({
+            model: google("gemini-2.0-flash-exp"),
+            system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
+            prompt: payloadRelated,
+            schema: relatedQuerySchema,
+            onFinish: async ({ object }) => {
+              if (object) {
+                relatedObject = object;
+              }
+              streamableRelated.done();
+            },
+            onError: ({ error }) => {
+              streamableRelated.error(error);
+            },
+          });
+
+          for await (const relatedChunk of relatedStream) {
+            streamableRelated.update(relatedChunk);
+          }
+        }
+
         state.done({
           ...state.get(),
           messages: [
@@ -175,7 +216,14 @@ const orchestrator = async (
         });
       }
 
-      return textUi;
+      return (
+        <>
+          <AssistantMessage content={content} />
+          {isFinished && requestOption?.onRequest?.related && (
+            <RelatedMessage related={relatedObject} />
+          )}
+        </>
+      );
     },
     tools: {
       recommendator: {
