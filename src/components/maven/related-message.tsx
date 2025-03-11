@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { PartialRelated, RelatedQuery } from "@/lib/agents/schema/related";
 import {
   readStreamableValue,
@@ -9,7 +8,7 @@ import {
   useStreamableValue,
   useUIState,
 } from "ai/rsc";
-import { ArrowRight, ArrowRightLeft } from "lucide-react";
+import { ArrowRightLeft } from "lucide-react";
 import { FC, useCallback, useEffect, useState } from "react";
 import { ErrorMessage } from "./error-message";
 import { AI } from "@/app/action";
@@ -19,8 +18,14 @@ import { StreamGeneration } from "@/lib/types/ai";
 import { generateId } from "ai";
 import { UserMessage } from "./user-message";
 import { toast } from "sonner";
-import { Separator } from "../ui/separator";
 import { Skeleton } from "../ui/skeleton";
+import {
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardDescription,
+  Card,
+} from "../ui/card";
 
 interface RelatedProps {
   related: RelatedQuery | null;
@@ -94,42 +99,36 @@ export const RelatedMessage: FC<RelatedProps> = ({ related }) => {
     : isGenerating;
 
   return (
-    <div className="w-full my-10 text-sm border-[#1A1A1D] dark:border-inherit border rounded-3xl">
-      <div className="flex items-center ml-3.5 pt-3">
-        <ArrowRightLeft className="size-4 mr-1 shrink-0" />
-        <h3 className="text-sm font-medium">
-          Related
-          <span className="ml-2 text-xs opacity-60 font-normal">
-            (tap to append query)
-          </span>
-        </h3>
-      </div>
-      <div className="space-y-1 rounded-3xl py-2 px-2">
-        <Separator className="bg-[#1A1A1D] dark:bg-muted" />
-        <div className="pt-1">
-          {related &&
-            related.items.map((item, index) => (
-              <div
-                key={index}
-                className="flex w-full flex-col sm:flex-row items-start sm:items-center pb-1 last:pb-0"
-              >
-                <p className="ml-2 text-xs font-medium whitespace-nowrap mb-1 sm:mb-0 sm:mr-2">
-                  {item?.label}:
-                </p>
-                <div className="w-full px-2 sm:px-0">
-                  <Button
-                    variant="link"
-                    className="h-auto rounded-2xl w-full py-1 px-2 text-xs font-normal justify-between hover:bg-purple-400/50 dark:hover:bg-purple-400/20"
-                    onClick={async () => await relatedActionSubmit(item.query)}
-                    disabled={isButtonDisabled}
-                  >
-                    <span className="truncate text-left">{item?.query}</span>
-                    <ArrowRight className="size-4 shrink-0 ml-1" />
-                  </Button>
-                </div>
-              </div>
-            ))}
+    <div className="my-12 w-full">
+      <div className="mb-2">
+        <div className="flex items-center space-x-2">
+          <ArrowRightLeft className="size-4 text-purple-500" />
+          <h2 className="text-sm font-semibold">Related Queries</h2>
         </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+        {related &&
+          related.items.map((item, index) => (
+            <Card
+              key={index}
+              className={`hover:bg-foreground/5 h-full bg-background ${
+                isButtonDisabled ? "cursor-wait" : "cursor-pointer"
+              }`}
+              onClick={async () => await relatedActionSubmit(item.query)}
+            >
+              <CardHeader className="pt-2 pb-1 px-3">
+                <CardTitle className="text-sm text-black/90 dark:text-white/90">
+                  {item.label}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="px-3 pb-2">
+                <CardDescription className="text-xs">
+                  {item.query}
+                </CardDescription>
+              </CardContent>
+            </Card>
+          ))}
       </div>
     </div>
   );
@@ -157,48 +156,40 @@ export const StreamRelatedMessage: FC<StreamRelatedProps> = ({ content }) => {
     );
 
   return (
-    <div className="w-full my-10 max-w-2xl text-sm border-[#1A1A1D] dark:border-inherit border rounded-3xl">
-      <div className="flex items-center ml-3.5 pt-3">
-        <ArrowRightLeft
-          className={`size-4 mr-1 shrink-0 ${
-            pending ? "animate-spin" : "animate-none"
-          }`}
-        />
-        <h3 className="text-sm font-medium">
-          Related
-          <span className="ml-2 text-xs opacity-60 font-normal">
-            (tap to append query)
-          </span>
-        </h3>
-      </div>
-      <div className="space-y-1 rounded-3xl py-2 px-2">
-        <Separator className="bg-[#1A1A1D] dark:bg-muted" />
-        <div className="pt-1">
-          {Array.isArray(related?.items) ? (
-            related.items.map((item, index) => (
-              <div
-                key={index}
-                className="flex w-full items-center space-x-2 pb-1 last:pb-0"
-              >
-                <p className="ml-2 text-xs font-medium whitespace-nowrap">
-                  {item?.label}:
-                </p>
-                <Button
-                  variant={"link"}
-                  className="h-auto rounded-2xl w-full py-1 px-2 text-xs font-normal justify-between hover:bg-purple-400/50"
-                  disabled
-                >
-                  <span className="truncate text-left">{item?.query}</span>
-                  <ArrowRight className="size-4 shrink-0 ml-1" />
-                </Button>
-              </div>
-            ))
-          ) : (
-            <div>
-              <Skeleton />
-            </div>
-          )}
+    <div className="my-12 w-full">
+      <div className="mb-2">
+        <div className="flex items-center space-x-2">
+          <ArrowRightLeft
+            className={`size-4 text-purple-500 ${
+              pending ? "animate-spin" : "animate-none"
+            }`}
+          />
+          <h2 className="text-sm font-semibold">Related Queries</h2>
         </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+        {related && Array.isArray(related.items) ? (
+          related.items.map((item, index) => (
+            <Card
+              key={index}
+              className="hover:bg-foreground/5 h-full bg-background cursor-wait"
+            >
+              <CardHeader className="pt-2 pb-1 px-3">
+                <CardTitle className="text-sm text-black/90 dark:text-white/90">
+                  {item?.label}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="px-3 pb-2">
+                <CardDescription className="text-xs">
+                  {item?.query}
+                </CardDescription>
+              </CardContent>
+            </Card>
+          ))
+        ) : (
+          <Skeleton className="w-full h-4" />
+        )}
       </div>
     </div>
   );
