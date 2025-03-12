@@ -1,10 +1,14 @@
 # Maven: AI-Powered Product Research Assistant, Data Driven Purchase
 
+## See the [Maven](https://maven-ai-six.vercel.app/) (live preview) deployed on [Vercel](https://vercel.com)
+
+_🚨 URGENT NOTICE: This Developer Urgently Needs a Job ASAP! 🚨_
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **Maven** is a cutting-edge web application that leverages the power of Artificial Intelligence to revolutionize **electronic categorized product** research and decision-making. It provides users with a suite of tools to find, understand, and compare products, all within a streamlined and intuitive interface. Maven combines natural language processing, web scraping, external API integrations, and advanced AI models to deliver personalized recommendations, detailed product information, side-by-side comparisons, and insightful summaries.
 
-## Snapshots
+## Snapshots, See the App in action [Here](https://ac1wy0nbjb.ufs.sh/f/UTUjFq2sQuvaBc2SlHG6QdwImq0NPrCg3yuKpnjbJkeUxfZi)
 
 ![Maven App Homepage](https://ac1wy0nbjb.ufs.sh/f/UTUjFq2sQuva7CdhElI9A1uXFG4JIPOx7lDBbtkMrg6cav0H)
 
@@ -21,7 +25,8 @@
 ## Table of Contents
 
 - [Maven: AI-Powered Product Research Assistant, Data Driven Purchase](#maven-ai-powered-product-research-assistant-data-driven-purchase)
-  - [Snapshots](#snapshots)
+  - [See the Maven (live preview) deployed on Vercel](#see-the-maven-live-preview-deployed-on-vercel)
+  - [Snapshots, See the App in action Here](#snapshots-see-the-app-in-action-here)
   - [Table of Contents](#table-of-contents)
   - [1. Features ](#1-features-)
   - [2. Technology Stack ](#2-technology-stack-)
@@ -82,7 +87,7 @@ Maven is built using a modern and robust technology stack:
 
 ## 3. Project Structure <a name="project-structure"></a>
 
-The codebase follows a well-organized structure. Key directories and files include:
+The codebase follows a well-organized structure. Key directories and files include (these are representative, it might be different from real source tree):
 
 ```
 maven/
@@ -135,7 +140,7 @@ maven/
 Before you begin, ensure you have the following installed:
 
 - **Node.js:** (v18 or later recommended) - JavaScript runtime environment.
-- **Bun:** (or yarn, or pnpm) - Package manager for Node.js.
+- **NPM:** (or yarn, or pnpm) - Package manager for Node.js.
 - **Git:** Version control system.
 - **A code editor:** (VS Code, Sublime Text, Atom, etc.)
 
