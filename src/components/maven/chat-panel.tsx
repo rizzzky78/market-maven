@@ -1,8 +1,13 @@
 "use client";
 
-import { StreamGeneration, UIState } from "@/lib/types/ai";
+import { RateLimitResponse, StreamGeneration, UIState } from "@/lib/types/ai";
 import { generateId } from "ai";
-import { readStreamableValue, useActions, useUIState } from "ai/rsc";
+import {
+  readStreamableValue,
+  useActions,
+  useAIState,
+  useUIState,
+} from "ai/rsc";
 import {
   ChangeEvent,
   FormEvent,
@@ -11,6 +16,7 @@ import {
   KeyboardEvent,
   FC,
   useCallback,
+  useState,
 } from "react";
 import { UserMessage } from "./user-message";
 import { AnimatePresence } from "framer-motion";
@@ -33,6 +39,8 @@ import { AttachProductBadge } from "./attach-product";
 import { AI } from "@/app/action";
 import { AttachCompareBadge } from "./attach-compare";
 import { cn } from "@/lib/utils";
+import { RateLimit } from "./rate-limit-modal";
+import { checkRateLimit } from "@/lib/agents/action/chat-service/rate-limit";
 
 interface ChatPanelProps {
   uiState: UIState;
@@ -70,8 +78,10 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
   }, [value]);
 
   const [, setUIState] = useUIState<typeof AI>();
+  const [aiState] = useAIState<typeof AI>();
   const { orchestrator } = useActions<typeof AI>();
   const { isGenerating, setIsGenerating } = useAppState();
+  const [rateLimit, setRateLimit] = useState<RateLimitResponse | null>(null);
 
   const handleRemove = () => {
     setInput("");
@@ -82,6 +92,9 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
   const actionSubmit = useCallback(async () => {
     try {
       setIsGenerating(true);
+
+      flush();
+      handleReset();
 
       const componentId = generateId();
 
@@ -102,29 +115,72 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
         },
       ]);
 
-      flush();
-      handleReset();
+      // Check rate limits before proceeding
+      const rateLimitStatus = await checkRateLimit(aiState);
 
-      const { id, display, generation } = await orchestrator(
-        {
-          textInput: value.length > 0 ? value : undefined,
-          attachProduct: attachment,
-          productCompare: activeComparison,
-        },
-        { onRequest: { search, related } }
-      );
+      console.log(rateLimitStatus);
 
-      setUIState((prevUI) => [...prevUI, { id, display }]);
+      setRateLimit(rateLimitStatus);
 
-      if (generation) {
-        const gens = readStreamableValue(
-          generation
-        ) as AsyncIterable<StreamGeneration>;
-        for await (const { loading } of gens) {
-          setIsGenerating(loading);
+      if (rateLimitStatus.eligible) {
+        const { id, display, generation } = await orchestrator(
+          {
+            textInput: value.length > 0 ? value : undefined,
+            attachProduct: attachment,
+            productCompare: activeComparison,
+          },
+          { onRequest: { search, related } }
+        );
+
+        setUIState((prevUI) => [...prevUI, { id, display }]);
+
+        if (generation) {
+          const gens = readStreamableValue(
+            generation
+          ) as AsyncIterable<StreamGeneration>;
+          for await (const { loading } of gens) {
+            setIsGenerating(loading);
+          }
+        }
+      } else {
+        /** Fallback to previous state */
+        setUIState((prevUI) => prevUI.slice(0, -1));
+
+        if (rateLimitStatus.reason === "RPD_LIMIT_EXCEEDED") {
+          toast.error(
+            `Daily request limit reached (${rateLimitStatus.limits.requestsPerDay} requests). Resets in ${rateLimitStatus.reset?.formatted}.`,
+            {
+              position: "top-center",
+              richColors: true,
+              duration: 5000,
+              className:
+                "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
+            }
+          );
+
+          setIsGenerating(false);
+
+          return;
+        } else if (rateLimitStatus.reason === "CONVERSATION_LIMIT_EXCEEDED") {
+          toast.error(
+            `Conversation length limit reached (${rateLimitStatus.limits.conversationLength} messages). Please start a new conversation.`,
+            {
+              position: "top-center",
+              richColors: true,
+              duration: 5000,
+              className:
+                "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
+            }
+          );
+
+          setIsGenerating(false);
+
+          return;
         }
       }
     } catch (error) {
+      /** Fallback to previous state */
+      setUIState((prevUI) => prevUI.slice(0, -1));
       console.error("An Error occured when submitting the query!", error);
       toast.error("Error When Submitting the Query!", {
         position: "top-center",
@@ -145,6 +201,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     search,
     setIsGenerating,
     setUIState,
+    aiState,
     value,
   ]);
 
@@ -306,7 +363,8 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                   </Tooltip>
                 </TooltipProvider>
               </div>
-              <div className="">
+              <div className="flex items-center space-x-2">
+                {rateLimit && <RateLimit data={rateLimit} />}
                 <TooltipProvider>
                   <Tooltip delayDuration={100}>
                     <TooltipTrigger asChild>

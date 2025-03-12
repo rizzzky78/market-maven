@@ -100,7 +100,7 @@ export type UseAction = {
     requestOption?: ExtendedRequestOption
   ) => Promise<OrchestratorCallback>;
   extractor?: (product: AttachProduct) => Promise<ExtractorCallback>;
-  // testing: (payload: PayloadData) => Promise<TestingMessageCallback>;
+  // checkRateLimit: (uiState: UIState) => Promise<RateLimitResponse>;
 };
 
 export type TestingMessageCallback = {
@@ -487,4 +487,44 @@ export type InquiryResponse = {
   input?: string | null;
   /** Is inquiry skipped by user */
   skipped?: boolean;
+};
+
+/**
+ * Response type for the rate limit checking operation
+ */
+export type RateLimitResponse = {
+  /** Whether the user is eligible to make another request */
+  eligible: boolean;
+  /** The reason why the user is not eligible, if applicable */
+  reason?: "CONVERSATION_LIMIT_EXCEEDED" | "RPD_LIMIT_EXCEEDED";
+  /** System-wide limits configuration */
+  limits: {
+    /** Maximum requests allowed per day */
+    requestsPerDay: number;
+    /** Maximum allowed messages in a conversation */
+    conversationLength: number;
+  };
+  /** Current state of the user's usage */
+  current: {
+    /** Number of requests made today */
+    requests: number;
+    /** Current length of the conversation */
+    conversationLength: number;
+    /** Whether this is the user's first time using the service */
+    isFirstTimeUser: boolean;
+  };
+  /** Remaining quota information */
+  remaining: {
+    /** Number of requests remaining today */
+    requests: number;
+    /** Number of messages that can still be added to this conversation */
+    messages: number;
+  };
+  /** Information about when the rate limit will reset */
+  reset?: {
+    /** Unix timestamp when the rate limit resets */
+    timestamp: number;
+    /** Human-readable format of time until reset */
+    formatted: string;
+  };
 };

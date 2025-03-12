@@ -136,7 +136,7 @@ const orchestrator = async (
   };
 
   const { value } = await streamUI({
-    model: google("gemini-2.0-pro-exp-02-05"),
+    model: google('gemini-2.0-flash-exp'),
     messages: toCoreMessage(state.get().messages),
     system: await SYSTEM_INSTRUCTION.CORE_ORCHESTRATOR,
     initial: <LoadingText text="Maven is thinking..." />,
@@ -394,7 +394,7 @@ const orchestrator = async (
           );
 
           const { partialObjectStream: relatedStream } = streamObject({
-            model: google("gemini-2.0-pro-exp-02-05"),
+            model: google('gemini-2.0-flash-001'),
             system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
             prompt: payloadRelated,
             schema: relatedQuerySchema,
@@ -592,7 +592,7 @@ const orchestrator = async (
             let finalizedText: string = "";
 
             const { textStream } = streamText({
-              model: google("gemini-2.0-pro-exp-02-05"),
+              model: google('gemini-2.0-flash-001'),
               system: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_INSIGHT,
               prompt: JSON.stringify(finalizedProductSearch.data),
               onFinish: ({ text }) => {
@@ -672,7 +672,7 @@ const orchestrator = async (
             );
 
             const { partialObjectStream: relatedStream } = streamObject({
-              model: google("gemini-2.0-pro-exp-02-05"),
+              model: google('gemini-2.0-flash-exp'),
               system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
               prompt: payloadRelated,
               schema: relatedQuerySchema,
@@ -1041,7 +1041,7 @@ const orchestrator = async (
             );
 
             const { partialObjectStream: relatedStream } = streamObject({
-              model: google("gemini-2.0-pro-exp-02-05"),
+              model: google('gemini-2.0-flash-001'),
               system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
               prompt: payloadRelated,
               schema: relatedQuerySchema,
@@ -1309,7 +1309,7 @@ const orchestrator = async (
           );
 
           const { partialObjectStream: relatedStream } = streamObject({
-            model: google("gemini-2.0-pro-exp-02-05"),
+            model: google('gemini-2.0-flash-001'),
             system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
             prompt: payloadRelated,
             schema: relatedQuerySchema,

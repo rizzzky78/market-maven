@@ -61,7 +61,7 @@ const navigationLinks = [
   { title: "How_it_Works", href: "/workflow", src: "/nav/nav-3.jpg" },
   { title: "Cookbook", href: "/cookbook", src: "/nav/nav-4.jpg" },
   { title: "Reviews", href: "/reviews", src: "/nav/nav-5.jpg" },
-  { title: "Devs_Portfolio", href: "/contact", src: "/nav/nav-6.jpg" },
+  { title: "Devs_Portfolio", href: "/dev-portfolio", src: "/nav/nav-6.jpg" },
 ];
 
 // Character animation helper
