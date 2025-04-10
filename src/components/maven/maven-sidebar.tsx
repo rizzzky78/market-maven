@@ -102,8 +102,8 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                 asChild
                 className="rounded-full md:h-8 md:p-0"
               >
-                <Link href="/">
-                  <div className="flex aspect-square size-7 items-center justify-center">
+                <Link href="/" className="mt-2">
+                  <div className="ml-0.5 flex size-7 items-center justify-center">
                     <svg
                       className="coolshapes polygon-7 "
                       height="100"
