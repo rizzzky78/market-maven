@@ -115,69 +115,90 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
         },
       ]);
 
-      // Check rate limits before proceeding
-      const rateLimitStatus = await checkRateLimit(aiState);
+      const { id, display, generation } = await orchestrator(
+        {
+          textInput: value.length > 0 ? value : undefined,
+          attachProduct: attachment,
+          productCompare: activeComparison,
+        },
+        { onRequest: { search, related } }
+      );
 
-      console.log(rateLimitStatus);
+      setUIState((prevUI) => [...prevUI, { id, display }]);
 
-      setRateLimit(rateLimitStatus);
-
-      if (rateLimitStatus.eligible) {
-        const { id, display, generation } = await orchestrator(
-          {
-            textInput: value.length > 0 ? value : undefined,
-            attachProduct: attachment,
-            productCompare: activeComparison,
-          },
-          { onRequest: { search, related } }
-        );
-
-        setUIState((prevUI) => [...prevUI, { id, display }]);
-
-        if (generation) {
-          const gens = readStreamableValue(
-            generation
-          ) as AsyncIterable<StreamGeneration>;
-          for await (const { loading } of gens) {
-            setIsGenerating(loading);
-          }
-        }
-      } else {
-        /** Fallback to previous state */
-        setUIState((prevUI) => prevUI.slice(0, -1));
-
-        if (rateLimitStatus.reason === "RPD_LIMIT_EXCEEDED") {
-          toast.error(
-            `Daily request limit reached (${rateLimitStatus.limits.requestsPerDay} requests). Resets in ${rateLimitStatus.reset?.formatted}.`,
-            {
-              position: "top-center",
-              richColors: true,
-              duration: 5000,
-              className:
-                "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
-            }
-          );
-
-          setIsGenerating(false);
-
-          return;
-        } else if (rateLimitStatus.reason === "CONVERSATION_LIMIT_EXCEEDED") {
-          toast.error(
-            `Conversation length limit reached (${rateLimitStatus.limits.conversationLength} messages). Please start a new conversation.`,
-            {
-              position: "top-center",
-              richColors: true,
-              duration: 5000,
-              className:
-                "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
-            }
-          );
-
-          setIsGenerating(false);
-
-          return;
+      if (generation) {
+        const gens = readStreamableValue(
+          generation
+        ) as AsyncIterable<StreamGeneration>;
+        for await (const { loading } of gens) {
+          setIsGenerating(loading);
         }
       }
+
+      // Check rate limits before proceeding
+      /** DISABLED FOR NOW */
+      // const rateLimitStatus = await checkRateLimit(aiState);
+
+      // console.log(rateLimitStatus);
+
+      // setRateLimit(rateLimitStatus);
+
+      // if (rateLimitStatus.eligible) {
+      //   const { id, display, generation } = await orchestrator(
+      //     {
+      //       textInput: value.length > 0 ? value : undefined,
+      //       attachProduct: attachment,
+      //       productCompare: activeComparison,
+      //     },
+      //     { onRequest: { search, related } }
+      //   );
+
+      //   setUIState((prevUI) => [...prevUI, { id, display }]);
+
+      //   if (generation) {
+      //     const gens = readStreamableValue(
+      //       generation
+      //     ) as AsyncIterable<StreamGeneration>;
+      //     for await (const { loading } of gens) {
+      //       setIsGenerating(loading);
+      //     }
+      //   }
+      // } else {
+      //   /** Fallback to previous state */
+      //   setUIState((prevUI) => prevUI.slice(0, -1));
+
+      //   if (rateLimitStatus.reason === "RPD_LIMIT_EXCEEDED") {
+      //     toast.error(
+      //       `Daily request limit reached (${rateLimitStatus.limits.requestsPerDay} requests). Resets in ${rateLimitStatus.reset?.formatted}.`,
+      //       {
+      //         position: "top-center",
+      //         richColors: true,
+      //         duration: 5000,
+      //         className:
+      //           "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
+      //       }
+      //     );
+
+      //     setIsGenerating(false);
+
+      //     return;
+      //   } else if (rateLimitStatus.reason === "CONVERSATION_LIMIT_EXCEEDED") {
+      //     toast.error(
+      //       `Conversation length limit reached (${rateLimitStatus.limits.conversationLength} messages). Please start a new conversation.`,
+      //       {
+      //         position: "top-center",
+      //         richColors: true,
+      //         duration: 5000,
+      //         className:
+      //           "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
+      //       }
+      //     );
+
+      //     setIsGenerating(false);
+
+      //     return;
+      //   }
+      // }
     } catch (error) {
       /** Fallback to previous state */
       setUIState((prevUI) => prevUI.slice(0, -1));
@@ -201,7 +222,6 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     search,
     setIsGenerating,
     setUIState,
-    aiState,
     value,
   ]);
 
@@ -255,7 +275,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       : "Ask a follow-up question";
 
   return (
-    <div className="">
+    <div className="w-full">
       <div className={`w-full flex justify-center z-20 bg-background`}>
         <div className="w-full md:px-0 lg:px-0 max-w-2xl flex flex-col pb-4 mb-0 rounded-t-3xl">
           {uiState.length === 0 && <QuickActionButton />}
@@ -364,7 +384,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                 </TooltipProvider>
               </div>
               <div className="flex items-center space-x-2">
-                {rateLimit && <RateLimit data={rateLimit} />}
+                {/* {rateLimit && <RateLimit data={rateLimit} />} */}
                 <TooltipProvider>
                   <Tooltip delayDuration={100}>
                     <TooltipTrigger asChild>
