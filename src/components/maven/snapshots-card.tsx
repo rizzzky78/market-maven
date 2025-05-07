@@ -59,7 +59,7 @@ export function SnapshotCard() {
     <main className="mb-[30vh]" ref={container}>
       <div>
         <section className="text-purple-500 h-[70vh] w-full grid place-content-center">
-          <h1 className="2xl:text-7xl text-5xl px-8 font-semibold text-center tracking-tight leading-[120%]">
+          <h1 className="font-[family-name:var(--font-array)] 2xl:text-7xl text-5xl px-8 font-semibold text-center tracking-widest leading-[120%]">
             App Snapshots
           </h1>
         </section>

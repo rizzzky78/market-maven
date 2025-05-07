@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { FC } from "react";
 import { MagneticWrapper } from "../ui/magnetic-wrapper";
+import { StaggerText } from "../ui/stagger-text";
 
 // Animation variants for better organization
 const containerVariants = {
@@ -80,25 +81,27 @@ export const HeroSection: FC = () => {
         >
           <motion.h1
             variants={itemVariants}
-            className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight"
+            className="mt-[50px] lg:mt-0 font-[family-name:var(--font-array)] text-5xl md:text-5xl lg:text-7xl font-semibold tracking-widest"
           >
-            <AnimatedText text="Unlock the Power of AI for Smarter Electronic Product Decisions" />
+            <AnimatedText text="AI for Smarter Electronic Product Choices" />
           </motion.h1>
-          <p className="text-xl text-black/80 dark:text-white/80">
-            From research to recommendations, Maven helps you
-            <span className="ml-1 text-purple-400">find</span>,
-            <span className="ml-1 text-purple-400">compare</span>, and
-            understand products with ease.
-          </p>
+          <StaggerText animateOnScroll>
+            <p className="text-2xl lg:text-3xl text-black/80 dark:text-white/80 font-[family-name:var(--font-khand)]">
+              From research to recommendations, Maven helps you{" "}
+              <span className="text-purple-400">find</span>,{" "}
+              <span className="text-purple-400">compare</span>, and understand
+              products with ease.
+            </p>
+          </StaggerText>
           <motion.div
-            className="flex flex-row gap-4"
+            className="flex flex-row gap-4 font-[family-name:var(--font-khand)]"
             variants={containerVariants}
           >
             <motion.div variants={itemVariants}>
               <MagneticWrapper>
                 <Button
                   variant={"secondary"}
-                  className="rounded-full bg-purple-500 text-white/90 hover:text-purple-500 hover:bg-white/90"
+                  className="p-[30px] text-lg rounded-full bg-purple-500 text-white/90 hover:text-purple-500 hover:bg-white/90"
                 >
                   <Link href={"/register"}>Try Maven Now</Link>
                 </Button>
@@ -109,7 +112,7 @@ export const HeroSection: FC = () => {
               <MagneticWrapper>
                 <Button
                   variant={"link"}
-                  className="text-purple-500 hover:text-purple-400"
+                  className="p-[30px] text-lg text-purple-500 hover:text-purple-400"
                 >
                   <Link href={"/cookbook"}>Learn More</Link>
                 </Button>
@@ -121,7 +124,7 @@ export const HeroSection: FC = () => {
           initial={{ opacity: 0, scale: 0.9, rotate: 180 }}
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="relative h-[400px] w-full flex justify-center"
+          className="mt-[80px] lg:mt-0 relative h-[400px] w-full flex justify-center"
         >
           <svg
             className="coolshapes polygon-7 "

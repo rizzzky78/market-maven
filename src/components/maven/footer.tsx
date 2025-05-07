@@ -19,7 +19,7 @@ export const Footer: FC = () => {
 
   // Define base and selected classes for the buttons
   const baseClass =
-    "inline-flex items-center justify-center rounded-2xl px-2.5 py-1.5 text-xs font-medium transition-all hover:bg-muted hover:text-foreground";
+    "font-thin inline-flex items-center justify-center rounded-2xl px-2.5 py-1.5 text-xs transition-all hover:bg-muted hover:text-foreground";
   const selectedClass = "bg-secondary text-secondary-foreground shadow-sm";
 
   return (
@@ -29,16 +29,20 @@ export const Footer: FC = () => {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <Hexagon className="h-6 w-6 text-purple-500" />
-              <span className="text-xl font-bold tracking-tight">Maven AI</span>
+              <span className="text-3xl font-bold tracking-wider font-[family-name:var(--font-array)] uppercase">
+                Maven AI
+              </span>
             </div>
-            <p className="text-black/90 dark:text-white/90">
+            <p className="text-black/90 dark:text-white/90 font-[family-name:var(--font-khand)]">
               Your AI-powered product assistant for smarter decisions.
             </p>
           </div>
           <div className="bg-[#1A1A1D] text-white pt-2 pb-4 px-4 h-fit w-fit">
-            <h3 className="font-semibold">Application</h3>
+            <h3 className="font-[family-name:var(--font-array)]">
+              Application
+            </h3>
             <Separator className="my-2 bg-purple-500" />
-            <ul className="space-y-2 *:text-sm">
+            <ul className="space-y-2 lg:space-y-1 *:text-sm font-[family-name:var(--font-khand)] lg:*:text-lg">
               <li>
                 <Link
                   href="/features"
@@ -78,9 +82,9 @@ export const Footer: FC = () => {
             </ul>
           </div>
           <div className="bg-[#1A1A1D] text-white pt-2 pb-4 px-4 h-fit w-fit">
-            <h3 className="font-semibold">Legal</h3>
+            <h3 className="font-[family-name:var(--font-array)]">Legal</h3>
             <Separator className="my-2 bg-purple-500" />
-            <ul className="space-y-2 *:text-sm">
+            <ul className="space-y-2 lg:space-y-1 *:text-sm lg:*:text-lg font-[family-name:var(--font-khand)]">
               <li>
                 <Link
                   href="/privacy-policy"
@@ -103,15 +107,17 @@ export const Footer: FC = () => {
           </div>
 
           <div className="bg-[#1A1A1D] text-white pt-2 pb-4 px-4 h-fit w-fit">
-            <h3 className="font-semibold">Dev Contacts</h3>
+            <h3 className="font-[family-name:var(--font-array)]">
+              Dev Contacts
+            </h3>
             <Separator className="my-2 bg-purple-500" />
-            <ul className="space-y-2 *:text-sm">
+            <ul className="space-y-2 *:text-sm lg:space-y-1 lg:*:text-lg font-[family-name:var(--font-khand)]">
               <li>
                 <Link
                   href="https://www.linkedin.com/in/rizky-agung-prasetyo-544a95251"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center space-x-2 text-white/90 hover:text-purple-500 transition-colors"
+                  className="flex items-center space-x-3 text-white/90 hover:text-purple-500 transition-colors"
                 >
                   <svg
                     width="1em"
@@ -133,7 +139,7 @@ export const Footer: FC = () => {
                   href="https://www.instagram.com/rizzzkyy78/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center space-x-2 text-white/90 hover:text-purple-500 transition-colors"
+                  className="flex items-center space-x-3 text-white/90 hover:text-purple-500 transition-colors"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -155,7 +161,7 @@ export const Footer: FC = () => {
                   href="https://x.com/rizzzky78"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center space-x-2 text-white/90 hover:text-purple-500 transition-colors"
+                  className="flex items-center space-x-3 text-white/90 hover:text-purple-500 transition-colors"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -177,7 +183,7 @@ export const Footer: FC = () => {
                   href="https://discord.com/users/rizzzu"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center space-x-2 text-white/90 hover:text-purple-500 transition-colors"
+                  className="flex items-center space-x-3 text-white/90 hover:text-purple-500 transition-colors"
                 >
                   <svg
                     viewBox="0 0 256 199"
@@ -198,7 +204,7 @@ export const Footer: FC = () => {
           </div>
 
           <div>
-            <div className="inline-flex space-x-1 h-10 items-center justify-center rounded-3xl border border-input bg-background px-1 text-muted-foreground shadow-sm">
+            <div className="*:text-sm lg:*:text-lg font-[family-name:var(--font-khand)] inline-flex space-x-1 h-10 items-center justify-center rounded-3xl border border-input bg-background px-1 text-muted-foreground shadow-sm">
               <Button
                 variant={"ghost"}
                 size={"sm"}
@@ -241,10 +247,10 @@ export const Footer: FC = () => {
             </div>
           </div>
         </div>
-        <div className="mt-12 pt-8 border-purple-500 border-t border-border/40 text-center text-muted-foreground">
-          <p className="text-sm text-black/90 dark:text-white/80">
-            © 2025 Maven AI. Made with ❤ by
-            <Link href={"/rzky"} className="ml-1 hover:text-purple-500">
+        <div className="font-[family-name:var(--font-array)] mt-12 pt-8 border-purple-500 border-t border-border/40 text-center text-muted-foreground">
+          <p className="text-lg text-black/90 dark:text-white/80">
+            © 2025 MAVEN AI. Made with ❤ by{" "}
+            <Link href={"/rzky"} className="underline hover:text-purple-500">
               Rzky
             </Link>
             .

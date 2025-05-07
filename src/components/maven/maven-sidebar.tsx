@@ -87,7 +87,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
   return (
     <Sidebar
       collapsible="icon"
-      className="overflow-hidden [&>[data-sidebar=sidebar]]:flex-row"
+      className="overflow-hidden [&>[data-sidebar=sidebar]]:flex-row font-[family-name:var(--font-satoshi)]"
       {...props}
     >
       <Sidebar
@@ -200,8 +200,8 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                     </svg>
                   </div>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">Maven</span>
-                    <span className="truncate text-xs">
+                    <span className="truncate font-semibold uppercase font-[family-name:var(--font-array)] tracking-wider">Maven</span>
+                    <span className="truncate text-sm font-[family-name:var(--font-khand)]">
                       AI & Data Driven purchase decision
                     </span>
                   </div>
@@ -365,7 +365,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center text-base font-medium text-foreground">
               <Hexagon className="size-5 shrink-0 mr-2 text-purple-500" />
-              <p>Maven</p>
+              <p className="font-[family-name:var(--font-array)] font-semibold tracking-widest uppercase">Maven</p>
             </div>
           </div>
         </SidebarHeader>

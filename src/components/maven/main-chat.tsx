@@ -44,7 +44,7 @@ export const Chat: FC<ChatProps> = ({ id, query, chats }) => {
     >
       <MavenSidebar userChats={chats} />
       <SidebarInset>
-        <header className="sticky top-0 flex shrink-0 items-center gap-2 bg-background/90 px-4 py-2 z-20">
+        <header className="font-[family-name:var(--font-satoshi)] sticky top-0 flex shrink-0 items-center gap-2 bg-background/90 px-4 py-2 z-20">
           <div className="flex justify-between w-full">
             <div className="flex items-center">
               <SidebarTrigger className="md:hidden" />

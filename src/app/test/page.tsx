@@ -1,8 +1,20 @@
+import { StaggerText } from "@/components/ui/stagger-text";
+
 export default function Page() {
   return (
-    <div className="flex flex-1 flex-col px-4">
-      <div className="px-2 sm:px-12 pt-12 md:pt-14 pb-14 md:pb-24 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4">
-        <h1>Hello World!</h1>
+    <div className="bg-black h-[300vh] w-full flex justify-center items-end">
+      <div className="w-full max-w-5xl">
+        <StaggerText animateOnScroll>
+          <p className="text-white text-4xl">
+            All files shared through CodegridPRO are fully original and coded
+            entirely from scratch. While some layout/design elements (not the
+            code) may draw inspiration from notable websites to provide
+            educational value, every line of code is written manually and not
+            taken from any other source. These resources are crafted
+            specifically for this membership, ensuring you won’t find them
+            anywhere else.
+          </p>
+        </StaggerText>
       </div>
     </div>
   );

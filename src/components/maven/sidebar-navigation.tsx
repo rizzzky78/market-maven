@@ -40,7 +40,7 @@ export const SidebarUserNavigation: FC = () => {
   };
 
   return (
-    <SidebarMenu>
+    <SidebarMenu className="*:font-[family-name:var(--font-satoshi)]">
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -68,7 +68,7 @@ export const SidebarUserNavigation: FC = () => {
             sideOffset={4}
           >
             <DropdownMenuLabel className="p-0 font-normal">
-              <div className="flex items-center gap-2 px-1.5 py-1.5 text-left text-sm">
+              <div className="font-[family-name:var(--font-satoshi)] flex items-center gap-2 px-1.5 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-full">
                   <AvatarImage src={user.avatar} alt={user.name} />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
@@ -80,10 +80,10 @@ export const SidebarUserNavigation: FC = () => {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup className="*:rounded-3xl *:gap-1 *:text-xs *:cursor-pointer">
+            <DropdownMenuGroup className="font-[family-name:var(--font-satoshi)] *:rounded-3xl *:gap-1 *:text-xs *:cursor-pointer">
               <DropdownMenuItem>
                 <Link href={"/history"} className="flex items-center">
-                  <History className="size-4 mr-1" />
+                  <History className="size-4 mr-2" />
                   My Chat History
                 </Link>
               </DropdownMenuItem>
@@ -94,7 +94,7 @@ export const SidebarUserNavigation: FC = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <BookText className="size-4 mr-1" />
+                  <BookText className="size-4 mr-2" />
                   Cookbook
                 </Link>
               </DropdownMenuItem>
@@ -105,7 +105,7 @@ export const SidebarUserNavigation: FC = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <MonitorCheck className="size-4 mr-1" />
+                  <MonitorCheck className="size-4 mr-2" />
                   Terms of Service
                 </Link>
               </DropdownMenuItem>
@@ -116,7 +116,7 @@ export const SidebarUserNavigation: FC = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <ShieldAlert className="size-4 mr-1" />
+                  <ShieldAlert className="size-4 mr-2" />
                   Privacy Policy
                 </Link>
               </DropdownMenuItem>

@@ -44,17 +44,17 @@ export default function LandingPage() {
             transition={{ duration: 0.5 }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight mb-4">
+            <h2 className="font-[family-name:var(--font-array)] text-3xl md:text-4xl font-semibold tracking-wider mb-4">
               <span className="mr-1 text-purple-500">How Maven Works:</span>{" "}
               Your Journey to Informed Choices
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="font-[family-name:var(--font-khand)] text-xl text-muted-foreground max-w-2xl mx-auto">
               Maven&apos;s intelligent workflow makes product research simple
               and effective.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative font-[family-name:var(--font-khand)]">
             {[
               {
                 icon: <MessageSquare className="h-10 w-10" />,
@@ -92,10 +92,10 @@ export default function LandingPage() {
                 <div className="h-20 w-20 flex items-center justify-center mb-4">
                   {step.icon}
                 </div>
-                <h3 className="text-xl font-semibold text-purple-500 mb-2">
+                <h3 className="text-2xl font-semibold text-purple-500 mb-2">
                   {step.title}
                 </h3>
-                <p className="text-black/90 dark:text-white/70">
+                <p className="text-black/90 text-md dark:text-white/70">
                   {step.description}
                 </p>
               </motion.div>
@@ -109,8 +109,11 @@ export default function LandingPage() {
 
         <section className="mt-[16vh] lg:mt-0">
           <div className="flex items-center justify-center">
-            <h2 className="text-5xl font-semibold mb-10">
-              <span className="text-purple-500">Agentic</span> Tools
+            <h2 className="text-5xl lg:text-6xl font-semibold mb-10 font-[family-name:var(--font-array)] tracking-wider">
+              <span className="text-purple-500 font-[family-name:var(--font-array)]">
+                Agentic
+              </span>{" "}
+              Tools
             </h2>
           </div>
 
@@ -131,11 +134,13 @@ export default function LandingPage() {
             transition={{ duration: 0.5 }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight mb-4">
-              <span className="mr-1 text-purple-500">Why Choose Maven?</span>{" "}
+            <h2 className="font-[family-name:var(--font-khand)] text-3xl md:text-5xl font-semibold tracking-wider mb-4">
+              <span className="font-[family-name:var(--font-array)] text-purple-500">
+                Why Choose Maven?
+              </span>{" "}
               Make Smarter Decisions, Faster.
             </h2>
-            <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="font-[family-name:var(--font-khand)] text-lg lg:text-2xl text-muted-foreground max-w-2xl mx-auto">
               Maven transforms how you research and choose products.
             </p>
           </motion.div>
@@ -195,16 +200,16 @@ export default function LandingPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
-                    className="flex gap-4"
+                    className="flex gap-4 font-[family-name:var(--font-khand)]"
                   >
                     <div className="h-10 w-10 flex-shrink-0 flex items-center justify-center text-purple-400">
                       {benefit.icon}
                     </div>
                     <div>
-                      <h3 className="text-xl font-semibold mb-1">
+                      <h3 className="text-3xl font-semibold mb-1">
                         {benefit.title}
                       </h3>
-                      <p className="text-muted-foreground">
+                      <p className="text-muted-foreground text-xl">
                         {benefit.description}
                       </p>
                     </div>
@@ -227,10 +232,10 @@ export default function LandingPage() {
             transition={{ duration: 0.5 }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight mb-4">
+            <h2 className="font-[family-name:var(--font-array)] text-3xl md:text-5xl font-semibold tracking-wider mb-4">
               What Users Are Saying
             </h2>
-            <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="font-[family-name:var(--font-khand)] text-lg lg:text-2xl text-muted-foreground max-w-2xl mx-auto">
               Discover how Maven is transforming product research for users
               worldwide.
               <br />
@@ -269,7 +274,7 @@ export default function LandingPage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
               >
-                <Card className="h-full rounded-3xl border-border/50 bg-background/80 backdrop-blur-sm">
+                <Card className="font-[family-name:var(--font-khand)] h-full rounded-3xl border-border/50 bg-background/80 backdrop-blur-sm">
                   <CardContent className="p-6 flex flex-col h-full">
                     <div className="mb-4 text-primary">
                       {Array.from({ length: 5 }).map((_, i) => (
@@ -313,10 +318,10 @@ export default function LandingPage() {
             transition={{ duration: 0.5 }}
             className="rounded-[2rem] bg-gradient-to-r from-white/30 via-purple-500/40 to-white/30 p-8 md:p-12 text-center"
           >
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight mb-4">
+            <h2 className="font-[family-name:var(--font-array)] text-3xl md:text-5xl font-semibold tracking-wide mb-4">
               Ready to Transform Your Product Research?
             </h2>
-            <p className="text-lg lg:text-xl text-black/90 dark:text-white/90 max-w-2xl mx-auto mb-8">
+            <p className="font-[family-name:var(--font-khand)] text-lg lg:text-2xl text-black/90 dark:text-white/90 max-w-2xl mx-auto my-8">
               Join thousands of users who are making smarter product decisions
               with Maven.
             </p>
@@ -324,9 +329,11 @@ export default function LandingPage() {
               <MagneticWrapper>
                 <Button
                   size="lg"
-                  className="font-medium text-lg px-8 rounded-full hover:bg-purple-500 hover:text-white/90"
+                  className="font-[family-name:var(--font-array)] font-medium text-2xl p-[30px] rounded-full hover:bg-purple-500 hover:text-white/90"
                 >
-                  Get Started <MoveRight className="ml-1 size-6 shrink-0" />
+                  <div className="flex items-center justify-center">
+                    <span>Get Started</span>
+                  </div>
                 </Button>
               </MagneticWrapper>
             </motion.div>

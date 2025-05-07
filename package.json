@@ -11,6 +11,7 @@
   "dependencies": {
     "@ai-sdk/google": "^1.1.14",
     "@ai-sdk/groq": "^1.0.12",
+    "@gsap/react": "^2.1.2",
     "@mendable/firecrawl-js": "^1.14.1",
     "@neondatabase/serverless": "^0.10.4",
     "@paralleldrive/cuid2": "paralleldrive/cuid2",
@@ -40,6 +41,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "framer-motion": "^11.18.1",
+    "gsap": "^3.13.0",
     "lenis": "^1.1.22",
     "lucide-react": "^0.473.0",
     "mermaid": "^11.4.1",

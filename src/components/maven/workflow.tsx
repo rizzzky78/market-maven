@@ -111,7 +111,7 @@ export function WorkflowContent() {
   };
 
   return (
-    <div className="flex justify-center px-2">
+    <div className="flex justify-center px-2 font-[family-name:var(--font-khand)]">
       <div className="w-full max-w-5xl">
         <div className="space-y-12">
           <AnimatedSection>

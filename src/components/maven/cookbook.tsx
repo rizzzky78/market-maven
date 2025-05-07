@@ -58,7 +58,7 @@ export function Cookbook() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="bg-background">
+    <div className="bg-background font-[family-name:var(--font-khand)]">
       <div className="container mx-auto px-0 md:px-16">
         <div className="flex flex-col md:flex-row">
           <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />

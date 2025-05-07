@@ -18,7 +18,7 @@ import { ReactNode } from "react";
 
 export function ContentRegister() {
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <div className="container mx-auto px-4 py-8 max-w-4xl font-[family-name:var(--font-khand)]">
       <div className="text-center mb-8 py-32">
         <h1 className="text-3xl font-bold tracking-tight mb-2">
           Register to <span className="text-purple-500">Maven</span>

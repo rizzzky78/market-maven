@@ -11,8 +11,8 @@ import {
 import { Button } from "../ui/button";
 import { Check, Copy } from "lucide-react";
 import { StreamableValue, useStreamableValue } from "ai/rsc";
-import { toast } from "sonner";
 import { ErrorMessage } from "./error-message";
+import { useScreenSize } from "../hooks/use-screen-size";
 
 interface MessageProps {
   content: string;
@@ -20,14 +20,9 @@ interface MessageProps {
 
 export const AssistantMessage: FC<MessageProps> = ({ content }) => {
   const [copied, setCopied] = useState(false);
+  const { breakpoint } = useScreenSize();
 
   const copyToClipboard = () => {
-    toast("Copied Successfully!", {
-      position: "top-center",
-      richColors: true,
-      className:
-        "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
-    });
     navigator.clipboard.writeText(content);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -41,22 +36,32 @@ export const AssistantMessage: FC<MessageProps> = ({ content }) => {
             <Markdown className="selection:bg-purple-200 selection:text-black">
               {content}
             </Markdown>
-            <TooltipProvider>
-              <Tooltip delayDuration={100}>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="absolute rounded-full text-white h-8 w-1 -bottom-8 left-3 bg-[#1A1A1D] opacity-0 group-hover:opacity-100 transition-opacity"
-                    onClick={copyToClipboard}
-                  >
-                    {copied ? <Check /> : <Copy />}
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent className="rounded-3xl">
-                  <p>{copied ? "Copied!" : "Copy to clipboard"}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            {breakpoint === "default" ? (
+              <Button
+                variant="ghost"
+                className="absolute rounded-full text-white h-8 w-1 -bottom-10 left-0 bg-[#1A1A1D]"
+                onClick={copyToClipboard}
+              >
+                {copied ? <Check /> : <Copy />}
+              </Button>
+            ) : (
+              <TooltipProvider>
+                <Tooltip delayDuration={100}>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="absolute rounded-full text-white h-8 w-1 -bottom-8 left-3 bg-[#1A1A1D] opacity-0 group-hover:opacity-100 transition-opacity"
+                      onClick={copyToClipboard}
+                    >
+                      {copied ? <Check /> : <Copy />}
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent className="rounded-3xl">
+                    <p>{copied ? "Copied!" : "Copy to clipboard"}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
           </div>
         </div>
       </div>
@@ -70,6 +75,7 @@ interface StreamMessageProps {
 
 export const StreamAssistantMessage: FC<StreamMessageProps> = ({ content }) => {
   const [copied, setCopied] = useState(false);
+  const { breakpoint } = useScreenSize();
 
   const [data, error] = useStreamableValue(content);
   const [contentText, setContentText] = useState<string>("");
@@ -79,12 +85,6 @@ export const StreamAssistantMessage: FC<StreamMessageProps> = ({ content }) => {
   }, [data]);
 
   const copyToClipboard = () => {
-    toast("Copied Successfully!", {
-      position: "top-center",
-      richColors: true,
-      className:
-        "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
-    });
     navigator.clipboard.writeText(contentText);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -106,22 +106,32 @@ export const StreamAssistantMessage: FC<StreamMessageProps> = ({ content }) => {
           <Markdown className="selection:bg-purple-200 selection:text-black">
             {contentText}
           </Markdown>
-          <TooltipProvider>
-            <Tooltip delayDuration={100}>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="absolute rounded-full text-white h-8 w-1 -bottom-8 left-3 bg-[#1A1A1D] opacity-0 group-hover:opacity-100 transition-opacity"
-                  onClick={copyToClipboard}
-                >
-                  {copied ? <Check /> : <Copy />}
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent className="rounded-3xl">
-                <p>{copied ? "Copied!" : "Copy to clipboard"}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          {breakpoint === "default" ? (
+            <Button
+              variant="ghost"
+              className="absolute rounded-full text-white h-8 w-1 -bottom-10 left-0 bg-[#1A1A1D]"
+              onClick={copyToClipboard}
+            >
+              {copied ? <Check /> : <Copy />}
+            </Button>
+          ) : (
+            <TooltipProvider>
+              <Tooltip delayDuration={100}>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="absolute rounded-full text-white h-8 w-1 -bottom-8 left-3 bg-[#1A1A1D] opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={copyToClipboard}
+                  >
+                    {copied ? <Check /> : <Copy />}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent className="rounded-3xl">
+                  <p>{copied ? "Copied!" : "Copy to clipboard"}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
         </div>
       </div>
     </div>

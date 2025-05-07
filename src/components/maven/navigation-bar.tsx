@@ -57,11 +57,19 @@ const animations = {
 
 // Navigation links data
 const navigationLinks = [
-  { title: "Features", href: "/features", src: "/nav/nav-2.jpg" },
-  { title: "How_it_Works", href: "/workflow", src: "/nav/nav-3.jpg" },
-  { title: "Cookbook", href: "/cookbook", src: "/nav/nav-4.jpg" },
-  { title: "Reviews", href: "/reviews", src: "/nav/nav-5.jpg" },
-  { title: "Devs_Portfolio", href: "/dev-portfolio", src: "/nav/nav-6.jpg" },
+  { title: "Features", href: "/features", src: "/showcase/nav-assets-1.jpeg" },
+  {
+    title: "How_its_Works",
+    href: "/workflow",
+    src: "/showcase/nav-assets-2.jpeg",
+  },
+  { title: "Cookbook", href: "/cookbook", src: "/showcase/nav-assets-3.jpeg" },
+  { title: "Reviews", href: "/reviews", src: "/showcase/nav-assets-4.jpeg" },
+  {
+    title: "Devs_Portfolio",
+    href: "https://rzkyprasetyo.vercel.app",
+    src: "/showcase/nav-assets-5.jpeg",
+  },
 ];
 
 // Character animation helper
@@ -135,7 +143,13 @@ function NavigationBody({
       {links.map((link, index) => {
         const { title, href } = link;
         return (
-          <Link key={`link_${index}`} href={href}>
+          <Link
+            key={`link_${index}`}
+            href={href}
+            target={title === "Devs_Portfolio" ? "_blank" : undefined}
+            rel={title === "Devs_Portfolio" ? "noopener noreferrer" : undefined}
+            className="font-[family-name:var(--font-array)] hover:text-purple-500 transition-colors duration-500"
+          >
             <motion.p
               onMouseOver={() => setSelectedLink({ isActive: true, index })}
               onMouseLeave={() => setSelectedLink({ isActive: false, index })}
@@ -179,8 +193,8 @@ function NavigationImage({ src, isActive }: NavigationImageProps) {
 function NavigationFooter() {
   const footerLinks = [
     { label: "Made by:", value: "Rzky" },
-    { label: "Typography:", value: "Google Fonts" },
-    { label: "Images:", value: "Unsplash, Devianart" },
+    { label: "Typography:", value: "Array, Khand" },
+    { label: "Images:", value: "Lummi AI" },
   ];
 
   return (
@@ -193,6 +207,7 @@ function NavigationFooter() {
             initial="initial"
             animate="enter"
             exit="exit"
+            className="font-[family-name:var(--font-khand)] text-lg"
           >
             <span>{item.label}</span>
             {item.value}
@@ -207,7 +222,24 @@ function NavigationFooter() {
           animate="enter"
           exit="exit"
         >
-          <Link href="/privacy-policy" className="text-purple-500">
+          <Link
+            href="/login"
+            className="text-purple-500 text-lg font-[family-name:var(--font-khand)]"
+          >
+            Go to Login
+          </Link>
+        </motion.li>
+        <motion.li
+          custom={[0.3, 0]}
+          variants={animations.translate}
+          initial="initial"
+          animate="enter"
+          exit="exit"
+        >
+          <Link
+            href="/privacy-policy"
+            className="text-purple-500 text-lg font-[family-name:var(--font-khand)]"
+          >
             Privacy Policy
           </Link>
         </motion.li>
@@ -218,7 +250,10 @@ function NavigationFooter() {
           animate="enter"
           exit="exit"
         >
-          <Link href="/terms-of-service" className="text-purple-500">
+          <Link
+            href="/terms-of-service"
+            className="text-purple-500 text-lg font-[family-name:var(--font-khand)]"
+          >
             Terms & Conditions
           </Link>
         </motion.li>
@@ -325,7 +360,9 @@ export function NavigationBar() {
                 </defs>
               </svg>
             </div>
-            <span>Market Maven</span>
+            <p className="font-[family-name:var(--font-array)] text-xl font-semibold tracking-wider">
+              MAVEN <span className="text-purple-500">AI</span>
+            </p>
           </div>
         </Link>
         <div onClick={() => setIsActive(!isActive)} className={navbarRoot.el}>
@@ -338,12 +375,14 @@ export function NavigationBar() {
             <motion.p
               variants={animations.opacity}
               animate={!isActive ? "open" : "closed"}
+              className="text-lg font-[family-name:var(--font-array)]"
             >
               Menu
             </motion.p>
             <motion.p
               variants={animations.opacity}
               animate={isActive ? "open" : "closed"}
+              className="text-lg font-[family-name:var(--font-array)]"
             >
               Close
             </motion.p>

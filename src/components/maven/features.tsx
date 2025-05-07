@@ -17,7 +17,7 @@ import { VideoPlayer } from "./video-player";
 
 export const Features: FC = () => {
   return (
-    <div className="w-full flex justify-center">
+    <div className="w-full flex justify-center font-[family-name:var(--font-khand)]">
       <div className="bg-background">
         {/* Header section */}
         <header className="px-4 pt-24 lg:pt-[18vh] pb-12 lg:pb-0 flex justify-start">

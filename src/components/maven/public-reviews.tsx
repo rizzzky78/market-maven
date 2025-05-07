@@ -173,13 +173,13 @@ export const PublicReviews: FC = () => {
   return (
     <div
       id="ratings-gallery"
-      className="px-4 lg:px-0 max-w-5xl pt-[16vh] lg:pt-8"
+      className="px-4 lg:px-0 max-w-5xl pt-[16vh] lg:pt-8 font-[family-name:var(--font-khand)]"
     >
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-4xl font-bold text-purple-500">
           Public Reviews
           <br />
-          <span className="text-sm text-muted-foreground font-normal">
+          <span className="text-sm text-muted-foreground font-normal text-red-500">
             Note: This section are still under construction.
           </span>
         </h2>
