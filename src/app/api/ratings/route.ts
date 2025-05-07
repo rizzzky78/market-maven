@@ -1,4 +1,3 @@
-// app/api/ratings/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { sql } from "@/database/neon";

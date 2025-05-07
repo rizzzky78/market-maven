@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useState } from "react";
-import { Star, Lightbulb, Coffee, BookUp } from "lucide-react";
+import { Star, Coffee } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -99,16 +99,15 @@ export const RatingForm: FC<RatingFormProps> = ({
 
   // Render rating form
   return (
-    <Card className="max-w-3xl w-full rounded-none bg-background text-white border">
+    <Card className="max-w-4xl w-full rounded-3xl bg-background text-white border">
       <CardHeader className="space-y-4">
         <div className="flex items-center space-x-4">
-          <BookUp className="w-10 h-10 text-purple-400" />
-          <CardTitle className="text-2xl text-black/90 dark:text-white/90">
-            Rate MarketMaven
+          <CardTitle className="text-3xl tracking-wider text-black/90 dark:text-white/90 font-[family-name:var(--font-array)]">
+            Rate <span className="text-purple-500 uppercase">Maven AI</span>
           </CardTitle>
         </div>
         <Separator />
-        <CardDescription className="text-black/70 dark:text-white/80 text-sm lg:text-base">
+        <CardDescription className="font-[family-name:var(--font-khand)] text-black/70 dark:text-white/80 text-lg pb-[60px]">
           Help support a developer&apos;s journey in creating innovative
           AI-integrated applications.
         </CardDescription>
@@ -123,23 +122,22 @@ export const RatingForm: FC<RatingFormProps> = ({
           />
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 text-xl">
           <Textarea
             placeholder="Your detailed feedback can help support my professional growth (optional)"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            className="w-full bg-white/10 border-none text-black/90 dark:text-white placeholder-white/50 focus:ring-2 focus:ring-yellow-400"
+            className="font-[family-name:var(--font-khand)] text-lg md:text-lg w-full bg-white/10 border-none text-black/90 dark:text-white placeholder-white/50 focus:ring-2 focus:ring-yellow-400"
           />
           <div className="flex items-center space-x-2">
-            <Lightbulb className="w-6 h-6 text-purple-400" />
-            <p className="text-sm text-black/70 dark:text-white/70">
-              Your constructive insights could be instrumental in advancing my
-              tech career.
+            <p className="font-thin font-[family-name:var(--font-khand)] text-lg text-black/70 dark:text-white/70">
+              <span className="text-purple-500">*</span> Your constructive
+              insights could be instrumental in advancing my tech career.
             </p>
           </div>
           <Button
             type="submit"
-            className="w-full rounded-none bg-purple-400 hover:bg-purple-500 transition-colors"
+            className="font-[family-name:var(--font-khand)] text-2xl p-[30px] w-full rounded-full bg-purple-400 hover:bg-purple-500 transition-colors"
             disabled={rating === 0 || isMutating}
           >
             {isMutating ? "Submitting..." : "Submit Rating"}
@@ -185,10 +183,13 @@ const RatingFeedback: FC<{
 }> = ({ sentiment, story }) => {
   return (
     <div className="flex flex-col items-center space-y-2">
-      <Badge variant="secondary" className="rounded-full px-4 py-1 text-xs">
+      <Badge
+        variant="secondary"
+        className="rounded-full px-4 py-1 text-xl font-normal font-[family-name:var(--font-khand)]"
+      >
         {sentiment}
       </Badge>
-      <p className="text-black/80 dark:text-white/80 text-center italic">
+      <p className="font-[family-name:var(--font-khand)] text-black/80 dark:text-white/80 text-center italic text-lg">
         {story}
       </p>
     </div>
@@ -197,37 +198,35 @@ const RatingFeedback: FC<{
 
 const ThankYouCard: FC = () => {
   return (
-    <div className="max-w-3xl">
+    <div className="max-w-5xl">
       <Card className="w-full max-w-4xl border rounded-none bg-background">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
-            <Coffee className="w-8 h-8 text-purple-400" />
-            <p className="text-black/80 dark:text-white/90">
-              Thank You for Your Support!
-              <br />
-              <span className="text-black/70 dark:text-white/70 text-sm font-normal">
+            <Coffee className="size-[50px] text-purple-400" />
+            <div className="w-full flex flex-col">
+              <p className="text-5xl text-black/80 dark:text-white/90 font-[family-name:var(--font-array)]">
+                Thank You for Your{" "}
+                <span className="text-purple-500">Support!</span>
+              </p>
+              <p className="text-black/70 dark:text-white/70 text-xl font-normal font-[family-name:var(--font-khand)]">
                 Your feedback is crucial in supporting my professional journey.
-              </span>
-            </p>
+              </p>
+            </div>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <p className="text-center text-black/80 dark:text-white/90 text-sm">
-            By taking a moment to provide feedback, you&apos;re helping me move
-            closer to my career goals in technology.
-          </p>
           <div className="bg-purple-400/10 p-4 rounded-none">
-            <p className="italic text-black/80 dark:text-white/80 text-center">
+            <p className="font-[family-name:var(--font-khand)] text-lg italic text-black/80 dark:text-white/80 text-center">
               &quot;Continuous improvement is better than delayed
               perfection.&quot; - Mark Twain
             </p>
           </div>
         </CardContent>
       </Card>
-      <div className="flex items-center justify-center pt-6">
+      <div className="pt-[100px] flex items-center justify-center font-[family-name:var(--font-khand)]">
         <Button
           variant="outline"
-          className="text-purple-400 dark:text-purple-300 rounded-3xl font-normal"
+          className="text-purple-500 dark:text-purple-300 rounded-full p-[30px] text-2xl font-normal"
         >
           <Link href="/chat">Go back to App</Link>
         </Button>

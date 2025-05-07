@@ -24,7 +24,7 @@ export default async function PrivacyPolicy() {
     <div>
       <NavigationBar />
       <div className="container mx-auto px-4 py-24 min-h-screen">
-        <Card className="w-full max-w-4xl mx-auto bg-transparent border-none *:text-black/80 *:dark:text-white/90">
+        <Card className="w-full max-w-6xl mx-auto bg-transparent border-none *:text-black/80 *:dark:text-white/90">
           <CardHeader className="text-center flex items-center">
             <svg
               className="coolshapes moon-8 max-w-[20rem]"
@@ -115,21 +115,23 @@ export default async function PrivacyPolicy() {
                 </filter>
               </defs>
             </svg>
-            <CardTitle className="text-3xl font-bold">Privacy Policy</CardTitle>
-            <CardDescription>
+            <CardTitle className="pt-6 pb-10 text-6xl text-purple-500 font-bold font-[family-name:var(--font-array)] tracking-wider">
+              Privacy Policy
+            </CardTitle>
+            <CardDescription className="pb-5 text-xl font-[family-name:var(--font-khand)]">
               Effective Date: Feb 2025 <br />
               This Privacy Policy explains how Market Maven (&quot;App&quot;)
               collects, uses, and protects your data. By using this App, you
               agree to the practices described below.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-6 font-[family-name:var(--font-khand)]">
             <Accordion type={"multiple"} className="w-full">
               <AccordionItem value="item-1">
-                <AccordionTrigger className="text-lg font-semibold">
+                <AccordionTrigger className="text-3xl font-semibold">
                   1. Scope and Purpose
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
                   Market Maven is an experimental, open-source AI-powered
                   electronic product assistant. This Privacy Policy applies to
                   all data collected during your use of the App. The App is part
@@ -139,10 +141,10 @@ export default async function PrivacyPolicy() {
               </AccordionItem>
 
               <AccordionItem value="item-2">
-                <AccordionTrigger className="text-lg font-semibold">
+                <AccordionTrigger className="text-3xl font-semibold">
                   2. Data We Collect
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
                   <p>The App collects the following data:</p>
                   <ul className="list-disc pl-6 mt-2 space-y-1">
                     <li>
@@ -172,10 +174,10 @@ export default async function PrivacyPolicy() {
               </AccordionItem>
 
               <AccordionItem value="item-3">
-                <AccordionTrigger className="text-lg font-semibold">
+                <AccordionTrigger className="text-3xl font-semibold">
                   3. How We Use Your Data
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
                   <p>Your data is used for the following purposes:</p>
                   <ul className="list-disc pl-6 mt-2 space-y-1">
                     <li>
@@ -208,10 +210,10 @@ export default async function PrivacyPolicy() {
               </AccordionItem>
 
               <AccordionItem value="item-4">
-                <AccordionTrigger className="text-lg font-semibold">
+                <AccordionTrigger className="text-3xl font-semibold">
                   4. Data Sharing and Disclosure
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
                   <p>
                     Your data is not shared with third parties except in the
                     following cases:
@@ -237,10 +239,10 @@ export default async function PrivacyPolicy() {
               </AccordionItem>
 
               <AccordionItem value="item-5">
-                <AccordionTrigger className="text-lg font-semibold">
+                <AccordionTrigger className="text-3xl font-semibold">
                   5. Data Security
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
                   <p>
                     We implement reasonable security measures to protect your
                     data, including:
@@ -260,10 +262,10 @@ export default async function PrivacyPolicy() {
               </AccordionItem>
 
               <AccordionItem value="item-6">
-                <AccordionTrigger className="text-lg font-semibold">
+                <AccordionTrigger className="text-3xl font-semibold">
                   6. Data Retention
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
                   <p>Your data is retained only as long as necessary:</p>
                   <ul className="list-disc pl-6 mt-2 space-y-1">
                     <li>
@@ -279,10 +281,10 @@ export default async function PrivacyPolicy() {
               </AccordionItem>
 
               <AccordionItem value="item-7">
-                <AccordionTrigger className="text-lg font-semibold">
+                <AccordionTrigger className="text-3xl font-semibold">
                   7. Your Rights
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
                   <p>You have the following rights regarding your data:</p>
                   <ul className="list-disc pl-6 mt-2 space-y-1">
                     <li>
@@ -302,10 +304,10 @@ export default async function PrivacyPolicy() {
               </AccordionItem>
 
               <AccordionItem value="item-8">
-                <AccordionTrigger className="text-lg font-semibold">
+                <AccordionTrigger className="text-3xl font-semibold">
                   8. Third-Party Links
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
                   The App may include links to third-party websites or
                   platforms. We are not responsible for their privacy practices
                   or content. Use third-party services at your own risk.
@@ -313,10 +315,10 @@ export default async function PrivacyPolicy() {
               </AccordionItem>
 
               <AccordionItem value="item-9">
-                <AccordionTrigger className="text-lg font-semibold">
+                <AccordionTrigger className="text-3xl font-semibold">
                   9. Changes to This Policy
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
                   This Privacy Policy may be updated periodically. Continued use
                   of the App after changes constitutes acceptance of the revised
                   policy. Significant changes will be communicated via the App
@@ -325,10 +327,10 @@ export default async function PrivacyPolicy() {
               </AccordionItem>
 
               <AccordionItem value="item-10">
-                <AccordionTrigger className="text-lg font-semibold">
+                <AccordionTrigger className="text-3xl font-semibold">
                   10. Contact Us
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
                   For questions or concerns about this Privacy Policy, contact:
                   <span className="ml-1 font-semibold">
                     rizzzky78@gmail.com
@@ -348,11 +350,19 @@ export default async function PrivacyPolicy() {
               </AccordionItem>
             </Accordion>
 
-            <div className="flex justify-center mt-6 space-x-5">
-              <Button asChild variant={"ghost"} className="rounded-full">
+            <div className="flex justify-between pt-[100px] space-x-8">
+              <Button
+                asChild
+                variant={"ghost"}
+                className="hover:text-slate-900 hover:bg-slate-200 rounded-full p-[30px] text-xl"
+              >
                 <Link href="/terms-of-service">View Terms of Service</Link>
               </Button>
-              <Button asChild variant={"ghost"} className="rounded-full">
+              <Button
+                asChild
+                variant={"ghost"}
+                className="hover:text-slate-900 hover:bg-slate-200 rounded-full p-[30px] text-xl"
+              >
                 <Link href={session ? "/chat" : "/login"}>
                   {session ? "Go to App" : "Go to Login"}
                 </Link>

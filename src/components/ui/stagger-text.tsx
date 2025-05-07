@@ -4,12 +4,15 @@ import React, { FC, ReactNode, useRef } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { SplitText } from "gsap/SplitText";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 type StaggerTextProps = {
   children: ReactNode;
   animateOnScroll?: boolean;
   delay?: number;
 };
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const StaggerText: FC<StaggerTextProps> = ({
   children,

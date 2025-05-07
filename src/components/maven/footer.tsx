@@ -250,7 +250,12 @@ export const Footer: FC = () => {
         <div className="font-[family-name:var(--font-array)] mt-12 pt-8 border-purple-500 border-t border-border/40 text-center text-muted-foreground">
           <p className="text-lg text-black/90 dark:text-white/80">
             © 2025 MAVEN AI. Made with ❤ by{" "}
-            <Link href={"/rzky"} className="underline hover:text-purple-500">
+            <Link
+              href={"https://rzkyprasetyo.vercel.app/"}
+              className="underline hover:text-purple-500"
+              target={"_blank"}
+              rel={"noopener noreferrer"}
+            >
               Rzky
             </Link>
             .

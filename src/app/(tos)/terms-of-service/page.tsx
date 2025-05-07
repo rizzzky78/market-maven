@@ -24,7 +24,7 @@ export default async function TermsOfService() {
     <div>
       <NavigationBar />
       <div className="container mx-auto px-4 py-24">
-        <Card className="w-full max-w-4xl mx-auto min-h-screen bg-transparent border-none  *:text-black/80 *:dark:text-white/90">
+        <Card className="w-full max-w-6xl mx-auto min-h-screen bg-transparent border-none  *:text-black/80 *:dark:text-white/90">
           <CardHeader className="text-center flex items-center">
             <svg
               className="coolshapes moon-4 max-w-[20rem]"
@@ -135,21 +135,21 @@ export default async function TermsOfService() {
                 </filter>
               </defs>
             </svg>
-            <CardTitle className="text-3xl font-bold">
+            <CardTitle className="text-6xl pt-6 pb-10 font-bold font-[family-name:var(--font-array)] text-purple-500 tracking-wider">
               Terms of Service
             </CardTitle>
-            <CardDescription className="">
+            <CardDescription className="pb-5 text-xl font-[family-name:var(--font-khand)]">
               Please read these terms carefully before using Market Maven, an
               experimental AI-powered electronic product assistant.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-6 font-[family-name:var(--font-khand)]">
             <Accordion type={"multiple"} className="w-full">
               <AccordionItem value="item-1">
-                <AccordionTrigger className="text-lg font-semibold">
+                <AccordionTrigger className="text-3xl font-semibold">
                   1. Introduction
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
                   Welcome to Market Maven (&quot;App&quot;), a personal
                   portfolio project demonstrating AI capabilities in electronic
                   product analysis. This non-production sample application is
@@ -168,10 +168,10 @@ export default async function TermsOfService() {
               </AccordionItem>
 
               <AccordionItem value="item-2">
-                <AccordionTrigger className="text-lg font-semibold">
+                <AccordionTrigger className="text-3xl font-semibold">
                   2. Description of Services
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
                   <p>The App provides:</p>
                   <ul className="list-disc pl-6 mt-2 space-y-1">
                     <li>
@@ -218,10 +218,10 @@ export default async function TermsOfService() {
               </AccordionItem>
 
               <AccordionItem value="item-3">
-                <AccordionTrigger className="text-lg font-semibold">
+                <AccordionTrigger className="text-3xl font-semibold">
                   3. User Responsibilities
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
                   <ul className="list-disc pl-6 mt-2 space-y-1">
                     <li>Use only for personal, non-commercial purposes</li>
                     <li>Keep chat sessions concise due to token limitations</li>
@@ -237,10 +237,10 @@ export default async function TermsOfService() {
               </AccordionItem>
 
               <AccordionItem value="item-4">
-                <AccordionTrigger className="text-lg font-semibold">
+                <AccordionTrigger className="text-3xl font-semibold">
                   4. Intellectual Property
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
                   <p>
                     Codebase licensed under Apache 2.0 - see repository for
                     details. AI-generated content has no ownership claims - use
@@ -251,10 +251,10 @@ export default async function TermsOfService() {
               </AccordionItem>
 
               <AccordionItem value="item-5">
-                <AccordionTrigger className="text-lg font-semibold">
+                <AccordionTrigger className="text-3xl font-semibold">
                   5. Experimental Nature
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
                   <ul className="list-disc pl-6 mt-2 space-y-1">
                     <li>
                       <Link
@@ -277,10 +277,10 @@ export default async function TermsOfService() {
               </AccordionItem>
 
               <AccordionItem value="item-6">
-                <AccordionTrigger className="text-lg font-semibold">
+                <AccordionTrigger className="text-3xl font-semibold">
                   6. Liability & Warranty
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
                   <ul className="list-disc pl-6 mt-2 space-y-1">
                     <li>Provided &quot;as-is&quot; without warranties</li>
                     <li>No liability for decisions made using App data</li>
@@ -291,10 +291,10 @@ export default async function TermsOfService() {
               </AccordionItem>
 
               <AccordionItem value="item-7">
-                <AccordionTrigger className="text-lg font-semibold">
+                <AccordionTrigger className="text-3xl font-semibold">
                   7. Changes & Termination
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
                   Terms may change without notice. Service may be
                   modified/discontinued anytime. Shared links may become invalid
                   without warning.
@@ -302,10 +302,10 @@ export default async function TermsOfService() {
               </AccordionItem>
 
               <AccordionItem value="item-8">
-                <AccordionTrigger className="text-lg font-semibold">
+                <AccordionTrigger className="text-3xl font-semibold">
                   8. Contact
                 </AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
                   For inquiries, you can email me:{" "}
                   <span className="font-semibold">rizzzky78@gmail.com</span>
                   <br />
@@ -322,18 +322,18 @@ export default async function TermsOfService() {
               </AccordionItem>
             </Accordion>
 
-            <div className="flex justify-center mt-6 space-x-5">
+            <div className="flex justify-between pt-[100px] space-x-8">
               <Button
                 asChild
                 variant={"ghost"}
-                className="hover:text-slate-900 hover:bg-slate-200 rounded-full"
+                className="hover:text-slate-900 hover:bg-slate-200 rounded-full p-[30px] text-xl"
               >
                 <Link href="/privacy-policy">View Privacy Policy</Link>
               </Button>
               <Button
                 asChild
                 variant={"ghost"}
-                className="hover:text-slate-900 hover:bg-slate-200 rounded-full"
+                className="hover:text-slate-900 hover:bg-slate-200 rounded-full p-[30px] text-xl"
               >
                 <Link href={session ? "/chat" : "/login"}>
                   {session ? "Go to App" : "Go to Login"}

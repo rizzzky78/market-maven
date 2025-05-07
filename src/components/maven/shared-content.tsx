@@ -87,5 +87,5 @@ export const SharedContent: FC<SharedContentProps> = ({ type, data }) => {
     }
   };
 
-  return <div>{renderContent()}</div>;
+  return <div className="pb-[300px]">{renderContent()}</div>;
 };

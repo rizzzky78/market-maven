@@ -269,3 +269,118 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
     </motion.div>
   );
 };
+
+export const UserInquiryShared: FC<InquiryProps> = ({ inquiry }) => {
+  return (
+    <motion.div
+      className="pt-10"
+      initial="hidden"
+      animate="visible"
+      variants={fadeIn}
+    >
+      <motion.div className="absolute ml-6 -mt-3" variants={fadeIn}>
+        <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-black w-fit rounded-3xl p-1 px-3 flex items-center">
+          <MessageCircleQuestion className="size-4 mr-1" />
+          <p className="text-xs font-semibold">Inquiry</p>
+        </div>
+      </motion.div>
+      <motion.div
+        className="w-full mx-auto border-[#1A1A1D] dark:border-inherit border rounded-[2rem]"
+        variants={staggerChildren}
+      >
+        <CardContent className="mt-3">
+          <motion.h3 className="pt-6 font-semibold ml-2" variants={fadeIn}>
+            {inquiry.question}
+          </motion.h3>
+          <Separator className="my-3 bg-[#1A1A1D] dark:bg-muted" />
+          <AnimatePresence>
+            {!inquiry.isMultiSelection ? (
+              <motion.div variants={staggerChildren} className="ml-2">
+                <RadioGroup disabled className="-space-y-1">
+                  {inquiry.options.map((option) => (
+                    <motion.div
+                      key={option.value}
+                      className="flex items-center space-x-2"
+                      variants={fadeIn}
+                    >
+                      <RadioGroupItem
+                        value={option.value}
+                        id={option.value}
+                        disabled
+                      />
+                      <Label
+                        htmlFor={option.value}
+                        className="text-sm font-normal"
+                      >
+                        {option.label}
+                      </Label>
+                    </motion.div>
+                  ))}
+                </RadioGroup>
+              </motion.div>
+            ) : (
+              <motion.div className="space-y-1 ml-2" variants={staggerChildren}>
+                {inquiry.options.map((option) => (
+                  <motion.div
+                    key={option.value}
+                    className="flex items-center space-x-2"
+                    variants={fadeIn}
+                  >
+                    <Checkbox id={option.value} disabled />
+                    <Label
+                      htmlFor={option.value}
+                      className="text-sm font-normal"
+                    >
+                      {option.label}
+                    </Label>
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+          {inquiry.allowsInput && (
+            <motion.div className="mt-4 ml-2" variants={fadeIn}>
+              <Label
+                htmlFor="additionalInput"
+                className="font-normal text-sm mb-1 block"
+              >
+                {inquiry.inputLabel || "Additional Information"}
+              </Label>
+              <Input
+                id="additionalInput"
+                placeholder={inquiry.inputPlaceholder}
+                className="w-full rounded-3xl"
+                disabled
+              />
+            </motion.div>
+          )}
+          <motion.div
+            className="flex justify-end mt-3"
+            variants={staggerChildren}
+          >
+            <motion.div variants={fadeIn}>
+              <Button
+                variant="outline"
+                className="rounded-3xl font-normal flex items-center mr-2"
+                disabled
+              >
+                <span className="-mr-1">Skip</span>
+                <SkipForward className="size-4 shrink-0" />
+              </Button>
+            </motion.div>
+            <motion.div variants={fadeIn}>
+              <Button
+                variant="outline"
+                className="rounded-3xl font-normal flex items-center"
+                disabled
+              >
+                <span className="-mr-1">Submit</span>
+                <ArrowRight className="size-4 shrink-0" />
+              </Button>
+            </motion.div>
+          </motion.div>
+        </CardContent>
+      </motion.div>
+    </motion.div>
+  );
+};

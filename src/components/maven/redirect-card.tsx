@@ -41,10 +41,10 @@ export const RedirectCard: FC<RedirectCardProps> = ({
   }, [redirectDelay, redirectTo, router]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <Card className="rounded-3xl bg-background w-full max-w-md mx-auto overflow-hidden shadow-lg">
+    <div className="min-h-screen flex items-center justify-center px-3 lg:px-0">
+      <Card className="rounded-3xl bg-background w-full max-w-4xl mx-auto overflow-hidden shadow-lg">
         <CardContent className="p-6">
-          <div className="h-1 bg-gray-200 mt-3 mb-4">
+          <div className="h-1 bg-gray-200 mt-[40px] mb-4">
             <div
               className="rounded h-full bg-purple-500 transition-all duration-300 ease-in-out"
               style={{ width: `${progress}%` }}
@@ -52,10 +52,10 @@ export const RedirectCard: FC<RedirectCardProps> = ({
           </div>
           <div className="flex flex-col items-center justify-center space-y-6">
             <div className="text-center">
-              <h3 className="text-lg text-black/90 dark:text-white/90 font-medium">
+              <h3 className="py-[40px] font-[family-name:var(--font-array)] text-4xl font-semibold tracking-wider text-black/90 dark:text-white/90">
                 {message}
               </h3>
-              <p className="text-sm mt-1">
+              <p className="text-xl mt-1 font-[family-name:var(--font-khand)]">
                 Redirecting in{" "}
                 {Math.ceil(
                   (redirectDelay - (progress / 100) * redirectDelay) / 1000

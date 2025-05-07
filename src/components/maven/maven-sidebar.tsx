@@ -200,7 +200,9 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                     </svg>
                   </div>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold uppercase font-[family-name:var(--font-array)] tracking-wider">Maven</span>
+                    <span className="truncate font-semibold uppercase font-[family-name:var(--font-array)] tracking-wider">
+                      Maven
+                    </span>
                     <span className="truncate text-sm font-[family-name:var(--font-khand)]">
                       AI & Data Driven purchase decision
                     </span>
@@ -339,7 +341,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <Link
-                  href={"/dev-portfolio"}
+                  href="https://rzkyprasetyo.vercel.app/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -365,7 +367,9 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center text-base font-medium text-foreground">
               <Hexagon className="size-5 shrink-0 mr-2 text-purple-500" />
-              <p className="font-[family-name:var(--font-array)] font-semibold tracking-widest uppercase">Maven</p>
+              <p className="font-[family-name:var(--font-array)] font-semibold tracking-widest uppercase">
+                Maven
+              </p>
             </div>
           </div>
         </SidebarHeader>

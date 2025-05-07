@@ -12,7 +12,7 @@ export default async function ChatHistoryPage() {
   const session = await getServerSession();
   const chats = await loadChats(session?.user?.email || "anonymous@gmail.com");
   return (
-    <div className="mx-auto py-8 max-w-3xl">
+    <div className="mx-auto py-8 max-w-3xl *:font-[family-name:var(--font-khand)]">
       <div className="py-5 px-6 mb-4 rounded-[2rem] bg-[#1A1A1D]">
         <div className="flex items-center">
           <History className="size-8 mr-4 shrink-0 text-purple-400" />

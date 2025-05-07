@@ -12,7 +12,7 @@ import { AssistantMessage } from "../maven/assistant-message";
 import { UserMessage } from "../maven/user-message";
 import { ToolContent } from "ai";
 import { Inquiry } from "@/lib/agents/schema/tool-parameters";
-import { UserInquiry } from "../maven/user-inquiry";
+import { UserInquiry, UserInquiryShared } from "../maven/user-inquiry";
 import { ProductSearch } from "../maven/product-search";
 import { ProductDetails } from "../maven/product-details";
 import { ProductComparison } from "../maven/product-comparison";
@@ -148,11 +148,19 @@ const handleProductsComparison = (
 /**
  * Handles user inquiry tool results and generates corresponding UI components
  */
-const handleInquireUser = (id: string, result: string): UIStateItem => {
+const handleInquireUser = (
+  id: string,
+  result: string,
+  isSharedPage?: boolean
+): UIStateItem => {
   const inquiryResult: UserInquiryResult = JSON.parse(result);
   return {
     id,
-    display: <UserInquiry inquiry={inquiryResult.args.inquiry} />,
+    display: isSharedPage ? (
+      <UserInquiryShared inquiry={inquiryResult.args.inquiry} />
+    ) : (
+      <UserInquiry inquiry={inquiryResult.args.inquiry} />
+    ),
   };
 };
 
@@ -171,7 +179,8 @@ const toolResultHandlers: Record<
     handleGetProductDetails(id, result, isSharedPage),
   productsComparison: (id, result, isSharedPage) =>
     handleProductsComparison(id, result, isSharedPage),
-  inquireUser: (id, result) => handleInquireUser(id, result),
+  inquireUser: (id, result, isSharedPage) =>
+    handleInquireUser(id, result, isSharedPage),
 };
 
 /**

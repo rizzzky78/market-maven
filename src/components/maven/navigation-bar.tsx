@@ -193,7 +193,7 @@ function NavigationImage({ src, isActive }: NavigationImageProps) {
 function NavigationFooter() {
   const footerLinks = [
     { label: "Made by:", value: "Rzky" },
-    { label: "Typography:", value: "Array, Khand" },
+    { label: "Typography:", value: "Array, Khand, Satoshi" },
     { label: "Images:", value: "Lummi AI" },
   ];
 

@@ -136,7 +136,7 @@ const orchestrator = async (
   };
 
   const { value } = await streamUI({
-    model: google('gemini-2.0-flash-exp'),
+    model: google("gemini-2.0-flash-lite"),
     messages: toCoreMessage(state.get().messages),
     system: await SYSTEM_INSTRUCTION.CORE_ORCHESTRATOR,
     initial: <LoadingText text="Maven is thinking..." />,
@@ -172,7 +172,7 @@ const orchestrator = async (
           );
 
           const { partialObjectStream: relatedStream } = streamObject({
-            model: google("gemini-2.0-flash-exp"),
+            model: google("gemini-2.0-flash-lite"),
             system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
             prompt: payloadRelated,
             schema: relatedQuerySchema,
@@ -269,7 +269,7 @@ const orchestrator = async (
           );
 
           const { partialObjectStream } = streamObject({
-            model: google("gemini-2.0-flash-exp", {
+            model: google("gemini-2.0-flash-lite", {
               useSearchGrounding: true,
             }),
             system: await SYSTEM_INSTRUCTION.RECOMMENDATOR_EXTRACTOR,
@@ -313,7 +313,7 @@ const orchestrator = async (
           let finalizedInsight = "";
 
           const { textStream } = streamText({
-            model: google("gemini-2.0-flash-lite-preview-02-05"),
+            model: google("gemini-2.0-flash-lite"),
             system: await SYSTEM_INSTRUCTION.RECOMMENDATOR_INSIGHT,
             prompt: JSON.stringify({
               payload: finalizedRecommendator.recommendations,
@@ -394,7 +394,7 @@ const orchestrator = async (
           );
 
           const { partialObjectStream: relatedStream } = streamObject({
-            model: google('gemini-2.0-flash-001'),
+            model: google("gemini-2.0-flash-lite"),
             system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
             prompt: payloadRelated,
             schema: relatedQuerySchema,
@@ -538,7 +538,7 @@ const orchestrator = async (
             );
 
             const { partialObjectStream } = streamObject({
-              model: google("gemini-2.0-flash-exp"),
+              model: google("gemini-2.0-flash-lite"),
               system: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_EXTRACTOR,
               prompt: payload,
               schema: productsSchema,
@@ -592,7 +592,7 @@ const orchestrator = async (
             let finalizedText: string = "";
 
             const { textStream } = streamText({
-              model: google('gemini-2.0-flash-001'),
+              model: google("gemini-2.0-flash-lite"),
               system: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_INSIGHT,
               prompt: JSON.stringify(finalizedProductSearch.data),
               onFinish: ({ text }) => {
@@ -672,7 +672,7 @@ const orchestrator = async (
             );
 
             const { partialObjectStream: relatedStream } = streamObject({
-              model: google('gemini-2.0-flash-exp'),
+              model: google("gemini-2.0-flash-lite"),
               system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
               prompt: payloadRelated,
               schema: relatedQuerySchema,
@@ -860,7 +860,7 @@ const orchestrator = async (
               let researcherText = "";
 
               const { textStream: researcherStream } = streamText({
-                model: google("gemini-2.0-flash-lite-preview-02-05"),
+                model: google("gemini-2.0-flash-lite"),
                 system: await SYSTEM_INSTRUCTION.PRODUCT_RESEARCHER,
                 prompt: JSON.stringify({ query }),
                 onFinish: ({ text }) => {
@@ -903,7 +903,7 @@ const orchestrator = async (
             );
 
             const { partialObjectStream } = streamObject({
-              model: google("gemini-2.0-flash-exp"),
+              model: google("gemini-2.0-flash-lite"),
               system: await SYSTEM_INSTRUCTION.PRODUCT_DETAILS_EXTRACTOR,
               prompt: payloadContent,
               output: "no-schema",
@@ -962,7 +962,7 @@ const orchestrator = async (
             let finalizedText: string = "";
 
             const { textStream } = streamText({
-              model: google("gemini-2.0-flash-exp"),
+              model: google("gemini-2.0-flash-lite"),
               system: await SYSTEM_INSTRUCTION.PRODUCT_DETAILS_INSIGHT,
               prompt: JSON.stringify(payloadInsight),
               onFinish: async ({ text }) => {
@@ -1041,7 +1041,7 @@ const orchestrator = async (
             );
 
             const { partialObjectStream: relatedStream } = streamObject({
-              model: google('gemini-2.0-flash-001'),
+              model: google("gemini-2.0-flash-lite"),
               system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
               prompt: payloadRelated,
               schema: relatedQuerySchema,
@@ -1187,7 +1187,7 @@ const orchestrator = async (
           );
 
           const comparisonObjResult = await generateObject({
-            model: google("gemini-2.0-flash-exp"),
+            model: google("gemini-2.0-flash-lite"),
             system: await SYSTEM_INSTRUCTION.PRODUCT_COMPARE_EXTRACTOR,
             prompt: JSON.stringify(payloadPrevProductsData),
             output: "no-schema",
@@ -1228,7 +1228,7 @@ const orchestrator = async (
           let finalizedText = "";
 
           const { textStream } = streamText({
-            model: google("gemini-2.0-flash-exp"),
+            model: google("gemini-2.0-flash-lite"),
             system: await SYSTEM_INSTRUCTION.PRODUCT_COMPARE_INSIGHT,
             prompt: JSON.stringify(payloadComparisonInsight),
             onFinish: async ({ text }) => {
@@ -1309,7 +1309,7 @@ const orchestrator = async (
           );
 
           const { partialObjectStream: relatedStream } = streamObject({
-            model: google('gemini-2.0-flash-001'),
+            model: google("gemini-2.0-flash-lite"),
             system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
             prompt: payloadRelated,
             schema: relatedQuerySchema,
@@ -1397,7 +1397,7 @@ const orchestrator = async (
 
           const { partialObjectStream: inquiryStream, object: inquiryObject } =
             streamObject({
-              model: google("gemini-2.0-flash-001"),
+              model: google("gemini-2.0-flash-lite"),
               system: await SYSTEM_INSTRUCTION.INQUIRY_CRAFTER,
               prompt: JSON.stringify(parse.data),
               schema: inquireUserSchema,
@@ -1410,7 +1410,8 @@ const orchestrator = async (
               },
             });
 
-          for await (const chunkInquiry of inquiryStream) {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          for await (const _chunkInquiry of inquiryStream) {
             // will be append value update on streamable value
           }
 

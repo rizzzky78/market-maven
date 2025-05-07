@@ -88,17 +88,17 @@ export const ChatHistoryItem: FC<ChatProps> = ({ chat }) => {
           />
           <div className="relative z-20 h-full min-h-32 flex flex-col bg-[#1A1A1D]/20 dark:bg-none rounded-2xl px-4 py-3">
             <div className="h-10 mb-2">
-              <h3 className="text-sm text-black/90 dark:text-white font-semibold line-clamp-2">
+              <h3 className="text-md text-black/90 dark:text-white font-semibold line-clamp-2">
                 {chat.title}
               </h3>
             </div>
             <div className="flex items-center text-white/70 bg-[#1A1A1D] py-1 px-2 rounded-r-3xl w-fit">
-              <p className="text-[0.65rem]">
+              <p className="text-[12px]">
                 {formatDateWithTime(chat.created)}
               </p>
             </div>
             <div className="mt-2 flex items-center dark:text-white/80">
-              <p className="text-xs line-clamp-1">{text_input}</p>
+              <p className="text-sm line-clamp-1">{text_input}</p>
             </div>
           </div>
         </div>

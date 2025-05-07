@@ -153,12 +153,12 @@ export default async function SharePage({ searchParams }: SharePageProps) {
         <main className="px-2 sm:px-12 md:pt-8 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4 flex-grow">
           <section className="bg-[#1A1A1D] dark:bg-white rounded-3xl py-4 px-6 mt-16 mb-6">
             <div className="flex flex-col">
-              <h2 className="text-md font-semibold text-white/90 dark:text-black/90">
+              <h2 className="font-[family-name:var(--font-khand)] text-2xl font-semibold text-white/90 dark:text-black/90">
                 Shared Content
               </h2>
               <div className="flex items-start">
-                <Info className="size-4 shrink-0 mr-1 text-purple-500" />
-                <p className="text-xs text-white/80 dark:text-black/80">
+                <Info className="size-4 shrink-0 lg:mt-1.5 mr-1 text-purple-500" />
+                <p className="text-lg text-white/80 dark:text-black/80 font-[family-name:var(--font-khand)]">
                   You are currently viewing the shared content, please go to the
                   <Link
                     href="/chat"
