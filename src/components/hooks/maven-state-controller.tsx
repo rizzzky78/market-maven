@@ -6,6 +6,7 @@ import {
   AttachProduct,
   ProductCompare,
   ProductComparison,
+  RefferenceDataSource,
 } from "@/lib/types/ai";
 import { ChangeEvent, KeyboardEvent } from "react";
 import { devtools, persist, createJSONStorage } from "zustand/middleware";
@@ -74,8 +75,12 @@ interface MavenStateController extends TextareaEventHandlers {
   search: boolean;
   related: boolean;
 
+  reffSource: RefferenceDataSource;
+
   setSearch: (v: boolean) => void;
   setRelated: (v: boolean) => void;
+
+  setReffSource: (s: RefferenceDataSource) => void;
   /**
    * Set input with validation
    */
@@ -186,8 +191,12 @@ export const useMavenStateController = create<MavenStateController>()(
         search: false,
         related: false,
 
+        reffSource: "insight",
+
         setSearch: (v) => set({ search: v }),
         setRelated: (v) => set({ related: v }),
+
+        setReffSource: (s) => set({ reffSource: s }),
 
         // Existing methods remain unchanged
         setInput: (text, options) => {

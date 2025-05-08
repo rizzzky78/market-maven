@@ -71,6 +71,12 @@ export type PayloadData = {
   inquiryResponse?: InquiryResponse;
 };
 
+export type RefferenceDataSource =
+  | "insight"
+  | "tokopedia"
+  | "shopee"
+  | ({} & string);
+
 /**
  * Type represent optional arguments non-payload value passed to server-action
  */
@@ -81,6 +87,8 @@ export type ExtendedRequestOption = {
     search?: boolean;
     /** Enable related query injection based on latest chat conversation data */
     related?: boolean;
+    /** Enable models to refers data source from user prefered source */
+    reffSource?: RefferenceDataSource;
   };
 };
 

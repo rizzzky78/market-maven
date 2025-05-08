@@ -9,7 +9,6 @@ import {
   useUIState,
 } from "ai/rsc";
 import {
-  ChangeEvent,
   FormEvent,
   useEffect,
   useRef,
@@ -21,7 +20,14 @@ import {
 import { UserMessage } from "./user-message";
 import { AnimatePresence } from "framer-motion";
 import { Button } from "../ui/button";
-import { ArrowUp, Globe, ListEnd, Loader } from "lucide-react";
+import {
+  ArrowUp,
+  Globe,
+  Info,
+  ListEnd,
+  Loader,
+  TextSearch,
+} from "lucide-react";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Textarea } from "../ui/textarea";
 import {
@@ -41,6 +47,14 @@ import { AttachCompareBadge } from "./attach-compare";
 import { cn } from "@/lib/utils";
 import { RateLimit } from "./rate-limit-modal";
 import { checkRateLimit } from "@/lib/agents/action/chat-service/rate-limit";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import Image from "next/image";
 
 interface ChatPanelProps {
   uiState: UIState;
@@ -59,6 +73,8 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     related,
     setSearch,
     setRelated,
+    reffSource,
+    setReffSource,
   } = useMavenStateController();
   const { value, handleChange, handleBlur, handleReset } = useDebounceInput();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -81,6 +97,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
   const [aiState] = useAIState<typeof AI>();
   const { orchestrator } = useActions<typeof AI>();
   const { isGenerating, setIsGenerating } = useAppState();
+
   const [rateLimit, setRateLimit] = useState<RateLimitResponse | null>(null);
 
   const handleRemove = () => {
@@ -121,7 +138,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
           attachProduct: attachment,
           productCompare: activeComparison,
         },
-        { onRequest: { search, related } }
+        { onRequest: { search, related, reffSource } }
       );
 
       setUIState((prevUI) => [...prevUI, { id, display }]);
@@ -218,6 +235,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     flush,
     handleReset,
     orchestrator,
+    reffSource,
     related,
     search,
     setIsGenerating,
@@ -245,14 +263,6 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
   const isButtonDisabled =
     isGenerating || value.length === 0 || invalidComparison;
 
-  const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    handleChange(e.target.value);
-  };
-
-  const handleInputBlur = () => {
-    handleBlur();
-  };
-
   const handleKeydown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       if (value.trim().length === 0) {
@@ -273,6 +283,27 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       : uiState.length === 0
       ? "What would you like to search for?"
       : "Ask a follow-up question";
+
+  const reffSourceOption = [
+    {
+      title: "Insight",
+      src: "/platform/insight.png",
+      description:
+        "Use internal search references without information from online marketplace platform (LLM plus API data sources), only display exact product without any variants.",
+    },
+    {
+      title: "Tokopedia",
+      src: "/platform/tokopedia.png",
+      description:
+        "Use Tokpedia platform as the data source, will gives exact information data as is on platform as well as products that match the query.",
+    },
+    {
+      title: "Shopee",
+      src: "/platform/shopee.jpeg",
+      description:
+        "Unlike Tokopedia, this will behave as Insight but with product links reference that match the query and not get any related data from Shopee platform.",
+    },
+  ];
 
   return (
     <div className="w-full *:font-[family-name:var(--font-satoshi)]">
@@ -307,8 +338,8 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                 placeholder={dynamicPlaceholder}
                 spellCheck={true}
                 value={value}
-                onChange={handleInputChange}
-                onBlur={handleInputBlur}
+                onChange={(e) => handleChange(e.target.value)}
+                onBlur={handleBlur}
                 onKeyDown={handleKeydown}
               />
             </ScrollArea>
@@ -382,6 +413,74 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
+                <Select
+                  value={reffSource}
+                  onValueChange={(value) => setReffSource(value)}
+                >
+                  <TooltipProvider>
+                    <Tooltip delayDuration={100}>
+                      <TooltipTrigger asChild>
+                        <SelectTrigger className="rounded-full text-xs space-x-2 *:hover:text-purple-500">
+                          <SelectValue
+                            placeholder="Select source"
+                            className="capitalize *:text-xs md:text-xs"
+                          />
+                        </SelectTrigger>
+                      </TooltipTrigger>
+                      <TooltipContent className="rounded-xl max-w-sm">
+                        <div className="flex flex-col">
+                          <p className="mb-2">
+                            Prefer to use insight or from related marketplace
+                            information references
+                          </p>
+                          <div className="space-y-2">
+                            {reffSourceOption.map((item, index) => (
+                              <div
+                                key={index}
+                                className={`rounded-lg p-2 flex items-center space-x-2 lg:space-x-3 bg-purple-500/20`}
+                              >
+                                <Image
+                                  src={item.src}
+                                  alt={item.title}
+                                  width={40}
+                                  height={40}
+                                  className="object-contain"
+                                />
+                                <p>
+                                  <span className="font-semibold">
+                                    {item.title}
+                                  </span>
+                                  , {item.description}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="mt-2 font-semibold flex items-start space-x-1">
+                            <Info className="size-4" />
+                            <p>
+                              This feature is not implemented yet, its still use
+                              Tokopedia as data source.
+                            </p>
+                          </div>
+                        </div>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                  <SelectContent className="rounded-[20px]">
+                    {reffSourceOption.map((option) => (
+                      <SelectItem
+                        key={option.title}
+                        value={option.title.toLowerCase()}
+                        className="rounded-full *:hover:text-purple-500"
+                      >
+                        <div className="flex items-center space-x-2">
+                          <TextSearch className="size-4 shrink-0" />
+                          <span>{option.title}</span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               <div className="flex items-center space-x-2">
                 {/* {rateLimit && <RateLimit data={rateLimit} />} */}

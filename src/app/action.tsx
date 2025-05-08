@@ -52,7 +52,10 @@ const orchestrator = async (
 ): Promise<OrchestratorCallback> => {
   "use server";
 
-  logger.info("Debug: payload orchestrator", { payload });
+  logger.info("Debug: payload orchestrator - agentic", {
+    payload,
+    requestOption,
+  });
 
   const payloadUserMessage = toUnifiedUserMessage(payload);
 

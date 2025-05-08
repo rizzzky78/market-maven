@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/lib/utility/provider/theme-provider";
@@ -35,63 +34,6 @@ const satoshi = localFont({
   variable: "--font-satoshi",
   display: "swap",
 });
-
-export const metadata: Metadata = {
-  title: "Maven AI - Agentic Data Driven Purchase Decision | Rzky",
-  description:
-    "Maven AI by Rzky Prasetyo: Your intelligent companion for market analysis and trading insights. Powered by AI to deliver real-time stock market trends and predictive analytics.",
-  keywords: [
-    "Maven AI",
-    "Market Maven",
-    "data driven analysis",
-    "helper purchase decision",
-    "AI helper",
-    "predictive analytics",
-    "Rzky Prasetyo portfolio",
-  ],
-  authors: [{ name: "Rzky Prasetyo", url: "https://rzkyprasetyo.vercel.app" }],
-  openGraph: {
-    title: "Maven AI - AI-Powered Market Analysis",
-    description:
-      "Discover Maven AI, a cutting-edge agentic tool for data driven purchase insights, built by Rzky Prasetyo.",
-    url: "https://rzkyprasetyo.vercel.app/projects/maven-ai",
-    siteName: "Rzky Prasetyo Portfolio",
-    images: [
-      {
-        url: "https://rzkyprasetyo.vercel.app/images/maven-ai-og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Maven AI Market Analysis Preview",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Maven AI - Market Analysis & Trading Insights",
-    description:
-      "Explore Maven AI by Rzky Prasetyo for AI-driven electronic products purchase decision and insights.",
-    images: [
-      "https://rzkyprasetyo.vercel.app/images/maven-ai-twitter-image.jpg",
-    ],
-    creator: "@rzkyprasetyo",
-  },
-  alternates: {
-    canonical: "https://rzkyprasetyo.vercel.app/projects/maven-ai",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-};
 
 export default async function RootLayout({
   children,
