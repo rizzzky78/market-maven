@@ -1,5 +1,5 @@
 import { CoreMessage, LanguageModelV1StreamPart } from "ai";
-import { StreamableValue } from "ai/rsc";
+import { createStreamableValue, StreamableValue } from "ai/rsc";
 import { ReactNode } from "react";
 import { z } from "zod";
 
@@ -374,6 +374,14 @@ export type ExtendedToolResult<A = unknown, D = unknown> = {
   args: A;
   /** Resulting data from tool execution */
   data: D;
+};
+
+export type ToolsetProps = {
+  generation: ReturnType<typeof createStreamableValue<StreamGeneration>>;
+  errorState: { isError: boolean; error: unknown };
+  state: MutableAIState<AIState>;
+  requestOption?: ExtendedRequestOption;
+  userMessage?: UserContentMessage;
 };
 
 /**

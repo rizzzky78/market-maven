@@ -104,7 +104,8 @@ export const generateMetadata = async ({
   searchParams,
 }: SharePageProps): Promise<Metadata> => {
   const { type, "component-id": componentId } = await searchParams;
-  const title = await generatePageTitle(type, componentId);
+  const chatTitle = await generatePageTitle(type, componentId);
+  const title = `${chatTitle} | Maven AI`;
 
   return { title };
 };
@@ -151,7 +152,7 @@ export default async function SharePage({ searchParams }: SharePageProps) {
       <NavigationBar />
       <div className="min-h-screen flex flex-col">
         <main className="px-2 sm:px-12 md:pt-8 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4 flex-grow">
-          <section className="bg-[#1A1A1D] dark:bg-white rounded-3xl py-4 px-6 mt-16 mb-6">
+          <section className="bg-[#1A1A1D] dark:bg-white rounded-3xl py-4 px-6 mt-[100px] lg:mt-16 mb-6">
             <div className="flex flex-col">
               <h2 className="font-[family-name:var(--font-khand)] text-2xl font-semibold text-white/90 dark:text-black/90">
                 Shared Content

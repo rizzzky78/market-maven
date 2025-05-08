@@ -66,7 +66,7 @@ const navigationLinks = [
   { title: "Cookbook", href: "/cookbook", src: "/showcase/nav-assets-3.jpeg" },
   { title: "Reviews", href: "/reviews", src: "/showcase/nav-assets-4.jpeg" },
   {
-    title: "Devs_Portfolio",
+    title: "Dev_Portfolio",
     href: "https://rzkyprasetyo.vercel.app",
     src: "/showcase/nav-assets-5.jpeg",
   },
