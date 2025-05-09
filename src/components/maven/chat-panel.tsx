@@ -46,7 +46,10 @@ import { AI } from "@/app/action";
 import { AttachCompareBadge } from "./attach-compare";
 import { cn } from "@/lib/utils";
 import { RateLimit } from "./rate-limit-modal";
-import { checkRateLimit } from "@/lib/agents/action/chat-service/rate-limit";
+import {
+  checkRateLimit,
+  recordSuccessfulRequest,
+} from "@/lib/agents/action/chat-service/rate-limit";
 import {
   Select,
   SelectContent,
@@ -99,6 +102,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
   const { isGenerating, setIsGenerating } = useAppState();
 
   const [rateLimit, setRateLimit] = useState<RateLimitResponse | null>(null);
+  const [isCheckingRateLimit, setIsCheckingRateLimit] = useState(false);
 
   const handleRemove = () => {
     setInput("");
@@ -106,10 +110,70 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     detach();
   };
 
+  // Pre-fetch rate limit status when component mounts or after messages are added
+  useEffect(() => {
+    const fetchRateLimitStatus = async () => {
+      try {
+        if (aiState) {
+          const status = await checkRateLimit(aiState);
+          setRateLimit(status);
+        }
+      } catch (error) {
+        console.error("Failed to pre-fetch rate limit status:", error);
+      }
+    };
+
+    fetchRateLimitStatus();
+  }, [aiState?.messages.length, aiState]);
+
   const actionSubmit = useCallback(async () => {
     try {
       setIsGenerating(true);
+      setIsCheckingRateLimit(true);
 
+      // Check rate limits before attempting to send a message
+      let rateLimitStatus = rateLimit;
+
+      // Only fetch fresh rate limit data if we don't have it or it's potentially stale
+      if (!rateLimitStatus) {
+        rateLimitStatus = await checkRateLimit(aiState);
+        setRateLimit(rateLimitStatus);
+      }
+
+      setIsCheckingRateLimit(false);
+
+      console.log(rateLimitStatus);
+
+      // If user is not eligible, show error message and return early
+      if (!rateLimitStatus.eligible) {
+        if (rateLimitStatus.reason === "RPD_LIMIT_EXCEEDED") {
+          toast.error(
+            `Daily request limit reached (${rateLimitStatus.limits.requestsPerDay} requests). Resets in ${rateLimitStatus.reset?.formatted}.`,
+            {
+              position: "top-center",
+              richColors: true,
+              duration: 5000,
+              className:
+                "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
+            }
+          );
+        } else if (rateLimitStatus.reason === "CONVERSATION_LIMIT_EXCEEDED") {
+          toast.error(
+            `Conversation length limit reached (${rateLimitStatus.limits.conversationLength} messages). Please start a new conversation.`,
+            {
+              position: "top-center",
+              richColors: true,
+              duration: 5000,
+              className:
+                "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
+            }
+          );
+        }
+        setIsGenerating(false);
+        return;
+      }
+
+      // User is eligible, proceed with the message
       flush();
       handleReset();
 
@@ -132,6 +196,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
         },
       ]);
 
+      // Process the message
       const { id, display, generation } = await orchestrator(
         {
           textInput: value.length > 0 ? value : undefined,
@@ -152,70 +217,20 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
         }
       }
 
-      // Check rate limits before proceeding
-      /** DISABLED FOR NOW */
-      // const rateLimitStatus = await checkRateLimit(aiState);
+      // Record the successful request asynchronously
+      recordSuccessfulRequest(aiState).catch((error) => {
+        console.error("Failed to record successful request:", error);
+      });
 
-      // console.log(rateLimitStatus);
-
-      // setRateLimit(rateLimitStatus);
-
-      // if (rateLimitStatus.eligible) {
-      //   const { id, display, generation } = await orchestrator(
-      //     {
-      //       textInput: value.length > 0 ? value : undefined,
-      //       attachProduct: attachment,
-      //       productCompare: activeComparison,
-      //     },
-      //     { onRequest: { search, related } }
-      //   );
-
-      //   setUIState((prevUI) => [...prevUI, { id, display }]);
-
-      //   if (generation) {
-      //     const gens = readStreamableValue(
-      //       generation
-      //     ) as AsyncIterable<StreamGeneration>;
-      //     for await (const { loading } of gens) {
-      //       setIsGenerating(loading);
-      //     }
-      //   }
-      // } else {
-      //   /** Fallback to previous state */
-      //   setUIState((prevUI) => prevUI.slice(0, -1));
-
-      //   if (rateLimitStatus.reason === "RPD_LIMIT_EXCEEDED") {
-      //     toast.error(
-      //       `Daily request limit reached (${rateLimitStatus.limits.requestsPerDay} requests). Resets in ${rateLimitStatus.reset?.formatted}.`,
-      //       {
-      //         position: "top-center",
-      //         richColors: true,
-      //         duration: 5000,
-      //         className:
-      //           "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
-      //       }
-      //     );
-
-      //     setIsGenerating(false);
-
-      //     return;
-      //   } else if (rateLimitStatus.reason === "CONVERSATION_LIMIT_EXCEEDED") {
-      //     toast.error(
-      //       `Conversation length limit reached (${rateLimitStatus.limits.conversationLength} messages). Please start a new conversation.`,
-      //       {
-      //         position: "top-center",
-      //         richColors: true,
-      //         duration: 5000,
-      //         className:
-      //           "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
-      //       }
-      //     );
-
-      //     setIsGenerating(false);
-
-      //     return;
-      //   }
-      // }
+      // Update rate limit cache after successful request
+      setTimeout(async () => {
+        try {
+          const updatedStatus = await checkRateLimit(aiState);
+          setRateLimit(updatedStatus);
+        } catch (error) {
+          console.error("Failed to update rate limit status:", error);
+        }
+      }, 1000);
     } catch (error) {
       /** Fallback to previous state */
       setUIState((prevUI) => prevUI.slice(0, -1));
@@ -228,6 +243,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       });
     } finally {
       setIsGenerating(false);
+      setIsCheckingRateLimit(false);
     }
   }, [
     activeComparison,
@@ -235,12 +251,14 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     flush,
     handleReset,
     orchestrator,
+    rateLimit,
     reffSource,
     related,
     search,
     setIsGenerating,
     setUIState,
     value,
+    aiState,
   ]);
 
   const handleSubmit = useCallback(
@@ -420,7 +438,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                   <TooltipProvider>
                     <Tooltip delayDuration={100}>
                       <TooltipTrigger asChild>
-                        <SelectTrigger className="rounded-full text-xs space-x-2 *:hover:text-purple-500">
+                        <SelectTrigger className="border border-white/10 bg-transparent text-white shadow-sm rounded-full text-xs space-x-2 *:hover:text-purple-500">
                           <SelectValue
                             placeholder="Select source"
                             className="capitalize *:text-xs md:text-xs"
@@ -483,7 +501,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                 </Select>
               </div>
               <div className="flex items-center space-x-2">
-                {/* {rateLimit && <RateLimit data={rateLimit} />} */}
+                {rateLimit && <RateLimit data={rateLimit} />}
                 <TooltipProvider>
                   <Tooltip delayDuration={100}>
                     <TooltipTrigger asChild>

@@ -10,17 +10,15 @@ _🚨 URGENT NOTICE: This Developer Urgently Needs a Job ASAP! 🚨_
 
 ## Snapshots, See the App in action [Here](https://ac1wy0nbjb.ufs.sh/f/UTUjFq2sQuvaBc2SlHG6QdwImq0NPrCg3yuKpnjbJkeUxfZi)
 
-![Maven App Homepage](https://ac1wy0nbjb.ufs.sh/f/UTUjFq2sQuva7CdhElI9A1uXFG4JIPOx7lDBbtkMrg6cav0H)
+![Maven App Homepage](https://res.cloudinary.com/dberoyocy/image/upload/v1746708869/Maven-AI-Agentic-Data-Driven-Purchase-Decision-Rzky-05-08-2025_07_50_PM_gbdsbb.png)
 
-![Alt text](https://ac1wy0nbjb.ufs.sh/f/UTUjFq2sQuva9wx3Yjcth3THRd7vIGmVFgArlMuZfoKUic1E)
+![Maven - Empty Chat](https://res.cloudinary.com/dberoyocy/image/upload/v1746757592/dark-maven-empty-chat_m431xw.png)
 
-![Alt text](https://ac1wy0nbjb.ufs.sh/f/UTUjFq2sQuvaJh28GEJgKVZ2EkOdFoPYu5sf1hmDxz7erBA9)
+![Alt text](https://res.cloudinary.com/dberoyocy/image/upload/v1746757592/dark-maven-recommendations_k8zqwi.png)
 
-![Alt text](https://ac1wy0nbjb.ufs.sh/f/UTUjFq2sQuva3LeAwN0b9amcGQENDJXltVAUBCIdjoZ2ry0h)
+![Alt text](https://res.cloudinary.com/dberoyocy/image/upload/v1746757593/dark-maven-search-results_btdul2.png)
 
-![Alt text](https://ac1wy0nbjb.ufs.sh/f/UTUjFq2sQuvawT0I8hs7g7hw3ijMa0JnoRVLqet6Bm9A24KH)
-
-![Alt text](https://ac1wy0nbjb.ufs.sh/f/UTUjFq2sQuvas4UePbZ9gWZbjfYwIEpyK52zCarBJNOAunkL)
+![Alt text](https://res.cloudinary.com/dberoyocy/image/upload/v1746757592/dark-maven-details-result_t9shmn.png)
 
 ## Table of Contents
 
@@ -438,7 +436,7 @@ Contributions are welcome! Please follow these guidelines:
 
 ## 8. License <a name="license"></a>
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. (You'll need to create a LICENSE file).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 9. Troubleshooting <a name="troubleshooting"></a>
 

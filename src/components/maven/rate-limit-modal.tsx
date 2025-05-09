@@ -38,25 +38,36 @@ export const RateLimit: FC<RateLimitUIProps> = ({ data }) => {
   const isApproachingAnyLimit =
     isApproachingRequestLimit || isApproachingConversationLimit;
 
+  const getBackgroundProgressColor = (value: number): string => {
+    const thresholds: [number, string][] = [
+      [90, "#ef4444"], // Red for 90+ (highest priority)
+      [80, "#f59e0b"], // Orange for 80-89
+      [0, "#a855f7"], // Purple for <80 (default)
+    ];
+    return (
+      thresholds.find(([threshold]) => value >= threshold)?.[1] ?? "#a855f7"
+    );
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+      <DialogTrigger
+        asChild
+        className="*:font-[family-name:var(--font-satoshi)]"
+      >
         <Button
           variant="outline"
           className={cn(
-            "min-h-9 min-w-9 justify-center font-normal rounded-full text-xs px-1.5",
-            isApproachingAnyLimit &&
-              "bg-amber-50 text-amber-400 hover:bg-amber-100 hover:text-amber-800",
-            !data.eligible &&
-              "border-red-200 bg-red-50 text-red-700 hover:bg-red-100 hover:text-red-800"
+            "bg-transparent min-h-9 min-w-9 justify-center font-normal rounded-full text-xs px-0",
+            isApproachingAnyLimit && "text-amber-400 hover:text-amber-800",
+            !data.eligible && " text-red-700 hover:text-red-800"
           )}
         >
           <BarChart2 className="h-5 w-5 mx-2" />
-          <span>Usage</span>
           {!data.eligible && (
             <Badge
               variant="outline"
-              className="ml-1 py-0 h-6 rounded-full bg-red-100 text-red-700 border-red-200 text-[10px]"
+              className="hidden md:inline-flex -ml-3 pl-0 pr-3 py-0 border-none rounded-full text-red-700 text-[10px]"
             >
               Limited
             </Badge>
@@ -64,7 +75,7 @@ export const RateLimit: FC<RateLimitUIProps> = ({ data }) => {
           {isApproachingAnyLimit && data.eligible && (
             <Badge
               variant="outline"
-              className="py-0 h-6 rounded-full bg-amber-100 text-amber-700 border-amber-200 text-[10px]"
+              className="hidden md:inline-flex -ml-3 pl-0 pr-3 py-0 border-none h-6 rounded-full text-amber-700 text-[10px]"
             >
               {Math.min(data.remaining.requests, data.remaining.messages)} left
             </Badge>
@@ -72,7 +83,7 @@ export const RateLimit: FC<RateLimitUIProps> = ({ data }) => {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="max-w-md lg:max-w-lg">
+      <DialogContent className="rounded-xl md:rounded-3xl max-w-md lg:max-w-lg *:font-[family-name:var(--font-satoshi)]">
         <Card className="bg-background border-0 shadow-none pt-8">
           <CardHeader className="px-0 pt-0 pb-2">
             <div className="flex items-center justify-between">
@@ -118,11 +129,8 @@ export const RateLimit: FC<RateLimitUIProps> = ({ data }) => {
               </div>
               <Progress
                 value={requestsPercentage}
-                className={cn(
-                  "bg-purple-500 h-1",
-                  requestsPercentage > 80 && "bg-amber-500",
-                  requestsPercentage > 95 && "bg-red-500"
-                )}
+                className="h-1"
+                customColor={getBackgroundProgressColor(requestsPercentage)}
               />
               <div className="text-xs text-muted-foreground">
                 {data.remaining.requests} requests remaining today
@@ -141,11 +149,8 @@ export const RateLimit: FC<RateLimitUIProps> = ({ data }) => {
               </div>
               <Progress
                 value={conversationPercentage}
-                className={cn(
-                  "bg-purple-500 h-1",
-                  requestsPercentage > 80 && "bg-amber-500",
-                  requestsPercentage > 95 && "bg-red-500"
-                )}
+                className="h-1"
+                customColor={getBackgroundProgressColor(conversationPercentage)}
               />
               <div className="text-xs text-muted-foreground">
                 {data.remaining.messages} messages remaining in this
@@ -164,7 +169,7 @@ export const RateLimit: FC<RateLimitUIProps> = ({ data }) => {
             )}
 
             {data.current.isFirstTimeUser && (
-              <div className="rounded-md p-3 text-xs bg-white text-purple-700 border">
+              <div className="rounded-md p-3 text-xs bg-white text-purple-500 border">
                 <p className="font-medium mb-1">Welcome to our service!</p>
                 <p>
                   As a first-time user, you have {data.limits.requestsPerDay}{" "}
