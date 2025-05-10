@@ -139,7 +139,7 @@ export default async function TermsOfService() {
               Terms of Service
             </CardTitle>
             <CardDescription className="pb-5 text-xl font-[family-name:var(--font-khand)]">
-              Please read these terms carefully before using Market Maven, an
+              Please read these terms carefully before using Maven, an
               experimental AI-powered electronic product assistant.
             </CardDescription>
           </CardHeader>
@@ -150,10 +150,10 @@ export default async function TermsOfService() {
                   1. Introduction
                 </AccordionTrigger>
                 <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
-                  Welcome to Market Maven (&quot;App&quot;), a personal
-                  portfolio project demonstrating AI capabilities in electronic
-                  product analysis. This non-production sample application is
-                  open source (Apache 2.0 License) and available at{" "}
+                  Welcome to Maven (&quot;App&quot;), a personal portfolio
+                  project demonstrating AI capabilities in electronic product
+                  analysis. This non-production sample application is open
+                  source (Apache 2.0 License) and available at{" "}
                   <Link
                     href="https://github.com/rizzzky78/market-maven"
                     target="_blank"

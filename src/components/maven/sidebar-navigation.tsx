@@ -47,6 +47,7 @@ export const SidebarUserNavigation: FC = () => {
             <SidebarMenuButton
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground md:h-8 md:p-0"
+              data-testid="user-profile"
             >
               <Avatar className="h-8 w-8 rounded-lg hover:rounded-full">
                 <AvatarImage src={user.avatar} alt={user.name} />

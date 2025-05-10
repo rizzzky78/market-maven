@@ -44,7 +44,10 @@ export const Chat: FC<ChatProps> = ({ id, query, chats }) => {
     >
       <MavenSidebar userChats={chats} />
       <SidebarInset>
-        <header className="font-[family-name:var(--font-satoshi)] sticky top-0 flex shrink-0 items-center gap-2 bg-background/90 px-4 py-2 z-20">
+        <header
+          className="font-[family-name:var(--font-satoshi)] sticky top-0 flex shrink-0 items-center gap-2 bg-background/90 px-4 py-2 z-20"
+          data-testid="chat-header"
+        >
           <div className="flex justify-between w-full">
             <div className="flex items-center">
               <SidebarTrigger className="md:hidden" />
@@ -73,7 +76,10 @@ export const Chat: FC<ChatProps> = ({ id, query, chats }) => {
           </div>
         </header>
         <div className="flex flex-1 flex-col px-4">
-          <div className="px-2 sm:px-12 pt-12 md:pt-14 pb-14 md:pb-24 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4">
+          <div
+            className="px-2 sm:px-12 pt-12 md:pt-14 pb-14 md:pb-24 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4"
+            data-testid="chat-messages"
+          >
             <ChatMessages ui={uiMessage} />
           </div>
           <div className="sticky mx-0 w-full bottom-0">

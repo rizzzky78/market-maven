@@ -324,7 +324,10 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
   ];
 
   return (
-    <div className="w-full *:font-[family-name:var(--font-satoshi)]">
+    <div
+      className="w-full *:font-[family-name:var(--font-satoshi)]"
+      data-testid="chat-panel"
+    >
       <div className={`w-full flex justify-center z-20 bg-background`}>
         <div className="w-full md:px-0 lg:px-0 max-w-2xl flex flex-col pb-4 mb-0 rounded-t-3xl">
           {uiState.length === 0 && <QuickActionButton />}
@@ -377,6 +380,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                         )}
                         disabled={isGenerating}
                         onClick={() => setSearch(!search)}
+                        data-testid="search-button"
                       >
                         <Globe className="h-6 w-6 shrink-0" />
                         <span className="text-xs font-normal">Search</span>
@@ -411,6 +415,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                         )}
                         disabled={isGenerating}
                         onClick={() => setRelated(!related)}
+                        data-testid="related-button"
                       >
                         <ListEnd className="h-6 w-6 shrink-0 hover:text-purple-200" />{" "}
                         <span className="text-xs font-normal">Related</span>
@@ -438,7 +443,10 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                   <TooltipProvider>
                     <Tooltip delayDuration={100}>
                       <TooltipTrigger asChild>
-                        <SelectTrigger className="border border-white/10 bg-transparent text-white shadow-sm rounded-full text-xs space-x-2 *:hover:text-purple-500">
+                        <SelectTrigger
+                          className="border border-white/10 bg-transparent text-white shadow-sm rounded-full text-xs space-x-2 *:hover:text-purple-500"
+                          data-testid="source-select"
+                        >
                           <SelectValue
                             placeholder="Select source"
                             className="capitalize *:text-xs md:text-xs"
@@ -516,6 +524,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                         className="dark:text-white rounded-full bg-muted/10 dark:bg-muted hover:bg-purple-500/50 dark:hover:bg-purple-500/50"
                         type={"submit"}
                         disabled={isButtonDisabled}
+                        data-testid="send-button"
                       >
                         {isGenerating ? (
                           <Loader className="h-6 w-6 text-white animate-spin" />

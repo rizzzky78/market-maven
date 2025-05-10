@@ -1,6 +1,6 @@
 "use client";
 
-import { ComponentProps, FC, useEffect, useState } from "react";
+import { ComponentProps, FC, useEffect, useRef, useState } from "react";
 import {
   CodeXml,
   Hexagon,
@@ -8,6 +8,7 @@ import {
   Moon,
   PanelRightClose,
   Plus,
+  Proportions,
   Sparkles,
   Sun,
 } from "lucide-react";
@@ -37,6 +38,9 @@ import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { useUIState, useAIState } from "ai/rsc";
 import { useMavenStateController } from "../hooks/maven-state-controller";
 import { useRouter } from "next/navigation";
+import { Driver, driver, Config } from "driver.js";
+import "driver.js/dist/driver.css";
+import { tourSteps } from "@/lib/agents/constant/driver-js-app-guide";
 
 // Helper function to create teaser message
 const createTeaserMessage = (messages: MessageProperty[]) => {
@@ -66,6 +70,9 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
   const [, setUIState] = useUIState<typeof AI>();
   const [, setAIState] = useAIState<typeof AI>();
 
+  const [isTourActive, setIsTourActive] = useState(false);
+  const driverRef = useRef<Driver | null>(null);
+
   const router = useRouter();
 
   const handleNewChat = () => {
@@ -84,11 +91,46 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
     (chat) => chat.chatId !== "" && chat.title !== ""
   );
 
+  const startTour = () => {
+    if (isTourActive) return;
+
+    setIsTourActive(true);
+
+    // Configure Driver.js options
+    const driverOptions: Config = {
+      animate: true,
+      allowClose: true,
+      doneBtnText: "Finish",
+      nextBtnText: "Next >",
+      prevBtnText: "< Previous",
+      showProgress: true,
+      progressText: "Step {{current}} of {{total}}",
+      onDestroyed: () => {
+        setIsTourActive(false);
+      },
+      popoverClass: "font-[family-name:var(--font-satoshi)]",
+    };
+
+    // Initialize Driver.js
+    driverRef.current = driver(driverOptions);
+    driverRef.current.setSteps(tourSteps);
+    driverRef.current.drive();
+  };
+  // Clean up Driver.js instance when component unmounts
+  useEffect(() => {
+    return () => {
+      if (driverRef.current) {
+        driverRef.current.destroy();
+      }
+    };
+  }, []);
+
   return (
     <Sidebar
       collapsible="icon"
       className="overflow-hidden [&>[data-sidebar=sidebar]]:flex-row font-[family-name:var(--font-satoshi)]"
       {...props}
+      data-testid="sidebar-nav"
     >
       <Sidebar
         collapsible="none"
@@ -222,9 +264,10 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                       children: "New Chat",
                       hidden: false,
                     }}
-                    className="px-2.5 md:px-2 rounded-full mb-3"
+                    className="hover:text-purple-500 px-2.5 md:px-2 rounded-full mb-3"
                     onClick={handleNewChat}
                     disabled={isGenerating}
+                    data-testid="new-chat-button"
                   >
                     <Plus />
                     <span>New Chat</span>
@@ -236,8 +279,9 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                       children: "History",
                       hidden: false,
                     }}
-                    className="px-2.5 md:px-2 rounded-full"
+                    className="hover:text-purple-500 px-2.5 md:px-2 rounded-full"
                     onClick={() => toggleSidebar()}
+                    data-testid="history-button"
                   >
                     <History />
                     <span>History</span>
@@ -248,7 +292,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
           </SidebarGroup>
           <SidebarGroup className="px-0 md:hidden">
             <SidebarGroupContent className="px-2">
-              <ScrollArea className="h-[280px] pr-3">
+              <ScrollArea className="h-[340px] pr-3">
                 {filteredChats.length === 0 ? (
                   <div className="flex flex-col rounded-none items-start gap-2 whitespace-nowrap px-4 py-2 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
                     <div className="w-[230px] flex items-center justify-center">
@@ -281,8 +325,9 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                     children: "Toggle Sidebar",
                     hidden: false,
                   }}
-                  className="px-2.5 md:px-2 rounded-full"
+                  className="hover:text-purple-500 px-2.5 md:px-2 rounded-full"
                   onClick={() => toggleSidebar()}
+                  data-testid="toggle-sidebar"
                 >
                   <PanelRightClose />
                   <span>Toggle Sidebar</span>
@@ -298,13 +343,14 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                         : { rotate: resolvedTheme === "dark" ? 360 : 0 }
                     }
                     transition={{ duration: 0.5 }}
+                    data-testid="theme-toggle-button"
                   >
                     <SidebarMenuButton
                       tooltip={{
                         children: "Toggle Theme",
                         hidden: false,
                       }}
-                      className="px-2.5 md:px-2 rounded-full"
+                      className="hover:text-purple-500 px-2.5 md:px-2 rounded-full"
                       onClick={() =>
                         setTheme(resolvedTheme === "dark" ? "light" : "dark")
                       }
@@ -332,7 +378,8 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                       children: "Rate this App",
                       hidden: false,
                     }}
-                    className="px-2.5 md:px-2 rounded-full"
+                    className="hover:text-purple-500 px-2.5 md:px-2 rounded-full"
+                    data-testid="rate-app"
                   >
                     <Sparkles />
                     <span>Rate this App</span>
@@ -350,12 +397,29 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                       children: "View Dev Portfolio",
                       hidden: false,
                     }}
-                    className="px-2.5 md:px-2 rounded-full"
+                    className="hover:text-purple-500 px-2.5 md:px-2 rounded-full"
+                    data-testid="dev-portfolio"
                   >
                     <CodeXml />
                     <span>View Dev Portfolio</span>
                   </SidebarMenuButton>
                 </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem className="hidden md:block">
+                {/* This button should trigger interactive guide tour */}
+                <SidebarMenuButton
+                  tooltip={{
+                    children: "Start Interactive Tour",
+                    hidden: false,
+                  }}
+                  className="hover:text-purple-500 px-2.5 md:px-2 rounded-full"
+                  onClick={startTour}
+                  disabled={isTourActive}
+                  data-testid="start-tour-button"
+                >
+                  <Proportions />
+                  <span>Start Tour</span>
+                </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>

@@ -87,5 +87,9 @@ export const SharedContent: FC<SharedContentProps> = ({ type, data }) => {
     }
   };
 
-  return <div className="pb-[300px]">{renderContent()}</div>;
+  return (
+    <div className="pb-[300px] *:!font-[family-name:var(--font-satoshi)]">
+      {renderContent()}
+    </div>
+  );
 };

@@ -72,6 +72,7 @@ export const RateLimit: FC<RateLimitUIProps> = ({
             isApproachingAnyLimit && "text-amber-400 hover:text-amber-800",
             !data.eligible && " text-red-700 hover:text-red-800"
           )}
+          data-testid="rate-limit"
         >
           {isCheckingRateLimit ? (
             <LoaderCircle className="animate-spin h-5 w-5 mx-2" />

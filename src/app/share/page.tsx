@@ -105,7 +105,7 @@ export const generateMetadata = async ({
 }: SharePageProps): Promise<Metadata> => {
   const { type, "component-id": componentId } = await searchParams;
   const chatTitle = await generatePageTitle(type, componentId);
-  const title = `${chatTitle} | Maven AI`;
+  const title = `${chatTitle} | Shared Content - Maven AI`;
 
   return { title };
 };
@@ -143,6 +143,7 @@ export default async function SharePage({ searchParams }: SharePageProps) {
     validatedType,
     validatedComponentId
   );
+
   if (!contentData) {
     return <ShareNotFound />;
   }

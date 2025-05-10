@@ -221,7 +221,10 @@ export const QuickActionButton: FC = () => {
           </svg>
         </div>
       </div>
-      <div className="mb-2 mt-2 grid gap-2 grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
+      <div
+        className="mb-2 mt-2 grid gap-2 grid-cols-2 md:grid-cols-2 lg:grid-cols-2"
+        data-testid="quick-actions"
+      >
         {predefinedActions.map((actionItem, index) => (
           <motion.button
             key={index}

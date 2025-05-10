@@ -120,9 +120,9 @@ export default async function PrivacyPolicy() {
             </CardTitle>
             <CardDescription className="pb-5 text-xl font-[family-name:var(--font-khand)]">
               Effective Date: Feb 2025 <br />
-              This Privacy Policy explains how Market Maven (&quot;App&quot;)
-              collects, uses, and protects your data. By using this App, you
-              agree to the practices described below.
+              This Privacy Policy explains how Maven (&quot;App&quot;) collects,
+              uses, and protects your data. By using this App, you agree to the
+              practices described below.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 font-[family-name:var(--font-khand)]">
@@ -132,11 +132,10 @@ export default async function PrivacyPolicy() {
                   1. Scope and Purpose
                 </AccordionTrigger>
                 <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
-                  Market Maven is an experimental, open-source AI-powered
-                  electronic product assistant. This Privacy Policy applies to
-                  all data collected during your use of the App. The App is part
-                  of a developer portfolio and is not intended for production
-                  use.
+                  Maven is an experimental, open-source AI-powered electronic
+                  product assistant. This Privacy Policy applies to all data
+                  collected during your use of the App. The App is part of a
+                  developer portfolio and is not intended for production use.
                 </AccordionContent>
               </AccordionItem>
 

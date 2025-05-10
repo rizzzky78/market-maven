@@ -93,7 +93,7 @@ export const ShareButton: FC<ShareButtonProps> = ({
               <Button
                 variant={type === "public-chat" ? "ghost" : "outline"}
                 disabled={disabled}
-                className="rounded-full mr-2 size-8"
+                className="hover:text-purple-500 rounded-full mr-2 size-8"
               >
                 {type === "public-chat" ? (
                   <Share className="h-4 w-4" />
