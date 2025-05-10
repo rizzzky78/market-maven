@@ -119,6 +119,10 @@ const toolProductComparison = ({
         output: "no-schema",
       });
 
+      logger.info("Usage - Products Comparison - Step 1", {
+        usage: comparisonObjResult.usage,
+      });
+
       const comparisonData = comparisonObjResult.object as Record<string, any>;
 
       finalizedCompare.comparison = comparisonData;
@@ -153,7 +157,11 @@ const toolProductComparison = ({
         model: google("gemini-2.0-flash-lite"),
         system: await SYSTEM_INSTRUCTION.PRODUCT_COMPARE_INSIGHT,
         prompt: JSON.stringify(payloadComparisonInsight),
-        onFinish: async ({ text }) => {
+        onFinish: async ({ text, usage }) => {
+          logger.info("Usage - Products Comparison - Step 2", {
+            usage,
+          });
+
           finalizedText = text;
           streamableText.done();
           generation.done({
@@ -235,7 +243,11 @@ const toolProductComparison = ({
         system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
         prompt: payloadRelated,
         schema: relatedQuerySchema,
-        onFinish: async ({ object }) => {
+        onFinish: async ({ object, usage }) => {
+          logger.info("Usage - Products Comparison - Step 3", {
+            usage,
+          });
+
           if (object) {
             relatedObject = object;
           }

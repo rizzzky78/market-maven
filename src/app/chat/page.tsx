@@ -14,7 +14,7 @@ const loadChats = cache(async (userId: string) => {
 const Page: FC = async () => {
   const id = uuidv4();
   const session = await getServerSession();
-  const username = session?.user?.email || "anonymous";
+  const username = session?.user?.email || "anonymous@gmail.com";
 
   const chats = await loadChats(username);
 

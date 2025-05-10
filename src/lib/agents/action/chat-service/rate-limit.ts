@@ -150,7 +150,7 @@ export async function checkRateLimit(
     const cachedResponse = await getCachedRateLimit(userEmail, today);
     if (cachedResponse) {
       // Update conversation length in cached response
-      cachedResponse.current.conversationLength = filterUserMessage.length + 1;
+      cachedResponse.current.conversationLength = filterUserMessage.length;
       cachedResponse.remaining.messages =
         RATE_LIMIT_CONFIG.MAX_CONVERSATION_LENGTH -
         filterUserMessage.length +
@@ -158,8 +158,7 @@ export async function checkRateLimit(
 
       // Check conversation length limit
       if (
-        filterUserMessage.length + 1 >=
-        RATE_LIMIT_CONFIG.MAX_CONVERSATION_LENGTH
+        filterUserMessage.length >= RATE_LIMIT_CONFIG.MAX_CONVERSATION_LENGTH
       ) {
         cachedResponse.eligible = false;
         cachedResponse.reason = "CONVERSATION_LIMIT_EXCEEDED";
@@ -199,7 +198,7 @@ export async function checkRateLimit(
       },
       current: {
         requests: currentCount,
-        conversationLength: filterUserMessage.length + 1,
+        conversationLength: filterUserMessage.length,
         isFirstTimeUser: isFirstTimeUser,
       },
       remaining: {
@@ -216,10 +215,7 @@ export async function checkRateLimit(
     };
 
     // Check conversation length limit
-    if (
-      filterUserMessage.length + 1 >=
-      RATE_LIMIT_CONFIG.MAX_CONVERSATION_LENGTH
-    ) {
+    if (filterUserMessage.length >= RATE_LIMIT_CONFIG.MAX_CONVERSATION_LENGTH) {
       response.eligible = false;
       response.reason = "CONVERSATION_LIMIT_EXCEEDED";
     }
@@ -246,7 +242,7 @@ export async function checkRateLimit(
       },
       current: {
         requests: 0,
-        conversationLength: filterUserMessage.length + 1,
+        conversationLength: filterUserMessage.length,
         isFirstTimeUser: false,
       },
       remaining: {

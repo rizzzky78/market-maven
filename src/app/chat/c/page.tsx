@@ -25,7 +25,7 @@ export default async function Page(props: PageProps) {
 
   const id = v4();
   const session = await getServerSession();
-  const username = session?.user?.email || "anonymous";
+  const username = session?.user?.email || "anonymous@gmail.com";
 
   const chats = await loadChats(username);
 

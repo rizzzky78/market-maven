@@ -164,7 +164,9 @@ const toolGetProductDetails = ({
             model: google("gemini-2.0-flash-lite"),
             system: await SYSTEM_INSTRUCTION.PRODUCT_RESEARCHER,
             prompt: JSON.stringify({ query }),
-            onFinish: ({ text }) => {
+            onFinish: ({ text, usage }) => {
+              logger.info("Usage - Get Product Details - Step 1", { usage });
+
               finalizedObject.externalData.markdown = text;
               streamableResearch.done(text);
             },
@@ -207,7 +209,9 @@ const toolGetProductDetails = ({
           system: await SYSTEM_INSTRUCTION.PRODUCT_DETAILS_EXTRACTOR,
           prompt: payloadContent,
           output: "no-schema",
-          onFinish: async ({ object }) => {
+          onFinish: async ({ object, usage }) => {
+            logger.info("Usage - Search Product - Step 2", { usage });
+
             if (object) {
               finalizedObject.productDetails = object as Record<string, any>;
             }
@@ -262,7 +266,9 @@ const toolGetProductDetails = ({
           model: google("gemini-2.0-flash-lite"),
           system: await SYSTEM_INSTRUCTION.PRODUCT_DETAILS_INSIGHT,
           prompt: JSON.stringify(payloadInsight),
-          onFinish: async ({ text }) => {
+          onFinish: async ({ text, usage }) => {
+            logger.info("Usage - Search Product - Step 3", { usage });
+
             finalizedText = text;
 
             streamableText.done();
@@ -342,7 +348,9 @@ const toolGetProductDetails = ({
           system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
           prompt: payloadRelated,
           schema: relatedQuerySchema,
-          onFinish: async ({ object }) => {
+          onFinish: async ({ object, usage }) => {
+            logger.info("Usage - Search Product - Step 4", { usage });
+
             if (object) {
               relatedObject = object;
             }

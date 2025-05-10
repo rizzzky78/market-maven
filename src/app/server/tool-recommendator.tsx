@@ -91,7 +91,9 @@ const toolRecommendator = ({
         system: await SYSTEM_INSTRUCTION.RECOMMENDATOR_EXTRACTOR,
         prompt: JSON.stringify({ intent, scope }),
         schema: recommendationSchema,
-        onFinish: ({ object }) => {
+        onFinish: ({ object, usage }) => {
+          logger.info("Usage - Recommendator - Step 1", { usage });
+
           if (object) {
             finalizedRecommendator.recommendations = object.recommendations;
           }
@@ -134,7 +136,9 @@ const toolRecommendator = ({
         prompt: JSON.stringify({
           payload: finalizedRecommendator.recommendations,
         }),
-        onFinish: ({ text }) => {
+        onFinish: ({ text, usage }) => {
+          logger.info("Usage - Recommendator - Step 2", { usage });
+
           finalizedInsight = text;
           streamableInsight.done();
 
@@ -214,7 +218,9 @@ const toolRecommendator = ({
         system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
         prompt: payloadRelated,
         schema: relatedQuerySchema,
-        onFinish: async ({ object }) => {
+        onFinish: async ({ object, usage }) => {
+          logger.info("Usage - Recommendator - Step 3", { usage });
+
           if (object) {
             relatedObject = object;
           }

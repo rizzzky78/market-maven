@@ -54,7 +54,9 @@ const toolInquireUser = ({ generation, errorState, state }: ToolsetProps) => {
           system: await SYSTEM_INSTRUCTION.INQUIRY_CRAFTER,
           prompt: JSON.stringify(parse.data),
           schema: inquireUserSchema,
-
+          onFinish: ({ usage }) => {
+            logger.info("Usage - Inquire User - Step 1", { usage });
+          },
           onError: ({ error }) => {
             errorState = {
               isError: true,

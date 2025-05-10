@@ -141,7 +141,9 @@ const toolSearchProduct = ({
           system: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_EXTRACTOR,
           prompt: payload,
           schema: productsSchema,
-          onFinish: async ({ object }) => {
+          onFinish: async ({ object, usage }) => {
+            logger.info("Usage - Search Product - Step 1", { usage });
+
             if (object) {
               finalizedProductSearch.data = object.data;
             }
@@ -194,7 +196,9 @@ const toolSearchProduct = ({
           model: google("gemini-2.0-flash-lite"),
           system: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_INSIGHT,
           prompt: JSON.stringify(finalizedProductSearch.data),
-          onFinish: ({ text }) => {
+          onFinish: ({ text, usage }) => {
+            logger.info("Usage - Search Product - Step 2", { usage });
+
             finalizedText = text;
             streamableText.done();
 
@@ -275,7 +279,9 @@ const toolSearchProduct = ({
           system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
           prompt: payloadRelated,
           schema: relatedQuerySchema,
-          onFinish: async ({ object }) => {
+          onFinish: async ({ object, usage }) => {
+            logger.info("Usage - Search Product - Step 3", { usage });
+
             if (object) {
               relatedObject = object;
             }

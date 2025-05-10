@@ -187,7 +187,6 @@ const orchestrator = async (
         state,
         requestOption,
       }),
-      /** GAP */
       getProductDetails: toolGetProductDetails({
         generation,
         errorState,
@@ -195,7 +194,6 @@ const orchestrator = async (
         requestOption,
         userMessage: payloadUserMessage,
       }),
-      /** GAP */
       productsComparison: toolProductComparison({
         generation,
         errorState,
@@ -203,7 +201,6 @@ const orchestrator = async (
         requestOption,
         userMessage: payloadUserMessage,
       }),
-      /** GAP */
       inquireUser: toolInquireUser({ generation, errorState, state }),
     },
   });

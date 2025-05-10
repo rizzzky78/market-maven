@@ -501,7 +501,12 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                 </Select>
               </div>
               <div className="flex items-center space-x-2">
-                {rateLimit && <RateLimit data={rateLimit} />}
+                {rateLimit && (
+                  <RateLimit
+                    data={rateLimit}
+                    isCheckingRateLimit={isCheckingRateLimit}
+                  />
+                )}
                 <TooltipProvider>
                   <Tooltip delayDuration={100}>
                     <TooltipTrigger asChild>

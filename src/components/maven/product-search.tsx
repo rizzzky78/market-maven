@@ -147,7 +147,7 @@ export const ProductSearch: FC<ProductsProps> = ({
                 <div className="flex items-start">
                   <Info className="size-4 shrink-0 mr-1 text-purple-500 dark:text-purple-300" />
                   <p className="text-xs">
-                    MarketMaven is not affiliated with the relevant online
+                    Maven is not affiliated with the relevant online
                     marketplace, the displayed results may not match the
                     user&apos;s intent.
                   </p>
@@ -287,7 +287,7 @@ export const StreamProductSearch: FC<StreamProps> = ({
                 <div className="flex items-start">
                   <Info className="size-4 shrink-0 mr-1 text-purple-500 dark:text-purple-300" />
                   <p className="text-xs">
-                    MarketMaven is not affiliated with the relevant online
+                    Maven is not affiliated with the relevant online
                     marketplace, the displayed results may not match the
                     user&apos;s intent.
                   </p>

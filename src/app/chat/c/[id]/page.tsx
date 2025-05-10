@@ -4,6 +4,7 @@ import { getChat, getChats } from "@/lib/agents/action/chat-service";
 import { cache } from "react";
 import { AI } from "@/app/action";
 import { Chat } from "@/components/maven/main-chat";
+import { Metadata } from "next";
 
 export const maxDuration = 60;
 
@@ -15,13 +16,16 @@ const loadChats = cache(async (userId: string) => {
   return await getChats(userId);
 });
 
-export const generateMetadata = async (props: ChatPageProps) => {
+export const generateMetadata = async (
+  props: ChatPageProps
+): Promise<Metadata> => {
   const params = await props.params;
   const { id } = params;
 
   const chat = await getChat(id);
+  const pageTitle = `${chat?.title.toString()} | Maven AI`;
   return {
-    title: chat?.title.toString().slice(0, 50) || "Maven Search",
+    title: pageTitle || "Maven Research",
   };
 };
 
@@ -30,7 +34,7 @@ export default async function ChatPage(props: ChatPageProps) {
   const { id } = params;
 
   const session = await getServerSession();
-  const username = session?.user?.email || "anonymous";
+  const username = session?.user?.email || "anonymous@gmail.com";
   const chats = await loadChats(username);
 
   const chat = await getChat(id);

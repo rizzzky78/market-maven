@@ -13,15 +13,25 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Clock, AlertCircle, CheckCircle2, BarChart2 } from "lucide-react";
+import {
+  Clock,
+  AlertCircle,
+  CheckCircle2,
+  BarChart2,
+  LoaderCircle,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { RateLimitResponse } from "@/lib/types/ai";
 
 interface RateLimitUIProps {
   data: RateLimitResponse;
+  isCheckingRateLimit: boolean;
 }
 
-export const RateLimit: FC<RateLimitUIProps> = ({ data }) => {
+export const RateLimit: FC<RateLimitUIProps> = ({
+  data,
+  isCheckingRateLimit,
+}) => {
   const [open, setOpen] = useState(false);
 
   // Calculate percentages for progress bars
@@ -38,12 +48,12 @@ export const RateLimit: FC<RateLimitUIProps> = ({ data }) => {
   const isApproachingAnyLimit =
     isApproachingRequestLimit || isApproachingConversationLimit;
 
-  const getBackgroundProgressColor = (value: number): string => {
-    const thresholds: [number, string][] = [
+  const getBackgroundProgressColor = (value: number) => {
+    const thresholds = [
       [90, "#ef4444"], // Red for 90+ (highest priority)
       [80, "#f59e0b"], // Orange for 80-89
       [0, "#a855f7"], // Purple for <80 (default)
-    ];
+    ] as const;
     return (
       thresholds.find(([threshold]) => value >= threshold)?.[1] ?? "#a855f7"
     );
@@ -58,12 +68,16 @@ export const RateLimit: FC<RateLimitUIProps> = ({ data }) => {
         <Button
           variant="outline"
           className={cn(
-            "bg-transparent min-h-9 min-w-9 justify-center font-normal rounded-full text-xs px-0",
+            "border-white/10 hover:bg-transparent hover:text-purple-500 text-white bg-transparent min-h-9 min-w-9 justify-center font-normal rounded-full text-xs px-0",
             isApproachingAnyLimit && "text-amber-400 hover:text-amber-800",
             !data.eligible && " text-red-700 hover:text-red-800"
           )}
         >
-          <BarChart2 className="h-5 w-5 mx-2" />
+          {isCheckingRateLimit ? (
+            <LoaderCircle className="animate-spin h-5 w-5 mx-2" />
+          ) : (
+            <BarChart2 className="h-5 w-5 mx-2" />
+          )}
           {!data.eligible && (
             <Badge
               variant="outline"
@@ -109,7 +123,7 @@ export const RateLimit: FC<RateLimitUIProps> = ({ data }) => {
             <CardDescription className="text-xs text-muted-foreground">
               {!data.eligible &&
                 data.reason === "RPD_LIMIT_EXCEEDED" &&
-                "You've reached your daily request limit. Try again tomorrow or upgrade your plan."}
+                "You've reached your daily request limit. Try again tomorrow or wait until limit resets."}
               {!data.eligible &&
                 data.reason === "CONVERSATION_LIMIT_EXCEEDED" &&
                 "This conversation has reached the maximum length. Please start a new conversation."}
