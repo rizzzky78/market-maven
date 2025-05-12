@@ -111,9 +111,9 @@ const VideoShowcase = () => {
         {showcaseData.map((snapshot, index) => (
           <section
             key={index}
-            className="w-full flex flex-col space-y-[30px] lg:flex-row justify-between"
+            className="w-full flex flex-col space-y-[30px] lg:flex-row justify-between items-start"
           >
-            <div className="w-fit lg:w-[500px] flex flex-col pr-6">
+            <div className="pt-[40px] w-fit lg:w-[500px] flex flex-col pr-6">
               <h2 className="mb-4 font-[family-name:var(--font-array)] text-purple-500 text-4xl tracking-wider">
                 {snapshot.title}
               </h2>
