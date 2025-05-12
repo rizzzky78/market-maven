@@ -20,6 +20,7 @@ import {
   UserCircle,
 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export function LandingPage() {
   return (
@@ -237,10 +238,6 @@ export function LandingPage() {
             <p className="font-[family-name:var(--font-khand)] text-lg lg:text-2xl text-muted-foreground max-w-2xl mx-auto">
               Discover how Maven is transforming product research for users
               worldwide.
-              <br />
-              <span className="text-purple-400">
-                Note: This section are still under construction
-              </span>
             </p>
           </motion.div>
 
@@ -330,9 +327,11 @@ export function LandingPage() {
                   size="lg"
                   className="font-[family-name:var(--font-array)] font-medium text-2xl p-[30px] rounded-full hover:bg-purple-500 hover:text-white/90"
                 >
-                  <div className="flex items-center justify-center">
-                    <span>Get Started</span>
-                  </div>
+                  <Link href={"/register"}>
+                    <div className="flex items-center justify-center">
+                      <span>Get Started</span>
+                    </div>
+                  </Link>
                 </Button>
               </MagneticWrapper>
             </motion.div>

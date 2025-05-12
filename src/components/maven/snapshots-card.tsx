@@ -13,38 +13,32 @@ const projects = [
   {
     title: "App Chat Homepage",
     color: "#1A1A1D",
-    src: "/snapshots/app-chat-home.png",
+    src: "https://res.cloudinary.com/dberoyocy/image/upload/v1746757592/dark-maven-empty-chat_m431xw.png",
     blur: "/snapshots/blur/app-chat-home.webp",
   },
   {
     title: "Agentic - Recommendator",
     color: "#AA60C8",
-    src: "/snapshots/app-chat-0.png",
+    src: "https://res.cloudinary.com/dberoyocy/image/upload/v1746757592/dark-maven-recommendations_k8zqwi.png",
     blur: "/snapshots/blur/app-chat-0.webp",
   },
   {
     title: "Agentic - Search Product",
     color: "#1A1A1D",
-    src: "/snapshots/app-chat-1.png",
+    src: "https://res.cloudinary.com/dberoyocy/image/upload/v1746757593/dark-maven-search-results_btdul2.png",
     blur: "/snapshots/blur/app-chat-1.webp",
   },
   {
     title: "Agentic - Get Product Details",
     color: "#AA60C8",
-    src: "/snapshots/app-chat-2.png",
+    src: "https://res.cloudinary.com/dberoyocy/image/upload/v1746757592/dark-maven-details-result_t9shmn.png",
     blur: "/snapshots/blur/app-chat-2.webp",
   },
   {
     title: "Agentic - Products Comparison",
     color: "#1A1A1D",
-    src: "/snapshots/app-chat-3.png",
+    src: "https://res.cloudinary.com/dberoyocy/image/upload/v1747033967/dark-maven-comparison_qvottq.png",
     blur: "/snapshots/blur/app-chat-3.webp",
-  },
-  {
-    title: "Agentic - Comparison Insight",
-    color: "#AA60C8",
-    src: "/snapshots/app-chat-4.png",
-    blur: "/snapshots/blur/app-chat-4.webp",
   },
 ];
 
