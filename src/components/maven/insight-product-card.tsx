@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -24,9 +24,11 @@ import { Separator } from "@/components/ui/separator";
 import { ShareButton } from "./share-button";
 import { Button } from "@/components/ui/button";
 import type { DataSourceInsight } from "@/lib/types/subtools";
+import { InsightProductCardSkeleton } from "./insight-product-card-skeleton";
 
 interface DynamicProductRendererProps {
   data: DataSourceInsight;
+  loading?: boolean;
 }
 
 // Helper function to extract YouTube video ID from URL
@@ -62,10 +64,9 @@ const itemVariants = {
 };
 
 const headerVariants = {
-  hidden: { opacity: 0, scale: 0.95 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    scale: 1,
     transition: {
       duration: 0.6,
       ease: "easeOut",
@@ -116,11 +117,23 @@ const storeItemVariants = {
   },
 };
 
-export function InsightProductCard({ data }: DynamicProductRendererProps) {
+export function InsightProductCard({
+  data,
+  loading,
+}: DynamicProductRendererProps) {
   const [selectedVideoIndex, setSelectedVideoIndex] = useState(0);
   const [open, setOpen] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   const product = data.data;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || loading) {
+    return <InsightProductCardSkeleton />;
+  }
 
   return (
     <motion.div
