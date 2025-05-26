@@ -36,33 +36,28 @@ import logger from "@/lib/utility/logger";
 import { processURLQuery } from "@/lib/utils";
 import { google } from "@ai-sdk/google";
 import { DeepPartial, generateObject, streamObject, streamText } from "ai";
-import { createStreamableValue } from "ai/rsc";
+import { createStreamableUI, createStreamableValue } from "ai/rsc";
 import { v4 } from "uuid";
 import { z } from "zod";
-import { queryValidator } from "./subtools/query-validator";
-import { queryEnhancer } from "./subtools/query-enhancer";
-import {
-  QueryValidation,
-  QueryValidationSkeleton,
-} from "@/components/maven/query-validation";
-import {
-  QueryEnhancement,
-  QueryEnhancementSkeleton,
-} from "@/components/maven/query-enhancement";
 
-const toolSearchProduct = ({
+interface ExperimentalToolSearchProductProps extends ToolsetProps {
+  ui: ReturnType<typeof createStreamableUI>;
+}
+
+const experimental_toolSearchProduct = ({
   generation,
   errorState,
   state,
   requestOption,
-}: ToolsetProps) => {
+  ui,
+}: ExperimentalToolSearchProductProps) => {
   const searchProduct: RenderTool<typeof searchProductSchema> = {
     description: TEMPLATE.search_product_description,
     parameters: searchProductSchema,
     generate: async function* ({ query }) {
-      const toolRequestId = v4();
+      ui.update(<LoadingText text={`Searching for ${query}`} />);
 
-      yield <LoadingText text={`Searching for ${query}`} />;
+      const toolRequestId = v4();
 
       logger.info("Using searchProduct tool", {
         progress: "initial",
@@ -74,91 +69,9 @@ const toolSearchProduct = ({
         loading: true,
       });
 
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
 
-      yield <LoadingText text="Validating user query..." />;
-
-      yield <QueryValidationSkeleton />;
-
-      const validatedResult = await queryValidator({ query });
-
-      if (!validatedResult.ok || !validatedResult.data) {
-        errorState = {
-          isError: true,
-          error: validatedResult.error,
-        };
-
-        generation.done({
-          process: "fatal_error",
-          loading: false,
-          error: "LLM Generation Error",
-        });
-
-        return (
-          <ErrorMessage
-            errorName="LLM Error"
-            reason="There was an error on LLMs Agent query validation, that's all we know :("
-            raw={{
-              payload: { query },
-              error: errorState,
-            }}
-          />
-        );
-      }
-
-      logger.info("[ QV ]", {
-        payload: query,
-        result: validatedResult,
-      });
-
-      const queryValidationUI = (
-        <QueryValidation
-          data={validatedResult.data}
-          usage={validatedResult.usage}
-        />
-      );
-
-      yield (
-        <>
-          {queryValidationUI}
-          <QueryEnhancementSkeleton />
-        </>
-      );
-
-      const enhancedQuery = await queryEnhancer({ query });
-
-      logger.info("[ QE ]", {
-        payload: query,
-        result: enhancedQuery,
-      });
-
-      /**
-       * Node UI for both:
-       * - Query Validation
-       * - Query Enhancement
-       */
-      const queryVEUI = (
-        <>
-          {queryValidationUI}
-          <QueryEnhancement
-            data={enhancedQuery.data}
-            usage={enhancedQuery.usage}
-          />
-        </>
-      );
-
-      yield queryVEUI;
-
-      yield (
-        <>
-          {queryVEUI}
-          <LoadingText text={`Perform scrape operation...`} />
-        </>
-      );
-
-      /**
-       * Reference Source Switcher
-       */
+      ui.update(<LoadingText text={`Perform scrape operation...`} />);
 
       const {
         cached,
@@ -175,13 +88,10 @@ const toolSearchProduct = ({
       );
 
       if (cached) {
-        yield (
-          <>
-            {queryVEUI}
-            <LoadingText
-              text={`The query is cached!. Proceed to do data extraction`}
-            />
-          </>
+        ui.update(
+          <LoadingText
+            text={`The query is cached!. Proceed to do data extraction`}
+          />
         );
 
         await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -197,12 +107,7 @@ const toolSearchProduct = ({
           loading: true,
         });
 
-        yield (
-          <>
-            {queryVEUI}
-            <LoadingText text="Found products..." />
-          </>
-        );
+        ui.update(<LoadingText text="Found products..." />);
 
         const finalizedProductSearch: ProductsResponse = {
           callId: toolRequestId,
@@ -218,12 +123,7 @@ const toolSearchProduct = ({
           markdown: scrapeContent.markdown,
         });
 
-        yield (
-          <>
-            {queryVEUI}
-            <LoadingText text="Proceed to data extraction..." />
-          </>
-        );
+        ui.update(<LoadingText text="Proceed to data extraction..." />);
 
         const payload = JSON.stringify({
           objective: TEMPLATE.gpd_extraction_objective,
@@ -233,16 +133,13 @@ const toolSearchProduct = ({
         const streamableProducts =
           createStreamableValue<DeepPartial<Product[]>>();
 
-        yield (
-          <>
-            {queryVEUI}
-            <StreamProductSearch
-              query={query}
-              callId={finalizedProductSearch.callId}
-              screenshot={scrapeContent.screenshot}
-              products={streamableProducts.value}
-            />
-          </>
+        ui.update(
+          <StreamProductSearch
+            query={query}
+            callId={finalizedProductSearch.callId}
+            screenshot={scrapeContent.screenshot}
+            products={streamableProducts.value}
+          />
         );
 
         const { partialObjectStream } = streamObject({
@@ -284,9 +181,8 @@ const toolSearchProduct = ({
 
         const streamableText = createStreamableValue<string>("");
 
-        yield (
+        ui.update(
           <>
-            {queryVEUI}
             <ProductSearch
               content={{
                 success: true,
@@ -331,22 +227,6 @@ const toolSearchProduct = ({
           streamableText.update(finalizedText);
         }
 
-        const searchProductUiNode = (
-          <>
-            {queryVEUI}
-            <ProductSearch
-              content={{
-                success: true,
-                name: "searchProduct",
-                args: { query },
-                data: finalizedProductSearch,
-              }}
-              isFinished={true}
-            />
-            <AssistantMessage content={finalizedText} />
-          </>
-        );
-
         const { toolResult, mutate } = mutateTool(state, {
           name: "searchProduct",
           args: { query },
@@ -373,12 +253,7 @@ const toolSearchProduct = ({
         const streamableRelated = createStreamableValue<PartialRelated>();
 
         if (requestOption?.onRequest?.related) {
-          yield (
-            <>
-              {searchProductUiNode}
-              <StreamRelatedMessage content={streamableRelated.value} />
-            </>
-          );
+          ui.append(<StreamRelatedMessage content={streamableRelated.value} />);
         }
 
         const payloadRelated = JSON.stringify(
@@ -418,7 +293,7 @@ const toolSearchProduct = ({
             error: "LLM Generation Error",
           });
 
-          return (
+          ui.update(
             <ErrorMessage
               errorName="LLM Error"
               reason="There was an error on LLMs Agent generation, that's all we know :("
@@ -430,14 +305,13 @@ const toolSearchProduct = ({
           );
         }
 
-        return (
-          <>
-            {searchProductUiNode}
-            {requestOption?.onRequest?.related && (
-              <RelatedMessage related={relatedObject} />
-            )}
-          </>
-        );
+        if (requestOption?.onRequest?.related) {
+          ui.append(<RelatedMessage related={relatedObject} />);
+        }
+
+        ui.done();
+
+        return ui.value;
       } else if (!scrapeContent.success) {
         generation.done({
           process: "api_error",
@@ -445,7 +319,7 @@ const toolSearchProduct = ({
           error: scrapeContent.message,
         });
 
-        return (
+        ui.done(
           <ErrorMessage
             errorName="Scrape Operation Failed"
             reason="There was an error while scrapping the content from the firecrawl service."
@@ -456,6 +330,8 @@ const toolSearchProduct = ({
             }}
           />
         );
+
+        return ui.value;
       }
     },
   };
@@ -463,4 +339,4 @@ const toolSearchProduct = ({
   return searchProduct;
 };
 
-export { toolSearchProduct };
+export { experimental_toolSearchProduct };

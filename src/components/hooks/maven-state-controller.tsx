@@ -316,6 +316,7 @@ export const useMavenStateController = create<MavenStateController>()(
           attachment: state.attachment,
           comparison: state.comparison,
           activeComparison: state.activeComparison,
+          reffSource: state.reffSource,
         }),
       }
     ),
