@@ -1,4 +1,4 @@
-// --- Inferred Response Types ---
+// --- Inferred Response Types for Serper API ---
 
 /**
  * Common base structure for a single search result item.

@@ -6,25 +6,15 @@ import {
   SerperNewsSearchResponse,
   SerperShoppingSearchResponse,
 } from "@/lib/types/serper";
-
-// Base schema for common parameters
-const baseSearchSchema = z.object({
-  q: z.string().describe("Search query"),
-  gl: z
-    .string()
-    .optional()
-    .describe('Country code for geolocation (e.g., "us", "uk")'),
-  hl: z.string().optional().describe('Language code (e.g., "en", "es")'),
-  num: z
-    .number()
-    .min(1)
-    .max(100)
-    .optional()
-    .describe("Number of results (1-100)"),
-  page: z.number().min(1).optional().describe("Page number for pagination"),
-  autocorrect: z.boolean().optional().describe("Enable/disable autocorrect"),
-  safe: z.enum(["active", "off"]).optional().describe("Safe search setting"),
-});
+import { getEnv } from "@/lib/utility/get-env";
+import {
+  baseSearchSchema,
+  imageSearchSchema,
+  newsSearchSchema,
+  shoppingSearchSchema,
+  videoSearchSchema,
+  webSearchSchema,
+} from "@/lib/agents/schema/serper-api";
 
 // Web Search Function
 export async function webSearch({
@@ -42,13 +32,7 @@ export async function webSearch({
   tbs?: string;
   filter?: string;
 }): Promise<SerperWebSearchResponse> {
-  // Added return type
-  const schema = baseSearchSchema.extend({
-    type: z.literal("search").optional().describe("Search type"),
-    tbs: z.string().optional().describe("Time-based search filters"),
-    filter: z.string().optional().describe("Additional filters"),
-  });
-  const params = schema.parse({
+  const params = webSearchSchema.parse({
     q,
     gl,
     hl,
@@ -77,7 +61,7 @@ export async function webSearch({
   const response = await fetch("https://google.serper.dev/search", {
     method: "POST",
     headers: {
-      "X-API-KEY": process.env.SERPER_API_KEY!,
+      "X-API-KEY": getEnv("SERPER_API_KEY"),
       "Content-Type": "application/json",
     },
     body: JSON.stringify(Object.fromEntries(urlParams)),
@@ -120,44 +104,7 @@ export async function imagesSearch({
     | "black"
     | "brown";
 }): Promise<SerperImagesSearchResponse> {
-  // Added return type
-  const schema = baseSearchSchema.extend({
-    type: z.literal("images").optional().describe("Search type"),
-    tbs: z
-      .string()
-      .optional()
-      .describe("Image filters (size, color, type, etc.)"),
-    imgSize: z
-      .enum(["small", "medium", "large", "xlarge"])
-      .optional()
-      .describe("Image size filter"),
-    imgType: z
-      .enum(["face", "photo", "clipart", "lineart"])
-      .optional()
-      .describe("Image type filter"),
-    imgColorType: z
-      .enum(["color", "gray", "mono"])
-      .optional()
-      .describe("Image color type"),
-    imgDominantColor: z
-      .enum([
-        "red",
-        "orange",
-        "yellow",
-        "green",
-        "teal",
-        "blue",
-        "purple",
-        "pink",
-        "white",
-        "gray",
-        "black",
-        "brown",
-      ])
-      .optional()
-      .describe("Dominant color filter"),
-  });
-  const params = schema.parse({
+  const params = imageSearchSchema.parse({
     q,
     gl,
     hl,
@@ -194,7 +141,7 @@ export async function imagesSearch({
   const response = await fetch("https://google.serper.dev/images", {
     method: "POST",
     headers: {
-      "X-API-KEY": process.env.SERPER_API_KEY!,
+      "X-API-KEY": getEnv("SERPER_API_KEY"),
       "Content-Type": "application/json",
     },
     body: JSON.stringify(Object.fromEntries(urlParams)),
@@ -218,14 +165,17 @@ export async function videosSearch({
   tbs?: string;
 }): Promise<SerperVideosSearchResponse> {
   // Added return type
-  const schema = baseSearchSchema.extend({
-    type: z.literal("videos").optional().describe("Search type"),
-    tbs: z
-      .string()
-      .optional()
-      .describe("Video filters (duration, quality, source, etc.)"),
+
+  const params = videoSearchSchema.parse({
+    q,
+    gl,
+    hl,
+    num,
+    page,
+    autocorrect,
+    safe,
+    tbs,
   });
-  const params = schema.parse({ q, gl, hl, num, page, autocorrect, safe, tbs });
 
   const urlParams = new URLSearchParams({
     q: params.q,
@@ -243,7 +193,7 @@ export async function videosSearch({
   const response = await fetch("https://google.serper.dev/videos", {
     method: "POST",
     headers: {
-      "X-API-KEY": process.env.SERPER_API_KEY!,
+      "X-API-KEY": getEnv("SERPER_API_KEY"),
       "Content-Type": "application/json",
     },
     body: JSON.stringify(Object.fromEntries(urlParams)),
@@ -269,12 +219,8 @@ export async function newsSearch({
   tbm?: "nws";
 }): Promise<SerperNewsSearchResponse> {
   // Added return type
-  const schema = baseSearchSchema.extend({
-    type: z.literal("news").optional().describe("Search type"),
-    tbs: z.string().optional().describe("Time-based news filters"),
-    tbm: z.literal("nws").optional().describe("News search mode"),
-  });
-  const params = schema.parse({
+
+  const params = newsSearchSchema.parse({
     q,
     gl,
     hl,
@@ -303,7 +249,7 @@ export async function newsSearch({
   const response = await fetch("https://google.serper.dev/news", {
     method: "POST",
     headers: {
-      "X-API-KEY": process.env.SERPER_API_KEY!,
+      "X-API-KEY": getEnv("SERPER_API_KEY"),
       "Content-Type": "application/json",
     },
     body: JSON.stringify(Object.fromEntries(urlParams)),
@@ -329,18 +275,8 @@ export async function shoppingSearch({
   location?: string;
 }): Promise<SerperShoppingSearchResponse> {
   // Added return type
-  const schema = baseSearchSchema.extend({
-    type: z.literal("shopping").optional().describe("Search type"),
-    tbs: z
-      .string()
-      .optional()
-      .describe("Shopping filters (price, rating, etc.)"),
-    location: z
-      .string()
-      .optional()
-      .describe("Location for local shopping results"),
-  });
-  const params = schema.parse({
+
+  const params = shoppingSearchSchema.parse({
     q,
     gl,
     hl,
@@ -369,7 +305,7 @@ export async function shoppingSearch({
   const response = await fetch("https://google.serper.dev/shopping", {
     method: "POST",
     headers: {
-      "X-API-KEY": process.env.SERPER_API_KEY!,
+      "X-API-KEY": getEnv("SERPER_API_KEY"),
       "Content-Type": "application/json",
     },
     body: JSON.stringify(Object.fromEntries(urlParams)),
