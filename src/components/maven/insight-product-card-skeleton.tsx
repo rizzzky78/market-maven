@@ -16,6 +16,7 @@ export function InsightProductCardSkeleton() {
               <Skeleton className="h-4 w-[90px]" />
               <Skeleton className="h-5 w-[150px]" />
             </div>
+            <Skeleton className="mt-8 h-8 w-[150px] rounded-full" />
           </div>
           <div className="h-full max-w-sm flex items-center">
             <div className="flex flex-col px-2 md:px-4">
@@ -29,8 +30,8 @@ export function InsightProductCardSkeleton() {
             <div className="flex items-start space-x-2">
               <Info className="size-4 shrink-0 text-purple-500 dark:text-purple-300" />
               <div className="w-full flex flex-col space-y-2">
-                <Skeleton className="w-[500px] h-4" />
-                <Skeleton className="w-[300px] h-4" />
+                <Skeleton className="w-[340px] lg:w-[500px] h-4" />
+                <Skeleton className="w-[260px] lg:w-[300px] h-4" />
               </div>
             </div>
             <Button

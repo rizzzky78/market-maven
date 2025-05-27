@@ -401,7 +401,8 @@ export type BaseProduct = {
   /** Product name or description */
   title: string;
   /** URL or reference link for the product */
-  link: string;
+  link?: string;
+  source: "global" | "tokopedia";
 };
 
 /**

@@ -5,7 +5,7 @@ import { queryEnhancerSchema } from "../agents/schema/st-query-enhancer";
 import { dataSourceInsightSchema } from "../agents/schema/ds-insight";
 import { dataSourceTokopediaSchema } from "../agents/schema/ds-tokopedia";
 
-export type UnifiedSubToolResult<T> = {
+export type UnifiedSubToolResult<T, M = any> = {
   ok: boolean;
   usage?: LanguageModelUsage;
   processingTime?: number;
@@ -13,6 +13,7 @@ export type UnifiedSubToolResult<T> = {
   error?: string;
   cached?: boolean;
   data: T;
+  metadata?: M;
 };
 
 /**

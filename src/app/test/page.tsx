@@ -272,7 +272,7 @@ So, while both involve "Gemini Pro" models, they are for different use cases and
   return (
     <main className="container mx-auto py-10 max-w-3xl px-2 sm:px-12">
       <InsightProductCard data={productData} />
-      <InsightProductCardSkeleton />
+      {/* <InsightProductCardSkeleton /> */}
       <AssistantMessage content={content} />
     </main>
   );

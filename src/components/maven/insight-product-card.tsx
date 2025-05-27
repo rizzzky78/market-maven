@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -25,11 +25,15 @@ import { ShareButton } from "./share-button";
 import { Button } from "@/components/ui/button";
 import type { DataSourceInsight } from "@/lib/types/subtools";
 import { InsightProductCardSkeleton } from "./insight-product-card-skeleton";
-
-interface DynamicProductRendererProps {
-  data: DataSourceInsight;
-  loading?: boolean;
-}
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  TooltipProvider,
+} from "../ui/tooltip";
+import { useMavenStateController } from "../hooks/maven-state-controller";
+import { generateId } from "ai";
+import { useAppState } from "@/lib/utility/provider/app-state-provider";
 
 // Helper function to extract YouTube video ID from URL
 const getYouTubeVideoId = (url: string): string | null => {
@@ -117,15 +121,36 @@ const storeItemVariants = {
   },
 };
 
-export function InsightProductCard({
+interface InsightProductCardProps {
+  data: DataSourceInsight;
+  loading?: boolean;
+  isSharedContent?: boolean;
+}
+
+export const InsightProductCard: FC<InsightProductCardProps> = ({
   data,
   loading,
-}: DynamicProductRendererProps) {
+  isSharedContent,
+}) => {
   const [selectedVideoIndex, setSelectedVideoIndex] = useState(0);
   const [open, setOpen] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const { isGenerating } = useAppState();
+
+  const { attach, detach, activeComparison } = useMavenStateController();
 
   const product = data.data;
+
+  const handleAttach = () => {
+    detach();
+    attach({
+      product: {
+        id: generateId(),
+        title: product.title ?? "error-no-title",
+        source: "global",
+      },
+    });
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -134,6 +159,12 @@ export function InsightProductCard({
   if (!mounted || loading) {
     return <InsightProductCardSkeleton />;
   }
+
+  const comparisonState = activeComparison
+    ? activeComparison.for.length > 0
+    : false;
+
+  const isButtonDisabled = isGenerating || comparisonState;
 
   return (
     <motion.div
@@ -153,7 +184,7 @@ export function InsightProductCard({
                 href={"https://serper.dev/"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-400"
+                className="text-blue-400 hover:text-blue-600"
               >
                 Serper
               </Link>
@@ -162,34 +193,61 @@ export function InsightProductCard({
         </motion.div>
 
         <motion.div
-          className="w-full border-[#1A1A1D] dark:border-inherit border rounded-[2rem] px-4 py-2"
+          className="w-full border-inherit border rounded-[2rem] px-4 py-2"
           variants={headerVariants}
         >
-          <div className="pt-4 md:pt-6 flex flex-row justify-between h-full items-start">
+          <div className="md:pt-6 flex space-y-6 md:space-y-0 flex-col-reverse md:flex-row justify-between lg:min-h-[360px] items-start">
             <motion.div
-              className="pl-2 md:pl-4 flex flex-col justify-between h-full max-w-sm"
+              className="pl-2 md:pl-4 flex flex-col space-y-4 lg:justify-start h-full w-full lg:max-w-[350px]"
               variants={itemVariants}
             >
-              <div className="text-2xl md:text-3xl lg:text-4xl font-semibold text-black dark:text-white leading-tight">
+              <div className="text-2xl md:text-3xl lg:text-4xl line-clamp-4 font-semibold text-black dark:text-white leading-tight">
                 <h4>{product.title}</h4>
               </div>
               <div className="pt-5 flex flex-col text-black dark:text-white">
                 <p className="opacity-70 text-xs">estimated price:</p>
                 <p className="text-xl md:text-2xl">{product.estimatedPrice}</p>
               </div>
+
+              <div className="w-full flex justify-center md:justify-start py-[20px]">
+                <TooltipProvider>
+                  <Tooltip delayDuration={100}>
+                    <TooltipTrigger asChild>
+                      <Button
+                        className="relative h-10 w-fit overflow-hidden rounded-3xl px-14 md:px-10 font-bold bg-gray-300 text-black shadow-sm transition-all duration-300 hover:bg-blue-200 hover:text-indigo-900"
+                        onClick={handleAttach}
+                        disabled={isSharedContent ? true : isButtonDisabled}
+                      >
+                        <span className="relative z-7">Ask AI</span>
+                        <div
+                          className="absolute inset-0 flex items-center justify-center"
+                          aria-hidden="true"
+                        >
+                          <div className="gradient-bg bg-gradient-to-r from-pink-600 via-purple-500 to-cyan-400 rounded-full w-40 h-40 blur-xl opacity-50 animate-spin-slow transition-all duration-300" />
+                        </div>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent className="rounded-3xl">
+                      <p className="max-w-sm font-semibold">
+                        Ask AI for product details
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
             </motion.div>
 
             <motion.div
-              className="h-full max-w-sm flex items-center"
+              className="h-full md:max-w-sm flex items-start justify-center w-full md:justify-start"
               variants={carouselVariants}
             >
-              <div className="flex flex-col px-2 md:px-4">
-                <Carousel className="max-w-[340px] h-full flex items-center pb-2 justify-center w-full">
+              <div className="pb-7 lg:pb-0 flex flex-col px-2 md:px-4">
+                <Carousel className="lg:max-w-[340px] h-full flex items-center pb-2 justify-center w-full">
                   <CarouselContent className="">
                     {product.images.map((image, index) => (
                       <CarouselItem key={index}>
                         <motion.div
-                          className="p-2 cursor-grab active:cursor-grabbing aspect-square bg-gray-50 rounded-xl overflow-hidden"
+                          className="p-2 cursor-grab active:cursor-grabbing aspect-square bg-gray-50 rounded-2xl lg:rounded-xl overflow-hidden"
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           transition={{ duration: 0.2 }}
@@ -213,7 +271,7 @@ export function InsightProductCard({
 
           <motion.div className="w-full" variants={itemVariants}>
             <div
-              className="border-y border-muted w-full py-3 px-2 lg:px-4 mt-4 mb-3 flex items-center justify-between"
+              className="transition-all duration-500 border-y border-muted w-full py-3 px-2 lg:px-4 mt-4 mb-3 flex items-center justify-between"
               style={{
                 borderColor: open ? "" : "transparent",
               }}
@@ -275,7 +333,7 @@ export function InsightProductCard({
                             ? "#FF5722"
                             : "#1A1A1D",
                       }}
-                      className="py-1 px-2 border border-muted rounded-full"
+                      className="py-1 px-3 border border-muted rounded-full"
                     >
                       {product.marketSource}
                     </div>
@@ -439,4 +497,4 @@ export function InsightProductCard({
       </div>
     </motion.div>
   );
-}
+};
