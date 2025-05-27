@@ -17,6 +17,7 @@ import {
   Search,
   Info,
   ChevronUp,
+  ArrowDown01,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
@@ -32,8 +33,14 @@ import {
   TooltipProvider,
 } from "../ui/tooltip";
 import { useMavenStateController } from "../hooks/maven-state-controller";
-import { generateId } from "ai";
+import { generateId, LanguageModelUsage } from "ai";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { HoverCardUsage } from "./hover-card-usage";
 
 // Helper function to extract YouTube video ID from URL
 const getYouTubeVideoId = (url: string): string | null => {
@@ -125,12 +132,14 @@ interface InsightProductCardProps {
   data: DataSourceInsight;
   loading?: boolean;
   isSharedContent?: boolean;
+  usage?: LanguageModelUsage;
 }
 
 export const InsightProductCard: FC<InsightProductCardProps> = ({
   data,
   loading,
   isSharedContent,
+  usage,
 }) => {
   const [selectedVideoIndex, setSelectedVideoIndex] = useState(0);
   const [open, setOpen] = useState(true);
@@ -265,6 +274,9 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
                 <p className="text-black/70 dark:text-white/50 text-xs">
                   *swipe to explore images
                 </p>
+                <div className="flex justify-end">
+                  {usage && <HoverCardUsage usage={usage} />}
+                </div>
               </div>
             </motion.div>
           </div>

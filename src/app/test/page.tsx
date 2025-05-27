@@ -269,9 +269,15 @@ Here's the distinction:
 
 So, while both involve "Gemini Pro" models, they are for different use cases and have separate billing.`;
 
+  const usage = {
+    promptTokens: 14363,
+    completionTokens: 2676,
+    totalTokens: 17039,
+  };
+
   return (
     <main className="container mx-auto py-10 max-w-3xl px-2 sm:px-12">
-      <InsightProductCard data={productData} />
+      <InsightProductCard data={productData} usage={usage} />
       {/* <InsightProductCardSkeleton /> */}
       <AssistantMessage content={content} />
     </main>
