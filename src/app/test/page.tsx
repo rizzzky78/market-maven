@@ -12,10 +12,8 @@
 import { AssistantMessage } from "@/components/maven/assistant-message";
 import { InsightProductCard } from "@/components/maven/insight-product-card";
 import { InsightProductCardSkeleton } from "@/components/maven/insight-product-card-skeleton";
-import {
-  QueryEnhancement,
-  QueryEnhancementSkeleton,
-} from "@/components/maven/query-enhancement";
+import { QueryEnhancement } from "@/components/maven/query-enhancement";
+import { QueryEnhancementSkeleton } from "@/components/maven/query-enhancement-skeleton";
 import {
   QueryValidation,
   QueryValidationProps,

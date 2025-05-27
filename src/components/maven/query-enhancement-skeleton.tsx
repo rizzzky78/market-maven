@@ -1,22 +1,22 @@
-import { SearchCheck, Loader2 } from "lucide-react";
+import { Sparkles, Loader2 } from "lucide-react";
 import { Card, CardHeader } from "../ui/card";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export const QueryValidationSkeleton = () => {
+export const QueryEnhancementSkeleton = () => {
   return (
-    <div className="w-[90%] md:w-full flex justify-start">
+    <div className="md:w-full flex justify-start w-[90%]">
       <Card className="w-full md:w-[448px] bg-black/20 dark:bg-transparent rounded-3xl">
         <CardHeader className="pl-4 pr-2 py-[7px]">
           <div className="flex justify-between items-center gap-3">
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
-                <SearchCheck className="size-4 text-purple-500" />
-                <h3 className="text-xs animate-pulse">Query Validation</h3>
+                <Sparkles className="size-4 text-purple-500" />
+                <h3 className="text-xs animate-pulse">Query Enhancement</h3>
                 <Loader2 className="animate-spin size-4" />
               </div>
             </div>
             <div className="flex items-center space-x-2">
-              <Skeleton className="h-6 w-[70px] rounded-full" />
+              <Skeleton className="h-6 w-[100px] rounded-full" />
               <Skeleton className="size-8 rounded-full" />
             </div>
           </div>

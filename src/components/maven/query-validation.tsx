@@ -181,11 +181,11 @@ export const QueryValidation: FC<QueryValidationProps> = ({ data, usage }) => {
 
   return (
     <div className="w-full flex justify-start">
-      <motion.div variants={cardVariants} initial="hidden" animate="visible">
-        <Card className="w-[448px] bg-black/20 dark:bg-transparent rounded-3xl overflow-hidden">
+      <motion.div variants={cardVariants} initial="hidden" animate="visible" className="w-[90%] md:w-full">
+        <Card className="w-full md:w-[448px] bg-black/20 dark:bg-transparent rounded-3xl">
           <CardHeader className="pl-4 pr-2 py-[7px] w-full">
             <motion.div
-              className="w-full flex justify-between items-center gap-3"
+              className="w-full flex justify-between items-center space-x-3"
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.3, delay: 0.2 }}
