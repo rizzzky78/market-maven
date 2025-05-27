@@ -12,6 +12,16 @@
 import { AssistantMessage } from "@/components/maven/assistant-message";
 import { InsightProductCard } from "@/components/maven/insight-product-card";
 import { InsightProductCardSkeleton } from "@/components/maven/insight-product-card-skeleton";
+import {
+  QueryEnhancement,
+  QueryEnhancementSkeleton,
+} from "@/components/maven/query-enhancement";
+import {
+  QueryValidation,
+  QueryValidationProps,
+} from "@/components/maven/query-validation";
+import { QueryValidationSkeleton } from "@/components/maven/query-validation-skeleton";
+import { QueryEnhancedData } from "@/lib/types/subtools";
 
 // export default function Home() {
 //   // Example data matching the schema
@@ -156,6 +166,101 @@ import { InsightProductCardSkeleton } from "@/components/maven/insight-product-c
 // }
 
 export default function Page() {
+  // Example data matching the schema
+  const exampleData: QueryValidationProps["data"] = {
+    query_input: "Samsung Galaxy S23 Ultra",
+    is_electronic_product: true,
+    product_exists: true,
+    product_category: "smartphone",
+    brand_verified: true,
+    market_availability: "widely_available",
+    information_sources: [
+      "official_manufacturer",
+      "major_retailer",
+      "tech_review_sites",
+    ],
+    confidence_level: "very_high",
+    validation_score: 9,
+    detailed_reasoning:
+      "The Samsung Galaxy S23 Ultra is a verified flagship smartphone from Samsung. It has extensive documentation from Samsung's official website, is sold by all major retailers, and has been reviewed by numerous tech publications. Technical specifications are widely available and consistent across sources.",
+    specifications_found: true,
+    alternative_suggestions: [
+      "Samsung Galaxy S23+",
+      "Samsung Galaxy S23",
+      "Google Pixel 7 Pro",
+    ],
+    red_flags: ["none_detected"],
+  };
+
+  // Example of a product with issues
+  const problematicExample: QueryValidationProps["data"] = {
+    query_input: "SuperTech X9000 Smartphone",
+    is_electronic_product: true,
+    product_exists: false,
+    product_category: "smartphone",
+    brand_verified: false,
+    market_availability: "unknown",
+    information_sources: ["user_forums", "social_media", "no_reliable_sources"],
+    confidence_level: "very_low",
+    validation_score: 2,
+    detailed_reasoning:
+      "The SuperTech X9000 appears to be a fictional smartphone. No information could be found from official manufacturers or reputable retailers. Limited mentions exist only in user forums with contradictory specifications. The brand 'SuperTech' does not appear to be a legitimate smartphone manufacturer.",
+    specifications_found: false,
+    alternative_suggestions: [
+      "Samsung Galaxy S23",
+      "iPhone 14 Pro",
+      "Google Pixel 7",
+    ],
+    red_flags: [
+      "potential_counterfeit",
+      "no_official_sources",
+      "suspicious_branding",
+    ],
+  };
+
+  const examples: QueryEnhancedData[] = [
+    {
+      original_query: "iphone",
+      enhanced_query: "iPhone 14 Pro",
+      enhancement_type: "brand_to_specific_model" as const,
+      confidence_score: 0.85,
+      reasoning:
+        "The query 'iphone' is a brand name without a specific model. Based on current market trends and popularity, enhanced to 'iPhone 14 Pro' which is the latest flagship model at the time of this enhancement.",
+    },
+    {
+      original_query: "samsng galxy",
+      enhanced_query: "Samsung Galaxy S23",
+      enhancement_type: "typo_correction" as const,
+      confidence_score: 0.92,
+      reasoning:
+        "The original query contains typos in both the brand name 'Samsung' and product line 'Galaxy'. Corrected the spelling and added the current flagship model 'S23' for more specificity.",
+    },
+    {
+      original_query: "good laptop for gaming",
+      enhanced_query: "ASUS ROG Zephyrus G14 gaming laptop",
+      enhancement_type: "vague_to_specific" as const,
+      confidence_score: 0.68,
+      reasoning:
+        "The original query is vague, asking for a 'good laptop for gaming'. Enhanced to a specific, well-reviewed gaming laptop model that offers good performance for its price range.",
+    },
+    {
+      original_query: "MacBook Pro",
+      enhanced_query: "MacBook Pro 16-inch M2 Pro",
+      enhancement_type: "specification_added" as const,
+      confidence_score: 0.75,
+      reasoning:
+        "The original query mentions 'MacBook Pro' but doesn't specify the size or processor. Added the screen size and processor type to make the query more specific to the latest model.",
+    },
+    {
+      original_query: "Sony WH-1000XM4",
+      enhanced_query: "Sony WH-1000XM4",
+      enhancement_type: "no_change_needed" as const,
+      confidence_score: 0.98,
+      reasoning:
+        "The original query is already specific with the exact model number of Sony's noise-cancelling headphones. No enhancement needed as it already contains the brand and precise model.",
+    },
+  ];
+
   const productData = {
     data: {
       marketSource: "shopee" as any,
@@ -277,9 +382,47 @@ So, while both involve "Gemini Pro" models, they are for different use cases and
 
   return (
     <main className="container mx-auto py-10 max-w-3xl px-2 sm:px-12">
-      <InsightProductCard data={productData} usage={usage} />
-      {/* <InsightProductCardSkeleton /> */}
-      <AssistantMessage content={content} />
+      <div className="flex flex-col space-y-5">
+        <div>
+          <QueryValidation
+            data={exampleData}
+            usage={{
+              promptTokens: 160,
+              completionTokens: 87,
+              totalTokens: 247,
+            }}
+          />
+        </div>
+
+        <div>
+          <QueryValidation
+            data={problematicExample}
+            usage={{
+              promptTokens: 160,
+              completionTokens: 87,
+              totalTokens: 247,
+            }}
+          />
+        </div>
+        <div>
+          <QueryValidationSkeleton />
+        </div>
+        {examples.map((example, index) => (
+          <QueryEnhancement
+            key={index}
+            data={example}
+            usage={{
+              promptTokens: 160,
+              completionTokens: 87,
+              totalTokens: 247,
+            }}
+          />
+        ))}
+        <QueryEnhancementSkeleton />
+        <InsightProductCard data={productData} usage={usage} />
+        {/* <InsightProductCardSkeleton /> */}
+        <AssistantMessage content={content} />
+      </div>
     </main>
   );
 }

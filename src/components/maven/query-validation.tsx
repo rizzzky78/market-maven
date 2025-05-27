@@ -1,36 +1,24 @@
 "use client";
 
-import { FC, useState } from "react";
+import { type FC, useEffect, useState } from "react";
 import {
   AlertCircle,
   CheckCircle2,
-  ChevronDown,
   ChevronUp,
-  Info,
-  Loader2,
   SearchCheck,
   XCircle,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { LanguageModelUsage } from "ai";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Skeleton } from "../ui/skeleton";
-import { QueryValidationData } from "@/lib/types/subtools";
+import type { LanguageModelUsage } from "ai";
+import type { QueryValidationData } from "@/lib/types/subtools";
+import { HoverCardUsage } from "./hover-card-usage";
+import { QueryValidationSkeleton } from "./query-validation-skeleton";
 
 export type QueryValidationProps = {
   data: QueryValidationData;
@@ -53,7 +41,9 @@ export const QueryValidation: FC<QueryValidationProps> = ({ data, usage }) => {
     alternative_suggestions,
     red_flags,
   } = data;
-  const [isExpanded, setIsExpanded] = useState(false);
+
+  const [mounted, setMounted] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const formatLabel = (str: string) => {
     return str
@@ -97,290 +87,452 @@ export const QueryValidation: FC<QueryValidationProps> = ({ data, usage }) => {
     );
   };
 
+  // Animation variants
+  const cardVariants = {
+    hidden: {
+      opacity: 0,
+      y: 20,
+      scale: 0.95,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.4,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const contentVariants = {
+    hidden: {
+      opacity: 0,
+      height: 0,
+      transition: {
+        duration: 0.3,
+        ease: "easeInOut",
+      },
+    },
+    visible: {
+      opacity: 1,
+      height: "auto",
+      transition: {
+        duration: 0.4,
+        ease: "easeOut",
+        staggerChildren: 0.1,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: {
+      opacity: 0.1,
+      y: 10,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.3,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const badgeVariants = {
+    hidden: {
+      opacity: 0,
+      scale: 0.8,
+      y: 5,
+    },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: {
+        duration: 0.2,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const progressVariants = {
+    hidden: {
+      scaleX: 0,
+      originX: 0,
+    },
+    visible: {
+      scaleX: 1,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+        delay: 0.2,
+      },
+    },
+  };
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return <QueryValidationSkeleton />;
+
   return (
     <div className="w-full flex justify-start">
-      <Card className="w-full max-w-md bg-black/20 dark:bg-transparent rounded-3xl">
-        <CardHeader className="p-4 pb-2">
-          <div className="flex justify-between items-start gap-3">
-            <div className="space-y-5">
-              <div className="flex items-center gap-1.5">
-                <SearchCheck className="size-4 text-purple-500" />
+      <motion.div variants={cardVariants} initial="hidden" animate="visible">
+        <Card className="w-[448px] bg-black/20 dark:bg-transparent rounded-3xl overflow-hidden">
+          <CardHeader className="pl-4 pr-2 py-[7px] w-full">
+            <motion.div
+              className="w-full flex justify-between items-center gap-3"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: 0.2 }}
+            >
+              <div className="flex items-center space-x-2">
+                <motion.div
+                  initial={{ rotate: -180, scale: 0 }}
+                  animate={{ rotate: 0, scale: 1 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.3,
+                    type: "spring",
+                    stiffness: 200,
+                  }}
+                >
+                  <SearchCheck className="size-4 text-purple-500" />
+                </motion.div>
                 <h3 className="text-xs">Query Validation</h3>
               </div>
-              <h3
-                className="text-sm text-black dark:text-white font-medium leading-none truncate max-w-[200px]"
-                title={query_input}
+              <div className="flex items-center space-x-2">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, delay: 0.4 }}
+                >
+                  <Badge
+                    variant={product_exists ? "outline" : "destructive"}
+                    className="text-xs px-3 py-1 rounded-full font-normal"
+                  >
+                    {product_exists ? "Verified" : "Unverified"}
+                  </Badge>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button
+                    variant={"ghost"}
+                    size={"icon"}
+                    onClick={() => setOpen((prev) => !prev)}
+                    className="rounded-full shrink-0 size-8"
+                  >
+                    <motion.div
+                      animate={{ rotate: open ? 0 : 180 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                    >
+                      <ChevronUp className="size-3 shrink-0" />
+                    </motion.div>
+                  </Button>
+                </motion.div>
+              </div>
+            </motion.div>
+          </CardHeader>
+
+          <AnimatePresence>
+            {open && (
+              <motion.div
+                variants={contentVariants}
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+                style={{ overflow: "hidden" }}
               >
-                {query_input}
-              </h3>
-            </div>
-            <div className="flex flex-col items-end space-y-2">
-              <Badge
-                variant={product_exists ? "default" : "destructive"}
-                className="text-xs px-2 py-0 h-5 rounded-full font-normal"
-              >
-                {product_exists ? "Verified" : "Unverified"}
-              </Badge>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent className="p-4 pt-2">
-          <div className="space-y-3">
-            <div className="space-y-2">
-              <div className="flex justify-between items-center text-xs">
-                <span className="text-black dark:text-white/90">
-                  Validation Score
-                </span>
-                <span className="font-medium">{validation_score}/10</span>
-              </div>
-              <Progress
-                value={validation_score * 10}
-                className="h-[3px]"
-                customColor={getScoreColor(validation_score)}
-              />
-            </div>
+                <CardContent className="p-4 pt-2">
+                  <motion.div variants={itemVariants} className="pb-3">
+                    <h3
+                      className="text-sm text-black dark:text-white font-medium leading-none truncate max-w-[200px]"
+                      title={query_input}
+                    >
+                      {query_input}
+                    </h3>
+                  </motion.div>
 
-            <div className="py-[10px] grid grid-cols-2 gap-2 text-xs text-black/80 dark:text-white/80">
-              <div className="flex items-center gap-1.5">
-                {getStatusIcon(is_electronic_product)}
-                <span>Electronic Product</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                {getStatusIcon(brand_verified)}
-                <span>Brand Verified</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                {getStatusIcon(product_exists)}
-                <span>Product Exists</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                {getStatusIcon(specifications_found)}
-                <span>Specs Found</span>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-1.5 *:border-black/20 dark:*:border-white/20">
-              <Badge
-                variant="outline"
-                className="text-xs px-2 py-1 h-6 rounded-full font-normal"
-              >
-                {formatLabel(product_category)}
-              </Badge>
-              <Badge
-                variant="outline"
-                className="text-xs px-2 py-1 h-6 rounded-full font-normal"
-              >
-                {formatLabel(market_availability)}
-              </Badge>
-              <Badge
-                variant="outline"
-                className={cn(
-                  "text-xs px-2 py-1 h-6 rounded-full font-normal",
-                  getConfidenceColor(confidence_level)
-                )}
-              >
-                {formatLabel(confidence_level)}
-              </Badge>
-            </div>
-
-            {red_flags.length > 0 && red_flags[0] !== "none_detected" && (
-              <div className="flex items-start gap-1.5 p-2 rounded-sm">
-                <AlertCircle className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />
-                <div className="space-y-1">
-                  <p className="text-xs font-medium text-red-700">Red Flags:</p>
-                  <ul className="text-xs text-red-600 pl-3 list-disc">
-                    {red_flags.map((flag) => (
-                      <li key={flag}>{formatLabel(flag)}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {isExpanded && (
-            <>
-              <Separator className="my-3 bg-black/10 dark:bg-white/10" />
-
-              <div className="space-y-3 text-xs">
-                <div>
-                  <p className="font-medium mb-1 text-black dark:text-white">
-                    Reasoning:
-                  </p>
-                  <p className="text-black/80 dark:text-white/80">
-                    {detailed_reasoning}
-                  </p>
-                </div>
-
-                <div className="flex flex-col">
-                  <p className="font-medium text-black dark:text-white mb-1">
-                    Information Sources:
-                  </p>
-                  <div className="flex flex-wrap gap-1.5 *:border-black/20 dark:*:border-white/20">
-                    {information_sources.map((source) => (
-                      <Badge
-                        key={source}
-                        variant="outline"
-                        className="text-xs rounded-full font-normal h-6 py-1 px-2"
+                  <div className="space-y-3">
+                    <motion.div variants={itemVariants} className="space-y-2">
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-black dark:text-white/90">
+                          Validation Score
+                        </span>
+                        <motion.span
+                          className="font-medium"
+                          initial={{ opacity: 0, scale: 0.5 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.3, delay: 0.5 }}
+                        >
+                          {validation_score}/10
+                        </motion.span>
+                      </div>
+                      <motion.div
+                        variants={progressVariants}
+                        className="relative"
                       >
-                        {formatLabel(source)}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
+                        <Progress
+                          value={validation_score * 10}
+                          className="h-[3px]"
+                          customColor={getScoreColor(validation_score)}
+                        />
+                      </motion.div>
+                    </motion.div>
 
-                {alternative_suggestions.length > 0 && (
-                  <div>
-                    <p className="font-medium mb-1 text-black dark:text-white">
-                      Alternative Suggestions:
-                    </p>
-                    <ul className="pl-4 list-disc text-black/80 dark:text-white/80">
-                      {alternative_suggestions.map((suggestion, index) => (
-                        <li key={index}>{suggestion}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {usage && (
-                  <div className="w-full flex justify-end">
-                    <div className="flex items-center space-x-1 text-black dark:text-white">
-                      <TooltipProvider>
-                        <Tooltip delayDuration={100}>
-                          <TooltipTrigger
-                            asChild
-                            className="hover:text-purple-500"
+                    <motion.div
+                      variants={itemVariants}
+                      className="py-[10px] grid grid-cols-2 gap-2 text-xs text-black/80 dark:text-white/80"
+                    >
+                      {[
+                        {
+                          status: is_electronic_product,
+                          label: "Electronic Product",
+                        },
+                        { status: brand_verified, label: "Brand Verified" },
+                        { status: product_exists, label: "Product Exists" },
+                        { status: specifications_found, label: "Specs Found" },
+                      ].map((item, index) => (
+                        <motion.div
+                          key={item.label}
+                          className="flex items-center gap-1.5"
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{
+                            duration: 0.3,
+                            delay: 0.6 + index * 0.1,
+                          }}
+                        >
+                          <motion.div
+                            initial={{ scale: 0, rotate: -180 }}
+                            animate={{ scale: 1, rotate: 0 }}
+                            transition={{
+                              duration: 0.4,
+                              delay: 0.7 + index * 0.1,
+                              type: "spring",
+                              stiffness: 200,
+                            }}
                           >
-                            <Info className="size-4" />
-                          </TooltipTrigger>
-                          <TooltipContent className="rounded-3xl">
-                            <div className="p-2">
-                              <p className="font-medium mb-1 text-white dark:text-black">
-                                Usage for this action:
+                            {getStatusIcon(item.status)}
+                          </motion.div>
+                          <span>{item.label}</span>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+
+                    <motion.div
+                      variants={itemVariants}
+                      className="flex flex-wrap gap-1.5 *:border-black/20 dark:*:border-white/20"
+                    >
+                      {[
+                        formatLabel(product_category),
+                        formatLabel(market_availability),
+                        formatLabel(confidence_level),
+                      ].map((label, index) => (
+                        <motion.div
+                          key={label}
+                          variants={badgeVariants}
+                          initial="hidden"
+                          animate="visible"
+                          transition={{ delay: 0.8 + index * 0.1 }}
+                        >
+                          <Badge
+                            variant="outline"
+                            className={cn(
+                              "text-xs px-2 py-1 h-6 rounded-full font-normal",
+                              index === 2
+                                ? getConfidenceColor(confidence_level)
+                                : ""
+                            )}
+                          >
+                            {label}
+                          </Badge>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+
+                    <AnimatePresence>
+                      {red_flags.length > 0 &&
+                        red_flags[0] !== "none_detected" && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0, y: -10 }}
+                            animate={{ opacity: 1, height: "auto", y: 0 }}
+                            exit={{ opacity: 0, height: 0, y: -10 }}
+                            transition={{ duration: 0.3 }}
+                            className="flex items-start gap-1.5 p-2 rounded-sm"
+                          >
+                            <motion.div
+                              initial={{ scale: 0, rotate: -90 }}
+                              animate={{ scale: 1, rotate: 0 }}
+                              transition={{
+                                duration: 0.4,
+                                type: "spring",
+                                stiffness: 200,
+                              }}
+                            >
+                              <AlertCircle className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />
+                            </motion.div>
+                            <div className="space-y-1">
+                              <p className="text-xs font-medium text-red-700">
+                                Red Flags:
                               </p>
-                              <ul className="pl-4 list-disc text-white/80 dark:text-black/80">
-                                {Object.entries(usage).map(
-                                  ([key, value], index) => (
-                                    <li key={index}>
-                                      {key} <span>{value}</span>
-                                    </li>
-                                  )
-                                )}
-                              </ul>
+                              <motion.ul
+                                className="text-xs text-red-600 pl-3 list-disc"
+                                initial="hidden"
+                                animate="visible"
+                                variants={{
+                                  visible: {
+                                    transition: {
+                                      staggerChildren: 0.1,
+                                    },
+                                  },
+                                }}
+                              >
+                                {red_flags.map((flag) => (
+                                  <motion.li
+                                    key={flag}
+                                    variants={{
+                                      hidden: { opacity: 0, x: -10 },
+                                      visible: { opacity: 1, x: 0 },
+                                    }}
+                                  >
+                                    {formatLabel(flag)}
+                                  </motion.li>
+                                ))}
+                              </motion.ul>
                             </div>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                      <p>Usage</p>
-                    </div>
+                          </motion.div>
+                        )}
+                    </AnimatePresence>
                   </div>
-                )}
-              </div>
-            </>
-          )}
-        </CardContent>
-        <CardFooter className="p-2 flex justify-center">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-xs h-7 w-full rounded-full hover:bg-muted"
-            onClick={() => setIsExpanded(!isExpanded)}
-          >
-            {isExpanded ? (
-              <span className="flex items-center gap-1">
-                Show Less <ChevronUp className="h-3 w-3" />
-              </span>
-            ) : (
-              <span className="flex items-center gap-1">
-                Show More <ChevronDown className="h-3 w-3" />
-              </span>
+
+                  <motion.div
+                    variants={itemVariants}
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 0.3, delay: 1.2 }}
+                    style={{ originX: 0.5 }}
+                  >
+                    <Separator className="my-3 bg-black/10 dark:bg-white/10" />
+                  </motion.div>
+
+                  <motion.div
+                    variants={itemVariants}
+                    className="space-y-3 text-xs"
+                  >
+                    <motion.div variants={itemVariants}>
+                      <p className="font-medium mb-1 text-black dark:text-white">
+                        Reasoning:
+                      </p>
+                      <motion.p
+                        className="text-black/80 dark:text-white/80"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.5, delay: 1.3 }}
+                      >
+                        {detailed_reasoning}
+                      </motion.p>
+                    </motion.div>
+
+                    <motion.div
+                      variants={itemVariants}
+                      className="flex flex-col"
+                    >
+                      <p className="font-medium text-black dark:text-white mb-1">
+                        Information Sources:
+                      </p>
+                      <motion.div
+                        className="flex flex-wrap gap-1.5 *:border-black/20 dark:*:border-white/20"
+                        initial="hidden"
+                        animate="visible"
+                        variants={{
+                          visible: {
+                            transition: {
+                              staggerChildren: 0.05,
+                              delayChildren: 1.4,
+                            },
+                          },
+                        }}
+                      >
+                        {information_sources.map((source) => (
+                          <motion.div key={source} variants={badgeVariants}>
+                            <Badge
+                              variant="outline"
+                              className="text-xs rounded-full font-normal h-6 py-1 px-2"
+                            >
+                              {formatLabel(source)}
+                            </Badge>
+                          </motion.div>
+                        ))}
+                      </motion.div>
+                    </motion.div>
+
+                    <AnimatePresence>
+                      {alternative_suggestions.length > 0 && (
+                        <motion.div
+                          variants={itemVariants}
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <p className="font-medium mb-1 text-black dark:text-white">
+                            Alternative Suggestions:
+                          </p>
+                          <motion.ul
+                            className="pl-4 list-disc text-black/80 dark:text-white/80"
+                            initial="hidden"
+                            animate="visible"
+                            variants={{
+                              visible: {
+                                transition: {
+                                  staggerChildren: 0.1,
+                                  delayChildren: 1.5,
+                                },
+                              },
+                            }}
+                          >
+                            {alternative_suggestions.map(
+                              (suggestion, index) => (
+                                <motion.li
+                                  key={index}
+                                  variants={{
+                                    hidden: { opacity: 0, x: -10 },
+                                    visible: { opacity: 1, x: 0 },
+                                  }}
+                                >
+                                  {suggestion}
+                                </motion.li>
+                              )
+                            )}
+                          </motion.ul>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    {usage && (
+                      <motion.div
+                        className="w-full flex justify-end"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: 1.6 }}
+                      >
+                        <HoverCardUsage usage={usage} />
+                      </motion.div>
+                    )}
+                  </motion.div>
+                </CardContent>
+              </motion.div>
             )}
-          </Button>
-        </CardFooter>
-      </Card>
-    </div>
-  );
-};
-
-export const QueryValidationSkeleton = () => {
-  return (
-    <div className="w-full flex justify-start">
-      <Card className="w-full max-w-md bg-black/20 dark:bg-transparent rounded-3xl">
-        <CardHeader className="p-4 pb-2">
-          <div className="flex justify-between items-start gap-3">
-            <div className="space-y-2">
-              <div className="flex items-center gap-1.5">
-                <SearchCheck className="size-4 text-purple-500" />
-                <h3 className="text-xs">Query Validation</h3>
-                <Loader2 className="animate-spin size-4" />
-              </div>
-              <Skeleton className="h-4 w-40" />
-            </div>
-            <div className="flex flex-col items-end space-y-2">
-              <Skeleton className="h-5 w-16 rounded-full" />
-            </div>
-          </div>
-        </CardHeader>
-
-        <CardContent className="p-4 pt-2">
-          <div className="space-y-3">
-            <div className="space-y-2">
-              <div className="flex justify-between items-center text-xs">
-                <span className="text-black dark:text-white/90">
-                  Validation Score
-                </span>
-                <Skeleton className="h-3 w-8" />
-              </div>
-              <Skeleton className="h-[4px] w-full rounded-full" />
-            </div>
-
-            <div className="py-[10px] grid grid-cols-2 gap-2 text-xs">
-              <div className="flex items-center gap-1.5">
-                <Skeleton className="h-4 w-4 rounded-full" />
-                <span className="text-black/80 dark:text-white/80">
-                  Electronic Product
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Skeleton className="h-4 w-4 rounded-full" />
-                <span className="text-black/80 dark:text-white/80">
-                  Brand Verified
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Skeleton className="h-4 w-4 rounded-full" />
-                <span className="text-black/80 dark:text-white/80">
-                  Product Exists
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Skeleton className="h-4 w-4 rounded-full" />
-                <span className="text-black/80 dark:text-white/80">
-                  Specs Found
-                </span>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-1.5">
-              <Skeleton className="h-6 w-20 rounded-full" />
-              <Skeleton className="h-6 w-24 rounded-full" />
-              <Skeleton className="h-6 w-16 rounded-full" />
-            </div>
-          </div>
-        </CardContent>
-
-        <CardFooter className="p-2 flex justify-center">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-xs h-7 w-full rounded-full hover:bg-muted"
-            disabled
-          >
-            <span className="flex items-center gap-1">
-              Show More <ChevronDown className="h-3 w-3" />
-            </span>
-          </Button>
-        </CardFooter>
-      </Card>
+          </AnimatePresence>
+        </Card>
+      </motion.div>
     </div>
   );
 };
