@@ -12,130 +12,235 @@ import { ChangeEvent, KeyboardEvent } from "react";
 import { devtools, persist, createJSONStorage } from "zustand/middleware";
 
 /**
- * Maximum input length constant
+ * Maximum character limit for text input validation
+ * @constant {number}
  */
 const MAX_INPUT_LENGTH = 4000;
 
 /**
- * Interface for textarea validation options
+ * Configuration options for input field validation
+ * @type ValidationOptions
  */
-interface ValidationOptions {
+type ValidationOptions = {
+  /** Maximum allowed character count */
   maxLength?: number;
+  /** Minimum required character count */
   minLength?: number;
+  /** Regular expression pattern for format validation */
   pattern?: RegExp;
-}
+};
 
 /**
- * Interface for textarea event handlers
+ * Event handler callbacks for textarea interactions
+ * @type TextareaEventHandlers
  */
-interface TextareaEventHandlers {
+type TextareaEventHandlers = {
+  /** Keyboard event handler for key presses */
   onKeyDown?: (e: KeyboardEvent<HTMLTextAreaElement>) => void;
+  /** Clipboard paste event handler */
   onPaste?: (e: ClipboardEvent) => void;
+  /** Focus event handler when textarea gains focus */
   onFocus?: () => void;
+  /** Blur event handler when textarea loses focus */
   onBlur?: () => void;
-}
+};
 
 /**
- * Enhanced state interface for smart textarea
+ * Comprehensive state management interface for Maven application's smart textarea component.
+ * Handles input validation, product attachments, comparison operations, and history management.
+ *
+ * @interface MavenStateController
+ * @extends TextareaEventHandlers
  */
 interface MavenStateController extends TextareaEventHandlers {
-  /**
-   * The text area regular input
-   */
+  // ===== CORE INPUT STATE =====
+
+  /** Current text content of the input field */
   input: string;
-  /**
-   * Input validation status
-   */
+
+  /** Validation status indicating if current input meets requirements */
   isValid: boolean;
-  /**
-   * Validation error message if any
-   */
+
+  /** Error message displayed when validation fails, null if valid */
   errorMessage: string | null;
-  /**
-   * Character count
-   */
+
+  /** Current character count of the input text */
   charCount: number;
-  /**
-   * Input history for undo/redo
-   */
+
+  /** Array storing input history for undo/redo functionality */
   history: string[];
 
+  /** Current position in the history array for navigation */
   historyIndex: number;
-  /**
-   * Attached Value of Product metadata with ID
-   */
+
+  // ===== PRODUCT ATTACHMENT STATE =====
+
+  /** Currently attached product metadata object, undefined if none attached */
   attachment: AttachProduct | undefined;
 
-  // New comparison-related state
+  // ===== COMPARISON FEATURE STATE =====
+
+  /** Complete comparison data structure containing multiple product comparisons */
   comparison: ProductComparison | undefined;
 
+  /** Currently active comparison being built or modified */
   activeComparison: ProductCompare | undefined;
 
-  /** Request properties of invocation on request */
+  // ===== REQUEST CONFIGURATION STATE =====
+
+  /** Flag indicating if search functionality should be enabled in requests */
   search: boolean;
+
+  /** Flag indicating if related content should be included in responses */
   related: boolean;
 
+  /** Data source reference for AI processing */
   reffSource: RefferenceDataSource;
 
+  // ===== REQUEST CONFIGURATION ACTIONS =====
+
+  /**
+   * Updates the search flag state
+   * @param v - Boolean value to enable/disable search
+   */
   setSearch: (v: boolean) => void;
+
+  /**
+   * Updates the related content flag state
+   * @param v - Boolean value to enable/disable related content
+   */
   setRelated: (v: boolean) => void;
 
-  setReffSource: (s: RefferenceDataSource) => void;
   /**
-   * Set input with validation
+   * Sets the reference data source for AI processing
+   * @param s - Data source identifier
+   */
+  setReffSource: (s: RefferenceDataSource) => void;
+
+  // ===== CORE INPUT ACTIONS =====
+
+  /**
+   * Sets input text with optional validation rules
+   * Automatically updates character count, validation status, and history
+   * @param text - The new input text
+   * @param options - Optional validation constraints
    */
   setInput: (text: string, options?: ValidationOptions) => void;
+
   /**
-   * Change Event from TextArea Element
+   * Handles textarea change events with length validation
+   * Automatically prevents input exceeding MAX_INPUT_LENGTH
+   * @param e - React change event from textarea element
    */
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+
+  // ===== PRODUCT ATTACHMENT ACTIONS =====
+
   /**
-   * Attach an serializable object
+   * Attaches a product object to the current state
+   * Used for context when making AI requests about specific products
+   * @param object - Product metadata to attach, or undefined to clear
    */
   attach: (object: AttachProduct | undefined) => void;
+
   /**
-   * Detach or remove value of `attachment`
+   * Removes the currently attached product from state
+   * Equivalent to calling attach(undefined)
    */
   detach: () => void;
+
+  // ===== STATE MANAGEMENT ACTIONS =====
+
   /**
-   * Flush or Reset all state values
+   * Resets all state values to their initial defaults
+   * Clears input, attachments, comparisons, and history
    */
   flush: () => void;
+
   /**
-   * Undo last change
+   * Reverts input to previous state in history
+   * Does nothing if already at the beginning of history
    */
   undo: () => void;
+
   /**
-   * Redo last undone change
+   * Advances input to next state in history
+   * Does nothing if already at the end of history
    */
   redo: () => void;
 
+  // ===== EVENT HANDLER MANAGEMENT =====
+
   /**
-   * Register event handlers
+   * Registers custom event handlers for textarea interactions
+   * Allows external components to hook into textarea events
+   * @param handlers - Object containing event handler functions
    */
   registerEventHandlers: (handlers: TextareaEventHandlers) => void;
 
   /**
-   * Validate input against options
+   * Validates current input against provided rules
+   * Updates validation state and returns validation result
+   * @param options - Validation constraints to check against
+   * @returns Boolean indicating if input is valid
    */
   validate: (options?: ValidationOptions) => boolean;
 
-  // New comparison-related methods
+  // ===== COMPARISON FEATURE ACTIONS =====
+
+  /**
+   * Attaches a complete comparison structure to state
+   * Used for loading existing comparisons or results
+   * @param comparison - Complete comparison data or undefined to clear
+   */
   attachComparison: (comparison: ProductComparison | undefined) => void;
 
+  /**
+   * Removes the currently attached comparison from state
+   * Equivalent to calling attachComparison(undefined)
+   */
   detachComparison: () => void;
 
+  /**
+   * Sets the currently active comparison being built
+   * @param compare - Comparison structure or undefined to clear
+   */
   setActiveComparison: (compare: ProductCompare | undefined) => void;
 
+  /**
+   * Adds a product to the active comparison
+   * Creates new comparison if none exists or current is full (max 2 products)
+   * @param product - Product data to add to comparison
+   */
   addToComparison: (product: AttachCompare) => void;
 
+  /**
+   * Removes a specific product from the active comparison by its call ID
+   * @param callId - Unique identifier of the product to remove
+   */
   removeFromComparison: (callId: string) => void;
 
+  /**
+   * Clears all comparison data from state
+   * Resets both comparison and activeComparison to undefined
+   */
   clearComparisons: () => void;
 }
 
 /**
- * Validate text input against provided options
+ * Validates text input against specified constraints
+ *
+ * @param text - Input text to validate
+ * @param options - Optional validation rules
+ * @returns Object containing validation result and error message
+ *
+ * @example
+ * ```typescript
+ * const result = validateInput("Hello", { maxLength: 10, minLength: 3 });
+ * if (!result.isValid) {
+ *   console.log(result.error); // Display error message
+ * }
+ * ```
  */
 const validateInput = (
   text: string,
@@ -165,13 +270,40 @@ const validateInput = (
 };
 
 /**
- * Main state controller for Maven App
+ * Primary Zustand store for Maven application state management.
+ *
+ * Features:
+ * - Persistent storage using sessionStorage
+ * - Redux DevTools integration for debugging
+ * - Input validation with history tracking
+ * - Product attachment and comparison capabilities
+ * - Configurable AI request parameters
+ *
+ * The store uses middleware stack:
+ * 1. `persist` - Saves selected state to sessionStorage
+ * 2. `devtools` - Enables Redux DevTools for state inspection
+ *
+ * @returns {MavenStateController} Complete state controller with all actions
+ *
+ * @example
+ * ```typescript
+ * const { input, setInput, attach, addToComparison } = useMavenStateController();
+ *
+ * // Set input with validation
+ * setInput("Product search query", { maxLength: 100 });
+ *
+ * // Attach product context
+ * attach({ id: "123", name: "Product Name", metadata: {...} });
+ *
+ * // Add to comparison
+ * addToComparison({ for: { callId: "abc", productData: {...} } });
+ * ```
  */
 export const useMavenStateController = create<MavenStateController>()(
   devtools(
     persist(
       (set, get) => ({
-        // Existing state
+        // ===== INITIAL STATE VALUES =====
         input: "",
         isValid: true,
         errorMessage: null,
@@ -193,12 +325,12 @@ export const useMavenStateController = create<MavenStateController>()(
 
         reffSource: "insight",
 
+        // ===== ACTION IMPLEMENTATIONS =====
         setSearch: (v) => set({ search: v }),
         setRelated: (v) => set({ related: v }),
 
         setReffSource: (s) => set({ reffSource: s }),
 
-        // Existing methods remain unchanged
         setInput: (text, options) => {
           const { isValid, error } = validateInput(text, options);
           set({
@@ -265,7 +397,7 @@ export const useMavenStateController = create<MavenStateController>()(
           return isValid;
         },
 
-        // New comparison-related methods
+        // ===== COMPARISON FEATURE IMPLEMENTATIONS =====
         attachComparison: (comparison) => set({ comparison }),
 
         detachComparison: () => set({ comparison: undefined }),
@@ -311,6 +443,7 @@ export const useMavenStateController = create<MavenStateController>()(
       {
         name: "smart-textarea-storage",
         storage: createJSONStorage(() => sessionStorage),
+        // Only persist essential state, excluding event handlers and computed values
         partialize: (state) => ({
           input: state.input,
           attachment: state.attachment,
@@ -324,10 +457,34 @@ export const useMavenStateController = create<MavenStateController>()(
   )
 );
 
-// Optional: Export a hook for handling keyboard shortcuts
+/**
+ * Custom hook providing keyboard shortcut functionality for the Maven state controller.
+ * Handles common text editing shortcuts like undo/redo with proper event prevention.
+ *
+ * @param textareaState - The Maven state controller instance
+ * @returns Object containing the keyboard event handler
+ *
+ * @example
+ * ```typescript
+ * const mavenState = useMavenStateController();
+ * const { handleKeyDown } = useMavenStateControllerShortcuts(mavenState);
+ *
+ * // In your textarea component:
+ * <textarea onKeyDown={handleKeyDown} />
+ * ```
+ */
 export const useMavenStateControllerShortcuts = (
   textareaState: MavenStateController
 ) => {
+  /**
+   * Processes keyboard events and executes appropriate shortcuts
+   *
+   * Supported shortcuts:
+   * - Ctrl/Cmd + Z: Undo last change
+   * - Ctrl/Cmd + Shift + Z: Redo last undone change
+   *
+   * @param e - Keyboard event from textarea
+   */
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     // Handle Ctrl/Cmd + Z for undo
     if ((e.ctrlKey || e.metaKey) && e.key === "z" && !e.shiftKey) {
