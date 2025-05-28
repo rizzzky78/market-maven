@@ -71,11 +71,7 @@ export type PayloadData = {
   inquiryResponse?: InquiryResponse;
 };
 
-export type RefferenceDataSource =
-  | "insight"
-  | "tokopedia"
-  | "shopee"
-  | ({} & string);
+export type RefferenceDataSource = "insight" | "tokopedia" | "shopee";
 
 /**
  * Type represent optional arguments non-payload value passed to server-action

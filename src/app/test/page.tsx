@@ -418,7 +418,7 @@ So, while both involve "Gemini Pro" models, they are for different use cases and
         ))}
         <QueryEnhancementSkeleton />
         <InsightProductCard data={productData} usage={usage} />
-        {/* <InsightProductCardSkeleton /> */}
+        <InsightProductCardSkeleton />
         <AssistantMessage content={content} />
       </div>
     </main>

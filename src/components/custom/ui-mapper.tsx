@@ -6,8 +6,8 @@ import {
   AvailableTool,
   ExtendedToolResult,
   UserContentMessage,
+  RefferenceDataSource,
 } from "@/lib/types/ai";
-import { ProductsResponse } from "@/lib/types/product";
 import { AssistantMessage } from "../maven/assistant-message";
 import { UserMessage } from "../maven/user-message";
 import { ToolContent } from "ai";
@@ -24,6 +24,7 @@ import {
   RecommendationAction,
   TemplateRecommendationAction,
 } from "../maven/recommendation-action";
+import { InsightProductCard } from "../maven/insight-product-card";
 
 /**
  * Core message content structure representing different types of content in the system
@@ -48,9 +49,9 @@ interface UIStateItem {
 /**
  * Type definitions for tool results to ensure type safety
  */
-type ProductSearchResult = ExtendedToolResult<
-  { query: string },
-  ProductsResponse
+type ProductSearchResult<T = any> = ExtendedToolResult<
+  { query: string; reffSource: RefferenceDataSource },
+  T
 >;
 
 type ProductComparisonResult = ExtendedToolResult<
@@ -95,15 +96,20 @@ const handleProductSearch = (
   isSharedPage?: boolean
 ): UIStateItem => {
   const searchResult: ProductSearchResult = JSON.parse(result);
+
+  const isTokopedia = searchResult.args.reffSource === "tokopedia";
+
   return {
     id,
-    display: (
+    display: isTokopedia ? (
       <ProductSearch
         key={id}
         content={searchResult}
         isFinished
         isSharedContent={isSharedPage}
       />
+    ) : (
+      <InsightProductCard content={searchResult} />
     ),
   };
 };

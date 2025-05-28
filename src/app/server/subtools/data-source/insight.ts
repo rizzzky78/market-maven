@@ -5,6 +5,7 @@ import {
   videosSearch,
   webSearch,
 } from "@/lib/agents/tools/api/serper";
+import { RefferenceDataSource } from "@/lib/types/ai";
 import {
   SerperImagesSearchResponse,
   SerperShoppingSearchResponse,
@@ -16,9 +17,10 @@ import { google } from "@ai-sdk/google";
 import { generateObject } from "ai";
 
 // Types and interfaces
-export type MarketSource = "global" | "shopee";
+export type MarketSource = RefferenceDataSource;
 
 export type InsightPayload = {
+  callId: string;
   query: string;
   marketSource: MarketSource;
   options?: SearchOptions;
@@ -113,9 +115,9 @@ function validateQuery(query: string): void {
 
 function buildSearchQuery(
   query: string,
-  marketSource: MarketSource
+  marketSource: RefferenceDataSource
 ): SearchQueryPayload {
-  const isGlobalSource = marketSource === "global";
+  const isGlobalSource = marketSource === "insight";
 
   let searchQuery = query.trim();
 
@@ -304,15 +306,16 @@ GLOBAL MODE ACTIVATED:
  * @throws {SearchTimeoutError} When searches timeout
  */
 export async function searchProductInsight({
+  callId,
   query,
   marketSource,
   options = {},
-}: InsightPayload): Promise<UnifiedSubToolResult<DataSourceInsight>> {
+}: InsightPayload): Promise<UnifiedSubToolResult<DataSourceInsight | null>> {
   try {
     // Validate input
     validateQuery(query);
 
-    if (!["global", "shopee"].includes(marketSource)) {
+    if (!["global", "insight", "shopee"].includes(marketSource)) {
       throw new ProductInsightError(
         `Invalid market source: ${marketSource}`,
         "INVALID_MARKET_SOURCE"
@@ -366,7 +369,7 @@ export async function searchProductInsight({
       ok: true,
       usage: modelResponse.usage,
       processingTime: Date.now(),
-      data: modelResponse.object,
+      data: { callId, ...modelResponse.object },
       metadata: {
         query: query.trim(),
         marketSource,
@@ -380,17 +383,19 @@ export async function searchProductInsight({
       },
     };
   } catch (error) {
-    if (error instanceof ProductInsightError) {
-      throw error;
-    }
-
-    throw new ProductInsightError(
+    const err = new ProductInsightError(
       `Unexpected error during product insight search: ${
         error instanceof Error ? error.message : "Unknown error"
       }`,
       "UNEXPECTED_ERROR",
       error instanceof Error ? error : undefined
     );
+
+    return {
+      ok: false,
+      error: err.message,
+      data: null,
+    };
   }
 }
 
@@ -402,13 +407,14 @@ export async function searchProductInsight({
  * @returns Promise resolving to array of results
  */
 export async function batchSearchProductInsights(
+  callId: string,
   queries: string[],
   marketSource: MarketSource,
   options: SearchOptions = {}
 ): Promise<Array<{ query: string; result: any; error?: ProductInsightError }>> {
   const results = await Promise.allSettled(
     queries.map((query) =>
-      searchProductInsight({ query, marketSource, options })
+      searchProductInsight({ callId, query, marketSource, options })
     )
   );
 

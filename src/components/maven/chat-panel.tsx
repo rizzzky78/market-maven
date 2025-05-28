@@ -1,6 +1,11 @@
 "use client";
 
-import { RateLimitResponse, StreamGeneration, UIState } from "@/lib/types/ai";
+import {
+  RateLimitResponse,
+  RefferenceDataSource,
+  StreamGeneration,
+  UIState,
+} from "@/lib/types/ai";
 import { generateId } from "ai";
 import {
   readStreamableValue,
@@ -438,7 +443,9 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                 </TooltipProvider>
                 <Select
                   value={reffSource}
-                  onValueChange={(value) => setReffSource(value)}
+                  onValueChange={(value: RefferenceDataSource) =>
+                    setReffSource(value)
+                  }
                 >
                   <TooltipProvider>
                     <Tooltip delayDuration={100}>

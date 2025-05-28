@@ -6,21 +6,23 @@ export function InsightProductCardSkeleton() {
   return (
     <div className="w-full">
       <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-[2rem] px-4 py-2">
-        <div className="pt-4 md:pt-6 flex flex-row justify-between h-full items-start">
-          <div className="pl-2 md:pl-4 flex flex-col justify-between h-full max-w-sm">
+        <div className="pt-4 md:pt-6 flex flex-col-reverse md:flex-row justify-between h-full items-start">
+          <div className="pl-4 flex flex-col justify-between w-full h-full md:max-w-sm">
             <div className="flex flex-col space-y-3">
-              <Skeleton className="w-[160px] lg:w-[230px] h-6" />
-              <Skeleton className="w-[120px] lg:w-[170px] h-6" />
+              <Skeleton className="w-[340px] lg:w-[230px] h-6" />
+              <Skeleton className="w-[190px] lg:w-[170px] h-6" />
             </div>
             <div className="pt-7 flex flex-col space-y-2">
               <Skeleton className="h-4 w-[90px]" />
               <Skeleton className="h-5 w-[150px]" />
             </div>
-            <Skeleton className="mt-8 h-8 w-[150px] rounded-full" />
+            <div className="w-full flex justify-center md:justify-start">
+              <Skeleton className="mt-8 h-10 w-[150px] rounded-full" />
+            </div>
           </div>
-          <div className="h-full max-w-sm flex items-center">
-            <div className="flex flex-col px-2 md:px-4">
-              <Skeleton className="size-[220px] lg:size-[260px] rounded-xl" />
+          <div className="h-full w-full md:max-w-sm flex items-center justify-center md:justify-start">
+            <div className="flex flex-col pt-3 pb-6 px-2 md:px-4">
+              <Skeleton className="size-[400px] md:size-[220px] lg:size-[260px] rounded-2xl md:rounded-xl" />
               <Skeleton className="mt-3 h-4 w-[140px]" />
             </div>
           </div>

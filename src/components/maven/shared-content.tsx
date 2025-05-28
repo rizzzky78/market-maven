@@ -1,11 +1,12 @@
-import { ChatProperties } from "@/lib/types/ai";
+import { ChatProperties, RefferenceDataSource } from "@/lib/types/ai";
 import { ComponentType, ToolDataStore } from "@/lib/types/neon";
 import { FC, Fragment } from "react";
 import { mapUIState } from "../custom/ui-mapper";
-import { ProductDetailsResponse, ProductsResponse } from "@/lib/types/product";
+import { ProductDetailsResponse } from "@/lib/types/product";
 import { ProductSearch } from "./product-search";
 import { ProductDetails } from "./product-details";
 import { ProductComparison } from "./product-comparison";
+import { InsightProductCard } from "./insight-product-card";
 
 // Types
 interface SharedContentProps {
@@ -13,7 +14,10 @@ interface SharedContentProps {
   data: ToolDataStore<any, any> | ChatProperties;
 }
 
-type ProductSearchData = ToolDataStore<{ query: string }, ProductsResponse>;
+type ProductSearchData = ToolDataStore<
+  { query: string; reffSource: RefferenceDataSource },
+  any
+>;
 
 type ProductDetailsData = ToolDataStore<
   { query: string; link: string },
@@ -52,9 +56,12 @@ const ChatContent: FC<{ data: ChatProperties }> = ({ data }) => {
   );
 };
 
-const ProductSearchContent: FC<{ data: ProductSearchData }> = ({ data }) => (
-  <ProductSearch content={data.tool} isSharedContent isFinished />
-);
+const ProductSearchContent: FC<{ data: ProductSearchData }> = ({ data }) =>
+  data.tool.args.reffSource === "tokopedia" ? (
+    <ProductSearch content={data.tool} isSharedContent isFinished />
+  ) : (
+    <InsightProductCard content={data.tool} isSharedContent />
+  );
 
 const ProductDetailsContent: FC<{ data: ProductDetailsData }> = ({ data }) => (
   <ProductDetails content={data.tool} isSharedContent />

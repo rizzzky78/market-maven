@@ -17,7 +17,6 @@ import {
   Search,
   Info,
   ChevronUp,
-  ArrowDown01,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
@@ -35,12 +34,8 @@ import {
 import { useMavenStateController } from "../hooks/maven-state-controller";
 import { generateId, LanguageModelUsage } from "ai";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
 import { HoverCardUsage } from "./hover-card-usage";
+import { ExtendedToolResult, RefferenceDataSource } from "@/lib/types/ai";
 
 // Helper function to extract YouTube video ID from URL
 const getYouTubeVideoId = (url: string): string | null => {
@@ -128,27 +123,35 @@ const storeItemVariants = {
   },
 };
 
-interface InsightProductCardProps {
-  data: DataSourceInsight;
-  loading?: boolean;
+type InsightProductCardProps = {
+  content: ExtendedToolResult<
+    {
+      query: string;
+      reffSource: RefferenceDataSource;
+    },
+    DataSourceInsight
+  >;
   isSharedContent?: boolean;
+  opened?: boolean;
   usage?: LanguageModelUsage;
-}
+};
 
 export const InsightProductCard: FC<InsightProductCardProps> = ({
-  data,
-  loading,
+  content,
   isSharedContent,
   usage,
+  opened = false,
 }) => {
   const [selectedVideoIndex, setSelectedVideoIndex] = useState(0);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(opened);
   const [mounted, setMounted] = useState(false);
   const { isGenerating } = useAppState();
 
   const { attach, detach, activeComparison } = useMavenStateController();
 
-  const product = data.data;
+  const {
+    data: { data: product, callId },
+  } = content;
 
   const handleAttach = () => {
     detach();
@@ -165,7 +168,7 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
     setMounted(true);
   }, []);
 
-  if (!mounted || loading) {
+  if (!mounted) {
     return <InsightProductCardSkeleton />;
   }
 
@@ -177,7 +180,7 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
 
   return (
     <motion.div
-      className="w-full"
+      className="w-full mt-4"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -274,7 +277,7 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
                 <p className="text-black/70 dark:text-white/50 text-xs">
                   *swipe to explore images
                 </p>
-                <div className="flex justify-end">
+                <div className="hidden md:flex justify-end">
                   {usage && <HoverCardUsage usage={usage} />}
                 </div>
               </div>
@@ -290,7 +293,7 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
             >
               <div className="flex items-start space-x-2">
                 <Info className="size-4 shrink-0 text-purple-500 dark:text-purple-300" />
-                <p className="text-xs">
+                <p className="text-xs pr-1">
                   Maven is not affiliated with the relevant online marketplace,
                   the displayed results may not match the user&apos;s intent.
                 </p>
@@ -298,8 +301,8 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
               <ShareButton
                 title={"Product Search"}
                 type={"product-search"}
-                callId={""}
-                disabled={false}
+                callId={callId}
+                disabled={isSharedContent}
               />
               <Button
                 variant={"outline"}
@@ -345,7 +348,7 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
                             ? "#FF5722"
                             : "#1A1A1D",
                       }}
-                      className="py-1 px-3 border border-muted rounded-full"
+                      className="text-white py-1 px-3 border border-muted rounded-full"
                     >
                       {product.marketSource}
                     </div>

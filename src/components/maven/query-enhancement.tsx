@@ -30,7 +30,7 @@ export const QueryEnhancement: FC<QueryEnhancementProps> = ({
   } = data;
 
   const [mounted, setMounted] = useState(false);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const formatLabel = (str: string) => {
     return str
@@ -263,7 +263,7 @@ export const QueryEnhancement: FC<QueryEnhancementProps> = ({
                       </motion.p>
                       {usage && (
                         <motion.div
-                          className="w-full flex justify-end pt-4"
+                          className="w-full hidden md:flex justify-end pt-4"
                           variants={itemVariants}
                         >
                           <motion.div className="flex items-center space-x-1 text-black dark:text-white">

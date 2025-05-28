@@ -53,7 +53,7 @@ export const QuickActionButton: FC = () => {
   const [, setUIState] = useUIState<typeof AI>();
   const { orchestrator } = useActions<typeof AI>();
   const { isGenerating, setIsGenerating } = useAppState();
-  const { attachment, flush, activeComparison, search, related } =
+  const { attachment, flush, activeComparison, search, related, reffSource } =
     useMavenStateController();
 
   const actionSubmit = useCallback(
@@ -88,7 +88,7 @@ export const QuickActionButton: FC = () => {
           {
             textInput: query,
           },
-          { onRequest: { search, related } }
+          { onRequest: { search, related, reffSource } }
         );
 
         setUIState((prevUI) => [...prevUI, { id, display }]);
@@ -119,6 +119,7 @@ export const QuickActionButton: FC = () => {
       flush,
       isGenerating,
       orchestrator,
+      reffSource,
       related,
       search,
       setIsGenerating,
