@@ -1,48 +1,31 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import { StreamableValue, useStreamableValue } from "ai/rsc";
 import { FC, useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { ErrorMessage } from "./error-message";
+import { AnimatePresence, motion } from "framer-motion";
 import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
+  TooltipProvider,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@radix-ui/react-tooltip";
 import {
-  Play,
   Search,
-  Info,
-  ChevronUp,
   FlipHorizontal,
   SquareArrowOutUpRightIcon,
+  Info,
+  ChevronUp,
   Loader2,
 } from "lucide-react";
-import Link from "next/link";
-import { Separator } from "@/components/ui/separator";
-import { ShareButton } from "./share-button";
-import { Button } from "@/components/ui/button";
-import { InsightProductCardSkeleton } from "./insight-product-card-skeleton";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-  TooltipProvider,
-} from "../ui/tooltip";
-import { useMavenStateController } from "../hooks/maven-state-controller";
-import { LanguageModelUsage } from "ai";
-import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import { HoverCardUsage } from "./hover-card-usage";
-import { ExtendedToolResult, RefferenceDataSource } from "@/lib/types/ai";
-import { MemoProductDetailsInsight } from "./memo-product-details-insight";
+import { Button } from "../ui/button";
+import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 import { ExtendedMessage } from "./extended-message";
-
-// Helper function to extract YouTube video ID from URL
-const getYouTubeVideoId = (url: string): string | null => {
-  const regex =
-    /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/;
-  const match = url.match(regex);
-  return match ? match[1] : null;
-};
+import { MemoProductDetailsInsight } from "./memo-product-details-insight";
+import { ShareButton } from "./share-button";
+import Link from "next/link";
+import { InsightProductCardSkeleton } from "./insight-product-card-skeleton";
 
 // Animation variants
 const containerVariants = {
@@ -110,61 +93,36 @@ const collapsibleVariants = {
   },
 };
 
-type DetailsInsight = {
+type StreamProductDetailsProps = {
+  content: StreamableValue<Record<string, any>>;
   callId: string;
-  prevData: {
-    title: string;
-    estimatedPrice: string;
-    reffCallId: string;
+  data: {
+    prevData: {
+      title: string;
+      estimatedPrice: string;
+      reffCallId: string;
+    };
+    snapshots: {
+      images: string[];
+    };
+    externalData: { markdown: string | null; tavily: string | null };
   };
-  snapshots: {
-    images: string[];
-    videos: string[];
-  };
-  externalData: {
-    tavily: string | null;
-    markdown: string | null;
-  };
-  productDetails: Record<string, any>;
 };
 
-export type ProductDetailsInsightProps = {
-  content: ExtendedToolResult<
-    {
-      query: string;
-      source: RefferenceDataSource;
-    },
-    DetailsInsight
-  >;
-  isSharedContent?: boolean;
-  opened?: boolean;
-  usage?: LanguageModelUsage;
-};
-
-export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
+export const StreamProductDetailsInsight: FC<StreamProductDetailsProps> = ({
+  callId,
   content,
-  isSharedContent,
-  usage,
-  opened = false,
+  data,
 }) => {
-  const [selectedVideoIndex, setSelectedVideoIndex] = useState(0);
-  const [open, setOpen] = useState(opened);
+  const [raw, error] = useStreamableValue(content);
+  const [dataStream, setDataStream] = useState<Record<string, any>>({});
+
+  const [open, setOpen] = useState(true);
   const [mounted, setMounted] = useState(false);
-  const { isGenerating } = useAppState();
 
-  const { activeComparison, addToComparison, attachment } =
-    useMavenStateController();
-
-  const {
-    args,
-    data: { prevData, snapshots, externalData, callId, productDetails },
-  } = content;
-
-  const attachComparison = () => {
-    addToComparison({
-      for: { title: args.query, callId },
-    });
-  };
+  useEffect(() => {
+    if (raw) setDataStream(raw);
+  }, [raw]);
 
   useEffect(() => {
     setMounted(true);
@@ -174,14 +132,17 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
     return <InsightProductCardSkeleton type="details" />;
   }
 
-  const comparisonState = activeComparison
-    ? activeComparison.for.length === 2 ||
-      Boolean(activeComparison.for.find((v) => v.callId === callId))
-    : false;
+  if (error) {
+    return (
+      <ErrorMessage
+        errorName="Stream Object Parsing Operation Failed"
+        reason="There was an error while parsing the streamable-value input."
+        raw={{ trace: raw }}
+      />
+    );
+  }
 
-  const isButtonDisabled = Boolean(attachment) || comparisonState;
-
-  const sharedContent = isSharedContent ?? false;
+  const { externalData, prevData, snapshots } = data;
 
   return (
     <div className="w-full">
@@ -224,6 +185,7 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                 >
                   Tavily
                 </Link>
+                <Loader2 className="size-4 animate-spin" />
               </p>
             </div>
           </motion.div>
@@ -260,8 +222,7 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                           variant={"outline"}
                           size={"sm"}
                           className="rounded-3xl h-9 text-md px-4 font-normal bg-[#1A1A1D] dark:bg-background text-white hover:border-[#1A1A1D]"
-                          onClick={attachComparison}
-                          disabled={sharedContent ? true : isButtonDisabled}
+                          disabled
                         >
                           <FlipHorizontal className="size-4 text-purple-500 dark:text-purple-300" />
                           <span>Compare</span>
@@ -330,9 +291,6 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                   <p className="text-black/70 dark:text-white/50 text-xs">
                     *swipe to explore images
                   </p>
-                  <div className="hidden md:flex justify-end">
-                    {usage && <HoverCardUsage usage={usage} />}
-                  </div>
                 </div>
               </motion.div>
             </div>
@@ -357,14 +315,14 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                   subtitle={prevData.title}
                   type={"product-details"}
                   callId={callId}
-                  disabled={isSharedContent}
+                  disabled
                 />
                 <Button
                   variant={"outline"}
                   size={"icon"}
                   onClick={() => setOpen((prev) => !prev)}
                   className="rounded-full shrink-0 size-9"
-                  disabled={isGenerating}
+                  disabled
                 >
                   <motion.div
                     animate={{ rotate: open ? 0 : 180 }}
@@ -386,103 +344,12 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                   style={{ overflow: "hidden" }}
                 >
                   <motion.div variants={itemVariants} className="px-0 md:px-4">
-                    <MemoProductDetailsInsight data={[productDetails]} />
+                    <MemoProductDetailsInsight data={[dataStream]} />
                     <div className="mt-6 flex items-center space-x-2 justify-start">
                       <Info className="size-4 text-purple-500 dark:text-purple-300" />
                       <p className="text-xs">
                         AI generated information, for reference only.
                       </p>
-                    </div>
-                  </motion.div>
-
-                  <motion.div variants={itemVariants}>
-                    <Separator className="my-10" />
-                  </motion.div>
-
-                  <motion.div
-                    className="w-full flex flex-col px-0 md:px-4 pb-4"
-                    variants={itemVariants}
-                  >
-                    <div className="">
-                      <div className="mb-3">
-                        <p className="text-sm text-black dark:text-white">
-                          Related Videos
-                        </p>
-                      </div>
-                      <div className="pt-0 space-y-3">
-                        {/* Main Video Player */}
-                        <motion.div
-                          className="aspect-video rounded-md overflow-hidden"
-                          initial={{ opacity: 0, scale: 0.95 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.5, delay: 0.2 }}
-                        >
-                          {(() => {
-                            const videoId = getYouTubeVideoId(
-                              snapshots.videos[selectedVideoIndex]
-                            );
-                            return videoId ? (
-                              <iframe
-                                src={`https://www.youtube.com/embed/${videoId}`}
-                                title={`Product video ${
-                                  selectedVideoIndex + 1
-                                }`}
-                                className="w-full h-full"
-                                allowFullScreen
-                              />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center text-gray-400">
-                                <Play className="w-12 h-12" />
-                              </div>
-                            );
-                          })()}
-                        </motion.div>
-
-                        {/* Video Thumbnails */}
-                        <motion.div
-                          className="flex gap-2 overflow-x-auto pb-2 justify-between"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.5, delay: 0.4 }}
-                        >
-                          {snapshots.videos.map((video, index) => {
-                            const videoId = getYouTubeVideoId(video);
-                            return (
-                              <motion.button
-                                key={index}
-                                onClick={() => setSelectedVideoIndex(index)}
-                                className={`flex-shrink-0 w-[100px] h-[60px] rounded-lg border-2 overflow-hidden transition-colors ${
-                                  selectedVideoIndex === index
-                                    ? "border-purple-500"
-                                    : "bg-black/5 dark:bg-transparent hover:border-purple-500"
-                                }`}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{
-                                  duration: 0.3,
-                                  delay: index * 0.1 + 0.5,
-                                  hover: { duration: 0.2 },
-                                  tap: { duration: 0.1 },
-                                }}
-                              >
-                                {videoId ? (
-                                  <img
-                                    src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
-                                    alt={`Video ${index + 1}`}
-                                    className="w-full h-full object-cover"
-                                  />
-                                ) : (
-                                  <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                                    <Play className="w-4 h-4 text-gray-400" />
-                                  </div>
-                                )}
-                              </motion.button>
-                            );
-                          })}
-                        </motion.div>
-                      </div>
                     </div>
                   </motion.div>
                 </motion.div>
