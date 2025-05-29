@@ -33,7 +33,7 @@ export const ExtendedMessage: FC<ExtendedMessageProps> = ({
         className="px-2 py-1 rounded-3xl bg-background *:border-none"
       >
         <AccordionItem value="item-1" className="border-b-0">
-          <AccordionTrigger className="p-2 flex justify-start items-start text-black/90 dark:text-white/90 text-sm font-medium rounded-3xl bg-background">
+          <AccordionTrigger className="hover:no-underline p-2 flex justify-start items-start text-black/90 dark:text-white/90 text-sm font-medium rounded-3xl bg-background">
             <span className="line-clamp-1 font-normal text-sm">
               Deep Search
             </span>
@@ -48,7 +48,7 @@ export const ExtendedMessage: FC<ExtendedMessageProps> = ({
                   transition={{ duration: 0.2 }}
                   className="pr-2 *:leading-tight *:dark:text-white/80 *:text-black/80"
                 >
-                  <Separator className="mb-3 bg-[#1A1A1D] dark:bg-muted" />
+                  {/* <Separator className="mb-3 bg-[#1A1A1D] dark:bg-muted" /> */}
                   <ScrollArea className="h-[220px] px-2">
                     <Markdown className="leading-tight">{content}</Markdown>
                     {tavilyAnswer && (

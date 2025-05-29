@@ -126,8 +126,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
                           <TooltipTrigger asChild>
                             <Button
                               variant={"outline"}
-                              size={"sm"}
-                              className="rounded-3xl py-1 font-normal bg-[#1A1A1D] dark:bg-background text-white hover:border-[#1A1A1D]"
+                              className="rounded-3xl h-9 font-normal bg-[#1A1A1D] dark:bg-background text-white hover:border-[#1A1A1D]"
                               onClick={attachComparison}
                               disabled={sharedContent ? true : isButtonDisabled}
                             >
@@ -271,8 +270,7 @@ export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
                           <TooltipTrigger asChild>
                             <Button
                               variant={"outline"}
-                              size={"sm"}
-                              className="rounded-3xl py-1 font-normal bg-[#1A1A1D] dark:bg-background text-white hover:border-[#1A1A1D]"
+                              className="rounded-3xl h-9 font-normal bg-[#1A1A1D] dark:bg-background text-white hover:border-[#1A1A1D]"
                               disabled
                             >
                               <FlipHorizontal className="size-4 text-purple-500 dark:text-purple-300" />

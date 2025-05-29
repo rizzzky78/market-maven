@@ -13,14 +13,12 @@ import {
   ExternalLink,
   MapPin,
   Star,
-  Play,
   Search,
   Info,
   ChevronUp,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
-import { Separator } from "@/components/ui/separator";
 import { ShareButton } from "./share-button";
 import { Button } from "@/components/ui/button";
 import type { DataSourceInsight } from "@/lib/types/subtools";
@@ -36,14 +34,6 @@ import { generateId, LanguageModelUsage } from "ai";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { HoverCardUsage } from "./hover-card-usage";
 import { ExtendedToolResult, RefferenceDataSource } from "@/lib/types/ai";
-
-// Helper function to extract YouTube video ID from URL
-const getYouTubeVideoId = (url: string): string | null => {
-  const regex =
-    /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/;
-  const match = url.match(regex);
-  return match ? match[1] : null;
-};
 
 // Animation variants
 const containerVariants = {
@@ -123,7 +113,7 @@ const storeItemVariants = {
   },
 };
 
-type InsightProductCardProps = {
+export type InsightProductCardProps = {
   content: ExtendedToolResult<
     {
       query: string;
@@ -142,12 +132,13 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
   usage,
   opened = false,
 }) => {
-  const [selectedVideoIndex, setSelectedVideoIndex] = useState(0);
   const [open, setOpen] = useState(opened);
   const [mounted, setMounted] = useState(false);
   const { isGenerating } = useAppState();
 
   const { attach, detach, activeComparison } = useMavenStateController();
+
+  console.log(JSON.stringify(content));
 
   const {
     data: { data: product, callId },
@@ -187,7 +178,10 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
     >
       {/* Header */}
       <div className="w-full mb-5">
-        <motion.div className="absolute ml-4 -mt-4" variants={itemVariants}>
+        <motion.div
+          className="z-10 absolute ml-4 -mt-4"
+          variants={itemVariants}
+        >
           <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center">
             <Search className="size-4 mr-1 text-blue-400" />
             <p className="text-xs font-semibold">
@@ -213,7 +207,10 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
               className="pl-2 md:pl-4 flex flex-col space-y-4 lg:justify-start h-full w-full lg:max-w-[350px]"
               variants={itemVariants}
             >
-              <div className="text-2xl md:text-3xl lg:text-4xl line-clamp-4 font-semibold text-black dark:text-white leading-tight">
+              <div
+                id={callId}
+                className="text-2xl md:text-3xl lg:text-4xl line-clamp-4 font-semibold text-black dark:text-white leading-tight"
+              >
                 <h4>{product.title}</h4>
               </div>
               <div className="pt-5 flex flex-col text-black dark:text-white">
@@ -348,13 +345,13 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
                             ? "#FF5722"
                             : "#1A1A1D",
                       }}
-                      className="text-white py-1 px-3 border border-muted rounded-full"
+                      className="capitalize text-white py-1 px-3 border border-muted rounded-full"
                     >
                       {product.marketSource}
                     </div>
                   </motion.div>
 
-                  <motion.div variants={itemVariants}>
+                  <motion.div variants={itemVariants} className="pb-4">
                     <ScrollArea className="w-full h-[240px] py-4 px-3 lg:px-5">
                       <div className="space-y-3">
                         {product.availableStore.map((store, index) => (
@@ -415,95 +412,6 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
                       </div>
                     </ScrollArea>
                   </motion.div>
-                </motion.div>
-
-                <motion.div variants={itemVariants}>
-                  <Separator className="mb-[50px] mt-[30px]" />
-                </motion.div>
-
-                <motion.div
-                  className="w-full flex flex-col px-0 md:px-4 pb-4"
-                  variants={itemVariants}
-                >
-                  <div className="">
-                    <div className="mb-3">
-                      <p className="text-sm text-black dark:text-white">
-                        Related Videos
-                      </p>
-                    </div>
-                    <div className="pt-0 space-y-3">
-                      {/* Main Video Player */}
-                      <motion.div
-                        className="aspect-video rounded-md overflow-hidden"
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                      >
-                        {(() => {
-                          const videoId = getYouTubeVideoId(
-                            product.videos[selectedVideoIndex]
-                          );
-                          return videoId ? (
-                            <iframe
-                              src={`https://www.youtube.com/embed/${videoId}`}
-                              title={`Product video ${selectedVideoIndex + 1}`}
-                              className="w-full h-full"
-                              allowFullScreen
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-gray-400">
-                              <Play className="w-12 h-12" />
-                            </div>
-                          );
-                        })()}
-                      </motion.div>
-
-                      {/* Video Thumbnails */}
-                      <motion.div
-                        className="flex gap-2 overflow-x-auto pb-2 justify-between"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.4 }}
-                      >
-                        {product.videos.map((video, index) => {
-                          const videoId = getYouTubeVideoId(video);
-                          return (
-                            <motion.button
-                              key={index}
-                              onClick={() => setSelectedVideoIndex(index)}
-                              className={`flex-shrink-0 w-[100px] h-[60px] rounded-lg border-2 overflow-hidden transition-colors ${
-                                selectedVideoIndex === index
-                                  ? "border-purple-500"
-                                  : "bg-black/5 dark:bg-transparent hover:border-purple-500"
-                              }`}
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{
-                                duration: 0.3,
-                                delay: index * 0.1 + 0.5,
-                                hover: { duration: 0.2 },
-                                tap: { duration: 0.1 },
-                              }}
-                            >
-                              {videoId ? (
-                                <img
-                                  src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
-                                  alt={`Video ${index + 1}`}
-                                  className="w-full h-full object-cover"
-                                />
-                              ) : (
-                                <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                                  <Play className="w-4 h-4 text-gray-400" />
-                                </div>
-                              )}
-                            </motion.button>
-                          );
-                        })}
-                      </motion.div>
-                    </div>
-                  </div>
                 </motion.div>
               </motion.div>
             )}

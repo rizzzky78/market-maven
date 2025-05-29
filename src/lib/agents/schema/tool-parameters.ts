@@ -29,8 +29,14 @@ export const getProductDetailsSchema = z.object({
     ),
   link: z
     .string()
+    .optional()
     .describe(
-      "The complete product URL from a supported marketplace platform. Must be a valid, accessible URL that follows the pattern 'https://www.tokopedia.com/'"
+      "The complete product URL, if the source is `tokopedia` then the link will be available. Must be a valid, accessible URL that follows the pattern 'https://www.tokopedia.com/'"
+    ),
+  source: z
+    .enum(["tokopedia", "global"])
+    .describe(
+      "The source platform from which the product details are being requested. Must be either 'tokopedia' or 'global' to ensure compatibility with the respective data retrieval methods."
     ),
 });
 

@@ -109,7 +109,10 @@ const handleProductSearch = (
         isSharedContent={isSharedPage}
       />
     ) : (
-      <InsightProductCard content={searchResult} />
+      <InsightProductCard
+        content={searchResult}
+        isSharedContent={isSharedPage}
+      />
     ),
   };
 };

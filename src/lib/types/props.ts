@@ -7,7 +7,7 @@ import { ProductDetailsResponse, RecommendationResponse } from "./product";
 
 export type ProductDetailsProps = {
   content: ExtendedToolResult<
-    { query: string; link: string },
+    { query: string; link: string; source: "tokopedia" | "global" },
     ProductDetailsResponse
   >;
   isSharedContent?: boolean;

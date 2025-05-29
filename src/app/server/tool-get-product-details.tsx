@@ -52,7 +52,7 @@ const toolGetProductDetails = ({
   const getProductDetails: RenderTool<typeof getProductDetailsSchema> = {
     description: TEMPLATE.get_product_details_description,
     parameters: getProductDetailsSchema,
-    generate: async function* ({ query, link }) {
+    generate: async function* ({ query, link, source }) {
       const toolRequestId = v4();
 
       yield <LoadingText text={`Getting data product for ${query}`} />;

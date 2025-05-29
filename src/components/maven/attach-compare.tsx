@@ -29,8 +29,8 @@ export const AttachCompareBadge: FC<BadgeProps> = ({
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.2 }}
+        exit={{ opacity: 0, y: 20 }}
+        transition={{ duration: 0.4, ease: "easeInOut" }}
         className="w-full"
       >
         <div className="flex items-center justify-between mb-1 py-0.5 pl-1 pr-1.5 bg-[#D8D2C2] hover:bg-[#D8D2C2] dark:bg-[#343131] dark:hover:bg-[#343131] rounded-3xl">
