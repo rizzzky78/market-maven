@@ -1,65 +1,62 @@
 "use client";
 
-import { FC, useState } from "react";
-import { FlipHorizontal, Info, NotepadText } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "@radix-ui/react-separator";
+import {
+  TooltipProvider,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@radix-ui/react-tooltip";
+import { StreamableValue, useStreamableValue } from "ai/rsc";
+import { NotepadText, Info, FlipHorizontal } from "lucide-react";
+import Link from "next/link";
+import { FC, useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { ErrorMessage } from "@/components/maven/error-message";
+import { ExtendedMessage } from "@/components/maven/extended-message";
 import { Lens } from "@/components/maven/lens";
 import { MemoProductDetails } from "@/components/maven/memo-product-details";
-import { ProductDetailsProps } from "@/lib/types/props";
-import { ErrorMessage } from "@/components/maven/error-message";
-import { Button } from "@/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-  TooltipProvider,
-} from "@/components/ui/tooltip";
-import Link from "next/link";
-import { useMavenStateController } from "@/components/hooks/maven-state-controller";
 import { ShareButton } from "@/components/maven/share-button";
-import { ExtendedMessage } from "@/components/maven/extended-message";
 import Image from "next/image";
 
-export const ProductDetails: FC<ProductDetailsProps> = ({
+interface StreamProductDetailsProps {
+  content: StreamableValue<Record<string, any>>;
+  callId: string;
+  query: string;
+  link: string;
+  screenshot?: string;
+  externalData: { markdown: string | null; tavily: string | null };
+}
+
+export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
   content,
-  isSharedContent,
+  callId,
+  query,
+  link,
+  screenshot,
+  externalData,
 }) => {
-  const { success, args, data } = content;
-
+  const [raw, error, pending] = useStreamableValue(content);
+  const [data, setData] = useState<Record<string, any>>({});
   const [hovering, setHovering] = useState(false);
-  const { addToComparison, activeComparison, attachment } =
-    useMavenStateController();
 
-  if (!success) {
+  useEffect(() => {
+    if (raw) setData(raw);
+  }, [raw]);
+
+  if (error) {
     return (
       <ErrorMessage
-        errorName="Invalid Data Tool Results"
-        reason="Data tool results failed to render. This occur when received data tool are invalid on pre-processing the results."
-        raw={{ args, data }}
+        errorName="Stream Object Parsing Operation Failed"
+        reason="There was an error while parsing the streamable-value input."
+        raw={{ trace: raw }}
       />
     );
   }
 
-  const { callId, productDetails, screenshot, externalData } = data;
-
-  const comparisonState = activeComparison
-    ? activeComparison.for.length === 2 ||
-      Boolean(activeComparison.for.find((v) => v.callId === callId))
-    : false;
-
-  const isButtonDisabled = Boolean(attachment) || comparisonState;
-
-  const attachComparison = () => {
-    addToComparison({
-      for: { title: args.query, callId },
-    });
-  };
-
-  const sharedContent = isSharedContent ?? false;
-
   return (
     <div className="w-full">
-      {externalData?.tavily && externalData?.markdown && (
+      {externalData?.markdown && externalData?.tavily && (
         <ExtendedMessage
           content={externalData.markdown}
           tavilyAnswer={externalData.tavily}
@@ -94,7 +91,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
                 >
                   <Image
                     src={screenshot}
-                    alt={args.query}
+                    alt={query}
                     width={1400}
                     height={788}
                     quality={100}
@@ -117,7 +114,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
                           title={"Product Details"}
                           type={"product-details"}
                           callId={callId}
-                          disabled={isSharedContent}
+                          disabled
                         />
                       </div>
                       <TooltipProvider>
@@ -126,8 +123,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
                             <Button
                               variant={"outline"}
                               className="rounded-3xl h-9 font-normal bg-[#1A1A1D] dark:bg-background text-white hover:border-[#1A1A1D]"
-                              onClick={attachComparison}
-                              disabled={sharedContent ? true : isButtonDisabled}
+                              disabled
                             >
                               <FlipHorizontal className="size-4 text-purple-500 dark:text-purple-300" />
                               <span>Compare</span>
@@ -149,10 +145,10 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
           <Separator className="mt-2 mb-4 bg-[#1A1A1D] dark:bg-muted" />
           <MemoProductDetails
             callId={callId}
-            query={args.query}
-            link={args.link}
-            data={[productDetails]}
-            isGenerating={false}
+            query={query}
+            link={link}
+            data={[data]}
+            isGenerating={pending}
           />
           <div className="mb-2 flex items-center space-x-2 justify-center">
             <Info className="size-4 text-purple-500 dark:text-purple-300" />
