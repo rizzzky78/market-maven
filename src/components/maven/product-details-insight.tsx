@@ -15,7 +15,6 @@ import {
   ChevronUp,
   FlipHorizontal,
   SquareArrowOutUpRightIcon,
-  Loader2,
 } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
@@ -238,7 +237,7 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                 variants={itemVariants}
               >
                 <div className="flex flex-col space-y-1">
-                  <p className="text-xs text-black/50 dark:text-white/50">
+                  <p className="lowercase text-xs text-black/50 dark:text-white/50">
                     Product Details for:
                   </p>
                   <div className="text-2xl md:text-3xl lg:text-4xl line-clamp-4 font-semibold text-black dark:text-white leading-tight">
@@ -246,7 +245,7 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                   </div>
                 </div>
                 <div className="pt-5 flex flex-col text-black dark:text-white">
-                  <p className="opacity-70 text-xs">estimated price:</p>
+                  <p className="opacity-50 text-xs">estimated price:</p>
                   <p className="text-xl md:text-2xl">
                     {prevData.estimatedPrice}
                   </p>

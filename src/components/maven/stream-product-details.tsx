@@ -6,7 +6,7 @@ import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-} from "@radix-ui/react-tooltip";
+} from "@/components/ui/tooltip";
 import { StreamableValue, useStreamableValue } from "ai/rsc";
 import { NotepadText, Info, FlipHorizontal } from "lucide-react";
 import Link from "next/link";

@@ -1,18 +1,19 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
-import { ProductCard } from "@/components/maven/product-card";
-import { AnimatePresence, motion } from "framer-motion";
-import { ChevronUp, Info, Search, SearchCheck } from "lucide-react";
 import Link from "next/link";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { ProductsResponse } from "@/lib/types/product";
-import { Lens } from "@/components/maven/lens";
-import { ProductCardSkeleton } from "@/components/maven/product-card-skeleton";
-import { ExtendedToolResult } from "@/lib/types/ai";
-import { ShareButton } from "@/components/maven/share-button";
 import Image from "next/image";
+import { Product } from "@/lib/types/product";
+import { DeepPartial } from "ai";
+import { StreamableValue, useStreamableValue } from "ai/rsc";
+import { motion, AnimatePresence } from "framer-motion";
+import { Search, Info, SearchCheck, ChevronUp } from "lucide-react";
+import { FC, useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { ErrorMessage } from "@/components/maven/error-message";
+import { Lens } from "@/components/maven/lens";
+import { ProductCard } from "@/components/maven/product-card";
+import { ShareButton } from "@/components/maven/share-button";
+import { Separator } from "@/components/ui/separator";
 
 // Animation configurations
 const ANIMATION_CONSTANTS = {
@@ -57,46 +58,37 @@ const animations = {
   },
 };
 
-interface ProductsProps {
-  content: ExtendedToolResult<{ query: string }, ProductsResponse>;
-  isFinished?: boolean;
-  isSharedContent?: boolean;
+interface StreamProps {
+  query: string;
+  products: StreamableValue<DeepPartial<Product[]>>;
+  screenshot?: string;
+  callId: string;
 }
 
-export const ProductSearch: FC<ProductsProps> = ({
-  content,
-  isFinished,
-  isSharedContent,
+export const StreamProductSearch: FC<StreamProps> = ({
+  query,
+  products,
+  screenshot,
+  callId,
 }) => {
-  const [isContentReady, setIsContentReady] = useState(false);
+  const [raw, error, pending] = useStreamableValue(products);
+  const [data, setData] = useState<DeepPartial<Product[]>>([]);
   const [hovering, setHovering] = useState(false);
   const [open, setOpen] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(
-      () => setIsContentReady(true),
-      ANIMATION_CONSTANTS.DELAY_MS
+    if (raw) setData(raw);
+  }, [raw]);
+
+  if (error) {
+    return (
+      <ErrorMessage
+        errorName="Products Container (Stream)"
+        reason="Error stream-object-generation"
+        raw={{ raw }}
+      />
     );
-    return () => clearTimeout(timer);
-  }, []);
-
-  const renderSkeletons = () =>
-    Array.from({ length: ANIMATION_CONSTANTS.SKELETON_COUNT }).map((_, idx) => (
-      <div key={`skeleton-${idx}`}>
-        <ProductCardSkeleton />
-      </div>
-    ));
-
-  const renderProducts = () =>
-    content.data.data.map((product, index) => (
-      <motion.div key={`product-${index}`} variants={animations.item}>
-        <ProductCard
-          product={product}
-          isFinished={isFinished}
-          isSharedContent={isSharedContent}
-        />
-      </motion.div>
-    ));
+  }
 
   return (
     <div className="w-full mb-5">
@@ -117,7 +109,7 @@ export const ProductSearch: FC<ProductsProps> = ({
         </div>
       </div>
       <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-[2rem] px-4 py-2">
-        {content.data.screenshot && (
+        {screenshot && (
           <div className="my-1 pt-1">
             <motion.div
               variants={animations.item}
@@ -131,8 +123,8 @@ export const ProductSearch: FC<ProductsProps> = ({
                 lensSize={270}
               >
                 <Image
-                  src={content.data.screenshot}
-                  alt={content.args.query}
+                  src={screenshot}
+                  alt={query}
                   width={1400}
                   height={788}
                   quality={100}
@@ -152,8 +144,7 @@ export const ProductSearch: FC<ProductsProps> = ({
                 <ShareButton
                   title={"Product Search"}
                   type={"product-search"}
-                  callId={content.data.callId}
-                  disabled={isSharedContent}
+                  callId={callId}
                 />
               </div>
             </motion.div>
@@ -166,7 +157,7 @@ export const ProductSearch: FC<ProductsProps> = ({
               <SearchCheck className="size-4 shrink-0" />
               <h3 className="text-sm line-clamp-1">
                 Product Search:
-                <span className="ml-1 font-semibold">{content.args.query}</span>
+                <span className="ml-1 font-semibold">{query}</span>
               </h3>
             </div>
             <div>
@@ -194,9 +185,19 @@ export const ProductSearch: FC<ProductsProps> = ({
                 initial="hidden"
                 animate="visible"
               >
-                {isContentReady && isFinished
-                  ? renderProducts()
-                  : renderSkeletons()}
+                {Array.isArray(data)
+                  ? data.map((product, index) => (
+                      <motion.div
+                        key={`product-${index}`}
+                        variants={animations.item}
+                      >
+                        <ProductCard
+                          product={product as Partial<Product>}
+                          isFinished={!pending}
+                        />
+                      </motion.div>
+                    ))
+                  : null}
               </motion.div>
             </div>
           )}
