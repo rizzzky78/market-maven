@@ -40,7 +40,10 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
     );
   }
 
-  const { callId, productDetails, screenshot, externalData } = data;
+  const {
+    callId,
+    object: { productDetails, screenshot, externalData },
+  } = data;
 
   const comparisonState = activeComparison
     ? activeComparison.for.length === 2 ||

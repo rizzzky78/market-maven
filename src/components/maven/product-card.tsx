@@ -86,6 +86,7 @@ export const ProductCard: FC<ProductProps> = ({
         id: generateId(),
         title: title ?? "error-no-title",
         link: link ?? "error-no-link",
+        callId: `tkp-${generateId()}`,
         source: "tokopedia",
       },
     });

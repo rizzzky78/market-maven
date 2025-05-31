@@ -330,7 +330,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
 
   return (
     <div
-      className="w-full *:font-[family-name:var(--font-satoshi)] z-[40]"
+      className="w-full *:font-[family-name:var(--font-satoshi)] z-[50]"
       data-testid="chat-panel"
     >
       <div className={`w-full flex justify-center bg-background`}>

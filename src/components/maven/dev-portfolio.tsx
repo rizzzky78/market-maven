@@ -2,7 +2,7 @@
 
 import { useState, useEffect, FC } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Code, CodeXml, Laptop, Sparkles } from "lucide-react";
+import { CodeXml, Laptop, Sparkles } from "lucide-react";
 
 export const DevPortfolio: FC = () => {
   const [mounted, setMounted] = useState(false);

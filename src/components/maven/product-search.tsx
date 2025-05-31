@@ -7,7 +7,10 @@ import { ChevronUp, Info, Search, SearchCheck } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { ProductsResponse } from "@/lib/types/product";
+import {
+  SearchProductResult,
+  TokopediaSearchResult,
+} from "@/lib/types/product";
 import { Lens } from "@/components/maven/lens";
 import { ProductCardSkeleton } from "@/components/maven/product-card-skeleton";
 import { ExtendedToolResult } from "@/lib/types/ai";
@@ -58,7 +61,10 @@ const animations = {
 };
 
 interface ProductsProps {
-  content: ExtendedToolResult<{ query: string }, ProductsResponse>;
+  content: ExtendedToolResult<
+    { query: string },
+    SearchProductResult<TokopediaSearchResult>
+  >;
   isFinished?: boolean;
   isSharedContent?: boolean;
 }
@@ -71,6 +77,10 @@ export const ProductSearch: FC<ProductsProps> = ({
   const [isContentReady, setIsContentReady] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [open, setOpen] = useState(true);
+
+  const {
+    data: { object },
+  } = content;
 
   useEffect(() => {
     const timer = setTimeout(
@@ -88,7 +98,7 @@ export const ProductSearch: FC<ProductsProps> = ({
     ));
 
   const renderProducts = () =>
-    content.data.data.map((product, index) => (
+    object.products.map((product, index) => (
       <motion.div key={`product-${index}`} variants={animations.item}>
         <ProductCard
           product={product}
@@ -117,7 +127,7 @@ export const ProductSearch: FC<ProductsProps> = ({
         </div>
       </div>
       <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-[2rem] px-4 py-2">
-        {content.data.screenshot && (
+        {object.screenshot && (
           <div className="my-1 pt-1">
             <motion.div
               variants={animations.item}
@@ -131,7 +141,7 @@ export const ProductSearch: FC<ProductsProps> = ({
                 lensSize={270}
               >
                 <Image
-                  src={content.data.screenshot}
+                  src={object.screenshot}
                   alt={content.args.query}
                   width={1400}
                   height={788}

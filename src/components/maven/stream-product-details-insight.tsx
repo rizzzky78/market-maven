@@ -26,6 +26,7 @@ import { MemoProductDetailsInsight } from "./memo-product-details-insight";
 import { ShareButton } from "./share-button";
 import Link from "next/link";
 import { InsightProductCardSkeleton } from "./insight-product-card-skeleton";
+import { DetailsGlobal, ProductDetails } from "@/lib/types/product";
 
 // Animation variants
 const containerVariants = {
@@ -96,17 +97,7 @@ const collapsibleVariants = {
 type StreamProductDetailsProps = {
   content: StreamableValue<Record<string, any>>;
   callId: string;
-  data: {
-    prevData: {
-      title: string;
-      estimatedPrice: string;
-      reffCallId: string;
-    };
-    snapshots: {
-      images: string[];
-    };
-    externalData: { markdown: string | null; tavily: string | null };
-  };
+  data: ProductDetails<DetailsGlobal>["object"];
 };
 
 export const StreamProductDetailsInsight: FC<StreamProductDetailsProps> = ({
@@ -142,7 +133,7 @@ export const StreamProductDetailsInsight: FC<StreamProductDetailsProps> = ({
     );
   }
 
-  const { externalData, prevData, snapshots } = data;
+  const { externalData, previousData, snapshots } = data;
 
   return (
     <div className="w-full">
@@ -204,13 +195,13 @@ export const StreamProductDetailsInsight: FC<StreamProductDetailsProps> = ({
                     Product Details for:
                   </p>
                   <div className="text-2xl md:text-3xl lg:text-4xl line-clamp-4 font-semibold text-black dark:text-white leading-tight">
-                    <h4>{prevData.title}</h4>
+                    <h4>{previousData.title}</h4>
                   </div>
                 </div>
                 <div className="pt-5 flex flex-col text-black dark:text-white">
                   <p className="opacity-70 text-xs">estimated price:</p>
                   <p className="text-xl md:text-2xl">
-                    {prevData.estimatedPrice}
+                    {previousData.estimatedPrice}
                   </p>
                 </div>
 
@@ -246,7 +237,7 @@ export const StreamProductDetailsInsight: FC<StreamProductDetailsProps> = ({
                           }}
                         >
                           <Link
-                            href={`#${prevData.reffCallId}`}
+                            href={`#${previousData.referenceCallId}`}
                             className="group text-black/60 dark:text-white/60 hover:text-purple-500"
                           >
                             <SquareArrowOutUpRightIcon className="size-5 group-hover:text-purple-500 transition-colors duration-300" />
@@ -312,7 +303,7 @@ export const StreamProductDetailsInsight: FC<StreamProductDetailsProps> = ({
                 </div>
                 <ShareButton
                   title={"Product Details"}
-                  subtitle={prevData.title}
+                  subtitle={previousData.title}
                   type={"product-details"}
                   callId={callId}
                   disabled

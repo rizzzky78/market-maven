@@ -1,6 +1,11 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { getEnv } from "./utility/get-env";
+import {
+  ProductDetailsToolResult,
+  ProductDetailsInsightToolResult,
+  UnionProductDetails,
+} from "./types/product";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -50,4 +55,26 @@ export function formatDateWithTime(date: Date | string) {
       hour12: true,
     });
   }
+}
+
+/**
+ * Type guard to check if result is a basic ProductDetailsToolResult
+ * @param result - The tool result to check
+ * @returns True if result contains screenshot and no previousData
+ */
+export function isProductDetailsToolResult(
+  result: UnionProductDetails
+): result is ProductDetailsToolResult {
+  return "screenshot" in result && !("previousData" in result);
+}
+
+/**
+ * Type guard to check if result is a ProductDetailsInsightToolResult
+ * @param result - The tool result to check
+ * @returns True if result contains previousData and snapshots
+ */
+export function isProductDetailsInsightToolResult(
+  result: UnionProductDetails
+): result is ProductDetailsInsightToolResult {
+  return "previousData" in result && "snapshots" in result;
 }

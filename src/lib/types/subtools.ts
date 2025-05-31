@@ -35,8 +35,6 @@ export type DataSourceType = "insight" | "tokopedia" | "shopee";
  * - marketSource: "global" - using global store
  * - marketSource: "shopee" - using shopee as store platform
  */
-export type DataSourceInsight = z.infer<typeof dataSourceInsightSchema> & {
-  callId: string;
-};
+export type DataSourceInsight = z.infer<typeof dataSourceInsightSchema>;
 
 export type DataSourceTokopedia = z.infer<typeof dataSourceTokopediaSchema>;

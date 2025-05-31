@@ -10,10 +10,7 @@ import {
   AssistantMessage,
 } from "@/components/maven/assistant-message";
 import { ErrorMessage } from "@/components/maven/error-message";
-import {
-  StreamProductSearch,
-  ProductSearch,
-} from "@/components/maven/product-search";
+import { ProductSearch } from "@/components/maven/product-search";
 import {
   StreamRelatedMessage,
   RelatedMessage,
@@ -38,7 +35,13 @@ import {
   createToolDataEntry,
 } from "@/lib/service/store";
 import { RenderTool, ToolsetProps } from "@/lib/types/ai";
-import { ProductsResponse, Product } from "@/lib/types/product";
+import {
+  ProductsResponse,
+  Product,
+  SearchProductResult,
+  GlobalSearchResult,
+  TokopediaSearchResult,
+} from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
 import { processURLQuery } from "@/lib/utils";
 import { google } from "@ai-sdk/google";
@@ -54,6 +57,7 @@ import { QueryEnhancementSkeleton } from "@/components/maven/query-enhancement-s
 import { searchProductInsight } from "./subtools/data-source/insight";
 import { InsightProductCardSkeleton } from "@/components/maven/insight-product-card-skeleton";
 import { InsightProductCard } from "@/components/maven/insight-product-card";
+import { StreamProductSearch } from "@/components/maven/stream-product-search";
 
 const toolSearchProduct = ({
   generation,
@@ -155,6 +159,19 @@ const toolSearchProduct = ({
       yield queryVEUI;
 
       /**
+       * Build Toolset
+       */
+
+      const finalizedToolData = {
+        args: { query },
+        data: {
+          source: requestOption?.onRequest?.reffSource,
+          callId: toolRequestId,
+          object: {} as SearchProductResult["object"],
+        },
+      };
+
+      /**
        * Reference Source Switcher
        *
        * Logic:
@@ -175,7 +192,6 @@ const toolSearchProduct = ({
         );
 
         const insightResult = await searchProductInsight({
-          callId: toolRequestId,
           query: enhancedQuery.data.enhanced_query,
           marketSource: requestOption.onRequest.reffSource,
         });
@@ -208,6 +224,19 @@ const toolSearchProduct = ({
           );
         }
 
+        /**
+         * Assign insight result to tool data
+         */
+        finalizedToolData.data.object = insightResult.data.data;
+
+        await createObjectEntry({
+          key: finalizedToolData.data.callId,
+          chatId: state.get().chatId,
+          owner: state.get().username,
+          type: "searchProduct",
+          object: finalizedToolData.data,
+        });
+
         const streamableText = createStreamableValue<string>("");
 
         yield (
@@ -217,8 +246,8 @@ const toolSearchProduct = ({
               content={{
                 success: true,
                 name: "searchProduct",
-                args: { query, reffSource: requestOption.onRequest.reffSource },
-                data: insightResult.data,
+                args: finalizedToolData.args,
+                data: finalizedToolData.data as SearchProductResult<GlobalSearchResult>,
               }}
             />
             <StreamAssistantMessage content={streamableText.value} />
@@ -265,8 +294,8 @@ const toolSearchProduct = ({
               content={{
                 success: true,
                 name: "searchProduct",
-                args: { query, reffSource: requestOption.onRequest.reffSource },
-                data: insightResult.data,
+                args: finalizedToolData.args,
+                data: finalizedToolData.data as SearchProductResult<GlobalSearchResult>,
               }}
             />
             <AssistantMessage content={finalizedText} />
@@ -275,11 +304,9 @@ const toolSearchProduct = ({
 
         const { toolResult, mutate } = mutateTool(state, {
           name: "searchProduct",
-          args: {
-            query,
-            reffSource: requestOption?.onRequest?.reffSource,
-          },
-          result: insightResult.data,
+          args: finalizedToolData.args,
+          result:
+            finalizedToolData.data as SearchProductResult<GlobalSearchResult>,
           overrideAssistant: {
             content: finalizedText,
           },
@@ -411,6 +438,11 @@ const toolSearchProduct = ({
             </>
           );
 
+          (
+            finalizedToolData.data
+              .object as SearchProductResult<TokopediaSearchResult>["object"]
+          ).screenshot = scrapeContent.screenshot;
+
           const finalizedProductSearch: ProductsResponse = {
             callId: toolRequestId,
             screenshot: scrapeContent.screenshot,
@@ -418,7 +450,7 @@ const toolSearchProduct = ({
           };
 
           await createMarkdownEntry({
-            key: finalizedProductSearch.callId,
+            key: finalizedToolData.data.callId,
             chatId: state.get().chatId,
             owner: state.get().username,
             type: "product-search",
@@ -445,7 +477,7 @@ const toolSearchProduct = ({
               {queryVEUI}
               <StreamProductSearch
                 query={query}
-                callId={finalizedProductSearch.callId}
+                callId={finalizedToolData.data.callId}
                 screenshot={scrapeContent.screenshot}
                 products={streamableProducts.value}
               />
@@ -461,17 +493,20 @@ const toolSearchProduct = ({
               logger.info("Usage - Search Product - Step 1", { usage });
 
               if (object) {
-                finalizedProductSearch.data = object.data;
+                (
+                  finalizedToolData.data
+                    .object as SearchProductResult<TokopediaSearchResult>["object"]
+                ).products = object.data;
               }
 
               streamableProducts.done();
 
               await createObjectEntry({
-                key: finalizedProductSearch.callId,
+                key: finalizedToolData.data.callId,
                 chatId: state.get().chatId,
                 owner: state.get().username,
                 type: "searchProduct",
-                object: finalizedProductSearch,
+                object: finalizedToolData.data,
               });
             },
             onError: ({ error }) => {
@@ -499,7 +534,7 @@ const toolSearchProduct = ({
                   success: true,
                   name: "searchProduct",
                   args: { query },
-                  data: finalizedProductSearch,
+                  data: finalizedToolData.data as SearchProductResult<TokopediaSearchResult>,
                 }}
                 isFinished={true}
               />
@@ -546,7 +581,7 @@ const toolSearchProduct = ({
                   success: true,
                   name: "searchProduct",
                   args: { query },
-                  data: finalizedProductSearch,
+                  data: finalizedToolData.data as SearchProductResult<TokopediaSearchResult>,
                 }}
                 isFinished={true}
               />
@@ -559,18 +594,16 @@ const toolSearchProduct = ({
            */
           const { toolResult, mutate } = mutateTool(state, {
             name: "searchProduct",
-            args: {
-              query,
-              reffSource: requestOption?.onRequest?.reffSource,
-            },
-            result: finalizedProductSearch,
+            args: finalizedToolData.args,
+            result:
+              finalizedToolData.data as SearchProductResult<TokopediaSearchResult>,
             overrideAssistant: {
               content: finalizedText,
             },
           });
 
           await createToolDataEntry({
-            key: finalizedProductSearch.callId,
+            key: finalizedToolData.data.callId,
             chatId: state.get().chatId,
             owner: state.get().username,
             tool: toolResult,

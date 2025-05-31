@@ -25,7 +25,7 @@ interface StreamProductDetailsProps {
   query: string;
   link: string;
   screenshot?: string;
-  externalData: { markdown: string | null; tavily: string | null };
+  externalData?: { markdown: string; tavily: string };
 }
 
 export const StreamProductDetails: FC<StreamProductDetailsProps> = ({

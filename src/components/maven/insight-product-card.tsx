@@ -21,7 +21,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
 import { ShareButton } from "./share-button";
 import { Button } from "@/components/ui/button";
-import type { DataSourceInsight } from "@/lib/types/subtools";
 import { InsightProductCardSkeleton } from "./insight-product-card-skeleton";
 import {
   Tooltip,
@@ -33,7 +32,8 @@ import { useMavenStateController } from "../hooks/maven-state-controller";
 import { generateId, LanguageModelUsage } from "ai";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { HoverCardUsage } from "./hover-card-usage";
-import { ExtendedToolResult, RefferenceDataSource } from "@/lib/types/ai";
+import { ExtendedToolResult } from "@/lib/types/ai";
+import { GlobalSearchResult, SearchProductResult } from "@/lib/types/product";
 
 // Animation variants
 const containerVariants = {
@@ -117,9 +117,8 @@ export type InsightProductCardProps = {
   content: ExtendedToolResult<
     {
       query: string;
-      reffSource: RefferenceDataSource;
     },
-    DataSourceInsight
+    SearchProductResult<GlobalSearchResult>
   >;
   isSharedContent?: boolean;
   opened?: boolean;
@@ -138,10 +137,8 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
 
   const { attach, detach, activeComparison } = useMavenStateController();
 
-  console.log(JSON.stringify(content));
-
   const {
-    data: { data: product, callId },
+    data: { callId, object },
   } = content;
 
   const handleAttach = () => {
@@ -149,7 +146,8 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
     attach({
       product: {
         id: generateId(),
-        title: product.title ?? "error-no-title",
+        title: object.title ?? "error-no-title",
+        callId,
         source: "global",
       },
     });
@@ -184,7 +182,7 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
         >
           <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center">
             <Search className="size-4 mr-1 text-blue-400" />
-            <p className="text-xs font-semibold">
+            <p id={callId} className="text-xs font-semibold">
               Search Product by{" "}
               <Link
                 href={"https://serper.dev/"}
@@ -207,15 +205,12 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
               className="pl-2 md:pl-4 flex flex-col space-y-4 lg:justify-start h-full w-full lg:max-w-[350px]"
               variants={itemVariants}
             >
-              <div
-                id={callId}
-                className="text-2xl md:text-3xl lg:text-4xl line-clamp-4 font-semibold text-black dark:text-white leading-tight"
-              >
-                <h4>{product.title}</h4>
+              <div className="text-2xl md:text-3xl lg:text-4xl line-clamp-4 font-semibold text-black dark:text-white leading-tight">
+                <h4>{object.title}</h4>
               </div>
               <div className="pt-5 flex flex-col text-black dark:text-white">
                 <p className="opacity-70 text-xs">estimated price:</p>
-                <p className="text-xl md:text-2xl">{product.estimatedPrice}</p>
+                <p className="text-xl md:text-2xl">{object.estimatedPrice}</p>
               </div>
 
               <div className="w-full flex justify-center md:justify-start py-[20px]">
@@ -253,7 +248,7 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
               <div className="pb-7 lg:pb-0 flex flex-col px-2 md:px-4">
                 <Carousel className="lg:max-w-[340px] h-full flex items-center pb-2 justify-center w-full">
                   <CarouselContent className="">
-                    {product.images.map((image, index) => (
+                    {object.images.map((image, index) => (
                       <CarouselItem key={index}>
                         <motion.div
                           className="p-2 cursor-grab active:cursor-grabbing aspect-square bg-gray-50 rounded-2xl lg:rounded-xl overflow-hidden"
@@ -341,20 +336,20 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
                     <div
                       style={{
                         backgroundColor:
-                          product.marketSource === "shopee"
+                          object.marketSource === "shopee"
                             ? "#FF5722"
                             : "#1A1A1D",
                       }}
                       className="capitalize text-white py-1 px-3 border border-muted rounded-full"
                     >
-                      {product.marketSource}
+                      {object.marketSource}
                     </div>
                   </motion.div>
 
                   <motion.div variants={itemVariants} className="pb-4">
                     <ScrollArea className="w-full h-[240px] py-4 px-3 lg:px-5">
                       <div className="space-y-3">
-                        {product.availableStore.map((store, index) => (
+                        {object.availableStore.map((store, index) => (
                           <motion.div
                             key={index}
                             className="border-b border-b-muted last:border-b-0"

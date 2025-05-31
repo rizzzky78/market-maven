@@ -1,5 +1,9 @@
 import { ExtendedToolResult } from "./ai";
-import { ProductDetailsResponse, RecommendationResponse } from "./product";
+import {
+  DetailsTokopedia,
+  ProductDetails,
+  RecommendationResponse,
+} from "./product";
 
 /**
  * Reusable Component Props
@@ -7,8 +11,13 @@ import { ProductDetailsResponse, RecommendationResponse } from "./product";
 
 export type ProductDetailsProps = {
   content: ExtendedToolResult<
-    { query: string; link: string; source: "tokopedia" | "global" },
-    ProductDetailsResponse
+    {
+      query: string;
+      link?: string;
+      callId: string;
+      source: "tokopedia" | "global";
+    },
+    ProductDetails<DetailsTokopedia>
   >;
   isSharedContent?: boolean;
 };

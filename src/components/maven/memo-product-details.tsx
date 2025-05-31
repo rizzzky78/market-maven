@@ -84,7 +84,7 @@ interface ProductDetailsProps {
   /** Query product name */
   query: string;
   /** Product link */
-  link: string;
+  link?: string;
   /** Call id pf tools */
   callId?: string;
   /** Generation state */
@@ -119,7 +119,11 @@ const PureProductDetails: FC<ProductDetailsProps> = ({
               }`}
             />
             <div className="flex flex-col">
-              <Link href={link} target="_blank" rel="noopener noreferrer">
+              <Link
+                href={link || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <h2 className="text-sm hover:text-purple-400 font-bold line-clamp-1">
                   {query}
                 </h2>

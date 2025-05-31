@@ -17,10 +17,9 @@ import { google } from "@ai-sdk/google";
 import { generateObject } from "ai";
 
 // Types and interfaces
-export type MarketSource = RefferenceDataSource;
+export type MarketSource = Exclude<RefferenceDataSource, "tokopedia">;
 
 export type InsightPayload = {
-  callId: string;
   query: string;
   marketSource: MarketSource;
   options?: SearchOptions;
@@ -126,7 +125,7 @@ function buildSearchQuery(
     searchQuery = `${searchQuery} shopee marketplace`;
   } else {
     // Exclude Shopee for global searches to get diverse results
-    searchQuery = `${searchQuery} -shopee`;
+    searchQuery = `${searchQuery}`;
   }
 
   return {
@@ -306,7 +305,6 @@ GLOBAL MODE ACTIVATED:
  * @throws {SearchTimeoutError} When searches timeout
  */
 export async function searchProductInsight({
-  callId,
   query,
   marketSource,
   options = {},
@@ -369,7 +367,7 @@ export async function searchProductInsight({
       ok: true,
       usage: modelResponse.usage,
       processingTime: Date.now(),
-      data: { callId, ...modelResponse.object },
+      data: modelResponse.object,
       metadata: {
         query: query.trim(),
         marketSource,
@@ -407,14 +405,13 @@ export async function searchProductInsight({
  * @returns Promise resolving to array of results
  */
 export async function batchSearchProductInsights(
-  callId: string,
   queries: string[],
   marketSource: MarketSource,
   options: SearchOptions = {}
 ): Promise<Array<{ query: string; result: any; error?: ProductInsightError }>> {
   const results = await Promise.allSettled(
     queries.map((query) =>
-      searchProductInsight({ callId, query, marketSource, options })
+      searchProductInsight({ query, marketSource, options })
     )
   );
 

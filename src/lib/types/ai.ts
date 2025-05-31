@@ -398,6 +398,8 @@ export type BaseProduct = {
   title: string;
   /** URL or reference link for the product */
   link?: string;
+  /** Call ID reference from tool call */
+  callId: string;
   /** Reference source for each search product object generated */
   source: "global" | "tokopedia";
 };

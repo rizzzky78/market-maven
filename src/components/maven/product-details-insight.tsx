@@ -31,9 +31,11 @@ import { useMavenStateController } from "../hooks/maven-state-controller";
 import { LanguageModelUsage } from "ai";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { HoverCardUsage } from "./hover-card-usage";
-import { ExtendedToolResult, RefferenceDataSource } from "@/lib/types/ai";
+import { ExtendedToolResult } from "@/lib/types/ai";
 import { MemoProductDetailsInsight } from "./memo-product-details-insight";
 import { ExtendedMessage } from "./extended-message";
+import { DetailsGlobal, ProductDetails } from "@/lib/types/product";
+import { useLenis } from "lenis/react";
 
 // Helper function to extract YouTube video ID from URL
 const getYouTubeVideoId = (url: string): string | null => {
@@ -109,31 +111,15 @@ const collapsibleVariants = {
   },
 };
 
-type DetailsInsight = {
-  callId: string;
-  prevData: {
-    title: string;
-    estimatedPrice: string;
-    reffCallId: string;
-  };
-  snapshots: {
-    images: string[];
-    videos: string[];
-  };
-  externalData: {
-    tavily: string | null;
-    markdown: string | null;
-  };
-  productDetails: Record<string, any>;
-};
-
 export type ProductDetailsInsightProps = {
   content: ExtendedToolResult<
     {
       query: string;
-      source: RefferenceDataSource;
+      source?: "global" | "tokopedia";
+      callId: string;
+      link?: string;
     },
-    DetailsInsight
+    ProductDetails<DetailsGlobal>
   >;
   isSharedContent?: boolean;
   opened?: boolean;
@@ -151,12 +137,17 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
   const [mounted, setMounted] = useState(false);
   const { isGenerating } = useAppState();
 
+  const lenis = useLenis();
+
   const { activeComparison, addToComparison, attachment } =
     useMavenStateController();
 
   const {
     args,
-    data: { prevData, snapshots, externalData, callId, productDetails },
+    data: {
+      callId,
+      object: { previousData, snapshots, externalData, productDetails },
+    },
   } = content;
 
   const attachComparison = () => {
@@ -241,13 +232,13 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                     Product Details for:
                   </p>
                   <div className="text-2xl md:text-3xl lg:text-4xl line-clamp-4 font-semibold text-black dark:text-white leading-tight">
-                    <h4>{prevData.title}</h4>
+                    <h4>{previousData.title}</h4>
                   </div>
                 </div>
                 <div className="pt-5 flex flex-col text-black dark:text-white">
                   <p className="opacity-50 text-xs">estimated price:</p>
                   <p className="text-xl md:text-2xl">
-                    {prevData.estimatedPrice}
+                    {previousData.estimatedPrice}
                   </p>
                 </div>
 
@@ -283,12 +274,26 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                             transition: { duration: 0.3, ease: "easeInOut" },
                           }}
                         >
-                          <Link
-                            href={`#${prevData.reffCallId}`}
-                            className="group text-black/60 dark:text-white/60 hover:text-purple-500"
+                          <Button
+                            variant={"ghost"}
+                            // href={`#${previousData.referenceCallId}`}
+                            className="size-9 rounded-full group text-black/60 dark:text-white/60 hover:text-purple-500"
+                            onClick={() => {
+                              const target = document.getElementById(
+                                previousData.referenceCallId
+                              );
+                              if (target) {
+                                lenis?.scrollTo(target, {
+                                  offset: -100,
+                                  duration: 1.2,
+                                  easing: (t) =>
+                                    0.5 * (1 - Math.cos(Math.PI * t)), // easeInOut
+                                });
+                              }
+                            }}
                           >
                             <SquareArrowOutUpRightIcon className="size-5 group-hover:text-purple-500 transition-colors duration-300" />
-                          </Link>
+                          </Button>
                         </motion.div>
                       </TooltipTrigger>
                       <TooltipContent className="rounded-3xl">
@@ -353,7 +358,7 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                 </div>
                 <ShareButton
                   title={"Product Details"}
-                  subtitle={prevData.title}
+                  subtitle={previousData.title}
                   type={"product-details"}
                   callId={callId}
                   disabled={isSharedContent}

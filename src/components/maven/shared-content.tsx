@@ -2,11 +2,11 @@ import { ChatProperties, RefferenceDataSource } from "@/lib/types/ai";
 import { ComponentType, ToolDataStore } from "@/lib/types/neon";
 import { FC, Fragment } from "react";
 import { mapUIState } from "../custom/ui-mapper";
-import { ProductDetailsResponse } from "@/lib/types/product";
 import { ProductSearch } from "./product-search";
 import { ProductDetails } from "./product-details";
 import { ProductComparison } from "./product-comparison";
 import { InsightProductCard } from "./insight-product-card";
+import { ProductDetailsInsight } from "./product-details-insight";
 
 // Types
 interface SharedContentProps {
@@ -20,8 +20,13 @@ type ProductSearchData = ToolDataStore<
 >;
 
 type ProductDetailsData = ToolDataStore<
-  { query: string; link: string },
-  ProductDetailsResponse
+  {
+    query: string;
+    link?: string;
+    callId: string;
+    source: "tokopedia" | "global";
+  },
+  any
 >;
 
 type ProductComparisonData = ToolDataStore<
@@ -57,15 +62,18 @@ const ChatContent: FC<{ data: ChatProperties }> = ({ data }) => {
 };
 
 const ProductSearchContent: FC<{ data: ProductSearchData }> = ({ data }) =>
-  data.tool.args.reffSource === "tokopedia" ? (
+  data.tool.data.source === "tokopedia" ? (
     <ProductSearch content={data.tool} isSharedContent isFinished />
   ) : (
     <InsightProductCard content={data.tool} isSharedContent />
   );
 
-const ProductDetailsContent: FC<{ data: ProductDetailsData }> = ({ data }) => (
-  <ProductDetails content={data.tool} isSharedContent />
-);
+const ProductDetailsContent: FC<{ data: ProductDetailsData }> = ({ data }) =>
+  data.tool.data.source === "tokopedia" ? (
+    <ProductDetails content={data.tool} isSharedContent />
+  ) : (
+    <ProductDetailsInsight content={data.tool} isSharedContent />
+  );
 
 const ProductComparisonContent: FC<{ data: ProductComparisonData }> = ({
   data,

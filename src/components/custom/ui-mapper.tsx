@@ -16,15 +16,13 @@ import { UserInquiry, UserInquiryShared } from "../maven/user-inquiry";
 import { ProductSearch } from "../maven/product-search";
 import { ProductDetails } from "../maven/product-details";
 import { ProductComparison } from "../maven/product-comparison";
-import {
-  ProductDetailsProps,
-  ProductRecommendationProps,
-} from "@/lib/types/props";
+import { ProductRecommendationProps } from "@/lib/types/props";
 import {
   RecommendationAction,
   TemplateRecommendationAction,
 } from "../maven/recommendation-action";
 import { InsightProductCard } from "../maven/insight-product-card";
+import { ProductDetailsInsight } from "../maven/product-details-insight";
 
 /**
  * Core message content structure representing different types of content in the system
@@ -125,11 +123,17 @@ const handleGetProductDetails = (
   result: string,
   isSharedPage?: boolean
 ): UIStateItem => {
-  const detailsResult: ProductDetailsProps["content"] = JSON.parse(result);
+  const detailsResult = JSON.parse(result);
+  const isTokopedia = detailsResult.source === "tokopedia";
   return {
     id,
-    display: (
+    display: isTokopedia ? (
       <ProductDetails content={detailsResult} isSharedContent={isSharedPage} />
+    ) : (
+      <ProductDetailsInsight
+        content={detailsResult}
+        isSharedContent={isSharedPage}
+      />
     ),
   };
 };

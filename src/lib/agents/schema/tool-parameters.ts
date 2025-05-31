@@ -33,6 +33,7 @@ export const getProductDetailsSchema = z.object({
     .describe(
       "The complete product URL, if the source is `tokopedia` then the link will be available. Must be a valid, accessible URL that follows the pattern 'https://www.tokopedia.com/'"
     ),
+  callId: z.string().describe("The call ID determined based on request"),
   source: z
     .enum(["tokopedia", "global"])
     .describe(
