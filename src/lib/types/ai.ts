@@ -392,8 +392,7 @@ export type ToolsetProps = {
  * Defines the base structure for a product with essential identifying information.
  */
 export type BaseProduct = {
-  /** Unique product identifier */
-  id: string;
+  purpose: "get-product-details";
   /** Product name or description */
   title: string;
   /** URL or reference link for the product */

@@ -1,4 +1,5 @@
 import { UIState } from "@/lib/types/ai";
+import ReactLenis from "lenis/react";
 import { FC } from "react";
 
 interface MessagesProps {
@@ -7,6 +8,8 @@ interface MessagesProps {
 
 export const ChatMessages: FC<MessagesProps> = ({ ui }) => {
   return (
-    <div className="space-y-10 *:font-[family-name:var(--font-satoshi)]">{ui.map((component) => component.display)}</div>
+    <div className="space-y-10 *:font-[family-name:var(--font-satoshi)]">
+      {ui.map((component) => component.display)}
+    </div>
   );
 };

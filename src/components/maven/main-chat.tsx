@@ -15,7 +15,6 @@ import { AI } from "@/app/action";
 import { useUIState } from "ai/rsc";
 import { ChatMessages } from "./chat-messages";
 import { ChatPanel } from "./chat-panel";
-import ReactLenis from "lenis/react";
 
 type ChatProps = {
   id?: string;
@@ -77,14 +76,12 @@ export const Chat: FC<ChatProps> = ({ id, query, chats }) => {
           </div>
         </header>
         <div className="flex flex-1 flex-col px-4">
-          <ReactLenis root>
-            <div
-              className="px-2 sm:px-12 pt-12 md:pt-14 pb-14 md:pb-24 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4"
-              data-testid="chat-messages"
-            >
-              <ChatMessages ui={uiMessage} />
-            </div>
-          </ReactLenis>
+          <div
+            className="px-2 sm:px-12 pt-12 md:pt-14 pb-14 md:pb-24 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4"
+            data-testid="chat-messages"
+          >
+            <ChatMessages ui={uiMessage} />
+          </div>
           <div className="sticky mx-0 w-full bottom-0 z-[30]">
             <ChatPanel uiState={uiMessage} />
           </div>

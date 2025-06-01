@@ -1,6 +1,6 @@
 export const TEMPLATE = {
   search_product_description: `Search a product based on user query. The query must be exact of product name (can be full or partial product name), cannot proceed word or sentence.`,
-  get_product_details_description: `Get product details by given query and link`,
+  get_product_details_description: `Get product details by given context object, must match the parameters`,
   gpd_extraction_objective: `Extract only product data including: product images, product link, and store link.`,
   products_comparison_description: `Compare two products based on user requested data`,
   inquire_user_description: `Ask the user if the current information provided is insufficient for taking further action.`,

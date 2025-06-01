@@ -44,7 +44,7 @@ import {
 } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";
-import { streamText, streamObject } from "ai";
+import { streamText, streamObject, JSONValue } from "ai";
 import { createStreamableValue } from "ai/rsc";
 import { v4 } from "uuid";
 
@@ -97,12 +97,6 @@ const toolGetProductDetails = ({
           } as TProductDetails["object"],
         },
       };
-
-      /**
-       * Init empty object on key-value pair
-       */
-
-      finalizedToolData.data.object.productDetails = {};
 
       logger.info("[DEBUG: finalizedToolData]", finalizedToolData);
       /**
@@ -298,18 +292,20 @@ const toolGetProductDetails = ({
           />
         );
 
+        let partialObjDetailInsight: Record<string, any> = {};
+
         const { partialObjectStream } = streamObject({
           model: google("gemini-2.0-flash-lite"),
           system: PRODUCT_EXTRACTOR_INSIGHT_SYSTEM_PROMPT,
           prompt: payloadContent,
           output: "no-schema",
           onFinish: async ({ object }) => {
-            if (object) {
-              finalizedToolData.data.object.productDetails = object as Record<
-                string,
-                any
-              >;
-            }
+            finalizedToolData.data.object.productDetails = object as Record<
+              string,
+              any
+            >;
+
+            logger.info("[DEBUG: insightDetailsObject]", object);
 
             streamableObject.done();
 
@@ -331,6 +327,7 @@ const toolGetProductDetails = ({
         });
 
         for await (const objProduct of partialObjectStream) {
+          partialObjDetailInsight = objProduct as Record<string, any>;
           streamableObject.update(objProduct as Record<string, any>);
         }
 
@@ -343,7 +340,13 @@ const toolGetProductDetails = ({
                 success: true,
                 name: "getProductDetails",
                 args: finalizedToolData.args,
-                data: finalizedToolData.data as TProductDetails<DetailsGlobal>,
+                data: {
+                  ...finalizedToolData.data,
+                  object: {
+                    ...finalizedToolData.data.object,
+                    productDetails: partialObjDetailInsight,
+                  },
+                } as TProductDetails<DetailsGlobal>,
               }}
             />
             <StreamAssistantMessage content={streamableText.value} />
@@ -391,7 +394,13 @@ const toolGetProductDetails = ({
                 success: true,
                 name: "getProductDetails",
                 args: finalizedToolData.args,
-                data: finalizedToolData.data as TProductDetails<DetailsGlobal>,
+                data: {
+                  ...finalizedToolData.data,
+                  object: {
+                    ...finalizedToolData.data.object,
+                    productDetails: partialObjDetailInsight,
+                  },
+                } as TProductDetails<DetailsGlobal>,
               }}
             />
             <AssistantMessage content={finalizedInsightText} />

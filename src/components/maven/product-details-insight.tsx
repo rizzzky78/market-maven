@@ -18,24 +18,23 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-import { ShareButton } from "./share-button";
+import { ShareButton } from "@/components/maven/share-button";
 import { Button } from "@/components/ui/button";
-import { InsightProductCardSkeleton } from "./insight-product-card-skeleton";
+import { InsightProductCardSkeleton } from "@/components/maven/insight-product-card-skeleton";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
   TooltipProvider,
-} from "../ui/tooltip";
-import { useMavenStateController } from "../hooks/maven-state-controller";
+} from "@/components/ui/tooltip";
+import { useMavenStateController } from "@/components/hooks/maven-state-controller";
 import { LanguageModelUsage } from "ai";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import { HoverCardUsage } from "./hover-card-usage";
+import { HoverCardUsage } from "@/components/maven/hover-card-usage";
 import { ExtendedToolResult } from "@/lib/types/ai";
-import { MemoProductDetailsInsight } from "./memo-product-details-insight";
-import { ExtendedMessage } from "./extended-message";
+import { MemoProductDetailsInsight } from "@/components/maven/memo-product-details-insight";
+import { ExtendedMessage } from "@/components/maven/extended-message";
 import { DetailsGlobal, ProductDetails } from "@/lib/types/product";
-import { useLenis } from "lenis/react";
 
 // Helper function to extract YouTube video ID from URL
 const getYouTubeVideoId = (url: string): string | null => {
@@ -136,8 +135,6 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
   const [open, setOpen] = useState(opened);
   const [mounted, setMounted] = useState(false);
   const { isGenerating } = useAppState();
-
-  const lenis = useLenis();
 
   const { activeComparison, addToComparison, attachment } =
     useMavenStateController();
@@ -276,18 +273,16 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                         >
                           <Button
                             variant={"ghost"}
-                            // href={`#${previousData.referenceCallId}`}
                             className="size-9 rounded-full group text-black/60 dark:text-white/60 hover:text-purple-500"
                             onClick={() => {
                               const target = document.getElementById(
                                 previousData.referenceCallId
                               );
                               if (target) {
-                                lenis?.scrollTo(target, {
-                                  offset: -100,
-                                  duration: 1.2,
-                                  easing: (t) =>
-                                    0.5 * (1 - Math.cos(Math.PI * t)), // easeInOut
+                                target.scrollIntoView({
+                                  behavior: "smooth",
+                                  block: "center",
+                                  inline: "end",
                                 });
                               }
                             }}

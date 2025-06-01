@@ -29,7 +29,7 @@ import {
   TooltipProvider,
 } from "../ui/tooltip";
 import { useMavenStateController } from "../hooks/maven-state-controller";
-import { generateId, LanguageModelUsage } from "ai";
+import { LanguageModelUsage } from "ai";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { HoverCardUsage } from "./hover-card-usage";
 import { ExtendedToolResult } from "@/lib/types/ai";
@@ -145,7 +145,7 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
     detach();
     attach({
       product: {
-        id: generateId(),
+        purpose: "get-product-details",
         title: object.title ?? "error-no-title",
         callId,
         source: "global",

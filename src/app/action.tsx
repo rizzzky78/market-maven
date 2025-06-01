@@ -45,6 +45,7 @@ import { toolGetProductDetails } from "./server/tool-get-product-details";
 import { toolSearchProduct } from "./server/tool-search-product";
 import { toolProductComparison } from "./server/tool-products-comparison";
 import { toolInquireUser } from "./server/tool-inquire-user";
+import { ORCHESTRATOR_SYSTEM_INSTRUCTION } from "@/lib/agents/constant/md/orchestrator";
 
 const orchestrator = async (
   payload: PayloadData,
@@ -87,7 +88,7 @@ const orchestrator = async (
   const { value } = await streamUI({
     model: google("gemini-2.0-flash-exp"),
     messages: toCoreMessage(state.get().messages),
-    system: await SYSTEM_INSTRUCTION.CORE_ORCHESTRATOR,
+    system: ORCHESTRATOR_SYSTEM_INSTRUCTION,
     initial: <LoadingText text="Maven is thinking..." />,
     onFinish: ({ usage }) => {
       logger.info("Orchestrator Usage: first layer", { usage });
