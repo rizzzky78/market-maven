@@ -8,13 +8,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { FC, useEffect, useState } from "react";
-import { Markdown } from "./markdown";
-import { Card, CardContent } from "../ui/card";
-import { ScrollArea } from "../ui/scroll-area";
-import { Separator } from "../ui/separator";
+import { Markdown } from "@/components/maven/markdown";
+import { Card, CardContent } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 import { StreamableValue, useStreamableValue } from "ai/rsc";
 import { Loader } from "lucide-react";
-import { ErrorMessage } from "./error-message";
+import { ErrorMessage } from "@/components/maven/error-message";
 
 interface ExtendedMessageProps {
   content: string;
@@ -26,7 +26,7 @@ export const ExtendedMessage: FC<ExtendedMessageProps> = ({
   tavilyAnswer,
 }) => {
   return (
-    <Card className="w-full border-[#1A1A1D] dark:border-inherit border rounded-3xl mb-8">
+    <Card className="w-full border rounded-3xl mb-8">
       <Accordion
         type="single"
         collapsible
@@ -48,7 +48,6 @@ export const ExtendedMessage: FC<ExtendedMessageProps> = ({
                   transition={{ duration: 0.2 }}
                   className="pr-2 *:leading-tight *:dark:text-white/80 *:text-black/80"
                 >
-                  {/* <Separator className="mb-3 bg-[#1A1A1D] dark:bg-muted" /> */}
                   <ScrollArea className="h-[220px] px-2">
                     <Markdown className="leading-tight">{content}</Markdown>
                     {tavilyAnswer && (
@@ -73,11 +72,13 @@ export const ExtendedMessage: FC<ExtendedMessageProps> = ({
 interface StreamExtendedMessageProps {
   tavilyAnswer?: string;
   content: StreamableValue<string>;
+  title?: string;
 }
 
 export const StreamExtendedMessage: FC<StreamExtendedMessageProps> = ({
   content,
   tavilyAnswer,
+  title,
 }) => {
   const [raw, error, pending] = useStreamableValue<string>(content);
   const [text, setText] = useState("");
@@ -110,7 +111,7 @@ export const StreamExtendedMessage: FC<StreamExtendedMessageProps> = ({
               {pending && (
                 <Loader className="size-4 shrink-0 animate-spin mr-2" />
               )}
-              <span className="line-clamp-1">Deep Search</span>
+              <span className="line-clamp-1">{title ?? "Deep Search"}</span>
             </div>
           </AccordionTrigger>
           <AccordionContent className="rounded-3xl">

@@ -44,7 +44,7 @@ import {
 } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";
-import { streamText, streamObject, JSONValue } from "ai";
+import { streamText, streamObject } from "ai";
 import { createStreamableValue } from "ai/rsc";
 import { v4 } from "uuid";
 
@@ -242,7 +242,10 @@ const toolGetProductDetails = ({
         const streamableDetailsResearcher = createStreamableValue("");
 
         yield (
-          <StreamExtendedMessage content={streamableDetailsResearcher.value} />
+          <StreamExtendedMessage
+            title={`Getting Data for ${previousSearchData.previousData.title}`}
+            content={streamableDetailsResearcher.value}
+          />
         );
 
         let detailsResearcherText = "";
@@ -257,6 +260,11 @@ const toolGetProductDetails = ({
           onFinish: ({ text }) => {
             previousSearchData.markdown = text;
             streamableDetailsResearcher.done(text);
+
+            (
+              finalizedToolData.data
+                .object as TProductDetails<DetailsGlobal>["object"]
+            ).markdown = previousSearchData.markdown;
           },
           onError: ({ error }) => {
             streamableDetailsResearcher.error(error);
