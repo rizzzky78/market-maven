@@ -333,7 +333,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       className="w-full *:font-[family-name:var(--font-satoshi)] z-[50]"
       data-testid="chat-panel"
     >
-      <div className={`w-full flex justify-center bg-background`}>
+      <div className={`w-full flex justify-center bg-transparent`}>
         <div className="w-full md:px-0 lg:px-0 max-w-2xl flex flex-col pb-4 mb-0 rounded-t-3xl">
           {uiState.length === 0 && <QuickActionButton />}
           <AnimatePresence mode="sync">

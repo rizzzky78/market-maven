@@ -217,7 +217,7 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
           </motion.div>
 
           <motion.div
-            className="w-full border-inherit border rounded-[2rem] px-4 md:pt-2 pb-2"
+            className="w-full border rounded-[2rem] px-4 md:pt-2 pb-2"
             variants={headerVariants}
           >
             <div className="md:pt-6 flex space-y-6 md:space-y-0 flex-col-reverse md:flex-row-reverse justify-between lg:min-h-[360px] items-start">
@@ -383,7 +383,6 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                   initial="hidden"
                   animate="visible"
                   exit="hidden"
-                  style={{ overflow: "hidden" }}
                 >
                   <motion.div variants={itemVariants} className="px-0 md:px-4">
                     <ScrollArea className="h-[500px]">
