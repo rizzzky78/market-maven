@@ -181,7 +181,7 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
           variants={itemVariants}
         >
           <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center">
-            <Search className="size-4 mr-1 text-blue-400" />
+            <Search className="size-4 mr-1 text-purple-500" />
             <p id={callId} className="text-xs font-semibold">
               Search Product by{" "}
               <Link
@@ -218,11 +218,11 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
                   <Tooltip delayDuration={100}>
                     <TooltipTrigger asChild>
                       <Button
-                        className="relative h-10 w-fit overflow-hidden rounded-3xl px-14 md:px-10 font-bold bg-gray-300 text-black shadow-sm transition-all duration-300 hover:bg-blue-200 hover:text-indigo-900"
+                        className="relative h-12 md:h-10 w-fit overflow-hidden rounded-3xl px-14 md:px-10 font-bold bg-gray-300 text-black shadow-sm transition-all duration-300 hover:bg-blue-200 hover:text-indigo-900"
                         onClick={handleAttach}
                         disabled={isSharedContent ? true : isButtonDisabled}
                       >
-                        <span className="relative z-7">Ask AI</span>
+                        <span className="relative z-7 text-black">Ask AI</span>
                         <div
                           className="absolute inset-0 flex items-center justify-center"
                           aria-hidden="true"
@@ -285,7 +285,7 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
             >
               <div className="flex items-start space-x-2">
                 <Info className="size-4 shrink-0 text-purple-500 dark:text-purple-500" />
-                <p className="text-xs pr-1">
+                <p className="text-xs pr-1.5">
                   Maven is not affiliated with the relevant online marketplace,
                   the displayed results may not match the user&apos;s intent.
                 </p>

@@ -65,7 +65,7 @@ export const PureProductDetailsInsight: FC<MemoProps> = ({ data }) => {
       initial="initial"
       animate="animate"
       exit="exit"
-      className="space-y-1 *:text-sm flex flex-wrap"
+      className="w-full space-y-1 *:text-sm flex flex-wrap"
     >
       {data.map((item, index) => (
         <motion.div

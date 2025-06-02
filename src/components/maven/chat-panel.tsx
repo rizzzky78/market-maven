@@ -31,6 +31,7 @@ import {
   Info,
   ListEnd,
   Loader,
+  RefreshCcwDot,
   TextSearch,
 } from "lucide-react";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
@@ -105,6 +106,8 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
   const [aiState] = useAIState<typeof AI>();
   const { orchestrator } = useActions<typeof AI>();
   const { isGenerating, setIsGenerating } = useAppState();
+
+  const [stageProcess, setStageProcess] = useState<string>("");
 
   const [rateLimit, setRateLimit] = useState<RateLimitResponse | null>(null);
   const [isCheckingRateLimit, setIsCheckingRateLimit] = useState(false);
@@ -217,8 +220,9 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
         const gens = readStreamableValue(
           generation
         ) as AsyncIterable<StreamGeneration>;
-        for await (const { loading } of gens) {
+        for await (const { loading, process } of gens) {
           setIsGenerating(loading);
+          setStageProcess(process);
         }
       }
 
@@ -333,7 +337,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       className="w-full *:font-[family-name:var(--font-satoshi)] z-[50]"
       data-testid="chat-panel"
     >
-      <div className={`w-full flex justify-center bg-transparent`}>
+      <div className={`w-full flex justify-center bg-background`}>
         <div className="w-full md:px-0 lg:px-0 max-w-2xl flex flex-col pb-4 mb-0 rounded-t-3xl">
           {uiState.length === 0 && <QuickActionButton />}
           <AnimatePresence mode="sync">
@@ -516,6 +520,16 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                 </Select>
               </div>
               <div className="flex items-center space-x-2">
+                {isGenerating && (
+                  <div className="hidden md:block">
+                    <div className="border rounded-full h-9 px-4 flex items-center space-x-2">
+                      <RefreshCcwDot className="size-4 animate-[spin_2s_linear_infinite_reverse]" />
+                      <p className="capitalize text-xs text-white">
+                        {stageProcess}
+                      </p>
+                    </div>
+                  </div>
+                )}
                 {rateLimit && (
                   <RateLimit
                     data={rateLimit}
