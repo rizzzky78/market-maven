@@ -316,19 +316,19 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       title: "Insight",
       src: "/platform/insight.png",
       description:
-        "Use internal search references without information from online marketplace platform (LLM plus API data sources), only display exact product without any variants.",
+        "Uses comprehensive search across multiple data sources (powered by Serper API) to find exact product matches without variants. Results include globally available product links and broader market insights.",
     },
     {
       title: "Tokopedia",
       src: "/platform/tokopedia.png",
       description:
-        "Use Tokpedia platform as the data source, will gives exact information data as is on platform as well as products that match the query.",
+        "Sources data directly from Tokopedia platform, providing authentic product information exactly as listed on the marketplace. Results may occasionally include items that don't perfectly match your query due to platform data limitations.",
     },
     {
       title: "Shopee",
       src: "/platform/shopee.jpeg",
       description:
-        "Unlike Tokopedia, this will behave as Insight but with product links reference that match the query and not get any related data from Shopee platform.",
+        "Functions similarly to Insight mode but focuses search results on Indonesia region and provides product links that match your query. Does not access direct Shopee platform data, which may affect result accuracy.",
     },
   ];
 
@@ -467,8 +467,9 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                       <TooltipContent className="rounded-xl max-w-sm">
                         <div className="flex flex-col">
                           <p className="mb-2">
-                            Prefer to use insight or from related marketplace
-                            information references
+                            Choose your preferred data source - this will
+                            determine how the agent searches for and presents
+                            product information
                           </p>
                           <div className="space-y-2">
                             {reffSourceOption.map((item, index) => (
@@ -495,8 +496,8 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                           <div className="mt-2 font-semibold flex items-start space-x-1">
                             <Info className="size-4" />
                             <p>
-                              This feature is not implemented yet, its still use
-                              Tokopedia as data source.
+                              This setting applies to all searches during your
+                              current session
                             </p>
                           </div>
                         </div>
