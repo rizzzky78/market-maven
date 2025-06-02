@@ -22,9 +22,9 @@ import {
   useCallback,
   useState,
 } from "react";
-import { UserMessage } from "./user-message";
+import { UserMessage } from "@/components/maven/user-message";
 import { AnimatePresence } from "framer-motion";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import {
   ArrowUp,
   Globe,
@@ -35,23 +35,23 @@ import {
   TextSearch,
 } from "lucide-react";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { Textarea } from "../ui/textarea";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../ui/tooltip";
-import { QuickActionButton } from "./quick-action";
+} from "@/components/ui/tooltip";
+import { QuickActionButton } from "@/components/maven/quick-action";
 import { toast } from "sonner";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import { useDebounceInput } from "../hooks/use-debounced-input";
-import { useMavenStateController } from "../hooks/maven-state-controller";
-import { AttachProductBadge } from "./attach-product";
+import { useDebounceInput } from "@/components/hooks/use-debounced-input";
+import { useMavenStateController } from "@/components/hooks/maven-state-controller";
+import { AttachProductBadge } from "@/components/maven/attach-product";
 import { AI } from "@/app/action";
-import { AttachCompareBadge } from "./attach-compare";
+import { AttachCompareBadge } from "@/components/maven/attach-compare";
 import { cn } from "@/lib/utils";
-import { RateLimit } from "./rate-limit-modal";
+import { RateLimit } from "@/components/maven/rate-limit-modal";
 import {
   checkRateLimit,
   recordSuccessfulRequest,

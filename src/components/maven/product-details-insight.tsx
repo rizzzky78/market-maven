@@ -15,6 +15,8 @@ import {
   ChevronUp,
   FlipHorizontal,
   SquareArrowOutUpRightIcon,
+  TextQuote,
+  SquareMenu,
 } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
@@ -36,6 +38,8 @@ import { MemoProductDetailsInsight } from "@/components/maven/memo-product-detai
 import { ExtendedMessage } from "@/components/maven/extended-message";
 import { DetailsGlobal, ProductDetails } from "@/lib/types/product";
 import { ScrollArea } from "../ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { Markdown } from "./markdown";
 
 // Helper function to extract YouTube video ID from URL
 const getYouTubeVideoId = (url: string): string | null => {
@@ -144,7 +148,13 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
     args,
     data: {
       callId,
-      object: { previousData, snapshots, externalData, productDetails },
+      object: {
+        previousData,
+        snapshots,
+        externalData,
+        productDetails,
+        markdown,
+      },
     },
   } = content;
 
@@ -389,9 +399,38 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                       variants={itemVariants}
                       className="px-0 md:px-4"
                     >
-                      <ScrollArea className="h-[500px] w-full">
-                        <MemoProductDetailsInsight data={[productDetails]} />
-                      </ScrollArea>
+                      <Tabs defaultValue="object">
+                        <div className="w-full flex justify-end">
+                          <TabsList className="rounded-full h-[38px]">
+                            <TabsTrigger
+                              value="object"
+                              className="size-8 flex items-center justify-center rounded-full"
+                            >
+                              <TextQuote className="size-4 shrink-0" />
+                            </TabsTrigger>
+                            <TabsTrigger
+                              value="markdown"
+                              className="size-8 flex items-center justify-center rounded-full"
+                            >
+                              <SquareMenu className="size-4 shrink-0" />
+                            </TabsTrigger>
+                          </TabsList>
+                        </div>
+                        <TabsContent value="object">
+                          <ScrollArea className="h-[500px] w-full">
+                            <MemoProductDetailsInsight
+                              data={[productDetails]}
+                            />
+                          </ScrollArea>
+                        </TabsContent>
+                        <TabsContent value="markdown">
+                          <ScrollArea className="h-[500px] w-full">
+                            <Markdown className="selection:bg-purple-200 selection:text-black">
+                              {markdown ?? "ERROR - CONTENT NOT EXIST"}
+                            </Markdown>
+                          </ScrollArea>
+                        </TabsContent>
+                      </Tabs>
                       <div className="mt-6 flex items-center space-x-2 justify-start">
                         <Info className="size-4 text-purple-500 dark:text-purple-300" />
                         <p className="text-xs">
