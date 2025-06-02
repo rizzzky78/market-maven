@@ -248,21 +248,110 @@ export type UIState = {
 }[];
 
 /**
+ * Represents the primary category or source of a generation process.
+ */
+export type HeadStatus =
+  /** External API call or integration */
+  | "api"
+  /** Database operation or query */
+  | "database"
+  /** Real-time data streaming */
+  | "stream"
+  /** Tool execution or utility function */
+  | "tool";
+
+/**
+ * Represents the current state or phase of a generation process.
+ * Organized from initial state through completion or failure states.
+ */
+export type SubStatus =
+  /** Process has been initialized but not started */
+  | "initial"
+  /** Data is being requested from external source */
+  | "requesting-data"
+  /** Content or result is being generated */
+  | "generating"
+  /** Process completed successfully */
+  | "success"
+  /** Process completed normally (alternative to success) */
+  | "done"
+  /** Saving current state data */
+  | "save-state"
+  /** Data not found */
+  | "not-found"
+  /** Recoverable error occurred */
+  | "error"
+  /** Process partialy executed */
+  | "partial-done"
+  /** Proceed to next step action */
+  | "next-action"
+  /** Unrecoverable error that stops the entire process */
+  | "fatal-error";
+
+/**
+ * Composite status type combining head status and sub status.
+ * Provides a complete picture of what component is in what state.
+ *
+ * Common patterns:
+ * - `"api:requesting-data"` - Fetching data from external API
+ * - `"database:error"` - Database operation failed
+ * - `"tool:success"` - Tool execution completed successfully
+ * - `"stream:fatal-error"` - Streaming process encountered unrecoverable error
+ */
+export type GenerationStatus = `${HeadStatus}:${SubStatus}`;
+
+/**
+ * Utility type to extract the HeadStatus from a GenerationStatus
+ *
+ * @example
+ * ```typescript
+ * type ApiHead = ExtractHeadStatus<"api:generating">; // "api"
+ * ```
+ */
+export type ExtractHeadStatus<T extends GenerationStatus> =
+  T extends `${infer Head}:${string}` ? Head : never;
+
+/**
+ * Utility type to extract the SubStatus from a GenerationStatus
+ *
+ * @example
+ * ```typescript
+ * type GeneratingStatus = ExtractSubStatus<"api:generating">; // "generating"
+ * ```
+ */
+export type ExtractSubStatus<T extends GenerationStatus> =
+  T extends `${string}:${infer Sub}` ? Sub : never;
+
+/**
+ * Utility type to get all possible GenerationStatus values for a specific HeadStatus
+ *
+ * @example
+ * ```typescript
+ * type ApiStatuses = StatusesForHead<"api">;
+ * // "api:initial" | "api:requesting-data" | "api:generating" | etc.
+ * ```
+ */
+export type StatusesForHead<T extends HeadStatus> = `${T}:${SubStatus}`;
+
+/**
+ * Utility type to get all possible GenerationStatus values for a specific SubStatus
+ *
+ * @example
+ * ```typescript
+ * type ErrorStatuses = StatusesForSub<"error">;
+ * // "api:error" | "database:error" | "stream:error" | "tool:error"
+ * ```
+ */
+export type StatusesForSub<T extends SubStatus> = `${HeadStatus}:${T}`;
+
+/**
  * Tracks the generation process of a stream, providing status and error handling.
  */
 export type StreamGeneration = {
   /** Indicates if generation is in progress */
   loading: boolean;
   /** Current generation stage */
-  process:
-    | "initial"
-    | "generating"
-    | "api_success"
-    | "api_error"
-    | "database_error"
-    | "fatal_error"
-    | "done"
-    | ({} & string);
+  process: GenerationStatus;
   /** Optional error message if generation fails */
   error?: string;
 };

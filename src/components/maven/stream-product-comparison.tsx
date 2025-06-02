@@ -1,29 +1,32 @@
 "use client";
 
-import { Columns2, Info, Quote } from "lucide-react";
+import { Columns2, Info, Quote, Share2 } from "lucide-react";
 import { useEffect, useState, type FC } from "react";
-import { MemoProductComparison } from "./memo-product-comparison";
-import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import type { ProductsComparisonProps } from "@/lib/types/props";
-import { ShareButton } from "./share-button";
-import { ScrollArea } from "../ui/scroll-area";
+import { MemoProductComparison } from "@/components/maven/memo-product-comparison";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { motion, AnimatePresence } from "framer-motion";
-import { ProductComparisonSkeleton } from "./product-comparison-skeleton";
+import { ProductComparisonSkeleton } from "@/components/maven/product-comparison-skeleton";
+import { StreamableValue, useStreamableValue } from "ai/rsc";
+import { ErrorMessage } from "@/components/maven/error-message";
 
-export const ProductComparison: FC<ProductsComparisonProps> = ({
+type StreamProductComparison = {
+  content: StreamableValue<Record<string, any>>;
+  data: {
+    compare: { title: string; callId: string }[];
+    userIntent?: string | null;
+  };
+};
+
+export const StreamProductComparison: FC<StreamProductComparison> = ({
   content,
-  isSharedContent,
+  data,
 }) => {
-  const {
-    args: { compare },
-    data: {
-      callId,
-      object: { userIntent, comparison },
-    },
-  } = content;
+  const { compare, userIntent } = data;
 
-  const { isGenerating } = useAppState();
   const [mounted, setMounted] = useState(false);
+
+  const [raw, error] = useStreamableValue(content);
+  const [dataStream, setDataStream] = useState<Record<string, any>>({});
 
   const [one, two] = compare;
 
@@ -57,8 +60,22 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
   };
 
   useEffect(() => {
+    if (raw) setDataStream(raw);
+  }, [raw]);
+
+  useEffect(() => {
     setMounted(true);
   }, []);
+
+  if (error) {
+    return (
+      <ErrorMessage
+        errorName="Stream Object Parsing Operation Failed"
+        reason="There was an error while parsing the streamable-value input."
+        raw={{ trace: raw }}
+      />
+    );
+  }
 
   if (!mounted) return <ProductComparisonSkeleton />;
 
@@ -208,13 +225,9 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.2 }}
             >
-              <ShareButton
-                title={"Product Comparison"}
-                subtitle={"Product Comparison"}
-                type={"products-comparison"}
-                callId={callId}
-                disabled={isSharedContent || isGenerating}
-              />
+              <div className="size-9 flex items-center justify-center border rounded-full">
+                <Share2 className="mr-0.5 size-4 text-muted" />
+              </div>
             </motion.div>
           </motion.div>
         </div>
@@ -225,7 +238,7 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
           transition={{ duration: 0.5, delay: 0.3 }}
         >
           <ScrollArea className="h-[500px]">
-            <MemoProductComparison data={[comparison]} />
+            <MemoProductComparison data={[dataStream]} />
           </ScrollArea>
         </motion.div>
         <motion.div

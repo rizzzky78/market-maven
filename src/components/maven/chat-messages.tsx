@@ -1,5 +1,4 @@
 import { UIState } from "@/lib/types/ai";
-import ReactLenis from "lenis/react";
 import { FC } from "react";
 
 interface MessagesProps {

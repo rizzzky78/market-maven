@@ -58,7 +58,7 @@ const toolRecommendator = ({
       });
 
       generation.update({
-        process: "generating",
+        process: "tool:initial",
         loading: true,
       });
 
@@ -141,11 +141,6 @@ const toolRecommendator = ({
 
           finalizedInsight = text;
           streamableInsight.done();
-
-          generation.done({
-            process: "done",
-            loading: false,
-          });
         },
         onError: ({ error }) => {
           streamableInsight.error(error);
@@ -241,7 +236,7 @@ const toolRecommendator = ({
 
       if (errorState.isError) {
         generation.done({
-          process: "fatal_error",
+          process: "tool:fatal-error",
           loading: false,
           error: "LLM Generation Error",
         });
@@ -256,6 +251,11 @@ const toolRecommendator = ({
             }}
           />
         );
+      } else {
+        generation.done({
+          process: "tool:done",
+          loading: false,
+        });
       }
 
       return (

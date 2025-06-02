@@ -79,7 +79,7 @@ const toolSearchProduct = ({
       });
 
       generation.update({
-        process: "generating",
+        process: "tool:initial",
         loading: true,
       });
 
@@ -98,7 +98,7 @@ const toolSearchProduct = ({
         };
 
         generation.done({
-          process: "fatal_error",
+          process: "api:fatal-error",
           loading: false,
           error: "LLM Generation Error",
         });
@@ -115,9 +115,9 @@ const toolSearchProduct = ({
         );
       }
 
-      logger.info("[ QV ]", {
-        payload: query,
-        result: validatedResult,
+      generation.update({
+        process: "tool:partial-done",
+        loading: true,
       });
 
       const queryValidationUI = (
@@ -136,9 +136,9 @@ const toolSearchProduct = ({
 
       const enhancedQuery = await queryEnhancer({ query });
 
-      logger.info("[ QE ]", {
-        payload: query,
-        result: enhancedQuery,
+      generation.update({
+        process: "tool:next-action",
+        loading: true,
       });
 
       /**
@@ -184,6 +184,11 @@ const toolSearchProduct = ({
         requestOption?.onRequest?.reffSource &&
         requestOption?.onRequest?.reffSource !== "tokopedia"
       ) {
+        generation.update({
+          process: "tool:partial-done",
+          loading: true,
+        });
+
         yield (
           <>
             {queryVEUI}
@@ -196,10 +201,6 @@ const toolSearchProduct = ({
           marketSource: requestOption.onRequest.reffSource,
         });
 
-        logger.info("[ DEBUG: Search Insight ]", {
-          result: insightResult,
-        });
-
         if (!insightResult.ok || !insightResult.data) {
           errorState = {
             isError: true,
@@ -207,7 +208,7 @@ const toolSearchProduct = ({
           };
 
           generation.done({
-            process: "fatal_error",
+            process: "api:fatal-error",
             loading: false,
             error: "LLM Generation Error",
           });
@@ -224,6 +225,11 @@ const toolSearchProduct = ({
           );
         }
 
+        generation.update({
+          process: "tool:next-action",
+          loading: true,
+        });
+
         /**
          * Assign insight result to tool data
          */
@@ -235,6 +241,11 @@ const toolSearchProduct = ({
           owner: state.get().username,
           type: "searchProduct",
           object: finalizedToolData.data,
+        });
+
+        generation.update({
+          process: "stream:initial",
+          loading: true,
         });
 
         const streamableText = createStreamableValue<string>("");
@@ -266,8 +277,8 @@ const toolSearchProduct = ({
             finalizedText = text;
             streamableText.done();
 
-            generation.done({
-              process: "done",
+            generation.update({
+              process: "stream:partial-done",
               loading: false,
             });
           },
@@ -319,6 +330,11 @@ const toolSearchProduct = ({
           tool: toolResult,
         });
 
+        generation.update({
+          process: "database:save-state",
+          loading: true,
+        });
+
         logger.info("Done using searchProduct tool", {
           progress: "finish",
           request: { query, reffSource: requestOption?.onRequest?.reffSource },
@@ -329,47 +345,57 @@ const toolSearchProduct = ({
         const streamableRelated = createStreamableValue<PartialRelated>();
 
         if (requestOption?.onRequest?.related) {
+          generation.update({
+            process: "stream:next-action",
+            loading: true,
+          });
+
           yield (
             <>
               {searchProductUiNode}
               <StreamRelatedMessage content={streamableRelated.value} />
             </>
           );
-        }
 
-        const payloadRelated = JSON.stringify(
-          toPayloadRelatedMessage([...state.get().messages, ...mutate])
-        );
+          const payloadRelated = JSON.stringify(
+            toPayloadRelatedMessage([...state.get().messages, ...mutate])
+          );
 
-        const { partialObjectStream: relatedStream } = streamObject({
-          model: google("gemini-2.0-flash-lite"),
-          system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
-          prompt: payloadRelated,
-          schema: relatedQuerySchema,
-          onFinish: async ({ object, usage }) => {
-            logger.info("Usage - Search Product - Step 3", { usage });
+          const { partialObjectStream: relatedStream } = streamObject({
+            model: google("gemini-2.0-flash-lite"),
+            system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
+            prompt: payloadRelated,
+            schema: relatedQuerySchema,
+            onFinish: async ({ object, usage }) => {
+              logger.info("Usage - Search Product - Step 3", { usage });
 
-            if (object) {
-              relatedObject = object;
-            }
-            streamableRelated.done();
-          },
-          onError: ({ error }) => {
-            streamableRelated.done();
-            errorState = {
-              isError: true,
-              error,
-            };
-          },
-        });
+              if (object) {
+                relatedObject = object;
+              }
+              streamableRelated.done();
 
-        for await (const relatedChunk of relatedStream) {
-          streamableRelated.update(relatedChunk);
+              generation.update({
+                process: "stream:done",
+                loading: true,
+              });
+            },
+            onError: ({ error }) => {
+              streamableRelated.done();
+              errorState = {
+                isError: true,
+                error,
+              };
+            },
+          });
+
+          for await (const relatedChunk of relatedStream) {
+            streamableRelated.update(relatedChunk);
+          }
         }
 
         if (errorState.isError) {
           generation.done({
-            process: "fatal_error",
+            process: "tool:fatal-error",
             loading: false,
             error: "LLM Generation Error",
           });
@@ -384,6 +410,11 @@ const toolSearchProduct = ({
               }}
             />
           );
+        } else {
+          generation.done({
+            process: "tool:done",
+            loading: false,
+          });
         }
 
         return (
@@ -427,7 +458,7 @@ const toolSearchProduct = ({
           scrapeContent.screenshot
         ) {
           generation.update({
-            process: "api_success",
+            process: "api:success",
             loading: true,
           });
 
@@ -553,11 +584,6 @@ const toolSearchProduct = ({
 
               finalizedText = text;
               streamableText.done();
-
-              generation.done({
-                process: "done",
-                loading: false,
-              });
             },
             onError: ({ error }) => {
               streamableText.error(error);
@@ -659,7 +685,7 @@ const toolSearchProduct = ({
 
           if (errorState.isError) {
             generation.done({
-              process: "fatal_error",
+              process: "tool:fatal-error",
               loading: false,
               error: "LLM Generation Error",
             });
@@ -674,6 +700,11 @@ const toolSearchProduct = ({
                 }}
               />
             );
+          } else {
+            generation.done({
+              process: "tool:done",
+              loading: false,
+            });
           }
 
           return (
@@ -686,7 +717,7 @@ const toolSearchProduct = ({
           );
         } else if (!scrapeContent.success) {
           generation.done({
-            process: "api_error",
+            process: "api:fatal-error",
             loading: false,
             error: scrapeContent.message,
           });

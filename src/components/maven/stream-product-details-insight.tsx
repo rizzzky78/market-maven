@@ -176,8 +176,8 @@ export const StreamProductDetailsInsight: FC<StreamProductDetailsProps> = ({
                 >
                   Tavily
                 </Link>
-                <Loader2 className="size-4 animate-spin" />
               </p>
+              <Loader2 className="size-4 animate-spin" />
             </div>
           </motion.div>
 

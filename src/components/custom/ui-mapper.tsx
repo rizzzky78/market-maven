@@ -52,11 +52,6 @@ type ProductSearchResult<T = any> = ExtendedToolResult<
   T
 >;
 
-type ProductComparisonResult = ExtendedToolResult<
-  { compare: Array<{ title: string; callId: string }> },
-  { callId: string; productImages: string[]; comparison: Record<string, any> }
->;
-
 type UserInquiryResult = ExtendedToolResult<Inquiry, { data: string }>;
 
 /**
@@ -146,7 +141,7 @@ const handleProductsComparison = (
   result: string,
   isSharedPage?: boolean
 ): UIStateItem => {
-  const comparisonResult: ProductComparisonResult = JSON.parse(result);
+  const comparisonResult = JSON.parse(result);
   return {
     id,
     display: (

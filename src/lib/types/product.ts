@@ -87,7 +87,7 @@ export type DetailsGlobal = {
   /** Collection of media content snapshots */
   snapshots: MediaSnapshots;
   /** Raw markdown from researcher */
-  markdown: string
+  markdown: string;
 };
 
 /**
@@ -161,3 +161,11 @@ export type UnionProductDetails =
 
 export type ExtendedProductDetails = ProductDetailsToolResult &
   ProductDetailsInsightToolResult;
+
+export type ComparisonData = {
+  callId: string;
+  object: {
+    userIntent?: string;
+    comparison: Record<string, any>;
+  };
+};

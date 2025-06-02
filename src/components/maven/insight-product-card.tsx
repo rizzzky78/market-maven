@@ -284,7 +284,7 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
               }}
             >
               <div className="flex items-start space-x-2">
-                <Info className="size-4 shrink-0 text-purple-500 dark:text-purple-300" />
+                <Info className="size-4 shrink-0 text-purple-500 dark:text-purple-500" />
                 <p className="text-xs pr-1">
                   Maven is not affiliated with the relevant online marketplace,
                   the displayed results may not match the user&apos;s intent.

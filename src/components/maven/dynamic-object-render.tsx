@@ -97,22 +97,29 @@ export const dynamicObjectRender = (value: any, key: string): JSX.Element => {
     typeof value === "number" ||
     typeof value === "boolean"
   ) {
+    const content = String(value);
+
     return (
       <motion.div
         variants={itemVariants}
-        className="px-4 mb-1 flex lg:items-center flex-wrap"
+        className="ml-2 px-4 mb-1 flex lg:items-center flex-wrap"
       >
         <div className="rounded-[2rem] bg-gray-400 dark:bg-muted py-1 px-4 shrink-0 mr-1">
           <p className="font-medium">{sanitizeKeyName(key)}:</p>
         </div>
-        <div className="rounded-[2rem] bg-gray-300 dark:bg-[#4A4947] py-1 px-4">
+        <div
+          className="bg-gray-300 dark:bg-[#4A4947] py-1 px-4"
+          style={{
+            borderRadius: content.length > 60 ? "1rem" : "2rem",
+          }}
+        >
           <p>{String(value)}</p>
         </div>
       </motion.div>
     );
   } else if (Array.isArray(value)) {
     return (
-      <motion.div variants={itemVariants} className="my-3">
+      <motion.div variants={itemVariants} className="ml-2 my-3">
         <div className="rounded-[2rem] w-fit bg-[#1A1A1D] py-1 pl-2 pr-20 my-1">
           <div className="flex items-center text-white">
             <Plus className="size-4 mr-2" />

@@ -74,7 +74,7 @@ const toolGetProductDetails = ({
       });
 
       generation.update({
-        process: "generating",
+        process: "tool:initial",
         loading: true,
       });
 
@@ -185,7 +185,7 @@ const toolGetProductDetails = ({
 
         if (!prevObjectSearch) {
           generation.done({
-            process: "fatal_error",
+            process: "database:not-found",
             loading: false,
             error: "LLM Generation Error",
           });
@@ -376,10 +376,6 @@ const toolGetProductDetails = ({
             finalizedInsightText = text;
 
             streamableText.done();
-            generation.done({
-              process: "done",
-              loading: false,
-            });
           },
           onError: ({ error }) => {
             streamableText.error(error);
@@ -476,7 +472,7 @@ const toolGetProductDetails = ({
 
         if (errorState.isError) {
           generation.done({
-            process: "fatal_error",
+            process: "tool:fatal-error",
             loading: false,
             error: "LLM Generation Error",
           });
@@ -491,6 +487,11 @@ const toolGetProductDetails = ({
               }}
             />
           );
+        } else {
+          generation.done({
+            process: "tool:done",
+            loading: false,
+          });
         }
 
         return (
@@ -537,7 +538,7 @@ const toolGetProductDetails = ({
           scrapeContent.screenshot
         ) {
           generation.update({
-            process: "api_success",
+            process: "api:success",
             loading: true,
           });
 
@@ -644,10 +645,6 @@ const toolGetProductDetails = ({
               finalizedText = text;
 
               streamableText.done();
-              generation.done({
-                process: "done",
-                loading: false,
-              });
             },
             onError: ({ error }) => {
               streamableText.error(error);
@@ -743,7 +740,7 @@ const toolGetProductDetails = ({
 
           if (errorState.isError) {
             generation.done({
-              process: "fatal_error",
+              process: "tool:fatal-error",
               loading: false,
               error: "LLM Generation Error",
             });
@@ -758,6 +755,11 @@ const toolGetProductDetails = ({
                 }}
               />
             );
+          } else {
+            generation.done({
+              process: "tool:done",
+              loading: true,
+            });
           }
 
           return (
@@ -770,7 +772,7 @@ const toolGetProductDetails = ({
           );
         } else if (!scrapeContent.success) {
           generation.done({
-            process: "api_error",
+            process: "api:fatal-error",
             loading: false,
           });
 

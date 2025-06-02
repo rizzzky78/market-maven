@@ -22,7 +22,7 @@ const toolInquireUser = ({ generation, errorState, state }: ToolsetProps) => {
       logger.info("Using inquireUser tool");
 
       generation.update({
-        process: "generating",
+        process: "tool:initial",
         loading: true,
       });
 
@@ -30,9 +30,10 @@ const toolInquireUser = ({ generation, errorState, state }: ToolsetProps) => {
 
       if (!parse.success || parse.error) {
         generation.done({
-          process: "fatal_error",
+          process: "tool:error",
           loading: false,
         });
+
         return (
           <ErrorMessage
             errorName="Invalid Payload on Inquire Property"
@@ -72,7 +73,7 @@ const toolInquireUser = ({ generation, errorState, state }: ToolsetProps) => {
 
       if (errorState.isError) {
         generation.done({
-          process: "fatal_error",
+          process: "tool:fatal-error",
           loading: false,
           error: "LLM Generation Error",
         });
@@ -87,6 +88,11 @@ const toolInquireUser = ({ generation, errorState, state }: ToolsetProps) => {
             }}
           />
         );
+      } else {
+        generation.done({
+          process: "tool:done",
+          loading: true,
+        });
       }
 
       const inquiryProperty = (await inquiryObject).inquiry;
@@ -101,11 +107,6 @@ const toolInquireUser = ({ generation, errorState, state }: ToolsetProps) => {
       });
 
       logger.info("Done using inquireUser tool");
-
-      generation.done({
-        process: "done",
-        loading: false,
-      });
 
       return <UserInquiry inquiry={inquiryProperty} />;
     },

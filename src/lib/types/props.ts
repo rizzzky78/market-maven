@@ -1,5 +1,6 @@
 import { ExtendedToolResult } from "./ai";
 import {
+  ComparisonData,
   DetailsTokopedia,
   ProductDetails,
   RecommendationResponse,
@@ -30,14 +31,9 @@ export type ProductsComparisonProps = {
         callId: string;
       }>;
     },
-    {
-      callId: string;
-      productImages: string[];
-      comparison: Record<string, any>;
-    }
+    ComparisonData
   >;
   isSharedContent?: boolean;
-  skeleton?: boolean;
 };
 
 export type ProductRecommendationProps = {

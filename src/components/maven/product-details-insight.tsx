@@ -35,6 +35,7 @@ import { ExtendedToolResult } from "@/lib/types/ai";
 import { MemoProductDetailsInsight } from "@/components/maven/memo-product-details-insight";
 import { ExtendedMessage } from "@/components/maven/extended-message";
 import { DetailsGlobal, ProductDetails } from "@/lib/types/product";
+import { ScrollArea } from "../ui/scroll-area";
 
 // Helper function to extract YouTube video ID from URL
 const getYouTubeVideoId = (url: string): string | null => {
@@ -250,7 +251,7 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                           onClick={attachComparison}
                           disabled={sharedContent ? true : isButtonDisabled}
                         >
-                          <FlipHorizontal className="size-4 text-purple-500 dark:text-purple-300" />
+                          <FlipHorizontal className="size-4 text-purple-500 dark:text-purple-500" />
                           <span>Compare</span>
                         </Button>
                       </TooltipTrigger>
@@ -344,7 +345,7 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                 }}
               >
                 <div className="flex items-start space-x-2">
-                  <Info className="size-4 shrink-0 text-purple-500 dark:text-purple-300" />
+                  <Info className="size-4 shrink-0 text-purple-500 dark:text-purple-500" />
                   <p className="text-xs pr-1">
                     Maven is not affiliated with the relevant online
                     marketplace, the displayed results may not match the
@@ -385,7 +386,9 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                   style={{ overflow: "hidden" }}
                 >
                   <motion.div variants={itemVariants} className="px-0 md:px-4">
-                    <MemoProductDetailsInsight data={[productDetails]} />
+                    <ScrollArea className="h-[500px]">
+                      <MemoProductDetailsInsight data={[productDetails]} />
+                    </ScrollArea>
                     <div className="mt-6 flex items-center space-x-2 justify-start">
                       <Info className="size-4 text-purple-500 dark:text-purple-300" />
                       <p className="text-xs">

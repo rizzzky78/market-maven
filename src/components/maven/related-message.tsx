@@ -35,7 +35,14 @@ export const RelatedMessage: FC<RelatedProps> = ({ related }) => {
   const [, setUIState] = useUIState<typeof AI>();
   const { orchestrator } = useActions<typeof AI>();
   const { isGenerating, setIsGenerating } = useAppState();
-  const { attachment, flush, activeComparison } = useMavenStateController();
+  const {
+    attachment,
+    flush,
+    activeComparison,
+    search,
+    related: relatedOpt,
+    reffSource,
+  } = useMavenStateController();
 
   const relatedActionSubmit = useCallback(
     async (query: string) => {
@@ -63,9 +70,14 @@ export const RelatedMessage: FC<RelatedProps> = ({ related }) => {
 
         flush();
 
-        const { id, display, generation } = await orchestrator({
-          textInput: query,
-        });
+        const { id, display, generation } = await orchestrator(
+          {
+            textInput: query,
+          },
+          {
+            onRequest: { search, related: relatedOpt, reffSource },
+          }
+        );
 
         setUIState((prevUI) => [...prevUI, { id, display }]);
 
@@ -89,7 +101,16 @@ export const RelatedMessage: FC<RelatedProps> = ({ related }) => {
         setIsGenerating(false);
       }
     },
-    [flush, isGenerating, orchestrator, setIsGenerating, setUIState]
+    [
+      flush,
+      isGenerating,
+      orchestrator,
+      reffSource,
+      relatedOpt,
+      search,
+      setIsGenerating,
+      setUIState,
+    ]
   );
 
   const isButtonDisabled = attachment
@@ -97,6 +118,11 @@ export const RelatedMessage: FC<RelatedProps> = ({ related }) => {
     : activeComparison
     ? true
     : isGenerating;
+
+  const handleSubmit = async (query: string) => {
+    if (isButtonDisabled) return;
+    await relatedActionSubmit(query);
+  };
 
   return (
     <div className="my-12 w-full">
@@ -115,7 +141,7 @@ export const RelatedMessage: FC<RelatedProps> = ({ related }) => {
               className={`hover:bg-foreground/5 h-full bg-background ${
                 isButtonDisabled ? "cursor-wait" : "cursor-pointer"
               }`}
-              onClick={async () => await relatedActionSubmit(item.query)}
+              onClick={async () => await handleSubmit(item.query)}
             >
               <CardHeader className="pt-2 pb-1 px-3">
                 <CardTitle className="text-sm text-black/90 dark:text-white/90">

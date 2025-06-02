@@ -75,7 +75,7 @@ const orchestrator = async (
   });
 
   const generation = createStreamableValue<StreamGeneration>({
-    process: "initial",
+    process: "stream:initial",
     loading: true,
   });
 
@@ -155,13 +155,13 @@ const orchestrator = async (
         });
 
         generation.done({
-          process: "done",
+          process: "stream:done",
           loading: false,
         });
       } else {
         streamableText.update(content);
         generation.update({
-          process: "generating",
+          process: "stream:generating",
           loading: true,
         });
       }

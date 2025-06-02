@@ -108,7 +108,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
                 <div className="w-full pl-1 mt-2 rounded-full">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center mr-2">
-                      <Info className="size-4 text-purple-500 dark:text-purple-300 mr-1" />
+                      <Info className="size-4 text-purple-500 dark:text-purple-500 mr-1" />
                       <p className="text-xs">
                         This app is not affiliated with the relevant online
                         marketplace.
