@@ -6,23 +6,25 @@ import {
   AvailableTool,
   ExtendedToolResult,
   UserContentMessage,
-  RefferenceDataSource,
 } from "@/lib/types/ai";
-import { AssistantMessage } from "../maven/assistant-message";
-import { UserMessage } from "../maven/user-message";
+import { AssistantMessage } from "@/components/maven/assistant-message";
+import { UserMessage } from "@/components/maven/user-message";
 import { ToolContent } from "ai";
 import { Inquiry } from "@/lib/agents/schema/tool-parameters";
-import { UserInquiry, UserInquiryShared } from "../maven/user-inquiry";
-import { ProductSearch } from "../maven/product-search";
-import { ProductDetails } from "../maven/product-details";
-import { ProductComparison } from "../maven/product-comparison";
+import {
+  UserInquiry,
+  UserInquiryShared,
+} from "@/components/maven/user-inquiry";
+import { ProductSearch } from "@/components/maven/product-search";
+import { ProductDetails } from "@/components/maven/product-details";
+import { ProductComparison } from "@/components/maven/product-comparison";
 import { ProductRecommendationProps } from "@/lib/types/props";
 import {
   RecommendationAction,
   TemplateRecommendationAction,
-} from "../maven/recommendation-action";
-import { InsightProductCard } from "../maven/insight-product-card";
-import { ProductDetailsInsight } from "../maven/product-details-insight";
+} from "@/components/maven/recommendation-action";
+import { InsightProductCard } from "@/components/maven/insight-product-card";
+import { ProductDetailsInsight } from "@/components/maven/product-details-insight";
 
 /**
  * Core message content structure representing different types of content in the system
@@ -43,14 +45,6 @@ interface UIStateItem {
   id: string;
   display: ReactNode;
 }
-
-/**
- * Type definitions for tool results to ensure type safety
- */
-type ProductSearchResult<T = any> = ExtendedToolResult<
-  { query: string; reffSource: RefferenceDataSource },
-  T
->;
 
 type UserInquiryResult = ExtendedToolResult<Inquiry, { data: string }>;
 
@@ -88,9 +82,9 @@ const handleProductSearch = (
   id: string,
   isSharedPage?: boolean
 ): UIStateItem => {
-  const searchResult: ProductSearchResult = JSON.parse(result);
+  const searchResult = JSON.parse(result);
 
-  const isTokopedia = searchResult.args.reffSource === "tokopedia";
+  const isTokopedia = searchResult.data.source === "tokopedia";
 
   return {
     id,
