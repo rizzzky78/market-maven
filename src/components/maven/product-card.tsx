@@ -83,7 +83,7 @@ export const ProductCard: FC<ProductProps> = ({
     detach();
     attach({
       product: {
-        id: generateId(),
+        purpose: "get-product-details",
         title: title ?? "error-no-title",
         link: link ?? "error-no-link",
         callId: `tkp-${generateId()}`,

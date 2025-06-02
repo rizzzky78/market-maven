@@ -7,6 +7,7 @@ import { ProductDetails } from "./product-details";
 import { ProductComparison } from "./product-comparison";
 import { InsightProductCard } from "./insight-product-card";
 import { ProductDetailsInsight } from "./product-details-insight";
+import { ComparisonData } from "@/lib/types/product";
 
 // Types
 interface SharedContentProps {
@@ -36,11 +37,7 @@ type ProductComparisonData = ToolDataStore<
       callId: string;
     }>;
   },
-  {
-    callId: string;
-    productImages: string[];
-    comparison: Record<string, any>;
-  }
+  ComparisonData
 >;
 
 // Helper Components
