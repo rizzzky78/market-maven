@@ -235,6 +235,11 @@ const toolSearchProduct = ({
          */
         finalizedToolData.data.object = insightResult.data.data;
 
+        generation.update({
+          process: "database:save-state",
+          loading: true,
+        });
+
         await createObjectEntry({
           key: finalizedToolData.data.callId,
           chatId: state.get().chatId,
@@ -323,16 +328,16 @@ const toolSearchProduct = ({
           },
         });
 
+        generation.update({
+          process: "database:save-state",
+          loading: true,
+        });
+
         await createToolDataEntry({
           key: toolRequestId,
           chatId: state.get().chatId,
           owner: state.get().username,
           tool: toolResult,
-        });
-
-        generation.update({
-          process: "database:save-state",
-          loading: true,
         });
 
         logger.info("Done using searchProduct tool", {
@@ -428,6 +433,11 @@ const toolSearchProduct = ({
       } else {
         yield <LoadingText text={`Perform scrape operation...`} />;
 
+        generation.update({
+          process: "api:requesting-data",
+          loading: true,
+        });
+
         const {
           cached,
           response: { data: scrapeContent },
@@ -480,6 +490,11 @@ const toolSearchProduct = ({
             data: [],
           };
 
+          generation.update({
+            process: "database:save-state",
+            loading: true,
+          });
+
           await createMarkdownEntry({
             key: finalizedToolData.data.callId,
             chatId: state.get().chatId,
@@ -515,6 +530,11 @@ const toolSearchProduct = ({
             </>
           );
 
+          generation.update({
+            process: "stream:initial",
+            loading: true,
+          });
+
           const { partialObjectStream } = streamObject({
             model: google("gemini-2.0-flash-lite"),
             system: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_EXTRACTOR,
@@ -532,12 +552,22 @@ const toolSearchProduct = ({
 
               streamableProducts.done();
 
+              generation.update({
+                process: "stream:partial-done",
+                loading: true,
+              });
+
               await createObjectEntry({
                 key: finalizedToolData.data.callId,
                 chatId: state.get().chatId,
                 owner: state.get().username,
                 type: "searchProduct",
                 object: finalizedToolData.data,
+              });
+
+              generation.update({
+                process: "database:save-state",
+                loading: true,
               });
             },
             onError: ({ error }) => {
@@ -575,6 +605,11 @@ const toolSearchProduct = ({
 
           let finalizedText: string = "";
 
+          generation.update({
+            process: "stream:next-action",
+            loading: true,
+          });
+
           const { textStream } = streamText({
             model: google("gemini-2.0-flash-lite"),
             system: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_INSIGHT,
@@ -584,6 +619,11 @@ const toolSearchProduct = ({
 
               finalizedText = text;
               streamableText.done();
+
+              generation.update({
+                process: "stream:partial-done",
+                loading: true,
+              });
             },
             onError: ({ error }) => {
               streamableText.error(error);
@@ -628,6 +668,11 @@ const toolSearchProduct = ({
             },
           });
 
+          generation.update({
+            process: "database:save-state",
+            loading: true,
+          });
+
           await createToolDataEntry({
             key: finalizedToolData.data.callId,
             chatId: state.get().chatId,
@@ -645,42 +690,52 @@ const toolSearchProduct = ({
           const streamableRelated = createStreamableValue<PartialRelated>();
 
           if (requestOption?.onRequest?.related) {
+            generation.update({
+              process: "stream:next-action",
+              loading: true,
+            });
+
             yield (
               <>
                 {searchProductUiNode}
                 <StreamRelatedMessage content={streamableRelated.value} />
               </>
             );
-          }
 
-          const payloadRelated = JSON.stringify(
-            toPayloadRelatedMessage([...state.get().messages, ...mutate])
-          );
+            const payloadRelated = JSON.stringify(
+              toPayloadRelatedMessage([...state.get().messages, ...mutate])
+            );
 
-          const { partialObjectStream: relatedStream } = streamObject({
-            model: google("gemini-2.0-flash-lite"),
-            system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
-            prompt: payloadRelated,
-            schema: relatedQuerySchema,
-            onFinish: async ({ object, usage }) => {
-              logger.info("Usage - Search Product - Step 3", { usage });
+            const { partialObjectStream: relatedStream } = streamObject({
+              model: google("gemini-2.0-flash-lite"),
+              system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
+              prompt: payloadRelated,
+              schema: relatedQuerySchema,
+              onFinish: async ({ object, usage }) => {
+                logger.info("Usage - Search Product - Step 3", { usage });
 
-              if (object) {
-                relatedObject = object;
-              }
-              streamableRelated.done();
-            },
-            onError: ({ error }) => {
-              streamableRelated.done();
-              errorState = {
-                isError: true,
-                error,
-              };
-            },
-          });
+                if (object) {
+                  relatedObject = object;
+                }
+                streamableRelated.done();
 
-          for await (const relatedChunk of relatedStream) {
-            streamableRelated.update(relatedChunk);
+                generation.update({
+                  process: "stream:done",
+                  loading: true,
+                });
+              },
+              onError: ({ error }) => {
+                streamableRelated.done();
+                errorState = {
+                  isError: true,
+                  error,
+                };
+              },
+            });
+
+            for await (const relatedChunk of relatedStream) {
+              streamableRelated.update(relatedChunk);
+            }
           }
 
           if (errorState.isError) {

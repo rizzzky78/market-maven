@@ -44,7 +44,7 @@ import {
 } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";
-import { streamText, streamObject } from "ai";
+import { streamText, streamObject, LanguageModelUsage } from "ai";
 import { createStreamableValue } from "ai/rsc";
 import { v4 } from "uuid";
 
@@ -98,7 +98,6 @@ const toolGetProductDetails = ({
         },
       };
 
-      logger.info("[DEBUG: finalizedToolData]", finalizedToolData);
       /**
        * ==================
        * START - RESEARCHER
@@ -112,6 +111,11 @@ const toolGetProductDetails = ({
         yield (
           <LoadingText text="Perform search to get additonal information..." />
         );
+
+        generation.update({
+          process: "api:requesting-data",
+          loading: true,
+        });
 
         const externalData = await externalTavilySearch(
           requestOption?.onRequest?.search ?? false,
@@ -127,10 +131,20 @@ const toolGetProductDetails = ({
             />
           );
 
+          generation.update({
+            process: "stream:initial",
+            loading: true,
+          });
+
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
           finalizedToolData.data.object.externalData.tavily =
             externalData.data.answer;
+
+          generation.update({
+            process: "stream:generating",
+            loading: true,
+          });
 
           const streamableResearch = createStreamableValue("");
 
@@ -146,7 +160,13 @@ const toolGetProductDetails = ({
               logger.info("Usage - Get Product Details - Step 1", { usage });
 
               finalizedToolData.data.object.externalData!.markdown = text;
+
               streamableResearch.done(text);
+
+              generation.update({
+                process: "stream:next-action",
+                loading: true,
+              });
             },
             onError: ({ error }) => {
               streamableResearch.error(error);
@@ -174,6 +194,10 @@ const toolGetProductDetails = ({
         requestOption?.onRequest?.reffSource &&
         requestOption?.onRequest?.reffSource !== "tokopedia"
       ) {
+        generation.update({
+          process: "database:requesting-data",
+          loading: true,
+        });
         /**
          * Get previous search product data by call id
          */
@@ -181,7 +205,10 @@ const toolGetProductDetails = ({
           SearchProductResult<ExtendedSearchResult>
         >(prevCallId);
 
-        logger.info("[DEBUG: prevObjectSearch]", prevObjectSearch);
+        generation.update({
+          process: "database:success",
+          loading: true,
+        });
 
         if (!prevObjectSearch) {
           generation.done({
@@ -237,7 +264,10 @@ const toolGetProductDetails = ({
             .object as TProductDetails<DetailsGlobal>["object"]
         ).snapshots = previousSearchData.snapshots;
 
-        logger.info("[DEBUG: previousSearchData]", previousSearchData);
+        generation.update({
+          process: "stream:generating",
+          loading: true,
+        });
 
         const streamableDetailsResearcher = createStreamableValue("");
 
@@ -250,6 +280,11 @@ const toolGetProductDetails = ({
 
         let detailsResearcherText = "";
 
+        const mergedUsageObj = {
+          researcher: {},
+          objectDetails: {},
+        } as unknown as Record<string, LanguageModelUsage>;
+
         const markdownLLM = streamText({
           model: google("gemini-2.0-flash", { useSearchGrounding: true }),
           system: PRODUCT_RESEARCHER_INSIGHT_SYSTEM_PROMPT,
@@ -257,14 +292,22 @@ const toolGetProductDetails = ({
           prompt: JSON.stringify({
             payload: previousSearchData.previousData.title,
           }),
-          onFinish: ({ text }) => {
+          onFinish: ({ text, usage }) => {
+            mergedUsageObj.researcher = usage;
+
             previousSearchData.markdown = text;
+
             streamableDetailsResearcher.done(text);
 
             (
               finalizedToolData.data
                 .object as TProductDetails<DetailsGlobal>["object"]
             ).markdown = previousSearchData.markdown;
+
+            generation.update({
+              process: "stream:partial-done",
+              loading: true,
+            });
           },
           onError: ({ error }) => {
             streamableDetailsResearcher.error(error);
@@ -287,6 +330,11 @@ const toolGetProductDetails = ({
           },
         });
 
+        generation.update({
+          process: "stream:generating",
+          loading: true,
+        });
+
         const streamableObject = createStreamableValue<Record<string, any>>();
 
         yield (
@@ -307,11 +355,17 @@ const toolGetProductDetails = ({
           system: PRODUCT_EXTRACTOR_INSIGHT_SYSTEM_PROMPT,
           prompt: payloadContent,
           output: "no-schema",
-          onFinish: async ({ object }) => {
+          onFinish: async ({ object, usage }) => {
+            mergedUsageObj.objectDetails = usage;
             finalizedToolData.data.object.productDetails = object as Record<
               string,
               any
             >;
+
+            generation.update({
+              process: "stream:next-action",
+              loading: true,
+            });
 
             logger.info("[DEBUG: insightDetailsObject]", object);
 
@@ -323,6 +377,11 @@ const toolGetProductDetails = ({
               owner: state.get().username,
               type: "getProductDetails",
               object: finalizedToolData.data,
+            });
+
+            generation.update({
+              process: "database:save-state",
+              loading: true,
             });
           },
           onError: ({ error }) => {
@@ -341,6 +400,20 @@ const toolGetProductDetails = ({
 
         const streamableText = createStreamableValue<string>("");
 
+        const mergedLLMUsage = Object.values(mergedUsageObj).reduce(
+          (acc, usage) => ({
+            promptTokens: acc.promptTokens + usage.promptTokens,
+            completionTokens: acc.completionTokens + usage.completionTokens,
+            totalTokens: acc.totalTokens + usage.totalTokens,
+          }),
+          { promptTokens: 0, completionTokens: 0, totalTokens: 0 }
+        );
+
+        generation.update({
+          process: "stream:generating",
+          loading: true,
+        });
+
         yield (
           <>
             <ProductDetailsInsight
@@ -356,6 +429,7 @@ const toolGetProductDetails = ({
                   },
                 } as TProductDetails<DetailsGlobal>,
               }}
+              usage={mergedLLMUsage}
             />
             <StreamAssistantMessage content={streamableText.value} />
           </>
@@ -376,6 +450,11 @@ const toolGetProductDetails = ({
             finalizedInsightText = text;
 
             streamableText.done();
+
+            generation.update({
+              process: "stream:done",
+              loading: true,
+            });
           },
           onError: ({ error }) => {
             streamableText.error(error);
@@ -406,6 +485,7 @@ const toolGetProductDetails = ({
                   },
                 } as TProductDetails<DetailsGlobal>,
               }}
+              usage={mergedLLMUsage}
             />
             <AssistantMessage content={finalizedInsightText} />
           </>
@@ -420,6 +500,11 @@ const toolGetProductDetails = ({
           },
         });
 
+        generation.update({
+          process: "database:save-state",
+          loading: true,
+        });
+
         await createToolDataEntry({
           key: finalizedToolData.data.callId,
           chatId: state.get().chatId,
@@ -432,42 +517,52 @@ const toolGetProductDetails = ({
         const streamableRelated = createStreamableValue<PartialRelated>();
 
         if (requestOption?.onRequest?.related) {
+          generation.update({
+            process: "stream:generating",
+            loading: true,
+          });
+
           yield (
             <>
               {getProductDetailsInsightUiNode}
               <StreamRelatedMessage content={streamableRelated.value} />
             </>
           );
-        }
 
-        const payloadRelated = JSON.stringify(
-          toPayloadRelatedMessage([...state.get().messages, ...mutate])
-        );
+          const payloadRelated = JSON.stringify(
+            toPayloadRelatedMessage([...state.get().messages, ...mutate])
+          );
 
-        const { partialObjectStream: relatedStream } = streamObject({
-          model: google("gemini-2.0-flash-lite"),
-          system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
-          prompt: payloadRelated,
-          schema: relatedQuerySchema,
-          onFinish: async ({ object, usage }) => {
-            logger.info("Usage - Search Product - Step 4", { usage });
+          const { partialObjectStream: relatedStream } = streamObject({
+            model: google("gemini-2.0-flash-lite"),
+            system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
+            prompt: payloadRelated,
+            schema: relatedQuerySchema,
+            onFinish: async ({ object, usage }) => {
+              logger.info("Usage - Search Product - Step 4", { usage });
 
-            if (object) {
-              relatedObject = object;
-            }
-            streamableRelated.done();
-          },
-          onError: ({ error }) => {
-            streamableRelated.done();
-            errorState = {
-              isError: true,
-              error,
-            };
-          },
-        });
+              if (object) {
+                relatedObject = object;
+              }
+              streamableRelated.done();
 
-        for await (const relatedChunk of relatedStream) {
-          streamableRelated.update(relatedChunk);
+              generation.update({
+                process: "stream:done",
+                loading: true,
+              });
+            },
+            onError: ({ error }) => {
+              streamableRelated.done();
+              errorState = {
+                isError: true,
+                error,
+              };
+            },
+          });
+
+          for await (const relatedChunk of relatedStream) {
+            streamableRelated.update(relatedChunk);
+          }
         }
 
         if (errorState.isError) {
@@ -503,6 +598,10 @@ const toolGetProductDetails = ({
           </>
         );
       } else if (link) {
+        generation.update({
+          process: "api:requesting-data",
+          loading: true,
+        });
         /**
          *
          * START - SCRAPE
@@ -552,6 +651,11 @@ const toolGetProductDetails = ({
             markdown: scrapeContent.markdown,
           });
 
+          generation.update({
+            process: "database:save-state",
+            loading: true,
+          });
+
           yield <LoadingText text="Proceed to data extraction..." />;
 
           const payloadContent = JSON.stringify({
@@ -561,6 +665,11 @@ const toolGetProductDetails = ({
           });
 
           const streamableObject = createStreamableValue<Record<string, any>>();
+
+          generation.update({
+            process: "stream:generating",
+            loading: true,
+          });
 
           yield (
             <StreamProductDetails
@@ -588,6 +697,11 @@ const toolGetProductDetails = ({
                 >;
               }
 
+              generation.update({
+                process: "stream:partial-done",
+                loading: true,
+              });
+
               streamableObject.done();
 
               await createObjectEntry({
@@ -596,6 +710,11 @@ const toolGetProductDetails = ({
                 owner: state.get().username,
                 type: "getProductDetails",
                 object: finalizedToolData.data,
+              });
+
+              generation.update({
+                process: "database:save-state",
+                loading: true,
               });
             },
             onError: ({ error }) => {
@@ -610,6 +729,11 @@ const toolGetProductDetails = ({
           for await (const objProduct of partialObjectStream) {
             streamableObject.update(objProduct as Record<string, any>);
           }
+
+          generation.update({
+            process: "stream:generating",
+            loading: true,
+          });
 
           const streamableText = createStreamableValue<string>("");
 
@@ -645,6 +769,11 @@ const toolGetProductDetails = ({
               finalizedText = text;
 
               streamableText.done();
+
+              generation.update({
+                process: "stream:done",
+                loading: true,
+              });
             },
             onError: ({ error }) => {
               streamableText.error(error);
@@ -683,6 +812,11 @@ const toolGetProductDetails = ({
             },
           });
 
+          generation.update({
+            process: "database:save-state",
+            loading: true,
+          });
+
           await createToolDataEntry({
             key: finalizedToolData.data.callId,
             chatId: state.get().chatId,
@@ -700,42 +834,52 @@ const toolGetProductDetails = ({
           const streamableRelated = createStreamableValue<PartialRelated>();
 
           if (requestOption?.onRequest?.related) {
+            generation.update({
+              process: "stream:next-action",
+              loading: true,
+            });
+
             yield (
               <>
                 {getProductDetailsUiNode}
                 <StreamRelatedMessage content={streamableRelated.value} />
               </>
             );
-          }
 
-          const payloadRelated = JSON.stringify(
-            toPayloadRelatedMessage([...state.get().messages, ...mutate])
-          );
+            const payloadRelated = JSON.stringify(
+              toPayloadRelatedMessage([...state.get().messages, ...mutate])
+            );
 
-          const { partialObjectStream: relatedStream } = streamObject({
-            model: google("gemini-2.0-flash-lite"),
-            system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
-            prompt: payloadRelated,
-            schema: relatedQuerySchema,
-            onFinish: async ({ object, usage }) => {
-              logger.info("Usage - Search Product - Step 4", { usage });
+            const { partialObjectStream: relatedStream } = streamObject({
+              model: google("gemini-2.0-flash-lite"),
+              system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
+              prompt: payloadRelated,
+              schema: relatedQuerySchema,
+              onFinish: async ({ object, usage }) => {
+                logger.info("Usage - Search Product - Step 4", { usage });
 
-              if (object) {
-                relatedObject = object;
-              }
-              streamableRelated.done();
-            },
-            onError: ({ error }) => {
-              streamableRelated.done();
-              errorState = {
-                isError: true,
-                error,
-              };
-            },
-          });
+                if (object) {
+                  relatedObject = object;
+                }
+                streamableRelated.done();
 
-          for await (const relatedChunk of relatedStream) {
-            streamableRelated.update(relatedChunk);
+                generation.update({
+                  process: "stream:done",
+                  loading: true,
+                });
+              },
+              onError: ({ error }) => {
+                streamableRelated.done();
+                errorState = {
+                  isError: true,
+                  error,
+                };
+              },
+            });
+
+            for await (const relatedChunk of relatedStream) {
+              streamableRelated.update(relatedChunk);
+            }
           }
 
           if (errorState.isError) {
