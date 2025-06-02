@@ -341,11 +341,12 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                     <p className="text-black/70 dark:text-white/50 text-xs">
                       *swipe to explore images
                     </p>
-                    <div className="hidden md:flex justify-end">
-                      {usage && <HoverCardUsage usage={usage} />}
-                    </div>
                   </div>
                 </motion.div>
+              </div>
+
+              <div className="hidden md:flex justify-start">
+                {usage && <HoverCardUsage usage={usage} />}
               </div>
 
               <motion.div className="w-full" variants={itemVariants}>
