@@ -90,7 +90,7 @@ export const SidebarUserNavigation: FC = () => {
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Link
-                  href={"/cookbook"}
+                  href={"https://maven-ai-webpage.vercel.app/cookbook"}
                   className="flex items-center"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -101,7 +101,7 @@ export const SidebarUserNavigation: FC = () => {
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Link
-                  href={"/terms-of-service"}
+                  href={"https://maven-ai-webpage.vercel.app/terms-of-service"}
                   className="flex items-center"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -112,7 +112,7 @@ export const SidebarUserNavigation: FC = () => {
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Link
-                  href={"/privacy-policy"}
+                  href={"https://maven-ai-webpage.vercel.app/privacy-policy"}
                   className="flex items-center"
                   target="_blank"
                   rel="noopener noreferrer"

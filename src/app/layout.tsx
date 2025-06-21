@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import { getServerSession } from "next-auth";
 import { SessionProvider } from "@/lib/utility/provider/session-provider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 import localFont from "next/font/local";
 
 const geistSans = Geist({
@@ -46,8 +47,9 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${array.variable} ${khand.variable} ${satoshi.variable} antialiased`}
       >
+        <SpeedInsights />
+        <Analytics />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          <SpeedInsights />
           <Toaster />
           <SessionProvider session={session}>{children}</SessionProvider>
         </ThemeProvider>

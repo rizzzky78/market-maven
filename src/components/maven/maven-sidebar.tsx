@@ -144,7 +144,12 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                 asChild
                 className="rounded-full md:h-8 md:p-0"
               >
-                <Link href="/" className="mt-2">
+                <Link
+                  href="https://maven-ai-webpage.vercel.app"
+                  className="mt-2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <div className="ml-0.5 flex size-7 items-center justify-center">
                     <svg
                       className="coolshapes polygon-7 "
@@ -302,7 +307,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                 ) : (
                   filteredChats.map((chat) => (
                     <Link
-                      href={`/chat/${chat.chatId}`}
+                      href={`/chat/c/${chat.chatId}`}
                       key={chat.chatId}
                       className="flex flex-col rounded-none items-start gap-2 whitespace-nowrap px-4 py-2 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                     >

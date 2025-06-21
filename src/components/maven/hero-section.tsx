@@ -71,7 +71,7 @@ const AnimatedText: FC<AnimatedTextProps> = ({
 
 export const HeroSection: FC = () => {
   return (
-    <section className="*:font-sans min-h-screen container flex justify-center mx-auto py-20 px-4 md:px-6">
+    <section className="*:font-sans min-h-screen container flex flex-col justify-center mx-auto pb-20 px-4 md:px-6">
       <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

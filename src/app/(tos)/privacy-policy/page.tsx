@@ -23,6 +23,20 @@ export default async function PrivacyPolicy() {
   return (
     <div>
       <NavigationBar />
+      <div className="sticky top-[70px] right-0 w-full flex justify-center z-[99999]">
+        <Link
+          href={"https://maven-ai-webpage.vercel.app/"}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group"
+        >
+          <div className="group-hover:translate-y-[10px] transition-all duration-700 border-2 text-lg border-purple-500 h-[60px] w-fit bg-white text-black rounded-full px-4 flex items-center font-semibold">
+            <p className="group-hover:text-purple-500 transition-colors duration-300">
+              Click here for Maven Webpage v2
+            </p>
+          </div>
+        </Link>
+      </div>
       <div className="container mx-auto px-4 py-24 min-h-screen">
         <Card className="w-full max-w-6xl mx-auto bg-transparent border-none *:text-black/80 *:dark:text-white/90">
           <CardHeader className="text-center flex items-center">

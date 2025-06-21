@@ -29,6 +29,21 @@ export function LandingPage() {
         {/* Header */}
         <NavigationBar />
 
+        <div className="sticky top-[70px] w-full flex justify-center z-[99999]">
+          <Link
+            href={"https://maven-ai-webpage.vercel.app/"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group"
+          >
+            <div className="group-hover:translate-y-[10px] transition-all duration-700 border-2 text-lg border-purple-500 h-[60px] w-fit bg-white text-black rounded-full px-4 flex items-center font-semibold">
+              <p className="group-hover:text-purple-500 transition-colors duration-300">
+                Click here for Maven Webpage v2
+              </p>
+            </div>
+          </Link>
+        </div>
+
         {/* Hero Section */}
         <HeroSection />
 

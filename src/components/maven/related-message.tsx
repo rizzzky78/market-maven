@@ -136,24 +136,33 @@ export const RelatedMessage: FC<RelatedProps> = ({ related }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
         {related &&
           related.items.map((item, index) => (
-            <Card
+            <button
               key={index}
-              className={`hover:bg-foreground/5 h-full bg-background ${
-                isButtonDisabled ? "cursor-wait" : "cursor-pointer"
-              }`}
               onClick={async () => await handleSubmit(item.query)}
+              className={`${
+                isButtonDisabled ? "cursor-default" : "cursor-pointer"
+              } w-full`}
+              disabled={isButtonDisabled}
             >
-              <CardHeader className="pt-2 pb-1 px-3">
-                <CardTitle className="text-sm text-black/90 dark:text-white/90">
-                  {item.label}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="px-3 pb-2">
-                <CardDescription className="text-xs">
-                  {item.query}
-                </CardDescription>
-              </CardContent>
-            </Card>
+              <Card
+                className={`h-full ${
+                  isButtonDisabled
+                    ? "opacity-75"
+                    : "hover:bg-foreground/5 bg-background"
+                }`}
+              >
+                <CardHeader className="pt-2 pb-1 px-3">
+                  <CardTitle className="text-sm text-start text-black/90 dark:text-white/90">
+                    {item.label}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="px-3 pb-2">
+                  <CardDescription className="text-xs text-start">
+                    {item.query}
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            </button>
           ))}
       </div>
     </div>

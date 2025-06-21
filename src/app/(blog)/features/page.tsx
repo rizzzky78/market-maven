@@ -2,6 +2,7 @@ import { Features } from "@/components/maven/features";
 import { Footer } from "@/components/maven/footer";
 import { NavigationBar } from "@/components/maven/navigation-bar";
 import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Maven AI Features - Explore Our AI-Powered Tools",
@@ -48,6 +49,20 @@ export default function Page() {
   return (
     <div>
       <NavigationBar />
+      <div className="sticky top-[70px] right-0 w-full flex justify-center z-[99999]">
+        <Link
+          href={"https://maven-ai-webpage.vercel.app/"}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group"
+        >
+          <div className="group-hover:translate-y-[10px] transition-all duration-700 border-2 text-lg border-purple-500 h-[60px] w-fit bg-white text-black rounded-full px-4 flex items-center font-semibold">
+            <p className="group-hover:text-purple-500 transition-colors duration-300">
+              Click here for Maven Webpage v2
+            </p>
+          </div>
+        </Link>
+      </div>
       <Features />
       <Footer />
     </div>
