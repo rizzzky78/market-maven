@@ -1,6 +1,6 @@
 "use client";
 
-import { Columns2, Info, Quote } from "lucide-react";
+import { Columns2, Info, Quote, Table, TextQuote } from "lucide-react";
 import { useEffect, useState, type FC } from "react";
 import { MemoProductComparison } from "./memo-product-comparison";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
@@ -9,6 +9,8 @@ import { ShareButton } from "./share-button";
 import { ScrollArea } from "../ui/scroll-area";
 import { motion, AnimatePresence } from "framer-motion";
 import { ProductComparisonSkeleton } from "./product-comparison-skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Markdown } from "./markdown";
 
 export const ProductComparison: FC<ProductsComparisonProps> = ({
   content,
@@ -18,7 +20,7 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
     args: { compare },
     data: {
       callId,
-      object: { userIntent, comparison },
+      object: { userIntent, comparison, markdownTable },
     },
   } = content;
 
@@ -154,7 +156,7 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
             <AnimatePresence>
               {userIntent && (
                 <motion.div
-                  className="text-md py-4 rounded-full flex md:items-center space-x-3"
+                  className="text-md py-4 rounded-full flex items-start space-x-3"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
@@ -170,7 +172,7 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
                       delay: 0.3,
                     }}
                   >
-                    <Quote className="size-5 mt-1 md:mt-0 text-purple-500" />
+                    <Quote className="size-5 mt-0.5 text-purple-500" />
                   </motion.div>
                   <motion.p
                     className="line-clamp-2 text-black/80 dark:text-white/80"
@@ -224,9 +226,36 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <ScrollArea className="h-[500px]">
-            <MemoProductComparison data={[comparison]} />
-          </ScrollArea>
+          <Tabs defaultValue="object">
+            <div className="w-full flex justify-end">
+              <TabsList className="rounded-full h-[38px]">
+                <TabsTrigger
+                  value="object"
+                  className="size-8 flex items-center justify-center rounded-full"
+                >
+                  <TextQuote className="size-4 shrink-0" />
+                </TabsTrigger>
+                <TabsTrigger
+                  value="table"
+                  className="size-8 flex items-center justify-center rounded-full"
+                >
+                  <Table className="size-4 shrink-0" />
+                </TabsTrigger>
+              </TabsList>
+            </div>
+            <TabsContent value="object">
+              <ScrollArea className="h-[500px]">
+                <MemoProductComparison data={[comparison]} />
+              </ScrollArea>
+            </TabsContent>
+            <TabsContent value="table">
+              <ScrollArea className="pr-4 h-[500px] w-full">
+                <Markdown className="selection:bg-purple-200 selection:text-black">
+                  {markdownTable ?? "ERROR - CONTENT NOT EXIST"}
+                </Markdown>
+              </ScrollArea>
+            </TabsContent>
+          </Tabs>
         </motion.div>
         <motion.div
           className="mt-3 -mb-1 flex items-center justify-center"

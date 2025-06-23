@@ -167,5 +167,6 @@ export type ComparisonData = {
   object: {
     userIntent?: string;
     comparison: Record<string, any>;
+    markdownTable: string;
   };
 };

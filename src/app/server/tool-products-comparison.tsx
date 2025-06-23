@@ -16,6 +16,7 @@ import { TEMPLATE } from "@/lib/agents/constant";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
 import { COMPARISON_EXTRACTOR_SYSTEM_INSTRUCTION } from "@/lib/agents/constant/md/comparison-extractor";
 import { COMPARISON_INSIGHT_SYSTEM_INSTRUCTION } from "@/lib/agents/constant/md/comparison-insight";
+import { COMPARISON_TABLE_CRAFTER_SYSTEM_INSTRUCTION } from "@/lib/agents/constant/md/comparison-table";
 import {
   RelatedQuery,
   PartialRelated,
@@ -62,6 +63,7 @@ const toolProductComparison = ({
           object: {
             userIntent: userMessage?.text_input,
             comparison: {},
+            markdownTable: "",
           },
         } as ComparisonData,
       };
@@ -119,9 +121,13 @@ const toolProductComparison = ({
         {}
       );
 
+      const streamableTable = createStreamableValue("");
+
       yield (
         <StreamProductComparison
           content={streamableComparison.value}
+          table={streamableTable.value}
+          stage={"object"}
           data={{
             compare,
             userIntent: userMessage?.text_input,
@@ -155,6 +161,7 @@ const toolProductComparison = ({
         },
         onError: ({ error }) => {
           streamableComparison.error(error);
+          streamableTable.error(error);
 
           errorState = {
             isError: true,
@@ -176,6 +183,63 @@ const toolProductComparison = ({
         process: "stream:next-action",
         loading: true,
       });
+
+      const mockStreamableComparison = createStreamableValue<
+        Record<string, any>
+      >({});
+
+      yield (
+        <StreamProductComparison
+          content={mockStreamableComparison.value}
+          table={streamableTable.value}
+          completedObject={comparisonObj}
+          stage={"table"}
+          data={{
+            compare,
+            userIntent: userMessage?.text_input,
+          }}
+        />
+      );
+
+      let tableMarkdown = "";
+
+      const comparisonTable = streamText({
+        model: google("gemini-2.0-flash"),
+        system: COMPARISON_TABLE_CRAFTER_SYSTEM_INSTRUCTION,
+        prompt: JSON.stringify({ payload: finalizedToolData.data }),
+        onFinish: ({ text }) => {
+          tableMarkdown = text;
+
+          mockStreamableComparison.done();
+          streamableTable.done();
+
+          finalizedToolData.data.object.markdownTable = text;
+
+          generation.update({
+            process: "stream:success",
+            loading: true,
+          });
+        },
+        onError: ({ error }) => {
+          mockStreamableComparison.error(error);
+          streamableTable.error(error);
+
+          errorState = {
+            isError: true,
+            error,
+          };
+
+          generation.update({
+            process: "stream:error",
+            loading: true,
+          });
+        },
+      });
+
+      for await (const tables of comparisonTable.textStream) {
+        tableMarkdown += tables;
+        streamableTable.update(tableMarkdown);
+      }
 
       const streamableInsight = createStreamableValue<string>("");
 

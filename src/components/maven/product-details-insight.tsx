@@ -37,8 +37,8 @@ import { ExtendedToolResult } from "@/lib/types/ai";
 import { MemoProductDetailsInsight } from "@/components/maven/memo-product-details-insight";
 import { ExtendedMessage } from "@/components/maven/extended-message";
 import { DetailsGlobal, ProductDetails } from "@/lib/types/product";
-import { ScrollArea } from "../ui/scroll-area";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Markdown } from "./markdown";
 
 // Helper function to extract YouTube video ID from URL

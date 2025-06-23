@@ -1,6 +1,6 @@
 "use client";
 
-import { Columns2, Info, Quote, Share2 } from "lucide-react";
+import { Columns2, Info, Quote, Share2, Table, TextQuote } from "lucide-react";
 import { useEffect, useState, type FC } from "react";
 import { MemoProductComparison } from "@/components/maven/memo-product-comparison";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -8,9 +8,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ProductComparisonSkeleton } from "@/components/maven/product-comparison-skeleton";
 import { StreamableValue, useStreamableValue } from "ai/rsc";
 import { ErrorMessage } from "@/components/maven/error-message";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Markdown } from "./markdown";
 
 type StreamProductComparison = {
   content: StreamableValue<Record<string, any>>;
+  table: StreamableValue<string>;
+  completedObject?: Record<string, any>;
+  stage: "object" | "table";
   data: {
     compare: { title: string; callId: string }[];
     userIntent?: string | null;
@@ -20,6 +25,9 @@ type StreamProductComparison = {
 export const StreamProductComparison: FC<StreamProductComparison> = ({
   content,
   data,
+  table,
+  stage = "object",
+  completedObject,
 }) => {
   const { compare, userIntent } = data;
 
@@ -27,6 +35,9 @@ export const StreamProductComparison: FC<StreamProductComparison> = ({
 
   const [raw, error] = useStreamableValue(content);
   const [dataStream, setDataStream] = useState<Record<string, any>>({});
+
+  const [rawTable, tableError] = useStreamableValue(table);
+  const [tableStream, setTableDataStream] = useState("");
 
   const [one, two] = compare;
 
@@ -64,15 +75,19 @@ export const StreamProductComparison: FC<StreamProductComparison> = ({
   }, [raw]);
 
   useEffect(() => {
+    if (rawTable) setTableDataStream(rawTable);
+  }, [rawTable]);
+
+  useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (error) {
+  if (error || tableError) {
     return (
       <ErrorMessage
         errorName="Stream Object Parsing Operation Failed"
         reason="There was an error while parsing the streamable-value input."
-        raw={{ trace: raw }}
+        raw={{ trace: { object: raw, table: rawTable } }}
       />
     );
   }
@@ -237,9 +252,36 @@ export const StreamProductComparison: FC<StreamProductComparison> = ({
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <ScrollArea className="h-[500px]">
-            <MemoProductComparison data={[dataStream]} />
-          </ScrollArea>
+          <Tabs defaultValue={stage}>
+            <div className="w-full flex justify-end">
+              <TabsList className="rounded-full h-[38px]">
+                <TabsTrigger
+                  value="object"
+                  className="size-8 flex items-center justify-center rounded-full"
+                >
+                  <TextQuote className="size-4 shrink-0" />
+                </TabsTrigger>
+                <TabsTrigger
+                  value="table"
+                  className="size-8 flex items-center justify-center rounded-full"
+                >
+                  <Table className="size-4 shrink-0" />
+                </TabsTrigger>
+              </TabsList>
+            </div>
+            <TabsContent value="object">
+              <ScrollArea className="h-[500px]">
+                <MemoProductComparison data={[completedObject ?? dataStream]} />
+              </ScrollArea>
+            </TabsContent>
+            <TabsContent value="table">
+              <ScrollArea className="pr-4 h-[500px] w-full">
+                <Markdown className="selection:bg-purple-200 selection:text-black">
+                  {tableStream ?? "WAITING..."}
+                </Markdown>
+              </ScrollArea>
+            </TabsContent>
+          </Tabs>
         </motion.div>
         <motion.div
           className="mt-3 -mb-1 flex items-center justify-center"
