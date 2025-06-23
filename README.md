@@ -1,34 +1,34 @@
-# Maven: AI-Powered Product Research Assistant, Data Driven Purchase
+# Maven AI: AI-Powered Product Research Assistant, Data Driven Purchase
 
-## See the [Maven](https://maven-ai-six.vercel.app/) (live preview) deployed on [Vercel](https://vercel.com)
+![Maven - Maven v2 Homepage](https://res.cloudinary.com/dberoyocy/image/upload/v1750684251/Maven-v2-Instagram-Poster_rj5bb1.png)
 
-_🚨 URGENT NOTICE: This Developer Urgently Needs a Job ASAP! 🚨_
+## See the Application showcases [Maven v2](https://maven-ai-webpage.vercel.app/)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **Maven** is a cutting-edge web application that leverages the power of Artificial Intelligence to revolutionize **electronic categorized product** research and decision-making. It provides users with a suite of tools to find, understand, and compare products, all within a streamlined and intuitive interface. Maven combines natural language processing, web scraping, external API integrations, and advanced AI models to deliver personalized recommendations, detailed product information, side-by-side comparisons, and insightful summaries.
 
-## Snapshots, See the App in action [Here](https://ac1wy0nbjb.ufs.sh/f/UTUjFq2sQuvaBc2SlHG6QdwImq0NPrCg3yuKpnjbJkeUxfZi)
+## Desktop
 
-![Maven App Homepage](https://res.cloudinary.com/dberoyocy/image/upload/v1746708869/Maven-AI-Agentic-Data-Driven-Purchase-Decision-Rzky-05-08-2025_07_50_PM_gbdsbb.png)
+![Maven - Product Search](https://res.cloudinary.com/dberoyocy/image/upload/v1750163623/Snapshot-Product-Search_gz1ugm.png)
 
-![Maven - Empty Chat](https://res.cloudinary.com/dberoyocy/image/upload/v1746757592/dark-maven-empty-chat_m431xw.png)
+![Maven - Product Details](https://res.cloudinary.com/dberoyocy/image/upload/v1750163609/raw-snapshot-product-details_vmyjfp.png)
 
-![Alt text](https://res.cloudinary.com/dberoyocy/image/upload/v1746757592/dark-maven-recommendations_k8zqwi.png)
+## Mobile
 
-![Alt text](https://res.cloudinary.com/dberoyocy/image/upload/v1746757593/dark-maven-search-results_btdul2.png)
+![Maven Banner Mobile - 1](https://res.cloudinary.com/dberoyocy/image/upload/v1750163699/snapshot-mobile-search-product_koqckh.png)
 
-![Alt text](https://res.cloudinary.com/dberoyocy/image/upload/v1746757592/dark-maven-details-result_t9shmn.png)
+![Maven Banner Mobile - 2](https://res.cloudinary.com/dberoyocy/image/upload/v1750163707/snapshot-mobile-product-comparison_fvnyrq.png)
 
 ## Table of Contents
 
-- [Maven: AI-Powered Product Research Assistant, Data Driven Purchase](#maven-ai-powered-product-research-assistant-data-driven-purchase)
-  - [See the Maven (live preview) deployed on Vercel](#see-the-maven-live-preview-deployed-on-vercel)
-  - [Snapshots, See the App in action Here](#snapshots-see-the-app-in-action-here)
+- [Maven AI: AI-Powered Product Research Assistant, Data Driven Purchase](#maven-ai-ai-powered-product-research-assistant-data-driven-purchase)
+  - [See the Application showcases Maven v2](#see-the-application-showcases-maven-v2)
+  - [Desktop](#desktop)
+  - [Mobile](#mobile)
   - [Table of Contents](#table-of-contents)
   - [1. Features ](#1-features-)
   - [2. Technology Stack ](#2-technology-stack-)
-  - [3. Project Structure ](#3-project-structure-)
   - [4. Getting Started ](#4-getting-started-)
     - [4.1. Prerequisites ](#41-prerequisites-)
     - [4.2. Installation ](#42-installation-)
@@ -82,54 +82,6 @@ Maven is built using a modern and robust technology stack:
 - **Styling:** Shadcn/UI, Tailwindcss, Sass.
 - **Deployment:** Vercel.
 - **State Management:** `ai/rsc` - For stream UI, managing AI and UI state.
-
-## 3. Project Structure <a name="project-structure"></a>
-
-The codebase follows a well-organized structure. Key directories and files include (these are representative, it might be different from real source tree):
-
-```
-maven/
-├── @/components/         # UI Components (React components)
-│   └── maven/          # Specific components related to Maven features
-│       ├── assistant-message/ # Component for displaying assistant messages
-│       ├── error-message/     # Component for displaying error messages
-│       ├── extended-message/  # Component for displaying extended messages
-│       ├── product-comparison/# Component for product comparisons
-│       ├── product-details/   # Component for displaying product details
-│       ├── product-search/    # Component for product search results
-│       ├── recommendation-action/ # Component for recommendation actions
-│       ├── recommendation-skeleton/ # Skeleton loading component for recommendations
-│       ├── related-message/   # Component for displaying related messages
-│       ├── shining-glass/     # (Likely a custom loading or visual component)
-│       ├── user-inquiry/      # Component for user inquiries
-│       └── user-inquiry-skeleton/ # Skeleton loading component for user inquiries
-├── @/lib/                # Core application logic and utilities
-│   ├── agents/           # Logic related to AI agents and tools
-│   │   ├── action/       # Actions and mutations related to agent tools
-│   │   │   ├── mutator/  # Functions for mutating the AI state
-│   │   │   └── ...
-│   │   ├── constant/     # Constants used by the agents
-│   │   ├── schema/       # Data schemas for validation and type safety
-│   │   ├── tools/        # API integrations for external services
-│   │   └── ...
-│   ├── service/          # Services for interacting with databases and external APIs
-│   ├── types/            # TypeScript type definitions
-│   ├── utility/          # Utility functions
-│   └── ...
-├── @/app/                # Next.js pages and API routes
-│   ├── (route)/          # Route groups
-│   │   ├── features/     # The /features route (feature list)
-│   │   ├── workflow/     # The /workflow route (workflow documentation)
-│   │   └── cookbook/     # The /cookbook route (user guide)
-│   ├── api/              # API endpoints
-│   └── ...
-├── public/               # Static assets (images, fonts, etc.)
-├── .env.local            # Local environment variables (should NOT be committed)
-├── next.config.js        # Next.js configuration
-├── package.json          # Project dependencies and scripts
-├── tsconfig.json         # TypeScript configuration
-└── README.md             # This file
-```
 
 ## 4. Getting Started <a name="getting-started"></a>
 
@@ -361,6 +313,8 @@ Maven utilizes a set of AI-powered agent tools to fulfill user requests. These t
 
 #### 5.2.1. `recommendator` <a name="recommendator"></a>
 
+![Recommendator](https://res.cloudinary.com/dberoyocy/image/upload/v1750163606/Snapshot-AI-Recommendations_iapory.png)
+
 - **Purpose:** Provides personalized product recommendations.
 - **Input:** A text query describing your needs and preferences (e.g., "best noise-canceling headphones for travel under $200").
 - **Output:** A list of recommended products, along with AI-powered insights explaining the recommendations.
@@ -371,6 +325,8 @@ Maven utilizes a set of AI-powered agent tools to fulfill user requests. These t
   ```
 
 #### 5.2.2. `searchProduct` <a name="searchproduct"></a>
+
+![Search](https://res.cloudinary.com/dberoyocy/image/upload/v1750163623/Snapshot-Product-Search_gz1ugm.png)
 
 - **Purpose:** Finds specific products based on their names (full or partial).
 - **Input:** The full or partial name of the product (e.g., "Sony WH-1000XM5", "WH-1000XM").
@@ -383,6 +339,8 @@ Maven utilizes a set of AI-powered agent tools to fulfill user requests. These t
 
 #### 5.2.3. `getProductDetails` <a name="getproductdetails"></a>
 
+![Details](https://res.cloudinary.com/dberoyocy/image/upload/v1750163623/Snapshot-Product-Details_k5ngqm.png)
+
 - **Purpose:** Retrieves comprehensive information about a specific product.
 - **Input:** The product name or a link to the product page.
 - **Output:** Detailed product specifications, features, reviews, pricing, and availability information, along with AI-powered insights.
@@ -393,6 +351,8 @@ Maven utilizes a set of AI-powered agent tools to fulfill user requests. These t
   ```
 
 #### 5.2.4. `productsComparison` <a name="productscomparison"></a>
+
+![Comparison](https://res.cloudinary.com/dberoyocy/image/upload/v1750163619/Snapshot-Product-Comparison_be7smh.png)
 
 - **Purpose:** Compares two products side-by-side.
 - **Input:** The `callId` values of two products (obtained after using `getProductDetails` on each product).
@@ -405,6 +365,8 @@ Maven utilizes a set of AI-powered agent tools to fulfill user requests. These t
   **Important:** You _must_ use `getProductDetails` on each product _before_ you can compare them. This provides Maven with the necessary data.
 
 #### 5.2.5. `inquireUser` <a name="inquireuser"></a>
+
+![Inquiry](https://res.cloudinary.com/dberoyocy/image/upload/v1750163622/Snapshot-User-Inquiry_lj6tqt.png)
 
 - **Purpose:** Asks clarifying questions to ensure Maven fully understands your needs.
 - **Input:** An ambiguous or incomplete user query.
