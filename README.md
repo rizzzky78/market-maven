@@ -10,7 +10,7 @@
 
 ## Desktop
 
-![Maven - Product Search](https://res.cloudinary.com/dberoyocy/image/upload/v1750163623/Snapshot-Product-Search_gz1ugm.png)
+![Maven - Product Search](https://res.cloudinary.com/dberoyocy/image/upload/v1750924088/Short-Desktop-Maven-Showcase-Streams_biy6qv.gif)
 
 ![Maven - Product Details](https://res.cloudinary.com/dberoyocy/image/upload/v1750163609/raw-snapshot-product-details_vmyjfp.png)
 
@@ -47,7 +47,6 @@
   - [7. Contributing ](#7-contributing-)
   - [8. License ](#8-license-)
   - [9. Troubleshooting ](#9-troubleshooting-)
-  - [10. Application Workflow Diagram](#10-application-workflow-diagram)
 
 ## 1. Features <a name="features"></a>
 
@@ -313,7 +312,7 @@ Maven utilizes a set of AI-powered agent tools to fulfill user requests. These t
 
 #### 5.2.1. `recommendator` <a name="recommendator"></a>
 
-![Recommendator](https://res.cloudinary.com/dberoyocy/image/upload/v1750163606/Snapshot-AI-Recommendations_iapory.png)
+![Recommendator](https://res.cloudinary.com/dberoyocy/image/upload/v1750924600/short-Desktop-Maven-Recommendator_yjvs2m.gif)
 
 - **Purpose:** Provides personalized product recommendations.
 - **Input:** A text query describing your needs and preferences (e.g., "best noise-canceling headphones for travel under $200").
@@ -326,7 +325,7 @@ Maven utilizes a set of AI-powered agent tools to fulfill user requests. These t
 
 #### 5.2.2. `searchProduct` <a name="searchproduct"></a>
 
-![Search](https://res.cloudinary.com/dberoyocy/image/upload/v1750163623/Snapshot-Product-Search_gz1ugm.png)
+![Search](https://res.cloudinary.com/dberoyocy/image/upload/v1750923473/short-Maven-Search-Q-Legion9i_tzdckp.gif)
 
 - **Purpose:** Finds specific products based on their names (full or partial).
 - **Input:** The full or partial name of the product (e.g., "Sony WH-1000XM5", "WH-1000XM").
@@ -339,7 +338,7 @@ Maven utilizes a set of AI-powered agent tools to fulfill user requests. These t
 
 #### 5.2.3. `getProductDetails` <a name="getproductdetails"></a>
 
-![Details](https://res.cloudinary.com/dberoyocy/image/upload/v1750163623/Snapshot-Product-Details_k5ngqm.png)
+![Details](https://res.cloudinary.com/dberoyocy/image/upload/v1750924389/short-Maven-Details-D-Legion9i_ytimp5.gif)
 
 - **Purpose:** Retrieves comprehensive information about a specific product.
 - **Input:** The product name or a link to the product page.
@@ -352,7 +351,7 @@ Maven utilizes a set of AI-powered agent tools to fulfill user requests. These t
 
 #### 5.2.4. `productsComparison` <a name="productscomparison"></a>
 
-![Comparison](https://res.cloudinary.com/dberoyocy/image/upload/v1750163619/Snapshot-Product-Comparison_be7smh.png)
+![Comparison](https://res.cloudinary.com/dberoyocy/image/upload/v1750924481/short-Maven-Comparison-Rog-G16-Legion-9I_gqra3n.gif)
 
 - **Purpose:** Compares two products side-by-side.
 - **Input:** The `callId` values of two products (obtained after using `getProductDetails` on each product).
@@ -366,7 +365,7 @@ Maven utilizes a set of AI-powered agent tools to fulfill user requests. These t
 
 #### 5.2.5. `inquireUser` <a name="inquireuser"></a>
 
-![Inquiry](https://res.cloudinary.com/dberoyocy/image/upload/v1750163622/Snapshot-User-Inquiry_lj6tqt.png)
+![Inquiry](https://res.cloudinary.com/dberoyocy/image/upload/v1750924619/short-Desktop-Maven-User-Inquiry_u1kelp.gif)
 
 - **Purpose:** Asks clarifying questions to ensure Maven fully understands your needs.
 - **Input:** An ambiguous or incomplete user query.
@@ -417,121 +416,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
   - Double-check your database connection strings in `.env.local`.
   - Ensure your database server is running and accessible.
   - Verify that your database user has the necessary permissions.
-
-## 10. Application Workflow Diagram
-
-```mermaid
-graph TD
-    %% Main user entry point
-    A["User Input (Text/Data)"] --> B{"Orchestrator"}
-
-    %% Core orchestration logic
-    B --> C{"Determine Intent & Tool"}
-    C --> D["Select Agent Tool"]
-
-    %% Tool selection branches
-    D --> E["recommendator"]
-    D --> F["searchProduct"]
-    D --> G["getProductDetails"]
-    D --> H["productsComparison"]
-    D --> I["inquireUser"]
-
-    %% Recommendator flow
-    subgraph "recommendator Flow"
-        E --> E1["Generate Recommendations (streamObject)"]
-        E1 --> E2["Generate Insights (streamText)"]
-        E2 --> E3["Mutate State"]
-        E3 --> E4{"Related Queries?"}
-        E4 -- "Yes" --> E5["Generate Related Queries (streamObject)"]
-        E4 -- "No" --> E6["Return UI"]
-        E5 --> E6
-        E --> E_Error["Handle Errors"]
-        E_Error --> K["Error Handling"]
-    end
-
-    %% Search Product flow
-    subgraph "searchProduct Flow"
-        F --> F1["Scrape Data (handleScrapingWithCache, scrapeUrl)"]
-        F1 --> F2["Extract Products (streamObject)"]
-        F2 --> F3["Generate Insights (streamText)"]
-        F3 --> F4["Mutate State"]
-        F4 --> F5{"Related Queries?"}
-        F5 -- "Yes" --> F6["Generate Related Queries (streamObject)"]
-        F5 -- "No" --> F7["Return UI"]
-        F6 --> F7
-        F --> F_Error["Handle Errors (Scrape/LLM)"]
-        F_Error --> K
-    end
-
-    %% Get Product Details flow
-    subgraph "getProductDetails Flow"
-        G --> G1["Scrape Data (handleScrapingWithCache, scrapeUrl)"]
-        G1 --> G2{"External Search?"}
-        G2 -- "Yes" --> G3["Perform External Search (externalTavilySearch)"]
-        G3 --> G4["Extract Product Details (streamObject - no-schema)"]
-        G2 -- "No" --> G4
-        G4 --> G5["Generate Insights (streamText)"]
-        G5 --> G6["Mutate State"]
-        G6 --> G7{"Related Queries?"}
-        G7 -- "Yes" --> G8["Generate Related Queries (streamObject)"]
-        G7 -- "No" --> G9["Return UI"]
-        G8 --> G9
-        G --> G_Error["Handle Errors (Scrape/LLM)"]
-        G_Error --> K
-    end
-
-    %% Products Comparison flow
-    subgraph "productsComparison Flow"
-        H --> H1["Retrieve Product Data (getObjectEntry)"]
-        H1 --> H2["Handle Database Errors"]
-        H2 -- "Error" --> K
-        H2 -- "Success" --> H3["Generate Comparison (streamObject - no-schema)"]
-        H3 --> H4["Generate Insights (streamText)"]
-        H4 --> H5["Mutate State"]
-        H5 --> H6{"Related Queries?"}
-        H6 -- "Yes" --> H7["Generate Related Queries (streamObject)"]
-        H6 -- "No" --> H8["Return UI"]
-        H7 --> H8
-        H --> H_Error["Handle LLM Errors"]
-        H_Error --> K
-    end
-
-    %% Inquire User flow
-    subgraph "inquireUser Flow"
-        I --> I1["Parse Input (inputInquirySchema)"]
-        I1 --> I2["Handle Parsing Errors"]
-        I2 -- "Error" --> K
-        I2 -- "Success" --> I3["Generate Inquiry (streamObject)"]
-        I3 --> I4["Mutate State"]
-        I4 --> I5["Return UI"]
-        I --> I_Error["Handle LLM Errors"]
-        I_Error --> K
-    end
-
-    %% Centralized error handling
-    subgraph "Error Handling"
-        K["Display Error Message"] --> J["Return UI Components"]
-    end
-
-    %% Output flow for all paths
-    E6 --> J
-    F7 --> J
-    G9 --> J
-    H8 --> J
-    I5 --> J
-
-    %% Add styling classes
-    classDef default fill:#f9f9f9,stroke:#333,stroke-width:1px
-    classDef decision fill:#e1f5fe,stroke:#01579b,stroke-width:1px
-    classDef process fill:#e8f5e9,stroke:#2e7d32,stroke-width:1px
-    classDef error fill:#ffebee,stroke:#c62828,stroke-width:1px
-    classDef input fill:#fff3e0,stroke:#e65100,stroke-width:1px
-    classDef output fill:#f3e5f5,stroke:#6a1b9a,stroke-width:1px
-
-    %% Apply classes to nodes
-    class A input
-    class B,C,E4,F5,G2,G7,H6 decision
-    class E1,E2,E3,E5,F1,F2,F3,F4,F6,G1,G3,G4,G5,G6,G8,H1,H3,H4,H5,H7,I1,I3,I4 process
-    class E_Error,F_Error,G_Error,H_Error,I_Error,K error
-    class E6,F7,G9,H8,I5,J output
-```
