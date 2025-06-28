@@ -1,3 +1,10 @@
+/**
+ *
+ * CODED BY HUMAN BEING :)
+ *
+ *
+ */
+
 import {
   StreamAssistantMessage,
   AssistantMessage,

@@ -1,3 +1,10 @@
+/**
+ *
+ * CODED BY HUMAN BEING :)
+ *
+ *
+ */
+
 import {
   StreamAssistantMessage,
   AssistantMessage,
@@ -69,6 +76,11 @@ const toolRecommendator = ({
         recommendations: [],
       };
 
+      generation.update({
+        process: "stream:initial",
+        loading: true,
+      });
+
       yield <RecommendationSkeleton />;
 
       await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -76,6 +88,11 @@ const toolRecommendator = ({
       const streamableRecommendation = createStreamableValue<
         DeepPartial<ProductsRecommendation>
       >({ recommendations: [] });
+
+      generation.update({
+        process: "stream:generating",
+        loading: true,
+      });
 
       yield (
         <StreamRecommendationAction
@@ -98,6 +115,11 @@ const toolRecommendator = ({
             finalizedRecommendator.recommendations = object.recommendations;
           }
           streamableRecommendation.done();
+
+          generation.update({
+            process: "stream:partial-done",
+            loading: true,
+          });
         },
         onError: ({ error }) => {
           streamableRecommendation.error(error);
@@ -111,6 +133,11 @@ const toolRecommendator = ({
       for await (const chunkRecommendator of partialObjectStream) {
         streamableRecommendation.update(chunkRecommendator);
       }
+
+      generation.update({
+        process: "stream:next-action",
+        loading: true,
+      });
 
       const streamableInsight = createStreamableValue("");
 
@@ -141,6 +168,11 @@ const toolRecommendator = ({
 
           finalizedInsight = text;
           streamableInsight.done();
+
+          generation.update({
+            process: "stream:done",
+            loading: true,
+          });
         },
         onError: ({ error }) => {
           streamableInsight.error(error);
@@ -177,6 +209,11 @@ const toolRecommendator = ({
         overrideAssistant: {
           content: finalizedInsight,
         },
+      });
+
+      generation.update({
+        process: "tool:save-state",
+        loading: true,
       });
 
       await createToolDataEntry({

@@ -17,9 +17,9 @@ import {
 } from "lucide-react";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { readStreamableValue, useActions, useUIState } from "ai/rsc";
-import { useDebounceInput } from "../hooks/use-debounced-input";
-import { useMavenStateController } from "../hooks/maven-state-controller";
-import { UserMessage } from "./user-message";
+import { useDebounceInput } from "@/components/hooks/use-debounced-input";
+import { useMavenStateController } from "@/components/hooks/maven-state-controller";
+import { UserMessage } from "@/components/maven/user-message";
 import { generateId } from "ai";
 import type { InquiryResponse, StreamGeneration } from "@/lib/types/ai";
 import { motion, AnimatePresence } from "framer-motion";
@@ -42,19 +42,43 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false); // Track if inquiry was already submitted
   const [, setUIState] = useUIState<typeof AI>();
-  const { setIsGenerating } = useAppState();
-  const { flush } = useMavenStateController();
+  const { isGenerating, setIsGenerating } = useAppState();
+  const { attachment, activeComparison, flush, search, related, reffSource } =
+    useMavenStateController();
   const { handleReset } = useDebounceInput();
   const { orchestrator } = useActions<typeof AI>();
 
+  // Check if form has valid selection/input for Submit button
   const isFormValid = (): boolean => {
     const hasValidSelection = selectedOptions.length > 0;
     const hasValidInput =
       !inquiry.allowsInput ||
       (inquiry.allowsInput && inputValue.trim().length > 0);
 
-    return hasValidSelection || hasValidInput;
+    return hasValidSelection && hasValidInput;
+  };
+
+  // Check if buttons should be disabled
+  const areButtonsDisabled = (): boolean => {
+    return (
+      !!attachment ||
+      !!activeComparison ||
+      isGenerating ||
+      isSubmitting ||
+      hasSubmitted
+    );
+  };
+
+  // Check if Submit button should be disabled (includes form validation)
+  const isSubmitDisabled = (): boolean => {
+    return areButtonsDisabled() || !isFormValid();
+  };
+
+  // Check if Skip button should be disabled
+  const isSkipDisabled = (): boolean => {
+    return areButtonsDisabled();
   };
 
   const handleOptionChange = (value: string) => {
@@ -87,9 +111,12 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
       ]);
 
       // Send the message and wait for response
-      const { id, display, generation } = await orchestrator({
-        inquiryResponse: payload,
-      });
+      const { id, display, generation } = await orchestrator(
+        {
+          inquiryResponse: payload,
+        },
+        { onRequest: { search, related, reffSource } }
+      );
 
       if (generation) {
         const gens = readStreamableValue(
@@ -108,15 +135,25 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
       flush();
       handleReset();
     },
-    [flush, handleReset, orchestrator, setIsGenerating, setUIState]
+    [
+      flush,
+      handleReset,
+      orchestrator,
+      reffSource,
+      related,
+      search,
+      setIsGenerating,
+      setUIState,
+    ]
   );
 
   const handleSubmit = async () => {
-    if (!isFormValid()) return;
+    if (isSubmitDisabled()) return;
 
     try {
       setIsSubmitting(true);
       setIsGenerating(true);
+      setHasSubmitted(true); // Mark as submitted to prevent resubmission
 
       await submitInquiryResponse({
         question: inquiry.question,
@@ -133,6 +170,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
       setInputValue("");
     } catch (error) {
       console.error("Error submitting form:", error);
+      setHasSubmitted(false); // Reset on error to allow retry
     } finally {
       setIsSubmitting(false);
       setIsGenerating(false);
@@ -140,9 +178,21 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
   };
 
   const handleSkip = async () => {
-    await submitInquiryResponse({ skipped: true });
-    setSelectedOptions([]);
-    setInputValue("");
+    if (isSkipDisabled()) return;
+
+    try {
+      setIsSubmitting(true);
+      setHasSubmitted(true); // Mark as submitted to prevent resubmission
+
+      await submitInquiryResponse({ skipped: true });
+      setSelectedOptions([]);
+      setInputValue("");
+    } catch (error) {
+      console.error("Error skipping inquiry:", error);
+      setHasSubmitted(false); // Reset on error to allow retry
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -242,7 +292,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
                 variant="outline"
                 className="rounded-3xl font-normal flex items-center mr-2"
                 onClick={handleSkip}
-                disabled={isSubmitting}
+                disabled={isSkipDisabled()}
               >
                 <span className="-mr-1">Skip</span>
                 <SkipForward className="size-4 shrink-0" />
@@ -253,7 +303,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
                 variant="outline"
                 className="rounded-3xl font-normal flex items-center"
                 onClick={handleSubmit}
-                disabled={!isFormValid() || isSubmitting}
+                disabled={isSubmitDisabled()}
               >
                 <span className="-mr-1">Submit</span>
                 {isSubmitting ? (

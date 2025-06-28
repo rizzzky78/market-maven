@@ -13,13 +13,13 @@ import {
   StreamableValue,
   useStreamableValue,
 } from "ai/rsc";
-import { useMavenStateController } from "../hooks/maven-state-controller";
+import { useMavenStateController } from "@/components/hooks/maven-state-controller";
 import { StreamGeneration } from "@/lib/types/ai";
 import { DeepPartial, generateId } from "ai";
 import { toast } from "sonner";
-import { UserMessage } from "./user-message";
+import { UserMessage } from "@/components/maven/user-message";
 import { ProductsRecommendation } from "@/lib/agents/schema/product";
-import { ErrorMessage } from "./error-message";
+import { ErrorMessage } from "@/components/maven/error-message";
 import { ProductRecommendationProps } from "@/lib/types/props";
 
 export const RecommendationAction: FC<ProductRecommendationProps> = ({
@@ -28,7 +28,8 @@ export const RecommendationAction: FC<ProductRecommendationProps> = ({
   const [, setUIState] = useUIState<typeof AI>();
   const { orchestrator } = useActions<typeof AI>();
   const { isGenerating, setIsGenerating } = useAppState();
-  const { flush, search, related } = useMavenStateController();
+  const { attachment, activeComparison, flush, search, related, reffSource } =
+    useMavenStateController();
 
   const actionSubmit = useCallback(
     async (query: string) => {
@@ -62,7 +63,7 @@ export const RecommendationAction: FC<ProductRecommendationProps> = ({
           {
             textInput: template,
           },
-          { onRequest: { search, related } }
+          { onRequest: { search, related, reffSource } }
         );
 
         setUIState((prevUI) => [...prevUI, { id, display }]);
@@ -91,12 +92,19 @@ export const RecommendationAction: FC<ProductRecommendationProps> = ({
       flush,
       isGenerating,
       orchestrator,
+      reffSource,
       related,
       search,
       setIsGenerating,
       setUIState,
     ]
   );
+
+  const isButtonDisabled = attachment
+    ? true
+    : activeComparison
+    ? true
+    : isGenerating;
 
   return (
     <motion.div
@@ -189,7 +197,7 @@ export const RecommendationAction: FC<ProductRecommendationProps> = ({
                   size="sm"
                   className="h-auto bg-[#1A1A1D]/20 w-full flex flex-col rounded-3xl items-start p-2 text-left hover:bg-muted-foreground/50 dark:hover:bg-muted/50 transition-colors"
                   onClick={async () => await actionSubmit(item.name)}
-                  disabled={isGenerating}
+                  disabled={isButtonDisabled}
                 >
                   <div className="flex items-center">
                     <motion.div

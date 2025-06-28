@@ -1,3 +1,10 @@
+/**
+ *
+ * CODED BY HUMAN BEING :)
+ *
+ *
+ */
+
 import { ErrorMessage } from "@/components/maven/error-message";
 import { LoadingText } from "@/components/maven/shining-glass";
 import { UserInquiry } from "@/components/maven/user-inquiry";
@@ -49,6 +56,11 @@ const toolInquireUser = ({ generation, errorState, state }: ToolsetProps) => {
 
       yield <InquirySkeleton />;
 
+      generation.update({
+        process: "stream:generating",
+        loading: true,
+      });
+
       const { partialObjectStream: inquiryStream, object: inquiryObject } =
         streamObject({
           model: google("gemini-2.0-flash-lite"),
@@ -57,6 +69,11 @@ const toolInquireUser = ({ generation, errorState, state }: ToolsetProps) => {
           schema: inquireUserSchema,
           onFinish: ({ usage }) => {
             logger.info("Usage - Inquire User - Step 1", { usage });
+
+            generation.update({
+              process: "stream:done",
+              loading: true,
+            });
           },
           onError: ({ error }) => {
             errorState = {
@@ -104,6 +121,11 @@ const toolInquireUser = ({ generation, errorState, state }: ToolsetProps) => {
         overrideAssistant: {
           content: `Inquiry have been provided, please fill them in accordingly.`,
         },
+      });
+
+      generation.update({
+        process: "tool:save-state",
+        loading: false,
       });
 
       logger.info("Done using inquireUser tool");

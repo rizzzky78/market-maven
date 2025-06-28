@@ -51,9 +51,9 @@ export const UserInquiryResponse: FC<InquiryProps> = ({ inquiryResponse }) => {
                       <Badge
                         key={index}
                         variant="secondary"
-                        className="text-xs font-normal rounded-3xl bg-purple-400/30"
+                        className="text-xs capitalize font-normal rounded-3xl bg-purple-400/30"
                       >
-                        {option}
+                        {option.replace("_", " ")}
                       </Badge>
                     ))}
                   </div>

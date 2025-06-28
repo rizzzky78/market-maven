@@ -400,16 +400,12 @@ export type StateContextValue = {
 export type StateProviderProps = {
   /** Unique identifier for the user whose AI state is being managed. */
   username: string;
-
   /** Child components wrapped by the provider. */
   children: ReactNode;
-
   /** Initial AI state provided to the context. */
   initialState: AIState;
-
   /** Optional initial UI state; defaults to an empty array. */
   initialUIState?: UIState;
-
   /** Whether the server-side AI state is preloaded to avoid fetching. */
   serverPreloaded?: boolean;
 };
