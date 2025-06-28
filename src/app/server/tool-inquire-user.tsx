@@ -123,11 +123,6 @@ const toolInquireUser = ({ generation, errorState, state }: ToolsetProps) => {
         },
       });
 
-      generation.update({
-        process: "tool:save-state",
-        loading: false,
-      });
-
       logger.info("Done using inquireUser tool");
 
       return <UserInquiry inquiry={inquiryProperty} />;

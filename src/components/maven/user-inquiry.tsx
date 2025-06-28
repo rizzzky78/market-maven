@@ -17,9 +17,9 @@ import {
 } from "lucide-react";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { readStreamableValue, useActions, useUIState } from "ai/rsc";
-import { useDebounceInput } from "@/components/hooks/use-debounced-input";
-import { useMavenStateController } from "@/components/hooks/maven-state-controller";
-import { UserMessage } from "@/components/maven/user-message";
+import { useDebounceInput } from "../hooks/use-debounced-input";
+import { useMavenStateController } from "../hooks/maven-state-controller";
+import { UserMessage } from "./user-message";
 import { generateId } from "ai";
 import type { InquiryResponse, StreamGeneration } from "@/lib/types/ai";
 import { motion, AnimatePresence } from "framer-motion";
@@ -50,36 +50,24 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
   const { handleReset } = useDebounceInput();
   const { orchestrator } = useActions<typeof AI>();
 
-  // Check if form has valid selection/input for Submit button
-  const isFormValid = (): boolean => {
-    const hasValidSelection = selectedOptions.length > 0;
-    const hasValidInput =
-      !inquiry.allowsInput ||
-      (inquiry.allowsInput && inputValue.trim().length > 0);
+  // Form validation variables
+  const hasValidSelection = selectedOptions.length > 0;
+  const hasValidInput =
+    !inquiry.allowsInput ||
+    (inquiry.allowsInput && inputValue.trim().length > 0);
+  const isFormValid = hasValidSelection && hasValidInput;
 
-    return hasValidSelection && hasValidInput;
-  };
+  // Common disable conditions for both buttons
+  const areButtonsDisabled =
+    !!attachment ||
+    !!activeComparison ||
+    isGenerating ||
+    isSubmitting ||
+    hasSubmitted;
 
-  // Check if buttons should be disabled
-  const areButtonsDisabled = (): boolean => {
-    return (
-      !!attachment ||
-      !!activeComparison ||
-      isGenerating ||
-      isSubmitting ||
-      hasSubmitted
-    );
-  };
-
-  // Check if Submit button should be disabled (includes form validation)
-  const isSubmitDisabled = (): boolean => {
-    return areButtonsDisabled() || !isFormValid();
-  };
-
-  // Check if Skip button should be disabled
-  const isSkipDisabled = (): boolean => {
-    return areButtonsDisabled();
-  };
+  // Button disable states
+  const isSubmitDisabled = areButtonsDisabled || !isFormValid;
+  const isSkipDisabled = areButtonsDisabled;
 
   const handleOptionChange = (value: string) => {
     if (!inquiry.isMultiSelection) {
@@ -148,7 +136,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
   );
 
   const handleSubmit = async () => {
-    if (isSubmitDisabled()) return;
+    if (isSubmitDisabled) return;
 
     try {
       setIsSubmitting(true);
@@ -178,7 +166,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
   };
 
   const handleSkip = async () => {
-    if (isSkipDisabled()) return;
+    if (isSkipDisabled) return;
 
     try {
       setIsSubmitting(true);
@@ -292,7 +280,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
                 variant="outline"
                 className="rounded-3xl font-normal flex items-center mr-2"
                 onClick={handleSkip}
-                disabled={isSkipDisabled()}
+                disabled={isSkipDisabled}
               >
                 <span className="-mr-1">Skip</span>
                 <SkipForward className="size-4 shrink-0" />
@@ -303,7 +291,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
                 variant="outline"
                 className="rounded-3xl font-normal flex items-center"
                 onClick={handleSubmit}
-                disabled={isSubmitDisabled()}
+                disabled={isSubmitDisabled}
               >
                 <span className="-mr-1">Submit</span>
                 {isSubmitting ? (
