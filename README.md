@@ -10,7 +10,8 @@
 
 ## Desktop
 
-![Maven - Product Search](https://res.cloudinary.com/dberoyocy/image/upload/v1750924088/Short-Desktop-Maven-Showcase-Streams_biy6qv.gif)
+[![Maven - Showcase Product Details](https://res.cloudinary.com/dberoyocy/image/upload/v1750163607/thumb-desktop-maven-d-lenovo-legion-9i_ntnul4.png)
+](https://github.com/user-attachments/assets/1f08a59c-012e-4392-95ff-d87b25fe9c40)
 
 ![Maven - Product Details](https://res.cloudinary.com/dberoyocy/image/upload/v1750163609/raw-snapshot-product-details_vmyjfp.png)
 
