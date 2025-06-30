@@ -51,7 +51,7 @@ import {
 } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";
-import { streamText, streamObject, LanguageModelUsage } from "ai";
+import { streamText, streamObject, LanguageModelUsage, smoothStream } from "ai";
 import { createStreamableValue } from "ai/rsc";
 import { v4 } from "uuid";
 
@@ -767,7 +767,7 @@ const toolGetProductDetails = ({
           let finalizedText: string = "";
 
           const { textStream } = streamText({
-            model: google("gemini-2.0-flash-lite"),
+            model: google("gemini-2.0-flash"),
             system: await SYSTEM_INSTRUCTION.PRODUCT_DETAILS_INSIGHT,
             prompt: JSON.stringify(payloadInsight),
             onFinish: async ({ text, usage }) => {
@@ -789,6 +789,10 @@ const toolGetProductDetails = ({
                 error,
               };
             },
+            experimental_transform: smoothStream({
+              delayInMs: 20,
+              chunking: "word",
+            }),
           });
 
           for await (const text of textStream) {

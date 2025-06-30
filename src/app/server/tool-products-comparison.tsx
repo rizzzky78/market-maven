@@ -10,6 +10,7 @@ import {
   AssistantMessage,
 } from "@/components/maven/assistant-message";
 import { ErrorMessage } from "@/components/maven/error-message";
+import { StreamExtendedMessage } from "@/components/maven/extended-message";
 import { ProductComparison } from "@/components/maven/product-comparison";
 import {
   StreamRelatedMessage,
@@ -38,8 +39,8 @@ import {
 import { RenderTool, ToolsetProps } from "@/lib/types/ai";
 import { ComparisonData, ProductDetails } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
-import { google } from "@ai-sdk/google";
-import { streamText, streamObject } from "ai";
+import { google, GoogleGenerativeAIProviderOptions } from "@ai-sdk/google";
+import { streamText, streamObject, smoothStream } from "ai";
 import { createStreamableValue } from "ai/rsc";
 import { v4 } from "uuid";
 
@@ -128,13 +129,9 @@ const toolProductComparison = ({
         {}
       );
 
-      const streamableTable = createStreamableValue("");
-
       yield (
         <StreamProductComparison
           content={streamableComparison.value}
-          table={streamableTable.value}
-          stage={"object"}
           data={{
             compare,
             userIntent: userMessage?.text_input,
@@ -168,7 +165,6 @@ const toolProductComparison = ({
         },
         onError: ({ error }) => {
           streamableComparison.error(error);
-          streamableTable.error(error);
 
           errorState = {
             isError: true,
@@ -191,20 +187,12 @@ const toolProductComparison = ({
         loading: true,
       });
 
-      const mockStreamableComparison = createStreamableValue<
-        Record<string, any>
-      >({});
+      const streamableTable = createStreamableValue("");
 
       yield (
-        <StreamProductComparison
-          content={mockStreamableComparison.value}
-          table={streamableTable.value}
-          completedObject={comparisonObj}
-          stage={"table"}
-          data={{
-            compare,
-            userIntent: userMessage?.text_input,
-          }}
+        <StreamExtendedMessage
+          title="Crafting comparison table..."
+          content={streamableTable.value}
         />
       );
 
@@ -217,7 +205,6 @@ const toolProductComparison = ({
         onFinish: ({ text }) => {
           tableMarkdown = text;
 
-          mockStreamableComparison.done();
           streamableTable.done();
 
           finalizedToolData.data.object.markdownTable = text;
@@ -228,7 +215,6 @@ const toolProductComparison = ({
           });
         },
         onError: ({ error }) => {
-          mockStreamableComparison.error(error);
           streamableTable.error(error);
 
           errorState = {
@@ -298,6 +284,10 @@ const toolProductComparison = ({
             loading: true,
           });
         },
+        experimental_transform: smoothStream({
+          delayInMs: 20,
+          chunking: "word",
+        }),
       });
 
       for await (const texts of comparisonInsight.textStream) {

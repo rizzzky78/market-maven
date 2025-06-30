@@ -276,7 +276,7 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
             <Info className="size-4 mr-1 text-purple-500 dark:text-purple-300" />
           </motion.div>
           <p className="text-xs">
-            AI generated comparison, for reference only.
+            Maven can make mistakes. Always check important info.
           </p>
         </motion.div>
       </motion.div>

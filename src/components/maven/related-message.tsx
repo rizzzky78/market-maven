@@ -223,7 +223,11 @@ export const StreamRelatedMessage: FC<StreamRelatedProps> = ({ content }) => {
             </Card>
           ))
         ) : (
-          <Skeleton className="w-full h-4" />
+          <>
+            <Skeleton className="w-full h-[40px]" />
+            <Skeleton className="w-full h-[40px]" />
+            <Skeleton className="w-full h-[40px]" />
+          </>
         )}
       </div>
     </div>
