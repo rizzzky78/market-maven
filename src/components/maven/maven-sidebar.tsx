@@ -89,10 +89,6 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
 
   useEffect(() => {
     setMounted(true);
-    console.log(
-      "[DEBUG:CHAT]",
-      JSON.stringify([filteredChats[filteredChats.length - 1]], null, 2)
-    );
   }, []);
 
   console.log(
@@ -307,7 +303,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
           <SidebarGroup className="px-0 md:hidden">
             <SidebarGroupContent className="px-2">
               <ScrollArea className="h-[340px] pr-3">
-                {/* {filteredChats.length === 0 ? (
+                {filteredChats.length === 0 ? (
                   <div className="flex flex-col rounded-none items-start gap-2 whitespace-nowrap px-4 py-2 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
                     <div className="w-[230px] flex items-center justify-center">
                       <p className="truncate">No chat available</p>
@@ -326,8 +322,13 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                       </div>
                     </Link>
                   ))
-                )} */}
-                <pre>Disabled Temporary for Debugging</pre>
+                )}
+                {/* <pre>Disabled Temporary for Debugging</pre> */}
+                {/* <div>
+                  <pre className="text-[10px]">
+                    {JSON.stringify(filteredChats, null, 2)}
+                  </pre>
+                </div> */}
               </ScrollArea>
             </SidebarGroupContent>
           </SidebarGroup>
@@ -456,7 +457,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
         <SidebarContent className="scrollbar-thin">
           <SidebarGroup className="p-0">
             <SidebarGroupContent>
-              {/* {filteredChats.length === 0 ? (
+              {filteredChats.length === 0 ? (
                 <div className="h-full w-full">
                   <div className="flex items-center justify-center">
                     <p>No chat available</p>
@@ -482,8 +483,13 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                     </span>
                   </Link>
                 ))
-              )} */}
-              <pre>Disabled Temporary for Debugging</pre>
+              )}
+              {/* <pre>Disabled Temporary for Debugging</pre> */}
+              {/* <div>
+                <pre className="text-[10px]">
+                  {JSON.stringify(filteredChats, null, 2)}
+                </pre>
+              </div> */}
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
