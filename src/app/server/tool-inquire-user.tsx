@@ -63,7 +63,7 @@ const toolInquireUser = ({ generation, errorState, state }: ToolsetProps) => {
 
       const { partialObjectStream: inquiryStream, object: inquiryObject } =
         streamObject({
-          model: google("gemini-2.0-flash-lite"),
+          model: google("gemini-2.5-flash-lite"),
           system: await SYSTEM_INSTRUCTION.INQUIRY_CRAFTER,
           prompt: JSON.stringify(parse.data),
           schema: inquireUserSchema,

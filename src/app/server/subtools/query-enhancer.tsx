@@ -58,7 +58,7 @@ export async function queryEnhancer(p: {
 
   try {
     const response = await generateObject({
-      model: google("gemini-2.0-flash-lite", {
+      model: google("gemini-2.5-flash", {
         useSearchGrounding: true,
       }),
       schema: queryEnhancerSchema,

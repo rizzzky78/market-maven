@@ -144,7 +144,7 @@ const toolProductComparison = ({
       let comparisonObj: Record<string, any> = {};
 
       const { partialObjectStream } = streamObject({
-        model: google("gemini-2.0-flash"),
+        model: google("gemini-2.5-flash"),
         system: COMPARISON_EXTRACTOR_SYSTEM_INSTRUCTION,
         output: "no-schema",
         prompt: JSON.stringify({ payload: comparisonPayload }),
@@ -199,7 +199,7 @@ const toolProductComparison = ({
       let tableMarkdown = "";
 
       const comparisonTable = streamText({
-        model: google("gemini-2.0-flash"),
+        model: google("gemini-2.5-flash"),
         system: COMPARISON_TABLE_CRAFTER_SYSTEM_INSTRUCTION,
         prompt: JSON.stringify({ payload: finalizedToolData.data }),
         onFinish: ({ text }) => {
@@ -258,7 +258,7 @@ const toolProductComparison = ({
       let insightText = "";
 
       const comparisonInsight = streamText({
-        model: google("gemini-2.0-flash"),
+        model: google("gemini-2.5-flash"),
         system: COMPARISON_INSIGHT_SYSTEM_INSTRUCTION,
         prompt: JSON.stringify(insightPayload),
         onFinish: ({ text }) => {
@@ -360,7 +360,7 @@ const toolProductComparison = ({
         );
 
         const { partialObjectStream: relatedStream } = streamObject({
-          model: google("gemini-2.0-flash-lite"),
+          model: google("gemini-2.5-flash-lite"),
           system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
           prompt: payloadRelated,
           schema: relatedQuerySchema,

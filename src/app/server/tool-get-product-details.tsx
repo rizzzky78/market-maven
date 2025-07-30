@@ -160,7 +160,7 @@ const toolGetProductDetails = ({
           let researcherText = "";
 
           const { textStream: researcherStream } = streamText({
-            model: google("gemini-2.0-flash-lite"),
+            model: google("gemini-2.5-flash"),
             system: await SYSTEM_INSTRUCTION.PRODUCT_RESEARCHER,
             prompt: JSON.stringify({ query }),
             onFinish: ({ text, usage }) => {
@@ -293,7 +293,7 @@ const toolGetProductDetails = ({
         } as unknown as Record<string, LanguageModelUsage>;
 
         const markdownLLM = streamText({
-          model: google("gemini-2.0-flash", { useSearchGrounding: true }),
+          model: google("gemini-2.5-flash", { useSearchGrounding: true }),
           system: PRODUCT_RESEARCHER_INSIGHT_SYSTEM_PROMPT,
           maxSteps: 5,
           prompt: JSON.stringify({
@@ -358,7 +358,7 @@ const toolGetProductDetails = ({
         let partialObjDetailInsight: Record<string, any> = {};
 
         const { partialObjectStream } = streamObject({
-          model: google("gemini-2.0-flash-lite"),
+          model: google("gemini-2.5-flash"),
           system: PRODUCT_EXTRACTOR_INSIGHT_SYSTEM_PROMPT,
           prompt: payloadContent,
           output: "no-schema",
@@ -450,7 +450,7 @@ const toolGetProductDetails = ({
         let finalizedInsightText = "";
 
         const { textStream } = streamText({
-          model: google("gemini-2.0-flash-lite"),
+          model: google("gemini-2.5-flash"),
           system: await SYSTEM_INSTRUCTION.PRODUCT_DETAILS_INSIGHT,
           prompt: JSON.stringify(payloadInsight),
           onFinish: async ({ text }) => {
@@ -541,7 +541,7 @@ const toolGetProductDetails = ({
           );
 
           const { partialObjectStream: relatedStream } = streamObject({
-            model: google("gemini-2.0-flash-lite"),
+            model: google("gemini-2.5-flash"),
             system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
             prompt: payloadRelated,
             schema: relatedQuerySchema,
@@ -690,7 +690,7 @@ const toolGetProductDetails = ({
           );
 
           const { partialObjectStream } = streamObject({
-            model: google("gemini-2.0-flash-lite"),
+            model: google("gemini-2.5-flash"),
             system: await SYSTEM_INSTRUCTION.PRODUCT_DETAILS_EXTRACTOR,
             prompt: payloadContent,
             output: "no-schema",
@@ -767,7 +767,7 @@ const toolGetProductDetails = ({
           let finalizedText: string = "";
 
           const { textStream } = streamText({
-            model: google("gemini-2.0-flash"),
+            model: google("gemini-2.5-flash"),
             system: await SYSTEM_INSTRUCTION.PRODUCT_DETAILS_INSIGHT,
             prompt: JSON.stringify(payloadInsight),
             onFinish: async ({ text, usage }) => {
@@ -862,7 +862,7 @@ const toolGetProductDetails = ({
             );
 
             const { partialObjectStream: relatedStream } = streamObject({
-              model: google("gemini-2.0-flash-lite"),
+              model: google("gemini-2.5-flash"),
               system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
               prompt: payloadRelated,
               schema: relatedQuerySchema,

@@ -351,7 +351,7 @@ export async function searchProductInsight({
     const modelResponse = await executeWithRetry(
       async () => {
         return await generateObject({
-          model: google("gemini-2.0-flash-lite", {
+          model: google("gemini-2.0-flash", {
             useSearchGrounding: true,
           }),
           schema: dataSourceInsightSchema,

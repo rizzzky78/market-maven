@@ -72,7 +72,7 @@ const validateQueryInput = (query: string): void => {
 };
 
 const createModelConfig = () => {
-  return google("gemini-2.0-flash-lite", {
+  return google("gemini-2.5-flash", {
     useSearchGrounding: true,
     safetySettings: [
       { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },

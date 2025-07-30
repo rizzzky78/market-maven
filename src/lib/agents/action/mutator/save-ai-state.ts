@@ -11,7 +11,7 @@ const generateChatTitle = async (
   messages: MessageProperty[]
 ): Promise<string> => {
   const { text } = await generateText({
-    model: google("gemini-1.5-flash"),
+    model: google("gemini-2.0-flash"),
     prompt: JSON.stringify(messages),
     system: await SYSTEM_INSTRUCTION.TITLE_CRAFTER,
   });

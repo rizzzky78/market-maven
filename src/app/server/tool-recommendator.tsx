@@ -102,7 +102,7 @@ const toolRecommendator = ({
       );
 
       const { partialObjectStream } = streamObject({
-        model: google("gemini-2.0-flash-lite", {
+        model: google("gemini-2.5-flash", {
           useSearchGrounding: true,
         }),
         system: await SYSTEM_INSTRUCTION.RECOMMENDATOR_EXTRACTOR,
@@ -158,7 +158,7 @@ const toolRecommendator = ({
       let finalizedInsight = "";
 
       const { textStream } = streamText({
-        model: google("gemini-2.0-flash-lite"),
+        model: google("gemini-2.5-flash"),
         system: await SYSTEM_INSTRUCTION.RECOMMENDATOR_INSIGHT,
         prompt: JSON.stringify({
           payload: finalizedRecommendator.recommendations,
@@ -246,7 +246,7 @@ const toolRecommendator = ({
       );
 
       const { partialObjectStream: relatedStream } = streamObject({
-        model: google("gemini-2.0-flash-lite"),
+        model: google("gemini-2.5-flash"),
         system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
         prompt: payloadRelated,
         schema: relatedQuerySchema,

@@ -273,7 +273,7 @@ const toolSearchProduct = ({
         let finalizedText: string = "";
 
         const { textStream } = streamText({
-          model: google("gemini-2.0-flash-lite"),
+          model: google("gemini-2.5-flash"),
           system: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_INSIGHT,
           prompt: JSON.stringify(insightResult.data),
           onFinish: ({ text, usage }) => {
@@ -367,7 +367,7 @@ const toolSearchProduct = ({
           );
 
           const { partialObjectStream: relatedStream } = streamObject({
-            model: google("gemini-2.0-flash-lite"),
+            model: google("gemini-2.5-flash"),
             system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
             prompt: payloadRelated,
             schema: relatedQuerySchema,
@@ -536,7 +536,7 @@ const toolSearchProduct = ({
           });
 
           const { partialObjectStream } = streamObject({
-            model: google("gemini-2.0-flash-lite"),
+            model: google("gemini-2.5-flash"),
             system: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_EXTRACTOR,
             prompt: payload,
             schema: productsSchema,
@@ -611,7 +611,7 @@ const toolSearchProduct = ({
           });
 
           const { textStream } = streamText({
-            model: google("gemini-2.0-flash-lite"),
+            model: google("gemini-2.5-flash"),
             system: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_INSIGHT,
             prompt: JSON.stringify(finalizedProductSearch.data),
             onFinish: ({ text, usage }) => {
@@ -707,7 +707,7 @@ const toolSearchProduct = ({
             );
 
             const { partialObjectStream: relatedStream } = streamObject({
-              model: google("gemini-2.0-flash-lite"),
+              model: google("gemini-2.5-flash"),
               system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
               prompt: payloadRelated,
               schema: relatedQuerySchema,

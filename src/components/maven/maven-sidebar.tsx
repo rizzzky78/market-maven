@@ -327,7 +327,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                     </Link>
                   ))
                 )} */}
-                <span>Disabled Temporary for Debugging</span>
+                <pre>Disabled Temporary for Debugging</pre>
               </ScrollArea>
             </SidebarGroupContent>
           </SidebarGroup>
@@ -483,7 +483,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                   </Link>
                 ))
               )} */}
-              <span>Disabled Temporary for Debugging</span>
+              <pre>Disabled Temporary for Debugging</pre>
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>

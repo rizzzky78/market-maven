@@ -86,7 +86,7 @@ const orchestrator = async (
   };
 
   const { value } = await streamUI({
-    model: google("gemini-2.0-flash-exp"),
+    model: google('gemini-2.5-flash'),
     messages: toCoreMessage(state.get().messages),
     system: ORCHESTRATOR_SYSTEM_INSTRUCTION,
     initial: <LoadingText text="Maven is thinking..." />,
@@ -122,7 +122,7 @@ const orchestrator = async (
           );
 
           const { partialObjectStream: relatedStream } = streamObject({
-            model: google("gemini-2.0-flash-lite"),
+            model: google("gemini-2.5-flash"),
             system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
             prompt: payloadRelated,
             schema: relatedQuerySchema,
