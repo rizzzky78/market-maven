@@ -271,9 +271,7 @@ const roleHandlers: Record<
       message.content as MessageContent[],
       message.id,
       (content, id) => {
-        const userContent: UserContentMessage = JSON.parse(
-          content as unknown as string
-        );
+        const userContent: UserContentMessage = content as unknown as UserContentMessage;
         return { id, display: <UserMessage content={userContent} /> };
       }
     );

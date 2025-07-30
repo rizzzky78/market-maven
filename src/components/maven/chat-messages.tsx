@@ -6,6 +6,7 @@ interface MessagesProps {
 }
 
 export const ChatMessages: FC<MessagesProps> = ({ ui }) => {
+  console.log(ui);
   return (
     <div className="space-y-10 *:font-[family-name:var(--font-satoshi)]">
       {ui.map((component) => component.display)}
