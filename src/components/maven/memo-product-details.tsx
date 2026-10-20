@@ -3,12 +3,12 @@
 import { Fragment, memo, useId, useState } from "react";
 import { ChevronUp, FlaskConical } from "lucide-react";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, type Variants } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { FC } from "react";
 import { dynamicObjectRender } from "./dynamic-object-render";
 
-const containerVariants = {
+const containerVariants: Variants = {
   initial: {
     opacity: 0,
     height: 0,
@@ -38,7 +38,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   initial: { opacity: 0, y: 20 },
   animate: {
     opacity: 1,
@@ -58,7 +58,7 @@ const itemVariants = {
   },
 };
 
-const cardVariants = {
+const cardVariants: Variants = {
   initial: { scale: 0.95, opacity: 0 },
   animate: {
     scale: 1,

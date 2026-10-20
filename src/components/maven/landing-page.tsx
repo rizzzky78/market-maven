@@ -8,7 +8,7 @@ import { SnapshotCard } from "@/components/maven/snapshots-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { MagneticWrapper } from "@/components/ui/magnetic-wrapper";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import ReactLenis from "lenis/react";
 import {
   Brain,

@@ -32,7 +32,7 @@ import Link from "next/link";
 import { formatDateWithTime } from "@/lib/utils";
 import { ScrollArea } from "../ui/scroll-area";
 import { useTheme } from "next-themes";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { useUIState, useAIState } from "@ai-sdk/rsc";

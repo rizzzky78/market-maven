@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, FC } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { CodeXml, Laptop, Sparkles } from "lucide-react";
 
 export const DevPortfolio: FC = () => {

@@ -3,7 +3,7 @@
 import { FC, useCallback, useEffect, useState } from "react";
 import { RotateCwSquare, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import {

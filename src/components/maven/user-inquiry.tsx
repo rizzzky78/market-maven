@@ -22,7 +22,7 @@ import { useMavenStateController } from "../hooks/maven-state-controller";
 import { UserMessage } from "./user-message";
 import { generateId } from "ai";
 import type { InquiryResponse, StreamGeneration } from "@/lib/types/ai";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { AI } from "@/app/action";
 
 const fadeIn = {

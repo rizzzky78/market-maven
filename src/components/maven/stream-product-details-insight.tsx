@@ -4,7 +4,7 @@
 import { StreamableValue, useStreamableValue } from "@ai-sdk/rsc";
 import { FC, useEffect, useState } from "react";
 import { ErrorMessage } from "./error-message";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, type Variants } from "motion/react";
 import {
   TooltipProvider,
   Tooltip,
@@ -29,7 +29,7 @@ import { InsightProductCardSkeleton } from "./insight-product-card-skeleton";
 import { DetailsGlobal, ProductDetails } from "@/lib/types/product";
 
 // Animation variants
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -40,7 +40,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
@@ -52,7 +52,7 @@ const itemVariants = {
   },
 };
 
-const headerVariants = {
+const headerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -63,7 +63,7 @@ const headerVariants = {
   },
 };
 
-const carouselVariants = {
+const carouselVariants: Variants = {
   hidden: { opacity: 0, x: 30 },
   visible: {
     opacity: 1,
@@ -75,7 +75,7 @@ const carouselVariants = {
   },
 };
 
-const collapsibleVariants = {
+const collapsibleVariants: Variants = {
   hidden: {
     opacity: 0,
     height: 0,

@@ -5,7 +5,7 @@ import {
   motion,
   useScroll,
   type MotionValue,
-} from "framer-motion";
+} from "motion/react";
 import { FC, useRef } from "react";
 import Image from "next/image";
 

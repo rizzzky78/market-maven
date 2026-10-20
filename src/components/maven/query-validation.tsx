@@ -8,7 +8,7 @@ import {
   SearchCheck,
   XCircle,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "motion/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -88,7 +88,7 @@ export const QueryValidation: FC<QueryValidationProps> = ({ data, usage }) => {
   };
 
   // Animation variants
-  const cardVariants = {
+  const cardVariants: Variants = {
     hidden: {
       opacity: 0,
       y: 20,
@@ -105,7 +105,7 @@ export const QueryValidation: FC<QueryValidationProps> = ({ data, usage }) => {
     },
   };
 
-  const contentVariants = {
+  const contentVariants: Variants = {
     hidden: {
       opacity: 0,
       height: 0,
@@ -126,7 +126,7 @@ export const QueryValidation: FC<QueryValidationProps> = ({ data, usage }) => {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: {
       opacity: 0.1,
       y: 10,
@@ -141,7 +141,7 @@ export const QueryValidation: FC<QueryValidationProps> = ({ data, usage }) => {
     },
   };
 
-  const badgeVariants = {
+  const badgeVariants: Variants = {
     hidden: {
       opacity: 0,
       scale: 0.8,
@@ -158,7 +158,7 @@ export const QueryValidation: FC<QueryValidationProps> = ({ data, usage }) => {
     },
   };
 
-  const progressVariants = {
+  const progressVariants: Variants = {
     hidden: {
       scaleX: 0,
       originX: 0,

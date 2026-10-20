@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 import useSWR from "swr";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "motion/react";
 import { Star, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -277,7 +277,7 @@ export const PublicReviews: FC = () => {
 
 function RatingCard({ rating, index }: { rating: Rating; index: number }) {
   // Animation variants for staggered appearance
-  const cardVariants = {
+  const cardVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: (i: number) => ({
       opacity: 1,

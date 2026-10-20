@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Product } from "@/lib/types/product";
 import { DeepPartial } from "ai";
 import { StreamableValue, useStreamableValue } from "@ai-sdk/rsc";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { Search, Info, SearchCheck, ChevronUp } from "lucide-react";
 import { FC, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";

@@ -2,7 +2,7 @@
 
 import { FC, useRef } from "react";
 import Image from "next/image";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, type Variants } from "motion/react";
 import Link from "next/link";
 import { SquareArrowOutUpRight } from "lucide-react";
 import { Button } from "../ui/button";
@@ -11,7 +11,7 @@ export const SnapshotsSection: FC = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -22,7 +22,7 @@ export const SnapshotsSection: FC = () => {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: {
       y: 50,
       opacity: 0,

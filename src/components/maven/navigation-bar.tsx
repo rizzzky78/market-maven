@@ -2,7 +2,12 @@
 
 import Link from "next/link";
 import { JSX, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  type Transition,
+  type Variants,
+} from "motion/react";
 import Image from "next/image";
 
 // Style imports
@@ -13,7 +18,7 @@ import navbarNav from "@/components/scss/navbar-nav.module.scss";
 import navbarRoot from "@/components/scss/navbar-root.module.scss";
 
 // Animation configurations
-const transition = { duration: 1, ease: [0.76, 0, 0.24, 1] };
+const transition: Transition = { duration: 1, ease: [0.76, 0, 0.24, 1] };
 
 const animations = {
   opacity: {
@@ -53,7 +58,7 @@ const animations = {
       transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1], delay: i[1] },
     }),
   },
-};
+} satisfies Record<string, Variants>;
 
 // Navigation links data
 const navigationLinks = [

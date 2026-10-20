@@ -9,7 +9,7 @@ import {
   Smartphone,
 } from "lucide-react";
 import { FC, ReactNode, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { StreamGeneration } from "@/lib/types/ai";
 import { generateId } from "ai";
 import { readStreamableValue, useActions, useUIState } from "@ai-sdk/rsc";

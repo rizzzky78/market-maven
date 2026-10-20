@@ -1,10 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, type Variants } from "motion/react";
 import { FC, Fragment, memo } from "react";
 import { dynamicObjectRender } from "@/components/maven/dynamic-object-render";
 
-const containerVariants = {
+const containerVariants: Variants = {
   initial: {
     opacity: 0,
     height: 0,
@@ -34,7 +34,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   initial: { opacity: 0, y: 20 },
   animate: {
     opacity: 1,

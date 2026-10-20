@@ -3,7 +3,7 @@
 import type React from "react";
 
 import { FC, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView } from "motion/react";
 
 interface AnimatedSectionProps {
   children: React.ReactNode;

@@ -1,12 +1,12 @@
 "use client";
 
 /* eslint-disable @next/next/no-img-element */
-import { motion } from "framer-motion";
+import { motion, type Variants } from "motion/react";
 import { Circle, Grip, Plus } from "lucide-react";
 import Link from "next/link";
 import { Fragment, JSX } from "react";
 
-const containerVariants = {
+const containerVariants: Variants = {
   initial: {
     opacity: 0,
     height: 0,
@@ -36,7 +36,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   initial: { opacity: 0, y: 20 },
   animate: {
     opacity: 1,

@@ -4,7 +4,7 @@ import type { ChatProperties, UserContentMessage } from "@/lib/types/ai";
 import { cn, formatDateWithTime } from "@/lib/utils";
 import Link from "next/link";
 import { type FC, type MouseEvent, useRef, useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 interface ChatProps {
   chat: ChatProperties;

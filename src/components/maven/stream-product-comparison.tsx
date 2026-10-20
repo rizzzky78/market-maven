@@ -4,7 +4,7 @@ import { Columns2, Info, Quote, Share2 } from "lucide-react";
 import { useEffect, useState, type FC } from "react";
 import { MemoProductComparison } from "@/components/maven/memo-product-comparison";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "motion/react";
 import { ProductComparisonSkeleton } from "@/components/maven/product-comparison-skeleton";
 import { StreamableValue, useStreamableValue } from "@ai-sdk/rsc";
 import { ErrorMessage } from "@/components/maven/error-message";
@@ -30,7 +30,7 @@ export const StreamProductComparison: FC<StreamProductComparison> = ({
 
   const [one, two] = compare;
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -41,7 +41,7 @@ export const StreamProductComparison: FC<StreamProductComparison> = ({
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 10 },
     visible: {
       opacity: 1,
@@ -50,7 +50,7 @@ export const StreamProductComparison: FC<StreamProductComparison> = ({
     },
   };
 
-  const titleVariants = {
+  const titleVariants: Variants = {
     hidden: { opacity: 0, x: -20 },
     visible: {
       opacity: 1,

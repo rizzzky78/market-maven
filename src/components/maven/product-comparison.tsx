@@ -7,7 +7,7 @@ import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import type { ProductsComparisonProps } from "@/lib/types/props";
 import { ShareButton } from "./share-button";
 import { ScrollArea } from "../ui/scroll-area";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "motion/react";
 import { ProductComparisonSkeleton } from "./product-comparison-skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Markdown } from "./markdown";
@@ -29,7 +29,7 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
 
   const [one, two] = compare;
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -40,7 +40,7 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 10 },
     visible: {
       opacity: 1,
@@ -49,7 +49,7 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
     },
   };
 
-  const titleVariants = {
+  const titleVariants: Variants = {
     hidden: { opacity: 0, x: -20 },
     visible: {
       opacity: 1,

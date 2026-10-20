@@ -1,7 +1,7 @@
 "use client";
 
 import React, { FC, useEffect, useRef, useState } from "react";
-import { motion, useTransform, useScroll, useSpring } from "framer-motion";
+import { motion, useTransform, useScroll, useSpring } from "motion/react";
 import { cn } from "@/lib/utils";
 
 interface TracingBeamProps {

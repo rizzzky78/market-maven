@@ -8,7 +8,7 @@ import { type FC, useEffect, useState } from "react";
 import type { LanguageModelUsage } from "ai";
 import type { QueryEnhancedData } from "@/lib/types/subtools";
 import { Button } from "@/components/ui/button";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "motion/react";
 import { QueryEnhancementSkeleton } from "@/components/maven/query-enhancement-skeleton";
 import { HoverCardUsage } from "./hover-card-usage";
 
@@ -46,7 +46,7 @@ export const QueryEnhancement: FC<QueryEnhancementProps> = ({
   if (!mounted) return <QueryEnhancementSkeleton />;
 
   // Animation variants
-  const cardVariants = {
+  const cardVariants: Variants = {
     hidden: {
       opacity: 0,
       y: 20,
@@ -64,7 +64,7 @@ export const QueryEnhancement: FC<QueryEnhancementProps> = ({
     },
   };
 
-  const headerVariants = {
+  const headerVariants: Variants = {
     hidden: { opacity: 0, x: -10 },
     visible: {
       opacity: 1,
@@ -76,7 +76,7 @@ export const QueryEnhancement: FC<QueryEnhancementProps> = ({
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 10 },
     visible: {
       opacity: 1,
@@ -85,7 +85,7 @@ export const QueryEnhancement: FC<QueryEnhancementProps> = ({
     },
   };
 
-  const contentVariants = {
+  const contentVariants: Variants = {
     hidden: {
       opacity: 0,
       height: 0,
@@ -106,7 +106,7 @@ export const QueryEnhancement: FC<QueryEnhancementProps> = ({
     },
   };
 
-  const queryVariants = {
+  const queryVariants: Variants = {
     hidden: { opacity: 0, x: -15 },
     visible: {
       opacity: 1,
@@ -115,7 +115,7 @@ export const QueryEnhancement: FC<QueryEnhancementProps> = ({
     },
   };
 
-  const enhancedQueryVariants = {
+  const enhancedQueryVariants: Variants = {
     hidden: { opacity: 0, x: 15 },
     visible: {
       opacity: 1,
@@ -124,7 +124,7 @@ export const QueryEnhancement: FC<QueryEnhancementProps> = ({
     },
   };
 
-  const buttonVariants = {
+  const buttonVariants: Variants = {
     hidden: { opacity: 0, scale: 0.8 },
     visible: {
       opacity: 1,

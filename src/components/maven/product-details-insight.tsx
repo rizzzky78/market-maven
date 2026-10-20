@@ -2,7 +2,7 @@
 "use client";
 
 import { FC, useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "motion/react";
 import {
   Carousel,
   CarouselContent,
@@ -50,7 +50,7 @@ const getYouTubeVideoId = (url: string): string | null => {
 };
 
 // Animation variants
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -61,7 +61,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
@@ -73,7 +73,7 @@ const itemVariants = {
   },
 };
 
-const headerVariants = {
+const headerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -84,7 +84,7 @@ const headerVariants = {
   },
 };
 
-const carouselVariants = {
+const carouselVariants: Variants = {
   hidden: { opacity: 0, x: 30 },
   visible: {
     opacity: 1,
@@ -96,7 +96,7 @@ const carouselVariants = {
   },
 };
 
-const collapsibleVariants = {
+const collapsibleVariants: Variants = {
   hidden: {
     opacity: 0,
     height: 0,
@@ -509,8 +509,6 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                                     transition={{
                                       duration: 0.3,
                                       delay: index * 0.1 + 0.5,
-                                      hover: { duration: 0.2 },
-                                      tap: { duration: 0.1 },
                                     }}
                                   >
                                     {videoId ? (

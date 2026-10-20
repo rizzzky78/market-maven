@@ -2,7 +2,7 @@
 
 import { FC, useEffect, useState } from "react";
 import { ProductCard } from "@/components/maven/product-card";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { ChevronUp, Info, Search, SearchCheck } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";

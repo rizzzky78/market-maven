@@ -9,7 +9,7 @@ import { Checkbox } from "../ui/checkbox";
 import { useRouter } from "next/navigation";
 import { FC, ReactNode, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 export const LoginForm: FC = () => {
   const router = useRouter();

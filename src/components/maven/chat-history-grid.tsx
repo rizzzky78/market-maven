@@ -3,7 +3,7 @@
 import { ChatProperties } from "@/lib/types/ai";
 import { FC } from "react";
 import { ChatHistoryItem } from "./chat-history-item";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 interface ChatHistoryProps {
   chats: ChatProperties[];

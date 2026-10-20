@@ -2,7 +2,7 @@
 "use client";
 
 import { FC, useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "motion/react";
 import { Badge } from "@/components/ui/badge";
 import {
   Carousel,
@@ -36,7 +36,7 @@ import { ExtendedToolResult } from "@/lib/types/ai";
 import { GlobalSearchResult, SearchProductResult } from "@/lib/types/product";
 
 // Animation variants
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -47,7 +47,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
@@ -59,7 +59,7 @@ const itemVariants = {
   },
 };
 
-const headerVariants = {
+const headerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -70,7 +70,7 @@ const headerVariants = {
   },
 };
 
-const carouselVariants = {
+const carouselVariants: Variants = {
   hidden: { opacity: 0, x: 30 },
   visible: {
     opacity: 1,
@@ -82,7 +82,7 @@ const carouselVariants = {
   },
 };
 
-const collapsibleVariants = {
+const collapsibleVariants: Variants = {
   hidden: {
     opacity: 0,
     height: 0,
@@ -101,7 +101,7 @@ const collapsibleVariants = {
   },
 };
 
-const storeItemVariants = {
+const storeItemVariants: Variants = {
   hidden: { opacity: 0, x: -20 },
   visible: {
     opacity: 1,
