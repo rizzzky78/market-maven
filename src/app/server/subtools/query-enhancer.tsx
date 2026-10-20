@@ -1,3 +1,4 @@
+import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
 import { queryEnhancerSchema } from "@/lib/agents/schema/st-query-enhancer";
 import { QueryEnhancedData, UnifiedSubToolResult } from "@/lib/types/subtools";
 import { google } from "@ai-sdk/google";
@@ -61,7 +62,7 @@ export async function queryEnhancer(p: {
       model: google("gemini-2.5-flash"),
       tools: { google_search: google.tools.googleSearch({}) },
       output: Output.object({ schema: queryEnhancerSchema }),
-      instructions: SYSTEM_PROMPT,
+      instructions: SYSTEM_PROMPT + groundingPolicy(),
       prompt: cleanQuery,
     });
 

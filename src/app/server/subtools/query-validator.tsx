@@ -1,3 +1,4 @@
+import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
 import { queryValidatorSchema } from "@/lib/agents/schema/st-query-validator";
 import {
   QueryValidationData,
@@ -103,7 +104,7 @@ export async function queryValidator(p: {
       tools: { google_search: google.tools.googleSearch({}) },
       providerOptions: { google: googleOptions },
       output: Output.object({ schema: queryValidatorSchema }),
-      instructions: SYSTEM_PROMPT,
+      instructions: SYSTEM_PROMPT + groundingPolicy(),
       prompt: sanitizedQuery,
     });
 

@@ -1,3 +1,4 @@
+import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
 import { dataSourceInsightSchema } from "@/lib/agents/schema/ds-insight";
 import {
   imagesSearch,
@@ -293,7 +294,7 @@ GLOBAL MODE ACTIVATED:
 - Consider international market trends, global pricing, and worldwide availability
 - Focus on major international retailers and marketplaces`;
 
-  return baseInstruction + marketSpecificInstruction;
+  return baseInstruction + marketSpecificInstruction + groundingPolicy();
 }
 
 /**
@@ -351,7 +352,7 @@ export async function searchProductInsight({
     const modelResponse = await executeWithRetry(
       async () => {
         return await generateText({
-          model: google("gemini-2.0-flash"),
+          model: google("gemini-2.5-flash"),
           tools: { google_search: google.tools.googleSearch({}) },
           output: Output.object({ schema: dataSourceInsightSchema }),
           instructions: systemInstruction,

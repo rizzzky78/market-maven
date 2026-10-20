@@ -5,6 +5,7 @@
  *
  */
 
+import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
 import {
   StreamAssistantMessage,
   AssistantMessage,
@@ -339,7 +340,7 @@ const toolGetProductDetails = ({
           {
             model: google("gemini-2.5-flash"),
             tools: { google_search: google.tools.googleSearch({}) },
-            instructions: PRODUCT_RESEARCHER_INSIGHT_SYSTEM_PROMPT,
+            instructions: PRODUCT_RESEARCHER_INSIGHT_SYSTEM_PROMPT + groundingPolicy(),
             stopWhen: isStepCount(5),
             prompt: JSON.stringify({
               payload: globalObject.previousData.title,
@@ -388,7 +389,7 @@ const toolGetProductDetails = ({
           errorState,
           {
             model: google("gemini-2.5-flash"),
-            instructions: PRODUCT_EXTRACTOR_INSIGHT_SYSTEM_PROMPT,
+            instructions: PRODUCT_EXTRACTOR_INSIGHT_SYSTEM_PROMPT + groundingPolicy(),
             prompt: payloadContent,
             output: Output.json(),
             select: (partial) => (partialDetails = partial as Record<string, any>),

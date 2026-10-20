@@ -5,6 +5,7 @@
  *
  */
 
+import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
 import {
   StreamAssistantMessage,
   AssistantMessage,
@@ -137,7 +138,7 @@ const toolProductComparison = ({
         errorState,
         {
           model: google("gemini-2.5-flash"),
-          instructions: COMPARISON_EXTRACTOR_SYSTEM_INSTRUCTION,
+          instructions: COMPARISON_EXTRACTOR_SYSTEM_INSTRUCTION + groundingPolicy(),
           output: Output.json(),
           prompt: JSON.stringify({ payload: comparisonPayload }),
           select: (partial) => partial as Record<string, any>,
@@ -173,7 +174,8 @@ const toolProductComparison = ({
         errorState,
         {
           model: google("gemini-2.5-flash"),
-          instructions: COMPARISON_TABLE_CRAFTER_SYSTEM_INSTRUCTION,
+          instructions:
+            COMPARISON_TABLE_CRAFTER_SYSTEM_INSTRUCTION + groundingPolicy(),
           prompt: JSON.stringify({ payload: finalizedToolData.data }),
         }
       );
@@ -209,7 +211,7 @@ const toolProductComparison = ({
         errorState,
         {
           model: google("gemini-2.5-flash"),
-          instructions: COMPARISON_INSIGHT_SYSTEM_INSTRUCTION,
+          instructions: COMPARISON_INSIGHT_SYSTEM_INSTRUCTION + groundingPolicy(),
           prompt: JSON.stringify(insightPayload),
           experimental_transform: smoothStream({
             delayInMs: 20,
