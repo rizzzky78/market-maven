@@ -41,7 +41,7 @@ export const SidebarUserNavigation: FC = () => {
   };
 
   return (
-    <SidebarMenu className="*:font-[family-name:var(--font-satoshi)]">
+    <SidebarMenu className="*:font-(family-name:--font-satoshi)">
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -64,7 +64,7 @@ export const SidebarUserNavigation: FC = () => {
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-t-[20px] rounded-b-[1.2rem]"
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-t-[20px] rounded-b-[1.2rem]"
             side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}
@@ -82,7 +82,7 @@ export const SidebarUserNavigation: FC = () => {
             </Badge>
             <DropdownMenuSeparator />
             <DropdownMenuLabel className="p-0 font-normal">
-              <div className="font-[family-name:var(--font-satoshi)] flex items-center gap-2 px-1.5 py-1.5 text-left text-sm">
+              <div className="font-(family-name:--font-satoshi) flex items-center gap-2 px-1.5 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-full">
                   <AvatarImage src={user.avatar} alt={user.name} />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
@@ -94,7 +94,7 @@ export const SidebarUserNavigation: FC = () => {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup className="font-[family-name:var(--font-satoshi)] *:rounded-3xl *:gap-1 *:text-xs *:cursor-pointer">
+            <DropdownMenuGroup className="font-(family-name:--font-satoshi) *:rounded-3xl *:gap-1 *:text-xs *:cursor-pointer">
               <DropdownMenuItem>
                 <Link href={"/history"} className="flex items-center">
                   <History className="size-4 mr-2" />

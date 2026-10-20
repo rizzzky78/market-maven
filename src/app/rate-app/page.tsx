@@ -11,7 +11,7 @@ export default async function Page() {
       <div className="min-h-screen flex items-center justify-center px-4">
         <RatingForm initialHasSubmitted={hasSubmitted} />
       </div>
-      <footer className="font-[family-name:var(--font-khand)] border-t border-purple-500/20 py-8 mt-auto">
+      <footer className="font-(family-name:--font-khand) border-t border-purple-500/20 py-8 mt-auto">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400">
             <Link

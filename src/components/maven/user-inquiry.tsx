@@ -197,7 +197,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
         </div>
       </motion.div>
       <motion.div
-        className="w-full mx-auto border-[#1A1A1D] dark:border-inherit border rounded-[2rem]"
+        className="w-full mx-auto border-[#1A1A1D] dark:border-inherit border rounded-4xl"
         variants={staggerChildren}
       >
         <CardContent className="mt-3">
@@ -323,7 +323,7 @@ export const UserInquiryShared: FC<InquiryProps> = ({ inquiry }) => {
         </div>
       </motion.div>
       <motion.div
-        className="w-full mx-auto border-[#1A1A1D] dark:border-inherit border rounded-[2rem]"
+        className="w-full mx-auto border-[#1A1A1D] dark:border-inherit border rounded-4xl"
         variants={staggerChildren}
       >
         <CardContent className="mt-3">

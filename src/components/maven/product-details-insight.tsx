@@ -228,7 +228,7 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
 
           <div className="flex justify-center w-full">
             <motion.div
-              className="w-full border rounded-[2rem] px-4 md:pt-2 pb-2"
+              className="w-full border rounded-4xl px-4 md:pt-2 pb-2"
               variants={headerVariants}
             >
               <div className="md:pt-6 flex space-y-6 md:space-y-0 flex-col-reverse md:flex-row-reverse justify-between lg:min-h-[360px] items-start">
@@ -497,7 +497,7 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                                   <motion.button
                                     key={index}
                                     onClick={() => setSelectedVideoIndex(index)}
-                                    className={`flex-shrink-0 w-[100px] h-[60px] rounded-lg border-2 overflow-hidden transition-colors ${
+                                    className={`shrink-0 w-[100px] h-[60px] rounded-lg border-2 overflow-hidden transition-colors ${
                                       selectedVideoIndex === index
                                         ? "border-purple-500"
                                         : "bg-black/5 dark:bg-transparent hover:border-purple-500"

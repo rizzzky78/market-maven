@@ -46,11 +46,11 @@ export const Features: FC = () => {
         {/* Header section */}
         <header className="px-4 pt-[120px] lg:pt-[18vh] pb-12 lg:pb-0 flex justify-start">
           <div className="text-start max-w-5xl">
-            <h1 className="font-[family-name:var(--font-array)] tracking-wider text-5xl lg:text-6xl font-bold mb-6">
+            <h1 className="font-(family-name:--font-array) tracking-wider text-5xl lg:text-6xl font-bold mb-6">
               <span className="text-purple-500">Maven Features:</span> Your
               AI-Powered Product Toolkit
             </h1>
-            <p className="text-lg lg:text-xl text-muted-foreground mb-4 font-[family-name:var(--font-khand)]">
+            <p className="text-lg lg:text-xl text-muted-foreground mb-4 font-(family-name:--font-khand)">
               Maven is designed to revolutionize the way you research and choose{" "}
               <span className="text-purple-500"> electronic</span> categorized
               products. This suite of AI-powered tools provides everything you
@@ -58,7 +58,7 @@ export const Features: FC = () => {
               all in one intuitive platform. Explore the features below to see
               how Maven can help you make smarter decisions, faster.
             </p>
-            <p className="text-sm text-muted-foreground font-[family-name:var(--font-khand)]">
+            <p className="text-sm text-muted-foreground font-(family-name:--font-khand)">
               Last Updated: May 2025 |{" "}
               <span className="font-medium">Rzky</span>
             </p>
@@ -66,11 +66,11 @@ export const Features: FC = () => {
         </header>
 
         {/* Features section */}
-        <main className="max-w-7xl mx-auto px-4 pb-12 font-[family-name:var(--font-khand)] flex flex-col space-y-[50px]">
+        <main className="max-w-7xl mx-auto px-4 pb-12 font-(family-name:--font-khand) flex flex-col space-y-[50px]">
           <VideoShowcase />
 
           {/* Social sharing */}
-          <div className="flex justify-center gap-4 mb-16">
+          <div className="flex justify-center gap-4">
             <p className="text-muted-foreground mr-2">Share this page:</p>
             <Link href="#" aria-label="Share on Facebook">
               <Facebook className="h-5 w-5 text-muted-foreground hover:text-primary transition-colors" />
@@ -145,13 +145,13 @@ const VideoShowcase = () => {
         {showcaseData.map((snapshot, index) => (
           <section
             key={index}
-            className="w-full flex flex-col space-y-[30px] lg:flex-row justify-between items-start"
+            className="w-full flex flex-col [&>*+*]:mt-[30px] lg:flex-row justify-between items-start"
           >
             <div className="pt-[40px] w-fit lg:w-[500px] flex flex-col pr-6">
-              <h2 className="mb-4 font-[family-name:var(--font-array)] text-purple-500 text-4xl tracking-wider">
+              <h2 className="mb-4 font-(family-name:--font-array) text-purple-500 text-4xl tracking-wider">
                 {snapshot.title}
               </h2>
-              <p className="font-[family-name:var(--font-khand)] text-sm lg:text-lg ">
+              <p className="font-(family-name:--font-khand) text-sm lg:text-lg ">
                 {snapshot.description}
               </p>
             </div>

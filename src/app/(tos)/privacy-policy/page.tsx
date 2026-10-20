@@ -23,7 +23,7 @@ export default async function PrivacyPolicy() {
   return (
     <div>
       <NavigationBar />
-      <div className="sticky top-[70px] right-0 w-full flex justify-center z-[99999]">
+      <div className="sticky top-[70px] right-0 w-full flex justify-center z-99999">
         <Link
           href={"https://maven-ai-webpage.vercel.app/"}
           target="_blank"
@@ -38,7 +38,7 @@ export default async function PrivacyPolicy() {
         </Link>
       </div>
       <div className="container mx-auto px-4 py-24 min-h-screen">
-        <Card className="w-full max-w-6xl mx-auto bg-transparent border-none *:text-black/80 *:dark:text-white/90">
+        <Card className="w-full max-w-6xl mx-auto bg-transparent border-none *:text-black/80 dark:*:text-white/90">
           <CardHeader className="text-center flex items-center">
             <svg
               className="coolshapes moon-8 max-w-[20rem]"
@@ -129,23 +129,23 @@ export default async function PrivacyPolicy() {
                 </filter>
               </defs>
             </svg>
-            <CardTitle className="pt-6 pb-10 text-6xl text-purple-500 font-bold font-[family-name:var(--font-array)] tracking-wider">
+            <CardTitle className="pt-6 pb-10 text-6xl text-purple-500 font-bold font-(family-name:--font-array) tracking-wider">
               Privacy Policy
             </CardTitle>
-            <CardDescription className="pb-5 text-xl font-[family-name:var(--font-khand)]">
+            <CardDescription className="pb-5 text-xl font-(family-name:--font-khand)">
               Effective Date: Feb 2025 <br />
               This Privacy Policy explains how Maven (&quot;App&quot;) collects,
               uses, and protects your data. By using this App, you agree to the
               practices described below.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6 font-[family-name:var(--font-khand)]">
+          <CardContent className="space-y-6 font-(family-name:--font-khand)">
             <Accordion type={"multiple"} className="w-full">
               <AccordionItem value="item-1">
                 <AccordionTrigger className="text-3xl font-semibold">
                   1. Scope and Purpose
                 </AccordionTrigger>
-                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
+                <AccordionContent className="font-(family-name:--font-khand) text-xl">
                   Maven is an experimental, open-source AI-powered electronic
                   product assistant. This Privacy Policy applies to all data
                   collected during your use of the App. The App is part of a
@@ -157,7 +157,7 @@ export default async function PrivacyPolicy() {
                 <AccordionTrigger className="text-3xl font-semibold">
                   2. Data We Collect
                 </AccordionTrigger>
-                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
+                <AccordionContent className="font-(family-name:--font-khand) text-xl">
                   <p>The App collects the following data:</p>
                   <ul className="list-disc pl-6 mt-2 space-y-1">
                     <li>
@@ -190,7 +190,7 @@ export default async function PrivacyPolicy() {
                 <AccordionTrigger className="text-3xl font-semibold">
                   3. How We Use Your Data
                 </AccordionTrigger>
-                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
+                <AccordionContent className="font-(family-name:--font-khand) text-xl">
                   <p>Your data is used for the following purposes:</p>
                   <ul className="list-disc pl-6 mt-2 space-y-1">
                     <li>
@@ -226,7 +226,7 @@ export default async function PrivacyPolicy() {
                 <AccordionTrigger className="text-3xl font-semibold">
                   4. Data Sharing and Disclosure
                 </AccordionTrigger>
-                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
+                <AccordionContent className="font-(family-name:--font-khand) text-xl">
                   <p>
                     Your data is not shared with third parties except in the
                     following cases:
@@ -255,7 +255,7 @@ export default async function PrivacyPolicy() {
                 <AccordionTrigger className="text-3xl font-semibold">
                   5. Data Security
                 </AccordionTrigger>
-                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
+                <AccordionContent className="font-(family-name:--font-khand) text-xl">
                   <p>
                     We implement reasonable security measures to protect your
                     data, including:
@@ -278,7 +278,7 @@ export default async function PrivacyPolicy() {
                 <AccordionTrigger className="text-3xl font-semibold">
                   6. Data Retention
                 </AccordionTrigger>
-                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
+                <AccordionContent className="font-(family-name:--font-khand) text-xl">
                   <p>Your data is retained only as long as necessary:</p>
                   <ul className="list-disc pl-6 mt-2 space-y-1">
                     <li>
@@ -297,7 +297,7 @@ export default async function PrivacyPolicy() {
                 <AccordionTrigger className="text-3xl font-semibold">
                   7. Your Rights
                 </AccordionTrigger>
-                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
+                <AccordionContent className="font-(family-name:--font-khand) text-xl">
                   <p>You have the following rights regarding your data:</p>
                   <ul className="list-disc pl-6 mt-2 space-y-1">
                     <li>
@@ -320,7 +320,7 @@ export default async function PrivacyPolicy() {
                 <AccordionTrigger className="text-3xl font-semibold">
                   8. Third-Party Links
                 </AccordionTrigger>
-                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
+                <AccordionContent className="font-(family-name:--font-khand) text-xl">
                   The App may include links to third-party websites or
                   platforms. We are not responsible for their privacy practices
                   or content. Use third-party services at your own risk.
@@ -331,7 +331,7 @@ export default async function PrivacyPolicy() {
                 <AccordionTrigger className="text-3xl font-semibold">
                   9. Changes to This Policy
                 </AccordionTrigger>
-                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
+                <AccordionContent className="font-(family-name:--font-khand) text-xl">
                   This Privacy Policy may be updated periodically. Continued use
                   of the App after changes constitutes acceptance of the revised
                   policy. Significant changes will be communicated via the App
@@ -343,7 +343,7 @@ export default async function PrivacyPolicy() {
                 <AccordionTrigger className="text-3xl font-semibold">
                   10. Contact Us
                 </AccordionTrigger>
-                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
+                <AccordionContent className="font-(family-name:--font-khand) text-xl">
                   For questions or concerns about this Privacy Policy, contact:
                   <span className="ml-1 font-semibold">
                     rizzzky78@gmail.com

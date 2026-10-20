@@ -71,19 +71,19 @@ const sanitizeStr = (url: string) => {
   const isUrl = url.includes("https://");
   if (isUrl) {
     return (
-      <div className="rounded-[2rem] block my-1 w-fit px-4 hover:rotate-6 transition-all">
+      <div className="rounded-4xl block my-1 w-fit px-4 hover:rotate-6 transition-all">
         <Link href={url} target="_blank" rel="noopener noreferrer">
           <img
             src={url}
             alt={`review-${url}`}
-            className="size-[8rem] object-cover rounded-3xl"
+            className="size-32 object-cover rounded-3xl"
           />
         </Link>
       </div>
     );
   }
   return (
-    <div className="rounded-[2rem] my-0.5 w-fit bg-gray-300 dark:bg-[#4A4947] py-1 pl-2 pr-3">
+    <div className="rounded-4xl my-0.5 w-fit bg-gray-300 dark:bg-[#4A4947] py-1 pl-2 pr-3">
       <div className="flex items-center">
         <Circle className="size-4 shrink-0 mr-2" /> <p>{url}</p>
       </div>
@@ -104,7 +104,7 @@ export const dynamicObjectRender = (value: any, key: string): JSX.Element => {
         variants={itemVariants}
         className="ml-2 px-4 mb-1 flex lg:items-center flex-wrap"
       >
-        <div className="rounded-[2rem] bg-gray-400 dark:bg-muted py-1 px-4 shrink-0 mr-1">
+        <div className="rounded-4xl bg-gray-400 dark:bg-muted py-1 px-4 shrink-0 mr-1">
           <p className="font-medium">{sanitizeKeyName(key)}:</p>
         </div>
         <div
@@ -120,7 +120,7 @@ export const dynamicObjectRender = (value: any, key: string): JSX.Element => {
   } else if (Array.isArray(value)) {
     return (
       <motion.div variants={itemVariants} className="ml-2 my-3">
-        <div className="rounded-[2rem] w-fit bg-[#1A1A1D] py-1 pl-2 pr-20 my-1">
+        <div className="rounded-4xl w-fit bg-[#1A1A1D] py-1 pl-2 pr-20 my-1">
           <div className="flex items-center text-white">
             <Plus className="size-4 mr-2" />
             <p className="font-semibold text-sm">{sanitizeKeyName(key)}:</p>
@@ -156,7 +156,7 @@ export const dynamicObjectRender = (value: any, key: string): JSX.Element => {
   } else if (typeof value === "object" && value !== null) {
     return (
       <motion.div variants={itemVariants} className="my-3">
-        <div className="rounded-[2rem] w-fit bg-purple-300 dark:bg-[#FBF5E5] py-1 pl-2 pr-20 my-2">
+        <div className="rounded-4xl w-fit bg-purple-300 dark:bg-[#FBF5E5] py-1 pl-2 pr-20 my-2">
           <div className="flex items-center text-black">
             <Grip className="size-4 mr-2" />
             <p className="font-semibold text-sm">{sanitizeKeyName(key)}:</p>

@@ -5,7 +5,7 @@ import { Grip, Plus, Quote, Share2 } from "lucide-react";
 export const ProductComparisonSkeleton: FC = () => {
   return (
     <div className="py-5">
-      <div className="w-full py-1 border px-4 pt-4 pb-4 rounded-[2rem]">
+      <div className="w-full py-1 border px-4 pt-4 pb-4 rounded-4xl">
         <div className="flex flex-col py-5 px-5">
           <div className="flex items-center space-x-3 pb-4">
             <Skeleton className="size-7 rounded-none" />

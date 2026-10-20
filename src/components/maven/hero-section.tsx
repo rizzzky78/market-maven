@@ -81,12 +81,12 @@ export const HeroSection: FC = () => {
         >
           <motion.h1
             variants={itemVariants}
-            className="mt-[50px] lg:mt-0 font-[family-name:var(--font-array)] text-5xl md:text-5xl lg:text-7xl font-semibold tracking-widest"
+            className="mt-[50px] lg:mt-0 font-(family-name:--font-array) text-5xl md:text-5xl lg:text-7xl font-semibold tracking-widest"
           >
             <AnimatedText text="AI for Smarter Electronic Product Choices" />
           </motion.h1>
           <StaggerText animateOnScroll>
-            <p className="text-2xl lg:text-3xl text-black/80 dark:text-white/80 font-[family-name:var(--font-khand)]">
+            <p className="text-2xl lg:text-3xl text-black/80 dark:text-white/80 font-(family-name:--font-khand)">
               From research to recommendations, Maven helps you{" "}
               <span className="text-purple-400">find</span>,{" "}
               <span className="text-purple-400">compare</span>, and understand
@@ -94,7 +94,7 @@ export const HeroSection: FC = () => {
             </p>
           </StaggerText>
           <motion.div
-            className="flex flex-row gap-4 font-[family-name:var(--font-khand)]"
+            className="flex flex-row gap-4 font-(family-name:--font-khand)"
             variants={containerVariants}
           >
             <motion.div variants={itemVariants}>

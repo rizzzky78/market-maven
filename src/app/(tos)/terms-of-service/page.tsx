@@ -23,7 +23,7 @@ export default async function TermsOfService() {
   return (
     <div>
       <NavigationBar />
-      <div className="sticky top-[70px] right-0 w-full flex justify-center z-[99999]">
+      <div className="sticky top-[70px] right-0 w-full flex justify-center z-99999">
         <Link
           href={"https://maven-ai-webpage.vercel.app/"}
           target="_blank"
@@ -38,7 +38,7 @@ export default async function TermsOfService() {
         </Link>
       </div>
       <div className="container mx-auto px-4 py-24">
-        <Card className="w-full max-w-6xl mx-auto min-h-screen bg-transparent border-none  *:text-black/80 *:dark:text-white/90">
+        <Card className="w-full max-w-6xl mx-auto min-h-screen bg-transparent border-none  *:text-black/80 dark:*:text-white/90">
           <CardHeader className="text-center flex items-center">
             <svg
               className="coolshapes moon-4 max-w-[20rem]"
@@ -149,21 +149,21 @@ export default async function TermsOfService() {
                 </filter>
               </defs>
             </svg>
-            <CardTitle className="text-6xl pt-6 pb-10 font-bold font-[family-name:var(--font-array)] text-purple-500 tracking-wider">
+            <CardTitle className="text-6xl pt-6 pb-10 font-bold font-(family-name:--font-array) text-purple-500 tracking-wider">
               Terms of Service
             </CardTitle>
-            <CardDescription className="pb-5 text-xl font-[family-name:var(--font-khand)]">
+            <CardDescription className="pb-5 text-xl font-(family-name:--font-khand)">
               Please read these terms carefully before using Maven, an
               experimental AI-powered electronic product assistant.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6 font-[family-name:var(--font-khand)]">
+          <CardContent className="space-y-6 font-(family-name:--font-khand)">
             <Accordion type={"multiple"} className="w-full">
               <AccordionItem value="item-1">
                 <AccordionTrigger className="text-3xl font-semibold">
                   1. Introduction
                 </AccordionTrigger>
-                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
+                <AccordionContent className="font-(family-name:--font-khand) text-xl">
                   Welcome to Maven (&quot;App&quot;), a personal portfolio
                   project demonstrating AI capabilities in electronic product
                   analysis. This non-production sample application is open
@@ -185,7 +185,7 @@ export default async function TermsOfService() {
                 <AccordionTrigger className="text-3xl font-semibold">
                   2. Description of Services
                 </AccordionTrigger>
-                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
+                <AccordionContent className="font-(family-name:--font-khand) text-xl">
                   <p>The App provides:</p>
                   <ul className="list-disc pl-6 mt-2 space-y-1">
                     <li>
@@ -235,7 +235,7 @@ export default async function TermsOfService() {
                 <AccordionTrigger className="text-3xl font-semibold">
                   3. User Responsibilities
                 </AccordionTrigger>
-                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
+                <AccordionContent className="font-(family-name:--font-khand) text-xl">
                   <ul className="list-disc pl-6 mt-2 space-y-1">
                     <li>Use only for personal, non-commercial purposes</li>
                     <li>Keep chat sessions concise due to token limitations</li>
@@ -254,7 +254,7 @@ export default async function TermsOfService() {
                 <AccordionTrigger className="text-3xl font-semibold">
                   4. Intellectual Property
                 </AccordionTrigger>
-                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
+                <AccordionContent className="font-(family-name:--font-khand) text-xl">
                   <p>
                     Codebase licensed under Apache 2.0 - see repository for
                     details. AI-generated content has no ownership claims - use
@@ -268,7 +268,7 @@ export default async function TermsOfService() {
                 <AccordionTrigger className="text-3xl font-semibold">
                   5. Experimental Nature
                 </AccordionTrigger>
-                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
+                <AccordionContent className="font-(family-name:--font-khand) text-xl">
                   <ul className="list-disc pl-6 mt-2 space-y-1">
                     <li>
                       <Link
@@ -294,7 +294,7 @@ export default async function TermsOfService() {
                 <AccordionTrigger className="text-3xl font-semibold">
                   6. Liability & Warranty
                 </AccordionTrigger>
-                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
+                <AccordionContent className="font-(family-name:--font-khand) text-xl">
                   <ul className="list-disc pl-6 mt-2 space-y-1">
                     <li>Provided &quot;as-is&quot; without warranties</li>
                     <li>No liability for decisions made using App data</li>
@@ -308,7 +308,7 @@ export default async function TermsOfService() {
                 <AccordionTrigger className="text-3xl font-semibold">
                   7. Changes & Termination
                 </AccordionTrigger>
-                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
+                <AccordionContent className="font-(family-name:--font-khand) text-xl">
                   Terms may change without notice. Service may be
                   modified/discontinued anytime. Shared links may become invalid
                   without warning.
@@ -319,7 +319,7 @@ export default async function TermsOfService() {
                 <AccordionTrigger className="text-3xl font-semibold">
                   8. Contact
                 </AccordionTrigger>
-                <AccordionContent className="font-[family-name:var(--font-khand)] text-xl">
+                <AccordionContent className="font-(family-name:--font-khand) text-xl">
                   For inquiries, you can email me:{" "}
                   <span className="font-semibold">rizzzky78@gmail.com</span>
                   <br />

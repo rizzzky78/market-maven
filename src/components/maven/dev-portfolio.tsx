@@ -72,14 +72,14 @@ export const DevPortfolio: FC = () => {
           transition={{ delay: 0.4, duration: 0.6 }}
           className="space-y-2"
         >
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-700 to-purple-500 dark:from-purple-400 dark:to-purple-600">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight bg-clip-text text-transparent bg-linear-to-r from-purple-700 to-purple-500 dark:from-purple-400 dark:to-purple-600">
             Dev Portfolio
           </h1>
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: "100%" }}
             transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
-            className="h-0.5 bg-gradient-to-r from-transparent via-purple-500 to-transparent mx-auto max-w-xs"
+            className="h-0.5 bg-linear-to-r from-transparent via-purple-500 to-transparent mx-auto max-w-xs"
           />
         </motion.div>
 
@@ -113,7 +113,7 @@ export const DevPortfolio: FC = () => {
                 width: `${progress}%`,
                 transition: { delay: 1, duration: 1.5, ease: "easeInOut" },
               }}
-              className="absolute top-0 left-0 h-full bg-gradient-to-r from-purple-600 to-purple-400 rounded-full"
+              className="absolute top-0 left-0 h-full bg-linear-to-r from-purple-600 to-purple-400 rounded-full"
             />
             <motion.div
               animate={{
@@ -125,7 +125,7 @@ export const DevPortfolio: FC = () => {
                 duration: 2,
                 ease: "easeInOut",
               }}
-              className="absolute top-0 h-full w-24 bg-gradient-to-r from-transparent via-purple-200 to-transparent rounded-full"
+              className="absolute top-0 h-full w-24 bg-linear-to-r from-transparent via-purple-200 to-transparent rounded-full"
               style={{ filter: "blur(8px)" }}
               aria-hidden="true"
             />
@@ -161,7 +161,7 @@ export const DevPortfolio: FC = () => {
                     ease: "easeOut",
                   }}
                   whileHover={{ scale: 1.05, y: -2 }}
-                  className="px-4 py-1.5 text-sm font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300 rounded-full shadow-sm"
+                  className="px-4 py-1.5 text-sm font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300 rounded-full shadow-xs"
                 >
                   {tech}
                 </motion.span>

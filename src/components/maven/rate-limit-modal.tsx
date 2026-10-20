@@ -63,7 +63,7 @@ export const RateLimit: FC<RateLimitUIProps> = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         asChild
-        className="*:font-[family-name:var(--font-satoshi)]"
+        className="*:font-(family-name:--font-satoshi)"
       >
         <Button
           variant="outline"
@@ -98,7 +98,7 @@ export const RateLimit: FC<RateLimitUIProps> = ({
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="rounded-xl md:rounded-3xl max-w-md lg:max-w-lg *:font-[family-name:var(--font-satoshi)]">
+      <DialogContent className="rounded-xl md:rounded-3xl max-w-md lg:max-w-lg *:font-(family-name:--font-satoshi)">
         <Card className="bg-background border-0 shadow-none pt-8">
           <CardHeader className="px-0 pt-0 pb-2">
             <div className="flex items-center justify-between">

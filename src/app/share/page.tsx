@@ -152,15 +152,15 @@ export default async function SharePage({ searchParams }: SharePageProps) {
     <div>
       <NavigationBar />
       <div className="min-h-screen flex flex-col">
-        <main className="px-2 sm:px-12 md:pt-8 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4 flex-grow">
-          <section className="bg-[#1A1A1D] dark:bg-white rounded-3xl py-4 px-6 mt-[100px] lg:mt-16 mb-6">
+        <main className="px-2 sm:px-12 md:pt-8 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4 grow">
+          <section className="bg-[#1A1A1D] dark:bg-white rounded-3xl py-4 px-6 mt-[100px] lg:mt-16 mb-9 md:mb-10">
             <div className="flex flex-col">
-              <h2 className="font-[family-name:var(--font-khand)] text-2xl font-semibold text-white/90 dark:text-black/90">
+              <h2 className="font-(family-name:--font-khand) text-2xl font-semibold text-white/90 dark:text-black/90">
                 Shared Content
               </h2>
               <div className="flex items-start">
                 <Info className="size-4 shrink-0 lg:mt-1.5 mr-1 text-purple-500" />
-                <p className="text-lg text-white/80 dark:text-black/80 font-[family-name:var(--font-khand)]">
+                <p className="text-lg text-white/80 dark:text-black/80 font-(family-name:--font-khand)">
                   You are currently viewing the shared content, please go to the
                   <Link
                     href="/chat"

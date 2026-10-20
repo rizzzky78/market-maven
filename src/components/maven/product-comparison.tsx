@@ -98,7 +98,7 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
         </div>
       </motion.div>
       <motion.div
-        className="w-full py-1 border px-4 pt-4 pb-4 rounded-[2rem]"
+        className="w-full py-1 border px-4 pt-4 pb-4 rounded-4xl"
         variants={itemVariants}
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}

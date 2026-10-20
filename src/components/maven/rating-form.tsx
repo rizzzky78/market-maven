@@ -102,12 +102,12 @@ export const RatingForm: FC<RatingFormProps> = ({
     <Card className="max-w-4xl w-full rounded-3xl bg-background text-white border">
       <CardHeader className="space-y-4">
         <div className="flex items-center space-x-4">
-          <CardTitle className="text-3xl tracking-wider text-black/90 dark:text-white/90 font-[family-name:var(--font-array)]">
+          <CardTitle className="text-3xl tracking-wider text-black/90 dark:text-white/90 font-(family-name:--font-array)">
             Rate <span className="text-purple-500 uppercase">Maven AI</span>
           </CardTitle>
         </div>
         <Separator />
-        <CardDescription className="font-[family-name:var(--font-khand)] text-black/70 dark:text-white/80 text-lg pb-[60px]">
+        <CardDescription className="font-(family-name:--font-khand) text-black/70 dark:text-white/80 text-lg pb-[60px]">
           Help support a developer&apos;s journey in creating innovative
           AI-integrated applications.
         </CardDescription>
@@ -127,17 +127,17 @@ export const RatingForm: FC<RatingFormProps> = ({
             placeholder="Your detailed feedback can help support my professional growth (optional)"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            className="font-[family-name:var(--font-khand)] text-lg md:text-lg w-full bg-white/10 border-none text-black/90 dark:text-white placeholder-white/50 focus:ring-2 focus:ring-yellow-400"
+            className="font-(family-name:--font-khand) text-lg md:text-lg w-full bg-white/10 border-none text-black/90 dark:text-white placeholder-white/50 focus:ring-2 focus:ring-yellow-400"
           />
           <div className="flex items-center space-x-2">
-            <p className="font-thin font-[family-name:var(--font-khand)] text-lg text-black/70 dark:text-white/70">
+            <p className="font-thin font-(family-name:--font-khand) text-lg text-black/70 dark:text-white/70">
               <span className="text-purple-500">*</span> Your constructive
               insights could be instrumental in advancing my tech career.
             </p>
           </div>
           <Button
             type="submit"
-            className="font-[family-name:var(--font-khand)] text-2xl p-[30px] w-full rounded-full bg-purple-400 hover:bg-purple-500 transition-colors"
+            className="font-(family-name:--font-khand) text-2xl p-[30px] w-full rounded-full bg-purple-400 hover:bg-purple-500 transition-colors"
             disabled={rating === 0 || isMutating}
           >
             {isMutating ? "Submitting..." : "Submit Rating"}
@@ -160,7 +160,7 @@ const StarRating: FC<{
           key={star}
           type="button"
           onClick={() => onChange(star)}
-          className="focus:outline-none group"
+          className="focus:outline-hidden group"
           aria-label={`${SENTIMENTS[star - 1]} rating`}
         >
           <Star
@@ -185,11 +185,11 @@ const RatingFeedback: FC<{
     <div className="flex flex-col items-center space-y-2">
       <Badge
         variant="secondary"
-        className="rounded-full px-4 py-1 text-xl font-normal font-[family-name:var(--font-khand)]"
+        className="rounded-full px-4 py-1 text-xl font-normal font-(family-name:--font-khand)"
       >
         {sentiment}
       </Badge>
-      <p className="font-[family-name:var(--font-khand)] text-black/80 dark:text-white/80 text-center italic text-lg">
+      <p className="font-(family-name:--font-khand) text-black/80 dark:text-white/80 text-center italic text-lg">
         {story}
       </p>
     </div>
@@ -204,11 +204,11 @@ const ThankYouCard: FC = () => {
           <CardTitle className="flex items-center space-x-2">
             <Coffee className="size-[50px] text-purple-400" />
             <div className="w-full flex flex-col">
-              <p className="text-5xl text-black/80 dark:text-white/90 font-[family-name:var(--font-array)]">
+              <p className="text-5xl text-black/80 dark:text-white/90 font-(family-name:--font-array)">
                 Thank You for Your{" "}
                 <span className="text-purple-500">Support!</span>
               </p>
-              <p className="text-black/70 dark:text-white/70 text-xl font-normal font-[family-name:var(--font-khand)]">
+              <p className="text-black/70 dark:text-white/70 text-xl font-normal font-(family-name:--font-khand)">
                 Your feedback is crucial in supporting my professional journey.
               </p>
             </div>
@@ -216,14 +216,14 @@ const ThankYouCard: FC = () => {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="bg-purple-400/10 p-4 rounded-none">
-            <p className="font-[family-name:var(--font-khand)] text-lg italic text-black/80 dark:text-white/80 text-center">
+            <p className="font-(family-name:--font-khand) text-lg italic text-black/80 dark:text-white/80 text-center">
               &quot;Continuous improvement is better than delayed
               perfection.&quot; - Mark Twain
             </p>
           </div>
         </CardContent>
       </Card>
-      <div className="pt-[100px] flex items-center justify-center font-[family-name:var(--font-khand)]">
+      <div className="pt-[100px] flex items-center justify-center font-(family-name:--font-khand)">
         <Button
           variant="outline"
           className="text-purple-500 dark:text-purple-300 rounded-full p-[30px] text-2xl font-normal"

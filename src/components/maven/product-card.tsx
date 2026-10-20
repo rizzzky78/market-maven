@@ -112,7 +112,7 @@ export const ProductCard: FC<ProductProps> = ({
           isFinished ? "animate-none" : "animate-pulse"
         }`}
       >
-        <CardContent className="p-0 flex-grow relative">
+        <CardContent className="p-0 grow relative">
           {image && (
             <Image
               src={isFinished ? image : fallbackImgUrl}
@@ -179,11 +179,11 @@ export const ProductCard: FC<ProductProps> = ({
           </div>
           <div className="px-3 py-1 text-xs rounded-xl">
             <div className="flex items-start">
-              <Store className="w-3 h-3 mr-1 mt-[1px]" />
+              <Store className="w-3 h-3 mr-1 mt-px" />
               <span className="line-clamp-1">{store?.name ?? "-"}</span>
             </div>
             <div className="flex items-start">
-              <MapPin className="w-3 h-3 mr-1 mt-[1px]" />
+              <MapPin className="w-3 h-3 mr-1 mt-px" />
               <span>{store?.location ?? "-"}</span>
             </div>
           </div>
@@ -192,7 +192,7 @@ export const ProductCard: FC<ProductProps> = ({
               <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
                   <Button
-                    className="relative ml-2 h-7 w-full overflow-hidden rounded-3xl px-6 font-bold bg-gray-300 text-black shadow-sm transition-all duration-300 hover:bg-blue-200 hover:text-indigo-900"
+                    className="relative ml-2 h-7 w-full overflow-hidden rounded-3xl px-6 font-bold bg-gray-300 text-black shadow-xs transition-all duration-300 hover:bg-blue-200 hover:text-indigo-900"
                     onClick={handleAttach}
                     disabled={isSharedContent ? true : isButtonDisabled}
                   >
@@ -205,7 +205,7 @@ export const ProductCard: FC<ProductProps> = ({
                       className="absolute inset-0 flex items-center justify-center"
                       aria-hidden="true"
                     >
-                      <div className="gradient-bg bg-gradient-to-r from-pink-600 via-purple-500 to-cyan-400 rounded-full w-40 h-40 blur-xl opacity-50 animate-spin-slow transition-all duration-300" />
+                      <div className="gradient-bg bg-linear-to-r from-pink-600 via-purple-500 to-cyan-400 rounded-full w-40 h-40 blur-xl opacity-50 animate-spin-slow transition-all duration-300" />
                     </div>
                   </Button>
                 </TooltipTrigger>

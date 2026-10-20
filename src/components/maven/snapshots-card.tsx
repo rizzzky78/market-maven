@@ -53,7 +53,7 @@ export function SnapshotCard() {
     <main className="mb-[30vh]" ref={container}>
       <div>
         <section className="text-purple-500 h-[70vh] w-full grid place-content-center">
-          <h1 className="font-[family-name:var(--font-array)] 2xl:text-7xl text-5xl px-8 font-semibold text-center tracking-widest leading-[120%]">
+          <h1 className="font-(family-name:--font-array) 2xl:text-7xl text-5xl px-8 font-semibold text-center tracking-widest leading-[120%]">
             App Snapshots
           </h1>
         </section>
@@ -122,7 +122,7 @@ export const Card: FC<CardProps> = ({
           scale,
           top: `calc(1vh + ${i * 25}px)`,
         }}
-        className="flex flex-col relative -top-[25%] h-[230px] xl:h-[640px] w-[97%] lg:w-[80%] rounded-lg lg:rounded-[2rem] border p-2 lg:p-10 origin-top"
+        className="flex flex-col relative top-[-25%] h-[230px] xl:h-[640px] w-[97%] lg:w-[80%] rounded-lg lg:rounded-4xl border p-2 lg:p-10 origin-top"
       >
         {/* Removed title and text content, keeping only the image */}
         <div className="w-full h-full flex items-center justify-center">

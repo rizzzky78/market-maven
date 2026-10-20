@@ -79,7 +79,7 @@ export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
             </p>
           </div>
         </div>
-        <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-[2rem] px-4 py-1">
+        <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-4xl px-4 py-1">
           <div>
             {screenshot && (
               <div className="mt-3">

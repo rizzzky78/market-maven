@@ -20,8 +20,8 @@ const Card = memo(
       onMouseEnter={() => setHovered(index)}
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        "rounded-[2rem] relative bg-gray-100 dark:bg-neutral-900 overflow-hidden h-[500px] w-full transition-all duration-300 ease-out",
-        hovered !== null && hovered !== index && "blur-sm scale-[0.98]"
+        "rounded-4xl relative bg-gray-100 dark:bg-neutral-900 overflow-hidden h-[500px] w-full transition-all duration-300 ease-out",
+        hovered !== null && hovered !== index && "blur-xs scale-[0.98]"
       )}
     >
       <Image
@@ -32,11 +32,11 @@ const Card = memo(
       />
       <div
         className={cn(
-          "font-[family-name:var(--font-khand)] absolute inset-0 bg-black/50 flex items-end py-8 px-4 transition-opacity duration-300",
+          "font-(family-name:--font-khand) absolute inset-0 bg-black/50 flex items-end py-8 px-4 transition-opacity duration-300",
           hovered === index ? "opacity-100" : "opacity-0"
         )}
       >
-        <div className="bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-200">
+        <div className="bg-clip-text text-transparent bg-linear-to-b from-neutral-50 to-neutral-200">
           <h4 className="text-3xl md:text-2xl font-medium">{card.title}</h4>
           <p className="text-xl">{card.description}</p>
         </div>

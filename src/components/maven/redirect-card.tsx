@@ -52,10 +52,10 @@ export const RedirectCard: FC<RedirectCardProps> = ({
           </div>
           <div className="flex flex-col items-center justify-center space-y-6">
             <div className="text-center">
-              <h3 className="py-[40px] font-[family-name:var(--font-array)] text-4xl font-semibold tracking-wider text-black/90 dark:text-white/90">
+              <h3 className="py-[40px] font-(family-name:--font-array) text-4xl font-semibold tracking-wider text-black/90 dark:text-white/90">
                 {message}
               </h3>
-              <p className="text-xl mt-1 font-[family-name:var(--font-khand)]">
+              <p className="text-xl mt-1 font-(family-name:--font-khand)">
                 Redirecting in{" "}
                 {Math.ceil(
                   (redirectDelay - (progress / 100) * redirectDelay) / 1000

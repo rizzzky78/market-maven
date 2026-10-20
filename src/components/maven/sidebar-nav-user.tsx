@@ -50,7 +50,7 @@ export const NavUser: FC = () => {
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-t-3xl rounded-b-[1.2rem]"
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-t-3xl rounded-b-[1.2rem]"
             side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}

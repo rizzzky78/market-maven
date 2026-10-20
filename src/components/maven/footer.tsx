@@ -20,7 +20,7 @@ export const Footer: FC = () => {
   // Define base and selected classes for the buttons
   const baseClass =
     "font-thin inline-flex items-center justify-center rounded-2xl px-2.5 py-1.5 text-xs transition-all hover:bg-muted hover:text-foreground";
-  const selectedClass = "bg-secondary text-secondary-foreground shadow-sm";
+  const selectedClass = "bg-secondary text-secondary-foreground shadow-xs";
 
   return (
     <footer className="border-t border-border/40 py-12 px-4 md:px-12">
@@ -29,20 +29,20 @@ export const Footer: FC = () => {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <Hexagon className="h-6 w-6 text-purple-500" />
-              <span className="text-3xl font-bold tracking-wider font-[family-name:var(--font-array)] uppercase">
+              <span className="text-3xl font-bold tracking-wider font-(family-name:--font-array) uppercase">
                 Maven AI
               </span>
             </div>
-            <p className="text-black/90 dark:text-white/90 font-[family-name:var(--font-khand)]">
+            <p className="text-black/90 dark:text-white/90 font-(family-name:--font-khand)">
               Your AI-powered product assistant for smarter decisions.
             </p>
           </div>
           <div className="bg-[#1A1A1D] text-white pt-2 pb-4 px-4 h-fit w-fit">
-            <h3 className="font-[family-name:var(--font-array)]">
+            <h3 className="font-(family-name:--font-array)">
               Application
             </h3>
             <Separator className="my-2 bg-purple-500" />
-            <ul className="space-y-2 lg:space-y-1 *:text-sm font-[family-name:var(--font-khand)] lg:*:text-lg">
+            <ul className="space-y-2 lg:space-y-1 *:text-sm font-(family-name:--font-khand) lg:*:text-lg">
               <li>
                 <Link
                   href="/features"
@@ -82,9 +82,9 @@ export const Footer: FC = () => {
             </ul>
           </div>
           <div className="bg-[#1A1A1D] text-white pt-2 pb-4 px-4 h-fit w-fit">
-            <h3 className="font-[family-name:var(--font-array)]">Legal</h3>
+            <h3 className="font-(family-name:--font-array)">Legal</h3>
             <Separator className="my-2 bg-purple-500" />
-            <ul className="space-y-2 lg:space-y-1 *:text-sm lg:*:text-lg font-[family-name:var(--font-khand)]">
+            <ul className="space-y-2 lg:space-y-1 *:text-sm lg:*:text-lg font-(family-name:--font-khand)">
               <li>
                 <Link
                   href="/privacy-policy"
@@ -107,11 +107,11 @@ export const Footer: FC = () => {
           </div>
 
           <div className="bg-[#1A1A1D] text-white pt-2 pb-4 px-4 h-fit w-fit">
-            <h3 className="font-[family-name:var(--font-array)]">
+            <h3 className="font-(family-name:--font-array)">
               Dev Contacts
             </h3>
             <Separator className="my-2 bg-purple-500" />
-            <ul className="space-y-2 *:text-sm lg:space-y-1 lg:*:text-lg font-[family-name:var(--font-khand)]">
+            <ul className="space-y-2 *:text-sm lg:space-y-1 lg:*:text-lg font-(family-name:--font-khand)">
               <li>
                 <Link
                   href="https://www.linkedin.com/in/rizky-agung-prasetyo-544a95251"
@@ -204,7 +204,7 @@ export const Footer: FC = () => {
           </div>
 
           <div>
-            <div className="*:text-sm lg:*:text-lg font-[family-name:var(--font-khand)] inline-flex space-x-1 h-10 items-center justify-center rounded-3xl border border-input bg-background px-1 text-muted-foreground shadow-sm">
+            <div className="*:text-sm lg:*:text-lg font-(family-name:--font-khand) inline-flex space-x-1 h-10 items-center justify-center rounded-3xl border border-input bg-background px-1 text-muted-foreground shadow-xs">
               <Button
                 variant={"ghost"}
                 size={"sm"}
@@ -247,7 +247,7 @@ export const Footer: FC = () => {
             </div>
           </div>
         </div>
-        <div className="font-[family-name:var(--font-array)] mt-12 pt-8 border-purple-500 border-t border-border/40 text-center text-muted-foreground">
+        <div className="font-(family-name:--font-array) mt-12 pt-8 border-purple-500 border-t border-border/40 text-center text-muted-foreground">
           <p className="text-lg text-black/90 dark:text-white/80">
             © 2025 MAVEN AI. Made with ❤ by{" "}
             <Link

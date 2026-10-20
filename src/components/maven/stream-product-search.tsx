@@ -108,7 +108,7 @@ export const StreamProductSearch: FC<StreamProps> = ({
           </p>
         </div>
       </div>
-      <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-[2rem] px-4 py-2">
+      <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-4xl px-4 py-2">
         {screenshot && (
           <div className="my-1 pt-1">
             <motion.div

@@ -31,7 +31,7 @@ export const AssistantMessage: FC<MessageProps> = ({ content }) => {
   return (
     <div className="w-full">
       <div className="flex justify-start mb-5">
-        <div className="w-full py-3 px-5 rounded-[2rem]">
+        <div className="w-full py-3 px-5 rounded-4xl">
           <div className="group relative">
             <Markdown className="selection:bg-purple-200 selection:text-black">
               {content}
@@ -101,7 +101,7 @@ export const StreamAssistantMessage: FC<StreamMessageProps> = ({ content }) => {
 
   return (
     <div className="flex justify-start mb-4 py-5">
-      <div className="w-full py-3 px-5 rounded-[2rem]">
+      <div className="w-full py-3 px-5 rounded-4xl">
         <div className="group relative">
           <Markdown className="selection:bg-purple-200 selection:text-black">
             {contentText}

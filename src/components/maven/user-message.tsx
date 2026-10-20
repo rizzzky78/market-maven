@@ -16,7 +16,7 @@ export const UserMessage: FC<MessageProps> = ({ content }) => {
         <div className="flex justify-end">
           <Badge
             variant={"secondary"}
-            className="px-5 py-2 flex max-w-[90%] space-x-2 items-center hover:bg-gray-300 bg-gray-300 dark:bg-white dark:text-black rounded-[2rem]"
+            className="px-5 py-2 flex max-w-[90%] space-x-2 items-center hover:bg-gray-300 bg-gray-300 dark:bg-white dark:text-black rounded-4xl"
           >
             <ArrowUpRight className="size-5 text-purple-400" />
             <p className="font-normal text-xs line-clamp-1">
@@ -33,7 +33,7 @@ export const UserMessage: FC<MessageProps> = ({ content }) => {
                 <Badge
                   key={index}
                   variant={"secondary"}
-                  className="text-xs flex items-center font-normal py-2 hover:bg-gray-300 bg-gray-300 dark:bg-white dark:text-black rounded-[2rem]"
+                  className="text-xs flex items-center font-normal py-2 hover:bg-gray-300 bg-gray-300 dark:bg-white dark:text-black rounded-4xl"
                 >
                   <ArrowUpRight className="size-4 mr-1 shrink-0 text-purple-500" />
                   <p className="line-clamp-1">{compare.title}</p>
@@ -50,7 +50,7 @@ export const UserMessage: FC<MessageProps> = ({ content }) => {
       )}
       {content.text_input && (
         <div className="flex justify-end">
-          <div className="bg-[#343131] w-fit max-w-[90%] py-3 px-5 rounded-t-[2rem] rounded-bl-[2rem] rounded-br-lg">
+          <div className="bg-[#343131] w-fit max-w-[90%] py-3 px-5 rounded-t-4xl rounded-bl-4xl rounded-br-lg">
             <div className="group relative">
               <Markdown className="whitespace-pre-wrap text-white">
                 {content.text_input}

@@ -334,7 +334,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
 
   return (
     <div
-      className="w-full *:font-[family-name:var(--font-satoshi)] z-[50]"
+      className="w-full *:font-(family-name:--font-satoshi) z-50"
       data-testid="chat-panel"
     >
       <div className={`w-full flex justify-center bg-background`}>
@@ -385,7 +385,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                           "rounded-full",
                           search
                             ? " bg-purple-500/60 border-none hover:bg-white/10 *:text-white"
-                            : "bg-[#1A1A1D]/90 border-white/10 *:hover:text-purple-500 hover:bg-transparent text-white/90"
+                            : "bg-[#1A1A1D]/90 border-white/10 hover:*:text-purple-500 hover:bg-transparent text-white/90"
                         )}
                         disabled={isGenerating}
                         onClick={() => setSearch(!search)}
@@ -420,7 +420,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                           "rounded-full",
                           related
                             ? " bg-purple-500/60 border-none hover:bg-white/10 *:text-white"
-                            : "bg-[#1A1A1D]/90 border-white/10 *:hover:text-purple-500 hover:bg-transparent text-white/90"
+                            : "bg-[#1A1A1D]/90 border-white/10 hover:*:text-purple-500 hover:bg-transparent text-white/90"
                         )}
                         disabled={isGenerating}
                         onClick={() => setRelated(!related)}
@@ -455,7 +455,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                     <Tooltip delayDuration={100}>
                       <TooltipTrigger asChild>
                         <SelectTrigger
-                          className="border border-white/10 bg-transparent text-white shadow-sm rounded-full text-xs space-x-2 *:hover:text-purple-500"
+                          className="border border-white/10 bg-transparent text-white shadow-xs rounded-full text-xs space-x-2 hover:*:text-purple-500"
                           data-testid="source-select"
                         >
                           <SelectValue
@@ -509,7 +509,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
                       <SelectItem
                         key={option.title}
                         value={option.title.toLowerCase()}
-                        className="rounded-full *:hover:text-purple-500"
+                        className="rounded-full hover:*:text-purple-500"
                       >
                         <div className="flex items-center space-x-2">
                           <TextSearch className="size-4 shrink-0" />

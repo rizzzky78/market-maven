@@ -21,7 +21,7 @@ export const UserInquiryResponse: FC<InquiryProps> = ({ inquiryResponse }) => {
           </div>
         </div>
       </div>
-      <Card className="max-w-2xl w-full rounded-[2rem] bg-gray-400/50 dark:bg-[#1A1A1D]/20">
+      <Card className="max-w-2xl w-full rounded-4xl bg-gray-400/50 dark:bg-[#1A1A1D]/20">
         <CardContent className="pt-7">
           {skipped ? (
             <div className="w-36 flex justify-center">

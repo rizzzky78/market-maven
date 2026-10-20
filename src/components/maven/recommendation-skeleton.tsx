@@ -4,7 +4,7 @@ import { FC } from "react";
 
 export const RecommendationSkeleton: FC = () => {
   return (
-    <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-[2rem] py-1">
+    <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-4xl py-1">
       <div className="absolute ml-5 -mt-4">
         <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center">
           <RotateCwSquare className="size-4 mr-1 text-purple-400" />

@@ -25,11 +25,11 @@ import Link from "next/link";
 export function LandingPage() {
   return (
     <ReactLenis root>
-      <div className="min-h-screen bg-gradient-to-b from-background to-background/80 font-sans">
+      <div className="min-h-screen bg-linear-to-b from-background to-background/80 font-sans">
         {/* Header */}
         <NavigationBar />
 
-        <div className="sticky top-[70px] w-full flex justify-center z-[99999]">
+        <div className="sticky top-[70px] w-full flex justify-center z-99999">
           <Link
             href={"https://maven-ai-webpage.vercel.app/"}
             target="_blank"
@@ -59,17 +59,17 @@ export function LandingPage() {
             transition={{ duration: 0.5 }}
             className="text-center mb-16"
           >
-            <h2 className="font-[family-name:var(--font-array)] text-3xl md:text-4xl font-semibold tracking-wider mb-4">
+            <h2 className="font-(family-name:--font-array) text-3xl md:text-4xl font-semibold tracking-wider mb-4">
               <span className="mr-1 text-purple-500">How Maven Works:</span>{" "}
               Your Journey to Informed Choices
             </h2>
-            <p className="font-[family-name:var(--font-khand)] text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="font-(family-name:--font-khand) text-xl text-muted-foreground max-w-2xl mx-auto">
               Maven&apos;s intelligent workflow makes product research simple
               and effective.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative font-[family-name:var(--font-khand)]">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative font-(family-name:--font-khand)">
             {[
               {
                 icon: <MessageSquare className="h-10 w-10" />,
@@ -124,8 +124,8 @@ export function LandingPage() {
 
         <section className="mt-[16vh] lg:mt-0">
           <div className="flex items-center justify-center">
-            <h2 className="text-5xl lg:text-6xl font-semibold mb-10 font-[family-name:var(--font-array)] tracking-wider">
-              <span className="text-purple-500 font-[family-name:var(--font-array)]">
+            <h2 className="text-5xl lg:text-6xl font-semibold mb-10 font-(family-name:--font-array) tracking-wider">
+              <span className="text-purple-500 font-(family-name:--font-array)">
                 Agentic
               </span>{" "}
               Tools
@@ -149,13 +149,13 @@ export function LandingPage() {
             transition={{ duration: 0.5 }}
             className="text-center mb-16"
           >
-            <h2 className="font-[family-name:var(--font-khand)] text-3xl md:text-5xl font-semibold tracking-wider mb-4">
-              <span className="font-[family-name:var(--font-array)] text-purple-500">
+            <h2 className="font-(family-name:--font-khand) text-3xl md:text-5xl font-semibold tracking-wider mb-4">
+              <span className="font-(family-name:--font-array) text-purple-500">
                 Why Choose Maven?
               </span>{" "}
               Make Smarter Decisions, Faster.
             </h2>
-            <p className="font-[family-name:var(--font-khand)] text-lg lg:text-2xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="font-(family-name:--font-khand) text-lg lg:text-2xl text-muted-foreground max-w-2xl mx-auto">
               Maven transforms how you research and choose products.
             </p>
           </motion.div>
@@ -166,7 +166,7 @@ export function LandingPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="relative h-[500px] lg:h-[700px] w-full rounded-[2rem] overflow-hidden"
+              className="relative h-[500px] lg:h-[700px] w-full rounded-4xl overflow-hidden"
             >
               <Image
                 src={`/tmp-foot.jpg`}
@@ -215,9 +215,9 @@ export function LandingPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
-                    className="flex gap-4 font-[family-name:var(--font-khand)]"
+                    className="flex gap-4 font-(family-name:--font-khand)"
                   >
-                    <div className="h-10 w-10 flex-shrink-0 flex items-center justify-center text-purple-400">
+                    <div className="h-10 w-10 shrink-0 flex items-center justify-center text-purple-400">
                       {benefit.icon}
                     </div>
                     <div>
@@ -238,7 +238,7 @@ export function LandingPage() {
         {/* Testimonials Section */}
         <section
           id="testimonials"
-          className="container mx-auto my-[20vh] py-20 px-4 md:px-6 bg-muted/50 rounded-[2rem]"
+          className="container mx-auto my-[20vh] py-20 px-4 md:px-6 bg-muted/50 rounded-4xl"
         >
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -247,10 +247,10 @@ export function LandingPage() {
             transition={{ duration: 0.5 }}
             className="text-center mb-16"
           >
-            <h2 className="font-[family-name:var(--font-array)] text-3xl md:text-5xl font-semibold tracking-wider mb-4">
+            <h2 className="font-(family-name:--font-array) text-3xl md:text-5xl font-semibold tracking-wider mb-4">
               What Users Are Saying
             </h2>
-            <p className="font-[family-name:var(--font-khand)] text-lg lg:text-2xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="font-(family-name:--font-khand) text-lg lg:text-2xl text-muted-foreground max-w-2xl mx-auto">
               Discover how Maven is transforming product research for users
               worldwide.
             </p>
@@ -285,7 +285,7 @@ export function LandingPage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
               >
-                <Card className="font-[family-name:var(--font-khand)] h-full rounded-3xl border-border/50 bg-background/80 backdrop-blur-sm">
+                <Card className="font-(family-name:--font-khand) h-full rounded-3xl border-border/50 bg-background/80 backdrop-blur-xs">
                   <CardContent className="p-6 flex flex-col h-full">
                     <div className="mb-4 text-primary">
                       {Array.from({ length: 5 }).map((_, i) => (
@@ -297,7 +297,7 @@ export function LandingPage() {
                         </span>
                       ))}
                     </div>
-                    <p className="text-lg mb-6 flex-grow text-black/90 dark:text-white/90">
+                    <p className="text-lg mb-6 grow text-black/90 dark:text-white/90">
                       &quot;{testimonial.quote}&quot;
                     </p>
                     <div className="flex items-center gap-3">
@@ -327,12 +327,12 @@ export function LandingPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="rounded-[2rem] bg-gradient-to-r from-white/30 via-purple-500/40 to-white/30 p-8 md:p-12 text-center"
+            className="rounded-4xl bg-linear-to-r from-white/30 via-purple-500/40 to-white/30 p-8 md:p-12 text-center"
           >
-            <h2 className="font-[family-name:var(--font-array)] text-3xl md:text-5xl font-semibold tracking-wide mb-4">
+            <h2 className="font-(family-name:--font-array) text-3xl md:text-5xl font-semibold tracking-wide mb-4">
               Ready to Transform Your Product Research?
             </h2>
-            <p className="font-[family-name:var(--font-khand)] text-lg lg:text-2xl text-black/90 dark:text-white/90 max-w-2xl mx-auto my-8">
+            <p className="font-(family-name:--font-khand) text-lg lg:text-2xl text-black/90 dark:text-white/90 max-w-2xl mx-auto my-8">
               Join thousands of users who are making smarter product decisions
               with Maven.
             </p>
@@ -340,7 +340,7 @@ export function LandingPage() {
               <MagneticWrapper>
                 <Button
                   size="lg"
-                  className="font-[family-name:var(--font-array)] font-medium text-2xl p-[30px] rounded-full hover:bg-purple-500 hover:text-white/90"
+                  className="font-(family-name:--font-array) font-medium text-2xl p-[30px] rounded-full hover:bg-purple-500 hover:text-white/90"
                 >
                   <Link href={"/register"}>
                     <div className="flex items-center justify-center">

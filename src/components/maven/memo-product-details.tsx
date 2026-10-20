@@ -111,7 +111,7 @@ const PureProductDetails: FC<ProductDetailsProps> = ({
       key={componentId}
     >
       <div className="flex justify-center">
-        <div className="flex items-center justify-between bg-[#1A1A1D] text-white dark:bg-white dark:text-black py-1 px-1 w-full rounded-[2rem]">
+        <div className="flex items-center justify-between bg-[#1A1A1D] text-white dark:bg-white dark:text-black py-1 px-1 w-full rounded-4xl">
           <div className="flex items-center mx-3">
             <FlaskConical
               className={`size-6 text-purple-400 mr-2 shrink-0 ${
@@ -160,7 +160,7 @@ const PureProductDetails: FC<ProductDetailsProps> = ({
                   variants={itemVariants}
                   className="border-t pt-1 first:border-t-0 first:pt-0"
                 >
-                  <div className="rounded-[2rem] w-fit bg-purple-400 dark:bg-[#FBF5E5] py-1 pl-4 pr-20 mt-6 mb-2">
+                  <div className="rounded-4xl w-fit bg-purple-400 dark:bg-[#FBF5E5] py-1 pl-4 pr-20 mt-6 mb-2">
                     <div className="flex items-center space-x-2 text-black">
                       <p className="font-semibold text-sm">Product:</p>
                     </div>

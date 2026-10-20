@@ -111,7 +111,7 @@ export function WorkflowContent() {
   };
 
   return (
-    <div className="flex justify-center px-2 font-[family-name:var(--font-khand)]">
+    <div className="flex justify-center px-2 font-(family-name:--font-khand)">
       <div className="w-full max-w-5xl">
         <div className="space-y-12">
           <AnimatedSection>
@@ -348,6 +348,7 @@ export function WorkflowContent() {
                     </Card>
 
                     <CodeBlock
+                      className="mb-0"
                       language="typescript"
                       code={codebase.availableTool}
                       title="Available Tools"
@@ -845,6 +846,7 @@ export function WorkflowContent() {
                     </Card>
 
                     <CodeBlock
+                      className="mb-0"
                       language="typescript"
                       code={codebase.mutationPayload}
                       title="MutationPayload Type Definition"
@@ -913,6 +915,7 @@ export function WorkflowContent() {
                     </Card>
 
                     <CodeBlock
+                      className="mb-0"
                       language="typescript"
                       code={codebase.uiState}
                       title="UIState Type Definition"

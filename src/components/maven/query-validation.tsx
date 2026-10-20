@@ -376,7 +376,7 @@ export const QueryValidation: FC<QueryValidationProps> = ({ data, usage }) => {
                                 stiffness: 200,
                               }}
                             >
-                              <AlertCircle className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />
+                              <AlertCircle className="h-4 w-4 text-red-500 mt-0.5 shrink-0" />
                             </motion.div>
                             <div className="space-y-1">
                               <p className="text-xs font-medium text-red-700">

@@ -20,16 +20,16 @@ export function ContentRegister() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="text-center mb-8 py-32">
-        <h1 className="text-6xl lg:text-7xl font-bold tracking-wider mb-2 font-[family-name:var(--font-array)]">
+        <h1 className="text-6xl lg:text-7xl font-bold tracking-wider mb-2 font-(family-name:--font-array)">
           Register to <span className="text-purple-500 uppercase">Maven</span>{" "}
           AI
         </h1>
-        <p className="pt-4 text-lg text-muted-foreground max-w-2xl mx-auto font-[family-name:var(--font-khand)]">
+        <p className="pt-4 text-lg text-muted-foreground max-w-2xl mx-auto font-(family-name:--font-khand)">
           A demonstration AI assistant showcasing product research with ease
         </p>
       </div>
 
-      <Card className="bg-background mb-8 rounded-3xl *:font-[family-name:var(--font-khand)]">
+      <Card className="bg-background mb-8 rounded-3xl *:font-(family-name:--font-khand)">
         <CardHeader className="">
           <CardTitle className="flex items-center gap-2">
             <AlertCircle className="h-5 w-5 text-purple-500" />
@@ -72,7 +72,7 @@ export function ContentRegister() {
         </CardContent>
       </Card>
 
-      <div className="mt-[60px] font-[family-name:var(--font-khand)] bg-purple-500/5 rounded-3xl p-6 border border-purple-500/20">
+      <div className="mt-[60px] font-(family-name:--font-khand) bg-purple-500/5 rounded-3xl p-6 border border-purple-500/20">
         <h2 className="text-2xl font-semibold mb-4">What to Expect</h2>
         <ul className="space-y-2 mb-6 *:text-md">
           <li className="flex items-start gap-2 text-md">
@@ -103,7 +103,7 @@ export function ContentRegister() {
           </li>
         </ul>
       </div>
-      <div className="font-[family-name:var(--font-khand)] pt-[50px] pb-[200px] flex flex-col sm:flex-row lg:justify-between gap-4 justify-center mt-8">
+      <div className="font-(family-name:--font-khand) pt-[50px] pb-[200px] flex flex-col sm:flex-row lg:justify-between gap-4 justify-center mt-8">
         <Button className="p-[30px] text-2xl rounded-full text-white bg-purple-500 hover:bg-purple-600">
           <Link href={"/login"}>Continue to Registration</Link>
         </Button>

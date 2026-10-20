@@ -173,7 +173,7 @@ export const PublicReviews: FC = () => {
   return (
     <div
       id="ratings-gallery"
-      className="px-4 lg:px-0 max-w-5xl pt-[16vh] lg:pt-8 font-[family-name:var(--font-khand)]"
+      className="px-4 lg:px-0 max-w-5xl pt-[16vh] lg:pt-8 font-(family-name:--font-khand)"
     >
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-4xl font-bold text-purple-500">
@@ -315,7 +315,7 @@ function RatingCard({ rating, index }: { rating: Rating; index: number }) {
       className="h-full"
     >
       <Card className="h-full w-full flex flex-col bg-background rounded-3xl">
-        <CardContent className="pt-6 flex-grow -mb-2">
+        <CardContent className="pt-6 grow -mb-2">
           <div className="flex items-center gap-3 mb-2">
             <Avatar>
               <AvatarImage

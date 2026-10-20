@@ -58,7 +58,7 @@ export function Cookbook() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="bg-background font-[family-name:var(--font-khand)]">
+    <div className="bg-background font-(family-name:--font-khand)">
       <div className="container mx-auto px-0 md:px-16">
         <div className="flex flex-col md:flex-row">
           <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
@@ -206,7 +206,7 @@ function Sidebar({
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 md:hidden"
+          className="fixed inset-0 bg-background/80 backdrop-blur-xs z-40 md:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
@@ -269,7 +269,7 @@ function Sidebar({
         </div>
         <nav className="space-y-1">
           {navItems.map((item) => (
-            <div key={item.id} className="mb-2">
+            <div key={item.id} className="first:mb-2">
               <button
                 onClick={() => scrollToSection(item.id)}
                 className={`
@@ -469,7 +469,7 @@ function CoreConcepts() {
           <motion.div
             key={index}
             id={concept.id}
-            className="rounded-3xl shadow-sm border p-6"
+            className="rounded-3xl shadow-xs border p-6"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -1231,14 +1231,14 @@ function TipsAndTricks() {
         {tips.map((tip, index) => (
           <motion.div
             key={index}
-            className="rounded-3xl p-4 border shadow-sm"
+            className="rounded-3xl p-4 border shadow-xs"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.05 }}
           >
             <div className="flex gap-3">
-              <div className="flex-shrink-0 mt-1">
+              <div className="shrink-0 mt-1">
                 <div className="bg-primary/10 w-6 h-6 rounded-full flex items-center justify-center text-primary">
                   <ArrowUpRight className="h-4 w-4 text-purple-500" />
                 </div>

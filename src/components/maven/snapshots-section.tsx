@@ -78,7 +78,7 @@ export const SnapshotsSection: FC = () => {
           initial={{ opacity: 0, y: -20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
           transition={{ duration: 0.6 }}
-          className="flex justify-center mb-6 lg:mb-0"
+          className="flex justify-center mb-10 lg:mb-24"
         >
           <h2 className="text-4xl font-semibold text-purple-500">Snapshots</h2>
         </motion.div>

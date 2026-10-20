@@ -43,7 +43,7 @@ const Section: FC<SectionProps> = ({
             viewport={{ once: true }}
             className="relative size-[80vw] xl:size-[70vh]"
           >
-            <svg className="clipppy absolute -top-[999px] -left-[999px] w-0 h-0">
+            <svg className="clipppy absolute top-[-999px] left-[-999px] w-0 h-0">
               <defs>
                 <clipPath id={clipPathId} clipPathUnits="objectBoundingBox">
                   <path
@@ -61,7 +61,7 @@ const Section: FC<SectionProps> = ({
                 alt="image-inset-clip-path"
                 width={600}
                 height={600}
-                className="transition-all duration-300 aspect-[4/5] min-h-full align-bottom object-cover hover:scale-110 w-full"
+                className="transition-all duration-300 aspect-4/5 min-h-full align-bottom object-cover hover:scale-110 w-full"
               />
             </figure>
           </motion.div>

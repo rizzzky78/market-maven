@@ -4,9 +4,9 @@ export function ProductCardSkeleton() {
   return (
     <div className="max-w-[250px] w-full mx-auto">
       <Card
-        className={`overflow-hidden border-[2px] border-[#3C3D37] bg-[#3C3D37] text-green-50 h-full flex flex-col rounded-3xl`}
+        className={`overflow-hidden border-2 border-[#3C3D37] bg-[#3C3D37] text-green-50 h-full flex flex-col rounded-3xl`}
       >
-        <CardContent className="p-0 flex-grow relative">
+        <CardContent className="p-0 grow relative">
           <div className="w-full h-40 bg-gray-700 animate-pulse" />
           <div className="absolute top-2 right-2 bg-gray-600 animate-pulse p-1 rounded-lg">
             <div className="w-5 h-5 bg-gray-600 rounded-full" />

@@ -153,7 +153,7 @@ function NavigationBody({
             href={href}
             target={title === "Devs_Portfolio" ? "_blank" : undefined}
             rel={title === "Devs_Portfolio" ? "noopener noreferrer" : undefined}
-            className="font-[family-name:var(--font-array)] hover:text-purple-500 transition-colors duration-500"
+            className="font-(family-name:--font-array) hover:text-purple-500 transition-colors duration-500"
           >
             <motion.p
               onMouseOver={() => setSelectedLink({ isActive: true, index })}
@@ -212,7 +212,7 @@ function NavigationFooter() {
             initial="initial"
             animate="enter"
             exit="exit"
-            className="font-[family-name:var(--font-khand)] text-lg"
+            className="font-(family-name:--font-khand) text-lg"
           >
             <span>{item.label}</span>
             {item.value}
@@ -229,7 +229,7 @@ function NavigationFooter() {
         >
           <Link
             href="/login"
-            className="text-purple-500 text-lg font-[family-name:var(--font-khand)]"
+            className="text-purple-500 text-lg font-(family-name:--font-khand)"
           >
             Go to Login
           </Link>
@@ -243,7 +243,7 @@ function NavigationFooter() {
         >
           <Link
             href="/privacy-policy"
-            className="text-purple-500 text-lg font-[family-name:var(--font-khand)]"
+            className="text-purple-500 text-lg font-(family-name:--font-khand)"
           >
             Privacy Policy
           </Link>
@@ -257,7 +257,7 @@ function NavigationFooter() {
         >
           <Link
             href="/terms-of-service"
-            className="text-purple-500 text-lg font-[family-name:var(--font-khand)]"
+            className="text-purple-500 text-lg font-(family-name:--font-khand)"
           >
             Terms & Conditions
           </Link>
@@ -365,7 +365,7 @@ export function NavigationBar() {
                 </defs>
               </svg>
             </div>
-            <p className="font-[family-name:var(--font-array)] text-xl font-semibold tracking-wider">
+            <p className="font-(family-name:--font-array) text-xl font-semibold tracking-wider">
               MAVEN <span className="text-purple-500">AI</span>
             </p>
           </div>
@@ -380,14 +380,14 @@ export function NavigationBar() {
             <motion.p
               variants={animations.opacity}
               animate={!isActive ? "open" : "closed"}
-              className="text-lg font-[family-name:var(--font-array)]"
+              className="text-lg font-(family-name:--font-array)"
             >
               Menu
             </motion.p>
             <motion.p
               variants={animations.opacity}
               animate={isActive ? "open" : "closed"}
-              className="text-lg font-[family-name:var(--font-array)]"
+              className="text-lg font-(family-name:--font-array)"
             >
               Close
             </motion.p>

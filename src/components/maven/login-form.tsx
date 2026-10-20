@@ -30,7 +30,7 @@ export const LoginForm: FC = () => {
         position: "top-center",
         richColors: true,
         className:
-          "font-[family-name:var(--font-array)] text-lg flex justify-center rounded-full border-none text-red-300 dark:text-red-500 bg-[#1A1A1D] dark:bg-white",
+          "font-(family-name:--font-array) text-lg flex justify-center rounded-full border-none text-red-300 dark:text-red-500 bg-[#1A1A1D] dark:bg-white",
       });
       setIsLoading(false);
       return;
@@ -56,7 +56,7 @@ export const LoginForm: FC = () => {
       animate="visible"
       variants={cardVariants}
     >
-      <Card className="bg-[#D8D2C2] dark:bg-black rounded-[2rem] w-full border-none lg:pl-6">
+      <Card className="bg-[#D8D2C2] dark:bg-black rounded-4xl w-full border-none lg:pl-6">
         <CardContent className="grid p-0 md:grid-cols-2">
           <div className="p-6 md:p-8">
             <div className="flex flex-col gap-6">
@@ -66,10 +66,10 @@ export const LoginForm: FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                <h1 className="font-[family-name:var(--font-array)] text-3xl tracking-wider font-semibold text-black dark:text-white">
+                <h1 className="font-(family-name:--font-array) text-3xl tracking-wider font-semibold text-black dark:text-white">
                   Login to <span className="text-purple-500">MAVEN AI</span>
                 </h1>
-                <p className="font-[family-name:var(--font-khand)] text-balance text-lg text-muted-foreground mt-2">
+                <p className="font-(family-name:--font-khand) text-balance text-lg text-muted-foreground mt-2">
                   Login to your account using your preferred method with
                   <Link
                     href={"https://oauth.net/2/"}
@@ -81,7 +81,7 @@ export const LoginForm: FC = () => {
                   </Link>
                 </p>
               </motion.div>
-              <div className="grid gap-4 font-[family-name:var(--font-khand)]">
+              <div className="grid gap-4 font-(family-name:--font-khand)">
                 {authProvider.map((provider, index) => (
                   <motion.div
                     key={provider.id}
@@ -106,7 +106,7 @@ export const LoginForm: FC = () => {
                   </motion.div>
                 ))}
                 <motion.div
-                  className="flex flex-col *:text-xs w-full pt-5 font-[family-name:var(--font-khand)]"
+                  className="flex flex-col *:text-xs w-full pt-5 font-(family-name:--font-khand)"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.8 }}
@@ -128,7 +128,7 @@ export const LoginForm: FC = () => {
                     </label>
                   </div>
                   <div className="pl-5 w-full">
-                    <p className="text-sm text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
+                    <p className="text-sm text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary">
                       By clicking continue, you agree to our{" "}
                       <Link href="/terms-of-service">Terms of Service</Link> and{" "}
                       <Link href="/privacy-policy">Privacy Policy</Link>.

@@ -119,7 +119,7 @@ interface RootObject {
 
 // Component for displaying Web Payload data
 const WebPayloadDisplay: React.FC<{ data?: WebPayload }> = ({ data }) => (
-  <div className="p-2 bg-gray-50 rounded-md shadow-sm">
+  <div className="p-2 bg-gray-50 rounded-md shadow-xs">
     <h3 className="text-base font-semibold text-gray-800 mb-2">Web Results</h3>
     {data?.searchParameters?.q && (
       <p className="text-xs text-gray-600 mb-2">
@@ -135,7 +135,7 @@ const WebPayloadDisplay: React.FC<{ data?: WebPayload }> = ({ data }) => (
           {data.organic.map((item, index) => (
             <div
               key={index}
-              className="p-2 bg-white rounded-sm shadow-sm border border-gray-200"
+              className="p-2 bg-white rounded-sm shadow-xs border border-gray-200"
             >
               {item.link && item.title && (
                 <a
@@ -177,7 +177,7 @@ const WebPayloadDisplay: React.FC<{ data?: WebPayload }> = ({ data }) => (
           {data.peopleAlsoAsk.map((item, index) => (
             <div
               key={index}
-              className="p-2 bg-white rounded-sm shadow-sm border border-gray-200"
+              className="p-2 bg-white rounded-sm shadow-xs border border-gray-200"
             >
               {item.question && (
                 <p className="font-medium text-gray-800 text-sm">
@@ -230,7 +230,7 @@ const WebPayloadDisplay: React.FC<{ data?: WebPayload }> = ({ data }) => (
 const ShoppingPayloadDisplay: React.FC<{ data?: ShoppingPayload }> = ({
   data,
 }) => (
-  <div className="p-2 bg-gray-50 rounded-md shadow-sm">
+  <div className="p-2 bg-gray-50 rounded-md shadow-xs">
     <h3 className="text-base font-semibold text-gray-800 mb-2">
       Shopping Results
     </h3>
@@ -239,7 +239,7 @@ const ShoppingPayloadDisplay: React.FC<{ data?: ShoppingPayload }> = ({
         data.shopping.map((item, index) => (
           <div
             key={index}
-            className="p-2 bg-white rounded-sm shadow-sm border border-gray-200 flex flex-col items-center text-center"
+            className="p-2 bg-white rounded-sm shadow-xs border border-gray-200 flex flex-col items-center text-center"
           >
             {item.imageUrl && (
               <img
@@ -281,7 +281,7 @@ const ShoppingPayloadDisplay: React.FC<{ data?: ShoppingPayload }> = ({
 
 // Component for displaying Image Payload data
 const ImagePayloadDisplay: React.FC<{ data?: ImagePayload }> = ({ data }) => (
-  <div className="p-2 bg-gray-50 rounded-md shadow-sm">
+  <div className="p-2 bg-gray-50 rounded-md shadow-xs">
     <h3 className="text-base font-semibold text-gray-800 mb-2">
       Image Results
     </h3>
@@ -290,7 +290,7 @@ const ImagePayloadDisplay: React.FC<{ data?: ImagePayload }> = ({ data }) => (
         data.images.map((item, index) => (
           <div
             key={index}
-            className="p-1 bg-white rounded-sm shadow-sm border border-gray-200 flex flex-col items-center text-center"
+            className="p-1 bg-white rounded-sm shadow-xs border border-gray-200 flex flex-col items-center text-center"
           >
             {item.thumbnailUrl && (
               <img
@@ -320,7 +320,7 @@ const ImagePayloadDisplay: React.FC<{ data?: ImagePayload }> = ({ data }) => (
 
 // Component for displaying Video Payload data
 const VideoPayloadDisplay: React.FC<{ data?: VideoPayload }> = ({ data }) => (
-  <div className="p-2 bg-gray-50 rounded-md shadow-sm">
+  <div className="p-2 bg-gray-50 rounded-md shadow-xs">
     <h3 className="text-base font-semibold text-gray-800 mb-2">
       Video Results
     </h3>
@@ -329,7 +329,7 @@ const VideoPayloadDisplay: React.FC<{ data?: VideoPayload }> = ({ data }) => (
         data.videos.map((item, index) => (
           <div
             key={index}
-            className="p-2 bg-white rounded-sm shadow-sm border border-gray-200 flex flex-col"
+            className="p-2 bg-white rounded-sm shadow-xs border border-gray-200 flex flex-col"
           >
             {item.imageUrl && (
               <img

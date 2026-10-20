@@ -46,7 +46,7 @@ export const ExtendedMessage: FC<ExtendedMessageProps> = ({
                   animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="pr-2 *:leading-tight *:dark:text-white/80 *:text-black/80"
+                  className="pr-2 *:leading-tight dark:*:text-white/80 *:text-black/80"
                 >
                   <ScrollArea className="h-[220px] px-2">
                     <Markdown className="leading-tight">{content}</Markdown>
@@ -122,7 +122,7 @@ export const StreamExtendedMessage: FC<StreamExtendedMessageProps> = ({
                   animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="pr-2 *:leading-tight *:dark:text-white/80 *:text-black/80"
+                  className="pr-2 *:leading-tight dark:*:text-white/80 *:text-black/80"
                 >
                   <Separator className="mb-3" />
                   <ScrollArea className="h-[300px] px-2">

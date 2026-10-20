@@ -9,7 +9,7 @@ export const InsightProductCardSkeleton: FC<{
 }> = ({ type = "search" }) => {
   return (
     <div className="w-full">
-      <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-[2rem] px-4 py-2">
+      <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-4xl px-4 py-2">
         <div
           className={cn(
             "pt-4 md:pt-6 flex flex-col-reverse justify-between h-full",

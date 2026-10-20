@@ -197,7 +197,7 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
         </motion.div>
 
         <motion.div
-          className="w-full border-inherit border rounded-[2rem] px-4 py-2"
+          className="w-full border-inherit border rounded-4xl px-4 py-2"
           variants={headerVariants}
         >
           <div className="md:pt-6 flex space-y-6 md:space-y-0 flex-col-reverse md:flex-row justify-between lg:min-h-[360px] items-start">
@@ -218,7 +218,7 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
                   <Tooltip delayDuration={100}>
                     <TooltipTrigger asChild>
                       <Button
-                        className="relative h-12 md:h-10 w-fit overflow-hidden rounded-3xl px-14 md:px-10 font-bold bg-gray-300 text-black shadow-sm transition-all duration-300 hover:bg-blue-200 hover:text-indigo-900"
+                        className="relative h-12 md:h-10 w-fit overflow-hidden rounded-3xl px-14 md:px-10 font-bold bg-gray-300 text-black shadow-xs transition-all duration-300 hover:bg-blue-200 hover:text-indigo-900"
                         onClick={handleAttach}
                         disabled={isSharedContent ? true : isButtonDisabled}
                       >
@@ -227,7 +227,7 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
                           className="absolute inset-0 flex items-center justify-center"
                           aria-hidden="true"
                         >
-                          <div className="gradient-bg bg-gradient-to-r from-pink-600 via-purple-500 to-cyan-400 rounded-full w-40 h-40 blur-xl opacity-50 animate-spin-slow transition-all duration-300" />
+                          <div className="gradient-bg bg-linear-to-r from-pink-600 via-purple-500 to-cyan-400 rounded-full w-40 h-40 blur-xl opacity-50 animate-spin-slow transition-all duration-300" />
                         </div>
                       </Button>
                     </TooltipTrigger>
