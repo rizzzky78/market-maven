@@ -36,7 +36,6 @@ import { v4 } from "uuid";
 import {
   commitToolResult,
   createErrorState,
-  delay,
   finishGeneration,
   streamOutputToValue,
   streamRelatedQuery,
@@ -106,7 +105,6 @@ const toolProductComparison = ({
 
       yield <LoadingText text="Found previous products data" />;
 
-      await delay(3000);
 
       yield <LoadingText text="Generating comparison..." />;
 

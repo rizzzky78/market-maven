@@ -51,7 +51,6 @@ import { StreamProductSearch } from "@/components/maven/stream-product-search";
 import {
   commitToolResult,
   createErrorState,
-  delay,
   finishGeneration,
   streamOutputToValue,
   streamRelatedQuery,
@@ -82,7 +81,6 @@ const toolSearchProduct = ({
         loading: true,
       });
 
-      await delay(2000);
 
       yield <LoadingText text="Validating user query..." />;
 
@@ -391,7 +389,6 @@ const toolSearchProduct = ({
           />
         );
 
-        await delay(3000);
       }
 
       if (!scrapeContent.success) {

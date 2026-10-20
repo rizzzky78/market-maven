@@ -37,7 +37,6 @@ import { v4 } from "uuid";
 import {
   commitToolResult,
   createErrorState,
-  delay,
   finishGeneration,
   streamOutputToValue,
   streamRelatedQuery,
@@ -70,7 +69,6 @@ const toolRecommendator = ({
         loading: true,
       });
 
-      await delay(3000);
 
       const finalizedRecommendator: RecommendationResponse = {
         callId: toolRequestId,
@@ -84,7 +82,6 @@ const toolRecommendator = ({
 
       yield <RecommendationSkeleton />;
 
-      await delay(3000);
 
       const streamableRecommendation = createStreamableValue<
         DeepPartial<ProductsRecommendation>

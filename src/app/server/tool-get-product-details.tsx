@@ -52,7 +52,6 @@ import { v4 } from "uuid";
 import {
   commitToolResult,
   createErrorState,
-  delay,
   finishGeneration,
   streamOutputToValue,
   streamRelatedQuery,
@@ -89,7 +88,6 @@ const toolGetProductDetails = ({
         loading: true,
       });
 
-      await delay(3000);
 
       yield <LoadingText text={`Perform scrape operation...`} />;
 
@@ -220,7 +218,6 @@ const toolGetProductDetails = ({
             loading: true,
           });
 
-          await delay(3000);
 
           finalizedToolData.data.object.externalData.tavily =
             evidence.answer ||
@@ -528,7 +525,6 @@ const toolGetProductDetails = ({
           <LoadingText text={`The query is cached!. Proceed to data extraction`} />
         );
 
-        await delay(3000);
       }
 
       if (!scrapeContent.success) {

@@ -40,9 +40,6 @@ export const createErrorState = (): ErrorState => ({
   error: null,
 });
 
-export const delay = (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
-
 /** The part of a `createStreamableValue` handle the helpers write to. */
 type StreamableSink<T> = {
   update: (value: T) => unknown;
