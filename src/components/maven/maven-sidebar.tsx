@@ -19,6 +19,7 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -30,14 +31,14 @@ import { Separator } from "../ui/separator";
 import { ChatProperties, MessageProperty } from "@/lib/types/ai";
 import Link from "next/link";
 import { formatDateWithTime } from "@/lib/utils";
-import { ScrollArea } from "../ui/scroll-area";
 import { useTheme } from "next-themes";
 import { motion } from "motion/react";
 import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { useUIState, useAIState } from "@ai-sdk/rsc";
 import { useMavenStateController } from "../hooks/maven-state-controller";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 import { Driver, driver, Config } from "driver.js";
 import "driver.js/dist/driver.css";
 import { tourSteps } from "@/lib/agents/constant/driver-js-app-guide";
@@ -91,10 +92,8 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
     setMounted(true);
   }, []);
 
-  console.log(
-    "[DEBUG:CHAT]",
-    JSON.stringify([filteredChats[filteredChats.length - 1]], null, 2)
-  );
+  const pathname = usePathname();
+  const isActive = (chatId: string) => pathname === `/chat/c/${chatId}`;
 
   const startTour = () => {
     if (isTourActive) return;
@@ -139,7 +138,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
     >
       <Sidebar
         collapsible="none"
-        className="w-[calc(var(--sidebar-width-icon)+1px)]! border-r"
+        className="w-full! border-r md:w-[calc(var(--sidebar-width-icon)+1px)]!"
       >
         <SidebarHeader>
           <SidebarMenu>
@@ -274,7 +273,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                       children: "New Chat",
                       hidden: false,
                     }}
-                    className="hover:text-purple-500 px-2.5 md:px-2 rounded-full mb-3"
+                    className="px-2.5 md:px-2 rounded-full mb-3"
                     onClick={handleNewChat}
                     disabled={isGenerating}
                     data-testid="new-chat-button"
@@ -289,8 +288,10 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                       children: "History",
                       hidden: false,
                     }}
-                    className="hover:text-purple-500 px-2.5 md:px-2 rounded-full"
-                    onClick={() => toggleSidebar()}
+                    className="px-2.5 md:px-2 rounded-full"
+                    onClick={() =>
+                      isMobile ? router.push("/history") : toggleSidebar()
+                    }
                     data-testid="history-button"
                   >
                     <History />
@@ -300,36 +301,32 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
-          <SidebarGroup className="px-0 md:hidden">
-            <SidebarGroupContent className="px-2">
-              <ScrollArea className="h-[340px] pr-3">
-                {filteredChats.length === 0 ? (
-                  <div className="flex flex-col rounded-none items-start gap-2 whitespace-nowrap px-4 py-2 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
-                    <div className="w-[230px] flex items-center justify-center">
-                      <p className="truncate">No chat available</p>
-                    </div>
-                  </div>
-                ) : (
-                  filteredChats.map((chat, index) => (
-                    <Link
-                      // href={`/chat/c/${chat.chatId}`}
-                      href={`${typeof chat.chatId}`}
-                      key={index}
-                      className="flex flex-col rounded-none items-start gap-2 whitespace-nowrap px-4 py-2 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                    >
-                      <div className="w-[230px]">
-                        <p className="truncate">{typeof chat.title}</p>
-                      </div>
-                    </Link>
-                  ))
-                )}
-                {/* <pre>Disabled Temporary for Debugging</pre> */}
-                {/* <div>
-                  <pre className="text-[10px]">
-                    {JSON.stringify(filteredChats, null, 2)}
-                  </pre>
-                </div> */}
-              </ScrollArea>
+          <SidebarGroup className="min-h-0 flex-1 md:hidden">
+            <SidebarGroupLabel>Recent chats</SidebarGroupLabel>
+            <SidebarGroupContent>
+              {filteredChats.length === 0 ? (
+                <p className="px-2 py-3 text-sm text-muted-foreground">
+                  Your conversations will show up here.
+                </p>
+              ) : (
+                <SidebarMenu>
+                  {filteredChats.map((chat) => (
+                    <SidebarMenuItem key={chat.chatId}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={isActive(chat.chatId)}
+                      >
+                        <Link
+                          href={`/chat/c/${chat.chatId}`}
+                          onClick={() => isMobile && toggleSidebar()}
+                        >
+                          <span className="truncate">{chat.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              )}
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
@@ -342,7 +339,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                     children: "Toggle Sidebar",
                     hidden: false,
                   }}
-                  className="hover:text-purple-500 px-2.5 md:px-2 rounded-full"
+                  className="px-2.5 md:px-2 rounded-full"
                   onClick={() => toggleSidebar()}
                   data-testid="toggle-sidebar"
                 >
@@ -367,7 +364,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                         children: "Toggle Theme",
                         hidden: false,
                       }}
-                      className="hover:text-purple-500 px-2.5 md:px-2 rounded-full"
+                      className="px-2.5 md:px-2 rounded-full"
                       onClick={() =>
                         setTheme(resolvedTheme === "dark" ? "light" : "dark")
                       }
@@ -395,7 +392,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                       children: "Rate this App",
                       hidden: false,
                     }}
-                    className="hover:text-purple-500 px-2.5 md:px-2 rounded-full"
+                    className="px-2.5 md:px-2 rounded-full"
                     data-testid="rate-app"
                   >
                     <Sparkles />
@@ -414,7 +411,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                       children: "View Dev Portfolio",
                       hidden: false,
                     }}
-                    className="hover:text-purple-500 px-2.5 md:px-2 rounded-full"
+                    className="px-2.5 md:px-2 rounded-full"
                     data-testid="dev-portfolio"
                   >
                     <CodeXml />
@@ -429,7 +426,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                     children: "Start Interactive Tour",
                     hidden: false,
                   }}
-                  className="hover:text-purple-500 px-2.5 md:px-2 rounded-full"
+                  className="px-2.5 md:px-2 rounded-full"
                   onClick={startTour}
                   disabled={isTourActive}
                   data-testid="start-tour-button"
@@ -447,7 +444,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
         <SidebarHeader className="gap-3.5 border-b px-4 py-3">
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center text-base font-medium text-foreground">
-              <Hexagon className="size-5 shrink-0 mr-2 text-purple-500" />
+              <Hexagon className="size-5 shrink-0 mr-2 text-brand" />
               <p className="font-(family-name:--font-array) font-semibold tracking-widest uppercase">
                 Maven
               </p>
@@ -458,38 +455,38 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
           <SidebarGroup className="p-0">
             <SidebarGroupContent>
               {filteredChats.length === 0 ? (
-                <div className="h-full w-full">
-                  <div className="flex items-center justify-center">
-                    <p>No chat available</p>
-                  </div>
+                <div className="px-4 py-10 text-center">
+                  <p className="text-sm font-medium">No conversations yet</p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Start a chat and it will be saved here.
+                  </p>
                 </div>
               ) : (
                 filteredChats.map((chat) => (
                   <Link
                     href={`/chat/c/${chat.chatId}`}
                     key={chat.chatId}
-                    className="flex flex-col items-start gap-1 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                    aria-current={isActive(chat.chatId) ? "page" : undefined}
+                    className={cn(
+                      "flex flex-col gap-1 border-b px-4 py-3 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                      isActive(chat.chatId) &&
+                        "bg-sidebar-accent text-sidebar-accent-foreground shadow-[inset_2px_0_0_hsl(var(--brand))]"
+                    )}
                   >
-                    <div className="flex w-full max-w-sm items-center gap-2">
-                      <span className="ml-auto text-[0.65rem]">
+                    <div className="flex min-w-0 items-baseline gap-2">
+                      <p className="min-w-0 flex-1 truncate font-medium">
+                        {chat.title}
+                      </p>
+                      <span className="shrink-0 text-[0.65rem] text-muted-foreground">
                         {formatDateWithTime(chat.created)}
                       </span>
                     </div>
-                    <div className="w-[256px]">
-                      <p className="font-medium truncate">{chat.title}</p>
-                    </div>
-                    <span className="line-clamp-2 w-[220px] whitespace-break-spaces text-xs">
+                    <span className="line-clamp-2 text-xs text-muted-foreground">
                       {createTeaserMessage(chat.messages as MessageProperty[])}
                     </span>
                   </Link>
                 ))
               )}
-              {/* <pre>Disabled Temporary for Debugging</pre> */}
-              {/* <div>
-                <pre className="text-[10px]">
-                  {JSON.stringify(filteredChats, null, 2)}
-                </pre>
-              </div> */}
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>

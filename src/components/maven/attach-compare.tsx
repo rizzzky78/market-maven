@@ -24,78 +24,64 @@ export const AttachCompareBadge: FC<BadgeProps> = ({
   onRemove,
   onSubmit,
 }) => {
+  const ready = compare.for.length === 2;
+
   return (
-    <div className="flex flex-wrap gap-1">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 20 }}
-        transition={{ duration: 0.4, ease: "easeInOut" }}
-        className="w-full"
-      >
-        <div className="flex items-center justify-between mb-1 py-0.5 pl-1 pr-1.5 bg-[#D8D2C2] hover:bg-[#D8D2C2] dark:bg-[#343131] dark:hover:bg-[#343131] rounded-3xl">
-          <div className="grid grid-cols-2 gap-1 w-full">
-            {compare.for.map((c) => (
-              <Badge
-                key={c.callId}
-                variant="secondary"
-                className="flex w-full py-1 my-0.5 justify-between items-center rounded-3xl"
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 8 }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
+      className="mb-2 rounded-xl border bg-card p-1.5"
+    >
+      <p className="px-1.5 pb-1.5 text-[11px] text-muted-foreground">
+        Comparing {compare.for.length} of 2
+      </p>
+      <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center">
+        <div className="grid min-w-0 flex-1 grid-cols-1 gap-1.5 sm:grid-cols-2">
+          {compare.for.map((c) => (
+            <Badge
+              key={c.callId}
+              variant="secondary"
+              className="flex min-w-0 items-center justify-between gap-1 rounded-lg py-0.5 pr-0.5 pl-2.5 font-normal"
+            >
+              <span className="line-clamp-1 text-xs">{c.title}</span>
+              <Button
+                variant={"ghost"}
+                size={"icon"}
+                className="size-7 shrink-0 rounded-full"
+                onClick={() => onRemove(c.callId)}
+                aria-label={`Remove ${c.title} from comparison`}
               >
-                <p className="line-clamp-1 text-xs font-normal">{c.title}</p>
-                <TooltipProvider>
-                  <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant={"ghost"}
-                        className="rounded-full hover:text-white size-8 hover:bg-black/50 -mr-1"
-                        onClick={() => onRemove(c.callId)}
-                      >
-                        <X className="size-6" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent className="rounded-3xl">
-                      <p className="max-w-sm font-semibold">
-                        Remove compare attachment
-                      </p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </Badge>
-            ))}
-            {compare.for.length === 1 && (
-              <Badge
-                variant={"secondary"}
-                className="flex border-black dark:border-white border-dashed border-spacing-2 bg-none w-full py-1 my-0.5 justify-center items-center rounded-3xl"
-              >
-                <p className="line-clamp-1 text-xs font-normal">
-                  Add one more product to perform comparison
-                </p>
-              </Badge>
-            )}
-          </div>
-          <div className="ml-1">
-            <TooltipProvider>
-              <Tooltip delayDuration={100}>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className="rounded-full size-10 bg-[#1A1A1D] text-white"
-                    onClick={onSubmit}
-                    disabled={compare.for.length !== 2}
-                  >
-                    <MoveUpRight className="size-5" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent className="rounded-3xl">
-                  <p className="max-w-sm font-semibold">
-                    Request products comparison or along with text inputs
-                  </p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
+                <X className="size-3.5" />
+              </Button>
+            </Badge>
+          ))}
+          {compare.for.length === 1 && (
+            <div className="flex items-center justify-center rounded-lg border border-dashed px-2.5 py-1.5 text-xs text-muted-foreground">
+              Pick one more product to compare
+            </div>
+          )}
         </div>
-      </motion.div>
-    </div>
+        <TooltipProvider>
+          <Tooltip delayDuration={300}>
+            <TooltipTrigger asChild>
+              <Button
+                size={"sm"}
+                className="h-8 gap-1 rounded-full"
+                onClick={onSubmit}
+                disabled={!ready}
+              >
+                Compare
+                <MoveUpRight className="size-3.5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Compare both products, add a question first if you like</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+    </motion.div>
   );
 };

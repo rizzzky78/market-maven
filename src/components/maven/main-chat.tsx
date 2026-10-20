@@ -13,6 +13,7 @@ import { FC, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { AI } from "@/app/action";
 import { useUIState } from "@ai-sdk/rsc";
+import { cn } from "@/lib/utils";
 import { ChatMessages } from "./chat-messages";
 import { ChatPanel } from "./chat-panel";
 
@@ -32,57 +33,65 @@ export const Chat: FC<ChatProps> = ({ id, query, chats }) => {
     }
   }, [id, path, query, uiMessage]);
 
+  // Keep the newest message in view as the conversation grows
+  useEffect(() => {
+    if (uiMessage.length > 0) {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    }
+  }, [uiMessage.length]);
+
   const selectedChat = chats.find((c) => c.chatId === (id as string));
+  const isEmpty = uiMessage.length === 0;
 
   return (
     <SidebarProvider
       style={
         {
-          "--sidebar-width": "350px",
+          "--sidebar-width": "clamp(17rem, 28vw, 350px)",
         } as React.CSSProperties
       }
     >
       <MavenSidebar userChats={chats} />
-      <SidebarInset>
+      <SidebarInset className="font-(family-name:--font-satoshi)">
         <header
-          className="font-(family-name:--font-satoshi) sticky top-0 flex shrink-0 items-center gap-2 bg-background/90 px-4 py-2 z-20"
+          className="sticky top-0 z-20 flex h-14 shrink-0 items-center gap-2 border-b bg-background/80 px-3 backdrop-blur-sm md:px-4"
           data-testid="chat-header"
         >
-          <div className="flex justify-between w-full">
-            <div className="flex items-center">
-              <SidebarTrigger className="md:hidden" />
-              <Separator
-                orientation="vertical"
-                className="mx-2 h-4 md:hidden"
-              />
-              <div>
-                {selectedChat && (
-                  <p className="font-semibold line-clamp-1">
-                    {selectedChat.title}
-                  </p>
-                )}
-              </div>
-            </div>
-            <div className="flex items-center space-x-2">
-              {selectedChat && (
-                <ShareButton
-                  title="Chat"
-                  subtitle={selectedChat.title}
-                  callId={selectedChat.chatId}
-                  type={"public-chat"}
-                />
-              )}
-            </div>
-          </div>
+          <SidebarTrigger className="md:hidden" aria-label="Open menu" />
+          <Separator orientation="vertical" className="h-4 md:hidden" />
+          <h1 className="min-w-0 flex-1 truncate text-sm font-medium">
+            {selectedChat?.title ?? "New chat"}
+          </h1>
+          {selectedChat && (
+            <ShareButton
+              title="Chat"
+              subtitle={selectedChat.title}
+              callId={selectedChat.chatId}
+              type={"public-chat"}
+            />
+          )}
         </header>
-        <div className="flex flex-col px-4">
+        <div
+          className={cn(
+            "flex flex-1 flex-col px-3 md:px-6",
+            isEmpty && "justify-center"
+          )}
+        >
+          {!isEmpty && (
+            <div
+              className="mx-auto flex w-full max-w-3xl flex-1 flex-col pt-6 pb-8 md:pt-10"
+              data-testid="chat-messages"
+            >
+              <ChatMessages ui={uiMessage} />
+            </div>
+          )}
           <div
-            className="h-full px-2 sm:px-12 pt-12 md:pt-14 pb-14 md:pb-24 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4 justify-center"
-            data-testid="chat-messages"
+            className={cn(
+              "z-30 mx-auto w-full max-w-3xl",
+              !isEmpty &&
+                "sticky bottom-0 bg-linear-to-t from-background from-70% to-transparent pt-6"
+            )}
           >
-            <ChatMessages ui={uiMessage} />
-          </div>
-          <div className="w-full flex justify-center sticky bottom-0 right-0 left-0 z-30 bg-red-400">
             <ChatPanel uiState={uiMessage} />
           </div>
         </div>

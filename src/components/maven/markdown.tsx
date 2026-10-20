@@ -24,7 +24,7 @@ export const PureMarkdown: FC<MarkdownProps> = ({ children, className }) => {
         "prose-headings:mb-4 prose-headings:font-semibold",
         "prose-p:leading-7",
         "prose-pre:p-0 prose-pre:bg-transparent",
-        "prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:bg-gray-800",
+        "prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:bg-muted",
         "prose-img:rounded-lg",
         className
       )}
@@ -99,7 +99,7 @@ export const PureMarkdown: FC<MarkdownProps> = ({ children, className }) => {
           table({ children }) {
             return (
               <div className={cn("my-2 w-full overflow-y-auto", className)}>
-                <table className="w-full border-collapse border dark:border-white/50 border-black/50">
+                <table className="w-full border-collapse border border-border">
                   {children}
                 </table>
               </div>
@@ -109,7 +109,7 @@ export const PureMarkdown: FC<MarkdownProps> = ({ children, className }) => {
             return (
               <thead
                 className={cn(
-                  "text-xs bg-black/20 dark:bg-white/20 dark:border-white/50 border-black/50",
+                  "text-xs bg-muted border-border",
                   className
                 )}
               >
@@ -121,7 +121,7 @@ export const PureMarkdown: FC<MarkdownProps> = ({ children, className }) => {
             return (
               <tr
                 className={cn(
-                  "border-b text-xs dark:border-white/50 border-black/50",
+                  "border-b text-xs border-border",
                   className
                 )}
               >
@@ -133,7 +133,7 @@ export const PureMarkdown: FC<MarkdownProps> = ({ children, className }) => {
             return (
               <th
                 className={cn(
-                  "border text-xs dark:border-white/50 border-black/50 px-4 py-2 text-left font-semibold",
+                  "border text-xs border-border px-4 py-2 text-left font-semibold",
                   className
                 )}
               >
@@ -145,7 +145,7 @@ export const PureMarkdown: FC<MarkdownProps> = ({ children, className }) => {
             return (
               <td
                 className={cn(
-                  "border text-xs dark:border-white/50 border-black/50 px-4 py-2",
+                  "border text-xs border-border px-4 py-2",
                   className
                 )}
               >
@@ -156,7 +156,7 @@ export const PureMarkdown: FC<MarkdownProps> = ({ children, className }) => {
           blockquote: ({ children }) => (
             <blockquote
               className={cn(
-                "mt-4 border-l-4 text-sm border-gray-700 pl-4 italic",
+                "mt-4 border-l-2 text-sm border-border pl-4 italic text-muted-foreground",
                 className
               )}
             >
@@ -173,7 +173,7 @@ export const PureMarkdown: FC<MarkdownProps> = ({ children, className }) => {
                     <a
                       href={href}
                       className={cn(
-                        "inline-flex text-sm items-center gap-1 text-blue-400 hover:text-blue-300 transition-colors",
+                        "inline-flex text-sm items-center gap-1 text-blue-600 dark:text-blue-400 underline-offset-2 hover:underline",
                         className
                       )}
                       target="_blank"

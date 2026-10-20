@@ -108,7 +108,7 @@ export const ProductCard: FC<ProductProps> = ({
       exit="exit"
     >
       <Card
-        className={`overflow-hidden border rounded-3xl border-[#1A1A1D] bg-[#1A1A1D] text-green-50 h-full flex flex-col ${
+        className={`overflow-hidden rounded-xl py-0 h-full flex flex-col gap-0 shadow-none transition-colors hover:border-foreground/20 ${
           isFinished ? "animate-none" : "animate-pulse"
         }`}
       >
@@ -119,11 +119,11 @@ export const ProductCard: FC<ProductProps> = ({
               alt={title || "Product image"}
               width={280}
               height={280}
-              className="w-full h-40 object-cover"
+              className="aspect-square w-full bg-muted object-cover"
             />
           )}
           <motion.div
-            className="absolute top-2 right-2 bg-[#1A1A1D] p-1 rounded-lg"
+            className="absolute top-2 right-2 rounded-md bg-background/90 p-1 backdrop-blur-sm"
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
@@ -133,7 +133,9 @@ export const ProductCard: FC<ProductProps> = ({
                 <TooltipTrigger asChild>
                   <ShieldCheck
                     className={`w-5 h-5 ${
-                      store?.isOfficial ? "text-green-500" : "text-gray-400"
+                      store?.isOfficial
+                        ? "text-emerald-600 dark:text-emerald-400"
+                        : "text-muted-foreground"
                     }`}
                   />
                 </TooltipTrigger>
@@ -161,10 +163,10 @@ export const ProductCard: FC<ProductProps> = ({
               </Tooltip>
             </TooltipProvider>
             <div className="flex items-center">
-              <BadgeDollarSign className="w-3 h-3 text-green-400 mr-1" />
-              <span className="font-bold">{price ?? "-"}</span>
+              <BadgeDollarSign className="w-3 h-3 text-muted-foreground mr-1" />
+              <span className="text-sm font-semibold">{price ?? "-"}</span>
             </div>
-            <div className="flex items-center space-x-1 *:text-xs">
+            <div className="flex items-center space-x-1 text-muted-foreground *:text-xs">
               <div className="flex items-center">
                 <Star className="w-3 h-3 fill-yellow-400 text-yellow-400 mr-1" />
                 <p>{rating ?? "-"}</p>
@@ -172,12 +174,12 @@ export const ProductCard: FC<ProductProps> = ({
               <div>|</div>
               <div className="flex items-center">
                 <p className="mr-1">sold</p>
-                <Package className="w-3 h-3 text-purple-400" />
-                <p className="ml-1 text-gray-300">{sold ?? "-"}</p>
+                <Package className="w-3 h-3" />
+                <p className="ml-1">{sold ?? "-"}</p>
               </div>
             </div>
           </div>
-          <div className="px-3 py-1 text-xs rounded-xl">
+          <div className="px-3 py-1 text-xs text-muted-foreground">
             <div className="flex items-start">
               <Store className="w-3 h-3 mr-1 mt-px" />
               <span className="line-clamp-1">{store?.name ?? "-"}</span>
@@ -187,26 +189,22 @@ export const ProductCard: FC<ProductProps> = ({
               <span>{store?.location ?? "-"}</span>
             </div>
           </div>
-          <div className="px-2 space-x-2 pb-3 flex *:text-xs items-center justify-between pt-2">
+          <div className="flex items-center gap-1 px-3 pt-2 pb-3">
             <TooltipProvider>
               <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
                   <Button
-                    className="relative ml-2 h-7 w-full overflow-hidden rounded-3xl px-6 font-bold bg-gray-300 text-black shadow-xs transition-all duration-300 hover:bg-blue-200 hover:text-indigo-900"
+                    size="sm"
+                    variant="secondary"
+                    className="h-8 flex-1 rounded-full text-xs"
                     onClick={handleAttach}
                     disabled={isSharedContent ? true : isButtonDisabled}
                   >
                     {isFinished ? (
-                      <span className="relative z-7">Ask AI</span>
+                      "Ask"
                     ) : (
-                      <Loader className="relative z-7 size-4 animate-spin" />
+                      <Loader className="size-4 animate-spin" />
                     )}
-                    <div
-                      className="absolute inset-0 flex items-center justify-center"
-                      aria-hidden="true"
-                    >
-                      <div className="gradient-bg bg-linear-to-r from-pink-600 via-purple-500 to-cyan-400 rounded-full w-40 h-40 blur-xl opacity-50 animate-spin-slow transition-all duration-300" />
-                    </div>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent className="rounded-3xl">
@@ -219,16 +217,19 @@ export const ProductCard: FC<ProductProps> = ({
             <TooltipProvider>
               <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
-                  <div
-                    className="flex rounded-full w-fit items-center cursor-pointer"
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="size-8 shrink-0 rounded-full"
                     onClick={() => copyToClipboard(link || "undefined")}
+                    aria-label="Copy product link"
                   >
                     {copied ? (
-                      <CopyCheck className="text-purple-200 h-5 w-5" />
+                      <CopyCheck className="size-4" />
                     ) : (
-                      <Copy className="text-purple-200 h-5 w-5" />
+                      <Copy className="size-4" />
                     )}
-                  </div>
+                  </Button>
                 </TooltipTrigger>
                 <TooltipContent className="rounded-3xl mb-1">
                   <p className="max-w-sm font-semibold">Copy product link</p>
@@ -238,16 +239,21 @@ export const ProductCard: FC<ProductProps> = ({
             <TooltipProvider>
               <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
-                  <div className="flex rounded-full items-center pr-2">
+                  <Button
+                    asChild
+                    variant="ghost"
+                    size="icon"
+                    className="size-8 shrink-0 rounded-full"
+                  >
                     <Link
                       href={link || "#"}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className=""
+                      aria-label="Open product page"
                     >
-                      <CircleArrowRight className="text-purple-200 h-5 w-5" />
+                      <CircleArrowRight className="size-4" />
                     </Link>
-                  </div>
+                  </Button>
                 </TooltipTrigger>
                 <TooltipContent className="rounded-3xl mb-1">
                   <p className="max-w-sm font-semibold">Go to product page</p>

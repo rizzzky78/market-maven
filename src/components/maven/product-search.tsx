@@ -110,23 +110,21 @@ export const ProductSearch: FC<ProductsProps> = ({
 
   return (
     <div className="w-full mb-5">
-      <div className="absolute ml-4 -mt-4">
-        <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center">
-          <Search className="size-4 mr-1" />
-          <p className="text-xs font-semibold">
-            Search Product by
+      <div className="w-full rounded-2xl border px-3 py-3 md:px-4">
+        <div className="mb-2 flex items-center gap-1.5 text-xs text-muted-foreground">
+          <Search className="size-3.5" />
+          <p>
+            Results from
             <Link
               href={"https://www.tokopedia.com/"}
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-1 text-green-400 hover:text-green-600 dark:text-green-500 dark:hover:text-green-700"
+              className="ml-1 font-medium text-foreground underline-offset-2 hover:underline"
             >
               Tokopedia
             </Link>
           </p>
         </div>
-      </div>
-      <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-4xl px-4 py-2">
         {object.screenshot && (
           <div className="my-1 pt-1">
             <motion.div
@@ -152,8 +150,8 @@ export const ProductSearch: FC<ProductsProps> = ({
               </Lens>
               <div className="w-fit p-1 mt-1 flex items-center justify-between">
                 <div className="flex items-start">
-                  <Info className="size-4 shrink-0 mr-1 text-purple-500 dark:text-purple-300" />
-                  <p className="text-xs">
+                  <Info className="size-4 shrink-0 mr-1 text-muted-foreground" />
+                  <p className="text-xs text-muted-foreground">
                     Maven is not affiliated with the relevant online
                     marketplace, the displayed results may not match the
                     user&apos;s intent.
@@ -169,14 +167,14 @@ export const ProductSearch: FC<ProductsProps> = ({
             </motion.div>
           </div>
         )}
-        <Separator className="mb-4 bg-[#1A1A1D] dark:bg-muted" />
-        <div className="bg-[#1A1A1D] mt-2 items-center dark:bg-white text-white dark:text-black mb-2 py-1 pl-3 pr-1 rounded-3xl">
+        <Separator className="mb-2" />
+        <div className="items-center py-1 pl-1">
           <div className="flex justify-between">
             <div className="flex items-center space-x-2">
               <SearchCheck className="size-4 shrink-0" />
-              <h3 className="text-sm line-clamp-1">
-                Product Search:
-                <span className="ml-1 font-semibold">{content.args.query}</span>
+              <h3 className="text-sm line-clamp-1 text-muted-foreground">
+                Results for
+                <span className="ml-1 font-medium text-foreground">{content.args.query}</span>
               </h3>
             </div>
             <div>
@@ -184,10 +182,12 @@ export const ProductSearch: FC<ProductsProps> = ({
                 variant={"ghost"}
                 size={"icon"}
                 onClick={() => setOpen((prev) => !prev)}
-                className="rounded-full"
+                className="size-8 rounded-full"
+                aria-label={open ? "Collapse results" : "Expand results"}
+                aria-expanded={open}
               >
                 <ChevronUp
-                  className={`size-3 shrink-0 transition-all ${
+                  className={`size-4 shrink-0 transition-all ${
                     open ? "" : "rotate-180"
                   }`}
                 />
@@ -197,9 +197,9 @@ export const ProductSearch: FC<ProductsProps> = ({
         </div>
         <AnimatePresence mode={"wait"}>
           {open && (
-            <div className="mt-4 mb-2">
+            <div className="mt-2">
               <motion.div
-                className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2"
+                className="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-3"
                 variants={animations.container}
                 initial="hidden"
                 animate="visible"
