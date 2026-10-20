@@ -12,7 +12,7 @@ import { Markdown } from "@/components/maven/markdown";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { StreamableValue, useStreamableValue } from "ai/rsc";
+import { StreamableValue, useStreamableValue } from "@ai-sdk/rsc";
 import { Loader } from "lucide-react";
 import { ErrorMessage } from "@/components/maven/error-message";
 

@@ -19,12 +19,12 @@ import {
 import { RenderTool, ToolsetProps } from "@/lib/types/ai";
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";
-import { generateId, streamObject } from "ai";
+import { generateId, Output, streamText } from "ai";
 
 const toolInquireUser = ({ generation, errorState, state }: ToolsetProps) => {
   const inquireUser: RenderTool<typeof inputInquirySchema> = {
     description: TEMPLATE.inquire_user_description,
-    parameters: inputInquirySchema,
+    inputSchema: inputInquirySchema,
     generate: async function* (inquiryProp) {
       logger.info("Using inquireUser tool");
 
@@ -61,13 +61,13 @@ const toolInquireUser = ({ generation, errorState, state }: ToolsetProps) => {
         loading: true,
       });
 
-      const { partialObjectStream: inquiryStream, object: inquiryObject } =
-        streamObject({
+      const { partialOutputStream: inquiryStream, output: inquiryObject } =
+        streamText({
           model: google("gemini-2.5-flash-lite"),
-          system: await SYSTEM_INSTRUCTION.INQUIRY_CRAFTER,
+          instructions: await SYSTEM_INSTRUCTION.INQUIRY_CRAFTER,
           prompt: JSON.stringify(parse.data),
-          schema: inquireUserSchema,
-          onFinish: ({ usage }) => {
+          output: Output.object({ schema: inquireUserSchema }),
+          onEnd: ({ usage }) => {
             logger.info("Usage - Inquire User - Step 1", { usage });
 
             generation.update({

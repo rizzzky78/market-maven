@@ -12,7 +12,7 @@ import {
   readStreamableValue,
   StreamableValue,
   useStreamableValue,
-} from "ai/rsc";
+} from "@ai-sdk/rsc";
 import { useMavenStateController } from "@/components/hooks/maven-state-controller";
 import { StreamGeneration } from "@/lib/types/ai";
 import { DeepPartial, generateId } from "ai";

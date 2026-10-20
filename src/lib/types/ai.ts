@@ -1,16 +1,32 @@
-import { CoreMessage, LanguageModelV1StreamPart } from "ai";
-import { createStreamableValue, StreamableValue } from "ai/rsc";
+import { createStreamableValue, StreamableValue } from "@ai-sdk/rsc";
 import { ReactNode } from "react";
 import { z } from "zod";
 
 /**
- * Extended version of CoreMessage that ensures the 'id' is always a string,
- * allowing more flexible message identification across different systems.
+ * Persisted message content parts. These keep the AI SDK 4 part shape
+ * (`args` / `result`) on purpose: chat histories already stored in Redis use
+ * it, and `ui-mapper` restores the UI from it. Model-facing messages are
+ * derived from it by `toModelMessages`.
  */
-export interface ExtendedCoreMessage extends Omit<CoreMessage, "id"> {
-  /** Unique string identifier for the message */
-  id: string;
-}
+export type TextContentPart = { type: "text"; text: string };
+
+export type ToolCallContentPart = {
+  type: "tool-call";
+  toolCallId: string;
+  toolName: string;
+  args: unknown;
+};
+
+export type ToolResultContentPart = {
+  type: "tool-result";
+  toolCallId: string;
+  toolName: string;
+  result: unknown;
+};
+
+export type MessageContent =
+  | string
+  | Array<TextContentPart | ToolCallContentPart | ToolResultContentPart>;
 
 /**
  * Represents the core properties of a message in a chat system,
@@ -21,8 +37,8 @@ export type MessageProperty = {
   id: string;
   /** Defines the source or type of the message */
   role: "user" | "assistant" | "system" | "tool";
-  /** Content of the message, inheriting from CoreMessage */
-  content: CoreMessage["content"];
+  /** Content of the message in the persisted part shape */
+  content: MessageContent;
 };
 
 /**
@@ -118,8 +134,6 @@ export type BaseActionCallback = {
   id: string;
   /** Renderable UI representation of the message */
   display: ReactNode;
-  /** Streamable message content */
-  stream?: ReadableStream<LanguageModelV1StreamPart>;
   /** Generation status and metadata */
   generation?: StreamableValue<StreamGeneration>;
 };
@@ -196,18 +210,18 @@ export type Renderer<T extends Array<any>> = (
 /**
  * Represents a render tool, defining its properties and optional rendering logic.
  *
- * @template PARAMETERS - A Zod type used to validate and infer the shape of parameters.
+ * @template INPUT_SCHEMA - A Zod type used to validate and infer the shape of the tool input.
  */
-export type RenderTool<PARAMETERS extends z.ZodTypeAny = any> = {
+export type RenderTool<INPUT_SCHEMA extends z.ZodType = any> = {
   /**
    * An optional description providing additional information about the tool.
    */
   description?: string;
 
   /**
-   * The parameters for the render tool, defined as a Zod schema.
+   * The input schema for the render tool, defined as a Zod schema.
    */
-  parameters: PARAMETERS;
+  inputSchema: INPUT_SCHEMA;
 
   /**
    * An optional renderer function that generates streamable content based on:
@@ -221,7 +235,7 @@ export type RenderTool<PARAMETERS extends z.ZodTypeAny = any> = {
    */
   generate?: Renderer<
     [
-      z.infer<PARAMETERS>,
+      z.infer<INPUT_SCHEMA>,
       {
         /**
          * The name of the tool, provided as metadata to the renderer.

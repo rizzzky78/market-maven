@@ -39,8 +39,8 @@ import { RenderTool, ToolsetProps } from "@/lib/types/ai";
 import { RecommendationResponse } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";
-import { DeepPartial, streamObject, streamText } from "ai";
-import { createStreamableValue } from "ai/rsc";
+import { DeepPartial, Output, streamText } from "ai";
+import { createStreamableValue } from "@ai-sdk/rsc";
 import { v4 } from "uuid";
 
 const toolRecommendator = ({
@@ -51,7 +51,7 @@ const toolRecommendator = ({
 }: ToolsetProps) => {
   const recommendator: RenderTool<typeof recommendatorSchema> = {
     description: TEMPLATE.recommendator_description,
-    parameters: recommendatorSchema,
+    inputSchema: recommendatorSchema,
     generate: async function* ({ intent, scope }) {
       const toolRequestId = v4();
 
@@ -101,14 +101,13 @@ const toolRecommendator = ({
         />
       );
 
-      const { partialObjectStream } = streamObject({
-        model: google("gemini-2.5-flash", {
-          useSearchGrounding: true,
-        }),
-        system: await SYSTEM_INSTRUCTION.RECOMMENDATOR_EXTRACTOR,
+      const { partialOutputStream } = streamText({
+        model: google("gemini-2.5-flash"),
+          tools: { google_search: google.tools.googleSearch({}) },
+        instructions: await SYSTEM_INSTRUCTION.RECOMMENDATOR_EXTRACTOR,
         prompt: JSON.stringify({ intent, scope }),
-        schema: recommendationSchema,
-        onFinish: ({ object, usage }) => {
+        output: Output.object({ schema: recommendationSchema }),
+        onEnd: ({ output: object, usage }) => {
           logger.info("Usage - Recommendator - Step 1", { usage });
 
           if (object) {
@@ -130,7 +129,7 @@ const toolRecommendator = ({
         },
       });
 
-      for await (const chunkRecommendator of partialObjectStream) {
+      for await (const chunkRecommendator of partialOutputStream) {
         streamableRecommendation.update(chunkRecommendator);
       }
 
@@ -159,11 +158,11 @@ const toolRecommendator = ({
 
       const { textStream } = streamText({
         model: google("gemini-2.5-flash"),
-        system: await SYSTEM_INSTRUCTION.RECOMMENDATOR_INSIGHT,
+        instructions: await SYSTEM_INSTRUCTION.RECOMMENDATOR_INSIGHT,
         prompt: JSON.stringify({
           payload: finalizedRecommendator.recommendations,
         }),
-        onFinish: ({ text, usage }) => {
+        onEnd: ({ text, usage }) => {
           logger.info("Usage - Recommendator - Step 2", { usage });
 
           finalizedInsight = text;
@@ -245,12 +244,12 @@ const toolRecommendator = ({
         toPayloadRelatedMessage([...state.get().messages, ...mutate])
       );
 
-      const { partialObjectStream: relatedStream } = streamObject({
+      const { partialOutputStream: relatedStream } = streamText({
         model: google("gemini-2.5-flash"),
-        system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
+        instructions: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
         prompt: payloadRelated,
-        schema: relatedQuerySchema,
-        onFinish: async ({ object, usage }) => {
+        output: Output.object({ schema: relatedQuerySchema }),
+        onEnd: async ({ output: object, usage }) => {
           logger.info("Usage - Recommendator - Step 3", { usage });
 
           if (object) {

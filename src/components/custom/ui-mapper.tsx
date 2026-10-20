@@ -6,10 +6,10 @@ import {
   AvailableTool,
   ExtendedToolResult,
   UserContentMessage,
+  ToolResultContentPart,
 } from "@/lib/types/ai";
 import { AssistantMessage } from "@/components/maven/assistant-message";
 import { UserMessage } from "@/components/maven/user-message";
-import { ToolContent } from "ai";
 import { Inquiry } from "@/lib/agents/schema/tool-parameters";
 import {
   UserInquiry,
@@ -279,7 +279,7 @@ const roleHandlers: Record<
 
   tool: (message, index, isSharedPage) => {
     if (!Array.isArray(message.content)) return [];
-    const toolContent = message.content as unknown as ToolContent;
+    const toolContent = message.content as ToolResultContentPart[];
     const handler =
       toolContent[0].toolName &&
       toolResultHandlers[toolContent[0].toolName as AvailableTool];

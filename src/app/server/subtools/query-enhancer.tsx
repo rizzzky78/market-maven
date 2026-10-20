@@ -1,7 +1,7 @@
 import { queryEnhancerSchema } from "@/lib/agents/schema/st-query-enhancer";
 import { QueryEnhancedData, UnifiedSubToolResult } from "@/lib/types/subtools";
 import { google } from "@ai-sdk/google";
-import { generateObject } from "ai";
+import { generateText, Output } from "ai";
 
 const SYSTEM_PROMPT = `You are a Query Enhancement Specialist designed to transform vague, incomplete, or ambiguous product queries into specific, searchable queries that will yield accurate results.
 
@@ -57,12 +57,11 @@ export async function queryEnhancer(p: {
   const cleanQuery = query.trim();
 
   try {
-    const response = await generateObject({
-      model: google("gemini-2.5-flash", {
-        useSearchGrounding: true,
-      }),
-      schema: queryEnhancerSchema,
-      system: SYSTEM_PROMPT,
+    const response = await generateText({
+      model: google("gemini-2.5-flash"),
+      tools: { google_search: google.tools.googleSearch({}) },
+      output: Output.object({ schema: queryEnhancerSchema }),
+      instructions: SYSTEM_PROMPT,
       prompt: cleanQuery,
     });
 
@@ -70,7 +69,7 @@ export async function queryEnhancer(p: {
       ok: true,
       processingTime: Date.now(),
       usage: response.usage,
-      data: response.object,
+      data: response.output,
     };
   } catch (error) {
     const errorMessage =

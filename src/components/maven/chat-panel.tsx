@@ -12,7 +12,7 @@ import {
   useActions,
   useAIState,
   useUIState,
-} from "ai/rsc";
+} from "@ai-sdk/rsc";
 import {
   FormEvent,
   useEffect,

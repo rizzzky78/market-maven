@@ -12,7 +12,7 @@ import { ShareButton } from "./share-button";
 import { FC, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { AI } from "@/app/action";
-import { useUIState } from "ai/rsc";
+import { useUIState } from "@ai-sdk/rsc";
 import { ChatMessages } from "./chat-messages";
 import { ChatPanel } from "./chat-panel";
 

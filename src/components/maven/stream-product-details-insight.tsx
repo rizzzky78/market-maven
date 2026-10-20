@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { StreamableValue, useStreamableValue } from "ai/rsc";
+import { StreamableValue, useStreamableValue } from "@ai-sdk/rsc";
 import { FC, useEffect, useState } from "react";
 import { ErrorMessage } from "./error-message";
 import { AnimatePresence, motion } from "framer-motion";

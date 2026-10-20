@@ -39,9 +39,9 @@ import {
 import { RenderTool, ToolsetProps } from "@/lib/types/ai";
 import { ComparisonData, ProductDetails } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
-import { google, GoogleGenerativeAIProviderOptions } from "@ai-sdk/google";
-import { streamText, streamObject, smoothStream } from "ai";
-import { createStreamableValue } from "ai/rsc";
+import { google } from "@ai-sdk/google";
+import { streamText, Output, smoothStream } from "ai";
+import { createStreamableValue } from "@ai-sdk/rsc";
 import { v4 } from "uuid";
 
 const toolProductComparison = ({
@@ -53,7 +53,7 @@ const toolProductComparison = ({
 }: ToolsetProps) => {
   const productsComparison: RenderTool<typeof productsComparionSchema> = {
     description: TEMPLATE.products_comparison_description,
-    parameters: productsComparionSchema,
+    inputSchema: productsComparionSchema,
     generate: async function* ({ compare }) {
       const toolRequestId = v4();
 
@@ -143,12 +143,12 @@ const toolProductComparison = ({
 
       let comparisonObj: Record<string, any> = {};
 
-      const { partialObjectStream } = streamObject({
+      const { partialOutputStream } = streamText({
         model: google("gemini-2.5-flash"),
-        system: COMPARISON_EXTRACTOR_SYSTEM_INSTRUCTION,
-        output: "no-schema",
+        instructions: COMPARISON_EXTRACTOR_SYSTEM_INSTRUCTION,
+        output: Output.json(),
         prompt: JSON.stringify({ payload: comparisonPayload }),
-        onFinish: ({ object }) => {
+        onEnd: ({ output: object }) => {
           finalizedToolData.data.object.comparison = object as Record<
             string,
             any
@@ -178,7 +178,7 @@ const toolProductComparison = ({
         },
       });
 
-      for await (const chunk of partialObjectStream) {
+      for await (const chunk of partialOutputStream) {
         streamableComparison.update(chunk as Record<string, any>);
       }
 
@@ -200,9 +200,9 @@ const toolProductComparison = ({
 
       const comparisonTable = streamText({
         model: google("gemini-2.5-flash"),
-        system: COMPARISON_TABLE_CRAFTER_SYSTEM_INSTRUCTION,
+        instructions: COMPARISON_TABLE_CRAFTER_SYSTEM_INSTRUCTION,
         prompt: JSON.stringify({ payload: finalizedToolData.data }),
-        onFinish: ({ text }) => {
+        onEnd: ({ text }) => {
           tableMarkdown = text;
 
           streamableTable.done();
@@ -259,9 +259,9 @@ const toolProductComparison = ({
 
       const comparisonInsight = streamText({
         model: google("gemini-2.5-flash"),
-        system: COMPARISON_INSIGHT_SYSTEM_INSTRUCTION,
+        instructions: COMPARISON_INSIGHT_SYSTEM_INSTRUCTION,
         prompt: JSON.stringify(insightPayload),
-        onFinish: ({ text }) => {
+        onEnd: ({ text }) => {
           insightText = text;
 
           streamableInsight.done();
@@ -359,12 +359,12 @@ const toolProductComparison = ({
           toPayloadRelatedMessage([...state.get().messages, ...mutate])
         );
 
-        const { partialObjectStream: relatedStream } = streamObject({
+        const { partialOutputStream: relatedStream } = streamText({
           model: google("gemini-2.5-flash-lite"),
-          system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
+          instructions: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
           prompt: payloadRelated,
-          schema: relatedQuerySchema,
-          onFinish: async ({ object, usage }) => {
+          output: Output.object({ schema: relatedQuerySchema }),
+          onEnd: async ({ output: object, usage }) => {
             logger.info("Usage - Products Comparison - Step 3", {
               usage,
             });

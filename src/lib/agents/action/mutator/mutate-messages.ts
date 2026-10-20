@@ -3,17 +3,89 @@ import {
   PayloadData,
   UserContentMessage,
 } from "@/lib/types/ai";
-import { CoreMessage } from "ai";
+import {
+  JSONValue,
+  ModelMessage,
+  TextPart,
+  ToolCallPart,
+  ToolResultPart,
+} from "ai";
+
+const toToolOutput = (result: unknown): ToolResultPart["output"] =>
+  typeof result === "string"
+    ? { type: "text", value: result }
+    : { type: "json", value: (result ?? null) as JSONValue };
 
 /**
- * Converts an array of `MessageProperty` objects to an array of `CoreMessage` objects.
+ * Converts persisted `MessageProperty` objects to AI SDK `ModelMessage` objects.
+ *
+ * Persisted tool parts keep the AI SDK 4 shape (`args` / `result`) and are mapped
+ * to the current `input` / `output` shape here. System messages are dropped:
+ * system prompts are passed through `instructions`, and AI SDK 7 rejects them
+ * inside `messages`.
  *
  * @param messages - Array of objects adhering to the `MessageProperty` interface.
- * @returns An array of `CoreMessage` objects with `role` and `content` properties.
+ * @returns An array of `ModelMessage` objects.
  */
-export const toCoreMessage = (m: MessageProperty[]): CoreMessage[] => {
-  return m.map((m) => ({ role: m.role, content: m.content } as CoreMessage));
-};
+export const toModelMessages = (messages: MessageProperty[]): ModelMessage[] =>
+  messages.flatMap((m): ModelMessage[] => {
+    switch (m.role) {
+      case "system":
+        return [];
+      case "user":
+        return [
+          {
+            role: "user",
+            content:
+              typeof m.content === "string"
+                ? m.content
+                : m.content.flatMap((p) => (p.type === "text" ? [p] : [])),
+          },
+        ];
+      case "assistant":
+        return [
+          {
+            role: "assistant",
+            content:
+              typeof m.content === "string"
+                ? m.content
+                : m.content.flatMap((p): Array<TextPart | ToolCallPart> => {
+                    if (p.type === "text") return [p];
+                    if (p.type === "tool-call")
+                      return [
+                        {
+                          type: "tool-call",
+                          toolCallId: p.toolCallId,
+                          toolName: p.toolName,
+                          input: p.args,
+                        },
+                      ];
+                    return [];
+                  }),
+          },
+        ];
+      case "tool":
+        return typeof m.content === "string"
+          ? []
+          : [
+              {
+                role: "tool",
+                content: m.content.flatMap((p) =>
+                  p.type === "tool-result"
+                    ? [
+                        {
+                          type: "tool-result" as const,
+                          toolCallId: p.toolCallId,
+                          toolName: p.toolName,
+                          output: toToolOutput(p.result),
+                        },
+                      ]
+                    : []
+                ),
+              },
+            ];
+    }
+  });
 
 /**
  * Converts payload object data to unified user content message
@@ -37,7 +109,7 @@ export const toUnifiedUserMessage = (payload: PayloadData) => {
  *
  * @param {MessageProperty} messages - Array of messages to be filtered
  * @param {number} slice - The last index messages to be filtered
- * @returns `CoreMessage` Array containing only the last 4 messages, or all messages if less than 4
+ * @returns `ModelMessage` Array containing only the last 4 messages, or all messages if less than 4
  *
  * @example
  * const messages: MessageProperty[] = [
@@ -50,7 +122,7 @@ export const toUnifiedUserMessage = (payload: PayloadData) => {
 export function toPayloadRelatedMessage(
   messages: MessageProperty[],
   slice: number = 4
-): CoreMessage[] {
+): ModelMessage[] {
   // If array is empty or undefined, return empty array
   if (!messages || messages.length === 0) {
     return [];
@@ -59,5 +131,5 @@ export function toPayloadRelatedMessage(
   // Calculate start index to get last 4 items
   const startIndex = Math.max(messages.length - slice, 0);
 
-  return toCoreMessage(messages.slice(startIndex));
+  return toModelMessages(messages.slice(startIndex));
 }

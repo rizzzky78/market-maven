@@ -7,7 +7,7 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/tooltip";
-import { StreamableValue, useStreamableValue } from "ai/rsc";
+import { StreamableValue, useStreamableValue } from "@ai-sdk/rsc";
 import { NotepadText, Info, FlipHorizontal } from "lucide-react";
 import Link from "next/link";
 import { FC, useState, useEffect } from "react";

@@ -12,7 +12,7 @@ import { FC, ReactNode, useCallback } from "react";
 import { motion } from "framer-motion";
 import { StreamGeneration } from "@/lib/types/ai";
 import { generateId } from "ai";
-import { readStreamableValue, useActions, useUIState } from "ai/rsc";
+import { readStreamableValue, useActions, useUIState } from "@ai-sdk/rsc";
 import { UserMessage } from "./user-message";
 import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";

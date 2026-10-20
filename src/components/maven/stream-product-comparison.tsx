@@ -6,7 +6,7 @@ import { MemoProductComparison } from "@/components/maven/memo-product-compariso
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { motion, AnimatePresence } from "framer-motion";
 import { ProductComparisonSkeleton } from "@/components/maven/product-comparison-skeleton";
-import { StreamableValue, useStreamableValue } from "ai/rsc";
+import { StreamableValue, useStreamableValue } from "@ai-sdk/rsc";
 import { ErrorMessage } from "@/components/maven/error-message";
 
 type StreamProductComparison = {

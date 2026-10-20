@@ -3,8 +3,8 @@ import {
   QueryValidationData,
   UnifiedSubToolResult,
 } from "@/lib/types/subtools";
-import { google } from "@ai-sdk/google";
-import { generateObject } from "ai";
+import { google, type GoogleLanguageModelOptions } from "@ai-sdk/google";
+import { generateText, Output } from "ai";
 
 const SYSTEM_PROMPT = `You are an advanced electronic product query analyzer and validator with comprehensive market knowledge and access to real-time web search capabilities.
 
@@ -71,17 +71,14 @@ const validateQueryInput = (query: string): void => {
   }
 };
 
-const createModelConfig = () => {
-  return google("gemini-2.5-flash", {
-    useSearchGrounding: true,
-    safetySettings: [
-      { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
-      { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
-      { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
-      { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
-    ],
-  });
-};
+const googleOptions = {
+  safetySettings: [
+    { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+    { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+    { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
+  ],
+} satisfies GoogleLanguageModelOptions;
 
 /**
  * Enhanced query validator with comprehensive error handling and performance optimizations
@@ -101,20 +98,22 @@ export async function queryValidator(p: {
     console.log(`[QueryValidator] Starting analysis for: "${sanitizedQuery}"`);
 
     // Generate analysis with enhanced error handling
-    const result = await generateObject({
-      model: createModelConfig(),
-      schema: queryValidatorSchema,
-      system: SYSTEM_PROMPT,
+    const result = await generateText({
+      model: google("gemini-2.5-flash"),
+      tools: { google_search: google.tools.googleSearch({}) },
+      providerOptions: { google: googleOptions },
+      output: Output.object({ schema: queryValidatorSchema }),
+      instructions: SYSTEM_PROMPT,
       prompt: sanitizedQuery,
     });
 
     // Validate and sanitize the response
-    if (!result.object) {
+    if (!result.output) {
       throw new Error("No analysis result received from the model");
     }
 
     // Post-processing validation
-    const validationData = result.object;
+    const validationData = result.output;
 
     // Ensure detailed_reasoning doesn't exceed character limit
     if (validationData.detailed_reasoning.length > 400) {

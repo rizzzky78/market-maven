@@ -7,7 +7,7 @@ import {
   useActions,
   useStreamableValue,
   useUIState,
-} from "ai/rsc";
+} from "@ai-sdk/rsc";
 import { ArrowRightLeft } from "lucide-react";
 import { FC, useCallback, useEffect, useState } from "react";
 import { ErrorMessage } from "./error-message";

@@ -9,7 +9,7 @@ import {
 } from "@/components/maven/related-message";
 import { LoadingText } from "@/components/maven/shining-glass";
 import {
-  toCoreMessage,
+  toModelMessages,
   toPayloadRelatedMessage,
   toUnifiedUserMessage,
 } from "@/lib/agents/action/mutator/mutate-messages";
@@ -32,14 +32,14 @@ import {
 } from "@/lib/types/ai";
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";
-import { generateId, streamObject } from "ai";
+import { generateId, Output, streamText } from "ai";
 import {
   createAI,
   createStreamableValue,
   getAIState,
   getMutableAIState,
   streamUI,
-} from "ai/rsc";
+} from "@ai-sdk/rsc";
 import { toolRecommendator } from "./server/tool-recommendator";
 import { toolGetProductDetails } from "./server/tool-get-product-details";
 import { toolSearchProduct } from "./server/tool-search-product";
@@ -87,8 +87,8 @@ const orchestrator = async (
 
   const { value } = await streamUI({
     model: google('gemini-2.5-flash'),
-    messages: toCoreMessage(state.get().messages),
-    system: ORCHESTRATOR_SYSTEM_INSTRUCTION,
+    messages: toModelMessages(state.get().messages),
+    instructions: ORCHESTRATOR_SYSTEM_INSTRUCTION,
     initial: <LoadingText text="Maven is thinking..." />,
     onFinish: ({ usage }) => {
       logger.info("Orchestrator Usage: first layer", { usage });
@@ -121,12 +121,12 @@ const orchestrator = async (
             toPayloadRelatedMessage(state.get().messages)
           );
 
-          const { partialObjectStream: relatedStream } = streamObject({
+          const { partialOutputStream: relatedStream } = streamText({
             model: google("gemini-2.5-flash"),
-            system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
+            instructions: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
             prompt: payloadRelated,
-            schema: relatedQuerySchema,
-            onFinish: async ({ object }) => {
+            output: Output.object({ schema: relatedQuerySchema }),
+            onEnd: async ({ output: object }) => {
               if (object) {
                 relatedObject = object;
               }

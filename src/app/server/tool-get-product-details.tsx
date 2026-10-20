@@ -51,8 +51,14 @@ import {
 } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";
-import { streamText, streamObject, LanguageModelUsage, smoothStream } from "ai";
-import { createStreamableValue } from "ai/rsc";
+import {
+  streamText,
+  Output,
+  LanguageModelUsage,
+  smoothStream,
+  isStepCount,
+} from "ai";
+import { createStreamableValue } from "@ai-sdk/rsc";
 import { v4 } from "uuid";
 
 const toolGetProductDetails = ({
@@ -64,7 +70,7 @@ const toolGetProductDetails = ({
 }: ToolsetProps) => {
   const getProductDetails: RenderTool<typeof getProductDetailsSchema> = {
     description: TEMPLATE.get_product_details_description,
-    parameters: getProductDetailsSchema,
+    inputSchema: getProductDetailsSchema,
     generate: async function* ({ query, link, callId, source }) {
       /**
        * Previous call ID from product search object tool
@@ -161,9 +167,9 @@ const toolGetProductDetails = ({
 
           const { textStream: researcherStream } = streamText({
             model: google("gemini-2.5-flash"),
-            system: await SYSTEM_INSTRUCTION.PRODUCT_RESEARCHER,
+            instructions: await SYSTEM_INSTRUCTION.PRODUCT_RESEARCHER,
             prompt: JSON.stringify({ query }),
-            onFinish: ({ text, usage }) => {
+            onEnd: ({ text, usage }) => {
               logger.info("Usage - Get Product Details - Step 1", { usage });
 
               finalizedToolData.data.object.externalData!.markdown = text;
@@ -293,13 +299,14 @@ const toolGetProductDetails = ({
         } as unknown as Record<string, LanguageModelUsage>;
 
         const markdownLLM = streamText({
-          model: google("gemini-2.5-flash", { useSearchGrounding: true }),
-          system: PRODUCT_RESEARCHER_INSIGHT_SYSTEM_PROMPT,
-          maxSteps: 5,
+          model: google("gemini-2.5-flash"),
+          tools: { google_search: google.tools.googleSearch({}) },
+          instructions: PRODUCT_RESEARCHER_INSIGHT_SYSTEM_PROMPT,
+          stopWhen: isStepCount(5),
           prompt: JSON.stringify({
             payload: previousSearchData.previousData.title,
           }),
-          onFinish: ({ text, usage }) => {
+          onEnd: ({ text, usage }) => {
             mergedUsageObj.researcher = usage;
 
             previousSearchData.markdown = text;
@@ -357,12 +364,12 @@ const toolGetProductDetails = ({
 
         let partialObjDetailInsight: Record<string, any> = {};
 
-        const { partialObjectStream } = streamObject({
+        const { partialOutputStream } = streamText({
           model: google("gemini-2.5-flash"),
-          system: PRODUCT_EXTRACTOR_INSIGHT_SYSTEM_PROMPT,
+          instructions: PRODUCT_EXTRACTOR_INSIGHT_SYSTEM_PROMPT,
           prompt: payloadContent,
-          output: "no-schema",
-          onFinish: async ({ object, usage }) => {
+          output: Output.json(),
+          onEnd: async ({ output: object, usage }) => {
             mergedUsageObj.objectDetails = usage;
             finalizedToolData.data.object.productDetails = object as Record<
               string,
@@ -400,20 +407,36 @@ const toolGetProductDetails = ({
           },
         });
 
-        for await (const objProduct of partialObjectStream) {
+        for await (const objProduct of partialOutputStream) {
           partialObjDetailInsight = objProduct as Record<string, any>;
           streamableObject.update(objProduct as Record<string, any>);
         }
 
         const streamableText = createStreamableValue<string>("");
 
-        const mergedLLMUsage = Object.values(mergedUsageObj).reduce(
+        const mergedLLMUsage = Object.values(mergedUsageObj).reduce<
+          LanguageModelUsage
+        >(
           (acc, usage) => ({
-            promptTokens: acc.promptTokens + usage.promptTokens,
-            completionTokens: acc.completionTokens + usage.completionTokens,
-            totalTokens: acc.totalTokens + usage.totalTokens,
+            ...acc,
+            inputTokens: (acc.inputTokens ?? 0) + (usage.inputTokens ?? 0),
+            outputTokens: (acc.outputTokens ?? 0) + (usage.outputTokens ?? 0),
+            totalTokens: (acc.totalTokens ?? 0) + (usage.totalTokens ?? 0),
           }),
-          { promptTokens: 0, completionTokens: 0, totalTokens: 0 }
+          {
+            inputTokens: 0,
+            inputTokenDetails: {
+              noCacheTokens: undefined,
+              cacheReadTokens: undefined,
+              cacheWriteTokens: undefined,
+            },
+            outputTokens: 0,
+            outputTokenDetails: {
+              textTokens: undefined,
+              reasoningTokens: undefined,
+            },
+            totalTokens: 0,
+          }
         );
 
         generation.update({
@@ -451,9 +474,9 @@ const toolGetProductDetails = ({
 
         const { textStream } = streamText({
           model: google("gemini-2.5-flash"),
-          system: await SYSTEM_INSTRUCTION.PRODUCT_DETAILS_INSIGHT,
+          instructions: await SYSTEM_INSTRUCTION.PRODUCT_DETAILS_INSIGHT,
           prompt: JSON.stringify(payloadInsight),
-          onFinish: async ({ text }) => {
+          onEnd: async ({ text }) => {
             finalizedInsightText = text;
 
             streamableText.done();
@@ -540,12 +563,12 @@ const toolGetProductDetails = ({
             toPayloadRelatedMessage([...state.get().messages, ...mutate])
           );
 
-          const { partialObjectStream: relatedStream } = streamObject({
+          const { partialOutputStream: relatedStream } = streamText({
             model: google("gemini-2.5-flash"),
-            system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
+            instructions: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
             prompt: payloadRelated,
-            schema: relatedQuerySchema,
-            onFinish: async ({ object, usage }) => {
+            output: Output.object({ schema: relatedQuerySchema }),
+            onEnd: async ({ output: object, usage }) => {
               logger.info("Usage - Search Product - Step 4", { usage });
 
               if (object) {
@@ -689,12 +712,12 @@ const toolGetProductDetails = ({
             />
           );
 
-          const { partialObjectStream } = streamObject({
+          const { partialOutputStream } = streamText({
             model: google("gemini-2.5-flash"),
-            system: await SYSTEM_INSTRUCTION.PRODUCT_DETAILS_EXTRACTOR,
+            instructions: await SYSTEM_INSTRUCTION.PRODUCT_DETAILS_EXTRACTOR,
             prompt: payloadContent,
-            output: "no-schema",
-            onFinish: async ({ object, usage }) => {
+            output: Output.json(),
+            onEnd: async ({ output: object, usage }) => {
               logger.info("Usage - Search Product - Step 2", { usage });
 
               if (object) {
@@ -733,7 +756,7 @@ const toolGetProductDetails = ({
             },
           });
 
-          for await (const objProduct of partialObjectStream) {
+          for await (const objProduct of partialOutputStream) {
             streamableObject.update(objProduct as Record<string, any>);
           }
 
@@ -768,9 +791,9 @@ const toolGetProductDetails = ({
 
           const { textStream } = streamText({
             model: google("gemini-2.5-flash"),
-            system: await SYSTEM_INSTRUCTION.PRODUCT_DETAILS_INSIGHT,
+            instructions: await SYSTEM_INSTRUCTION.PRODUCT_DETAILS_INSIGHT,
             prompt: JSON.stringify(payloadInsight),
-            onFinish: async ({ text, usage }) => {
+            onEnd: async ({ text, usage }) => {
               logger.info("Usage - Search Product - Step 3", { usage });
 
               finalizedText = text;
@@ -861,12 +884,12 @@ const toolGetProductDetails = ({
               toPayloadRelatedMessage([...state.get().messages, ...mutate])
             );
 
-            const { partialObjectStream: relatedStream } = streamObject({
+            const { partialOutputStream: relatedStream } = streamText({
               model: google("gemini-2.5-flash"),
-              system: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
+              instructions: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
               prompt: payloadRelated,
-              schema: relatedQuerySchema,
-              onFinish: async ({ object, usage }) => {
+              output: Output.object({ schema: relatedQuerySchema }),
+              onEnd: async ({ output: object, usage }) => {
                 logger.info("Usage - Search Product - Step 4", { usage });
 
                 if (object) {

@@ -10,7 +10,7 @@ import {
 } from "../ui/tooltip";
 import { Button } from "../ui/button";
 import { Check, Copy } from "lucide-react";
-import { StreamableValue, useStreamableValue } from "ai/rsc";
+import { StreamableValue, useStreamableValue } from "@ai-sdk/rsc";
 import { ErrorMessage } from "./error-message";
 import { useScreenSize } from "../hooks/use-screen-size";
 

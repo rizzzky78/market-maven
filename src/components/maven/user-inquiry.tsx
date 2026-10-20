@@ -16,7 +16,7 @@ import {
   SkipForward,
 } from "lucide-react";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import { readStreamableValue, useActions, useUIState } from "ai/rsc";
+import { readStreamableValue, useActions, useUIState } from "@ai-sdk/rsc";
 import { useDebounceInput } from "../hooks/use-debounced-input";
 import { useMavenStateController } from "../hooks/maven-state-controller";
 import { UserMessage } from "./user-message";

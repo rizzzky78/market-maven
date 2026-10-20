@@ -14,7 +14,7 @@ import {
 } from "@/lib/types/serper";
 import { DataSourceInsight, UnifiedSubToolResult } from "@/lib/types/subtools";
 import { google } from "@ai-sdk/google";
-import { generateObject } from "ai";
+import { generateText, Output } from "ai";
 
 // Types and interfaces
 export type MarketSource = Exclude<RefferenceDataSource, "tokopedia">;
@@ -350,12 +350,11 @@ export async function searchProductInsight({
     // Generate insight using AI model
     const modelResponse = await executeWithRetry(
       async () => {
-        return await generateObject({
-          model: google("gemini-2.0-flash", {
-            useSearchGrounding: true,
-          }),
-          schema: dataSourceInsightSchema,
-          system: systemInstruction,
+        return await generateText({
+          model: google("gemini-2.0-flash"),
+          tools: { google_search: google.tools.googleSearch({}) },
+          output: Output.object({ schema: dataSourceInsightSchema }),
+          instructions: systemInstruction,
           prompt: JSON.stringify(modelPayload),
         });
       },
@@ -367,7 +366,7 @@ export async function searchProductInsight({
       ok: true,
       usage: modelResponse.usage,
       processingTime: Date.now(),
-      data: modelResponse.object,
+      data: modelResponse.output,
       metadata: {
         query: query.trim(),
         marketSource,
