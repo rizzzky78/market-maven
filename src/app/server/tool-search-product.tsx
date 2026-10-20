@@ -16,27 +16,16 @@ import {
   RelatedMessage,
 } from "@/components/maven/related-message";
 import { LoadingText } from "@/components/maven/shining-glass";
-import { toPayloadRelatedMessage } from "@/lib/agents/action/mutator/mutate-messages";
-import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
 import { TEMPLATE } from "@/lib/agents/constant";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
 import { productsSchema } from "@/lib/agents/schema/product";
-import {
-  RelatedQuery,
-  PartialRelated,
-  relatedQuerySchema,
-} from "@/lib/agents/schema/related";
+import { RelatedQuery, PartialRelated } from "@/lib/agents/schema/related";
 import { searchProductSchema } from "@/lib/agents/schema/tool-parameters";
 import { scrapeUrl } from "@/lib/agents/tools/api/firecrawl";
 import { handleScrapingWithCache } from "@/lib/service/cache-store";
+import { createMarkdownEntry, createObjectEntry } from "@/lib/service/store";
+import { MessageProperty, RenderTool, ToolsetProps } from "@/lib/types/ai";
 import {
-  createMarkdownEntry,
-  createObjectEntry,
-  createToolDataEntry,
-} from "@/lib/service/store";
-import { RenderTool, ToolsetProps } from "@/lib/types/ai";
-import {
-  ProductsResponse,
   Product,
   SearchProductResult,
   GlobalSearchResult,
@@ -45,8 +34,9 @@ import {
 import logger from "@/lib/utility/logger";
 import { processURLQuery } from "@/lib/utils";
 import { google } from "@ai-sdk/google";
-import { DeepPartial, Output, streamText } from "ai";
+import { DeepPartial, Output } from "ai";
 import { createStreamableValue } from "@ai-sdk/rsc";
+import { ReactNode } from "react";
 import { v4 } from "uuid";
 import { queryValidator } from "./subtools/query-validator";
 import { queryEnhancer } from "./subtools/query-enhancer";
@@ -58,10 +48,18 @@ import { searchProductInsight } from "./subtools/data-source/insight";
 import { InsightProductCardSkeleton } from "@/components/maven/insight-product-card-skeleton";
 import { InsightProductCard } from "@/components/maven/insight-product-card";
 import { StreamProductSearch } from "@/components/maven/stream-product-search";
+import {
+  commitToolResult,
+  createErrorState,
+  delay,
+  finishGeneration,
+  streamOutputToValue,
+  streamRelatedQuery,
+  streamTextToValue,
+} from "./workflow";
 
 const toolSearchProduct = ({
   generation,
-  errorState,
   state,
   requestOption,
 }: ToolsetProps) => {
@@ -70,6 +68,7 @@ const toolSearchProduct = ({
     inputSchema: searchProductSchema,
     generate: async function* ({ query }) {
       const toolRequestId = v4();
+      const errorState = createErrorState();
 
       yield <LoadingText text={`Searching for ${query}`} />;
 
@@ -83,7 +82,7 @@ const toolSearchProduct = ({
         loading: true,
       });
 
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await delay(2000);
 
       yield <LoadingText text="Validating user query..." />;
 
@@ -92,10 +91,8 @@ const toolSearchProduct = ({
       const validatedResult = await queryValidator({ query });
 
       if (!validatedResult.ok || !validatedResult.data) {
-        errorState = {
-          isError: true,
-          error: validatedResult.error,
-        };
+        errorState.isError = true;
+        errorState.error = validatedResult.error;
 
         generation.done({
           process: "api:fatal-error",
@@ -172,6 +169,54 @@ const toolSearchProduct = ({
       };
 
       /**
+       * Streams the related queries when requested, then closes the generation.
+       * Yields the in-progress UI and returns the final UI node.
+       */
+      async function* finalize(uiNode: ReactNode, mutate: MessageProperty[]) {
+        let relatedObject: RelatedQuery | null = null;
+
+        if (requestOption?.onRequest?.related) {
+          generation.update({
+            process: "stream:next-action",
+            loading: true,
+          });
+
+          const streamableRelated = createStreamableValue<PartialRelated>();
+
+          yield (
+            <>
+              {uiNode}
+              <StreamRelatedMessage content={streamableRelated.value} />
+            </>
+          );
+
+          relatedObject = await streamRelatedQuery(
+            streamableRelated,
+            errorState,
+            [...state.get().messages, ...mutate],
+            "Search Product - Step 3"
+          );
+
+          generation.update({
+            process: "stream:done",
+            loading: true,
+          });
+        }
+
+        const failure = finishGeneration(generation, errorState, { query });
+        if (failure) return failure;
+
+        return (
+          <>
+            {uiNode}
+            {requestOption?.onRequest?.related && (
+              <RelatedMessage related={relatedObject} />
+            )}
+          </>
+        );
+      }
+
+      /**
        * Reference Source Switcher
        *
        * Logic:
@@ -202,10 +247,8 @@ const toolSearchProduct = ({
         });
 
         if (!insightResult.ok || !insightResult.data) {
-          errorState = {
-            isError: true,
-            error: insightResult.error,
-          };
+          errorState.isError = true;
+          errorState.error = insightResult.error;
 
           generation.done({
             process: "api:fatal-error",
@@ -253,53 +296,42 @@ const toolSearchProduct = ({
           loading: true,
         });
 
+        const insightContent = {
+          success: true,
+          name: "searchProduct",
+          args: finalizedToolData.args,
+          data: finalizedToolData.data as SearchProductResult<GlobalSearchResult>,
+        } as const;
+
         const streamableText = createStreamableValue<string>("");
 
         yield (
           <>
             <InsightProductCard
               usage={insightResult.usage}
-              content={{
-                success: true,
-                name: "searchProduct",
-                args: finalizedToolData.args,
-                data: finalizedToolData.data as SearchProductResult<GlobalSearchResult>,
-              }}
+              content={insightContent}
             />
             <StreamAssistantMessage content={streamableText.value} />
           </>
         );
 
-        let finalizedText: string = "";
+        const finalizedText = await streamTextToValue(
+          streamableText,
+          errorState,
+          {
+            model: google("gemini-2.5-flash"),
+            instructions: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_INSIGHT,
+            prompt: JSON.stringify(insightResult.data),
+            onEnd: ({ usage }) => {
+              logger.info("Usage - Search Product - Step 2", { usage });
+            },
+          }
+        );
 
-        const { textStream } = streamText({
-          model: google("gemini-2.5-flash"),
-          instructions: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_INSIGHT,
-          prompt: JSON.stringify(insightResult.data),
-          onEnd: ({ text, usage }) => {
-            logger.info("Usage - Search Product - Step 2", { usage });
-
-            finalizedText = text;
-            streamableText.done();
-
-            generation.update({
-              process: "stream:partial-done",
-              loading: false,
-            });
-          },
-          onError: ({ error }) => {
-            streamableText.error(error);
-            errorState = {
-              isError: true,
-              error,
-            };
-          },
+        generation.update({
+          process: "stream:partial-done",
+          loading: false,
         });
-
-        for await (const texts of textStream) {
-          finalizedText += texts;
-          streamableText.update(finalizedText);
-        }
 
         const searchProductUiNode = (
           <>
@@ -307,18 +339,13 @@ const toolSearchProduct = ({
             <InsightProductCard
               opened
               usage={insightResult.usage}
-              content={{
-                success: true,
-                name: "searchProduct",
-                args: finalizedToolData.args,
-                data: finalizedToolData.data as SearchProductResult<GlobalSearchResult>,
-              }}
+              content={insightContent}
             />
             <AssistantMessage content={finalizedText} />
           </>
         );
 
-        const { toolResult, mutate } = mutateTool(state, {
+        const mutate = await commitToolResult(state, generation, toolRequestId, {
           name: "searchProduct",
           args: finalizedToolData.args,
           result:
@@ -328,468 +355,233 @@ const toolSearchProduct = ({
           },
         });
 
-        generation.update({
-          process: "database:save-state",
-          loading: true,
-        });
-
-        await createToolDataEntry({
-          key: toolRequestId,
-          chatId: state.get().chatId,
-          owner: state.get().username,
-          tool: toolResult,
-        });
-
         logger.info("Done using searchProduct tool", {
           progress: "finish",
           request: { query, reffSource: requestOption?.onRequest?.reffSource },
         });
 
-        let relatedObject: RelatedQuery | null = null;
+        return yield* finalize(searchProductUiNode, mutate);
+      }
 
-        const streamableRelated = createStreamableValue<PartialRelated>();
+      yield <LoadingText text={`Perform scrape operation...`} />;
 
-        if (requestOption?.onRequest?.related) {
-          generation.update({
-            process: "stream:next-action",
-            loading: true,
-          });
+      generation.update({
+        process: "api:requesting-data",
+        loading: true,
+      });
 
-          yield (
-            <>
-              {searchProductUiNode}
-              <StreamRelatedMessage content={streamableRelated.value} />
-            </>
-          );
-
-          const payloadRelated = JSON.stringify(
-            toPayloadRelatedMessage([...state.get().messages, ...mutate])
-          );
-
-          const { partialOutputStream: relatedStream } = streamText({
-            model: google("gemini-2.5-flash"),
-            instructions: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
-            prompt: payloadRelated,
-            output: Output.object({ schema: relatedQuerySchema }),
-            onEnd: async ({ output: object, usage }) => {
-              logger.info("Usage - Search Product - Step 3", { usage });
-
-              if (object) {
-                relatedObject = object;
-              }
-              streamableRelated.done();
-
-              generation.update({
-                process: "stream:done",
-                loading: true,
-              });
-            },
-            onError: ({ error }) => {
-              streamableRelated.done();
-              errorState = {
-                isError: true,
-                error,
-              };
-            },
-          });
-
-          for await (const relatedChunk of relatedStream) {
-            streamableRelated.update(relatedChunk);
-          }
-        }
-
-        if (errorState.isError) {
-          generation.done({
-            process: "tool:fatal-error",
-            loading: false,
-            error: "LLM Generation Error",
-          });
-
-          return (
-            <ErrorMessage
-              errorName="LLM Error"
-              reason="There was an error on LLMs Agent generation, that's all we know :("
-              raw={{
-                payload: { query },
-                error: errorState,
-              }}
-            />
-          );
-        } else {
-          generation.done({
-            process: "tool:done",
-            loading: false,
+      const {
+        cached,
+        response: { data: scrapeContent },
+      } = await handleScrapingWithCache(
+        { query, key: toolRequestId },
+        async (payload) => {
+          return await scrapeUrl({
+            url: processURLQuery(payload),
+            formats: ["markdown", "screenshot"],
+            waitFor: 4000,
           });
         }
+      );
 
-        return (
-          <>
-            {searchProductUiNode}
-            {requestOption?.onRequest?.related && (
-              <RelatedMessage related={relatedObject} />
-            )}
-          </>
+      if (cached) {
+        yield (
+          <LoadingText
+            text={`The query is cached!. Proceed to do data extraction`}
+          />
         );
-      } else {
-        yield <LoadingText text={`Perform scrape operation...`} />;
 
-        generation.update({
-          process: "api:requesting-data",
-          loading: true,
+        await delay(3000);
+      }
+
+      if (!scrapeContent.success) {
+        generation.done({
+          process: "api:fatal-error",
+          loading: false,
+          error: scrapeContent.message,
         });
 
-        const {
-          cached,
-          response: { data: scrapeContent },
-        } = await handleScrapingWithCache(
-          { query, key: toolRequestId },
-          async (payload) => {
-            return await scrapeUrl({
-              url: processURLQuery(payload),
-              formats: ["markdown", "screenshot"],
-              waitFor: 4000,
-            });
-          }
+        return (
+          <ErrorMessage
+            errorName="Scrape Operation Failed"
+            reason="There was an error while scrapping the content from the firecrawl service."
+            raw={{
+              payload: { query },
+              error: scrapeContent.error,
+              message: scrapeContent.message,
+            }}
+          />
         );
-
-        if (cached) {
-          yield (
-            <LoadingText
-              text={`The query is cached!. Proceed to do data extraction`}
-            />
-          );
-
-          await new Promise((resolve) => setTimeout(resolve, 3000));
-        }
-
-        if (
-          scrapeContent.success &&
-          scrapeContent.markdown &&
-          scrapeContent.screenshot
-        ) {
-          generation.update({
-            process: "api:success",
-            loading: true,
-          });
-
-          yield (
-            <>
-              {queryVEUI}
-              <LoadingText text="Found products..." />
-            </>
-          );
-
-          (
-            finalizedToolData.data
-              .object as SearchProductResult<TokopediaSearchResult>["object"]
-          ).screenshot = scrapeContent.screenshot;
-
-          const finalizedProductSearch: ProductsResponse = {
-            callId: toolRequestId,
-            screenshot: scrapeContent.screenshot,
-            data: [],
-          };
-
-          generation.update({
-            process: "database:save-state",
-            loading: true,
-          });
-
-          await createMarkdownEntry({
-            key: finalizedToolData.data.callId,
-            chatId: state.get().chatId,
-            owner: state.get().username,
-            type: "product-search",
-            markdown: scrapeContent.markdown,
-          });
-
-          yield (
-            <>
-              {queryVEUI}
-              <LoadingText text="Proceed to data extraction..." />
-            </>
-          );
-
-          const payload = JSON.stringify({
-            objective: TEMPLATE.gpd_extraction_objective,
-            markdown: scrapeContent.markdown,
-          });
-
-          const streamableProducts =
-            createStreamableValue<DeepPartial<Product[]>>();
-
-          yield (
-            <>
-              {queryVEUI}
-              <StreamProductSearch
-                query={query}
-                callId={finalizedToolData.data.callId}
-                screenshot={scrapeContent.screenshot}
-                products={streamableProducts.value}
-              />
-            </>
-          );
-
-          generation.update({
-            process: "stream:initial",
-            loading: true,
-          });
-
-          const { partialOutputStream } = streamText({
-            model: google("gemini-2.5-flash"),
-            instructions: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_EXTRACTOR,
-            prompt: payload,
-            output: Output.object({ schema: productsSchema }),
-            onEnd: async ({ output: object, usage }) => {
-              logger.info("Usage - Search Product - Step 1", { usage });
-
-              if (object) {
-                (
-                  finalizedToolData.data
-                    .object as SearchProductResult<TokopediaSearchResult>["object"]
-                ).products = object.data;
-              }
-
-              streamableProducts.done();
-
-              generation.update({
-                process: "stream:partial-done",
-                loading: true,
-              });
-
-              await createObjectEntry({
-                key: finalizedToolData.data.callId,
-                chatId: state.get().chatId,
-                owner: state.get().username,
-                type: "searchProduct",
-                object: finalizedToolData.data,
-              });
-
-              generation.update({
-                process: "database:save-state",
-                loading: true,
-              });
-            },
-            onError: ({ error }) => {
-              streamableProducts.error(error);
-              errorState = {
-                isError: true,
-                error,
-              };
-            },
-          });
-
-          for await (const chunk of partialOutputStream) {
-            if (chunk.data) {
-              streamableProducts.update(chunk.data);
-            }
-          }
-
-          const streamableText = createStreamableValue<string>("");
-
-          yield (
-            <>
-              {queryVEUI}
-              <ProductSearch
-                content={{
-                  success: true,
-                  name: "searchProduct",
-                  args: { query },
-                  data: finalizedToolData.data as SearchProductResult<TokopediaSearchResult>,
-                }}
-                isFinished={true}
-              />
-              <StreamAssistantMessage content={streamableText.value} />
-            </>
-          );
-
-          let finalizedText: string = "";
-
-          generation.update({
-            process: "stream:next-action",
-            loading: true,
-          });
-
-          const { textStream } = streamText({
-            model: google("gemini-2.5-flash"),
-            instructions: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_INSIGHT,
-            prompt: JSON.stringify(finalizedProductSearch.data),
-            onEnd: ({ text, usage }) => {
-              logger.info("Usage - Search Product - Step 2", { usage });
-
-              finalizedText = text;
-              streamableText.done();
-
-              generation.update({
-                process: "stream:partial-done",
-                loading: true,
-              });
-            },
-            onError: ({ error }) => {
-              streamableText.error(error);
-              errorState = {
-                isError: true,
-                error,
-              };
-            },
-          });
-
-          for await (const texts of textStream) {
-            finalizedText += texts;
-            streamableText.update(finalizedText);
-          }
-
-          const searchProductUiNode = (
-            <>
-              {queryVEUI}
-              <ProductSearch
-                content={{
-                  success: true,
-                  name: "searchProduct",
-                  args: { query },
-                  data: finalizedToolData.data as SearchProductResult<TokopediaSearchResult>,
-                }}
-                isFinished={true}
-              />
-              <AssistantMessage content={finalizedText} />
-            </>
-          );
-
-          /**
-           * Mutate tool result to message context and saving the AI state
-           */
-          const { toolResult, mutate } = mutateTool(state, {
-            name: "searchProduct",
-            args: finalizedToolData.args,
-            result:
-              finalizedToolData.data as SearchProductResult<TokopediaSearchResult>,
-            overrideAssistant: {
-              content: finalizedText,
-            },
-          });
-
-          generation.update({
-            process: "database:save-state",
-            loading: true,
-          });
-
-          await createToolDataEntry({
-            key: finalizedToolData.data.callId,
-            chatId: state.get().chatId,
-            owner: state.get().username,
-            tool: toolResult,
-          });
-
-          logger.info("Done using searchProduct tool", {
-            progress: "finish",
-            request: { query },
-          });
-
-          let relatedObject: RelatedQuery | null = null;
-
-          const streamableRelated = createStreamableValue<PartialRelated>();
-
-          if (requestOption?.onRequest?.related) {
-            generation.update({
-              process: "stream:next-action",
-              loading: true,
-            });
-
-            yield (
-              <>
-                {searchProductUiNode}
-                <StreamRelatedMessage content={streamableRelated.value} />
-              </>
-            );
-
-            const payloadRelated = JSON.stringify(
-              toPayloadRelatedMessage([...state.get().messages, ...mutate])
-            );
-
-            const { partialOutputStream: relatedStream } = streamText({
-              model: google("gemini-2.5-flash"),
-              instructions: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
-              prompt: payloadRelated,
-              output: Output.object({ schema: relatedQuerySchema }),
-              onEnd: async ({ output: object, usage }) => {
-                logger.info("Usage - Search Product - Step 3", { usage });
-
-                if (object) {
-                  relatedObject = object;
-                }
-                streamableRelated.done();
-
-                generation.update({
-                  process: "stream:done",
-                  loading: true,
-                });
-              },
-              onError: ({ error }) => {
-                streamableRelated.done();
-                errorState = {
-                  isError: true,
-                  error,
-                };
-              },
-            });
-
-            for await (const relatedChunk of relatedStream) {
-              streamableRelated.update(relatedChunk);
-            }
-          }
-
-          if (errorState.isError) {
-            generation.done({
-              process: "tool:fatal-error",
-              loading: false,
-              error: "LLM Generation Error",
-            });
-
-            return (
-              <ErrorMessage
-                errorName="LLM Error"
-                reason="There was an error on LLMs Agent generation, that's all we know :("
-                raw={{
-                  payload: { query },
-                  error: errorState,
-                }}
-              />
-            );
-          } else {
-            generation.done({
-              process: "tool:done",
-              loading: false,
-            });
-          }
-
-          return (
-            <>
-              {searchProductUiNode}
-              {requestOption?.onRequest?.related && (
-                <RelatedMessage related={relatedObject} />
-              )}
-            </>
-          );
-        } else if (!scrapeContent.success) {
-          generation.done({
-            process: "api:fatal-error",
-            loading: false,
-            error: scrapeContent.message,
-          });
-
-          return (
-            <ErrorMessage
-              errorName="Scrape Operation Failed"
-              reason="There was an error while scrapping the content from the firecrawl service."
-              raw={{
-                payload: { query },
-                error: scrapeContent.error,
-                message: scrapeContent.message,
-              }}
-            />
-          );
-        }
       }
+
+      if (!scrapeContent.markdown || !scrapeContent.screenshot) return;
+
+      generation.update({
+        process: "api:success",
+        loading: true,
+      });
+
+      yield (
+        <>
+          {queryVEUI}
+          <LoadingText text="Found products..." />
+        </>
+      );
+
+      const tokopediaObject = finalizedToolData.data
+        .object as SearchProductResult<TokopediaSearchResult>["object"];
+
+      tokopediaObject.screenshot = scrapeContent.screenshot;
+
+      generation.update({
+        process: "database:save-state",
+        loading: true,
+      });
+
+      await createMarkdownEntry({
+        key: finalizedToolData.data.callId,
+        chatId: state.get().chatId,
+        owner: state.get().username,
+        type: "product-search",
+        markdown: scrapeContent.markdown,
+      });
+
+      yield (
+        <>
+          {queryVEUI}
+          <LoadingText text="Proceed to data extraction..." />
+        </>
+      );
+
+      const payload = JSON.stringify({
+        objective: TEMPLATE.gpd_extraction_objective,
+        markdown: scrapeContent.markdown,
+      });
+
+      const streamableProducts = createStreamableValue<DeepPartial<Product[]>>();
+
+      yield (
+        <>
+          {queryVEUI}
+          <StreamProductSearch
+            query={query}
+            callId={finalizedToolData.data.callId}
+            screenshot={scrapeContent.screenshot}
+            products={streamableProducts.value}
+          />
+        </>
+      );
+
+      generation.update({
+        process: "stream:initial",
+        loading: true,
+      });
+
+      const extracted = await streamOutputToValue(
+        streamableProducts,
+        errorState,
+        {
+          model: google("gemini-2.5-flash"),
+          instructions: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_EXTRACTOR,
+          prompt: payload,
+          output: Output.object({ schema: productsSchema }),
+          select: (chunk) => chunk.data,
+          onEnd: ({ usage }) => {
+            logger.info("Usage - Search Product - Step 1", { usage });
+          },
+        }
+      );
+
+      if (extracted) {
+        tokopediaObject.products = extracted.data;
+      }
+
+      generation.update({
+        process: "stream:partial-done",
+        loading: true,
+      });
+
+      await createObjectEntry({
+        key: finalizedToolData.data.callId,
+        chatId: state.get().chatId,
+        owner: state.get().username,
+        type: "searchProduct",
+        object: finalizedToolData.data,
+      });
+
+      generation.update({
+        process: "database:save-state",
+        loading: true,
+      });
+
+      const productSearchContent = {
+        success: true,
+        name: "searchProduct",
+        args: { query },
+        data: finalizedToolData.data as SearchProductResult<TokopediaSearchResult>,
+      } as const;
+
+      const streamableText = createStreamableValue<string>("");
+
+      yield (
+        <>
+          {queryVEUI}
+          <ProductSearch content={productSearchContent} isFinished={true} />
+          <StreamAssistantMessage content={streamableText.value} />
+        </>
+      );
+
+      generation.update({
+        process: "stream:next-action",
+        loading: true,
+      });
+
+      const finalizedText = await streamTextToValue(streamableText, errorState, {
+        model: google("gemini-2.5-flash"),
+        instructions: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_INSIGHT,
+        prompt: JSON.stringify(tokopediaObject.products ?? []),
+        onEnd: ({ usage }) => {
+          logger.info("Usage - Search Product - Step 2", { usage });
+        },
+      });
+
+      generation.update({
+        process: "stream:partial-done",
+        loading: true,
+      });
+
+      const searchProductUiNode = (
+        <>
+          {queryVEUI}
+          <ProductSearch content={productSearchContent} isFinished={true} />
+          <AssistantMessage content={finalizedText} />
+        </>
+      );
+
+      /**
+       * Mutate tool result to message context and saving the AI state
+       */
+      const mutate = await commitToolResult(
+        state,
+        generation,
+        finalizedToolData.data.callId,
+        {
+          name: "searchProduct",
+          args: finalizedToolData.args,
+          result:
+            finalizedToolData.data as SearchProductResult<TokopediaSearchResult>,
+          overrideAssistant: {
+            content: finalizedText,
+          },
+        }
+      );
+
+      logger.info("Done using searchProduct tool", {
+        progress: "finish",
+        request: { query },
+      });
+
+      return yield* finalize(searchProductUiNode, mutate);
     },
   };
 

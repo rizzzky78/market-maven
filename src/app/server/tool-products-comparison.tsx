@@ -18,35 +18,32 @@ import {
 } from "@/components/maven/related-message";
 import { LoadingText } from "@/components/maven/shining-glass";
 import { StreamProductComparison } from "@/components/maven/stream-product-comparison";
-import { toPayloadRelatedMessage } from "@/lib/agents/action/mutator/mutate-messages";
-import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
 import { TEMPLATE } from "@/lib/agents/constant";
-import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
 import { COMPARISON_EXTRACTOR_SYSTEM_INSTRUCTION } from "@/lib/agents/constant/md/comparison-extractor";
 import { COMPARISON_INSIGHT_SYSTEM_INSTRUCTION } from "@/lib/agents/constant/md/comparison-insight";
 import { COMPARISON_TABLE_CRAFTER_SYSTEM_INSTRUCTION } from "@/lib/agents/constant/md/comparison-table";
-import {
-  RelatedQuery,
-  PartialRelated,
-  relatedQuerySchema,
-} from "@/lib/agents/schema/related";
+import { RelatedQuery, PartialRelated } from "@/lib/agents/schema/related";
 import { productsComparionSchema } from "@/lib/agents/schema/tool-parameters";
-import {
-  getObjectEntry,
-  createToolDataEntry,
-  createObjectEntry,
-} from "@/lib/service/store";
+import { getObjectEntry, createObjectEntry } from "@/lib/service/store";
 import { RenderTool, ToolsetProps } from "@/lib/types/ai";
 import { ComparisonData, ProductDetails } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";
-import { streamText, Output, smoothStream } from "ai";
+import { Output, smoothStream } from "ai";
 import { createStreamableValue } from "@ai-sdk/rsc";
 import { v4 } from "uuid";
+import {
+  commitToolResult,
+  createErrorState,
+  delay,
+  finishGeneration,
+  streamOutputToValue,
+  streamRelatedQuery,
+  streamTextToValue,
+} from "./workflow";
 
 const toolProductComparison = ({
   generation,
-  errorState,
   state,
   requestOption,
   userMessage,
@@ -56,6 +53,7 @@ const toolProductComparison = ({
     inputSchema: productsComparionSchema,
     generate: async function* ({ compare }) {
       const toolRequestId = v4();
+      const errorState = createErrorState();
 
       logger.info("Using productsComparison tool");
 
@@ -87,11 +85,6 @@ const toolProductComparison = ({
       if (previousProductsData.length === 0) {
         const getKeys = compare.map((v) => v.callId).join(", ");
 
-        errorState = {
-          isError: true,
-          error: `Error cannot access data with keys: [${getKeys}]`,
-        };
-
         generation.done({
           process: "database:not-found",
           loading: false,
@@ -112,7 +105,7 @@ const toolProductComparison = ({
 
       yield <LoadingText text="Found previous products data" />;
 
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+      await delay(3000);
 
       yield <LoadingText text="Generating comparison..." />;
 
@@ -139,48 +132,27 @@ const toolProductComparison = ({
         />
       );
 
-      // stream-ui here
+      const comparison = await streamOutputToValue(
+        streamableComparison,
+        errorState,
+        {
+          model: google("gemini-2.5-flash"),
+          instructions: COMPARISON_EXTRACTOR_SYSTEM_INSTRUCTION,
+          output: Output.json(),
+          prompt: JSON.stringify({ payload: comparisonPayload }),
+          select: (partial) => partial as Record<string, any>,
+        }
+      );
 
-      let comparisonObj: Record<string, any> = {};
+      finalizedToolData.data.object.comparison = comparison as Record<
+        string,
+        any
+      >;
 
-      const { partialOutputStream } = streamText({
-        model: google("gemini-2.5-flash"),
-        instructions: COMPARISON_EXTRACTOR_SYSTEM_INSTRUCTION,
-        output: Output.json(),
-        prompt: JSON.stringify({ payload: comparisonPayload }),
-        onEnd: ({ output: object }) => {
-          finalizedToolData.data.object.comparison = object as Record<
-            string,
-            any
-          >;
-
-          comparisonObj = object as Record<string, any>;
-
-          streamableComparison.done();
-
-          generation.update({
-            process: "stream:partial-done",
-            loading: true,
-          });
-        },
-        onError: ({ error }) => {
-          streamableComparison.error(error);
-
-          errorState = {
-            isError: true,
-            error,
-          };
-
-          generation.update({
-            process: "stream:error",
-            loading: true,
-          });
-        },
+      generation.update({
+        process: "stream:partial-done",
+        loading: true,
       });
-
-      for await (const chunk of partialOutputStream) {
-        streamableComparison.update(chunk as Record<string, any>);
-      }
 
       generation.update({
         process: "stream:next-action",
@@ -196,43 +168,20 @@ const toolProductComparison = ({
         />
       );
 
-      let tableMarkdown = "";
+      finalizedToolData.data.object.markdownTable = await streamTextToValue(
+        streamableTable,
+        errorState,
+        {
+          model: google("gemini-2.5-flash"),
+          instructions: COMPARISON_TABLE_CRAFTER_SYSTEM_INSTRUCTION,
+          prompt: JSON.stringify({ payload: finalizedToolData.data }),
+        }
+      );
 
-      const comparisonTable = streamText({
-        model: google("gemini-2.5-flash"),
-        instructions: COMPARISON_TABLE_CRAFTER_SYSTEM_INSTRUCTION,
-        prompt: JSON.stringify({ payload: finalizedToolData.data }),
-        onEnd: ({ text }) => {
-          tableMarkdown = text;
-
-          streamableTable.done();
-
-          finalizedToolData.data.object.markdownTable = text;
-
-          generation.update({
-            process: "stream:success",
-            loading: true,
-          });
-        },
-        onError: ({ error }) => {
-          streamableTable.error(error);
-
-          errorState = {
-            isError: true,
-            error,
-          };
-
-          generation.update({
-            process: "stream:error",
-            loading: true,
-          });
-        },
+      generation.update({
+        process: "stream:success",
+        loading: true,
       });
-
-      for await (const tables of comparisonTable.textStream) {
-        tableMarkdown += tables;
-        streamableTable.update(tableMarkdown);
-      }
 
       const streamableInsight = createStreamableValue<string>("");
 
@@ -252,48 +201,27 @@ const toolProductComparison = ({
 
       const insightPayload = {
         userIntent: userMessage?.text_input,
-        dataset: comparisonObj || finalizedToolData.data.object.comparison,
+        dataset: comparison ?? finalizedToolData.data.object.comparison,
       };
 
-      let insightText = "";
+      const insightText = await streamTextToValue(
+        streamableInsight,
+        errorState,
+        {
+          model: google("gemini-2.5-flash"),
+          instructions: COMPARISON_INSIGHT_SYSTEM_INSTRUCTION,
+          prompt: JSON.stringify(insightPayload),
+          experimental_transform: smoothStream({
+            delayInMs: 20,
+            chunking: "word",
+          }),
+        }
+      );
 
-      const comparisonInsight = streamText({
-        model: google("gemini-2.5-flash"),
-        instructions: COMPARISON_INSIGHT_SYSTEM_INSTRUCTION,
-        prompt: JSON.stringify(insightPayload),
-        onEnd: ({ text }) => {
-          insightText = text;
-
-          streamableInsight.done();
-
-          generation.update({
-            process: "stream:partial-done",
-            loading: true,
-          });
-        },
-        onError: ({ error }) => {
-          streamableInsight.error(error);
-
-          errorState = {
-            isError: true,
-            error,
-          };
-
-          generation.update({
-            process: "stream:error",
-            loading: true,
-          });
-        },
-        experimental_transform: smoothStream({
-          delayInMs: 20,
-          chunking: "word",
-        }),
+      generation.update({
+        process: "stream:partial-done",
+        loading: true,
       });
-
-      for await (const texts of comparisonInsight.textStream) {
-        insightText += texts;
-        streamableInsight.update(insightText);
-      }
 
       await createObjectEntry({
         key: finalizedToolData.data.callId,
@@ -317,36 +245,29 @@ const toolProductComparison = ({
         </>
       );
 
-      const { toolResult, mutate } = mutateTool(state, {
-        name: "productsComparison",
-        args: finalizedToolData.args,
-        result: finalizedToolData.data,
-        overrideAssistant: {
-          content: insightText,
-        },
-      });
-
-      await createToolDataEntry({
-        key: finalizedToolData.data.callId,
-        chatId: state.get().chatId,
-        owner: state.get().username,
-        tool: toolResult,
-      });
-
-      generation.update({
-        process: "database:save-state",
-        loading: true,
-      });
+      const mutate = await commitToolResult(
+        state,
+        generation,
+        finalizedToolData.data.callId,
+        {
+          name: "productsComparison",
+          args: finalizedToolData.args,
+          result: finalizedToolData.data,
+          overrideAssistant: {
+            content: insightText,
+          },
+        }
+      );
 
       let relatedObject: RelatedQuery | null = null;
-
-      const streamableRelated = createStreamableValue<PartialRelated>();
 
       if (requestOption?.onRequest?.related) {
         generation.update({
           process: "stream:next-action",
           loading: true,
         });
+
+        const streamableRelated = createStreamableValue<PartialRelated>();
 
         yield (
           <>
@@ -355,62 +276,17 @@ const toolProductComparison = ({
           </>
         );
 
-        const payloadRelated = JSON.stringify(
-          toPayloadRelatedMessage([...state.get().messages, ...mutate])
-        );
-
-        const { partialOutputStream: relatedStream } = streamText({
-          model: google("gemini-2.5-flash-lite"),
-          instructions: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
-          prompt: payloadRelated,
-          output: Output.object({ schema: relatedQuerySchema }),
-          onEnd: async ({ output: object, usage }) => {
-            logger.info("Usage - Products Comparison - Step 3", {
-              usage,
-            });
-
-            if (object) {
-              relatedObject = object;
-            }
-            streamableRelated.done();
-          },
-          onError: ({ error }) => {
-            streamableRelated.done();
-            errorState = {
-              isError: true,
-              error,
-            };
-          },
-        });
-
-        for await (const relatedChunk of relatedStream) {
-          streamableRelated.update(relatedChunk);
-        }
-      }
-
-      if (errorState.isError) {
-        generation.done({
-          process: "tool:fatal-error",
-          loading: false,
-          error: "LLM Generation Error",
-        });
-
-        return (
-          <ErrorMessage
-            errorName="LLM Error"
-            reason="There was an error on LLMs Agent generation, that's all we know :("
-            raw={{
-              payload: { compare },
-              error: errorState,
-            }}
-          />
+        relatedObject = await streamRelatedQuery(
+          streamableRelated,
+          errorState,
+          [...state.get().messages, ...mutate],
+          "Products Comparison - Step 3",
+          google("gemini-2.5-flash-lite")
         );
       }
 
-      generation.done({
-        process: "stream:done",
-        loading: false,
-      });
+      const failure = finishGeneration(generation, errorState, { compare });
+      if (failure) return failure;
 
       return (
         <>

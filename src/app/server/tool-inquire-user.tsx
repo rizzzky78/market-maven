@@ -20,13 +20,16 @@ import { RenderTool, ToolsetProps } from "@/lib/types/ai";
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";
 import { generateId, Output, streamText } from "ai";
+import { createErrorState } from "./workflow";
 
-const toolInquireUser = ({ generation, errorState, state }: ToolsetProps) => {
+const toolInquireUser = ({ generation, state }: ToolsetProps) => {
   const inquireUser: RenderTool<typeof inputInquirySchema> = {
     description: TEMPLATE.inquire_user_description,
     inputSchema: inputInquirySchema,
     generate: async function* (inquiryProp) {
       logger.info("Using inquireUser tool");
+
+      const errorState = createErrorState();
 
       generation.update({
         process: "tool:initial",
@@ -76,10 +79,8 @@ const toolInquireUser = ({ generation, errorState, state }: ToolsetProps) => {
             });
           },
           onError: ({ error }) => {
-            errorState = {
-              isError: true,
-              error,
-            };
+            errorState.isError = true;
+            errorState.error = error;
           },
         });
 

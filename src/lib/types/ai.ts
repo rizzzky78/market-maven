@@ -481,7 +481,6 @@ export type ExtendedToolResult<A = unknown, D = unknown> = {
 
 export type ToolsetProps = {
   generation: ReturnType<typeof createStreamableValue<StreamGeneration>>;
-  errorState: { isError: boolean; error: unknown };
   state: MutableAIState<AIState>;
   requestOption?: ExtendedRequestOption;
   userMessage?: UserContentMessage;

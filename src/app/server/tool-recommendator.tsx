@@ -9,7 +9,6 @@ import {
   StreamAssistantMessage,
   AssistantMessage,
 } from "@/components/maven/assistant-message";
-import { ErrorMessage } from "@/components/maven/error-message";
 import {
   StreamRecommendationAction,
   RecommendationAction,
@@ -20,32 +19,33 @@ import {
   RelatedMessage,
 } from "@/components/maven/related-message";
 import { LoadingText } from "@/components/maven/shining-glass";
-import { toPayloadRelatedMessage } from "@/lib/agents/action/mutator/mutate-messages";
-import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
 import { TEMPLATE } from "@/lib/agents/constant";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
 import {
   ProductsRecommendation,
   recommendationSchema,
 } from "@/lib/agents/schema/product";
-import {
-  RelatedQuery,
-  PartialRelated,
-  relatedQuerySchema,
-} from "@/lib/agents/schema/related";
+import { RelatedQuery, PartialRelated } from "@/lib/agents/schema/related";
 import { recommendatorSchema } from "@/lib/agents/schema/tool-parameters";
-import { createToolDataEntry } from "@/lib/service/store";
 import { RenderTool, ToolsetProps } from "@/lib/types/ai";
 import { RecommendationResponse } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";
-import { DeepPartial, Output, streamText } from "ai";
+import { DeepPartial, Output } from "ai";
 import { createStreamableValue } from "@ai-sdk/rsc";
 import { v4 } from "uuid";
+import {
+  commitToolResult,
+  createErrorState,
+  delay,
+  finishGeneration,
+  streamOutputToValue,
+  streamRelatedQuery,
+  streamTextToValue,
+} from "./workflow";
 
 const toolRecommendator = ({
   generation,
-  errorState,
   state,
   requestOption,
 }: ToolsetProps) => {
@@ -54,6 +54,7 @@ const toolRecommendator = ({
     inputSchema: recommendatorSchema,
     generate: async function* ({ intent, scope }) {
       const toolRequestId = v4();
+      const errorState = createErrorState();
 
       yield (
         <LoadingText text="Crafting an recommendations based on your thought..." />
@@ -69,7 +70,7 @@ const toolRecommendator = ({
         loading: true,
       });
 
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+      await delay(3000);
 
       const finalizedRecommendator: RecommendationResponse = {
         callId: toolRequestId,
@@ -83,7 +84,7 @@ const toolRecommendator = ({
 
       yield <RecommendationSkeleton />;
 
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+      await delay(3000);
 
       const streamableRecommendation = createStreamableValue<
         DeepPartial<ProductsRecommendation>
@@ -101,36 +102,23 @@ const toolRecommendator = ({
         />
       );
 
-      const { partialOutputStream } = streamText({
-        model: google("gemini-2.5-flash"),
+      const recommendation = await streamOutputToValue(
+        streamableRecommendation,
+        errorState,
+        {
+          model: google("gemini-2.5-flash"),
           tools: { google_search: google.tools.googleSearch({}) },
-        instructions: await SYSTEM_INSTRUCTION.RECOMMENDATOR_EXTRACTOR,
-        prompt: JSON.stringify({ intent, scope }),
-        output: Output.object({ schema: recommendationSchema }),
-        onEnd: ({ output: object, usage }) => {
-          logger.info("Usage - Recommendator - Step 1", { usage });
+          instructions: await SYSTEM_INSTRUCTION.RECOMMENDATOR_EXTRACTOR,
+          prompt: JSON.stringify({ intent, scope }),
+          output: Output.object({ schema: recommendationSchema }),
+          onEnd: ({ usage }) => {
+            logger.info("Usage - Recommendator - Step 1", { usage });
+          },
+        }
+      );
 
-          if (object) {
-            finalizedRecommendator.recommendations = object.recommendations;
-          }
-          streamableRecommendation.done();
-
-          generation.update({
-            process: "stream:partial-done",
-            loading: true,
-          });
-        },
-        onError: ({ error }) => {
-          streamableRecommendation.error(error);
-          errorState = {
-            isError: true,
-            error,
-          };
-        },
-      });
-
-      for await (const chunkRecommendator of partialOutputStream) {
-        streamableRecommendation.update(chunkRecommendator);
+      if (recommendation) {
+        finalizedRecommendator.recommendations = recommendation.recommendations;
       }
 
       generation.update({
@@ -154,38 +142,25 @@ const toolRecommendator = ({
         </>
       );
 
-      let finalizedInsight = "";
+      const finalizedInsight = await streamTextToValue(
+        streamableInsight,
+        errorState,
+        {
+          model: google("gemini-2.5-flash"),
+          instructions: await SYSTEM_INSTRUCTION.RECOMMENDATOR_INSIGHT,
+          prompt: JSON.stringify({
+            payload: finalizedRecommendator.recommendations,
+          }),
+          onEnd: ({ usage }) => {
+            logger.info("Usage - Recommendator - Step 2", { usage });
+          },
+        }
+      );
 
-      const { textStream } = streamText({
-        model: google("gemini-2.5-flash"),
-        instructions: await SYSTEM_INSTRUCTION.RECOMMENDATOR_INSIGHT,
-        prompt: JSON.stringify({
-          payload: finalizedRecommendator.recommendations,
-        }),
-        onEnd: ({ text, usage }) => {
-          logger.info("Usage - Recommendator - Step 2", { usage });
-
-          finalizedInsight = text;
-          streamableInsight.done();
-
-          generation.update({
-            process: "stream:done",
-            loading: true,
-          });
-        },
-        onError: ({ error }) => {
-          streamableInsight.error(error);
-          errorState = {
-            isError: true,
-            error,
-          };
-        },
+      generation.update({
+        process: "stream:done",
+        loading: true,
       });
-
-      for await (const t of textStream) {
-        finalizedInsight += t;
-        streamableInsight.update(finalizedInsight);
-      }
 
       const recommendatorUiNode = (
         <>
@@ -201,26 +176,19 @@ const toolRecommendator = ({
         </>
       );
 
-      const { toolResult, mutate } = mutateTool(state, {
-        name: "recommendator",
-        args: { intent, scope },
-        result: finalizedRecommendator,
-        overrideAssistant: {
-          content: finalizedInsight,
-        },
-      });
-
-      generation.update({
-        process: "tool:save-state",
-        loading: true,
-      });
-
-      await createToolDataEntry({
-        key: finalizedRecommendator.callId,
-        chatId: state.get().chatId,
-        owner: state.get().username,
-        tool: toolResult,
-      });
+      const mutate = await commitToolResult(
+        state,
+        generation,
+        finalizedRecommendator.callId,
+        {
+          name: "recommendator",
+          args: { intent, scope },
+          result: finalizedRecommendator,
+          overrideAssistant: {
+            content: finalizedInsight,
+          },
+        }
+      );
 
       logger.info("Done using recommendator tool", {
         progress: "finish",
@@ -229,70 +197,29 @@ const toolRecommendator = ({
 
       let relatedObject: RelatedQuery | null = null;
 
-      const streamableRelated = createStreamableValue<PartialRelated>();
-
       if (requestOption?.onRequest?.related) {
+        const streamableRelated = createStreamableValue<PartialRelated>();
+
         yield (
           <>
             {recommendatorUiNode}
             <StreamRelatedMessage content={streamableRelated.value} />
           </>
         );
-      }
 
-      const payloadRelated = JSON.stringify(
-        toPayloadRelatedMessage([...state.get().messages, ...mutate])
-      );
-
-      const { partialOutputStream: relatedStream } = streamText({
-        model: google("gemini-2.5-flash"),
-        instructions: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
-        prompt: payloadRelated,
-        output: Output.object({ schema: relatedQuerySchema }),
-        onEnd: async ({ output: object, usage }) => {
-          logger.info("Usage - Recommendator - Step 3", { usage });
-
-          if (object) {
-            relatedObject = object;
-          }
-          streamableRelated.done();
-        },
-        onError: ({ error }) => {
-          streamableRelated.done();
-          errorState = {
-            isError: true,
-            error,
-          };
-        },
-      });
-
-      for await (const relatedChunk of relatedStream) {
-        streamableRelated.update(relatedChunk);
-      }
-
-      if (errorState.isError) {
-        generation.done({
-          process: "tool:fatal-error",
-          loading: false,
-          error: "LLM Generation Error",
-        });
-
-        return (
-          <ErrorMessage
-            errorName="LLM Error"
-            reason="There was an error on LLMs Agent generation, that's all we know :("
-            raw={{
-              payload: { intent, scope },
-              error: errorState,
-            }}
-          />
+        relatedObject = await streamRelatedQuery(
+          streamableRelated,
+          errorState,
+          [...state.get().messages, ...mutate],
+          "Recommendator - Step 3"
         );
-      } else {
-        generation.done({
-          process: "tool:done",
-          loading: false,
-        });
       }
+
+      const failure = finishGeneration(generation, errorState, {
+        intent,
+        scope,
+      });
+      if (failure) return failure;
 
       return (
         <>

@@ -1,8 +1,5 @@
 import { mapUIState } from "@/components/custom/ui-mapper";
-import {
-  AssistantMessage,
-  StreamAssistantMessage,
-} from "@/components/maven/assistant-message";
+import { AssistantMessage } from "@/components/maven/assistant-message";
 import {
   RelatedMessage,
   StreamRelatedMessage,
@@ -10,16 +7,10 @@ import {
 import { LoadingText } from "@/components/maven/shining-glass";
 import {
   toModelMessages,
-  toPayloadRelatedMessage,
   toUnifiedUserMessage,
 } from "@/lib/agents/action/mutator/mutate-messages";
 import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
-import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
-import {
-  PartialRelated,
-  RelatedQuery,
-  relatedQuerySchema,
-} from "@/lib/agents/schema/related";
+import { PartialRelated, RelatedQuery } from "@/lib/agents/schema/related";
 import {
   AIState,
   ExtendedRequestOption,
@@ -32,7 +23,7 @@ import {
 } from "@/lib/types/ai";
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";
-import { generateId, Output, streamText } from "ai";
+import { generateId } from "ai";
 import {
   createAI,
   createStreamableValue,
@@ -45,6 +36,7 @@ import { toolGetProductDetails } from "./server/tool-get-product-details";
 import { toolSearchProduct } from "./server/tool-search-product";
 import { toolProductComparison } from "./server/tool-products-comparison";
 import { toolInquireUser } from "./server/tool-inquire-user";
+import { createErrorState, streamRelatedQuery } from "./server/workflow";
 import { ORCHESTRATOR_SYSTEM_INSTRUCTION } from "@/lib/agents/constant/md/orchestrator";
 
 const orchestrator = async (
@@ -79,12 +71,6 @@ const orchestrator = async (
     loading: true,
   });
 
-  // eslint-disable-next-line prefer-const
-  let errorState: { isError: boolean; error: unknown } = {
-    isError: false,
-    error: null,
-  };
-
   const { value } = await streamUI({
     model: google('gemini-2.5-flash'),
     messages: toModelMessages(state.get().messages),
@@ -94,82 +80,58 @@ const orchestrator = async (
       logger.info("Orchestrator Usage: first layer", { usage });
     },
     text: async function* ({ content, done }) {
-      const streamableText = createStreamableValue<string>("");
+      const textUiNode = <AssistantMessage content={content} />;
 
-      yield <StreamAssistantMessage content={streamableText.value} />;
-
-      let relatedObject: RelatedQuery | null = null;
-      let isFinished: boolean = false;
-
-      if (done) {
-        isFinished = true;
-        streamableText.done(content);
-
-        const textUiNode = <AssistantMessage content={content} />;
-
-        if (requestOption?.onRequest?.related) {
-          const streamableRelated = createStreamableValue<PartialRelated>();
-
-          yield (
-            <>
-              {textUiNode}
-              <StreamRelatedMessage content={streamableRelated.value} />
-            </>
-          );
-
-          const payloadRelated = JSON.stringify(
-            toPayloadRelatedMessage(state.get().messages)
-          );
-
-          const { partialOutputStream: relatedStream } = streamText({
-            model: google("gemini-2.5-flash"),
-            instructions: await SYSTEM_INSTRUCTION.RELATED_QUERY_CRAFTER,
-            prompt: payloadRelated,
-            output: Output.object({ schema: relatedQuerySchema }),
-            onEnd: async ({ output: object }) => {
-              if (object) {
-                relatedObject = object;
-              }
-              streamableRelated.done();
-            },
-            onError: ({ error }) => {
-              streamableRelated.error(error);
-            },
-          });
-
-          for await (const relatedChunk of relatedStream) {
-            streamableRelated.update(relatedChunk);
-          }
-        }
-
-        state.done({
-          ...state.get(),
-          messages: [
-            ...state.get().messages,
-            {
-              id: generateId(),
-              role: "assistant",
-              content,
-            },
-          ],
-        });
-
-        generation.done({
-          process: "stream:done",
-          loading: false,
-        });
-      } else {
-        streamableText.update(content);
+      if (!done) {
         generation.update({
           process: "stream:generating",
           loading: true,
         });
+
+        return textUiNode;
       }
+
+      let relatedObject: RelatedQuery | null = null;
+
+      if (requestOption?.onRequest?.related) {
+        const streamableRelated = createStreamableValue<PartialRelated>();
+
+        yield (
+          <>
+            {textUiNode}
+            <StreamRelatedMessage content={streamableRelated.value} />
+          </>
+        );
+
+        relatedObject = await streamRelatedQuery(
+          streamableRelated,
+          createErrorState(),
+          state.get().messages,
+          "Orchestrator - Related"
+        );
+      }
+
+      state.done({
+        ...state.get(),
+        messages: [
+          ...state.get().messages,
+          {
+            id: generateId(),
+            role: "assistant",
+            content,
+          },
+        ],
+      });
+
+      generation.done({
+        process: "stream:done",
+        loading: false,
+      });
 
       return (
         <>
-          <AssistantMessage content={content} />
-          {isFinished && requestOption?.onRequest?.related && (
+          {textUiNode}
+          {requestOption?.onRequest?.related && (
             <RelatedMessage related={relatedObject} />
           )}
         </>
@@ -178,31 +140,27 @@ const orchestrator = async (
     tools: {
       recommendator: toolRecommendator({
         generation,
-        errorState,
         state,
         requestOption,
       }),
       searchProduct: toolSearchProduct({
         generation,
-        errorState,
         state,
         requestOption,
       }),
       getProductDetails: toolGetProductDetails({
         generation,
-        errorState,
         state,
         requestOption,
         userMessage: payloadUserMessage,
       }),
       productsComparison: toolProductComparison({
         generation,
-        errorState,
         state,
         requestOption,
         userMessage: payloadUserMessage,
       }),
-      inquireUser: toolInquireUser({ generation, errorState, state }),
+      inquireUser: toolInquireUser({ generation, state }),
     },
   });
 
