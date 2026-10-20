@@ -9,10 +9,10 @@ export const InsightProductCardSkeleton: FC<{
 }> = ({ type = "search" }) => {
   return (
     <div className="w-full">
-      <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-4xl px-4 py-2">
+      <div className="w-full border rounded-2xl px-4 py-2">
         <div
           className={cn(
-            "pt-4 md:pt-6 flex flex-col-reverse justify-between h-full",
+ "pt-4 md:pt-6 flex flex-col-reverse justify-between h-full",
             type === "search" ? "md:flex-row" : "md:flex-row-reverse"
           )}
         >
@@ -31,7 +31,7 @@ export const InsightProductCardSkeleton: FC<{
           </div>
           <div
             className={cn(
-              "h-full w-full md:max-w-sm flex justify-center",
+ "h-full w-full md:max-w-sm flex justify-center",
               type === "search" ? "md:justify-end" : "md:justify-start"
             )}
           >
@@ -44,7 +44,7 @@ export const InsightProductCardSkeleton: FC<{
         <div>
           <div className="w-full py-3 px-2 lg:px-4 mt-8 mb-3 flex items-center justify-between">
             <div className="flex items-start space-x-2">
-              <Info className="size-4 shrink-0 text-purple-500 dark:text-purple-300" />
+              <Info className="size-4 shrink-0 text-muted-foreground" />
               <div className="w-full flex flex-col space-y-2">
                 <Skeleton className="w-[340px] lg:w-[500px] h-4" />
                 <Skeleton className="w-[260px] lg:w-[300px] h-4" />

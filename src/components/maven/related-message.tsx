@@ -95,7 +95,7 @@ export const RelatedMessage: FC<RelatedProps> = ({ related }) => {
           position: "top-center",
           richColors: true,
           className:
-            "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
+            "text-xs flex justify-center rounded-xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
         });
       } finally {
         setIsGenerating(false);
@@ -128,7 +128,7 @@ export const RelatedMessage: FC<RelatedProps> = ({ related }) => {
     <div className="my-12 w-full">
       <div className="mb-2">
         <div className="flex items-center space-x-2">
-          <ArrowRightLeft className="size-4 text-purple-500" />
+          <ArrowRightLeft className="size-4 text-muted-foreground" />
           <h2 className="text-sm font-semibold">Related Queries</h2>
         </div>
       </div>
@@ -152,7 +152,7 @@ export const RelatedMessage: FC<RelatedProps> = ({ related }) => {
                 }`}
               >
                 <CardHeader className="pt-2 pb-1 px-3">
-                  <CardTitle className="text-sm text-start text-black/90 dark:text-white/90">
+                  <CardTitle className="text-sm text-start text-foreground">
                     {item.label}
                   </CardTitle>
                 </CardHeader>
@@ -195,7 +195,7 @@ export const StreamRelatedMessage: FC<StreamRelatedProps> = ({ content }) => {
       <div className="mb-2">
         <div className="flex items-center space-x-2">
           <ArrowRightLeft
-            className={`size-4 text-purple-500 ${
+            className={`size-4 text-muted-foreground ${
               pending ? "animate-spin" : "animate-none"
             }`}
           />
@@ -211,7 +211,7 @@ export const StreamRelatedMessage: FC<StreamRelatedProps> = ({ content }) => {
               className="hover:bg-foreground/5 h-full bg-background cursor-wait"
             >
               <CardHeader className="pt-2 pb-1 px-3">
-                <CardTitle className="text-sm text-black/90 dark:text-white/90">
+                <CardTitle className="text-sm text-foreground">
                   {item?.label}
                 </CardTitle>
               </CardHeader>

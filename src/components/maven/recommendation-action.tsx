@@ -82,7 +82,7 @@ export const RecommendationAction: FC<ProductRecommendationProps> = ({
           position: "top-center",
           richColors: true,
           className:
-            "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
+            "text-xs flex justify-center rounded-xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
         });
       } finally {
         setIsGenerating(false);
@@ -124,10 +124,10 @@ export const RecommendationAction: FC<ProductRecommendationProps> = ({
         },
       }}
     >
-      <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-4xl py-1 mt-6 -mb-6">
+      <div className="w-full border rounded-2xl py-1 mt-6 -mb-6">
         <div className="absolute ml-5 -mt-4">
           <motion.div
-            className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center"
+            className="rounded-full border bg-background text-muted-foreground py-1 pl-2 pr-3 flex items-center"
             variants={{
               hidden: { opacity: 0, x: -20 },
               visible: {
@@ -141,13 +141,13 @@ export const RecommendationAction: FC<ProductRecommendationProps> = ({
               },
             }}
           >
-            <RotateCwSquare className="size-4 mr-1 text-purple-400" />
+            <RotateCwSquare className="size-4 mr-1 text-muted-foreground" />
             <p className="text-xs font-semibold">Recommendations</p>
           </motion.div>
         </div>
         <div className="p-4 mt-3 -mb-1">
           <motion.div
-            className="flex items-center ml-2 mb-4 text-black/90 dark:text-white/90"
+            className="flex items-center ml-2 mb-4 text-foreground"
             variants={{
               hidden: { opacity: 0, y: 10 },
               visible: {
@@ -195,13 +195,13 @@ export const RecommendationAction: FC<ProductRecommendationProps> = ({
                 <Button
                   variant="outline"
                   size="sm"
-                  className="h-auto bg-[#1A1A1D]/20 w-full flex flex-col rounded-3xl items-start p-2 text-left hover:bg-muted-foreground/50 dark:hover:bg-muted/50 transition-colors"
+                  className="h-auto w-full flex flex-col rounded-xl border bg-background items-start p-2 text-left shadow-none hover:bg-accent transition-colors"
                   onClick={async () => await actionSubmit(item.name)}
                   disabled={isButtonDisabled}
                 >
                   <div className="flex items-center">
                     <motion.div
-                      className="flex p-2 shrink-0 rounded-2xl bg-[#1A1A1D]/20 dark:bg-muted items-center justify-center text-xs font-normal size-20"
+                      className="flex p-2 shrink-0 rounded-lg bg-muted items-center justify-center text-xs font-medium size-14 md:size-16"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.1 + index * 0.05 }}
@@ -248,10 +248,10 @@ export const TemplateRecommendationAction: FC<ProductRecommendationProps> = ({
         },
       }}
     >
-      <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-4xl py-1 mt-6">
+      <div className="w-full border rounded-2xl py-1 mt-6">
         <div className="absolute ml-5 -mt-4">
           <motion.div
-            className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center"
+            className="rounded-full border bg-background text-muted-foreground py-1 pl-2 pr-3 flex items-center"
             variants={{
               hidden: { opacity: 0, x: -20 },
               visible: {
@@ -265,13 +265,13 @@ export const TemplateRecommendationAction: FC<ProductRecommendationProps> = ({
               },
             }}
           >
-            <RotateCwSquare className="size-4 mr-1 text-purple-400" />
+            <RotateCwSquare className="size-4 mr-1 text-muted-foreground" />
             <p className="text-xs font-semibold">Recommendations</p>
           </motion.div>
         </div>
         <div className="p-4 mt-3 -mb-1">
           <motion.div
-            className="flex items-center ml-2 mb-4 text-black/90 dark:text-white/90"
+            className="flex items-center ml-2 mb-4 text-foreground"
             variants={{
               hidden: { opacity: 0, y: 10 },
               visible: {
@@ -319,12 +319,12 @@ export const TemplateRecommendationAction: FC<ProductRecommendationProps> = ({
                 <Button
                   variant="outline"
                   size="sm"
-                  className="h-auto bg-[#1A1A1D]/20 w-full flex flex-col rounded-3xl items-start p-2 text-left hover:bg-muted-foreground/50 dark:hover:bg-muted/50 transition-colors"
+                  className="h-auto w-full flex flex-col rounded-xl border bg-background items-start p-2 text-left shadow-none hover:bg-accent transition-colors"
                   disabled
                 >
                   <div className="flex items-center">
                     <motion.div
-                      className="flex p-2 shrink-0 rounded-2xl bg-[#1A1A1D]/20 dark:bg-muted items-center justify-center text-xs font-normal size-20"
+                      className="flex p-2 shrink-0 rounded-lg bg-muted items-center justify-center text-xs font-medium size-14 md:size-16"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.1 + index * 0.05 }}
@@ -394,10 +394,10 @@ export const StreamRecommendationAction: FC<
           },
         }}
       >
-        <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-4xl py-1 my-6">
+        <div className="w-full border rounded-2xl py-1 my-6">
           <div className="absolute ml-5 -mt-4">
             <motion.div
-              className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center"
+              className="rounded-full border bg-background text-muted-foreground py-1 pl-2 pr-3 flex items-center"
               variants={{
                 hidden: { opacity: 0, x: -20 },
                 visible: {
@@ -411,13 +411,13 @@ export const StreamRecommendationAction: FC<
                 },
               }}
             >
-              <RotateCwSquare className="size-4 mr-1 text-purple-400" />
+              <RotateCwSquare className="size-4 mr-1 text-muted-foreground" />
               <p className="text-xs font-semibold">Recommendations</p>
             </motion.div>
           </div>
           <div className="p-4 mt-3 -mb-1">
             <motion.div
-              className="flex items-center ml-2 mb-4 text-black/90 dark:text-white/90"
+              className="flex items-center ml-2 mb-4 text-foreground"
               variants={{
                 hidden: { opacity: 0, y: 10 },
                 visible: {
@@ -467,12 +467,12 @@ export const StreamRecommendationAction: FC<
                     <Button
                       variant="outline"
                       size="sm"
-                      className="h-auto bg-[#1A1A1D]/20 w-full flex flex-col rounded-3xl items-start p-2 text-left hover:bg-muted-foreground/50 dark:hover:bg-muted/50 transition-colors"
+                      className="h-auto w-full flex flex-col rounded-xl border bg-background items-start p-2 text-left shadow-none hover:bg-accent transition-colors"
                       disabled={pending}
                     >
                       <div className="flex items-center">
                         <motion.div
-                          className="flex p-2 shrink-0 rounded-2xl bg-[#1A1A1D]/20 dark:bg-muted items-center justify-center text-xs font-normal size-20"
+                          className="flex p-2 shrink-0 rounded-lg bg-muted items-center justify-center text-xs font-medium size-14 md:size-16"
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           transition={{ delay: 0.1 + index * 0.05 }}

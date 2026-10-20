@@ -5,11 +5,11 @@ import { Grip, Plus, Quote, Share2 } from "lucide-react";
 export const ProductComparisonSkeleton: FC = () => {
   return (
     <div className="py-5">
-      <div className="w-full py-1 border px-4 pt-4 pb-4 rounded-4xl">
+      <div className="w-full py-1 border px-4 pt-4 pb-4 rounded-2xl">
         <div className="flex flex-col py-5 px-5">
           <div className="flex items-center space-x-3 pb-4">
             <Skeleton className="size-7 rounded-none" />
-            <p className="font-light text-black/50 dark:text-white/50 text-sm">
+            <p className="font-light text-muted-foreground text-sm">
               Comparison
             </p>
           </div>

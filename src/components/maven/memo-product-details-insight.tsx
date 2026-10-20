@@ -73,8 +73,8 @@ export const PureProductDetailsInsight: FC<MemoProps> = ({ data }) => {
           variants={itemVariants}
           className="border-t pt-1 first:border-t-0 first:pt-0"
         >
-          <div className="rounded-4xl w-fit bg-purple-400 dark:bg-[#FBF5E5] py-1 pl-4 pr-20 mt-6 mb-2">
-            <div className="flex items-center space-x-2 text-black">
+          <div className="w-fit mt-6 mb-2">
+            <div className="flex items-center space-x-2 text-sm font-semibold text-foreground">
               <p className="font-semibold text-sm">Product:</p>
             </div>
           </div>

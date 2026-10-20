@@ -26,33 +26,33 @@ export const ExtendedMessage: FC<ExtendedMessageProps> = ({
   tavilyAnswer,
 }) => {
   return (
-    <Card className="w-full border rounded-3xl mb-8">
+    <Card className="w-full border rounded-xl mb-8">
       <Accordion
         type="single"
         collapsible
-        className="px-2 py-1 rounded-3xl bg-background *:border-none"
+        className="px-2 py-1 rounded-xl bg-background *:border-none"
       >
         <AccordionItem value="item-1" className="border-b-0">
-          <AccordionTrigger className="hover:no-underline p-2 flex justify-start items-start text-black/90 dark:text-white/90 text-sm font-medium rounded-3xl bg-background">
+          <AccordionTrigger className="hover:no-underline p-2 flex justify-start items-start text-foreground text-sm font-medium rounded-xl bg-background">
             <span className="line-clamp-1 font-normal text-sm">
               Deep Search
             </span>
           </AccordionTrigger>
-          <AccordionContent className="rounded-3xl">
-            <CardContent className="p-0 rounded-3xl">
+          <AccordionContent className="rounded-xl">
+            <CardContent className="p-0 rounded-xl">
               <AnimatePresence>
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="pr-2 *:leading-tight dark:*:text-white/80 *:text-black/80"
+                  className="pr-2 *:leading-tight *:text-foreground/80"
                 >
                   <ScrollArea className="h-[220px] px-2">
                     <Markdown className="leading-tight">{content}</Markdown>
                     {tavilyAnswer && (
                       <div>
-                        <Separator className="mb-3 bg-[#1A1A1D] dark:bg-muted" />
+                        <Separator className="mb-3" />
                         <p className="text-sm leading-relaxed">
                           {tavilyAnswer}
                         </p>
@@ -98,15 +98,15 @@ export const StreamExtendedMessage: FC<StreamExtendedMessageProps> = ({
   }
 
   return (
-    <Card className="border-[#1A1A1D] dark:border-inherit border rounded-3xl mb-8">
+    <Card className="border rounded-xl mb-8">
       <Accordion
         type="single"
         collapsible
         defaultValue="item-1"
-        className="px-2 py-1 rounded-3xl bg-background *:border-none"
+        className="px-2 py-1 rounded-xl bg-background *:border-none"
       >
         <AccordionItem value="item-1" className="border-b-0">
-          <AccordionTrigger className="p-2 flex items-start text-black/90 dark:text-white/90 text-sm font-medium rounded-3xl bg-background">
+          <AccordionTrigger className="p-2 flex items-start text-foreground text-sm font-medium rounded-xl bg-background">
             <div className="flex items-center">
               {pending && (
                 <Loader className="size-4 shrink-0 animate-spin mr-2" />
@@ -114,15 +114,15 @@ export const StreamExtendedMessage: FC<StreamExtendedMessageProps> = ({
               <span className="line-clamp-1">{title ?? "Deep Search"}</span>
             </div>
           </AccordionTrigger>
-          <AccordionContent className="rounded-3xl">
-            <CardContent className="p-0 rounded-3xl">
+          <AccordionContent className="rounded-xl">
+            <CardContent className="p-0 rounded-xl">
               <AnimatePresence>
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="pr-2 *:leading-tight dark:*:text-white/80 *:text-black/80"
+                  className="pr-2 *:leading-tight *:text-foreground/80"
                 >
                   <Separator className="mb-3" />
                   <ScrollArea className="h-[300px] px-2">

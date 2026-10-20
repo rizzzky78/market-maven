@@ -191,20 +191,20 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
       variants={fadeIn}
     >
       <motion.div className="absolute ml-6 -mt-3" variants={fadeIn}>
-        <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-black w-fit rounded-3xl p-1 px-3 flex items-center">
+        <div className="bg-secondary text-secondary-foreground w-fit rounded-xl p-1 px-3 flex items-center">
           <MessageCircleQuestion className="size-4 mr-1" />
           <p className="text-xs font-semibold">Inquiry</p>
         </div>
       </motion.div>
       <motion.div
-        className="w-full mx-auto border-[#1A1A1D] dark:border-inherit border rounded-4xl"
+        className="w-full mx-auto border rounded-2xl"
         variants={staggerChildren}
       >
         <CardContent className="mt-3">
           <motion.h3 className="pt-6 font-semibold ml-2" variants={fadeIn}>
             {inquiry.question}
           </motion.h3>
-          <Separator className="my-3 bg-[#1A1A1D] dark:bg-muted" />
+          <Separator className="my-3" />
           <AnimatePresence>
             {!inquiry.isMultiSelection ? (
               <motion.div variants={staggerChildren} className="ml-2">
@@ -267,7 +267,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder={inquiry.inputPlaceholder}
-                className="w-full rounded-3xl"
+                className="w-full rounded-xl"
               />
             </motion.div>
           )}
@@ -278,7 +278,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
             <motion.div variants={fadeIn}>
               <Button
                 variant="outline"
-                className="rounded-3xl font-normal flex items-center mr-2"
+                className="rounded-xl font-normal flex items-center mr-2"
                 onClick={handleSkip}
                 disabled={isSkipDisabled}
               >
@@ -289,7 +289,7 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
             <motion.div variants={fadeIn}>
               <Button
                 variant="outline"
-                className="rounded-3xl font-normal flex items-center"
+                className="rounded-xl font-normal flex items-center"
                 onClick={handleSubmit}
                 disabled={isSubmitDisabled}
               >
@@ -317,20 +317,20 @@ export const UserInquiryShared: FC<InquiryProps> = ({ inquiry }) => {
       variants={fadeIn}
     >
       <motion.div className="absolute ml-6 -mt-3" variants={fadeIn}>
-        <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-black w-fit rounded-3xl p-1 px-3 flex items-center">
+        <div className="bg-secondary text-secondary-foreground w-fit rounded-xl p-1 px-3 flex items-center">
           <MessageCircleQuestion className="size-4 mr-1" />
           <p className="text-xs font-semibold">Inquiry</p>
         </div>
       </motion.div>
       <motion.div
-        className="w-full mx-auto border-[#1A1A1D] dark:border-inherit border rounded-4xl"
+        className="w-full mx-auto border rounded-2xl"
         variants={staggerChildren}
       >
         <CardContent className="mt-3">
           <motion.h3 className="pt-6 font-semibold ml-2" variants={fadeIn}>
             {inquiry.question}
           </motion.h3>
-          <Separator className="my-3 bg-[#1A1A1D] dark:bg-muted" />
+          <Separator className="my-3" />
           <AnimatePresence>
             {!inquiry.isMultiSelection ? (
               <motion.div variants={staggerChildren} className="ml-2">
@@ -387,7 +387,7 @@ export const UserInquiryShared: FC<InquiryProps> = ({ inquiry }) => {
               <Input
                 id="additionalInput"
                 placeholder={inquiry.inputPlaceholder}
-                className="w-full rounded-3xl"
+                className="w-full rounded-xl"
                 disabled
               />
             </motion.div>
@@ -399,7 +399,7 @@ export const UserInquiryShared: FC<InquiryProps> = ({ inquiry }) => {
             <motion.div variants={fadeIn}>
               <Button
                 variant="outline"
-                className="rounded-3xl font-normal flex items-center mr-2"
+                className="rounded-xl font-normal flex items-center mr-2"
                 disabled
               >
                 <span className="-mr-1">Skip</span>
@@ -409,7 +409,7 @@ export const UserInquiryShared: FC<InquiryProps> = ({ inquiry }) => {
             <motion.div variants={fadeIn}>
               <Button
                 variant="outline"
-                className="rounded-3xl font-normal flex items-center"
+                className="rounded-xl font-normal flex items-center"
                 disabled
               >
                 <span className="-mr-1">Submit</span>

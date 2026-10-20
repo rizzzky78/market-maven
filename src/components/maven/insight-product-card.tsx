@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import { cn } from "@/lib/utils";
 import { FC, useEffect, useState } from "react";
 import { motion, AnimatePresence, type Variants } from "motion/react";
 import { Badge } from "@/components/ui/badge";
@@ -180,15 +181,15 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
           className="z-10 absolute ml-4 -mt-4"
           variants={itemVariants}
         >
-          <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center">
-            <Search className="size-4 mr-1 text-purple-500" />
+          <div className="rounded-full border bg-background text-muted-foreground py-1 pl-2 pr-3 flex items-center">
+            <Search className="size-4 mr-1 text-muted-foreground" />
             <p id={callId} className="text-xs font-semibold">
               Search Product by{" "}
               <Link
                 href={"https://serper.dev/"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-400 hover:text-blue-600"
+                className="text-blue-600 dark:text-blue-400 underline-offset-2 hover:underline"
               >
                 Serper
               </Link>
@@ -197,7 +198,7 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
         </motion.div>
 
         <motion.div
-          className="w-full border-inherit border rounded-4xl px-4 py-2"
+          className="w-full border rounded-2xl px-4 py-2"
           variants={headerVariants}
         >
           <div className="md:pt-6 flex space-y-6 md:space-y-0 flex-col-reverse md:flex-row justify-between lg:min-h-[360px] items-start">
@@ -205,10 +206,10 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
               className="pl-2 md:pl-4 flex flex-col space-y-4 lg:justify-start h-full w-full lg:max-w-[350px]"
               variants={itemVariants}
             >
-              <div className="text-2xl md:text-3xl lg:text-4xl line-clamp-4 font-semibold text-black dark:text-white leading-tight">
+              <div className="text-2xl md:text-3xl lg:text-4xl line-clamp-4 font-semibold text-foreground leading-tight">
                 <h4>{object.title}</h4>
               </div>
-              <div className="pt-5 flex flex-col text-black dark:text-white">
+              <div className="pt-5 flex flex-col text-foreground">
                 <p className="opacity-70 text-xs">estimated price:</p>
                 <p className="text-xl md:text-2xl">{object.estimatedPrice}</p>
               </div>
@@ -218,20 +219,14 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
                   <Tooltip delayDuration={100}>
                     <TooltipTrigger asChild>
                       <Button
-                        className="relative h-12 md:h-10 w-fit overflow-hidden rounded-3xl px-14 md:px-10 font-bold bg-gray-300 text-black shadow-xs transition-all duration-300 hover:bg-blue-200 hover:text-indigo-900"
+                        className="h-10 w-full rounded-full px-8 sm:w-fit"
                         onClick={handleAttach}
                         disabled={isSharedContent ? true : isButtonDisabled}
                       >
-                        <span className="relative z-7 text-black">Ask AI</span>
-                        <div
-                          className="absolute inset-0 flex items-center justify-center"
-                          aria-hidden="true"
-                        >
-                          <div className="gradient-bg bg-linear-to-r from-pink-600 via-purple-500 to-cyan-400 rounded-full w-40 h-40 blur-xl opacity-50 animate-spin-slow transition-all duration-300" />
-                        </div>
+                        Ask about this product
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent className="rounded-3xl">
+                    <TooltipContent className="rounded-xl">
                       <p className="max-w-sm font-semibold">
                         Ask AI for product details
                       </p>
@@ -251,7 +246,7 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
                     {object.images.map((image, index) => (
                       <CarouselItem key={index}>
                         <motion.div
-                          className="p-2 cursor-grab active:cursor-grabbing aspect-square bg-gray-50 rounded-2xl lg:rounded-xl overflow-hidden"
+                          className="p-2 cursor-grab active:cursor-grabbing aspect-square bg-muted rounded-2xl lg:rounded-xl overflow-hidden"
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           transition={{ duration: 0.2 }}
@@ -266,7 +261,7 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
                     ))}
                   </CarouselContent>
                 </Carousel>
-                <p className="text-black/70 dark:text-white/50 text-xs">
+                <p className="text-muted-foreground text-xs">
                   *swipe to explore images
                 </p>
                 <div className="hidden md:flex justify-end">
@@ -284,7 +279,7 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
               }}
             >
               <div className="flex items-start space-x-2">
-                <Info className="size-4 shrink-0 text-purple-500 dark:text-purple-500" />
+                <Info className="size-4 shrink-0 text-muted-foreground" />
                 <p className="text-xs pr-1.5">
                   Maven is not affiliated with the relevant online marketplace,
                   the displayed results may not match the user&apos;s intent.
@@ -328,19 +323,18 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
                   animate="visible"
                 >
                   <motion.div
-                    className="flex items-center justify-start space-x-3 px-3 lg:px-5 text-sm text-black/90 dark:text-white/90"
+                    className="flex items-center justify-start space-x-3 px-3 lg:px-5 text-sm text-foreground"
                     variants={itemVariants}
                   >
                     <p className="">Available Store</p>
                     <div className="h-6 w-px bg-muted" />
                     <div
-                      style={{
-                        backgroundColor:
-                          object.marketSource === "shopee"
-                            ? "#FF5722"
-                            : "#1A1A1D",
-                      }}
-                      className="capitalize text-white py-1 px-3 border border-muted rounded-full"
+                      className={cn(
+                        "rounded-full px-3 py-1 text-xs capitalize",
+                        object.marketSource === "shopee"
+                          ? "bg-[#EE4D2D] text-white"
+                          : "bg-foreground text-background"
+                      )}
                     >
                       {object.marketSource}
                     </div>
@@ -366,7 +360,7 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
                             >
                               <div className="group-hover:translate-x-2 duration-300">
                                 <div className="flex items-center gap-2 mb-1 max-w-[340px] lg:max-w-md">
-                                  <h4 className="line-clamp-1 group-hover:text-purple-500 font-medium text-black/90 dark:text-white/90 text-sm truncate">
+                                  <h4 className="line-clamp-1 group-hover:text-foreground font-medium text-foreground text-sm truncate">
                                     {store.name}
                                   </h4>
                                   {store.isOfficial && (
@@ -379,7 +373,7 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
                                   )}
                                 </div>
 
-                                <div className="flex items-center gap-4 text-xs text-gray-500 mb-2">
+                                <div className="flex items-center gap-4 text-xs text-muted-foreground mb-2">
                                   <div className="flex items-center gap-1">
                                     <MapPin className="w-3 h-3" />
                                     <span>{store.location}</span>
@@ -391,15 +385,15 @@ export const InsightProductCard: FC<InsightProductCardProps> = ({
                                     </div>
                                   )}
                                   {store.sold && store.sold !== "-" && (
-                                    <div className="text-gray-500">
+                                    <div className="text-muted-foreground">
                                       {store.sold} sold
                                     </div>
                                   )}
                                 </div>
                               </div>
 
-                              <div className="group-hover:-translate-x-2 h-full flex items-center text-xs rounded-full text-black/90 dark:text-white/90 ">
-                                <ExternalLink className="size-[16px] group-hover:text-purple-500" />
+                              <div className="group-hover:-translate-x-2 h-full flex items-center text-xs rounded-full text-foreground">
+                                <ExternalLink className="size-[16px] group-hover:text-foreground" />
                               </div>
                             </Link>
                           </motion.div>

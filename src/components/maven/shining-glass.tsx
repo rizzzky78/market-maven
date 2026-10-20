@@ -21,12 +21,12 @@ export const LoadingText: FC<AnimationProps> = ({
   return (
     <div className="px-5">
       <div
-        className={`text-[#b5b5b5a4] dark:bg-clip-text bg-black inline-block text-sm ${
+        className={`inline-block bg-clip-text text-sm text-transparent ${
           disabled ? "" : "animate-shine"
         } ${className}`}
         style={{
           backgroundImage:
-            "linear-gradient(120deg, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 60%)",
+            "linear-gradient(120deg, hsl(var(--muted-foreground)) 40%, hsl(var(--foreground)) 50%, hsl(var(--muted-foreground)) 60%)",
           backgroundSize: "200% 100%",
           WebkitBackgroundClip: "text",
           animationDuration: animationDuration,

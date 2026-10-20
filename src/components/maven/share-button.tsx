@@ -93,7 +93,7 @@ export const ShareButton: FC<ShareButtonProps> = ({
               <Button
                 variant={type === "public-chat" ? "ghost" : "outline"}
                 disabled={disabled}
-                className="hover:text-purple-500 rounded-full mr-2 size-9"
+                className="rounded-full mr-2 size-9"
               >
                 {type === "public-chat" ? (
                   <Share className="h-4 w-4" />
@@ -103,21 +103,21 @@ export const ShareButton: FC<ShareButtonProps> = ({
               </Button>
             </DialogTrigger>
           </TooltipTrigger>
-          <TooltipContent className="rounded-3xl">
+          <TooltipContent className="rounded-xl">
             <p className="max-w-sm font-semibold">
               Share this {title}, anyone with link can view
             </p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <DialogContent className="max-w-sm lg:max-w-md rounded-3xl md:rounded-3xl lg:rounded-3xl bg-white/80 dark:bg-black/80">
+      <DialogContent className="max-w-sm lg:max-w-md rounded-xl">
         <DialogHeader>
           <DialogTitle className="line-clamp-1">
             Share link for {title}
           </DialogTitle>
           <DialogDescription>
             {subtitle && (
-              <span className="line-clamp-1 underline dark:text-white/80 text-black/80">
+              <span className="line-clamp-1 text-muted-foreground">
                 {subtitle}
               </span>
             )}
@@ -134,11 +134,11 @@ export const ShareButton: FC<ShareButtonProps> = ({
                 id="link"
                 defaultValue={link}
                 readOnly
-                className="rounded-3xl text-xs"
+                className="rounded-xl text-xs"
               />
             </div>
           ) : (
-            <div className="bg-white/80 h-8 dark:bg-black/80 w-full rounded-3xl flex items-center justify-center">
+            <div className="bg-muted h-8 w-full rounded-lg flex items-center justify-center">
               <Link2 className="size-6 mr-2" />
               <span className="text-xs">This will make the link publicly</span>
             </div>
@@ -146,7 +146,7 @@ export const ShareButton: FC<ShareButtonProps> = ({
           {done ? (
             <Button
               size="icon"
-              className="px-3 rounded-3xl min-w-4"
+              className="px-3 rounded-xl min-w-4"
               onClick={handleCopy}
             >
               {isCopied ? (
@@ -158,7 +158,7 @@ export const ShareButton: FC<ShareButtonProps> = ({
           ) : (
             <Button
               size="sm"
-              className="px-3 rounded-3xl min-w-20"
+              className="px-3 rounded-xl min-w-20"
               onClick={handleActionShare}
             >
               {isMutating ? (

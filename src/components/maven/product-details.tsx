@@ -70,22 +70,22 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
       )}
       <div className="w-full mb-8">
         <div className="absolute ml-4 -mt-4">
-          <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center">
-            <NotepadText className="size-4 mr-1 text-purple-400" />
+          <div className="rounded-full border bg-background text-muted-foreground py-1 pl-2 pr-3 flex items-center">
+            <NotepadText className="size-4 mr-1 text-muted-foreground" />
             <p className="text-xs font-semibold">
               Product Details provided by
               <Link
                 href={"https://www.tokopedia.com/"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="ml-1 text-green-400 hover:text-green-600 dark:text-green-500 dark:hover:text-green-700"
+                className="ml-1 font-medium text-foreground underline-offset-2 hover:underline"
               >
                 Tokopedia
               </Link>
             </p>
           </div>
         </div>
-        <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-4xl px-4 py-1">
+        <div className="w-full border rounded-2xl px-4 py-1">
           <div>
             {screenshot && (
               <div className="mt-3">
@@ -108,7 +108,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
                 <div className="w-full pl-1 mt-2 rounded-full">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center mr-2">
-                      <Info className="size-4 text-purple-500 dark:text-purple-500 mr-1" />
+                      <Info className="size-4 text-muted-foreground mr-1" />
                       <p className="text-xs">
                         This app is not affiliated with the relevant online
                         marketplace.
@@ -128,15 +128,15 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
                           <TooltipTrigger asChild>
                             <Button
                               variant={"outline"}
-                              className="rounded-3xl h-9 font-normal bg-[#1A1A1D] dark:bg-background text-white hover:border-[#1A1A1D]"
+                              className="rounded-xl h-9 font-normal"
                               onClick={attachComparison}
                               disabled={sharedContent ? true : isButtonDisabled}
                             >
-                              <FlipHorizontal className="size-4 text-purple-500 dark:text-purple-300" />
+                              <FlipHorizontal className="size-4 text-muted-foreground" />
                               <span>Compare</span>
                             </Button>
                           </TooltipTrigger>
-                          <TooltipContent className="rounded-3xl">
+                          <TooltipContent className="rounded-xl">
                             <p className="max-w-sm font-semibold">
                               Attach to products comparison
                             </p>
@@ -149,7 +149,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
               </div>
             )}
           </div>
-          <Separator className="mt-2 mb-4 bg-[#1A1A1D] dark:bg-muted" />
+          <Separator className="mt-2 mb-4" />
           <MemoProductDetails
             callId={callId}
             query={args.query}
@@ -158,7 +158,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
             isGenerating={false}
           />
           <div className="mb-2 flex items-center space-x-2 justify-center">
-            <Info className="size-4 text-purple-500 dark:text-purple-300" />
+            <Info className="size-4 text-muted-foreground" />
             <p className="text-xs">
               AI generated information, for reference only.
             </p>

@@ -4,15 +4,15 @@ import { FC } from "react";
 
 export const RecommendationSkeleton: FC = () => {
   return (
-    <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-4xl py-1">
+    <div className="w-full border rounded-2xl py-1">
       <div className="absolute ml-5 -mt-4">
-        <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center">
-          <RotateCwSquare className="size-4 mr-1 text-purple-400" />
+        <div className="rounded-full border bg-background text-muted-foreground py-1 pl-2 pr-3 flex items-center">
+          <RotateCwSquare className="size-4 mr-1 text-muted-foreground" />
           <p className="text-xs font-semibold">Recommendations</p>
         </div>
       </div>
       <div className="p-4 mt-3 -mb-1">
-        <div className="flex items-center ml-2 mb-4 text-black/90 dark:text-white/90">
+        <div className="flex items-center ml-2 mb-4 text-foreground">
           <Search className="w-4 h-4 mr-2" />
           <div className="flex flex-col gap-1">
             <Skeleton className="h-4 w-32" />
@@ -24,7 +24,7 @@ export const RecommendationSkeleton: FC = () => {
           {Array.from({ length: 5 }).map((_, index) => (
             <div
               key={index}
-              className="h-auto w-full flex flex-col rounded-3xl items-start p-2 text-left"
+              className="h-auto w-full flex flex-col rounded-xl items-start p-2 text-left"
             >
               <div className="flex items-center w-full">
                 <Skeleton className="flex p-2 shrink-0 rounded-2xl size-20" />

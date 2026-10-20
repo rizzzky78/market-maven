@@ -182,7 +182,7 @@ export const QueryValidation: FC<QueryValidationProps> = ({ data, usage }) => {
   return (
     <div className="w-full flex justify-start">
       <motion.div variants={cardVariants} initial="hidden" animate="visible" className="w-[90%] md:w-full">
-        <Card className="w-full md:w-[448px] bg-black/20 dark:bg-transparent rounded-3xl">
+        <Card className="w-full md:w-[448px] bg-muted rounded-xl">
           <CardHeader className="pl-4 pr-2 py-[7px] w-full">
             <motion.div
               className="w-full flex justify-between items-center space-x-3"
@@ -201,7 +201,7 @@ export const QueryValidation: FC<QueryValidationProps> = ({ data, usage }) => {
                     stiffness: 200,
                   }}
                 >
-                  <SearchCheck className="size-4 text-purple-500" />
+                  <SearchCheck className="size-4 text-muted-foreground" />
                 </motion.div>
                 <h3 className="text-xs">Query Validation</h3>
               </div>
@@ -252,7 +252,7 @@ export const QueryValidation: FC<QueryValidationProps> = ({ data, usage }) => {
                 <CardContent className="p-4 pt-2">
                   <motion.div variants={itemVariants} className="pb-3">
                     <h3
-                      className="text-sm text-black dark:text-white font-medium leading-none truncate max-w-[200px]"
+                      className="text-sm text-foreground font-medium leading-none truncate max-w-[200px]"
                       title={query_input}
                     >
                       {query_input}
@@ -262,7 +262,7 @@ export const QueryValidation: FC<QueryValidationProps> = ({ data, usage }) => {
                   <div className="space-y-3">
                     <motion.div variants={itemVariants} className="space-y-2">
                       <div className="flex justify-between items-center text-xs">
-                        <span className="text-black dark:text-white/90">
+                        <span className="text-foreground/90">
                           Validation Score
                         </span>
                         <motion.span
@@ -288,7 +288,7 @@ export const QueryValidation: FC<QueryValidationProps> = ({ data, usage }) => {
 
                     <motion.div
                       variants={itemVariants}
-                      className="py-[10px] grid grid-cols-2 gap-2 text-xs text-black/80 dark:text-white/80"
+                      className="py-[10px] grid grid-cols-2 gap-2 text-xs text-foreground/80"
                     >
                       {[
                         {
@@ -345,7 +345,7 @@ export const QueryValidation: FC<QueryValidationProps> = ({ data, usage }) => {
                           <Badge
                             variant="outline"
                             className={cn(
-                              "text-xs px-2 py-1 h-6 rounded-full font-normal",
+ "text-xs px-2 py-1 h-6 rounded-full font-normal",
                               index === 2
                                 ? getConfidenceColor(confidence_level)
                                 : ""
@@ -419,7 +419,7 @@ export const QueryValidation: FC<QueryValidationProps> = ({ data, usage }) => {
                     transition={{ duration: 0.3, delay: 1.2 }}
                     style={{ originX: 0.5 }}
                   >
-                    <Separator className="my-3 bg-black/10 dark:bg-white/10" />
+                    <Separator className="my-3" />
                   </motion.div>
 
                   <motion.div
@@ -427,11 +427,11 @@ export const QueryValidation: FC<QueryValidationProps> = ({ data, usage }) => {
                     className="space-y-3 text-xs"
                   >
                     <motion.div variants={itemVariants}>
-                      <p className="font-medium mb-1 text-black dark:text-white">
+                      <p className="font-medium mb-1 text-foreground">
                         Reasoning:
                       </p>
                       <motion.p
-                        className="text-black/80 dark:text-white/80"
+                        className="text-foreground/80"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.5, delay: 1.3 }}
@@ -444,7 +444,7 @@ export const QueryValidation: FC<QueryValidationProps> = ({ data, usage }) => {
                       variants={itemVariants}
                       className="flex flex-col"
                     >
-                      <p className="font-medium text-black dark:text-white mb-1">
+                      <p className="font-medium text-foreground mb-1">
                         Information Sources:
                       </p>
                       <motion.div
@@ -482,11 +482,11 @@ export const QueryValidation: FC<QueryValidationProps> = ({ data, usage }) => {
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.3 }}
                         >
-                          <p className="font-medium mb-1 text-black dark:text-white">
+                          <p className="font-medium mb-1 text-foreground">
                             Alternative Suggestions:
                           </p>
                           <motion.ul
-                            className="pl-4 list-disc text-black/80 dark:text-white/80"
+                            className="pl-4 list-disc text-foreground/80"
                             initial="hidden"
                             animate="visible"
                             variants={{

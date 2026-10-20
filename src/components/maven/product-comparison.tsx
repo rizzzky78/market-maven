@@ -74,31 +74,19 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
       <motion.div
         className="absolute ml-4 -mt-4 z-10"
         variants={itemVariants}
-        whileHover={{ scale: 1.05 }}
-        transition={{ duration: 0.2 }}
       >
-        <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center">
-          <Columns2 className="size-4 mr-1 text-purple-500" />
+        <div className="rounded-full border bg-background text-muted-foreground py-1 pl-2 pr-3 flex items-center">
+          <Columns2 className="size-4 mr-1 text-muted-foreground" />
           <p className="text-xs font-semibold">
             Product Comparison by
-            <motion.span
-              className="ml-0.5 text-purple-500 dark:text-purple-600"
-              animate={{
-                color: ["#a855f7", "#c084fc", "#a855f7"],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
-              }}
-            >
+            <span className="ml-1 text-foreground">
               Maven
-            </motion.span>
+            </span>
           </p>
         </div>
       </motion.div>
       <motion.div
-        className="w-full py-1 border px-4 pt-4 pb-4 rounded-4xl"
+        className="w-full py-1 border px-4 pt-4 pb-4 rounded-2xl"
         variants={itemVariants}
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -116,11 +104,11 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
                 animate={{ width: 28, height: 28 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               />
-              <div className="text-sm font-light text-black/50 dark:text-white/50">
+              <div className="text-sm font-light text-muted-foreground">
                 <h4>Comparison</h4>
               </div>
             </motion.div>
-            <div className="z-5 py-6 *:line-clamp-1 text-4xl w-full flex flex-col space-y-1 text-black dark:text-white">
+            <div className="z-5 py-6 *:line-clamp-1 text-4xl w-full flex flex-col space-y-1 text-foreground">
               <motion.p variants={titleVariants}>{one.title}</motion.p>
               <motion.p variants={titleVariants} transition={{ delay: 0.1 }}>
                 {two.title}
@@ -172,10 +160,10 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
                       delay: 0.3,
                     }}
                   >
-                    <Quote className="size-5 mt-0.5 text-purple-500" />
+                    <Quote className="size-5 mt-0.5 text-muted-foreground" />
                   </motion.div>
                   <motion.p
-                    className="line-clamp-2 text-black/80 dark:text-white/80"
+                    className="line-clamp-2 text-foreground/80"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5, delay: 0.4 }}
@@ -198,7 +186,7 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
                 whileHover={{ rotate: 10 }}
                 transition={{ duration: 0.2 }}
               >
-                <Info className="size-4 shrink-0 text-purple-500 dark:text-purple-500" />
+                <Info className="size-4 shrink-0 text-muted-foreground" />
               </motion.div>
               <p className="text-xs pr-2">
                 Maven is not affiliated with the relevant online marketplace,
@@ -250,7 +238,7 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
             </TabsContent>
             <TabsContent value="table">
               <ScrollArea className="pr-4 h-[500px] w-full">
-                <Markdown className="selection:bg-purple-200 selection:text-black">
+                <Markdown className="selection:bg-brand/20">
                   {markdownTable ?? "ERROR - CONTENT NOT EXIST"}
                 </Markdown>
               </ScrollArea>
@@ -273,7 +261,7 @@ export const ProductComparison: FC<ProductsComparisonProps> = ({
               repeatDelay: 5,
             }}
           >
-            <Info className="size-4 mr-1 text-purple-500 dark:text-purple-300" />
+            <Info className="size-4 mr-1 text-muted-foreground" />
           </motion.div>
           <p className="text-xs">
             Maven can make mistakes. Always check important info.

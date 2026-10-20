@@ -51,7 +51,7 @@ export const ProductCard: FC<ProductProps> = ({
       position: "top-center",
       richColors: true,
       className:
-        "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
+        "text-xs flex justify-center rounded-xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
     });
     navigator.clipboard.writeText(contentText);
     setCopied(true);
@@ -139,7 +139,7 @@ export const ProductCard: FC<ProductProps> = ({
                     }`}
                   />
                 </TooltipTrigger>
-                <TooltipContent className="rounded-3xl">
+                <TooltipContent className="rounded-xl">
                   <p className="max-w-sm font-semibold">
                     {store?.isOfficial
                       ? "Official/Trusted Store"
@@ -157,7 +157,7 @@ export const ProductCard: FC<ProductProps> = ({
                     {title || "Untitled Product"}
                   </h3>
                 </TooltipTrigger>
-                <TooltipContent className="rounded-3xl">
+                <TooltipContent className="rounded-xl">
                   <p className="max-w-sm font-semibold">{title}</p>
                 </TooltipContent>
               </Tooltip>
@@ -207,7 +207,7 @@ export const ProductCard: FC<ProductProps> = ({
                     )}
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent className="rounded-3xl">
+                <TooltipContent className="rounded-xl">
                   <p className="max-w-sm font-semibold">
                     Ask AI for product details
                   </p>
@@ -231,7 +231,7 @@ export const ProductCard: FC<ProductProps> = ({
                     )}
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent className="rounded-3xl mb-1">
+                <TooltipContent className="rounded-xl mb-1">
                   <p className="max-w-sm font-semibold">Copy product link</p>
                 </TooltipContent>
               </Tooltip>
@@ -255,7 +255,7 @@ export const ProductCard: FC<ProductProps> = ({
                     </Link>
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent className="rounded-3xl mb-1">
+                <TooltipContent className="rounded-xl mb-1">
                   <p className="max-w-sm font-semibold">Go to product page</p>
                 </TooltipContent>
               </Tooltip>

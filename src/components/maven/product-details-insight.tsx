@@ -201,15 +201,15 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
             className="z-10 absolute ml-4 -mt-4"
             variants={itemVariants}
           >
-            <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center space-x-2">
-              <Search className="size-4 text-purple-500" />
+            <div className="rounded-full border bg-background text-muted-foreground py-1 pl-2 pr-3 flex items-center space-x-2">
+              <Search className="size-4 text-muted-foreground" />
               <p className="text-xs font-semibold">
                 Product Details by{" "}
                 <Link
                   href={"https://serper.dev/"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-400 hover:text-blue-600"
+                  className="text-blue-600 dark:text-blue-400 underline-offset-2 hover:underline"
                 >
                   Serper
                 </Link>{" "}
@@ -228,7 +228,7 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
 
           <div className="flex justify-center w-full">
             <motion.div
-              className="w-full border rounded-4xl px-4 md:pt-2 pb-2"
+              className="w-full border rounded-2xl px-4 md:pt-2 pb-2"
               variants={headerVariants}
             >
               <div className="md:pt-6 flex space-y-6 md:space-y-0 flex-col-reverse md:flex-row-reverse justify-between lg:min-h-[360px] items-start">
@@ -237,14 +237,14 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                   variants={itemVariants}
                 >
                   <div className="w-full flex flex-col space-y-1">
-                    <p className="lowercase text-xs text-black/50 dark:text-white/50">
+                    <p className="lowercase text-xs text-muted-foreground">
                       Product Details for:
                     </p>
-                    <div className="text-2xl md:text-3xl lg:text-4xl line-clamp-4 font-semibold text-black dark:text-white leading-tight">
+                    <div className="text-2xl md:text-3xl lg:text-4xl line-clamp-4 font-semibold text-foreground leading-tight">
                       <h4>{previousData.title}</h4>
                     </div>
                   </div>
-                  <div className="pt-5 flex flex-col text-black dark:text-white">
+                  <div className="pt-5 flex flex-col text-foreground">
                     <p className="opacity-50 text-xs">estimated price:</p>
                     <p className="text-xl md:text-2xl">
                       {previousData.estimatedPrice}
@@ -258,15 +258,15 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                           <Button
                             variant={"outline"}
                             size={"sm"}
-                            className="rounded-3xl h-12 md:h-9 text-md px-6 md:px-4 font-normal bg-[#1A1A1D] dark:bg-background text-white hover:border-[#1A1A1D]"
+                            className="rounded-xl h-12 md:h-9 text-md px-6 md:px-4 font-normal"
                             onClick={attachComparison}
                             disabled={sharedContent ? true : isButtonDisabled}
                           >
-                            <FlipHorizontal className="size-4 text-purple-500 dark:text-purple-500" />
+                            <FlipHorizontal className="size-4 text-muted-foreground" />
                             <span>Compare</span>
                           </Button>
                         </TooltipTrigger>
-                        <TooltipContent className="rounded-3xl">
+                        <TooltipContent className="rounded-xl">
                           <p className="max-w-sm font-semibold">
                             Attach to products comparison
                           </p>
@@ -285,7 +285,7 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                           >
                             <Button
                               variant={"ghost"}
-                              className="h-12 md:size-9 rounded-full group text-black/60 dark:text-white/60 hover:text-purple-500"
+                              className="h-12 md:size-9 rounded-full group text-muted-foreground"
                               onClick={() => {
                                 const target = document.getElementById(
                                   previousData.referenceCallId
@@ -299,11 +299,11 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                                 }
                               }}
                             >
-                              <SquareArrowOutUpRightIcon className="size-5 group-hover:text-purple-500 transition-colors duration-300" />
+                              <SquareArrowOutUpRightIcon className="size-5 group-hover:text-foreground transition-colors duration-300" />
                             </Button>
                           </motion.div>
                         </TooltipTrigger>
-                        <TooltipContent className="rounded-3xl">
+                        <TooltipContent className="rounded-xl">
                           <p className="max-w-sm font-semibold">
                             See the available store links
                           </p>
@@ -323,7 +323,7 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                         {snapshots.images.map((image, index) => (
                           <CarouselItem key={index}>
                             <motion.div
-                              className="p-2 cursor-grab active:cursor-grabbing aspect-square bg-gray-50 rounded-2xl lg:rounded-xl overflow-hidden"
+                              className="p-2 cursor-grab active:cursor-grabbing aspect-square bg-muted rounded-2xl lg:rounded-xl overflow-hidden"
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                               transition={{ duration: 0.2 }}
@@ -338,7 +338,7 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                         ))}
                       </CarouselContent>
                     </Carousel>
-                    <p className="text-black/70 dark:text-white/50 text-xs">
+                    <p className="text-muted-foreground text-xs">
                       *swipe to explore images
                     </p>
                   </div>
@@ -357,7 +357,7 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                   }}
                 >
                   <div className="flex items-start space-x-2">
-                    <Info className="size-4 shrink-0 text-purple-500 dark:text-purple-500" />
+                    <Info className="size-4 shrink-0 text-muted-foreground" />
                     <p className="text-xs pr-1.5">
                       Maven is not affiliated with the relevant online
                       marketplace, the displayed results may not match the
@@ -426,14 +426,14 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                         </TabsContent>
                         <TabsContent value="markdown">
                           <ScrollArea className="h-[500px] w-full">
-                            <Markdown className="selection:bg-purple-200 selection:text-black">
+                            <Markdown className="selection:bg-brand/20">
                               {markdown ?? "ERROR - CONTENT NOT EXIST"}
                             </Markdown>
                           </ScrollArea>
                         </TabsContent>
                       </Tabs>
                       <div className="mt-6 flex items-center space-x-2 justify-start">
-                        <Info className="size-4 text-purple-500 dark:text-purple-300" />
+                        <Info className="size-4 text-muted-foreground" />
                         <p className="text-xs">
                           AI generated information, for reference only.
                         </p>
@@ -450,7 +450,7 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                     >
                       <div className="">
                         <div className="mb-3">
-                          <p className="text-sm text-black dark:text-white">
+                          <p className="text-sm text-foreground">
                             Related Videos
                           </p>
                         </div>
@@ -477,7 +477,7 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                                     allowFullScreen
                                   />
                                 ) : (
-                                  <div className="w-full h-full flex items-center justify-center text-gray-400">
+                                  <div className="w-full h-full flex items-center justify-center text-muted-foreground">
                                     <Play className="w-12 h-12" />
                                   </div>
                                 );
@@ -499,8 +499,8 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                                     onClick={() => setSelectedVideoIndex(index)}
                                     className={`shrink-0 w-[100px] h-[60px] rounded-lg border-2 overflow-hidden transition-colors ${
                                       selectedVideoIndex === index
-                                        ? "border-purple-500"
-                                        : "bg-black/5 dark:bg-transparent hover:border-purple-500"
+                                        ? "border-brand"
+                                        : "bg-muted/50 hover:border-foreground/30"
                                     }`}
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
@@ -518,8 +518,8 @@ export const ProductDetailsInsight: FC<ProductDetailsInsightProps> = ({
                                         className="w-full h-full object-cover"
                                       />
                                     ) : (
-                                      <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                                        <Play className="w-4 h-4 text-gray-400" />
+                                      <div className="w-full h-full bg-muted flex items-center justify-center">
+                                        <Play className="w-4 h-4 text-muted-foreground" />
                                       </div>
                                     )}
                                   </motion.button>

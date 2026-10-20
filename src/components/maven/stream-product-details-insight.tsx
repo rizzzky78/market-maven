@@ -155,15 +155,15 @@ export const StreamProductDetailsInsight: FC<StreamProductDetailsProps> = ({
             className="z-10 absolute ml-4 -mt-4"
             variants={itemVariants}
           >
-            <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center space-x-2">
-              <Search className="size-4 text-purple-500" />
+            <div className="rounded-full border bg-background text-muted-foreground py-1 pl-2 pr-3 flex items-center space-x-2">
+              <Search className="size-4 text-muted-foreground" />
               <p className="text-xs font-semibold">
                 Product Details by{" "}
                 <Link
                   href={"https://serper.dev/"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-400 hover:text-blue-600"
+                  className="text-blue-600 dark:text-blue-400 underline-offset-2 hover:underline"
                 >
                   Serper
                 </Link>{" "}
@@ -182,23 +182,23 @@ export const StreamProductDetailsInsight: FC<StreamProductDetailsProps> = ({
           </motion.div>
 
           <motion.div
-            className="w-full border-inherit border rounded-4xl px-4 md:pt-2 pb-2"
+            className="w-full border rounded-2xl px-4 md:pt-2 pb-2"
             variants={headerVariants}
           >
             <div className="md:pt-6 flex space-y-6 md:space-y-0 flex-col-reverse md:flex-row-reverse justify-between lg:min-h-[360px] items-start">
               <motion.div
                 className="pl-2 md:pl-4 flex flex-col space-y-4 lg:justify-start h-full w-full lg:max-w-[350px]"
                 variants={itemVariants}
-              >
+      >
                 <div className="flex flex-col space-y-1">
-                  <p className="lowercase text-xs text-black/50 dark:text-white/50">
+                  <p className="lowercase text-xs text-muted-foreground">
                     Product Details for:
                   </p>
-                  <div className="text-2xl md:text-3xl lg:text-4xl line-clamp-4 font-semibold text-black dark:text-white leading-tight">
+                  <div className="text-2xl md:text-3xl lg:text-4xl line-clamp-4 font-semibold text-foreground leading-tight">
                     <h4>{previousData.title}</h4>
                   </div>
                 </div>
-                <div className="pt-5 flex flex-col text-black dark:text-white">
+                <div className="pt-5 flex flex-col text-foreground">
                   <p className="opacity-70 text-xs">estimated price:</p>
                   <p className="text-xl md:text-2xl">
                     {previousData.estimatedPrice}
@@ -212,14 +212,14 @@ export const StreamProductDetailsInsight: FC<StreamProductDetailsProps> = ({
                         <Button
                           variant={"outline"}
                           size={"sm"}
-                          className="rounded-3xl h-9 text-md px-4 font-normal bg-[#1A1A1D] dark:bg-background text-white hover:border-[#1A1A1D]"
+                          className="rounded-xl h-9 text-md px-4 font-normal"
                           disabled
                         >
-                          <FlipHorizontal className="size-4 text-purple-500 dark:text-purple-300" />
+                          <FlipHorizontal className="size-4 text-muted-foreground" />
                           <span>Compare</span>
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent className="rounded-3xl">
+                      <TooltipContent className="rounded-xl">
                         <p className="max-w-sm font-semibold">
                           Attach to products comparison
                         </p>
@@ -238,13 +238,13 @@ export const StreamProductDetailsInsight: FC<StreamProductDetailsProps> = ({
                         >
                           <Link
                             href={`#${previousData.referenceCallId}`}
-                            className="group text-black/60 dark:text-white/60 hover:text-purple-500"
+                            className="group text-muted-foreground"
                           >
-                            <SquareArrowOutUpRightIcon className="size-5 group-hover:text-purple-500 transition-colors duration-300" />
+                            <SquareArrowOutUpRightIcon className="size-5 group-hover:text-foreground transition-colors duration-300" />
                           </Link>
                         </motion.div>
                       </TooltipTrigger>
-                      <TooltipContent className="rounded-3xl">
+                      <TooltipContent className="rounded-xl">
                         <p className="max-w-sm font-semibold">
                           See the available store links
                         </p>
@@ -264,7 +264,7 @@ export const StreamProductDetailsInsight: FC<StreamProductDetailsProps> = ({
                       {snapshots.images.map((image, index) => (
                         <CarouselItem key={index}>
                           <motion.div
-                            className="p-2 cursor-grab active:cursor-grabbing aspect-square bg-gray-50 rounded-2xl lg:rounded-xl overflow-hidden"
+                            className="p-2 cursor-grab active:cursor-grabbing aspect-square bg-muted rounded-2xl lg:rounded-xl overflow-hidden"
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             transition={{ duration: 0.2 }}
@@ -279,7 +279,7 @@ export const StreamProductDetailsInsight: FC<StreamProductDetailsProps> = ({
                       ))}
                     </CarouselContent>
                   </Carousel>
-                  <p className="text-black/70 dark:text-white/50 text-xs">
+                  <p className="text-muted-foreground text-xs">
                     *swipe to explore images
                   </p>
                 </div>
@@ -294,7 +294,7 @@ export const StreamProductDetailsInsight: FC<StreamProductDetailsProps> = ({
                 }}
               >
                 <div className="flex items-start space-x-2">
-                  <Info className="size-4 shrink-0 text-purple-500 dark:text-purple-300" />
+                  <Info className="size-4 shrink-0 text-muted-foreground" />
                   <p className="text-xs pr-1">
                     Maven is not affiliated with the relevant online
                     marketplace, the displayed results may not match the
@@ -337,7 +337,7 @@ export const StreamProductDetailsInsight: FC<StreamProductDetailsProps> = ({
                   <motion.div variants={itemVariants} className="px-0 md:px-4">
                     <MemoProductDetailsInsight data={[dataStream]} />
                     <div className="mt-6 flex items-center space-x-2 justify-start">
-                      <Info className="size-4 text-purple-500 dark:text-purple-300" />
+                      <Info className="size-4 text-muted-foreground" />
                       <p className="text-xs">
                         AI generated information, for reference only.
                       </p>

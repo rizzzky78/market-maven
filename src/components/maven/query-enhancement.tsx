@@ -150,7 +150,7 @@ export const QueryEnhancement: FC<QueryEnhancementProps> = ({
     >
       <div className="w-[90%] md:w-full">
         <motion.div variants={itemVariants}>
-          <Card className="w-full md:w-[448px] bg-black/20 dark:bg-transparent rounded-3xl overflow-hidden">
+          <Card className="w-full md:w-[448px] bg-muted rounded-xl overflow-hidden">
             <CardHeader className="pl-4 pr-2 py-[7px] w-full">
               <motion.div
                 className="flex items-center justify-between"
@@ -165,7 +165,7 @@ export const QueryEnhancement: FC<QueryEnhancementProps> = ({
                     whileHover={{ rotate: 180 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <Sparkles className="h-4 w-4 text-purple-500" />
+                    <Sparkles className="h-4 w-4 text-muted-foreground" />
                   </motion.div>
                   <motion.h3 className="text-xs" variants={itemVariants}>
                     Query Enhancement
@@ -216,7 +216,7 @@ export const QueryEnhancement: FC<QueryEnhancementProps> = ({
                 >
                   <CardContent className="p-4 space-y-3">
                     <motion.div
-                      className="space-y-2 text-sm text-black dark:text-white font-medium"
+                      className="space-y-2 text-sm text-foreground font-medium"
                       variants={itemVariants}
                     >
                       <motion.p variants={queryVariants}>
@@ -230,7 +230,7 @@ export const QueryEnhancement: FC<QueryEnhancementProps> = ({
                           whileHover={{ x: 5 }}
                           transition={{ duration: 0.2 }}
                         >
-                          <MoveRight className="size-4 text-black/60 dark:text-white/80" />
+                          <MoveRight className="size-4 text-muted-foreground" />
                         </motion.div>
                         <p>{enhanced_query}</p>
                       </motion.div>
@@ -238,25 +238,25 @@ export const QueryEnhancement: FC<QueryEnhancementProps> = ({
 
                     <motion.div className="space-y-1" variants={itemVariants}>
                       <div className="flex justify-between items-center text-xs">
-                        <span className="text-black/80 dark:text-white/80">
+                        <span className="text-foreground/80">
                           Confidence Score: {confidence_score}
                         </span>
                       </div>
                     </motion.div>
 
                     <motion.div variants={itemVariants}>
-                      <Separator className="my-2 bg-black/10 dark:bg-white/10" />
+                      <Separator className="my-2" />
                     </motion.div>
 
                     <motion.div className="space-y-1" variants={itemVariants}>
                       <motion.p
-                        className="text-xs font-medium text-black dark:text-white"
+                        className="text-xs font-medium text-foreground"
                         variants={itemVariants}
                       >
                         Reasoning:
                       </motion.p>
                       <motion.p
-                        className="text-xs text-black/80 dark:text-white/80"
+                        className="text-xs text-foreground/80"
                         variants={itemVariants}
                       >
                         {reasoning}
@@ -266,7 +266,7 @@ export const QueryEnhancement: FC<QueryEnhancementProps> = ({
                           className="w-full hidden md:flex justify-end pt-4"
                           variants={itemVariants}
                         >
-                          <motion.div className="flex items-center space-x-1 text-black dark:text-white">
+                          <motion.div className="flex items-center space-x-1 text-foreground">
                             <HoverCardUsage usage={usage} />
                           </motion.div>
                         </motion.div>

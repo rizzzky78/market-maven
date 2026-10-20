@@ -93,7 +93,7 @@ export const StreamProductSearch: FC<StreamProps> = ({
   return (
     <div className="w-full mb-5">
       <div className="absolute ml-4 -mt-4">
-        <div className="bg-[#1A1A1D] dark:bg-white text-white dark:text-[#1A1A1D] rounded-3xl py-1 pl-2 pr-3 flex items-center">
+        <div className="rounded-full border bg-background text-muted-foreground py-1 pl-2 pr-3 flex items-center">
           <Search className="size-4 mr-1" />
           <p className="text-xs font-semibold">
             Search Product by
@@ -101,14 +101,14 @@ export const StreamProductSearch: FC<StreamProps> = ({
               href={"https://www.tokopedia.com/"}
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-1 text-green-400 hover:text-green-600 dark:text-green-500 dark:hover:text-green-700"
+              className="ml-1 font-medium text-foreground underline-offset-2 hover:underline"
             >
               Tokopedia
             </Link>
           </p>
         </div>
       </div>
-      <div className="w-full border-[#1A1A1D] dark:border-inherit border rounded-4xl px-4 py-2">
+      <div className="w-full border rounded-2xl px-4 py-2">
         {screenshot && (
           <div className="my-1 pt-1">
             <motion.div
@@ -134,7 +134,7 @@ export const StreamProductSearch: FC<StreamProps> = ({
               </Lens>
               <div className="w-fit p-1 mt-1 flex items-center justify-between">
                 <div className="flex items-start">
-                  <Info className="size-4 shrink-0 mr-1 text-purple-500 dark:text-purple-300" />
+                  <Info className="size-4 shrink-0 mr-1 text-muted-foreground" />
                   <p className="text-xs">
                     Maven is not affiliated with the relevant online
                     marketplace, the displayed results may not match the
@@ -150,8 +150,8 @@ export const StreamProductSearch: FC<StreamProps> = ({
             </motion.div>
           </div>
         )}
-        <Separator className="mb-4 bg-[#1A1A1D] dark:bg-muted" />
-        <div className="bg-[#1A1A1D] mt-2 items-center dark:bg-white text-white dark:text-black mb-2 py-1 pl-3 pr-1 rounded-3xl">
+        <Separator className="mb-4" />
+        <div className="mt-2 items-center bg-secondary text-secondary-foreground mb-2 py-1 pl-3 pr-1 rounded-xl">
           <div className="flex justify-between">
             <div className="flex items-center space-x-2">
               <SearchCheck className="size-4 shrink-0" />
