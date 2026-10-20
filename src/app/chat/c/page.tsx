@@ -6,8 +6,6 @@ import { v4 } from "uuid";
 import { AI } from "@/app/action";
 import { Chat } from "@/components/maven/main-chat";
 
-export const maxDuration = 60;
-
 const loadChats = cache(async (userId: string) => {
   return await getChats(userId);
 });

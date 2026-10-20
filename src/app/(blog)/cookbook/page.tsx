@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: "Maven AI Cookbook",
     description:
       "Master product research with Maven AI using our expert tips and strategies.",
-    url: "https://maven-ai-six.vercel.app/cookbook",
+    url: "/cookbook",
     siteName: "Maven AI",
     images: [
       {

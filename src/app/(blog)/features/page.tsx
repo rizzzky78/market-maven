@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     title: "Maven AI Features",
     description:
       "Explore the AI-powered tools that make Maven AI your ultimate product research assistant.",
-    url: "https://maven-ai-six.vercel.app/features",
+    url: "/features",
     siteName: "Maven AI",
     images: [
       {

@@ -6,8 +6,6 @@ import { AI } from "@/app/action";
 import { Chat } from "@/components/maven/main-chat";
 import { Metadata } from "next";
 
-export const maxDuration = 60;
-
 interface ChatPageProps {
   params: Promise<{ id: string }>;
 }

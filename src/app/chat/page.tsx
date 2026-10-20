@@ -5,8 +5,6 @@ import { getChats } from "@/lib/agents/action/chat-service";
 import { AI } from "../action";
 import { Chat } from "@/components/maven/main-chat";
 
-export const maxDuration = 60;
-
 const loadChats = cache(async (userId: string) => {
   return await getChats(userId);
 });

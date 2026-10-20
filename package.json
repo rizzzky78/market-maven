@@ -36,8 +36,6 @@
     "@radix-ui/react-tooltip": "^1.4.1",
     "@tavily/core": "^0.7.14",
     "@upstash/redis": "^1.39.0",
-    "@vercel/analytics": "^2.0.1",
-    "@vercel/speed-insights": "^2.0.0",
     "ai": "^7.0.145",
     "class-variance-authority": "^0.7.1",
     "cloudinary": "^2.11.0",

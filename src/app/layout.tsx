@@ -4,9 +4,15 @@ import { ThemeProvider } from "@/lib/utility/provider/theme-provider";
 import { Toaster } from "sonner";
 import { getServerSession } from "next-auth";
 import { SessionProvider } from "@/lib/utility/provider/session-provider";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Analytics } from "@vercel/analytics/next";
 import localFont from "next/font/local";
+import type { Metadata } from "next";
+
+// Resolves relative Open Graph URLs against the deployment's own domain.
+export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"
+  ),
+};
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,8 +53,6 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${array.variable} ${khand.variable} ${satoshi.variable} antialiased`}
       >
-        <SpeedInsights />
-        <Analytics />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <Toaster />
           <SessionProvider session={session}>{children}</SessionProvider>
