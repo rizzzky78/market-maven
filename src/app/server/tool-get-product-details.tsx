@@ -206,10 +206,12 @@ const toolGetProductDetails = ({
           }
         );
 
-        if (externalData.data?.answer) {
+        const evidence = externalData.data;
+
+        if (evidence && (evidence.answer || evidence.results.length > 0)) {
           yield (
             <LoadingText
-              text={`Retrieved additional information, thought for ${externalData.data.responseTime} seconds`}
+              text={`Found ${evidence.results.length} web sources in ${evidence.responseTime} seconds`}
             />
           );
 
@@ -221,7 +223,8 @@ const toolGetProductDetails = ({
           await delay(3000);
 
           finalizedToolData.data.object.externalData.tavily =
-            externalData.data.answer;
+            evidence.answer ||
+            `Summarised from ${evidence.results.length} web sources.`;
 
           generation.update({
             process: "stream:generating",
@@ -235,8 +238,22 @@ const toolGetProductDetails = ({
           finalizedToolData.data.object.externalData.markdown =
             await streamTextToValue(streamableResearch, errorState, {
               model: google("gemini-2.5-flash"),
+              tools: { google_search: google.tools.googleSearch({}) },
               instructions: await SYSTEM_INSTRUCTION.PRODUCT_RESEARCHER,
-              prompt: JSON.stringify({ query }),
+              // The researcher writes from the retrieved evidence, not memory.
+              prompt: JSON.stringify({
+                query,
+                userQuestion: userMessage?.text_input ?? null,
+                evidence: {
+                  answer: evidence.answer ?? null,
+                  sources: evidence.results.map((r) => ({
+                    title: r.title,
+                    url: r.url,
+                    content: r.content,
+                    publishedDate: r.publishedDate,
+                  })),
+                },
+              }),
               onEnd: ({ usage }) => {
                 logger.info("Usage - Get Product Details - Step 1", { usage });
               },

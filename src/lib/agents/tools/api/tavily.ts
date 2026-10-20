@@ -32,11 +32,6 @@ export async function externalTavilySearch(
   trigger: boolean,
   request: SearchRequest
 ): Promise<SearchResponse<TavilySearchResponse>> {
-  /**
-   * Initialize Tavily API client with API key from environment variables
-   */
-  const tavilyClient = tavily({ apiKey: getEnv("TAVILY_API_KEY") });
-
   if (!trigger) {
     logger.info("External Data", { ext: "disabled" });
     return {
@@ -47,11 +42,15 @@ export async function externalTavilySearch(
   }
 
   try {
+    // Created only when searching, so a missing key never breaks the
+    // search-disabled path.
+    const tavilyClient = tavily({ apiKey: getEnv("TAVILY_API_KEY") });
+
     const data = await tavilyClient.search(request.query, {
       searchDepth: "advanced",
       includeAnswer: true,
-      includeImages: true,
-      includeImageDescriptions: true,
+      // Results feed the researcher agent as evidence; images were never used.
+      maxResults: 8,
     });
 
     logger.info("External Data", { ext: "enabled", eta: data.responseTime });
