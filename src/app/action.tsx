@@ -123,7 +123,7 @@ const orchestrator = async (
 
   try {
     response = await streamUI({
-      model: models.reasoning,
+      model: models.orchestrator,
       messages: toModelMessages(compactToolResults(state.get().messages)),
       instructions: orchestratorInstruction(),
       initial: <LoadingText text="Maven is thinking..." />,
@@ -210,8 +210,9 @@ const orchestrator = async (
   }
 
   // streamUI renders from its own copy of the model stream; this copy is ours.
-  // A mid-stream error errors the UI inside streamUI, so release the status
-  // here too. Reading it also keeps the tee from buffering the whole stream.
+  // models.orchestrator already turns stream errors into a normal ending; this
+  // is a last guard for the status, and reading it keeps the tee from
+  // buffering the whole stream.
   void (async () => {
     try {
       for await (const part of response.stream) {
