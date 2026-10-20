@@ -82,32 +82,46 @@ const toolSearchProduct = ({
         loading: true,
       });
 
+      // Independent sub-agents: start the enhancer while validation runs.
+      const enhancedQueryPromise = queryEnhancer({ query });
 
       yield <LoadingText text="Validating user query..." />;
 
       yield <QueryValidationSkeleton />;
 
       const validatedResult = await queryValidator({ query });
+      const validation = validatedResult.ok ? validatedResult.data : null;
 
-      if (!validatedResult.ok || !validatedResult.data) {
-        errorState.isError = true;
-        errorState.error = validatedResult.error;
+      // A failed validator should not block the search; it only loses its card.
+      if (!validation) {
+        logger.warn("Query validation unavailable, continuing search", {
+          query,
+          error: validatedResult.error,
+        });
+      }
+
+      // Don't spend a scrape on something that isn't an electronics product.
+      if (validation && !validation.is_electronic_product) {
+        const notElectronic = `**"${query}"** doesn't look like an electronics product, so I didn't search the marketplaces for it. Maven focuses on electronics such as smartphones, laptops, tablets, audio, cameras, wearables and PC parts.\n\nTry the exact product name (for example *"Samsung Galaxy S25 Ultra"*) or describe what you need and I'll recommend options.`;
+
+        state.done({
+          ...state.get(),
+          messages: [
+            ...state.get().messages,
+            { id: v4(), role: "assistant", content: notElectronic },
+          ],
+        });
 
         generation.done({
-          process: "api:fatal-error",
+          process: "tool:done",
           loading: false,
-          error: "LLM Generation Error",
         });
 
         return (
-          <ErrorMessage
-            errorName="LLM Error"
-            reason="There was an error on LLMs Agent query validation, that's all we know :("
-            raw={{
-              payload: { query },
-              error: errorState,
-            }}
-          />
+          <>
+            <QueryValidation data={validation} usage={validatedResult.usage} />
+            <AssistantMessage content={notElectronic} />
+          </>
         );
       }
 
@@ -116,12 +130,9 @@ const toolSearchProduct = ({
         loading: true,
       });
 
-      const queryValidationUI = (
-        <QueryValidation
-          data={validatedResult.data}
-          usage={validatedResult.usage}
-        />
-      );
+      const queryValidationUI = validation ? (
+        <QueryValidation data={validation} usage={validatedResult.usage} />
+      ) : null;
 
       yield (
         <>
@@ -130,7 +141,7 @@ const toolSearchProduct = ({
         </>
       );
 
-      const enhancedQuery = await queryEnhancer({ query });
+      const enhancedQuery = await enhancedQueryPromise;
 
       generation.update({
         process: "tool:next-action",
