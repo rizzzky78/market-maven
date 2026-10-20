@@ -55,15 +55,15 @@ A visitor lands on the [Home](src/app/README.md) page, learns what Maven does, a
 
 ## Tech stack
 
-- **Framework:** Next.js 15 (App Router) with React 19 and TypeScript
-- **AI / orchestration:** Vercel `ai` SDK (`ai/rsc`, generative streamed UI), Google Generative AI (Gemini), with Groq as an alternate model provider
+- **Framework:** Next.js 16 (App Router, Turbopack) with React 19 and TypeScript
+- **AI / orchestration:** Vercel AI SDK 7 (`@ai-sdk/rsc` for generative streamed UI, `streamText` / `generateText` with `Output` for structured data), Google Gemini via `@ai-sdk/google` with Google Search grounding
 - **Web data:** Firecrawl for scraping, Tavily and Serper for external search
 - **Auth:** NextAuth.js (Google, GitHub OAuth)
 - **Data stores:** Neon (PostgreSQL) for persistent data, Upstash Redis for caching/session data
-- **UI:** Radix UI primitives, Tailwind CSS, Sass, `class-variance-authority`, `next-themes`
-- **Motion:** Framer Motion / `motion`, GSAP, Lenis smooth scroll
-- **Media:** Cloudinary, `next-cloudinary`, `react-player`
-- **Other:** SWR for client data fetching, Zustand for client state, `react-markdown` + `remark-gfm` for rendering AI output, `mermaid` for diagrams
+- **UI:** Radix UI primitives, Tailwind CSS 4, Sass, `class-variance-authority`, `next-themes`
+- **Motion:** `motion` (formerly Framer Motion), GSAP, Lenis smooth scroll
+- **Media:** Cloudinary
+- **Other:** SWR for client data fetching, Zustand for client state, `react-markdown` + `remark-gfm` for rendering AI output
 - **Deployment:** Vercel, with Vercel Analytics and Speed Insights
 
 ## Project structure
@@ -79,18 +79,20 @@ src/
     rate-app/           # Feedback form
     share/              # Public shared-content viewer
     api/                # Route handlers (ratings, etc.)
+    server/             # Agent render tools and shared streaming workflow helpers (workflow.tsx)
     action.tsx          # AI/RSC action definitions and server actions
   components/
     maven/              # App-specific feature components (chat UI, marketing pages, etc.)
     ui/                 # Shared design-system primitives (shadcn/ui-based)
   lib/                  # Agent tools, orchestrator, data services, types, utilities
+  proxy.ts              # Next.js proxy (formerly middleware): NextAuth route protection
 ```
 
 ## Getting started
 
 ### Prerequisites
 
-- Node.js v18+
+- Node.js v20.9+
 - Bun (the project ships a `bun.lockb`), or npm/yarn/pnpm
 - Git
 
@@ -186,7 +188,6 @@ TOKOPEDIA_SEARCH_BASE_URL="https://www.tokopedia.com/search?q="
 
 # Models
 GOOGLE_GENERATIVE_AI_API_KEY="YOUR_APIKEY"   # https://aistudio.google.com/app/apikey
-GROQ_API_KEY="YOUR_APIKEY"                   # https://console.groq.com/keys
 XAI_API_KEY="YOUR_APIKEY"
 DEEPSEEK_API_KEY="YOUR_APIKEY"
 
