@@ -64,7 +64,7 @@ A visitor lands on the [Home](src/app/README.md) page, learns what Maven does, a
 - **Motion:** `motion` (formerly Framer Motion), GSAP, Lenis smooth scroll
 - **Media:** Cloudinary
 - **Other:** SWR for client data fetching, Zustand for client state, `react-markdown` + `remark-gfm` for rendering AI output
-- **Deployment:** Vercel, with Vercel Analytics and Speed Insights
+- **Deployment:** self-hosted Node.js server on an Ubuntu VPS (systemd + Nginx reverse proxy)
 
 ## Project structure
 
@@ -186,7 +186,7 @@ Open `http://localhost:3000`.
 
 ## Agent tools reference
 
-Maven's orchestrator automatically selects among five tools based on user intent:
+Maven's orchestrator automatically selects among six tools based on user intent:
 
 | Tool | Purpose | Example input |
 |---|---|---|
@@ -194,16 +194,114 @@ Maven's orchestrator automatically selects among five tools based on user intent
 | `searchProduct` | Finds a specific product by name | "Sony WH-1000XM5" |
 | `getProductDetails` | Full specs, reviews, pricing for one product | Attach a product via the UI |
 | `productsComparison` | Side-by-side comparison of two products | Two `callId`s from prior `getProductDetails` calls |
+| `webResearch` | Search-grounded answer with cited sources for a factual question | "Is the Galaxy S25 screen brighter than the Pixel 9?" |
 | `inquireUser` | Clarifying question when intent is ambiguous | "Find me a good laptop." → Maven asks about intended use |
 
 See the [Workflow](<src/app/(blog)/workflow/README.md>) page doc for how these fit into the request pipeline, and the [Cookbook](<src/app/(blog)/cookbook/README.md>) page doc for usage recipes.
 
-## Deployment
+## Deployment (Ubuntu VPS)
 
-1. Provision production instances of PostgreSQL (self-hosted, Neon or compatible) and Upstash Redis, then run `npx prisma migrate deploy` against the database.
-2. Set all environment variables listed above on your hosting platform.
-3. Build with `bun run build`.
-4. Deploy — the project is built and tested against Vercel.
+Maven runs as a regular Node.js server (`next start`) behind Nginx. The AI prompts are bundled in the repository, so no hosting-platform services are required; the external dependencies are PostgreSQL, Upstash Redis and the API keys listed above.
+
+### 1. Install Node.js and PostgreSQL
+
+```bash
+# Node.js 22 LTS (package.json engines: ^20.19 || ^22.12 || >=24)
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt-get install -y nodejs nginx postgresql
+
+# Database and user
+sudo -u postgres psql -c "CREATE USER maven WITH PASSWORD 'change-me';"
+sudo -u postgres psql -c "CREATE DATABASE maven OWNER maven;"
+```
+
+### 2. Build the app
+
+```bash
+sudo useradd --system --create-home --shell /usr/sbin/nologin maven
+sudo -u maven git clone https://github.com/rizzzky78/market-maven.git /home/maven/app
+cd /home/maven/app
+sudo -u maven cp example.env .env   # fill in every value, see "Environment variables"
+sudo -u maven npm ci                # also runs `prisma generate`
+sudo -u maven npx prisma migrate deploy
+sudo -u maven npm run build
+```
+
+In `.env`, set `NEXTAUTH_URL` and `NEXT_PUBLIC_APP_URL` to your public URL (e.g. `https://maven.example.com`) and `DATABASE_URL` to the database created above. `NEXT_PUBLIC_APP_URL` is inlined at build time, so rebuild after changing it. Add `https://<your-domain>/api/auth/callback/google` and `.../callback/github` as OAuth redirect URLs.
+
+### 3. Run it with systemd
+
+`/etc/systemd/system/maven.service`:
+
+```ini
+[Unit]
+Description=Maven AI (Next.js)
+After=network.target postgresql.service
+
+[Service]
+User=maven
+WorkingDirectory=/home/maven/app
+# Next.js loads .env from WorkingDirectory itself
+Environment=NODE_ENV=production
+ExecStart=/home/maven/app/node_modules/.bin/next start -p 3000 -H 127.0.0.1
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now maven
+journalctl -u maven -f   # logs
+```
+
+### 4. Nginx reverse proxy and HTTPS
+
+`/etc/nginx/sites-available/maven`:
+
+```nginx
+server {
+    listen 80;
+    server_name maven.example.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+
+        # Agent responses are streamed (React Server Components); buffering
+        # would hold them back until the whole multi-step answer is done.
+        proxy_buffering off;
+        proxy_cache off;
+        # Agent tool chains (scrape + several model calls) can take minutes.
+        proxy_read_timeout 300s;
+    }
+}
+```
+
+```bash
+sudo ln -s /etc/nginx/sites-available/maven /etc/nginx/sites-enabled/
+sudo nginx -t && sudo systemctl reload nginx
+sudo apt-get install -y certbot python3-certbot-nginx
+sudo certbot --nginx -d maven.example.com
+```
+
+### Updating
+
+```bash
+cd /home/maven/app
+sudo -u maven git pull
+sudo -u maven npm ci
+sudo -u maven npx prisma migrate deploy
+sudo -u maven npm run build
+sudo systemctl restart maven
+```
 
 ## Contributing
 
