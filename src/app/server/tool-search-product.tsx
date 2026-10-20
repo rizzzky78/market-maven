@@ -61,6 +61,7 @@ const toolSearchProduct = ({
   generation,
   state,
   requestOption,
+  userMessage,
 }: ToolsetProps) => {
   const searchProduct: RenderTool<typeof searchProductSchema> = {
     description: TEMPLATE.search_product_description,
@@ -319,7 +320,11 @@ const toolSearchProduct = ({
           {
             model: google("gemini-2.5-flash"),
             instructions: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_INSIGHT,
-            prompt: JSON.stringify(insightResult.data),
+            prompt: JSON.stringify({
+              searchQuery: query,
+              userRequest: userMessage?.text_input ?? null,
+              ...insightResult.data,
+            }),
             onEnd: ({ usage }) => {
               logger.info("Usage - Search Product - Step 2", { usage });
             },
@@ -536,7 +541,11 @@ const toolSearchProduct = ({
       const finalizedText = await streamTextToValue(streamableText, errorState, {
         model: google("gemini-2.5-flash"),
         instructions: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_INSIGHT,
-        prompt: JSON.stringify(tokopediaObject.products ?? []),
+        prompt: JSON.stringify({
+          searchQuery: query,
+          userRequest: userMessage?.text_input ?? null,
+          products: tokopediaObject.products ?? [],
+        }),
         onEnd: ({ usage }) => {
           logger.info("Usage - Search Product - Step 2", { usage });
         },

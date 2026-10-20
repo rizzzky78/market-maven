@@ -145,7 +145,11 @@ const toolRecommendator = ({
         {
           model: google("gemini-2.5-flash"),
           instructions: await SYSTEM_INSTRUCTION.RECOMMENDATOR_INSIGHT,
+          // Without the intent the insight can only describe the list,
+          // not explain why each pick fits the user's need.
           prompt: JSON.stringify({
+            userIntent: intent,
+            scope,
             payload: finalizedRecommendator.recommendations,
           }),
           onEnd: ({ usage }) => {

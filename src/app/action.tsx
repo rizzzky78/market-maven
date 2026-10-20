@@ -153,6 +153,7 @@ const orchestrator = async (
         generation,
         state,
         requestOption,
+        userMessage: payloadUserMessage,
       }),
       getProductDetails: toolGetProductDetails({
         generation,
