@@ -3,7 +3,7 @@
 import { AIState, ChatProperties, MessageProperty } from "@/lib/types/ai";
 import { generateText, TextPart } from "ai";
 import { google } from "@ai-sdk/google";
-import { getChat, saveChat } from "../chat-service";
+import { getChatMeta, saveChat } from "../chat-service";
 import logger from "@/lib/utility/logger";
 import SYSTEM_INSTRUCTION from "../../constant/md";
 
@@ -48,10 +48,10 @@ const getGeneratedTitle = async (
 
 export const saveAIState = async (state: AIState): Promise<void> => {
   const { chatId, username, messages } = state;
-  const currentChat = await getChat(chatId);
+  const currentChat = await getChatMeta(chatId);
 
   const title = currentChat?.title || (await getGeneratedTitle(messages));
-  const createdDate = currentChat?.created || new Date();
+  const createdDate = currentChat?.createdAt || new Date();
 
   const savePayload: ChatProperties = {
     chatId,

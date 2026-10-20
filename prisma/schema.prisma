@@ -6,7 +6,8 @@
 //
 // Table and column names map onto the tables the app already used before
 // Prisma, so existing databases are baselined instead of recreated
-// (see README "Database setup").
+// (see README "Database setup"). Chats moved here from Redis; Redis now only
+// holds rate limiting and short-lived session state.
 
 generator client {
   provider = "prisma-client"
@@ -15,6 +16,52 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+}
+
+/// A conversation owned by a user (NextAuth email). Holds the persisted AI
+/// state of the chat; the tool, object and markdown records produced while
+/// chatting belong to it and are removed with it. `title` is generated after
+/// the first completed turn, so it is empty until then.
+model Chat {
+  id        String   @id
+  userId    String   @map("user_id")
+  title     String?
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  messages  ChatMessage[]
+  toolData  ToolDataStore[]
+  objects   ObjectStore[]
+  markdowns MarkdownStore[]
+
+  @@index([userId, updatedAt(sort: Desc)], map: "idx_chats_user_id_updated_at")
+  @@map("chats")
+}
+
+/// Role of a persisted chat message, mirroring the AI state message roles.
+enum MessageRole {
+  user
+  assistant
+  system
+  tool
+
+  @@map("message_role")
+}
+
+/// One message of a chat's AI state, ordered by `position`. `content` keeps
+/// the app's persisted message format (a string, or text / tool-call /
+/// tool-result parts) as JSON; `messageId` is the id used by the UI.
+model ChatMessage {
+  chatId    String      @map("chat_id")
+  position  Int
+  messageId String      @map("message_id")
+  role      MessageRole
+  content   Json
+
+  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+
+  @@id([chatId, position])
+  @@map("chat_messages")
 }
 
 /// Cache of Firecrawl scrape results keyed by the search query, so repeated
@@ -31,7 +78,7 @@ model ScrapeCache {
 }
 
 /// Raw markdown scraped during a tool call, stored per chat and owner so a
-/// tool result can be re-rendered or re-extracted later.
+/// tool result can be re-rendered or re-extracted later. Belongs to a Chat.
 /// `type`: "product-search" | "product-details".
 model MarkdownStore {
   key       String   @id
@@ -41,6 +88,8 @@ model MarkdownStore {
   markdown  String
   timestamp DateTime @default(now()) @db.Timestamptz(6)
 
+  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+
   @@index([chatId], map: "idx_markdown_store_chat_id")
   @@index([owner], map: "idx_markdown_store_owner")
   @@map("markdown_store")
@@ -48,7 +97,7 @@ model MarkdownStore {
 
 /// Structured objects extracted by the agent tools (search results, product
 /// details, comparisons). Later tool calls read them by key, e.g. a product
-/// comparison loads the details objects it compares.
+/// comparison loads the details objects it compares. Belongs to a Chat.
 /// `type`: "searchProduct" | "getProductDetails" | "productsComparison".
 model ObjectStore {
   key       String   @id
@@ -58,6 +107,8 @@ model ObjectStore {
   object    Json
   timestamp DateTime @default(now()) @db.Timestamptz(6)
 
+  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+
   @@index([chatId], map: "idx_object_store_chat_id")
   @@index([owner], map: "idx_object_store_owner")
   @@map("object_store")
@@ -65,7 +116,7 @@ model ObjectStore {
 
 /// One record per completed agent tool call: tool name, input arguments,
 /// result data and success flag. Shared pages and the tool-data API restore
-/// tool output from here.
+/// tool output from here. Belongs to a Chat.
 model ToolDataStore {
   key         String   @id
   chatId      String   @map("chat_id")
@@ -75,6 +126,8 @@ model ToolDataStore {
   toolArgs    Json     @map("tool_args")
   toolData    Json     @map("tool_data")
   timestamp   DateTime @default(now()) @db.Timestamptz(6)
+
+  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
 
   @@index([chatId], map: "idx_tool_data_store_chat_id")
   @@index([owner], map: "idx_tool_data_store_owner")

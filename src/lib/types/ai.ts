@@ -56,8 +56,6 @@ export type ChatProperties = {
   userId: string;
   /** Array of messages in the conversation */
   messages: MessageProperty[];
-  /** Optional path for sharing the chat */
-  sharePath?: string;
 };
 
 /**

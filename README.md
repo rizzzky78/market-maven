@@ -59,7 +59,7 @@ A visitor lands on the [Home](src/app/README.md) page, learns what Maven does, a
 - **AI / orchestration:** Vercel AI SDK 7 (`@ai-sdk/rsc` for generative streamed UI, `streamText` / `generateText` with `Output` for structured data), Google Gemini via `@ai-sdk/google` with Google Search grounding
 - **Web data:** Firecrawl for scraping, Tavily and Serper for external search
 - **Auth:** NextAuth.js (Google, GitHub OAuth)
-- **Data stores:** PostgreSQL (self-hosted, Neon or compatible) via Prisma ORM with `@prisma/adapter-pg` for persistent data, Upstash Redis for caching/session data
+- **Data stores:** PostgreSQL (self-hosted, Neon or compatible) via Prisma ORM with `@prisma/adapter-pg` for chats and all persistent data, Upstash Redis for rate limiting and short-lived session state
 - **UI:** Radix UI primitives, Tailwind CSS 4, Sass, `class-variance-authority`, `next-themes`
 - **Motion:** `motion` (formerly Framer Motion), GSAP, Lenis smooth scroll
 - **Media:** Cloudinary
@@ -81,7 +81,7 @@ src/
     api/                # Route handlers (ratings, etc.)
     server/             # Agent render tools and shared streaming workflow helpers (workflow.tsx)
     action.tsx          # AI/RSC action definitions and server actions
-  database/             # Prisma client (PostgreSQL) and Redis clients
+  database/             # Prisma client (PostgreSQL)
   components/
     maven/              # App-specific feature components (chat UI, marketing pages, etc.)
     ui/                 # Shared design-system primitives (shadcn/ui-based)
@@ -123,8 +123,12 @@ npx prisma migrate deploy
 
 After changing the schema, create a new migration with `npx prisma migrate dev --name <change>`.
 
+Chats are stored in PostgreSQL since migration `2_chats`; chats previously kept in Redis are not copied over. Records that referenced them get a placeholder chat (no messages, hidden from the history list) so their links keep resolving.
+
 | Model (table) | Purpose |
 |---|---|
+| `Chat` (`chats`) | A user's conversation; owns its messages and tool, object and markdown records (deleted together) |
+| `ChatMessage` (`chat_messages`) | Ordered AI state messages of a chat (role enum + JSON content) |
 | `ScrapeCache` (`scrape_cache`) | Caches web scraping results by query to avoid redundant requests |
 | `MarkdownStore` (`markdown_store`) | Persists scraped markdown tied to a chat and owner |
 | `ObjectStore` (`object_store`) | Structured tool output (search results, product details, comparisons) tied to a chat and owner |
@@ -164,10 +168,6 @@ AUTH_GITHUB_ID="YOUR_GITHUB_AUTH_ID"
 AUTH_GITHUB_SECRET="YOUR_GITHUB_AUTH_SECRET"
 AUTH_GOOGLE_ID="YOUR_GOOGLE_AUTH_ID"
 AUTH_GOOGLE_SECRET="YOUR_GOOGLE_AUTH_SECRET"
-
-# Redis
-USE_LOCAL_REDIS=false
-LOCAL_REDIS_URL=redis://localhost:6379   # or redis://redis:6379 under docker compose
 
 NEXT_PUBLIC_APP_URL=http://localhost:3000   # update for production
 ```
@@ -225,4 +225,4 @@ Licensed under the [Apache License 2.0](LICENSE).
 
 ## Portfolio summary
 
-Maven AI is a Next.js + TypeScript application that turns natural-language product questions into AI-driven recommendations, searches, detailed breakdowns, and comparisons for electronics. It showcases a full agentic pipeline — an orchestrator that routes user intent to specialized tools, generative streamed UI via the Vercel AI SDK, real web data via Firecrawl/Tavily scraping, and persistent data backed by PostgreSQL (Prisma) and Redis — wrapped in an animated, OAuth-gated Next.js frontend with public content sharing.
+Maven AI is a Next.js + TypeScript application that turns natural-language product questions into AI-driven recommendations, searches, detailed breakdowns, and comparisons for electronics. It showcases a full agentic pipeline — an orchestrator that routes user intent to specialized tools, generative streamed UI via the Vercel AI SDK, real web data via Firecrawl/Tavily scraping, and chats and data persisted in PostgreSQL (Prisma), with Redis for rate limiting — wrapped in an animated, OAuth-gated Next.js frontend with public content sharing.

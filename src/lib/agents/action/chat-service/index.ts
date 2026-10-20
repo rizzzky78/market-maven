@@ -2,64 +2,52 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { getRedisClient, RedisWrapper } from "@/database/redis";
-import { ChatProperties } from "@/lib/types/ai";
+import { prisma } from "@/database/prisma";
+import { Prisma } from "@/generated/prisma/client";
+import { ChatProperties, MessageContent } from "@/lib/types/ai";
 import logger from "@/lib/utility/logger";
 
-async function getRedis(): Promise<RedisWrapper> {
-  return await getRedisClient();
+const chatWithMessages = {
+  include: { messages: { orderBy: { position: "asc" } } },
+} satisfies Prisma.ChatDefaultArgs;
+
+type ChatWithMessages = Prisma.ChatGetPayload<typeof chatWithMessages>;
+
+/**
+ * Maps a `chats` row and its ordered messages to the app's `ChatProperties`.
+ */
+function toChatProperties(chat: ChatWithMessages): ChatProperties {
+  return {
+    chatId: chat.id,
+    title: chat.title ?? "Untitled",
+    created: chat.createdAt,
+    userId: chat.userId,
+    messages: chat.messages.map((m) => ({
+      id: m.messageId,
+      role: m.role,
+      content: m.content as MessageContent,
+    })),
+  };
 }
 
+/**
+ * Lists a user's chats that have at least one message, most recently
+ * updated first.
+ */
 export async function getChats(userId: string | null = "anonymous") {
   if (!userId) {
     return [];
   }
 
   try {
-    const redis = await getRedis();
-    const chats = await redis.zrange(`user:chat:${userId}`, 0, -1, {
-      rev: true,
+    // ponytail: loads every message for the sidebar teaser; select only the first user message if histories grow large.
+    const chats = await prisma.chat.findMany({
+      where: { userId, messages: { some: {} } },
+      orderBy: { updatedAt: "desc" },
+      ...chatWithMessages,
     });
 
-    if (chats.length === 0) {
-      return [];
-    }
-
-    const results = await Promise.all(
-      chats.map(async (chatKey) => {
-        const chat = await redis.hgetall(chatKey);
-        return chat;
-      })
-    );
-
-    const userChat = results
-      .filter((result): result is Record<string, any> => {
-        if (result === null || Object.keys(result).length === 0) {
-          return false;
-        }
-        return true;
-      })
-      .map((chat) => {
-        const plainChat = { ...chat };
-        if (typeof plainChat.messages === "string") {
-          try {
-            plainChat.messages = JSON.parse(plainChat.messages);
-          } catch (error) {
-            console.error(error);
-            logger.error("Error when parsing plain chat in <getChats()>");
-
-            plainChat.messages = [];
-          }
-        }
-        if (plainChat.createdAt && !(plainChat.createdAt instanceof Date)) {
-          plainChat.createdAt = new Date(plainChat.createdAt);
-        }
-        return plainChat as ChatProperties;
-      });
-
-    logger.info("User chat saved!", { userId });
-
-    return userChat;
+    return chats.map(toChatProperties);
   } catch (error) {
     console.error(error);
     logger.error("Error getting the user chat in <getChats()>");
@@ -68,105 +56,94 @@ export async function getChats(userId: string | null = "anonymous") {
   }
 }
 
+/**
+ * Loads a chat with its messages, or `null` when it does not exist.
+ */
 export async function getChat(id: string) {
-  const redis = await getRedis();
-  const chat = await redis.hgetall<ChatProperties>(`chat:${id}`);
+  const chat = await prisma.chat.findUnique({
+    where: { id },
+    ...chatWithMessages,
+  });
 
-  if (!chat) {
-    return null;
-  }
-
-  // Parse the messages if they're stored as a string
-  if (typeof chat.messages === "string") {
-    try {
-      chat.messages = JSON.parse(chat.messages);
-    } catch (error) {
-      console.error(error);
-      logger.error("Error when parsing chat messages in <getChat()>");
-
-      chat.messages = [];
-    }
-  }
-
-  // Ensure messages is always an array
-  if (!Array.isArray(chat.messages)) {
-    chat.messages = [];
-  }
-
-  return chat;
+  return chat ? toChatProperties(chat) : null;
 }
 
+/**
+ * Creates the chat row if it does not exist yet. The orchestrator calls this
+ * before any tool runs, because tool, object and markdown records reference
+ * their chat.
+ */
+export async function ensureChat(id: string, userId: string) {
+  await prisma.chat.upsert({
+    where: { id },
+    create: { id, userId },
+    update: {},
+  });
+}
+
+/**
+ * Deletes all chats of a user; their messages and tool, object and markdown
+ * records are removed by cascade.
+ */
 export async function clearChats(
   userId: string = "anonymous"
 ): Promise<{ error?: string }> {
-  const redis = await getRedis();
-  const chats = await redis.zrange(`user:chat:${userId}`, 0, -1);
-  if (!chats.length) {
+  const { count } = await prisma.chat.deleteMany({ where: { userId } });
+
+  if (count === 0) {
     return { error: "No chats to clear" };
   }
-  const pipeline = redis.pipeline();
-
-  for (const chat of chats) {
-    pipeline.del(chat);
-    pipeline.zrem(`user:chat:${userId}`, chat);
-  }
-
-  await pipeline.exec();
 
   revalidatePath("/chat");
   redirect("/chat");
 }
 
+/**
+ * Persists a chat and replaces its messages with the given AI state messages.
+ */
 export async function saveChat(userId: string, chat: ChatProperties) {
   if (!userId) {
     userId = "anonymous";
   }
   try {
-    const redis = await getRedis();
-    const pipeline = redis.pipeline();
+    // ponytail: rewrites the whole history per save (as the Redis hash did); append only new positions if chats get long.
+    await prisma.$transaction([
+      prisma.chat.upsert({
+        where: { id: chat.chatId },
+        create: {
+          id: chat.chatId,
+          userId,
+          title: chat.title,
+          createdAt: chat.created,
+        },
+        update: { title: chat.title },
+      }),
+      prisma.chatMessage.deleteMany({ where: { chatId: chat.chatId } }),
+      prisma.chatMessage.createMany({
+        data: chat.messages.map((message, position) => ({
+          chatId: chat.chatId,
+          position,
+          messageId: message.id,
+          role: message.role,
+          content: message.content as Prisma.InputJsonValue,
+        })),
+      }),
+    ]);
 
-    const chatToSave = {
-      ...chat,
-      messages: JSON.stringify(chat.messages, null, 2),
-    };
-
-    pipeline.hmset(`chat:${chat.chatId}`, chatToSave);
-    pipeline.zadd(`user:chat:${userId}`, Date.now(), `chat:${chat.chatId}`);
-
-    const results = await pipeline.exec();
     logger.info("User chat saved successfully!");
-    return results;
   } catch (error) {
     console.error(error);
     logger.error("Error when save the chat properties in <saveChat()>");
   }
 }
 
-export async function getSharedChat(id: string) {
-  const redis = await getRedis();
-  const chat = await redis.hgetall<ChatProperties>(`chat:${id}`);
-
-  if (!chat || !chat.sharePath) {
-    return null;
-  }
-
-  return chat;
-}
-
-export async function shareChat(id: string, userId: string = "anonymous") {
-  const redis = await getRedis();
-  const chat = await redis.hgetall<ChatProperties>(`chat:${id}`);
-
-  if (!chat || chat.userId !== userId) {
-    return null;
-  }
-
-  const payload = {
-    ...chat,
-    sharePath: `/share/c/${id}`,
-  };
-
-  await redis.hmset(`chat:${id}`, payload);
-
-  return payload;
+/**
+ * Reads a chat's title and creation date without its messages; `title` is
+ * `null` until it has been generated.
+ */
+export async function getChatMeta(id: string) {
+  return prisma.chat.findUnique({
+    where: { id },
+    select: { title: true, createdAt: true },
+  });
 }

@@ -10,6 +10,7 @@ import {
   toUnifiedUserMessage,
 } from "@/lib/agents/action/mutator/mutate-messages";
 import { saveAIState } from "@/lib/agents/action/mutator/save-ai-state";
+import { ensureChat } from "@/lib/agents/action/chat-service";
 import { PartialRelated, RelatedQuery } from "@/lib/agents/schema/related";
 import {
   AIState,
@@ -65,6 +66,10 @@ const orchestrator = async (
       },
     ],
   });
+
+  // Tool, object and markdown records reference the chat, so it must exist
+  // before any tool runs.
+  await ensureChat(state.get().chatId, state.get().username);
 
   const generation = createStreamableValue<StreamGeneration>({
     process: "stream:initial",
