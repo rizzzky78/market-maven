@@ -78,6 +78,11 @@ export const recommendationSchema = z.object({
         brand: z
           .string()
           .describe("The brand of the product, e.g, Samsung, Apple, Asus, etc"),
+        reason: z
+          .string()
+          .describe(
+            "One or two sentences on why this product fits the user's intent and scope, based on what the search results say (key spec or review finding), including its main trade-off"
+          ),
       })
     )
     .max(5),

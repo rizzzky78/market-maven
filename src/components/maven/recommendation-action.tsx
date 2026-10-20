@@ -22,6 +22,33 @@ import { ProductsRecommendation } from "@/lib/agents/schema/product";
 import { ErrorMessage } from "@/components/maven/error-message";
 import { ProductRecommendationProps } from "@/lib/types/props";
 
+/** Web pages the recommendations were grounded on. */
+const RecommendationSources: FC<{
+  sources?: { url: string; title?: string }[];
+}> = ({ sources }) => {
+  if (!sources?.length) return null;
+
+  return (
+    <div className="mt-4 ml-2 text-xs text-muted-foreground">
+      <p className="mb-1 font-semibold text-foreground">Based on</p>
+      <ul className="flex flex-wrap gap-x-3 gap-y-1">
+        {sources.map((source, index) => (
+          <li key={source.url}>
+            <a
+              href={source.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2 hover:text-foreground"
+            >
+              {index + 1}. {source.title || "Source"}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
 export const RecommendationAction: FC<ProductRecommendationProps> = ({
   content,
 }) => {
@@ -195,7 +222,7 @@ export const RecommendationAction: FC<ProductRecommendationProps> = ({
                 <Button
                   variant="outline"
                   size="sm"
-                  className="h-auto w-full flex flex-col rounded-xl border bg-background items-start p-2 text-left shadow-none hover:bg-accent transition-colors"
+                  className="h-auto w-full flex flex-col rounded-xl border bg-background items-start p-2 text-left whitespace-normal shadow-none hover:bg-accent transition-colors"
                   onClick={async () => await actionSubmit(item.name)}
                   disabled={isButtonDisabled}
                 >
@@ -215,12 +242,18 @@ export const RecommendationAction: FC<ProductRecommendationProps> = ({
                       <p className="text-xs font-normal text-muted-foreground">
                         Model: {item.productModel}
                       </p>
+                      {item.reason && (
+                        <p className="mt-1 text-xs font-normal text-muted-foreground line-clamp-3">
+                          {item.reason}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </Button>
               </motion.div>
             ))}
           </motion.div>
+          <RecommendationSources sources={content.data.sources} />
         </div>
       </div>
     </motion.div>
@@ -319,7 +352,7 @@ export const TemplateRecommendationAction: FC<ProductRecommendationProps> = ({
                 <Button
                   variant="outline"
                   size="sm"
-                  className="h-auto w-full flex flex-col rounded-xl border bg-background items-start p-2 text-left shadow-none hover:bg-accent transition-colors"
+                  className="h-auto w-full flex flex-col rounded-xl border bg-background items-start p-2 text-left whitespace-normal shadow-none hover:bg-accent transition-colors"
                   disabled
                 >
                   <div className="flex items-center">
@@ -338,12 +371,18 @@ export const TemplateRecommendationAction: FC<ProductRecommendationProps> = ({
                       <p className="text-xs font-normal text-muted-foreground">
                         Model: {item.productModel}
                       </p>
+                      {item.reason && (
+                        <p className="mt-1 text-xs font-normal text-muted-foreground line-clamp-3">
+                          {item.reason}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </Button>
               </motion.div>
             ))}
           </motion.div>
+          <RecommendationSources sources={content.data.sources} />
         </div>
       </div>
     </motion.div>
@@ -467,7 +506,7 @@ export const StreamRecommendationAction: FC<
                     <Button
                       variant="outline"
                       size="sm"
-                      className="h-auto w-full flex flex-col rounded-xl border bg-background items-start p-2 text-left shadow-none hover:bg-accent transition-colors"
+                      className="h-auto w-full flex flex-col rounded-xl border bg-background items-start p-2 text-left whitespace-normal shadow-none hover:bg-accent transition-colors"
                       disabled={pending}
                     >
                       <div className="flex items-center">
@@ -486,6 +525,11 @@ export const StreamRecommendationAction: FC<
                           <p className="text-xs font-normal text-muted-foreground">
                             Model: {item?.productModel || "-"}
                           </p>
+                          {item?.reason && (
+                            <p className="mt-1 text-xs font-normal text-muted-foreground line-clamp-3">
+                              {item.reason}
+                            </p>
+                          )}
                         </div>
                       </div>
                     </Button>

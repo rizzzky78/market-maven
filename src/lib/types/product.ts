@@ -40,6 +40,8 @@ export type ProductsComparisonResponse = {
 export type RecommendationResponse = {
   callId: string;
   recommendations: ProductsRecommendation["recommendations"];
+  /** Web pages the recommendations were grounded on (absent in older chats). */
+  sources?: { url: string; title?: string }[];
 };
 
 export type TokopediaSearchResult = {

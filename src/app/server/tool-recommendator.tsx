@@ -22,6 +22,8 @@ import {
 import { LoadingText } from "@/components/maven/shining-glass";
 import { TEMPLATE } from "@/lib/agents/constant";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
+import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
+import { RECOMMENDATOR_RESEARCH_SYSTEM_INSTRUCTION } from "@/lib/agents/constant/md/recommendator-extractor";
 import {
   ProductsRecommendation,
   recommendationSchema,
@@ -32,7 +34,7 @@ import { RenderTool, ToolsetProps } from "@/lib/types/ai";
 import { RecommendationResponse } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";
-import { DeepPartial, Output } from "ai";
+import { DeepPartial, generateText, Output } from "ai";
 import { createStreamableValue } from "@ai-sdk/rsc";
 import { v4 } from "uuid";
 import {
@@ -70,10 +72,10 @@ const toolRecommendator = ({
         loading: true,
       });
 
-
       const finalizedRecommendator: RecommendationResponse = {
         callId: toolRequestId,
         recommendations: [],
+        sources: [],
       };
 
       generation.update({
@@ -81,8 +83,34 @@ const toolRecommendator = ({
         loading: true,
       });
 
-      yield <RecommendationSkeleton />;
+      yield (
+        <>
+          <LoadingText text="Researching current models that fit your needs..." />
+          <RecommendationSkeleton />
+        </>
+      );
 
+      // Step 1: search-grounded research. Gemini 2.x cannot combine Google
+      // Search with JSON output in one call, so research and extraction are
+      // separate steps; the sources come from this call.
+      const research = await generateText({
+        model: models.reasoning,
+        tools: { google_search: google.tools.googleSearch({}) },
+        instructions:
+          RECOMMENDATOR_RESEARCH_SYSTEM_INSTRUCTION + groundingPolicy(),
+        prompt: JSON.stringify({ intent, scope }),
+      });
+
+      for (const s of research.sources) {
+        if (s.sourceType !== "url") continue;
+        if (finalizedRecommendator.sources?.some((x) => x.url === s.url)) continue;
+        finalizedRecommendator.sources?.push({ url: s.url, title: s.title });
+      }
+
+      logger.info("Usage - Recommendator - Step 1 (research)", {
+        usage: research.usage,
+        sources: finalizedRecommendator.sources?.length,
+      });
 
       const streamableRecommendation = createStreamableValue<
         DeepPartial<ProductsRecommendation>
@@ -100,17 +128,17 @@ const toolRecommendator = ({
         />
       );
 
+      // Step 2: structure the researched candidates.
       const recommendation = await streamOutputToValue(
         streamableRecommendation,
         errorState,
         {
-          model: models.reasoning,
-          tools: { google_search: google.tools.googleSearch({}) },
+          model: models.extract,
           instructions: await SYSTEM_INSTRUCTION.RECOMMENDATOR_EXTRACTOR,
-          prompt: JSON.stringify({ intent, scope }),
+          prompt: JSON.stringify({ intent, scope, research: research.text }),
           output: Output.object({ schema: recommendationSchema }),
           onEnd: ({ usage }) => {
-            logger.info("Usage - Recommendator - Step 1", { usage });
+            logger.info("Usage - Recommendator - Step 1 (extract)", { usage });
           },
         }
       );
