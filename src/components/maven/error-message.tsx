@@ -22,21 +22,21 @@ export const ErrorMessage: FC<ErrorCardProps> = ({
   raw,
 }) => {
   return (
-    <Card className="w-full max-w-2xl border-none dark:border-inherit dark:border rounded-3xl bg-red-400">
+    <Card className="w-full max-w-2xl rounded-xl border-destructive/30 bg-destructive/5 shadow-none" role="alert">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-sm text-white font-semibold flex items-center space-x-2">
-          <AlertCircle className="w-5 h-5" />
+        <CardTitle className="flex items-center gap-2 text-sm font-semibold text-foreground">
+          <AlertCircle className="size-4 shrink-0 text-destructive dark:text-red-400" />
           <span>{errorName}</span>
         </CardTitle>
-        <CardDescription className="text-sm text-white">{reason}</CardDescription>
+        <CardDescription className="text-sm text-muted-foreground">{reason}</CardDescription>
       </CardHeader>
       {raw && (
         <CardContent>
           <Separator className="mb-4" />
-          <div className="text-xs text-white font-medium mb-2">
-            <p>Object Reason:</p>
+          <div className="mb-2 text-xs font-medium text-muted-foreground">
+            <p>Details</p>
           </div>
-          <ScrollArea className="h-[160px] pr-3 bg-[#1A1A1D] w-full border-none dark:border-inherit rounded-2xl dark:border">
+          <ScrollArea className="h-[160px] w-full rounded-lg border bg-muted pr-3">
             <pre className="p-4 text-xs">{JSON.stringify(raw, null, 2)}</pre>
           </ScrollArea>
         </CardContent>

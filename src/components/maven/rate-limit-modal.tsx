@@ -68,16 +68,17 @@ export const RateLimit: FC<RateLimitUIProps> = ({
         <Button
           variant="outline"
           className={cn(
-            "border-white/10 hover:bg-transparent hover:text-purple-500 text-white bg-transparent min-h-9 min-w-9 justify-center font-normal rounded-full text-xs px-0",
-            isApproachingAnyLimit && "text-amber-400 hover:text-amber-800",
-            !data.eligible && " text-red-700 hover:text-red-800"
+            "h-8 min-w-8 justify-center rounded-full bg-transparent px-0 text-xs font-normal text-muted-foreground shadow-none",
+            isApproachingAnyLimit && "text-amber-600 dark:text-amber-400",
+            !data.eligible && "text-destructive dark:text-red-400"
           )}
+          aria-label="Usage limits"
           data-testid="rate-limit"
         >
           {isCheckingRateLimit ? (
-            <LoaderCircle className="animate-spin h-5 w-5 mx-2" />
+            <LoaderCircle className="mx-2 size-4 animate-spin" />
           ) : (
-            <BarChart2 className="h-5 w-5 mx-2" />
+            <BarChart2 className="mx-2 size-4" />
           )}
           {!data.eligible && (
             <Badge

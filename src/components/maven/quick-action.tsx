@@ -8,6 +8,7 @@ import {
   RectangleHorizontal,
   Smartphone,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { FC, ReactNode, useCallback } from "react";
 import { motion } from "motion/react";
 import { StreamGeneration } from "@/lib/types/ai";
@@ -24,28 +25,28 @@ const predefinedActions: {
   icon: ReactNode;
 }[] = [
   {
-    action: "Search for Samsung Galaxy S24 Ultra",
-    icon: <Smartphone className="size-5 mr-2 shrink-0" />,
+    action: "Find the Samsung Galaxy S24 Ultra",
+    icon: <Smartphone className="size-4 shrink-0 text-muted-foreground" />,
   },
   {
-    action: "I want to buy a new laptop with gaming specs",
-    icon: <Laptop2 className="size-5 mr-2 shrink-0" />,
+    action: "Recommend a laptop for gaming",
+    icon: <Laptop2 className="size-4 shrink-0 text-muted-foreground" />,
   },
   {
-    action: "Search for Lenovo Yoga and check if it matches my preferences.",
-    icon: <Laptop className="size-5 mr-2 shrink-0" />,
+    action: "Is the Lenovo Yoga right for me?",
+    icon: <Laptop className="size-4 shrink-0 text-muted-foreground" />,
   },
   {
-    action: "I want buy handheld console, do you have suggestions?",
-    icon: <Gamepad className="size-5 mr-2 shrink-0" />,
+    action: "Suggest a handheld gaming console",
+    icon: <Gamepad className="size-4 shrink-0 text-muted-foreground" />,
   },
   {
-    action: "Im looking for discrete graphic for my PC",
-    icon: <RectangleHorizontal className="size-5 mr-2 shrink-0" />,
+    action: "Help me pick a graphics card for my PC",
+    icon: <RectangleHorizontal className="size-4 shrink-0 text-muted-foreground" />,
   },
   {
-    action: "Search for dBE headphone",
-    icon: <Headphones className="size-5 mr-2 shrink-0" />,
+    action: "Find dBE headphones",
+    icon: <Headphones className="size-4 shrink-0 text-muted-foreground" />,
   },
 ];
 
@@ -127,118 +128,35 @@ export const QuickActionButton: FC = () => {
     ]
   );
   return (
-    <div className="w-full">
-      <div className="mb-20">
-        <div className="flex justify-center">
-          <svg
-            className="coolshapes triangle-6 "
-            height="200"
-            width="200"
-            fill="none"
-            viewBox="0 0 200 200"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g clipPath="url(#cs_clip_1_triangle-6)">
-              <mask
-                height="200"
-                id="cs_mask_1_triangle-6"
-                style={{ maskType: "alpha" }}
-                width="200"
-                x="0"
-                y="0"
-                maskUnits="userSpaceOnUse"
-              >
-                <path
-                  d="M200 0v200L0 0h200zM100 100v100L0 100h100z"
-                  fill="#fff"
-                />
-              </mask>
-              <g mask="url(#cs_mask_1_triangle-6)">
-                <path d="M200 0H0v200h200V0z" fill="#fff" />
-                <path d="M200 0H0v200h200V0z" fill="#0E6FFF" />
-                <g filter="url(#filter0_f_748_4934)">
-                  <path
-                    d="M243.892 107.197h-222v116h222v-116z"
-                    fill="#8F5BFF"
-                  />
-                  <ellipse
-                    cx="68.935"
-                    cy="-27.395"
-                    fill="#00F0FF"
-                    rx="111.935"
-                    ry="63.605"
-                  />
-                </g>
-              </g>
-            </g>
-            <g
-              style={{ mixBlendMode: "overlay" }}
-              mask="url(#cs_mask_1_triangle-6)"
-            >
-              <path
-                d="M200 0H0v200h200V0z"
-                fill="gray"
-                stroke="transparent"
-                filter="url(#cs_noise_1_triangle-6)"
-              />
-            </g>
-            <defs>
-              <filter
-                height="434.197"
-                id="filter0_f_748_4934"
-                width="406.892"
-                x="-103"
-                y="-151"
-                filterUnits="userSpaceOnUse"
-                colorInterpolationFilters="sRGB"
-              >
-                <feFlood result="BackgroundImageFix" floodOpacity="0" />
-                <feBlend
-                  result="shape"
-                  in="SourceGraphic"
-                  in2="BackgroundImageFix"
-                />
-                <feGaussianBlur
-                  result="effect1_foregroundBlur_748_4934"
-                  stdDeviation="30"
-                />
-              </filter>
-              <clipPath id="cs_clip_1_triangle-6">
-                <path d="M0 0H200V200H0z" fill="#fff" />
-              </clipPath>
-            </defs>
-            <defs>
-              <filter
-                height="100%"
-                id="cs_noise_1_triangle-6"
-                width="100%"
-                x="0%"
-                y="0%"
-                filterUnits="objectBoundingBox"
-              >
-                <feBlend result="out3" in="SourceGraphic" in2="out2" />
-              </filter>
-            </defs>
-          </svg>
-        </div>
+    <div className="mb-6 w-full">
+      <div className="mb-6 text-center md:mb-8">
+        <h2 className="text-2xl font-semibold tracking-tight text-balance md:text-3xl">
+          What are you shopping for?
+        </h2>
+        <p className="mt-2 text-sm text-pretty text-muted-foreground">
+          Search, compare and get recommendations on electronics.
+        </p>
       </div>
       <div
-        className="mb-2 mt-2 grid gap-2 grid-cols-2 md:grid-cols-2 lg:grid-cols-2"
+        className="grid grid-cols-1 gap-2 sm:grid-cols-2"
         data-testid="quick-actions"
       >
         {predefinedActions.map((actionItem, index) => (
           <motion.button
             key={index}
+            type="button"
+            disabled={isGenerating}
             onClick={async () => await actionSubmit(actionItem.action)}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: index * 0.1 }}
-            className="text-xs cursor-pointer hover:text-black hover:bg-purple-200 flex items-center bg-muted h-12 rounded-3xl px-5 py-2 w-full"
+            transition={{ duration: 0.2, delay: index * 0.04 }}
+            className={cn(
+              "flex min-h-11 w-full cursor-pointer items-center gap-3 rounded-xl border bg-background px-4 py-2.5 text-left text-sm transition-colors hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
+              index >= 4 && "hidden sm:flex"
+            )}
           >
             {actionItem.icon}
-            <p className="text-xs text-left line-clamp-2">
-              {actionItem.action}
-            </p>
+            <span className="line-clamp-2">{actionItem.action}</span>
           </motion.button>
         ))}
       </div>

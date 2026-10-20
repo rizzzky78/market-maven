@@ -25,16 +25,7 @@ import {
 import { UserMessage } from "@/components/maven/user-message";
 import { AnimatePresence } from "motion/react";
 import { Button } from "@/components/ui/button";
-import {
-  ArrowUp,
-  Globe,
-  Info,
-  ListEnd,
-  Loader,
-  RefreshCcwDot,
-  TextSearch,
-} from "lucide-react";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
+import { ArrowUp, Globe, ListEnd, Loader } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Tooltip,
@@ -97,7 +88,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       textareaRef.current.style.height = "auto";
       textareaRef.current.style.height = `${Math.min(
         textareaRef.current.scrollHeight,
-        500
+        240
       )}px`;
     }
   }, [value]);
@@ -149,8 +140,6 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       }
 
       setIsCheckingRateLimit(false);
-
-      console.log(rateLimitStatus);
 
       // If user is not eligible, show error message and return early
       if (!rateLimitStatus.eligible) {
@@ -315,256 +304,194 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     {
       title: "Insight",
       src: "/platform/insight.png",
-      description:
-        "Uses comprehensive search across multiple data sources (powered by Serper API) to find exact product matches without variants. Results include globally available product links and broader market insights.",
+      description: "Exact matches from across the web, global store links",
     },
     {
       title: "Tokopedia",
       src: "/platform/tokopedia.png",
-      description:
-        "Sources data directly from Tokopedia platform, providing authentic product information exactly as listed on the marketplace. Results may occasionally include items that don't perfectly match your query due to platform data limitations.",
+      description: "Live Tokopedia listings, may include near matches",
     },
     {
       title: "Shopee",
       src: "/platform/shopee.jpeg",
-      description:
-        "Functions similarly to Insight mode but focuses search results on Indonesia region and provides product links that match your query. Does not access direct Shopee platform data, which may affect result accuracy.",
+      description: "Web search focused on Indonesian sellers",
     },
   ];
 
+  const toggleClass = (active: boolean) =>
+    cn(
+      "h-8 gap-1.5 rounded-full px-2.5 text-xs font-normal shadow-none sm:px-3",
+      active
+        ? "border-brand/40 bg-brand/10 text-brand hover:bg-brand/15 hover:text-brand"
+        : "bg-transparent text-muted-foreground"
+    );
+
   return (
-    <div
-      className="w-full *:font-(family-name:--font-satoshi) z-50"
-      data-testid="chat-panel"
-    >
-      <div className={`w-full flex justify-center bg-background`}>
-        <div className="w-full md:px-0 lg:px-0 max-w-2xl flex flex-col pb-4 mb-0 rounded-t-3xl">
-          {uiState.length === 0 && <QuickActionButton />}
-          <AnimatePresence mode="sync">
-            {attachment && (
-              <AttachProductBadge
-                attach={attachment.product}
-                onRemove={handleRemove}
-                onSubmit={actionSubmit}
-              />
-            )}
-            {activeComparison && activeComparison.for.length > 0 && (
-              <AttachCompareBadge
-                compare={activeComparison}
-                onRemove={removeFromComparison}
-                onSubmit={actionSubmit}
-              />
-            )}
-          </AnimatePresence>
-          <form
-            onSubmit={handleSubmit}
-            className="relative w-full rounded-3xl bg-[#1A1A1D] flex flex-col px-2 pt-2 h-full"
-          >
-            <ScrollArea className="w-full mb-1 bg-[#1A1A1D] rounded-none max-h-[500px] overflow-x-auto">
-              <Textarea
-                ref={textareaRef}
-                name="text_input"
-                className="resize-none text-white/90 active:bg-[#1A1A1D] rounded-none active:border-transparent w-full border-transparent focus:border-none hover:border-none text-sm overflow-hidden"
-                placeholder={dynamicPlaceholder}
-                spellCheck={true}
-                value={value}
-                onChange={(e) => handleChange(e.target.value)}
-                onBlur={handleBlur}
-                onKeyDown={handleKeydown}
-              />
-            </ScrollArea>
-            <div className="flex justify-between px-1 pb-3 -mt-1">
-              <div className="flex items-center space-x-2">
-                <TooltipProvider>
-                  <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant={"outline"}
-                        type={"button"}
-                        className={cn(
-                          "rounded-full",
-                          search
-                            ? " bg-purple-500/60 border-none hover:bg-white/10 *:text-white"
-                            : "bg-[#1A1A1D]/90 border-white/10 hover:*:text-purple-500 hover:bg-transparent text-white/90"
-                        )}
-                        disabled={isGenerating}
-                        onClick={() => setSearch(!search)}
-                        data-testid="search-button"
-                      >
-                        <Globe className="h-6 w-6 shrink-0" />
-                        <span className="text-xs font-normal">Search</span>
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent className="rounded-xl max-w-sm">
-                      <p>
-                        Enhance answers by allowing models to retrieve
-                        additional data from external sources. Using search may
-                        extend response time and provide insights beyond the
-                        displayed data.
-                        {search && (
-                          <span className="ml-1 font-semibold">
-                            Search is enabled.
-                          </span>
-                        )}
-                      </p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-                <TooltipProvider>
-                  <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant={"outline"}
-                        type={"button"}
-                        className={cn(
-                          "rounded-full",
-                          related
-                            ? " bg-purple-500/60 border-none hover:bg-white/10 *:text-white"
-                            : "bg-[#1A1A1D]/90 border-white/10 hover:*:text-purple-500 hover:bg-transparent text-white/90"
-                        )}
-                        disabled={isGenerating}
-                        onClick={() => setRelated(!related)}
-                        data-testid="related-button"
-                      >
-                        <ListEnd className="h-6 w-6 shrink-0 hover:text-purple-200" />{" "}
-                        <span className="text-xs font-normal">Related</span>
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent className="rounded-xl max-w-sm">
-                      <p>
-                        Enable related queries using the latest conversation
-                        data. These suggestions offer users the most relevant
-                        follow-up questions that align with the agent&apos;s
-                        capabilities.
-                        {related && (
-                          <span className="ml-1 font-semibold">
-                            Related query is enabled.
-                          </span>
-                        )}
-                      </p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-                <Select
-                  value={reffSource}
-                  onValueChange={(value: RefferenceDataSource) =>
-                    setReffSource(value)
-                  }
-                >
-                  <TooltipProvider>
-                    <Tooltip delayDuration={100}>
-                      <TooltipTrigger asChild>
-                        <SelectTrigger
-                          className="border border-white/10 bg-transparent text-white shadow-xs rounded-full text-xs space-x-2 hover:*:text-purple-500"
-                          data-testid="source-select"
+    <div className="w-full pb-3 md:pb-4" data-testid="chat-panel">
+      {uiState.length === 0 && <QuickActionButton />}
+      <AnimatePresence mode="sync">
+        {attachment && (
+          <AttachProductBadge
+            attach={attachment.product}
+            onRemove={handleRemove}
+            onSubmit={actionSubmit}
+          />
+        )}
+        {activeComparison && activeComparison.for.length > 0 && (
+          <AttachCompareBadge
+            compare={activeComparison}
+            onRemove={removeFromComparison}
+            onSubmit={actionSubmit}
+          />
+        )}
+      </AnimatePresence>
+      {isGenerating && stageProcess && (
+        <p
+          className="mb-2 flex items-center gap-2 px-1 text-xs text-muted-foreground"
+          aria-live="polite"
+        >
+          <span className="size-1.5 animate-pulse rounded-full bg-brand" />
+          <span className="first-letter:uppercase">{stageProcess}</span>
+        </p>
+      )}
+      <form
+        onSubmit={handleSubmit}
+        className="flex w-full flex-col rounded-2xl border bg-card shadow-sm transition-shadow focus-within:border-ring/50 focus-within:ring-3 focus-within:ring-ring/15"
+      >
+        <label htmlFor="text_input" className="sr-only">
+          Message Maven
+        </label>
+        <Textarea
+          id="text_input"
+          ref={textareaRef}
+          name="text_input"
+          rows={1}
+          className="max-h-60 min-h-14 resize-none overflow-y-auto border-0 bg-transparent px-4 pt-4 pb-2 shadow-none focus-visible:ring-0 dark:bg-transparent"
+          placeholder={dynamicPlaceholder}
+          spellCheck={true}
+          value={value}
+          onChange={(e) => handleChange(e.target.value)}
+          onBlur={handleBlur}
+          onKeyDown={handleKeydown}
+        />
+        <div className="flex items-center justify-between gap-2 px-2 pb-2">
+          <div className="flex min-w-0 items-center gap-1.5">
+            <TooltipProvider>
+              <Tooltip delayDuration={300}>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    type={"button"}
+                    className={toggleClass(search)}
+                    disabled={isGenerating}
+                    onClick={() => setSearch(!search)}
+                    aria-pressed={search}
+                    aria-label="Web search"
+                    data-testid="search-button"
+                  >
+                    <Globe className="size-4" />
+                    <span className="hidden sm:inline">Search</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <p>
+                    Let Maven pull extra data from the web. Answers get richer
+                    but take a bit longer.
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip delayDuration={300}>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    type={"button"}
+                    className={toggleClass(related)}
+                    disabled={isGenerating}
+                    onClick={() => setRelated(!related)}
+                    aria-pressed={related}
+                    aria-label="Suggest follow-up questions"
+                    data-testid="related-button"
+                  >
+                    <ListEnd className="size-4" />
+                    <span className="hidden sm:inline">Related</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <p>Suggest follow-up questions after each answer.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            <Select
+              value={reffSource}
+              onValueChange={(value: RefferenceDataSource) =>
+                setReffSource(value)
+              }
+            >
+              <SelectTrigger
+                className="h-8 min-w-0 gap-1.5 rounded-full bg-transparent px-2.5 text-xs text-muted-foreground shadow-none sm:px-3 [&_[data-desc]]:hidden [&_img]:size-4"
+                aria-label="Data source"
+                data-testid="source-select"
+              >
+                <SelectValue placeholder="Source" />
+              </SelectTrigger>
+              <SelectContent align="start" className="w-72">
+                {reffSourceOption.map((option) => (
+                  <SelectItem
+                    key={option.title}
+                    value={option.title.toLowerCase()}
+                    className="py-2"
+                  >
+                    <span className="flex items-center gap-2.5">
+                      <Image
+                        src={option.src}
+                        alt=""
+                        width={20}
+                        height={20}
+                        className="size-5 shrink-0 rounded-sm bg-white object-contain p-px"
+                      />
+                      <span className="flex flex-col">
+                        <span>{option.title}</span>
+                        <span
+                          data-desc
+                          className="text-xs text-muted-foreground"
                         >
-                          <SelectValue
-                            placeholder="Select source"
-                            className="capitalize *:text-xs md:text-xs"
-                          />
-                        </SelectTrigger>
-                      </TooltipTrigger>
-                      <TooltipContent className="rounded-xl max-w-sm">
-                        <div className="flex flex-col">
-                          <p className="mb-2">
-                            Choose your preferred data source - this will
-                            determine how the agent searches for and presents
-                            product information
-                          </p>
-                          <div className="space-y-2">
-                            {reffSourceOption.map((item, index) => (
-                              <div
-                                key={index}
-                                className={`rounded-lg p-2 flex items-center space-x-2 lg:space-x-3 bg-purple-500/20`}
-                              >
-                                <Image
-                                  src={item.src}
-                                  alt={item.title}
-                                  width={40}
-                                  height={40}
-                                  className="object-contain"
-                                />
-                                <p>
-                                  <span className="font-semibold">
-                                    {item.title}
-                                  </span>
-                                  , {item.description}
-                                </p>
-                              </div>
-                            ))}
-                          </div>
-                          <div className="mt-2 font-semibold flex items-start space-x-1">
-                            <Info className="size-4" />
-                            <p>
-                              This setting applies to all searches during your
-                              current session
-                            </p>
-                          </div>
-                        </div>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                  <SelectContent className="rounded-[20px]">
-                    {reffSourceOption.map((option) => (
-                      <SelectItem
-                        key={option.title}
-                        value={option.title.toLowerCase()}
-                        className="rounded-full hover:*:text-purple-500"
-                      >
-                        <div className="flex items-center space-x-2">
-                          <TextSearch className="size-4 shrink-0" />
-                          <span>{option.title}</span>
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex items-center space-x-2">
-                {isGenerating && (
-                  <div className="hidden md:block">
-                    <div className="border rounded-full h-9 px-4 flex items-center space-x-2">
-                      <RefreshCcwDot className="size-4 animate-[spin_2s_linear_infinite_reverse]" />
-                      <p className="capitalize text-xs text-white">
-                        {stageProcess}
-                      </p>
-                    </div>
-                  </div>
-                )}
-                {rateLimit && (
-                  <RateLimit
-                    data={rateLimit}
-                    isCheckingRateLimit={isCheckingRateLimit}
-                  />
-                )}
-                <TooltipProvider>
-                  <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant={"secondary"}
-                        size={"icon"}
-                        className="dark:text-white rounded-full bg-muted/10 dark:bg-muted hover:bg-purple-500/50 dark:hover:bg-purple-500/50"
-                        type={"submit"}
-                        disabled={isButtonDisabled}
-                        data-testid="send-button"
-                      >
-                        {isGenerating ? (
-                          <Loader className="h-6 w-6 text-white animate-spin" />
-                        ) : (
-                          <ArrowUp className="size-10 text-white shrink-0" />
-                        )}
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent className="rounded-3xl">
-                      <p>Send message</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
-            </div>
-          </form>
+                          {option.description}
+                        </span>
+                      </span>
+                    </span>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex shrink-0 items-center gap-1.5">
+            {rateLimit && (
+              <RateLimit
+                data={rateLimit}
+                isCheckingRateLimit={isCheckingRateLimit}
+              />
+            )}
+            <Button
+              size={"icon"}
+              className="size-8 rounded-full"
+              type={"submit"}
+              disabled={isButtonDisabled}
+              aria-label={isGenerating ? "Generating response" : "Send message"}
+              data-testid="send-button"
+            >
+              {isGenerating ? (
+                <Loader className="size-4 animate-spin" />
+              ) : (
+                <ArrowUp className="size-4" />
+              )}
+            </Button>
+          </div>
         </div>
-      </div>
+      </form>
+      <p className="mt-2 hidden text-center text-[11px] text-muted-foreground md:block">
+        Enter to send · Shift + Enter for a new line · Prices and stock can
+        change, check the store before buying
+      </p>
     </div>
   );
 };

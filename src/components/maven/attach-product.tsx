@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "motion/react";
-import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { MoveUpRight, X } from "lucide-react";
 import { FC } from "react";
@@ -25,59 +24,51 @@ export const AttachProductBadge: FC<BadgeProps> = ({
   onSubmit,
 }) => {
   return (
-    <div className="flex flex-wrap">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 20 }}
-        transition={{ duration: 0.4, ease: "easeInOut" }}
-        className="w-full"
-      >
-        <Badge
-          variant="secondary"
-          className="flex w-full justify-between items-center py-1.5 pl-5 pr-1.5 rounded-3xl mb-1 bg-[#D8D2C2] hover:bg-[#D8D2C2] dark:bg-[#343131] dark:hover:bg-[#343131]"
-        >
-          <p className="line-clamp-1 text-xs font-normal">{attach.title}</p>
-          <div className="flex items-center bg-muted rounded-full">
-            <TooltipProvider>
-              <Tooltip delayDuration={100}>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant={"ghost"}
-                    className="rounded-full size-9 mr-1 hover:bg-black/50"
-                    onClick={onRemove}
-                  >
-                    <X className="size-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent className="rounded-3xl">
-                  <p className="max-w-sm font-semibold">
-                    Remove product attachment
-                  </p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            <TooltipProvider>
-              <Tooltip delayDuration={100}>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant={"ghost"}
-                    className="rounded-full size-9 hover:bg-black/50"
-                    onClick={onSubmit}
-                  >
-                    <MoveUpRight className="size-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent className="rounded-3xl">
-                  <p className="max-w-sm font-semibold">
-                    Request product details or along with text inputs
-                  </p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
-        </Badge>
-      </motion.div>
-    </div>
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 8 }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
+      className="mb-2 flex items-center gap-2 rounded-xl border bg-card py-1.5 pr-1.5 pl-3"
+    >
+      <div className="min-w-0 flex-1">
+        <p className="text-[11px] text-muted-foreground">Asking about</p>
+        <p className="line-clamp-1 text-sm">{attach.title}</p>
+      </div>
+      <TooltipProvider>
+        <Tooltip delayDuration={300}>
+          <TooltipTrigger asChild>
+            <Button
+              variant={"ghost"}
+              size={"icon"}
+              className="size-8 rounded-full"
+              onClick={onRemove}
+              aria-label="Remove attached product"
+            >
+              <X className="size-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Remove product</p>
+          </TooltipContent>
+        </Tooltip>
+        <Tooltip delayDuration={300}>
+          <TooltipTrigger asChild>
+            <Button
+              variant={"secondary"}
+              size={"sm"}
+              className="h-8 gap-1 rounded-full"
+              onClick={onSubmit}
+            >
+              Get details
+              <MoveUpRight className="size-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Get product details, add a question first if you like</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    </motion.div>
   );
 };
