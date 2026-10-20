@@ -15,7 +15,6 @@ import {
   SerperWebSearchResponse,
 } from "@/lib/types/serper";
 import { DataSourceInsight, UnifiedSubToolResult } from "@/lib/types/subtools";
-import { google } from "@ai-sdk/google";
 import { generateText, Output } from "ai";
 
 // Types and interfaces
@@ -354,7 +353,6 @@ export async function searchProductInsight({
       async () => {
         return await generateText({
           model: models.extract,
-          tools: { google_search: google.tools.googleSearch({}) },
           output: Output.object({ schema: dataSourceInsightSchema }),
           instructions: systemInstruction,
           prompt: JSON.stringify(modelPayload),
