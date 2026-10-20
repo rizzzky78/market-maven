@@ -88,6 +88,46 @@ export const toModelMessages = (messages: MessageProperty[]): ModelMessage[] =>
   });
 
 /**
+ * Shortens the results of all but the latest `keepFull` tool messages to
+ * `maxChars` characters before they are sent to the model.
+ *
+ * Tool results are large (scraped listings, full spec sheets) and are
+ * re-sent on every turn, so older ones dominate cost and latency while the
+ * model only needs their identity: tool name, args and callId stay within
+ * the first characters of the serialized result. The full data remains in
+ * the stored AI state and the database.
+ */
+export const compactToolResults = (
+  messages: MessageProperty[],
+  { keepFull = 2, maxChars = 1500 } = {}
+): MessageProperty[] => {
+  let toolMessagesSeen = 0;
+
+  return messages
+    .slice()
+    .reverse()
+    .map((m) => {
+      if (m.role !== "tool" || typeof m.content === "string") return m;
+      if (++toolMessagesSeen <= keepFull) return m;
+
+      return {
+        ...m,
+        content: m.content.map((p) =>
+          p.type === "tool-result" &&
+          typeof p.result === "string" &&
+          p.result.length > maxChars
+            ? {
+                ...p,
+                result: `${p.result.slice(0, maxChars)}… [truncated older tool result; full data was shown to the user earlier]`,
+              }
+            : p
+        ),
+      } as MessageProperty;
+    })
+    .reverse();
+};
+
+/**
  * Converts payload object data to unified user content message
  *
  * @param payload - A payload of optional properties

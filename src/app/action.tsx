@@ -7,6 +7,7 @@ import {
 } from "@/components/maven/related-message";
 import { LoadingText } from "@/components/maven/shining-glass";
 import {
+  compactToolResults,
   toModelMessages,
   toUnifiedUserMessage,
 } from "@/lib/agents/action/mutator/mutate-messages";
@@ -79,7 +80,7 @@ const orchestrator = async (
 
   const { value } = await streamUI({
     model: models.reasoning,
-    messages: toModelMessages(state.get().messages),
+    messages: toModelMessages(compactToolResults(state.get().messages)),
     instructions: orchestratorInstruction(),
     initial: <LoadingText text="Maven is thinking..." />,
     onFinish: ({ usage }) => {

@@ -15,7 +15,13 @@ const generateChatTitle = async (
     prompt: JSON.stringify(messages),
     instructions: await SYSTEM_INSTRUCTION.TITLE_CRAFTER,
   });
-  return text;
+  // Models sometimes wrap the title in quotes or markdown; keep a plain title.
+  return (
+    text
+      .trim()
+      .replace(/^[#*"'\s]+|[*"'\s]+$/g, "")
+      .slice(0, 100) || getFallbackTitle(messages)
+  );
 };
 
 const getFallbackTitle = (messages: MessageProperty[]): string => {
