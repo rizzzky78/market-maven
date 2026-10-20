@@ -108,7 +108,7 @@ export class RedisWrapper {
       // Upstash Redis doesn't require explicit closing
       return;
     } else {
-      await (this.client as RedisClientType).quit();
+      await (this.client as RedisClientType).close();
     }
   }
 }

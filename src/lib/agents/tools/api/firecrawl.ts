@@ -1,27 +1,19 @@
 "use server";
 
-import {
-  crawlUrlInputSchema,
-  mapUrlInputSchema,
-  scrapeInputSchema,
-} from "@/lib/api/schema/firecrawl";
 /**
  * This module is run on server
  */
 
+import { scrapeInputSchema } from "@/lib/api/schema/firecrawl";
 import {
   ScrapeRequest,
-  FireCrawlResponse,
-  FirecrawlAction,
-  CrawlRequest,
-  MapRequest,
-  RequestProperties,
+  ScrapeResponse,
   FirecrawlConfig,
   ErrorResponse,
 } from "@/lib/types/firecrawl";
 import { getEnv } from "@/lib/utility/get-env";
 import logger from "@/lib/utility/logger";
-import FirecrawlApp from "@mendable/firecrawl-js";
+import Firecrawl from "@mendable/firecrawl-js";
 import { z } from "zod";
 
 const DEFAULT_CONFIG: FirecrawlConfig = {
@@ -31,16 +23,16 @@ const DEFAULT_CONFIG: FirecrawlConfig = {
 };
 
 /**
- * Initializes the Firecrawl app with the API key from environment variables.
+ * Initializes the Firecrawl v2 client with the API key from environment variables.
  * Throws an error if the API key is not found.
- * @returns  Instance of FirecrawlApp.
+ * @returns Instance of Firecrawl.
  */
 function initializeFirecrawl() {
   const apiKey = getEnv("FIRECRAWL_API_KEY");
   if (!apiKey) {
     throw new Error("Firecrawl API key is required");
   }
-  return new FirecrawlApp({ apiKey });
+  return new Firecrawl({ apiKey });
 }
 
 /**
@@ -105,154 +97,44 @@ async function executeWithRetry<T>(
 export async function scrapeUrl(
   payload: ScrapeRequest,
   config: Partial<FirecrawlConfig> = {}
-) {
+): Promise<ScrapeResponse | ErrorResponse> {
   try {
     const validatedPayload = scrapeInputSchema.parse(payload);
     const mergedConfig = { ...DEFAULT_CONFIG, ...config };
     const app = initializeFirecrawl();
 
-    const scrapeOptions = {
-      waitFor: validatedPayload.waitFor ?? mergedConfig.defaultWaitTime,
-      formats: validatedPayload.formats,
-      extract: validatedPayload.formats.includes("extract")
-        ? {
-            systemPrompt: validatedPayload.systemPrompt,
-            prompt: validatedPayload.prompt,
-          }
-        : undefined,
-    };
-
-    const response = await executeWithRetry(
-      () => app.scrapeUrl(validatedPayload.url, scrapeOptions),
+    // The v2 client throws on failure; executeWithRetry turns the final
+    // failure into an ErrorResponse.
+    const response = await executeWithRetry<ScrapeResponse | ErrorResponse>(
+      async () => ({
+        success: true,
+        ...(await app.scrape(validatedPayload.url, {
+          waitFor: validatedPayload.waitFor ?? mergedConfig.defaultWaitTime,
+          formats: validatedPayload.formats,
+        })),
+      }),
       "Scrape",
       { url: validatedPayload.url },
       mergedConfig
     );
 
     if (!response.success) {
-      logger.error("Scrape operation failed");
-
-      return {
-        success: false,
-        error: response.error,
-        message: "operationError",
-      } as ErrorResponse;
+      logger.error("Scrape operation failed", { message: response.message });
     }
 
-    return response as FireCrawlResponse<FirecrawlAction.Scrape>;
+    return response;
   } catch (error) {
-    return handleError(error, {
-      action: FirecrawlAction.Scrape,
-      properties: payload,
-    });
-  }
-}
-
-/**
- * Crawls a URL using the provided payload and configuration.
- * @param {CrawlRequest} payload - The payload containing crawl parameters.
- * @param {Partial<FirecrawlConfig>} [config={}] - Optional configuration overrides.
- * @returns The response of the crawl operation.
- */
-export async function crawlUrl(
-  payload: CrawlRequest,
-  config: Partial<FirecrawlConfig> = {}
-) {
-  try {
-    const validatedPayload = crawlUrlInputSchema.parse(payload);
-    const mergedConfig = { ...DEFAULT_CONFIG, ...config };
-    const app = initializeFirecrawl();
-
-    const crawlOptions = {
-      maxDepth: validatedPayload.maxDepth ?? 1,
-      limit: validatedPayload.limit ?? 10,
-      allowBackwardLinks: validatedPayload.allowBackwardLinks ?? false,
-      allowExternalLinks: validatedPayload.allowExternalLinks ?? false,
-      ignoreSitemap: validatedPayload.ignoreSitemap ?? false,
-      scrapeOptions: {
-        waitFor: validatedPayload.waitFor ?? mergedConfig.defaultWaitTime,
-        formats: validatedPayload.formats,
-      },
-    };
-
-    const response = await executeWithRetry(
-      () => app.crawlUrl(validatedPayload.url, crawlOptions),
-      "Crawl",
-      { url: validatedPayload.url },
-      mergedConfig
-    );
-
-    if (!response.success) {
-      logger.error("Crawl operation failed");
-
-      return {
-        success: false,
-        error: response.error,
-        message: "operationError",
-      } as ErrorResponse;
-    }
-
-    return response as FireCrawlResponse<FirecrawlAction.Crawl>;
-  } catch (error) {
-    return handleError(error, {
-      action: FirecrawlAction.Crawl,
-      properties: payload,
-    });
-  }
-}
-
-/**
- * Maps a URL using the provided payload and configuration.
- * @param {MapRequest} payload - The payload containing map parameters.
- * @param {Partial<FirecrawlConfig>} [config={}] - Optional configuration overrides.
- * @returns The response of the map operation.
- */
-export async function mapUrl(
-  payload: MapRequest,
-  config: Partial<FirecrawlConfig> = {}
-) {
-  try {
-    const validatedPayload = mapUrlInputSchema.parse(payload);
-    const mergedConfig = { ...DEFAULT_CONFIG, ...config };
-    const app = initializeFirecrawl();
-
-    const mapOptions = {
-      limit: validatedPayload.limit ?? 10,
-    };
-
-    const response = await executeWithRetry(
-      () => app.mapUrl(validatedPayload.url, mapOptions),
-      "Map",
-      { url: validatedPayload.url },
-      mergedConfig
-    );
-
-    if (!response.success) {
-      logger.error("Map operation failed");
-
-      return {
-        success: false,
-        error: response.error,
-        message: "operationError",
-      } as ErrorResponse;
-    }
-
-    return response as FireCrawlResponse<FirecrawlAction.Map>;
-  } catch (error) {
-    return handleError(error, {
-      action: FirecrawlAction.Map,
-      properties: payload,
-    });
+    return handleError(error, payload);
   }
 }
 
 /**
  * Handles errors during operations, logging the error and returning a standardized response.
  * @param {unknown} error - The error encountered.
- * @param {RequestProperties} input - The input that caused the error.
+ * @param {ScrapeRequest} input - The input that caused the error.
  * @returns {ErrorResponse} A standardized error response.
  */
-function handleError(error: unknown, input: RequestProperties): ErrorResponse {
+function handleError(error: unknown, input: ScrapeRequest): ErrorResponse {
   if (error instanceof z.ZodError) {
     logger.error("Input validation failed", {
       errors: error.issues,

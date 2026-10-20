@@ -1,14 +1,6 @@
 import { z } from "zod";
-import {
-  crawlUrlInputSchema,
-  mapUrlInputSchema,
-  scrapeInputSchema,
-} from "../api/schema/firecrawl";
-import {
-  ScrapeResponse,
-  CrawlResponse,
-  MapResponse,
-} from "@mendable/firecrawl-js";
+import { Document } from "@mendable/firecrawl-js";
+import { scrapeInputSchema } from "../api/schema/firecrawl";
 
 /**
  * Type definition for a scrape request.
@@ -16,82 +8,15 @@ import {
 export type ScrapeRequest = z.infer<typeof scrapeInputSchema>;
 
 /**
- * Type definition for a crawl request.
+ * A successful scrape: the Firecrawl v2 `Document` plus the `success` flag of
+ * the v1 response shape, which scrape results already cached in Redis use.
+ *
+ * @template T - The type of the structured `json` output, when requested.
  */
-export type CrawlRequest = z.infer<typeof crawlUrlInputSchema>;
-
-/**
- * Type definition for a map request.
- */
-export type MapRequest = z.infer<typeof mapUrlInputSchema>;
-
-export type RequestProperties<T = FirecrawlAction> = {
-  action: T;
-  properties: ScrapeRequest | CrawlRequest | MapRequest;
+export type ScrapeResponse<T = unknown> = Document & {
+  success: true;
+  json?: T;
 };
-
-/**
- * Represents the possible actions supported by the Firecrawl system.
- */
-export enum FirecrawlAction {
-  /**
-   * Represents a scrape action.
-   */
-  Scrape = "scrape",
-
-  /**
-   * Represents a crawl action.
-   */
-  Crawl = "crawl",
-
-  /**
-   * Represents a map action.
-   */
-  Map = "map",
-}
-
-/**
- * Configuration options for the Firecrawl system.
- */
-export type FireCrawlOptions = {
-  /**
-   * API key for authenticating Firecrawl requests.
-   */
-  apiKey?: string;
-
-  /**
-   * Configuration options for controlling retries and timeouts.
-   */
-  config?: Partial<{
-    /**
-     * Default wait time for requests in milliseconds.
-     */
-    defaultWaitTime: number;
-
-    /**
-     * Maximum number of retries for a request.
-     */
-    maxRetries: number;
-
-    /**
-     * Delay between retry attempts in milliseconds.
-     */
-    retryDelay: number;
-  }>;
-};
-
-/**
- * Defines the structure of a Firecrawl response based on the action type.
- * @template T - The type of action for which the response is defined.
- */
-export type FireCrawlResponse<T extends FirecrawlAction> =
-  T extends FirecrawlAction.Scrape
-    ? ScrapeResponse
-    : T extends FirecrawlAction.Crawl
-    ? CrawlResponse
-    : T extends FirecrawlAction.Map
-    ? MapResponse
-    : never;
 
 /**
  * Defines the structure of an error response in the Firecrawl system.

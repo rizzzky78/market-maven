@@ -1,5 +1,4 @@
-import { ScrapeResponse } from "@mendable/firecrawl-js";
-import { ErrorResponse } from "./firecrawl";
+import { ErrorResponse, ScrapeResponse } from "./firecrawl";
 
 /**
  * Represents the supported types of markdown data.
