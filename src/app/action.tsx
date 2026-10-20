@@ -37,6 +37,7 @@ import { toolGetProductDetails } from "./server/tool-get-product-details";
 import { toolSearchProduct } from "./server/tool-search-product";
 import { toolProductComparison } from "./server/tool-products-comparison";
 import { toolInquireUser } from "./server/tool-inquire-user";
+import { toolWebResearch } from "./server/tool-web-research";
 import { createErrorState, streamRelatedQuery } from "./server/workflow";
 import { orchestratorInstruction } from "@/lib/agents/constant/md/orchestrator";
 
@@ -166,6 +167,7 @@ const orchestrator = async (
         userMessage: payloadUserMessage,
       }),
       inquireUser: toolInquireUser({ generation, state }),
+      webResearch: toolWebResearch({ generation, state, requestOption }),
     },
   });
 

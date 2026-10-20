@@ -183,6 +183,8 @@ const toolResultHandlers: Record<
     handleProductsComparison(id, result, isSharedPage),
   inquireUser: (id, result, isSharedPage) =>
     handleInquireUser(id, result, isSharedPage),
+  // ponytail: the answer and its sources replay from the assistant message
+  webResearch: (id) => ({ id, display: null }),
 };
 
 /**

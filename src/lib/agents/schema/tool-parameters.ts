@@ -41,6 +41,19 @@ export const getProductDetailsSchema = z.object({
     ),
 });
 
+export const webResearchSchema = z.object({
+  question: z
+    .string()
+    .describe(
+      "The user's factual question, rewritten to be self-contained (resolve 'this', 'it' or 'the second one' to actual product names from the conversation)."
+    ),
+  products: z
+    .array(z.string())
+    .describe(
+      "Exact product names or models the question is about. Empty when the question is about a category or technology in general."
+    ),
+});
+
 export const productsComparionSchema = z.object({
   compare: z.array(
     z.object({
