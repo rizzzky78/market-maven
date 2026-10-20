@@ -5,6 +5,7 @@
  *
  */
 
+import { models } from "@/lib/agents/models";
 import {
   StreamAssistantMessage,
   AssistantMessage,
@@ -33,7 +34,6 @@ import {
 } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
 import { processURLQuery } from "@/lib/utils";
-import { google } from "@ai-sdk/google";
 import { DeepPartial, Output } from "ai";
 import { createStreamableValue } from "@ai-sdk/rsc";
 import { ReactNode } from "react";
@@ -318,7 +318,7 @@ const toolSearchProduct = ({
           streamableText,
           errorState,
           {
-            model: google("gemini-2.5-flash"),
+            model: models.reasoning,
             instructions: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_INSIGHT,
             prompt: JSON.stringify({
               searchQuery: query,
@@ -498,7 +498,7 @@ const toolSearchProduct = ({
         streamableProducts,
         errorState,
         {
-          model: google("gemini-2.5-flash"),
+          model: models.extract,
           instructions: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_EXTRACTOR,
           prompt: payload,
           output: Output.object({ schema: productsSchema }),
@@ -554,7 +554,7 @@ const toolSearchProduct = ({
       });
 
       const finalizedText = await streamTextToValue(streamableText, errorState, {
-        model: google("gemini-2.5-flash"),
+        model: models.reasoning,
         instructions: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_INSIGHT,
         prompt: JSON.stringify({
           searchQuery: query,

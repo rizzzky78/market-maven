@@ -1,3 +1,4 @@
+import { models } from "@/lib/agents/models";
 import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
 import { queryValidatorSchema } from "@/lib/agents/schema/st-query-validator";
 import {
@@ -100,7 +101,7 @@ export async function queryValidator(p: {
 
     // Generate analysis with enhanced error handling
     const result = await generateText({
-      model: google("gemini-2.5-flash"),
+      model: models.extract,
       tools: { google_search: google.tools.googleSearch({}) },
       providerOptions: { google: googleOptions },
       output: Output.object({ schema: queryValidatorSchema }),

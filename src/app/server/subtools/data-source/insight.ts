@@ -1,3 +1,4 @@
+import { models } from "@/lib/agents/models";
 import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
 import { dataSourceInsightSchema } from "@/lib/agents/schema/ds-insight";
 import {
@@ -352,7 +353,7 @@ export async function searchProductInsight({
     const modelResponse = await executeWithRetry(
       async () => {
         return await generateText({
-          model: google("gemini-2.5-flash"),
+          model: models.extract,
           tools: { google_search: google.tools.googleSearch({}) },
           output: Output.object({ schema: dataSourceInsightSchema }),
           instructions: systemInstruction,

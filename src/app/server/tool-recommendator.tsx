@@ -5,6 +5,7 @@
  *
  */
 
+import { models } from "@/lib/agents/models";
 import {
   StreamAssistantMessage,
   AssistantMessage,
@@ -103,7 +104,7 @@ const toolRecommendator = ({
         streamableRecommendation,
         errorState,
         {
-          model: google("gemini-2.5-flash"),
+          model: models.reasoning,
           tools: { google_search: google.tools.googleSearch({}) },
           instructions: await SYSTEM_INSTRUCTION.RECOMMENDATOR_EXTRACTOR,
           prompt: JSON.stringify({ intent, scope }),
@@ -143,7 +144,7 @@ const toolRecommendator = ({
         streamableInsight,
         errorState,
         {
-          model: google("gemini-2.5-flash"),
+          model: models.reasoning,
           instructions: await SYSTEM_INSTRUCTION.RECOMMENDATOR_INSIGHT,
           // Without the intent the insight can only describe the list,
           // not explain why each pick fits the user's need.

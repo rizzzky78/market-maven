@@ -148,6 +148,8 @@ TOKOPEDIA_SEARCH_BASE_URL="https://www.tokopedia.com/search?q="
 
 # Models
 GOOGLE_GENERATIVE_AI_API_KEY="YOUR_APIKEY"   # https://aistudio.google.com/app/apikey
+# MAVEN_REASONING_MODEL="gemini-2.5-flash"     # optional: routing, research, analysis
+# MAVEN_LIGHT_MODEL="gemini-2.5-flash-lite"    # optional: related queries, inquiries, titles
 XAI_API_KEY="YOUR_APIKEY"
 DEEPSEEK_API_KEY="YOUR_APIKEY"
 

@@ -1,3 +1,4 @@
+import { models } from "@/lib/agents/models";
 import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
 import { queryEnhancerSchema } from "@/lib/agents/schema/st-query-enhancer";
 import { QueryEnhancedData, UnifiedSubToolResult } from "@/lib/types/subtools";
@@ -59,7 +60,7 @@ export async function queryEnhancer(p: {
 
   try {
     const response = await generateText({
-      model: google("gemini-2.5-flash"),
+      model: models.extract,
       tools: { google_search: google.tools.googleSearch({}) },
       output: Output.object({ schema: queryEnhancerSchema }),
       instructions: SYSTEM_PROMPT + groundingPolicy(),

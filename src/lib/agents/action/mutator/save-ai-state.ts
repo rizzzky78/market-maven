@@ -1,8 +1,8 @@
 "use server";
 
+import { models } from "@/lib/agents/models";
 import { AIState, ChatProperties, MessageProperty } from "@/lib/types/ai";
 import { generateText, TextPart } from "ai";
-import { google } from "@ai-sdk/google";
 import { getChatMeta, saveChat } from "../chat-service";
 import logger from "@/lib/utility/logger";
 import SYSTEM_INSTRUCTION from "../../constant/md";
@@ -11,7 +11,7 @@ const generateChatTitle = async (
   messages: MessageProperty[]
 ): Promise<string> => {
   const { text } = await generateText({
-    model: google("gemini-2.0-flash"),
+    model: models.light,
     prompt: JSON.stringify(messages),
     instructions: await SYSTEM_INSTRUCTION.TITLE_CRAFTER,
   });

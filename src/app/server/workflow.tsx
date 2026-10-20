@@ -4,6 +4,7 @@
  * follow-up, persisting tool results and closing the generation status.
  */
 
+import { models } from "@/lib/agents/models";
 import { ErrorMessage } from "@/components/maven/error-message";
 import { toPayloadRelatedMessage } from "@/lib/agents/action/mutator/mutate-messages";
 import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
@@ -22,7 +23,6 @@ import {
   ToolsetProps,
 } from "@/lib/types/ai";
 import logger from "@/lib/utility/logger";
-import { google } from "@ai-sdk/google";
 import {
   InferGenerateOutput,
   InferStreamOutput,
@@ -146,7 +146,7 @@ export async function streamRelatedQuery(
   errorState: ErrorState,
   messages: MessageProperty[],
   usageLabel: string,
-  model: LanguageModel = google("gemini-2.5-flash")
+  model: LanguageModel = models.light
 ): Promise<RelatedQuery | null> {
   const related = await streamOutputToValue(streamable, errorState, {
     model,

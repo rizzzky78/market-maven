@@ -1,3 +1,4 @@
+import { models } from "@/lib/agents/models";
 import {
   StreamAssistantMessage,
   AssistantMessage,
@@ -68,7 +69,7 @@ const toolWebResearch = ({
       yield <StreamAssistantMessage content={streamableAnswer.value} />;
 
       const answer = await streamTextToValue(streamableAnswer, errorState, {
-        model: google("gemini-2.5-flash"),
+        model: models.reasoning,
         tools: { google_search: google.tools.googleSearch({}) },
         instructions: WEB_RESEARCH_SYSTEM_INSTRUCTION + groundingPolicy(),
         prompt: JSON.stringify({ question, products }),

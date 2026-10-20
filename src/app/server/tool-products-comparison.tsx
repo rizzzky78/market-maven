@@ -5,6 +5,7 @@
  *
  */
 
+import { models } from "@/lib/agents/models";
 import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
 import {
   StreamAssistantMessage,
@@ -29,7 +30,6 @@ import { getObjectEntry, createObjectEntry } from "@/lib/service/store";
 import { RenderTool, ToolsetProps } from "@/lib/types/ai";
 import { ComparisonData, ProductDetails } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
-import { google } from "@ai-sdk/google";
 import { Output, smoothStream } from "ai";
 import { createStreamableValue } from "@ai-sdk/rsc";
 import { v4 } from "uuid";
@@ -140,7 +140,7 @@ const toolProductComparison = ({
         streamableComparison,
         errorState,
         {
-          model: google("gemini-2.5-flash"),
+          model: models.extract,
           instructions: COMPARISON_EXTRACTOR_SYSTEM_INSTRUCTION + groundingPolicy(),
           output: Output.json(),
           prompt: JSON.stringify({ payload: comparisonPayload }),
@@ -176,7 +176,7 @@ const toolProductComparison = ({
         streamableTable,
         errorState,
         {
-          model: google("gemini-2.5-flash"),
+          model: models.extract,
           instructions:
             COMPARISON_TABLE_CRAFTER_SYSTEM_INSTRUCTION + groundingPolicy(),
           prompt: JSON.stringify({ payload: finalizedToolData.data }),
@@ -213,7 +213,7 @@ const toolProductComparison = ({
         streamableInsight,
         errorState,
         {
-          model: google("gemini-2.5-flash"),
+          model: models.reasoning,
           instructions: COMPARISON_INSIGHT_SYSTEM_INSTRUCTION + groundingPolicy(),
           prompt: JSON.stringify(insightPayload),
           experimental_transform: smoothStream({
@@ -286,7 +286,7 @@ const toolProductComparison = ({
           errorState,
           [...state.get().messages, ...mutate],
           "Products Comparison - Step 3",
-          google("gemini-2.5-flash-lite")
+          models.light
         );
       }
 

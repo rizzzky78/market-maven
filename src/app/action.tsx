@@ -1,3 +1,4 @@
+import { models } from "@/lib/agents/models";
 import { mapUIState } from "@/components/custom/ui-mapper";
 import { AssistantMessage } from "@/components/maven/assistant-message";
 import {
@@ -23,7 +24,6 @@ import {
   UseAction,
 } from "@/lib/types/ai";
 import logger from "@/lib/utility/logger";
-import { google } from "@ai-sdk/google";
 import { generateId } from "ai";
 import {
   createAI,
@@ -78,7 +78,7 @@ const orchestrator = async (
   });
 
   const { value } = await streamUI({
-    model: google('gemini-2.5-flash'),
+    model: models.reasoning,
     messages: toModelMessages(state.get().messages),
     instructions: orchestratorInstruction(),
     initial: <LoadingText text="Maven is thinking..." />,

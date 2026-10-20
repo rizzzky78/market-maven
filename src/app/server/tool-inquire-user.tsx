@@ -5,6 +5,7 @@
  *
  */
 
+import { models } from "@/lib/agents/models";
 import { ErrorMessage } from "@/components/maven/error-message";
 import { LoadingText } from "@/components/maven/shining-glass";
 import { UserInquiry } from "@/components/maven/user-inquiry";
@@ -18,7 +19,6 @@ import {
 } from "@/lib/agents/schema/tool-parameters";
 import { RenderTool, ToolsetProps } from "@/lib/types/ai";
 import logger from "@/lib/utility/logger";
-import { google } from "@ai-sdk/google";
 import { generateId, Output, streamText } from "ai";
 import { createErrorState } from "./workflow";
 
@@ -66,7 +66,7 @@ const toolInquireUser = ({ generation, state }: ToolsetProps) => {
 
       const { partialOutputStream: inquiryStream, output: inquiryObject } =
         streamText({
-          model: google("gemini-2.5-flash-lite"),
+          model: models.light,
           instructions: await SYSTEM_INSTRUCTION.INQUIRY_CRAFTER,
           prompt: JSON.stringify(parse.data),
           output: Output.object({ schema: inquireUserSchema }),

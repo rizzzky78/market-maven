@@ -5,6 +5,7 @@
  *
  */
 
+import { models } from "@/lib/agents/models";
 import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
 import {
   StreamAssistantMessage,
@@ -234,7 +235,7 @@ const toolGetProductDetails = ({
 
           finalizedToolData.data.object.externalData.markdown =
             await streamTextToValue(streamableResearch, errorState, {
-              model: google("gemini-2.5-flash"),
+              model: models.reasoning,
               tools: { google_search: google.tools.googleSearch({}) },
               instructions: await SYSTEM_INSTRUCTION.PRODUCT_RESEARCHER,
               // The researcher writes from the retrieved evidence, not memory.
@@ -352,7 +353,7 @@ const toolGetProductDetails = ({
           streamableDetailsResearcher,
           errorState,
           {
-            model: google("gemini-2.5-flash"),
+            model: models.reasoning,
             tools: { google_search: google.tools.googleSearch({}) },
             instructions: PRODUCT_RESEARCHER_INSIGHT_SYSTEM_PROMPT + groundingPolicy(),
             stopWhen: isStepCount(5),
@@ -402,7 +403,7 @@ const toolGetProductDetails = ({
           streamableObject,
           errorState,
           {
-            model: google("gemini-2.5-flash"),
+            model: models.extract,
             instructions: PRODUCT_EXTRACTOR_INSIGHT_SYSTEM_PROMPT + groundingPolicy(),
             prompt: payloadContent,
             output: Output.json(),
@@ -471,7 +472,7 @@ const toolGetProductDetails = ({
           streamableText,
           errorState,
           {
-            model: google("gemini-2.5-flash"),
+            model: models.reasoning,
             instructions: await SYSTEM_INSTRUCTION.PRODUCT_DETAILS_INSIGHT,
             prompt: JSON.stringify(payloadInsight),
           }
@@ -613,7 +614,7 @@ const toolGetProductDetails = ({
         streamableObject,
         errorState,
         {
-          model: google("gemini-2.5-flash"),
+          model: models.extract,
           instructions: await SYSTEM_INSTRUCTION.PRODUCT_DETAILS_EXTRACTOR,
           prompt: payloadContent,
           output: Output.json(),
@@ -677,7 +678,7 @@ const toolGetProductDetails = ({
       };
 
       const finalizedText = await streamTextToValue(streamableText, errorState, {
-        model: google("gemini-2.5-flash"),
+        model: models.reasoning,
         instructions: await SYSTEM_INSTRUCTION.PRODUCT_DETAILS_INSIGHT,
         prompt: JSON.stringify(payloadInsight),
         onEnd: ({ usage }) => {
