@@ -1,6 +1,6 @@
 "use server";
 
-import { sql } from "@/database/neon";
+import { prisma } from "@/database/prisma";
 import { ComponentType, ShareAnalytics, ShareRecord } from "../types/neon";
 import { createShareReferenceId } from "./share";
 import { createId } from "@paralleldrive/cuid2";
@@ -10,18 +10,17 @@ export async function createShare(
   componentId: string,
   componentType: ComponentType
 ): Promise<string> {
-  const id = createId();
   const referenceId = createShareReferenceId(userEmail);
 
-  await sql`
-      INSERT INTO shares (
-          id, user_email, reference_id, 
-          component_id, component_type
-      ) VALUES (
-          ${id}, ${userEmail}, ${referenceId}, 
-          ${componentId}, ${componentType}
-      )
-  `;
+  await prisma.share.create({
+    data: {
+      id: createId(),
+      userEmail,
+      referenceId,
+      componentId,
+      componentType,
+    },
+  });
 
   return referenceId;
 }
@@ -29,47 +28,47 @@ export async function createShare(
 export async function getShareByReferenceId(
   referenceId: string
 ): Promise<ShareRecord | null> {
-  const result = await sql`
-      SELECT * FROM shares WHERE reference_id = ${referenceId} LIMIT 1
-  `;
-  return (result[0] as ShareRecord) || null;
+  const share = await prisma.share.findUnique({ where: { referenceId } });
+  return share as ShareRecord | null;
 }
 
 export async function incrementShareAccess(referenceId: string): Promise<void> {
-  await sql`
-      UPDATE shares 
-      SET 
-          access_count = access_count + 1,
-          last_accessed_at = CURRENT_TIMESTAMP
-      WHERE reference_id = ${referenceId}
-  `;
+  await prisma.share.update({
+    where: { referenceId },
+    data: {
+      accessCount: { increment: 1 },
+      lastAccessedAt: new Date(),
+    },
+  });
 }
 
 export async function getShareAnalytics(
   userId?: string
 ): Promise<ShareAnalytics[]> {
-  const query = userId
-    ? await sql`
-          SELECT 
-              component_type,
-              COUNT(*) as total_shares,
-              SUM(access_count) as total_accesses,
-              COUNT(DISTINCT user_id) as unique_sharers
-          FROM shares
-          WHERE user_id = ${userId}
-          GROUP BY component_type
-          ORDER BY total_accesses DESC
-      `
-    : await sql`
-          SELECT 
-              component_type,
-              COUNT(*) as total_shares,
-              SUM(access_count) as total_accesses,
-              COUNT(DISTINCT user_id) as unique_sharers
-          FROM shares
-          GROUP BY component_type
-          ORDER BY total_accesses DESC
-      `;
+  // COUNT(DISTINCT ...) has no groupBy equivalent in Prisma, so this stays SQL.
+  const rows = await prisma.$queryRaw<
+    {
+      componentType: ComponentType;
+      totalShares: bigint;
+      totalAccesses: bigint | null;
+      uniqueSharers: bigint;
+    }[]
+  >`
+    SELECT
+      component_type AS "componentType",
+      COUNT(*) AS "totalShares",
+      SUM(access_count) AS "totalAccesses",
+      COUNT(DISTINCT user_id) AS "uniqueSharers"
+    FROM shares
+    WHERE ${userId ?? null}::text IS NULL OR user_id = ${userId ?? null}
+    GROUP BY component_type
+    ORDER BY "totalAccesses" DESC
+  `;
 
-  return query as ShareAnalytics[];
+  return rows.map((row) => ({
+    componentType: row.componentType,
+    totalShares: Number(row.totalShares),
+    totalAccesses: Number(row.totalAccesses ?? 0),
+    uniqueSharers: Number(row.uniqueSharers),
+  }));
 }

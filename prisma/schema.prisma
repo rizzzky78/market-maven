@@ -1,0 +1,117 @@
+// Prisma schema for Maven's persistent PostgreSQL store.
+//
+// Works with any PostgreSQL-compatible database (self-hosted Postgres, Neon,
+// Supabase, RDS, ...) through the `@prisma/adapter-pg` driver adapter; the
+// connection string comes from `DATABASE_URL` (see prisma.config.ts).
+//
+// Table and column names map onto the tables the app already used before
+// Prisma, so existing databases are baselined instead of recreated
+// (see README "Database setup").
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// Cache of Firecrawl scrape results keyed by the search query, so repeated
+/// product searches and detail lookups skip the external scrape.
+/// `response` holds the scrape result or its error response as JSON.
+model ScrapeCache {
+  key       String   @id @db.Uuid
+  query     String
+  response  Json
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([query], map: "idx_scrape_cache_query")
+  @@map("scrape_cache")
+}
+
+/// Raw markdown scraped during a tool call, stored per chat and owner so a
+/// tool result can be re-rendered or re-extracted later.
+/// `type`: "product-search" | "product-details".
+model MarkdownStore {
+  key       String   @id
+  chatId    String   @map("chat_id")
+  owner     String
+  type      String
+  markdown  String
+  timestamp DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([chatId], map: "idx_markdown_store_chat_id")
+  @@index([owner], map: "idx_markdown_store_owner")
+  @@map("markdown_store")
+}
+
+/// Structured objects extracted by the agent tools (search results, product
+/// details, comparisons). Later tool calls read them by key, e.g. a product
+/// comparison loads the details objects it compares.
+/// `type`: "searchProduct" | "getProductDetails" | "productsComparison".
+model ObjectStore {
+  key       String   @id
+  chatId    String   @map("chat_id")
+  owner     String
+  type      String
+  object    Json
+  timestamp DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([chatId], map: "idx_object_store_chat_id")
+  @@index([owner], map: "idx_object_store_owner")
+  @@map("object_store")
+}
+
+/// One record per completed agent tool call: tool name, input arguments,
+/// result data and success flag. Shared pages and the tool-data API restore
+/// tool output from here.
+model ToolDataStore {
+  key         String   @id
+  chatId      String   @map("chat_id")
+  owner       String
+  toolSuccess Boolean  @map("tool_success")
+  toolName    String   @map("tool_name")
+  toolArgs    Json     @map("tool_args")
+  toolData    Json     @map("tool_data")
+  timestamp   DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([chatId], map: "idx_tool_data_store_chat_id")
+  @@index([owner], map: "idx_tool_data_store_owner")
+  @@map("tool_data_store")
+}
+
+/// Public share links for a chat or a single tool result, with access
+/// analytics. `referenceId` is the token used in the public /share URL;
+/// `componentId` points at a chat id or a ToolDataStore key.
+/// `componentType`: "product-search" | "product-details" |
+/// "products-comparison" | "public-chat".
+model Share {
+  id             String   @id
+  userId         String?  @map("user_id")
+  userEmail      String   @map("user_email")
+  referenceId    String   @unique @map("reference_id")
+  componentId    String   @map("component_id")
+  componentType  String   @map("component_type")
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  lastAccessedAt DateTime @default(now()) @map("last_accessed_at") @db.Timestamptz(6)
+  accessCount    Int      @default(0) @map("access_count")
+
+  @@index([referenceId], map: "idx_shares_reference_id")
+  @@index([userId], map: "idx_shares_user_id")
+  @@index([componentType], map: "idx_shares_component_type")
+  @@map("shares")
+}
+
+/// App feedback submitted from the rate-app page and listed on the public
+/// reviews page. `rating` is 1-5.
+model Rating {
+  id        Int      @id @default(autoincrement())
+  username  String
+  email     String
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@map("ratings")
+}

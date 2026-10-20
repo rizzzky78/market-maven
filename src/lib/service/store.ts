@@ -1,6 +1,7 @@
 "use server";
 
-import { sql } from "@/database/neon";
+import { prisma } from "@/database/prisma";
+import { Prisma } from "@/generated/prisma/client";
 import {
   MarkdownStore,
   MarkdownStoreDTO,
@@ -28,12 +29,16 @@ export async function createMarkdownEntry<T = MarkdownType>(
     reffKey: payload.key,
   });
 
-  const result = await sql`
-      INSERT INTO markdown_store (key, chat_id, owner, type, markdown)
-      VALUES (${payload.key}, ${payload.chatId}, ${payload.owner}, ${payload.type}, ${payload.markdown})
-      RETURNING *
-  `;
-  return result[0] as MarkdownStore<T>;
+  const entry = await prisma.markdownStore.create({
+    data: {
+      key: payload.key,
+      chatId: payload.chatId,
+      owner: payload.owner,
+      type: payload.type,
+      markdown: payload.markdown,
+    },
+  });
+  return entry as MarkdownStore<T>;
 }
 
 /**
@@ -47,17 +52,15 @@ export async function createMarkdownEntry<T = MarkdownType>(
 export async function getMarkdownEntry<T = MarkdownType>(
   key: string
 ): Promise<MarkdownStore<T> | null> {
-  const result = await sql`
-      SELECT * FROM markdown_store WHERE key = ${key}
-  `;
+  const entry = await prisma.markdownStore.findUnique({ where: { key } });
 
   logger.info("Retrieving Value", {
     on: "getMarkdownEntry",
     reffKey: key,
-    exists: Boolean(result[0]),
+    exists: Boolean(entry),
   });
 
-  return (result[0] as MarkdownStore<T>) || null;
+  return entry as MarkdownStore<T> | null;
 }
 
 /**
@@ -77,14 +80,16 @@ export async function createObjectEntry<T>(
     reffKey: payload.key,
   });
 
-  const result = await sql`
-      INSERT INTO object_store (key, chat_id, owner, type, object)
-      VALUES (${payload.key}, ${payload.chatId}, ${payload.owner}, ${
-    payload.type
-  }, ${JSON.stringify(payload.object)})
-      RETURNING *
-  `;
-  return result[0] as TypedObjectStore<T>;
+  const entry = await prisma.objectStore.create({
+    data: {
+      key: payload.key,
+      chatId: payload.chatId,
+      owner: payload.owner,
+      type: payload.type,
+      object: payload.object as Prisma.InputJsonValue,
+    },
+  });
+  return entry as TypedObjectStore<T>;
 }
 
 /**
@@ -98,18 +103,15 @@ export async function createObjectEntry<T>(
 export async function getObjectEntry<T>(
   key: string
 ): Promise<TypedObjectStore<T> | null> {
-  const result = await sql`
-      SELECT * FROM object_store 
-      WHERE key = ${key}
-  `;
+  const entry = await prisma.objectStore.findUnique({ where: { key } });
 
   logger.info("Retrieving Value", {
     on: "getObjectEntry",
     reffKey: key,
-    exists: Boolean(result[0]),
+    exists: Boolean(entry),
   });
 
-  return (result[0] as TypedObjectStore<T>) || null;
+  return entry as TypedObjectStore<T> | null;
 }
 
 /**
@@ -129,36 +131,19 @@ export async function createToolDataEntry<ARGS, DATA>(
     reffKey: key,
   });
 
-  const result = await sql`
-    INSERT INTO tool_data_store (
+  const row = await prisma.toolDataStore.create({
+    data: {
       key,
-      chat_id,
+      chatId,
       owner,
-      tool_success,
-      tool_name,
-      tool_args,
-      tool_data
-    ) VALUES (
-      ${key},
-      ${chatId},
-      ${owner},
-      ${tool.success},
-      ${tool.name},
-      ${JSON.stringify(tool.args)},
-      ${JSON.stringify(tool.data)}
-    )
-    RETURNING 
-      key,
-      chat_id as "chatId",
-      owner,
-      timestamp,
-      tool_success as "tool.success",
-      tool_name as "tool.name",
-      tool_args as "tool.args",
-      tool_data as "tool.data"
-  `;
+      toolSuccess: tool.success,
+      toolName: tool.name,
+      toolArgs: tool.args as Prisma.InputJsonValue,
+      toolData: tool.data as Prisma.InputJsonValue,
+    },
+  });
 
-  return result[0] as ToolDataStore<ARGS, DATA>;
+  return toToolDataStore<ARGS, DATA>(row);
 }
 
 /**
@@ -171,21 +156,7 @@ export async function createToolDataEntry<ARGS, DATA>(
 export async function getToolDataEntryByKey<ARGS, DATA>(
   key: string
 ): Promise<ToolDataStore<ARGS, DATA> | null> {
-  const [row] = await sql`
-    SELECT
-      key,
-      chat_id as "chatId",
-      owner,
-      timestamp,
-      json_build_object(
-        'success', tool_success,
-        'name', tool_name,
-        'args', tool_args,
-        'data', tool_data
-      ) as tool
-    FROM tool_data_store
-    WHERE key = ${key}
-  `;
+  const row = await prisma.toolDataStore.findUnique({ where: { key } });
 
   logger.info("Retrieving Value", {
     on: "getToolDataEntryByKey",
@@ -193,7 +164,7 @@ export async function getToolDataEntryByKey<ARGS, DATA>(
     exists: Boolean(row),
   });
 
-  return row as ToolDataStore<ARGS, DATA> | null;
+  return row ? toToolDataStore<ARGS, DATA>(row) : null;
 }
 
 /**
@@ -206,26 +177,36 @@ export async function getToolDataEntryByKey<ARGS, DATA>(
 export async function getToolDataEntryByChatId<ARGS, DATA>(
   chatId: string
 ): Promise<ToolDataStore<ARGS, DATA>[]> {
-  const result = await sql`
-    SELECT
-      key,
-      chat_id as "chatId",
-      owner,
-      timestamp,
-      tool_success as "tool.success",
-      tool_name as "tool.name",
-      tool_args as "tool.args",
-      tool_data as "tool.data"
-    FROM tool_data_store
-    WHERE chat_id = ${chatId}
-    ORDER BY timestamp DESC
-  `;
+  const rows = await prisma.toolDataStore.findMany({
+    where: { chatId },
+    orderBy: { timestamp: "desc" },
+  });
 
   logger.info("Retrieving Value", {
     on: "getToolDataEntryByChatId",
     reffChatId: chatId,
-    exists: Boolean(result[0]),
+    exists: rows.length > 0,
   });
 
-  return result as ToolDataStore<ARGS, DATA>[];
+  return rows.map((row) => toToolDataStore<ARGS, DATA>(row));
+}
+
+/**
+ * Maps a `tool_data_store` row to the nested `ToolDataStore` shape.
+ */
+function toToolDataStore<ARGS, DATA>(
+  row: Prisma.ToolDataStoreGetPayload<object>
+): ToolDataStore<ARGS, DATA> {
+  return {
+    key: row.key,
+    chatId: row.chatId,
+    owner: row.owner,
+    timestamp: row.timestamp,
+    tool: {
+      success: row.toolSuccess,
+      name: row.toolName,
+      args: row.toolArgs as ARGS,
+      data: row.toolData as DATA,
+    },
+  };
 }

@@ -1,16 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { sql } from "@/database/neon";
+import { prisma } from "@/database/prisma";
 import { Rating } from "@/lib/types/neon";
 
 // GET handler to retrieve ratings
 export async function GET() {
   try {
-    const ratings = (await sql`
-      SELECT id, username, rating, comment, created_at 
-      FROM ratings 
-      ORDER BY created_at DESC
-    `) as Rating[];
+    const rows = await prisma.rating.findMany({
+      select: {
+        id: true,
+        username: true,
+        rating: true,
+        comment: true,
+        createdAt: true,
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    // The reviews UI reads snake_case `created_at`.
+    const ratings: Rating[] = rows.map(({ createdAt, ...row }) => ({
+      ...row,
+      created_at: createdAt.toISOString(),
+    }));
 
     const response = NextResponse.json(ratings, { status: 200 });
 
@@ -37,7 +48,7 @@ export async function POST(request: NextRequest) {
     const { rating, comment } = await request.json();
 
     // Basic validation
-    if (!rating || rating < 1 || rating > 5) {
+    if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
       return NextResponse.json(
         { message: "Rating must be between 1 and 5" },
         { status: 400 }
@@ -49,14 +60,13 @@ export async function POST(request: NextRequest) {
     const email = session?.user?.email || "anonymous@example.com";
 
     // Insert the rating into the database
-    const result = await sql`
-      INSERT INTO ratings (username, email, rating, comment)
-      VALUES (${username}, ${email}, ${rating}, ${comment})
-      RETURNING id
-    `;
+    const { id } = await prisma.rating.create({
+      data: { username, email, rating, comment },
+      select: { id: true },
+    });
 
     return NextResponse.json(
-      { message: "Rating submitted successfully", id: result[0].id },
+      { message: "Rating submitted successfully", id },
       { status: 201 }
     );
   } catch (error) {

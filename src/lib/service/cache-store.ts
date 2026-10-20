@@ -1,4 +1,5 @@
-import { sql } from "@/database/neon";
+import { prisma } from "@/database/prisma";
+import { Prisma } from "@/generated/prisma/client";
 import {
   CachedScrape,
   CacheResultedScrape,
@@ -25,20 +26,13 @@ export async function saveScrapeCache<T>(
     data,
   };
 
-  const result = await sql`
-    INSERT INTO scrape_cache (key, query, response)
-    VALUES (${payload.key}::uuid, ${payload.query}, ${JSON.stringify(data)})
-    ON CONFLICT (key) 
-    DO UPDATE SET 
-      query = ${payload.query},
-      response = ${JSON.stringify(data)},
-      created_at = CURRENT_TIMESTAMP
-    RETURNING *;
-  `;
+  const json = data as Prisma.InputJsonValue;
 
-  if (!result[0]) {
-    throw new Error("Failed to save scrape cache");
-  }
+  await prisma.scrapeCache.upsert({
+    where: { key: payload.key },
+    create: { key: payload.key, query: payload.query, response: json },
+    update: { query: payload.query, response: json, createdAt: new Date() },
+  });
 
   return response;
 }
@@ -52,23 +46,9 @@ export async function saveScrapeCache<T>(
 export async function getScrapeCacheByKey<T>(
   key: string
 ): Promise<CachedScrape<T> | null> {
-  const result = await sql`
-    SELECT key, query, response
-    FROM scrape_cache
-    WHERE key = ${key}::uuid;
-  `;
+  const row = await prisma.scrapeCache.findUnique({ where: { key } });
 
-  if (!result[0]) {
-    return null;
-  }
-
-  return {
-    payload: {
-      key: result[0].key,
-      query: result[0].query,
-    },
-    data: result[0].response,
-  };
+  return row ? toCachedScrape<T>(row) : null;
 }
 
 /**
@@ -80,23 +60,12 @@ export async function getScrapeCacheByKey<T>(
 export async function getScrapeCacheByQuery<T>(
   query: string
 ): Promise<CachedScrape<T> | null> {
-  const result = await sql`
-    SELECT key, query, response
-    FROM scrape_cache
-    WHERE query = ${query};
-  `;
+  const row = await prisma.scrapeCache.findFirst({
+    where: { query },
+    orderBy: { createdAt: "desc" },
+  });
 
-  if (!result[0]) {
-    return null;
-  }
-
-  return {
-    payload: {
-      key: result[0].key,
-      query: result[0].query,
-    },
-    data: result[0].response,
-  };
+  return row ? toCachedScrape<T>(row) : null;
 }
 
 /**
@@ -128,5 +97,17 @@ export async function handleScrapingWithCache<T>(
   return {
     cached: false,
     response: noCached,
+  };
+}
+
+/**
+ * Maps a `scrape_cache` row to the `CachedScrape` shape.
+ */
+function toCachedScrape<T>(
+  row: Prisma.ScrapeCacheGetPayload<object>
+): CachedScrape<T> {
+  return {
+    payload: { key: row.key, query: row.query },
+    data: row.response as unknown as ResultedScrapeOperation<T>,
   };
 }

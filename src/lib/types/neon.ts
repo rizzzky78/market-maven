@@ -30,7 +30,7 @@ export type MarkdownStore<T = MarkdownType> = {
    * The timestamp indicating when the data was created.
    * This is managed automatically by the database.
    */
-  timestamp: string;
+  timestamp: Date;
   /**
    * The type of markdown data stored.
    */
@@ -86,7 +86,7 @@ export type ObjectStore<T = Record<string, any>> = {
    * The timestamp indicating when the data was created.
    * This is managed automatically by the database.
    */
-  timestamp: string;
+  timestamp: Date;
   /**
    * The type of object data stored.
    */
@@ -223,6 +223,6 @@ export type Rating = {
   id: number;
   username: string;
   rating: number;
-  comment: string;
+  comment: string | null;
   created_at: string;
 };

@@ -59,7 +59,7 @@ A visitor lands on the [Home](src/app/README.md) page, learns what Maven does, a
 - **AI / orchestration:** Vercel AI SDK 7 (`@ai-sdk/rsc` for generative streamed UI, `streamText` / `generateText` with `Output` for structured data), Google Gemini via `@ai-sdk/google` with Google Search grounding
 - **Web data:** Firecrawl for scraping, Tavily and Serper for external search
 - **Auth:** NextAuth.js (Google, GitHub OAuth)
-- **Data stores:** Neon (PostgreSQL) for persistent data, Upstash Redis for caching/session data
+- **Data stores:** PostgreSQL (self-hosted, Neon or compatible) via Prisma ORM with `@prisma/adapter-pg` for persistent data, Upstash Redis for caching/session data
 - **UI:** Radix UI primitives, Tailwind CSS 4, Sass, `class-variance-authority`, `next-themes`
 - **Motion:** `motion` (formerly Framer Motion), GSAP, Lenis smooth scroll
 - **Media:** Cloudinary
@@ -81,6 +81,7 @@ src/
     api/                # Route handlers (ratings, etc.)
     server/             # Agent render tools and shared streaming workflow helpers (workflow.tsx)
     action.tsx          # AI/RSC action definitions and server actions
+  database/             # Prisma client (PostgreSQL) and Redis clients
   components/
     maven/              # App-specific feature components (chat UI, marketing pages, etc.)
     ui/                 # Shared design-system primitives (shadcn/ui-based)
@@ -92,7 +93,7 @@ src/
 
 ### Prerequisites
 
-- Node.js v20.9+
+- Node.js v20.19+ / v22.12+ / v24+ (required by Prisma 7)
 - Bun (the project ships a `bun.lockb`), or npm/yarn/pnpm
 - Git
 
@@ -104,77 +105,32 @@ cd market-maven
 bun install
 ```
 
-### Database setup (Neon / PostgreSQL)
+### Database setup (PostgreSQL via Prisma)
 
-Run the following against your Neon database before first use:
+Persistent data is modeled in [`prisma/schema.prisma`](prisma/schema.prisma) and accessed with Prisma ORM over the `node-postgres` driver adapter (`@prisma/adapter-pg`), so any PostgreSQL-compatible database works: self-hosted Postgres, Neon, Supabase, RDS and similar. Set `DATABASE_URL` to its connection string (`postgresql://user:password@host:5432/db`; add `?sslmode=require` for hosted providers that need TLS).
 
-```sql
-CREATE TABLE scrape_cache (
-    key UUID PRIMARY KEY,
-    query TEXT NOT NULL,
-    response JSONB NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
-CREATE INDEX idx_scrape_cache_query ON scrape_cache (query);
+`npm install` runs `prisma generate` automatically. Then apply the migrations:
 
-CREATE TABLE markdown_store (
-    key TEXT PRIMARY KEY,
-    chat_id TEXT NOT NULL,
-    owner TEXT NOT NULL,
-    type TEXT NOT NULL,
-    markdown TEXT NOT NULL,
-    timestamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
-CREATE INDEX idx_markdown_store_chat_id ON markdown_store (chat_id);
-CREATE INDEX idx_markdown_store_owner ON markdown_store (owner);
+```bash
+# New database: create all tables
+npx prisma migrate deploy
 
-CREATE TABLE object_store (
-    key TEXT PRIMARY KEY,
-    chat_id TEXT NOT NULL,
-    owner TEXT NOT NULL,
-    type TEXT NOT NULL,
-    object JSONB NOT NULL,
-    timestamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
-CREATE INDEX idx_object_store_chat_id ON object_store (chat_id);
-CREATE INDEX idx_object_store_owner ON object_store (owner);
-
-CREATE TABLE tool_data_store (
-    key TEXT PRIMARY KEY,
-    chat_id TEXT NOT NULL,
-    owner TEXT NOT NULL,
-    tool_success BOOLEAN NOT NULL,
-    tool_name TEXT NOT NULL,
-    tool_args JSONB NOT NULL,
-    tool_data JSONB NOT NULL,
-    timestamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
-CREATE INDEX idx_tool_data_store_chat_id ON tool_data_store (chat_id);
-CREATE INDEX idx_tool_data_store_owner ON tool_data_store (owner);
-
-CREATE TABLE shares (
-    id TEXT PRIMARY KEY,
-    user_id TEXT,
-    user_email TEXT NOT NULL,
-    reference_id TEXT UNIQUE NOT NULL,
-    component_id TEXT NOT NULL,
-    component_type TEXT NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    last_accessed_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    access_count INTEGER DEFAULT 0
-);
-CREATE INDEX idx_shares_reference_id ON shares (reference_id);
-CREATE INDEX idx_shares_user_id ON shares (user_id);
-CREATE INDEX idx_shares_component_type ON shares (component_type);
+# Existing database created from the previous hand-written SQL:
+# mark the baseline as applied, then apply the remaining migrations
+npx prisma migrate resolve --applied 0_init
+npx prisma migrate deploy
 ```
 
-| Table | Purpose |
+After changing the schema, create a new migration with `npx prisma migrate dev --name <change>`.
+
+| Model (table) | Purpose |
 |---|---|
-| `scrape_cache` | Caches web scraping results by query to avoid redundant requests |
-| `markdown_store` | Persists markdown content tied to a chat and owner |
-| `object_store` | General-purpose JSON object storage tied to a chat and owner |
-| `tool_data_store` | Records agent tool executions, arguments, results, and success status |
-| `shares` | Tracks publicly shared content and access analytics |
+| `ScrapeCache` (`scrape_cache`) | Caches web scraping results by query to avoid redundant requests |
+| `MarkdownStore` (`markdown_store`) | Persists scraped markdown tied to a chat and owner |
+| `ObjectStore` (`object_store`) | Structured tool output (search results, product details, comparisons) tied to a chat and owner |
+| `ToolDataStore` (`tool_data_store`) | Records agent tool executions, arguments, results, and success status |
+| `Share` (`shares`) | Tracks publicly shared content and access analytics |
+| `Rating` (`ratings`) | App ratings and feedback shown on the reviews page |
 
 ### Environment variables
 
@@ -199,7 +155,7 @@ FIRECRAWL_API_KEY="YOUR_APIKEY"
 # Databases
 UPSTASH_REDIS_REST_URL="YOUR_APIKEY"
 UPSTASH_REDIS_REST_TOKEN="YOUR_APIKEY"
-NEON_DATABASE_URL="YOUR_APIKEY"
+DATABASE_URL="postgresql://user:password@localhost:5432/maven"   # any PostgreSQL (self-hosted, Neon, ...)
 
 # Auth
 NEXTAUTH_SECRET="USE_SECURE_STRING_OR_RANDSSL"   # e.g. openssl rand -base64 32
@@ -244,7 +200,7 @@ See the [Workflow](<src/app/(blog)/workflow/README.md>) page doc for how these f
 
 ## Deployment
 
-1. Provision production instances of Neon (PostgreSQL) and Upstash Redis.
+1. Provision production instances of PostgreSQL (self-hosted, Neon or compatible) and Upstash Redis, then run `npx prisma migrate deploy` against the database.
 2. Set all environment variables listed above on your hosting platform.
 3. Build with `bun run build`.
 4. Deploy — the project is built and tested against Vercel.
@@ -265,8 +221,8 @@ Licensed under the [Apache License 2.0](LICENSE).
 - **App won't start:** double-check environment variables (especially database URLs and API keys) and confirm Postgres/Redis are reachable.
 - **Features not working:** check the browser console for client-side errors and confirm API keys are valid.
 - **Authentication issues:** verify GitHub/Google OAuth app settings and that `NEXTAUTH_URL` matches your current environment.
-- **Database connection problems:** re-check `NEON_DATABASE_URL` and confirm the database user has the required permissions.
+- **Database connection problems:** re-check `DATABASE_URL` and confirm the database user has the required permissions.
 
 ## Portfolio summary
 
-Maven AI is a Next.js + TypeScript application that turns natural-language product questions into AI-driven recommendations, searches, detailed breakdowns, and comparisons for electronics. It showcases a full agentic pipeline — an orchestrator that routes user intent to specialized tools, generative streamed UI via the Vercel AI SDK, real web data via Firecrawl/Tavily scraping, and persistent chat history backed by Neon and Redis — wrapped in an animated, OAuth-gated Next.js frontend with public content sharing.
+Maven AI is a Next.js + TypeScript application that turns natural-language product questions into AI-driven recommendations, searches, detailed breakdowns, and comparisons for electronics. It showcases a full agentic pipeline — an orchestrator that routes user intent to specialized tools, generative streamed UI via the Vercel AI SDK, real web data via Firecrawl/Tavily scraping, and persistent data backed by PostgreSQL (Prisma) and Redis — wrapped in an animated, OAuth-gated Next.js frontend with public content sharing.
