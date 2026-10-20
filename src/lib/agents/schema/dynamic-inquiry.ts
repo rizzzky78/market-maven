@@ -42,7 +42,7 @@ const optionSchema = z.object({
     .optional()
     .describe("Additional context about this option"),
   metadata: z
-    .record(z.unknown())
+    .record(z.string(), z.unknown())
     .optional()
     .describe("Additional metadata for this option"),
   followUpInquiryId: z
@@ -152,7 +152,7 @@ export const responseSchema = z.object({
       .number()
       .describe("Number of times the user revised their answer"),
     context: z
-      .record(z.unknown())
+      .record(z.string(), z.unknown())
       .describe("Additional contextual data about the response"),
   }),
 });

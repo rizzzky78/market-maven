@@ -60,14 +60,14 @@ const ProductSchema = z
       ),
     external_data: z
       .string()
-      .or(z.record(z.string()))
+      .or(z.record(z.string(), z.string()))
       .optional()
       .describe(
         "Additional data from external sources like review ratings, expert opinions, or market analysis"
       ),
     common_specs: CommonSpecsSchema,
     category_specific_specs: z
-      .record(z.string())
+      .record(z.string(), z.string())
       .optional()
       .describe(
         "Specifications unique to the product's category (e.g., 'mobile_os' for smartphones, 'lens_type' for cameras)"

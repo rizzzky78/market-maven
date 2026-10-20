@@ -255,14 +255,14 @@ export async function mapUrl(
 function handleError(error: unknown, input: RequestProperties): ErrorResponse {
   if (error instanceof z.ZodError) {
     logger.error("Input validation failed", {
-      errors: error.errors,
+      errors: error.issues,
       input,
     });
 
     return {
       success: false,
       error: "ValidationError",
-      message: JSON.stringify(error.errors),
+      message: JSON.stringify(error.issues),
     };
   }
 
