@@ -82,8 +82,13 @@ const toolProductComparison = ({
 
       const previousProductsData = resulted.filter((v) => v !== null);
 
-      if (previousProductsData.length === 0) {
-        const getKeys = compare.map((v) => v.callId).join(", ");
+      // Comparing fewer products than requested would present a one-sided
+      // "comparison" as if it were evidence, so every product must resolve.
+      if (compare.length < 2 || previousProductsData.length < compare.length) {
+        const getKeys = compare
+          .filter((_, i) => !resulted[i])
+          .map((v) => `${v.title} (${v.callId})`)
+          .join(", ");
 
         generation.done({
           process: "database:not-found",
@@ -93,8 +98,8 @@ const toolProductComparison = ({
 
         return (
           <ErrorMessage
-            errorName="Database Error"
-            reason="There was an error while getting the content from the database."
+            errorName="Product Data Not Found"
+            reason="Comparison needs the details of both products. Open each product's details first, then compare them again."
             raw={{
               payload: { compare },
               resulted: null,
