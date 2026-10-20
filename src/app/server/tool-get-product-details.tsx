@@ -546,7 +546,22 @@ const toolGetProductDetails = ({
         );
       }
 
-      if (!scrapeContent.markdown || !scrapeContent.screenshot) return;
+      if (!scrapeContent.markdown || !scrapeContent.screenshot) {
+        // Returning nothing here left the generation open and the UI loading.
+        generation.done({
+          process: "api:fatal-error",
+          loading: false,
+          error: "Empty scrape result",
+        });
+
+        return (
+          <ErrorMessage
+            errorName="No Page Content"
+            reason="The marketplace page returned no readable content. Try again, or use a more specific product name."
+            raw={{ payload: { query, link } }}
+          />
+        );
+      }
 
       generation.update({
         process: "api:success",
