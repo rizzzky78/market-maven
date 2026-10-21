@@ -5,7 +5,6 @@
  *
  */
 
-import { models } from "@/lib/agents/models";
 import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
 import { TEMPLATE } from "@/lib/agents/constant";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
@@ -19,7 +18,12 @@ import { Output, streamText } from "ai";
 import { createErrorState } from "./workflow";
 import { ui } from "./stream-ui";
 
-const toolInquireUser = ({ generation, state, abortSignal }: ToolsetProps) => {
+const toolInquireUser = ({
+  generation,
+  state,
+  abortSignal,
+  models,
+}: ToolsetProps) => {
   const inquireUser: RenderTool<typeof inputInquirySchema> = {
     description: TEMPLATE.inquire_user_description,
     inputSchema: inputInquirySchema,

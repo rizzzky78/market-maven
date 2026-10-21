@@ -5,7 +5,6 @@
  *
  */
 
-import { models } from "@/lib/agents/models";
 import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
 import { TEMPLATE } from "@/lib/agents/constant";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
@@ -30,7 +29,6 @@ import {
   DetailsTokopedia,
 } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
-import { google } from "@ai-sdk/google";
 import { Output, LanguageModelUsage, smoothStream, isStepCount } from "ai";
 import { v4 } from "uuid";
 import {
@@ -50,6 +48,7 @@ const toolGetProductDetails = ({
   userMessage,
   createStreamable,
   abortSignal,
+  models,
 }: ToolsetProps) => {
   const getProductDetails: RenderTool<typeof getProductDetailsSchema> = {
     description: TEMPLATE.get_product_details_description,
@@ -137,7 +136,8 @@ const toolGetProductDetails = ({
             streamableRelated,
             errorState,
             [...state.get().messages, ...mutate],
-            "Get Product Details - Step 4"
+            "Get Product Details - Step 4",
+            models.light
           );
 
           generation.update({
@@ -213,11 +213,14 @@ const toolGetProductDetails = ({
             content: streamableResearch.value,
           });
 
+          const search = models.webSearch();
+
           finalizedToolData.data.object.externalData.markdown =
             await streamTextToValue(streamableResearch, errorState, {
               model: models.reasoning,
               abortSignal,
-              tools: { google_search: google.tools.googleSearch({}) },
+              tools: search.tools,
+              stopWhen: search.stopWhen,
               instructions: await SYSTEM_INSTRUCTION.PRODUCT_RESEARCHER,
               // The researcher writes from the retrieved evidence, not memory.
               prompt: JSON.stringify({
@@ -333,7 +336,7 @@ const toolGetProductDetails = ({
           {
             model: models.reasoning,
             abortSignal,
-            tools: { google_search: google.tools.googleSearch({}) },
+            tools: models.webSearch().tools,
             instructions: PRODUCT_RESEARCHER_INSIGHT_SYSTEM_PROMPT + groundingPolicy(),
             stopWhen: isStepCount(5),
             prompt: JSON.stringify({

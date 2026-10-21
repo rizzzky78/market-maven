@@ -1,8 +1,7 @@
-import { models } from "@/lib/agents/models";
+import type { Models } from "@/lib/agents/models";
 import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
 import { queryEnhancerSchema } from "@/lib/agents/schema/st-query-enhancer";
 import { QueryEnhancedData, UnifiedSubToolResult } from "@/lib/types/subtools";
-import { google } from "@ai-sdk/google";
 import { generateText, Output } from "ai";
 
 const SYSTEM_PROMPT = `You are a Query Enhancement Specialist designed to transform vague, incomplete, or ambiguous product queries into specific, searchable queries that will yield accurate results.
@@ -53,15 +52,18 @@ const SYSTEM_PROMPT = `You are a Query Enhancement Specialist designed to transf
 
 export async function queryEnhancer(p: {
   query: string;
+  models: Models;
 }): Promise<UnifiedSubToolResult<QueryEnhancedData>> {
-  const { query } = p;
+  const { query, models } = p;
 
   const cleanQuery = query.trim();
 
   try {
+    const search = models.webSearch();
     const response = await generateText({
       model: models.extract,
-      tools: { google_search: google.tools.googleSearch({}) },
+      tools: search.tools,
+      stopWhen: search.stopWhen,
       output: Output.object({ schema: queryEnhancerSchema }),
       instructions: SYSTEM_PROMPT + groundingPolicy(),
       prompt: cleanQuery,
@@ -94,33 +96,4 @@ export async function queryEnhancer(p: {
       },
     };
   }
-}
-
-// Batch processing utility for multiple queries
-export async function batchQueryEnhancer(
-  queries: string[],
-  options?: {
-    concurrency?: number;
-  }
-) {
-  const { concurrency = 3 } = options || {};
-  const results: Array<{ query: string; result: any }> = [];
-
-  for (let i = 0; i < queries.length; i += concurrency) {
-    const batch = queries.slice(i, i + concurrency);
-    const batchPromises = batch.map((query) =>
-      queryEnhancer({ query }).then((result) => ({ query, result }))
-    );
-
-    const batchResults = await Promise.allSettled(batchPromises);
-    results.push(
-      ...batchResults.map((r) =>
-        r.status === "fulfilled"
-          ? r.value
-          : { query: "", result: { ok: false, error: "Batch failed" } }
-      )
-    );
-  }
-
-  return results;
 }

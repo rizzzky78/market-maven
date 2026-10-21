@@ -1,11 +1,11 @@
-import { models } from "@/lib/agents/models";
+import type { Models } from "@/lib/agents/models";
 import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
 import { queryValidatorSchema } from "@/lib/agents/schema/st-query-validator";
 import {
   QueryValidationData,
   UnifiedSubToolResult,
 } from "@/lib/types/subtools";
-import { google, type GoogleLanguageModelOptions } from "@ai-sdk/google";
+import type { GoogleLanguageModelOptions } from "@ai-sdk/google";
 import { generateText, Output } from "ai";
 
 const SYSTEM_PROMPT = `You are an advanced electronic product query analyzer and validator with comprehensive market knowledge and access to real-time web search capabilities.
@@ -89,6 +89,7 @@ const googleOptions = {
  */
 export async function queryValidator(p: {
   query: string;
+  models: Models;
 }): Promise<UnifiedSubToolResult<QueryValidationData | null>> {
   const startTime = performance.now();
 
@@ -100,9 +101,11 @@ export async function queryValidator(p: {
     console.log(`[QueryValidator] Starting analysis for: "${sanitizedQuery}"`);
 
     // Generate analysis with enhanced error handling
+    const search = p.models.webSearch();
     const result = await generateText({
-      model: models.extract,
-      tools: { google_search: google.tools.googleSearch({}) },
+      model: p.models.extract,
+      tools: search.tools,
+      stopWhen: search.stopWhen,
       providerOptions: { google: googleOptions },
       output: Output.object({ schema: queryValidatorSchema }),
       instructions: SYSTEM_PROMPT + groundingPolicy(),
@@ -174,43 +177,4 @@ export async function queryValidator(p: {
       error: enhancedErrorMessage,
     };
   }
-}
-
-// Utility function for batch processing multiple queries
-export async function batchQueryValidator(
-  queries: string[],
-  options: { maxConcurrent?: number; delayMs?: number } = {}
-): Promise<UnifiedSubToolResult<QueryValidationData | null>[]> {
-  const { maxConcurrent = 3, delayMs = 100 } = options;
-
-  if (!Array.isArray(queries) || queries.length === 0) {
-    throw new Error("Queries must be a non-empty array");
-  }
-
-  const results: UnifiedSubToolResult<QueryValidationData | null>[] = [];
-
-  // Process queries in batches to avoid overwhelming the API
-  for (let i = 0; i < queries.length; i += maxConcurrent) {
-    const batch = queries.slice(i, i + maxConcurrent);
-
-    const batchPromises = batch.map((query) =>
-      queryValidator({ query }).catch((error) => ({
-        ok: false as const,
-        timestamp: new Date().toISOString(),
-        data: null,
-        error:
-          error instanceof Error ? error.message : "Batch processing error",
-      }))
-    );
-
-    const batchResults = await Promise.all(batchPromises);
-    results.push(...batchResults);
-
-    // Add delay between batches to respect rate limits
-    if (i + maxConcurrent < queries.length && delayMs > 0) {
-      await new Promise((resolve) => setTimeout(resolve, delayMs));
-    }
-  }
-
-  return results;
 }

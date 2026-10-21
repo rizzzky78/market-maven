@@ -1,6 +1,6 @@
 "use server";
 
-import { models } from "@/lib/agents/models";
+import { defaultModels, Models } from "@/lib/agents/models";
 import { AIState, ChatProperties, MessageProperty } from "@/lib/types/ai";
 import { generateText, TextPart } from "ai";
 import { getChatMeta, saveChat } from "../chat-service";
@@ -8,7 +8,8 @@ import logger from "@/lib/utility/logger";
 import SYSTEM_INSTRUCTION from "../../constant/md";
 
 const generateChatTitle = async (
-  messages: MessageProperty[]
+  messages: MessageProperty[],
+  models: Models
 ): Promise<string> => {
   const { text } = await generateText({
     model: models.light,
@@ -39,24 +40,32 @@ const getFallbackTitle = (messages: MessageProperty[]): string => {
 };
 
 const getGeneratedTitle = async (
-  messages: MessageProperty[]
+  messages: MessageProperty[],
+  models: Models
 ): Promise<string> => {
   try {
     const filteredMessages = messages.filter(
       (message) => message.role !== "tool"
     );
-    return await generateChatTitle(filteredMessages);
+    return await generateChatTitle(filteredMessages, models);
   } catch (error) {
     logger.error("Failed to generate chat title:", { error });
     return getFallbackTitle(messages);
   }
 };
 
-export const saveAIState = async (state: AIState): Promise<void> => {
+/**
+ * Saves the chat; the title of a new chat is written by `models.light` (the
+ * request's own models when the user brought a key).
+ */
+export const saveAIState = async (
+  state: AIState,
+  models: Models = defaultModels
+): Promise<void> => {
   const { chatId, username, messages } = state;
   const currentChat = await getChatMeta(chatId);
 
-  const title = currentChat?.title || (await getGeneratedTitle(messages));
+  const title = currentChat?.title || (await getGeneratedTitle(messages, models));
   const createdDate = currentChat?.createdAt || new Date();
 
   const savePayload: ChatProperties = {

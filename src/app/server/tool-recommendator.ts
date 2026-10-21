@@ -5,7 +5,6 @@
  *
  */
 
-import { models } from "@/lib/agents/models";
 import { TEMPLATE } from "@/lib/agents/constant";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
 import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
@@ -19,7 +18,6 @@ import { recommendatorSchema } from "@/lib/agents/schema/tool-parameters";
 import { RenderTool, ToolsetProps } from "@/lib/types/ai";
 import { RecommendationResponse } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
-import { google } from "@ai-sdk/google";
 import { DeepPartial, generateText, Output } from "ai";
 import { v4 } from "uuid";
 import {
@@ -38,6 +36,7 @@ const toolRecommendator = ({
   requestOption,
   createStreamable,
   abortSignal,
+  models,
 }: ToolsetProps) => {
   const recommendator: RenderTool<typeof recommendatorSchema> = {
     description: TEMPLATE.recommendator_description,
@@ -81,17 +80,25 @@ const toolRecommendator = ({
       // Step 1: search-grounded research. Gemini 2.x cannot combine Google
       // Search with JSON output in one call, so research and extraction are
       // separate steps; the sources come from this call.
+      const search = models.webSearch();
       const research = await generateText({
         model: models.reasoning,
         abortSignal,
-        tools: { google_search: google.tools.googleSearch({}) },
+        tools: search.tools,
+        stopWhen: search.stopWhen,
         instructions:
           RECOMMENDATOR_RESEARCH_SYSTEM_INSTRUCTION + groundingPolicy(),
         prompt: JSON.stringify({ intent, scope }),
       });
 
-      for (const s of research.sources) {
-        if (s.sourceType !== "url") continue;
+      const found = [
+        ...research.sources.flatMap((s) =>
+          s.sourceType === "url" ? [{ url: s.url, title: s.title }] : []
+        ),
+        ...search.sources,
+      ];
+
+      for (const s of found) {
         if (finalizedRecommendator.sources?.some((x) => x.url === s.url)) continue;
         finalizedRecommendator.sources?.push({ url: s.url, title: s.title });
       }
@@ -219,7 +226,8 @@ const toolRecommendator = ({
           streamableRelated,
           errorState,
           [...state.get().messages, ...mutate],
-          "Recommendator - Step 3"
+          "Recommendator - Step 3",
+            models.light
         );
       }
 

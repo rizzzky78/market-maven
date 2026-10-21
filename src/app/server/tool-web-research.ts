@@ -1,4 +1,3 @@
-import { models } from "@/lib/agents/models";
 import { TEMPLATE } from "@/lib/agents/constant";
 import { WEB_RESEARCH_SYSTEM_INSTRUCTION } from "@/lib/agents/constant/md/web-research";
 import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
@@ -6,7 +5,6 @@ import { RelatedQuery, PartialRelated } from "@/lib/agents/schema/related";
 import { webResearchSchema } from "@/lib/agents/schema/tool-parameters";
 import { RenderTool, ToolsetProps } from "@/lib/types/ai";
 import logger from "@/lib/utility/logger";
-import { google } from "@ai-sdk/google";
 import { v4 } from "uuid";
 import {
   commitToolResult,
@@ -40,6 +38,7 @@ const toolWebResearch = ({
   requestOption,
   createStreamable,
   abortSignal,
+  models,
 }: ToolsetProps) => {
   const webResearch: RenderTool<typeof webResearchSchema> = {
     description: TEMPLATE.web_research_description,
@@ -61,10 +60,12 @@ const toolWebResearch = ({
 
       yield ui("StreamAssistantMessage", { content: streamableAnswer.value });
 
+      const search = models.webSearch();
       const answer = await streamTextToValue(streamableAnswer, errorState, {
         model: models.reasoning,
         abortSignal,
-        tools: { google_search: google.tools.googleSearch({}) },
+        tools: search.tools,
+        stopWhen: search.stopWhen,
         instructions: WEB_RESEARCH_SYSTEM_INSTRUCTION + groundingPolicy(),
         prompt: JSON.stringify({ question, products }),
         onEnd: ({ usage, sources: found }) => {
@@ -74,6 +75,8 @@ const toolWebResearch = ({
           logger.info("Usage - Web Research", { usage, sources: found.length });
         },
       });
+
+      sources.push(...search.sources);
 
       const content = answer
         ? answer +
@@ -105,7 +108,8 @@ const toolWebResearch = ({
           streamableRelated,
           errorState,
           [...state.get().messages, ...mutate],
-          "Web Research - Related"
+          "Web Research - Related",
+            models.light
         );
       }
 

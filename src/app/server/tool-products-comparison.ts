@@ -5,7 +5,6 @@
  *
  */
 
-import { models } from "@/lib/agents/models";
 import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
 import { TEMPLATE } from "@/lib/agents/constant";
 import { COMPARISON_EXTRACTOR_SYSTEM_INSTRUCTION } from "@/lib/agents/constant/md/comparison-extractor";
@@ -36,6 +35,7 @@ const toolProductComparison = ({
   userMessage,
   createStreamable,
   abortSignal,
+  models,
 }: ToolsetProps) => {
   const productsComparison: RenderTool<typeof productsComparionSchema> = {
     description: TEMPLATE.products_comparison_description,

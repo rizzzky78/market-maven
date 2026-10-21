@@ -10,7 +10,10 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^4.0.83",
     "@ai-sdk/google": "^4.0.100",
+    "@ai-sdk/openai": "^4.0.97",
+    "@ai-sdk/openai-compatible": "^3.0.73",
     "@ai-sdk/react": "^4.0.149",
     "@gsap/react": "^2.1.2",
     "@mendable/firecrawl-js": "^4.50.0",

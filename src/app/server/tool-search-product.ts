@@ -5,7 +5,6 @@
  *
  */
 
-import { models } from "@/lib/agents/models";
 import { TEMPLATE } from "@/lib/agents/constant";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
 import { productsSchema } from "@/lib/agents/schema/product";
@@ -45,6 +44,7 @@ const toolSearchProduct = ({
   userMessage,
   createStreamable,
   abortSignal,
+  models,
 }: ToolsetProps) => {
   const searchProduct: RenderTool<typeof searchProductSchema> = {
     description: TEMPLATE.search_product_description,
@@ -66,13 +66,13 @@ const toolSearchProduct = ({
       });
 
       // Independent sub-agents: start the enhancer while validation runs.
-      const enhancedQueryPromise = queryEnhancer({ query });
+      const enhancedQueryPromise = queryEnhancer({ query, models });
 
       yield ui("LoadingText", { text: "Validating user query..." });
 
       yield ui("QueryValidationSkeleton", {});
 
-      const validatedResult = await queryValidator({ query });
+      const validatedResult = await queryValidator({ query, models });
       const validation = validatedResult.ok ? validatedResult.data : null;
 
       // A failed validator should not block the search; it only loses its card.
@@ -179,7 +179,8 @@ const toolSearchProduct = ({
             streamableRelated,
             errorState,
             [...state.get().messages, ...mutate],
-            "Search Product - Step 3"
+            "Search Product - Step 3",
+            models.light
           );
 
           generation.update({
@@ -219,6 +220,7 @@ const toolSearchProduct = ({
         yield [queryVEUI, ui("InsightProductCardSkeleton", {})];
 
         const insightResult = await searchProductInsight({
+          models,
           query: enhancedQuery.data.enhanced_query,
           marketSource: requestOption.onRequest.reffSource,
         });

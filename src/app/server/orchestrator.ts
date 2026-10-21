@@ -1,4 +1,4 @@
-import { models } from "@/lib/agents/models";
+import type { Models } from "@/lib/agents/models";
 import {
   compactToolResults,
   toModelMessages,
@@ -60,6 +60,8 @@ type OrchestrateOptions = {
   requestOption?: ExtendedRequestOption;
   /** The request's signal: aborted when the client stops the reply. */
   abortSignal?: AbortSignal;
+  /** The models of this request (the user's own provider or the defaults) */
+  models: Models;
 };
 
 /**
@@ -73,6 +75,7 @@ export async function orchestrate({
   payload,
   requestOption,
   abortSignal,
+  models,
 }: OrchestrateOptions) {
   logger.info("Debug: payload orchestrator - agentic", {
     payload,
@@ -112,6 +115,7 @@ export async function orchestrate({
     requestOption,
     createStreamable: (initial) => createStreamable(writer, initial),
     abortSignal,
+    models,
   };
 
   const toolset = {
@@ -200,11 +204,17 @@ export async function orchestrate({
     logger.error("Orchestrator model call failed", { error: failure });
     failGeneration(generation, failure ?? "Empty orchestrator reply");
     show(
-      ui("ErrorMessage", {
-        errorName: "Maven is unavailable right now",
-        reason:
-          "The AI service didn't respond (it may be busy or rate-limited). Please try again in a moment.",
-      })
+      models.custom
+        ? // The user's own provider: its error (bad key, unknown model) is theirs to fix.
+          ui("ErrorMessage", {
+            errorName: "Your AI provider returned an error",
+            reason: `${failure instanceof Error ? failure.message : "The provider didn't respond."} Check the provider, API key and model in AI provider settings.`,
+          })
+        : ui("ErrorMessage", {
+            errorName: "Maven is unavailable right now",
+            reason:
+              "The AI service didn't respond (it may be busy or rate-limited). Please try again in a moment.",
+          })
     );
     return;
   }
@@ -224,7 +234,8 @@ export async function orchestrate({
       streamableRelated,
       createErrorState(),
       state.get().messages,
-      "Orchestrator - Related"
+      "Orchestrator - Related",
+            models.light
     );
   }
 

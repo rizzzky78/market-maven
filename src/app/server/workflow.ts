@@ -4,7 +4,6 @@
  * follow-up, persisting tool results and closing the generation status.
  */
 
-import { models } from "@/lib/agents/models";
 import { toPayloadRelatedMessage } from "@/lib/agents/action/mutator/mutate-messages";
 import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
@@ -132,14 +131,15 @@ export async function streamOutputToValue<
 }
 
 /**
- * Crafts related follow-up queries from the latest conversation messages.
+ * Crafts related follow-up queries from the latest conversation messages
+ * with the given (light) model.
  */
 export async function streamRelatedQuery(
   streamable: StreamableSink<PartialRelated>,
   errorState: ErrorState,
   messages: MessageProperty[],
   usageLabel: string,
-  model: LanguageModel = models.light
+  model: LanguageModel
 ): Promise<RelatedQuery | null> {
   const related = await streamOutputToValue(streamable, errorState, {
     model,

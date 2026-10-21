@@ -1,6 +1,7 @@
 "use client";
 
 import { useMavenStateController } from "@/components/hooks/maven-state-controller";
+import { useModelSettings } from "@/components/hooks/use-model-settings";
 import { toUnifiedUserMessage } from "@/lib/agents/action/mutator/mutate-messages";
 import {
   AIState,
@@ -61,6 +62,7 @@ export const MavenChatProvider: FC<MavenChatProviderProps> = ({
 }) => {
   const { setIsGenerating } = useAppState();
   const { search, related, reffSource } = useMavenStateController();
+  const modelConfig = useModelSettings((s) => s.config);
   const [stage, setStage] = useState("");
 
   const { messages, sendMessage, status, stop } = useChat<MavenUIMessage>({
@@ -77,6 +79,8 @@ export const MavenChatProvider: FC<MavenChatProviderProps> = ({
     onError: (error) => {
       console.error("An Error occured when submitting the query!", error);
       toast.error("Error When Submitting the Query!", {
+        // e.g. "Invalid AI provider settings" from the chat route
+        description: error.message,
         position: "top-center",
         richColors: true,
         className:
@@ -97,6 +101,7 @@ export const MavenChatProvider: FC<MavenChatProviderProps> = ({
       const body: Omit<ChatRequestBody, "chatId"> = {
         payload,
         requestOption: { onRequest: { search, related, reffSource } },
+        model: modelConfig ?? undefined,
       };
 
       await sendMessage(
@@ -106,7 +111,7 @@ export const MavenChatProvider: FC<MavenChatProviderProps> = ({
         { body }
       );
     },
-    [reffSource, related, search, sendMessage]
+    [modelConfig, reffSource, related, search, sendMessage]
   );
 
   const history = useMemo(

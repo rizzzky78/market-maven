@@ -1,4 +1,4 @@
-import { models } from "@/lib/agents/models";
+import type { Models } from "@/lib/agents/models";
 import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
 import { dataSourceInsightSchema } from "@/lib/agents/schema/ds-insight";
 import {
@@ -24,6 +24,8 @@ export type InsightPayload = {
   query: string;
   marketSource: MarketSource;
   options?: SearchOptions;
+  /** The models of the current request */
+  models: Models;
 };
 
 export type SearchOptions = {
@@ -309,6 +311,7 @@ export async function searchProductInsight({
   query,
   marketSource,
   options = {},
+  models,
 }: InsightPayload): Promise<UnifiedSubToolResult<DataSourceInsight | null>> {
   try {
     // Validate input
@@ -394,34 +397,6 @@ export async function searchProductInsight({
       data: null,
     };
   }
-}
-
-/**
- * Batch search for multiple product queries
- * @param queries - Array of search queries
- * @param marketSource - Market source to use for all queries
- * @param options - Search options
- * @returns Promise resolving to array of results
- */
-export async function batchSearchProductInsights(
-  queries: string[],
-  marketSource: MarketSource,
-  options: SearchOptions = {}
-): Promise<Array<{ query: string; result: any; error?: ProductInsightError }>> {
-  const results = await Promise.allSettled(
-    queries.map((query) =>
-      searchProductInsight({ query, marketSource, options })
-    )
-  );
-
-  return queries.map((query, index) => {
-    const result = results[index];
-    return {
-      query,
-      result: result.status === "fulfilled" ? result.value : null,
-      error: result.status === "rejected" ? result.reason : undefined,
-    };
-  });
 }
 
 /**

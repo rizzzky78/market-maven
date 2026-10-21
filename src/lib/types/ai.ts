@@ -1,4 +1,6 @@
 import type { UIMessage } from "ai";
+import type { Models } from "@/lib/agents/models";
+import type { ModelConfig } from "@/lib/agents/providers";
 import { ReactNode } from "react";
 import { z } from "zod";
 
@@ -472,6 +474,8 @@ export type ChatRequestBody = {
   chatId: string;
   payload: PayloadData;
   requestOption?: ExtendedRequestOption;
+  /** The user's own LLM provider settings; the app's defaults when absent */
+  model?: ModelConfig;
 };
 
 export type ToolsetProps = {
@@ -480,6 +484,8 @@ export type ToolsetProps = {
   createStreamable: <T>(initial?: T) => StreamableValue<T>;
   /** Aborted when the client stops the reply; pass it to model calls. */
   abortSignal?: AbortSignal;
+  /** The models of this request (the user's own provider or the defaults). */
+  models: Models;
   state: MutableAIState<AIState>;
   requestOption?: ExtendedRequestOption;
   userMessage?: UserContentMessage;

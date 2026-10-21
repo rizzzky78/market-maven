@@ -2,6 +2,7 @@
 
 import { ComponentProps, FC, useEffect, useRef, useState } from "react";
 import {
+  Bot,
   CodeXml,
   Hexagon,
   History,
@@ -27,6 +28,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { SidebarUserNavigation } from "./sidebar-navigation";
+import { ModelSettingsDialog, useModelLabel } from "./model-settings-dialog";
 import { Separator } from "../ui/separator";
 import { ChatProperties, MessageProperty } from "@/lib/types/ai";
 import Link from "next/link";
@@ -71,6 +73,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
   const driverRef = useRef<Driver | null>(null);
 
   const router = useRouter();
+  const modelLabel = useModelLabel();
 
   const handleNewChat = () => {
     setIsGenerating(false);
@@ -292,6 +295,21 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                     <History />
                     <span>History</span>
                   </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <ModelSettingsDialog>
+                    <SidebarMenuButton
+                      tooltip={{
+                        children: `AI provider: ${modelLabel}`,
+                        hidden: false,
+                      }}
+                      className="px-2.5 md:px-2 rounded-full"
+                      data-testid="model-settings-button"
+                    >
+                      <Bot />
+                      <span>AI provider</span>
+                    </SidebarMenuButton>
+                  </ModelSettingsDialog>
                 </SidebarMenuItem>
               </SidebarMenu>
             </SidebarGroupContent>

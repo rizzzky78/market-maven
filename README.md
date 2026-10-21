@@ -56,7 +56,7 @@ A visitor lands on the [Home](src/app/README.md) page, learns what Maven does, a
 ## Tech stack
 
 - **Framework:** Next.js 16 (App Router, Turbopack) with React 19 and TypeScript
-- **AI / orchestration:** Vercel AI SDK 7 (AI SDK UI: `useChat` from `@ai-sdk/react` over a UI message stream for generative streamed UI, `streamText` / `generateText` with `Output` for structured data), Google Gemini via `@ai-sdk/google` with Google Search grounding
+- **AI / orchestration:** Vercel AI SDK 7 (AI SDK UI: `useChat` from `@ai-sdk/react` over a UI message stream for generative streamed UI, `streamText` / `generateText` with `Output` for structured data), Google Gemini via `@ai-sdk/google` with Google Search grounding by default; users can switch to their own provider and API key (OpenAI, Anthropic, Gemini, Vercel AI Gateway, OpenRouter, Groq, xAI, DeepSeek, Mistral, Together or any OpenAI-compatible API) from **AI provider** in the chat sidebar, kept in their browser and sent per request. Providers without built-in web search use a Tavily search tool
 - **Web data:** Firecrawl for scraping, Tavily and Serper for external search
 - **Auth:** NextAuth.js (Google, GitHub OAuth)
 - **Data stores:** PostgreSQL (self-hosted, Neon or compatible) via Prisma ORM with `@prisma/adapter-pg` for chats and all persistent data, Upstash Redis for rate limiting and short-lived session state
