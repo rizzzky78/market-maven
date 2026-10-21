@@ -6,10 +6,6 @@
  */
 
 import { models } from "@/lib/agents/models";
-import { ErrorMessage } from "@/components/maven/error-message";
-import { LoadingText } from "@/components/maven/shining-glass";
-import { UserInquiry } from "@/components/maven/user-inquiry";
-import { InquirySkeleton } from "@/components/maven/user-inquiry-skeleton";
 import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
 import { TEMPLATE } from "@/lib/agents/constant";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
@@ -19,8 +15,9 @@ import {
 } from "@/lib/agents/schema/tool-parameters";
 import { RenderTool, ToolsetProps } from "@/lib/types/ai";
 import logger from "@/lib/utility/logger";
-import { generateId, Output, streamText } from "ai";
+import { Output, streamText } from "ai";
 import { createErrorState } from "./workflow";
+import { ui } from "./stream-ui";
 
 const toolInquireUser = ({ generation, state }: ToolsetProps) => {
   const inquireUser: RenderTool<typeof inputInquirySchema> = {
@@ -44,20 +41,16 @@ const toolInquireUser = ({ generation, state }: ToolsetProps) => {
           loading: false,
         });
 
-        return (
-          <ErrorMessage
-            errorName="Invalid Payload on Inquire Property"
-            reason="An error occured when try to parse inquiry payload from LLM"
-            raw={{ parse }}
-          />
-        );
+        return ui("ErrorMessage", {
+          errorName: "Invalid Payload on Inquire Property",
+          reason: "An error occured when try to parse inquiry payload from LLM",
+          raw: { parse },
+        });
       }
 
-      const callId = generateId();
+      yield ui("LoadingText", { text: "Creating an Inquiry" });
 
-      yield <LoadingText key={callId} text="Creating an Inquiry" />;
-
-      yield <InquirySkeleton />;
+      yield ui("InquirySkeleton", {});
 
       generation.update({
         process: "stream:generating",
@@ -96,16 +89,15 @@ const toolInquireUser = ({ generation, state }: ToolsetProps) => {
           error: "LLM Generation Error",
         });
 
-        return (
-          <ErrorMessage
-            errorName="LLM Error"
-            reason="There was an error on LLMs Agent generation, that's all we know :("
-            raw={{
-              payload: { inquiry: parse.data },
-              error: errorState,
-            }}
-          />
-        );
+        return ui("ErrorMessage", {
+          errorName: "LLM Error",
+          reason:
+            "There was an error on LLMs Agent generation, that's all we know :(",
+          raw: {
+            payload: { inquiry: parse.data },
+            error: errorState,
+          },
+        });
       } else {
         generation.done({
           process: "tool:done",
@@ -126,7 +118,7 @@ const toolInquireUser = ({ generation, state }: ToolsetProps) => {
 
       logger.info("Done using inquireUser tool");
 
-      return <UserInquiry inquiry={inquiryProperty} />;
+      return ui("UserInquiry", { inquiry: inquiryProperty });
     },
   };
 

@@ -7,7 +7,8 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/tooltip";
-import { StreamableValue, useStreamableValue } from "@ai-sdk/rsc";
+import { readStreamed } from "@/lib/utils";
+import type { Streamed } from "@/lib/types/ai";
 import { NotepadText, Info, FlipHorizontal } from "lucide-react";
 import Link from "next/link";
 import { FC, useState, useEffect } from "react";
@@ -20,7 +21,7 @@ import { ShareButton } from "@/components/maven/share-button";
 import Image from "next/image";
 
 interface StreamProductDetailsProps {
-  content: StreamableValue<Record<string, any>>;
+  content: Streamed<Record<string, any>>;
   callId: string;
   query: string;
   link: string;
@@ -36,7 +37,7 @@ export const StreamProductDetails: FC<StreamProductDetailsProps> = ({
   screenshot,
   externalData,
 }) => {
-  const [raw, error, pending] = useStreamableValue(content);
+  const [raw, error, pending] = readStreamed(content);
   const [data, setData] = useState<Record<string, any>>({});
   const [hovering, setHovering] = useState(false);
 

@@ -16,14 +16,11 @@ import {
   SkipForward,
 } from "lucide-react";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import { readStreamableValue, useActions, useUIState } from "@ai-sdk/rsc";
 import { useDebounceInput } from "../hooks/use-debounced-input";
 import { useMavenStateController } from "../hooks/maven-state-controller";
-import { UserMessage } from "./user-message";
-import { generateId } from "ai";
-import type { InquiryResponse, StreamGeneration } from "@/lib/types/ai";
+import type { InquiryResponse } from "@/lib/types/ai";
 import { motion, AnimatePresence } from "motion/react";
-import { AI } from "@/app/action";
+import { useMavenChat } from "@/lib/utility/provider/chat-provider";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -43,12 +40,10 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
   const [inputValue, setInputValue] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false); // Track if inquiry was already submitted
-  const [, setUIState] = useUIState<typeof AI>();
-  const { isGenerating, setIsGenerating } = useAppState();
-  const { attachment, activeComparison, flush, search, related, reffSource } =
-    useMavenStateController();
+  const { isGenerating } = useAppState();
+  const { attachment, activeComparison, flush } = useMavenStateController();
   const { handleReset } = useDebounceInput();
-  const { orchestrator } = useActions<typeof AI>();
+  const { submit } = useMavenChat();
 
   // Form validation variables
   const hasValidSelection = selectedOptions.length > 0;
@@ -83,56 +78,14 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
 
   const submitInquiryResponse = useCallback(
     async (payload: InquiryResponse) => {
-      const componentId = generateId();
-
-      setUIState((prevUI) => [
-        ...prevUI,
-        {
-          id: generateId(),
-          display: (
-            <UserMessage
-              key={componentId}
-              content={{ inquiry_response: payload }}
-            />
-          ),
-        },
-      ]);
-
-      // Send the message and wait for response
-      const { id, display, generation } = await orchestrator(
-        {
-          inquiryResponse: payload,
-        },
-        { onRequest: { search, related, reffSource } }
-      );
-
-      if (generation) {
-        const gens = readStreamableValue(
-          generation
-        ) as AsyncIterable<StreamGeneration>;
-
-        for await (const { loading } of gens) {
-          setIsGenerating(loading);
-        }
-      }
-
-      // Add response to UI
-      setUIState((prevUI) => [...prevUI, { id, display }]);
+      // Send the message and wait for the reply to finish
+      await submit({ inquiryResponse: payload });
 
       // Clean up
       flush();
       handleReset();
     },
-    [
-      flush,
-      handleReset,
-      orchestrator,
-      reffSource,
-      related,
-      search,
-      setIsGenerating,
-      setUIState,
-    ]
+    [flush, handleReset, submit]
   );
 
   const handleSubmit = async () => {
@@ -140,7 +93,6 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
 
     try {
       setIsSubmitting(true);
-      setIsGenerating(true);
       setHasSubmitted(true); // Mark as submitted to prevent resubmission
 
       await submitInquiryResponse({
@@ -161,7 +113,6 @@ export const UserInquiry: FC<InquiryProps> = ({ inquiry }) => {
       setHasSubmitted(false); // Reset on error to allow retry
     } finally {
       setIsSubmitting(false);
-      setIsGenerating(false);
     }
   };
 

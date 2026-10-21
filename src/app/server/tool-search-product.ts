@@ -6,17 +6,6 @@
  */
 
 import { models } from "@/lib/agents/models";
-import {
-  StreamAssistantMessage,
-  AssistantMessage,
-} from "@/components/maven/assistant-message";
-import { ErrorMessage } from "@/components/maven/error-message";
-import { ProductSearch } from "@/components/maven/product-search";
-import {
-  StreamRelatedMessage,
-  RelatedMessage,
-} from "@/components/maven/related-message";
-import { LoadingText } from "@/components/maven/shining-glass";
 import { TEMPLATE } from "@/lib/agents/constant";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
 import { productsSchema } from "@/lib/agents/schema/product";
@@ -25,7 +14,7 @@ import { searchProductSchema } from "@/lib/agents/schema/tool-parameters";
 import { scrapeUrl } from "@/lib/agents/tools/api/firecrawl";
 import { handleScrapingWithCache } from "@/lib/service/cache-store";
 import { createMarkdownEntry, createObjectEntry } from "@/lib/service/store";
-import { MessageProperty, RenderTool, ToolsetProps } from "@/lib/types/ai";
+import { MessageProperty, RenderTool, ToolsetProps, View } from "@/lib/types/ai";
 import {
   Product,
   SearchProductResult,
@@ -35,19 +24,10 @@ import {
 import logger from "@/lib/utility/logger";
 import { processURLQuery } from "@/lib/utils";
 import { DeepPartial, Output } from "ai";
-import { createStreamableValue } from "@ai-sdk/rsc";
-import { ReactNode } from "react";
 import { v4 } from "uuid";
 import { queryValidator } from "./subtools/query-validator";
 import { queryEnhancer } from "./subtools/query-enhancer";
-import { QueryValidation } from "@/components/maven/query-validation";
-import { QueryEnhancement } from "@/components/maven/query-enhancement";
-import { QueryValidationSkeleton } from "@/components/maven/query-validation-skeleton";
-import { QueryEnhancementSkeleton } from "@/components/maven/query-enhancement-skeleton";
 import { searchProductInsight } from "./subtools/data-source/insight";
-import { InsightProductCardSkeleton } from "@/components/maven/insight-product-card-skeleton";
-import { InsightProductCard } from "@/components/maven/insight-product-card";
-import { StreamProductSearch } from "@/components/maven/stream-product-search";
 import {
   commitToolResult,
   createErrorState,
@@ -56,12 +36,14 @@ import {
   streamRelatedQuery,
   streamTextToValue,
 } from "./workflow";
+import { ui } from "./stream-ui";
 
 const toolSearchProduct = ({
   generation,
   state,
   requestOption,
   userMessage,
+  createStreamable,
 }: ToolsetProps) => {
   const searchProduct: RenderTool<typeof searchProductSchema> = {
     description: TEMPLATE.search_product_description,
@@ -70,7 +52,7 @@ const toolSearchProduct = ({
       const toolRequestId = v4();
       const errorState = createErrorState();
 
-      yield <LoadingText text={`Searching for ${query}`} />;
+      yield ui("LoadingText", { text: `Searching for ${query}` });
 
       logger.info("Using searchProduct tool", {
         progress: "initial",
@@ -85,9 +67,9 @@ const toolSearchProduct = ({
       // Independent sub-agents: start the enhancer while validation runs.
       const enhancedQueryPromise = queryEnhancer({ query });
 
-      yield <LoadingText text="Validating user query..." />;
+      yield ui("LoadingText", { text: "Validating user query..." });
 
-      yield <QueryValidationSkeleton />;
+      yield ui("QueryValidationSkeleton", {});
 
       const validatedResult = await queryValidator({ query });
       const validation = validatedResult.ok ? validatedResult.data : null;
@@ -117,12 +99,13 @@ const toolSearchProduct = ({
           loading: false,
         });
 
-        return (
-          <>
-            <QueryValidation data={validation} usage={validatedResult.usage} />
-            <AssistantMessage content={notElectronic} />
-          </>
-        );
+        return [
+          ui("QueryValidation", {
+            data: validation,
+            usage: validatedResult.usage,
+          }),
+          ui("AssistantMessage", { content: notElectronic }),
+        ];
       }
 
       generation.update({
@@ -130,16 +113,11 @@ const toolSearchProduct = ({
         loading: true,
       });
 
-      const queryValidationUI = validation ? (
-        <QueryValidation data={validation} usage={validatedResult.usage} />
-      ) : null;
+      const queryValidationUI =
+        validation &&
+        ui("QueryValidation", { data: validation, usage: validatedResult.usage });
 
-      yield (
-        <>
-          {queryValidationUI}
-          <QueryEnhancementSkeleton />
-        </>
-      );
+      yield [queryValidationUI, ui("QueryEnhancementSkeleton", {})];
 
       const enhancedQuery = await enhancedQueryPromise;
 
@@ -153,15 +131,13 @@ const toolSearchProduct = ({
        * - Query Validation
        * - Query Enhancement
        */
-      const queryVEUI = (
-        <>
-          {queryValidationUI}
-          <QueryEnhancement
-            data={enhancedQuery.data}
-            usage={enhancedQuery.usage}
-          />
-        </>
-      );
+      const queryVEUI = [
+        queryValidationUI,
+        ui("QueryEnhancement", {
+          data: enhancedQuery.data,
+          usage: enhancedQuery.usage,
+        }),
+      ];
 
       yield queryVEUI;
 
@@ -182,7 +158,7 @@ const toolSearchProduct = ({
        * Streams the related queries when requested, then closes the generation.
        * Yields the in-progress UI and returns the final UI node.
        */
-      async function* finalize(uiNode: ReactNode, mutate: MessageProperty[]) {
+      async function* finalize(uiNode: View, mutate: MessageProperty[]) {
         let relatedObject: RelatedQuery | null = null;
 
         if (requestOption?.onRequest?.related) {
@@ -191,14 +167,12 @@ const toolSearchProduct = ({
             loading: true,
           });
 
-          const streamableRelated = createStreamableValue<PartialRelated>();
+          const streamableRelated = createStreamable<PartialRelated>();
 
-          yield (
-            <>
-              {uiNode}
-              <StreamRelatedMessage content={streamableRelated.value} />
-            </>
-          );
+          yield [
+            uiNode,
+            ui("StreamRelatedMessage", { content: streamableRelated.value }),
+          ];
 
           relatedObject = await streamRelatedQuery(
             streamableRelated,
@@ -216,14 +190,11 @@ const toolSearchProduct = ({
         const failure = finishGeneration(generation, errorState, { query });
         if (failure) return failure;
 
-        return (
-          <>
-            {uiNode}
-            {requestOption?.onRequest?.related && (
-              <RelatedMessage related={relatedObject} />
-            )}
-          </>
-        );
+        return [
+          uiNode,
+          requestOption?.onRequest?.related &&
+            ui("RelatedMessage", { related: relatedObject }),
+        ];
       }
 
       /**
@@ -244,12 +215,7 @@ const toolSearchProduct = ({
           loading: true,
         });
 
-        yield (
-          <>
-            {queryVEUI}
-            <InsightProductCardSkeleton />
-          </>
-        );
+        yield [queryVEUI, ui("InsightProductCardSkeleton", {})];
 
         const insightResult = await searchProductInsight({
           query: enhancedQuery.data.enhanced_query,
@@ -266,16 +232,15 @@ const toolSearchProduct = ({
             error: "LLM Generation Error",
           });
 
-          return (
-            <ErrorMessage
-              errorName="LLM Error"
-              reason="There was an error on LLMs Agent product search object crafter, that's all we know :("
-              raw={{
-                payload: { query },
-                error: errorState,
-              }}
-            />
-          );
+          return ui("ErrorMessage", {
+            errorName: "LLM Error",
+            reason:
+              "There was an error on LLMs Agent product search object crafter, that's all we know :(",
+            raw: {
+              payload: { query },
+              error: errorState,
+            },
+          });
         }
 
         generation.update({
@@ -313,17 +278,15 @@ const toolSearchProduct = ({
           data: finalizedToolData.data as SearchProductResult<GlobalSearchResult>,
         } as const;
 
-        const streamableText = createStreamableValue<string>("");
+        const streamableText = createStreamable<string>("");
 
-        yield (
-          <>
-            <InsightProductCard
-              usage={insightResult.usage}
-              content={insightContent}
-            />
-            <StreamAssistantMessage content={streamableText.value} />
-          </>
-        );
+        yield [
+          ui("InsightProductCard", {
+            usage: insightResult.usage,
+            content: insightContent,
+          }),
+          ui("StreamAssistantMessage", { content: streamableText.value }),
+        ];
 
         const finalizedText = await streamTextToValue(
           streamableText,
@@ -347,17 +310,15 @@ const toolSearchProduct = ({
           loading: false,
         });
 
-        const searchProductUiNode = (
-          <>
-            {queryVEUI}
-            <InsightProductCard
-              opened
-              usage={insightResult.usage}
-              content={insightContent}
-            />
-            <AssistantMessage content={finalizedText} />
-          </>
-        );
+        const searchProductUiNode = [
+          queryVEUI,
+          ui("InsightProductCard", {
+            opened: true,
+            usage: insightResult.usage,
+            content: insightContent,
+          }),
+          ui("AssistantMessage", { content: finalizedText }),
+        ];
 
         const mutate = await commitToolResult(state, generation, toolRequestId, {
           name: "searchProduct",
@@ -377,7 +338,7 @@ const toolSearchProduct = ({
         return yield* finalize(searchProductUiNode, mutate);
       }
 
-      yield <LoadingText text={`Perform scrape operation...`} />;
+      yield ui("LoadingText", { text: "Perform scrape operation..." });
 
       generation.update({
         process: "api:requesting-data",
@@ -399,12 +360,9 @@ const toolSearchProduct = ({
       );
 
       if (cached) {
-        yield (
-          <LoadingText
-            text={`The query is cached!. Proceed to do data extraction`}
-          />
-        );
-
+        yield ui("LoadingText", {
+          text: "The query is cached!. Proceed to do data extraction",
+        });
       }
 
       if (!scrapeContent.success) {
@@ -414,17 +372,16 @@ const toolSearchProduct = ({
           error: scrapeContent.message,
         });
 
-        return (
-          <ErrorMessage
-            errorName="Scrape Operation Failed"
-            reason="There was an error while scrapping the content from the firecrawl service."
-            raw={{
-              payload: { query },
-              error: scrapeContent.error,
-              message: scrapeContent.message,
-            }}
-          />
-        );
+        return ui("ErrorMessage", {
+          errorName: "Scrape Operation Failed",
+          reason:
+            "There was an error while scrapping the content from the firecrawl service.",
+          raw: {
+            payload: { query },
+            error: scrapeContent.error,
+            message: scrapeContent.message,
+          },
+        });
       }
 
       if (!scrapeContent.markdown || !scrapeContent.screenshot) {
@@ -435,13 +392,12 @@ const toolSearchProduct = ({
           error: "Empty scrape result",
         });
 
-        return (
-          <ErrorMessage
-            errorName="No Page Content"
-            reason="The marketplace page returned no readable content. Try again, or use a more specific product name."
-            raw={{ payload: { query } }}
-          />
-        );
+        return ui("ErrorMessage", {
+          errorName: "No Page Content",
+          reason:
+            "The marketplace page returned no readable content. Try again, or use a more specific product name.",
+          raw: { payload: { query } },
+        });
       }
 
       generation.update({
@@ -449,12 +405,7 @@ const toolSearchProduct = ({
         loading: true,
       });
 
-      yield (
-        <>
-          {queryVEUI}
-          <LoadingText text="Found products..." />
-        </>
-      );
+      yield [queryVEUI, ui("LoadingText", { text: "Found products..." })];
 
       const tokopediaObject = finalizedToolData.data
         .object as SearchProductResult<TokopediaSearchResult>["object"];
@@ -474,31 +425,27 @@ const toolSearchProduct = ({
         markdown: scrapeContent.markdown,
       });
 
-      yield (
-        <>
-          {queryVEUI}
-          <LoadingText text="Proceed to data extraction..." />
-        </>
-      );
+      yield [
+        queryVEUI,
+        ui("LoadingText", { text: "Proceed to data extraction..." }),
+      ];
 
       const payload = JSON.stringify({
         objective: TEMPLATE.gpd_extraction_objective,
         markdown: scrapeContent.markdown,
       });
 
-      const streamableProducts = createStreamableValue<DeepPartial<Product[]>>();
+      const streamableProducts = createStreamable<DeepPartial<Product[]>>();
 
-      yield (
-        <>
-          {queryVEUI}
-          <StreamProductSearch
-            query={query}
-            callId={finalizedToolData.data.callId}
-            screenshot={scrapeContent.screenshot}
-            products={streamableProducts.value}
-          />
-        </>
-      );
+      yield [
+        queryVEUI,
+        ui("StreamProductSearch", {
+          query,
+          callId: finalizedToolData.data.callId,
+          screenshot: scrapeContent.screenshot,
+          products: streamableProducts.value,
+        }),
+      ];
 
       generation.update({
         process: "stream:initial",
@@ -549,15 +496,18 @@ const toolSearchProduct = ({
         data: finalizedToolData.data as SearchProductResult<TokopediaSearchResult>,
       } as const;
 
-      const streamableText = createStreamableValue<string>("");
+      const streamableText = createStreamable<string>("");
 
-      yield (
-        <>
-          {queryVEUI}
-          <ProductSearch content={productSearchContent} isFinished={true} />
-          <StreamAssistantMessage content={streamableText.value} />
-        </>
-      );
+      const productSearchNode = ui("ProductSearch", {
+        content: productSearchContent,
+        isFinished: true,
+      });
+
+      yield [
+        queryVEUI,
+        productSearchNode,
+        ui("StreamAssistantMessage", { content: streamableText.value }),
+      ];
 
       generation.update({
         process: "stream:next-action",
@@ -582,13 +532,11 @@ const toolSearchProduct = ({
         loading: true,
       });
 
-      const searchProductUiNode = (
-        <>
-          {queryVEUI}
-          <ProductSearch content={productSearchContent} isFinished={true} />
-          <AssistantMessage content={finalizedText} />
-        </>
-      );
+      const searchProductUiNode = [
+        queryVEUI,
+        productSearchNode,
+        ui("AssistantMessage", { content: finalizedText }),
+      ];
 
       /**
        * Mutate tool result to message context and saving the AI state

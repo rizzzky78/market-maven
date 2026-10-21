@@ -7,21 +7,6 @@
 
 import { models } from "@/lib/agents/models";
 import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
-import {
-  StreamAssistantMessage,
-  AssistantMessage,
-} from "@/components/maven/assistant-message";
-import { ErrorMessage } from "@/components/maven/error-message";
-import { StreamExtendedMessage } from "@/components/maven/extended-message";
-import { ProductDetails } from "@/components/maven/product-details";
-import { ProductDetailsInsight } from "@/components/maven/product-details-insight";
-import {
-  StreamRelatedMessage,
-  RelatedMessage,
-} from "@/components/maven/related-message";
-import { LoadingText } from "@/components/maven/shining-glass";
-import { StreamProductDetails } from "@/components/maven/stream-product-details";
-import { StreamProductDetailsInsight } from "@/components/maven/stream-product-details-insight";
 import { TEMPLATE } from "@/lib/agents/constant";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
 import { PRODUCT_EXTRACTOR_INSIGHT_SYSTEM_PROMPT } from "@/lib/agents/constant/md/product-extractor-insight";
@@ -36,7 +21,7 @@ import {
   createObjectEntry,
   getObjectEntry,
 } from "@/lib/service/store";
-import { RenderTool, ToolsetProps } from "@/lib/types/ai";
+import { RenderTool, ToolsetProps, View } from "@/lib/types/ai";
 import {
   DetailsGlobal,
   ExtendedSearchResult,
@@ -47,8 +32,6 @@ import {
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";
 import { Output, LanguageModelUsage, smoothStream, isStepCount } from "ai";
-import { createStreamableValue } from "@ai-sdk/rsc";
-import { ReactNode } from "react";
 import { v4 } from "uuid";
 import {
   commitToolResult,
@@ -58,12 +41,14 @@ import {
   streamRelatedQuery,
   streamTextToValue,
 } from "./workflow";
+import { ui } from "./stream-ui";
 
 const toolGetProductDetails = ({
   generation,
   state,
   requestOption,
   userMessage,
+  createStreamable,
 }: ToolsetProps) => {
   const getProductDetails: RenderTool<typeof getProductDetailsSchema> = {
     description: TEMPLATE.get_product_details_description,
@@ -77,7 +62,7 @@ const toolGetProductDetails = ({
       const toolRequestId = v4();
       const errorState = createErrorState();
 
-      yield <LoadingText text={`Getting data product for ${query}`} />;
+      yield ui("LoadingText", { text: `Getting data product for ${query}` });
 
       logger.info("Using getProductDetails tool", {
         progress: "initial",
@@ -89,8 +74,7 @@ const toolGetProductDetails = ({
         loading: true,
       });
 
-
-      yield <LoadingText text={`Perform scrape operation...`} />;
+      yield ui("LoadingText", { text: "Perform scrape operation..." });
 
       const finalizedToolData = {
         args: { query, callId, source, link },
@@ -113,7 +97,7 @@ const toolGetProductDetails = ({
        * closes the generation. Yields the in-progress UI and returns the final
        * UI node.
        */
-      async function* finalize(uiNode: ReactNode, insightText: string) {
+      async function* finalize(uiNode: View, insightText: string) {
         const mutate = await commitToolResult(
           state,
           generation,
@@ -141,14 +125,12 @@ const toolGetProductDetails = ({
             loading: true,
           });
 
-          const streamableRelated = createStreamableValue<PartialRelated>();
+          const streamableRelated = createStreamable<PartialRelated>();
 
-          yield (
-            <>
-              {uiNode}
-              <StreamRelatedMessage content={streamableRelated.value} />
-            </>
-          );
+          yield [
+            uiNode,
+            ui("StreamRelatedMessage", { content: streamableRelated.value }),
+          ];
 
           relatedObject = await streamRelatedQuery(
             streamableRelated,
@@ -169,14 +151,11 @@ const toolGetProductDetails = ({
         });
         if (failure) return failure;
 
-        return (
-          <>
-            {uiNode}
-            {requestOption?.onRequest?.related && (
-              <RelatedMessage related={relatedObject} />
-            )}
-          </>
-        );
+        return [
+          uiNode,
+          requestOption?.onRequest?.related &&
+            ui("RelatedMessage", { related: relatedObject }),
+        ];
       }
 
       /**
@@ -189,9 +168,9 @@ const toolGetProductDetails = ({
         requestOption?.onRequest?.search &&
         finalizedToolData.data.object.externalData
       ) {
-        yield (
-          <LoadingText text="Perform search to get additonal information..." />
-        );
+        yield ui("LoadingText", {
+          text: "Perform search to get additonal information...",
+        });
 
         generation.update({
           process: "api:requesting-data",
@@ -208,11 +187,9 @@ const toolGetProductDetails = ({
         const evidence = externalData.data;
 
         if (evidence && (evidence.answer || evidence.results.length > 0)) {
-          yield (
-            <LoadingText
-              text={`Found ${evidence.results.length} web sources in ${evidence.responseTime} seconds`}
-            />
-          );
+          yield ui("LoadingText", {
+            text: `Found ${evidence.results.length} web sources in ${evidence.responseTime} seconds`,
+          });
 
           generation.update({
             process: "stream:initial",
@@ -229,9 +206,11 @@ const toolGetProductDetails = ({
             loading: true,
           });
 
-          const streamableResearch = createStreamableValue("");
+          const streamableResearch = createStreamable("");
 
-          yield <StreamExtendedMessage content={streamableResearch.value} />;
+          yield ui("StreamExtendedMessage", {
+            content: streamableResearch.value,
+          });
 
           finalizedToolData.data.object.externalData.markdown =
             await streamTextToValue(streamableResearch, errorState, {
@@ -303,16 +282,15 @@ const toolGetProductDetails = ({
             error_reason: "Previous Object Data Not Found!",
           };
 
-          return (
-            <ErrorMessage
-              errorName="LLM Error"
-              reason="There was an error on LLMs Agent generation, that's all we know :("
-              raw={{
-                payload: { query, link },
-                error: errorState,
-              }}
-            />
-          );
+          return ui("ErrorMessage", {
+            errorName: "LLM Error",
+            reason:
+              "There was an error on LLMs Agent generation, that's all we know :(",
+            raw: {
+              payload: { query, link },
+              error: errorState,
+            },
+          });
         }
 
         const {
@@ -338,14 +316,12 @@ const toolGetProductDetails = ({
           loading: true,
         });
 
-        const streamableDetailsResearcher = createStreamableValue("");
+        const streamableDetailsResearcher = createStreamable("");
 
-        yield (
-          <StreamExtendedMessage
-            title={`Getting Data for ${globalObject.previousData.title}`}
-            content={streamableDetailsResearcher.value}
-          />
-        );
+        yield ui("StreamExtendedMessage", {
+          title: `Getting Data for ${globalObject.previousData.title}`,
+          content: streamableDetailsResearcher.value,
+        });
 
         const usages: LanguageModelUsage[] = [];
 
@@ -387,15 +363,13 @@ const toolGetProductDetails = ({
           loading: true,
         });
 
-        const streamableObject = createStreamableValue<Record<string, any>>();
+        const streamableObject = createStreamable<Record<string, any>>();
 
-        yield (
-          <StreamProductDetailsInsight
-            content={streamableObject.value}
-            callId={finalizedToolData.data.callId}
-            data={globalObject}
-          />
-        );
+        yield ui("StreamProductDetailsInsight", {
+          content: streamableObject.value,
+          callId: finalizedToolData.data.callId,
+          data: globalObject,
+        });
 
         let partialDetails: Record<string, any> = {};
 
@@ -451,17 +425,17 @@ const toolGetProductDetails = ({
           loading: true,
         });
 
-        const streamableText = createStreamableValue<string>("");
+        const streamableText = createStreamable<string>("");
 
-        yield (
-          <>
-            <ProductDetailsInsight
-              content={insightContent}
-              usage={mergedLLMUsage}
-            />
-            <StreamAssistantMessage content={streamableText.value} />
-          </>
-        );
+        const insightNode = ui("ProductDetailsInsight", {
+          content: insightContent,
+          usage: mergedLLMUsage,
+        });
+
+        yield [
+          insightNode,
+          ui("StreamAssistantMessage", { content: streamableText.value }),
+        ];
 
         const payloadInsight = {
           prompt: userMessage?.text_input ?? undefined,
@@ -484,13 +458,7 @@ const toolGetProductDetails = ({
         });
 
         return yield* finalize(
-          <>
-            <ProductDetailsInsight
-              content={insightContent}
-              usage={mergedLLMUsage}
-            />
-            <AssistantMessage content={finalizedInsightText} />
-          </>,
+          [insightNode, ui("AssistantMessage", { content: finalizedInsightText })],
           finalizedInsightText
         );
       }
@@ -522,10 +490,9 @@ const toolGetProductDetails = ({
       );
 
       if (cached) {
-        yield (
-          <LoadingText text={`The query is cached!. Proceed to data extraction`} />
-        );
-
+        yield ui("LoadingText", {
+          text: "The query is cached!. Proceed to data extraction",
+        });
       }
 
       if (!scrapeContent.success) {
@@ -534,17 +501,16 @@ const toolGetProductDetails = ({
           loading: false,
         });
 
-        return (
-          <ErrorMessage
-            errorName="Scrape Operation Failed"
-            reason="There was an error while scrapping the content from the firecrawl service."
-            raw={{
-              payload: { query, link },
-              error: scrapeContent.error,
-              message: scrapeContent.message,
-            }}
-          />
-        );
+        return ui("ErrorMessage", {
+          errorName: "Scrape Operation Failed",
+          reason:
+            "There was an error while scrapping the content from the firecrawl service.",
+          raw: {
+            payload: { query, link },
+            error: scrapeContent.error,
+            message: scrapeContent.message,
+          },
+        });
       }
 
       if (!scrapeContent.markdown || !scrapeContent.screenshot) {
@@ -555,13 +521,12 @@ const toolGetProductDetails = ({
           error: "Empty scrape result",
         });
 
-        return (
-          <ErrorMessage
-            errorName="No Page Content"
-            reason="The marketplace page returned no readable content. Try again, or use a more specific product name."
-            raw={{ payload: { query, link } }}
-          />
-        );
+        return ui("ErrorMessage", {
+          errorName: "No Page Content",
+          reason:
+            "The marketplace page returned no readable content. Try again, or use a more specific product name.",
+          raw: { payload: { query, link } },
+        });
       }
 
       generation.update({
@@ -569,7 +534,7 @@ const toolGetProductDetails = ({
         loading: true,
       });
 
-      yield <LoadingText text="Retrieved raw data..." />;
+      yield ui("LoadingText", { text: "Retrieved raw data..." });
 
       await createMarkdownEntry({
         key: finalizedToolData.data.callId,
@@ -584,7 +549,7 @@ const toolGetProductDetails = ({
         loading: true,
       });
 
-      yield <LoadingText text="Proceed to data extraction..." />;
+      yield ui("LoadingText", { text: "Proceed to data extraction..." });
 
       const payloadContent = JSON.stringify({
         refference: { query, link },
@@ -592,23 +557,21 @@ const toolGetProductDetails = ({
         externalData: finalizedToolData.data.object.externalData,
       });
 
-      const streamableObject = createStreamableValue<Record<string, any>>();
+      const streamableObject = createStreamable<Record<string, any>>();
 
       generation.update({
         process: "stream:generating",
         loading: true,
       });
 
-      yield (
-        <StreamProductDetails
-          query={query}
-          link={link}
-          callId={finalizedToolData.data.callId}
-          content={streamableObject.value}
-          screenshot={scrapeContent.screenshot}
-          externalData={finalizedToolData.data.object.externalData}
-        />
-      );
+      yield ui("StreamProductDetails", {
+        query,
+        link,
+        callId: finalizedToolData.data.callId,
+        content: streamableObject.value,
+        screenshot: scrapeContent.screenshot,
+        externalData: finalizedToolData.data.object.externalData,
+      });
 
       const productDetails = await streamOutputToValue(
         streamableObject,
@@ -662,14 +625,14 @@ const toolGetProductDetails = ({
         data: finalizedToolData.data as TProductDetails<DetailsTokopedia>,
       } as const;
 
-      const streamableText = createStreamableValue<string>("");
+      const streamableText = createStreamable<string>("");
 
-      yield (
-        <>
-          <ProductDetails content={detailsContent} />
-          <StreamAssistantMessage content={streamableText.value} />
-        </>
-      );
+      const detailsNode = ui("ProductDetails", { content: detailsContent });
+
+      yield [
+        detailsNode,
+        ui("StreamAssistantMessage", { content: streamableText.value }),
+      ];
 
       const payloadInsight = {
         prompt: userMessage?.text_input ?? null,
@@ -696,10 +659,7 @@ const toolGetProductDetails = ({
       });
 
       return yield* finalize(
-        <>
-          <ProductDetails content={detailsContent} />
-          <AssistantMessage content={finalizedText} />
-        </>,
+        [detailsNode, ui("AssistantMessage", { content: finalizedText })],
         finalizedText
       );
     },

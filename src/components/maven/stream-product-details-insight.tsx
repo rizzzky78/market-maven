@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { StreamableValue, useStreamableValue } from "@ai-sdk/rsc";
+import { readStreamed } from "@/lib/utils";
+import type { Streamed } from "@/lib/types/ai";
 import { FC, useEffect, useState } from "react";
 import { ErrorMessage } from "./error-message";
 import { AnimatePresence, motion, type Variants } from "motion/react";
@@ -95,7 +96,7 @@ const collapsibleVariants: Variants = {
 };
 
 type StreamProductDetailsProps = {
-  content: StreamableValue<Record<string, any>>;
+  content: Streamed<Record<string, any>>;
   callId: string;
   data: ProductDetails<DetailsGlobal>["object"];
 };
@@ -105,7 +106,7 @@ export const StreamProductDetailsInsight: FC<StreamProductDetailsProps> = ({
   content,
   data,
 }) => {
-  const [raw, error] = useStreamableValue(content);
+  const [raw, error] = readStreamed(content);
   const [dataStream, setDataStream] = useState<Record<string, any>>({});
 
   const [open, setOpen] = useState(true);

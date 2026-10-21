@@ -1,13 +1,4 @@
 import { models } from "@/lib/agents/models";
-import {
-  StreamAssistantMessage,
-  AssistantMessage,
-} from "@/components/maven/assistant-message";
-import {
-  StreamRelatedMessage,
-  RelatedMessage,
-} from "@/components/maven/related-message";
-import { LoadingText } from "@/components/maven/shining-glass";
 import { TEMPLATE } from "@/lib/agents/constant";
 import { WEB_RESEARCH_SYSTEM_INSTRUCTION } from "@/lib/agents/constant/md/web-research";
 import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
@@ -16,7 +7,6 @@ import { webResearchSchema } from "@/lib/agents/schema/tool-parameters";
 import { RenderTool, ToolsetProps } from "@/lib/types/ai";
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";
-import { createStreamableValue } from "@ai-sdk/rsc";
 import { v4 } from "uuid";
 import {
   commitToolResult,
@@ -25,6 +15,7 @@ import {
   streamRelatedQuery,
   streamTextToValue,
 } from "./workflow";
+import { ui } from "./stream-ui";
 
 /** Markdown list of the unique web sources the answer was grounded on. */
 const formatSources = (sources: { url: string; title?: string }[]) => {
@@ -47,6 +38,7 @@ const toolWebResearch = ({
   generation,
   state,
   requestOption,
+  createStreamable,
 }: ToolsetProps) => {
   const webResearch: RenderTool<typeof webResearchSchema> = {
     description: TEMPLATE.web_research_description,
@@ -59,14 +51,14 @@ const toolWebResearch = ({
 
       generation.update({ process: "tool:initial", loading: true });
 
-      yield <LoadingText text="Researching the web for evidence..." />;
+      yield ui("LoadingText", { text: "Researching the web for evidence..." });
 
-      const streamableAnswer = createStreamableValue("");
+      const streamableAnswer = createStreamable("");
       const sources: { url: string; title?: string }[] = [];
 
       generation.update({ process: "stream:generating", loading: true });
 
-      yield <StreamAssistantMessage content={streamableAnswer.value} />;
+      yield ui("StreamAssistantMessage", { content: streamableAnswer.value });
 
       const answer = await streamTextToValue(streamableAnswer, errorState, {
         model: models.reasoning,
@@ -88,7 +80,7 @@ const toolWebResearch = ({
             : "\n\n_No web sources were returned for this answer, so treat it as unverified._")
         : "";
 
-      const uiNode = <AssistantMessage content={content} />;
+      const uiNode = ui("AssistantMessage", { content });
 
       const mutate = await commitToolResult(state, generation, callId, {
         name: "webResearch",
@@ -100,14 +92,12 @@ const toolWebResearch = ({
       let relatedObject: RelatedQuery | null = null;
 
       if (requestOption?.onRequest?.related) {
-        const streamableRelated = createStreamableValue<PartialRelated>();
+        const streamableRelated = createStreamable<PartialRelated>();
 
-        yield (
-          <>
-            {uiNode}
-            <StreamRelatedMessage content={streamableRelated.value} />
-          </>
-        );
+        yield [
+          uiNode,
+          ui("StreamRelatedMessage", { content: streamableRelated.value }),
+        ];
 
         relatedObject = await streamRelatedQuery(
           streamableRelated,
@@ -120,14 +110,11 @@ const toolWebResearch = ({
       const failure = finishGeneration(generation, errorState, { question });
       if (failure) return failure;
 
-      return (
-        <>
-          {uiNode}
-          {requestOption?.onRequest?.related && (
-            <RelatedMessage related={relatedObject} />
-          )}
-        </>
-      );
+      return [
+        uiNode,
+        requestOption?.onRequest?.related &&
+          ui("RelatedMessage", { related: relatedObject }),
+      ];
     },
   };
 

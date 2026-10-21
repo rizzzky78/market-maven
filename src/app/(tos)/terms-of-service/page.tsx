@@ -272,17 +272,14 @@ export default async function TermsOfService() {
                   <ul className="list-disc pl-6 mt-2 space-y-1">
                     <li>
                       <Link
-                        href={"https://sdk.vercel.ai/docs/ai-sdk-rsc"}
+                        href={"https://ai-sdk.dev/docs/ai-sdk-ui"}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-blue-600 hover:underline mr-1"
                       >
-                        Vercel AI SDK RSC
+                        Vercel AI SDK UI
                       </Link>
-                      is in beta - unexpected behavior may occur
-                    </li>
-                    <li>
-                      UI elements rendered server-side - customizations limited
+                      streams AI responses - unexpected behavior may occur
                     </li>
                     <li>Response quality may vary between sessions</li>
                     <li>No uptime or performance guarantees</li>

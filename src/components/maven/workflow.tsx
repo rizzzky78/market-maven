@@ -865,10 +865,10 @@ export function WorkflowContent() {
                     <p className="text-muted-foreground">
                       The{" "}
                       <span className="text-purple-500 font-mono  ">
-                        streamUI
+                        useChat
                       </span>{" "}
-                      function generates UI components based on the AI&apos;s
-                      state.
+                      hook renders UI components from the AI&apos;s streamed
+                      reply.
                     </p>
                   </div>
 
@@ -880,8 +880,8 @@ export function WorkflowContent() {
                           UI Component Generation
                         </CardTitle>
                         <CardDescription>
-                          The streamUI function generates React components to
-                          display results
+                          Tools stream component views that the chat renders
+                          to display results
                         </CardDescription>
                       </CardHeader>
                       <CardContent>

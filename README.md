@@ -56,7 +56,7 @@ A visitor lands on the [Home](src/app/README.md) page, learns what Maven does, a
 ## Tech stack
 
 - **Framework:** Next.js 16 (App Router, Turbopack) with React 19 and TypeScript
-- **AI / orchestration:** Vercel AI SDK 7 (`@ai-sdk/rsc` for generative streamed UI, `streamText` / `generateText` with `Output` for structured data), Google Gemini via `@ai-sdk/google` with Google Search grounding
+- **AI / orchestration:** Vercel AI SDK 7 (AI SDK UI: `useChat` from `@ai-sdk/react` over a UI message stream for generative streamed UI, `streamText` / `generateText` with `Output` for structured data), Google Gemini via `@ai-sdk/google` with Google Search grounding
 - **Web data:** Firecrawl for scraping, Tavily and Serper for external search
 - **Auth:** NextAuth.js (Google, GitHub OAuth)
 - **Data stores:** PostgreSQL (self-hosted, Neon or compatible) via Prisma ORM with `@prisma/adapter-pg` for chats and all persistent data, Upstash Redis for rate limiting and short-lived session state
@@ -78,9 +78,8 @@ src/
     history/            # Chat history grid
     rate-app/           # Feedback form
     share/              # Public shared-content viewer
-    api/                # Route handlers (ratings, etc.)
-    server/             # Agent render tools and shared streaming workflow helpers (workflow.tsx)
-    action.tsx          # AI/RSC action definitions and server actions
+    api/                # Route handlers (chat stream for useChat, ratings, etc.)
+    server/             # Orchestrator, agent render tools, stream runtime (stream-ui.ts) and workflow helpers (workflow.ts)
   database/             # Prisma client (PostgreSQL)
   components/
     maven/              # App-specific feature components (chat UI, marketing pages, etc.)

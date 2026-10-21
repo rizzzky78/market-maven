@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { getEnv } from "./utility/get-env";
+import type { Streamed } from "./types/ai";
 import {
   ProductDetailsToolResult,
   ProductDetailsInsightToolResult,
@@ -77,4 +78,18 @@ export function isProductDetailsInsightToolResult(
   result: UnionProductDetails
 ): result is ProductDetailsInsightToolResult {
   return "previousData" in result && "snapshots" in result;
+}
+
+/**
+ * Unpacks a streamed prop into `[value, error, pending]`, the tuple the
+ * stream components used to get from `useStreamableValue`.
+ */
+export function readStreamed<T>(
+  streamed: Streamed<T>
+): [T | undefined, boolean, boolean] {
+  return [
+    streamed.value,
+    streamed.status === "error",
+    streamed.status === "streaming",
+  ];
 }

@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { cache } from "react";
 import { getChats } from "@/lib/agents/action/chat-service";
 import { v4 } from "uuid";
-import { AI } from "@/app/action";
+import { MavenChatProvider } from "@/lib/utility/provider/chat-provider";
 import { Chat } from "@/components/maven/main-chat";
 
 const loadChats = cache(async (userId: string) => {
@@ -28,8 +28,13 @@ export default async function Page(props: PageProps) {
   const chats = await loadChats(username);
 
   return (
-    <AI initialAIState={{ chatId: id, username, messages: [] }}>
+    <MavenChatProvider
+      key={id}
+      chatId={id}
+      username={username}
+      initialMessages={[]}
+    >
       <Chat id={id} query={query} chats={chats} />
-    </AI>
+    </MavenChatProvider>
   );
 }

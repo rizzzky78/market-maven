@@ -2,7 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { getChat, getChats } from "@/lib/agents/action/chat-service";
 import { cache } from "react";
-import { AI } from "@/app/action";
+import { MavenChatProvider } from "@/lib/utility/provider/chat-provider";
 import { Chat } from "@/components/maven/main-chat";
 import { Metadata } from "next";
 
@@ -46,14 +46,13 @@ export default async function ChatPage(props: ChatPageProps) {
   }
 
   return (
-    <AI
-      initialAIState={{
-        username,
-        chatId: chat.chatId,
-        messages: chat.messages,
-      }}
+    <MavenChatProvider
+      key={chat.chatId}
+      chatId={chat.chatId}
+      username={username}
+      initialMessages={chat.messages}
     >
       <Chat id={id} chats={chats} />
-    </AI>
+    </MavenChatProvider>
   );
 }

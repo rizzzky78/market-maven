@@ -208,14 +208,14 @@ export default async function PrivacyPolicy() {
                   <p>
                     The App uses the
                     <Link
-                      href={"https://sdk.vercel.ai/docs/ai-sdk-rsc"}
+                      href={"https://ai-sdk.dev/docs/ai-sdk-ui"}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline mx-1"
                     >
-                      Vercel AI SDK RSC
+                      Vercel AI SDK UI
                     </Link>
-                    (experimental) for server-side processing. Data may be
+                    to stream AI responses processed on the server. Data may be
                     temporarily stored for analysis but is not used to train
                     third-party models.
                   </p>

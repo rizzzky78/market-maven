@@ -1,23 +1,14 @@
 "use client";
 
 import { PartialRelated, RelatedQuery } from "@/lib/agents/schema/related";
-import {
-  readStreamableValue,
-  StreamableValue,
-  useActions,
-  useStreamableValue,
-  useUIState,
-} from "@ai-sdk/rsc";
+import { readStreamed } from "@/lib/utils";
+import type { Streamed } from "@/lib/types/ai";
 import { ArrowRightLeft } from "lucide-react";
 import { FC, useCallback, useEffect, useState } from "react";
 import { ErrorMessage } from "./error-message";
-import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
+import { useMavenChat } from "@/lib/utility/provider/chat-provider";
 import { useMavenStateController } from "../hooks/maven-state-controller";
-import { StreamGeneration } from "@/lib/types/ai";
-import { generateId } from "ai";
-import { UserMessage } from "./user-message";
-import { toast } from "sonner";
 import { Skeleton } from "../ui/skeleton";
 import {
   CardHeader,
@@ -32,85 +23,18 @@ interface RelatedProps {
 }
 
 export const RelatedMessage: FC<RelatedProps> = ({ related }) => {
-  const [, setUIState] = useUIState<typeof AI>();
-  const { orchestrator } = useActions<typeof AI>();
-  const { isGenerating, setIsGenerating } = useAppState();
-  const {
-    attachment,
-    flush,
-    activeComparison,
-    search,
-    related: relatedOpt,
-    reffSource,
-  } = useMavenStateController();
+  const { submit } = useMavenChat();
+  const { isGenerating } = useAppState();
+  const { attachment, flush, activeComparison } = useMavenStateController();
 
   const relatedActionSubmit = useCallback(
     async (query: string) => {
       if (isGenerating) return;
 
-      try {
-        setIsGenerating(true);
-
-        const componentId = generateId();
-
-        setUIState((prevUI) => [
-          ...prevUI,
-          {
-            id: generateId(),
-            display: (
-              <UserMessage
-                key={componentId}
-                content={{
-                  text_input: query,
-                }}
-              />
-            ),
-          },
-        ]);
-
-        flush();
-
-        const { id, display, generation } = await orchestrator(
-          {
-            textInput: query,
-          },
-          {
-            onRequest: { search, related: relatedOpt, reffSource },
-          }
-        );
-
-        setUIState((prevUI) => [...prevUI, { id, display }]);
-
-        if (generation) {
-          const gens = readStreamableValue(
-            generation
-          ) as AsyncIterable<StreamGeneration>;
-          for await (const { loading } of gens) {
-            setIsGenerating(loading);
-          }
-        }
-      } catch (error) {
-        console.error("An Error occurred when submitting the query!", error);
-        toast.error("Error When Submitting the Query!", {
-          position: "top-center",
-          richColors: true,
-          className:
-            "text-xs flex justify-center rounded-xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
-        });
-      } finally {
-        setIsGenerating(false);
-      }
+      flush();
+      await submit({ textInput: query });
     },
-    [
-      flush,
-      isGenerating,
-      orchestrator,
-      reffSource,
-      relatedOpt,
-      search,
-      setIsGenerating,
-      setUIState,
-    ]
+    [flush, isGenerating, submit]
   );
 
   const isButtonDisabled = attachment
@@ -170,11 +94,11 @@ export const RelatedMessage: FC<RelatedProps> = ({ related }) => {
 };
 
 interface StreamRelatedProps {
-  content: StreamableValue<PartialRelated>;
+  content: Streamed<PartialRelated>;
 }
 
 export const StreamRelatedMessage: FC<StreamRelatedProps> = ({ content }) => {
-  const [data, error, pending] = useStreamableValue(content);
+  const [data, error, pending] = readStreamed(content);
   const [related, setRelated] = useState<PartialRelated>();
 
   useEffect(() => {

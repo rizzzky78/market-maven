@@ -4,7 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Product } from "@/lib/types/product";
 import { DeepPartial } from "ai";
-import { StreamableValue, useStreamableValue } from "@ai-sdk/rsc";
+import { readStreamed } from "@/lib/utils";
+import type { Streamed } from "@/lib/types/ai";
 import { motion, AnimatePresence } from "motion/react";
 import { Search, Info, SearchCheck, ChevronUp } from "lucide-react";
 import { FC, useState, useEffect } from "react";
@@ -60,7 +61,7 @@ const animations = {
 
 interface StreamProps {
   query: string;
-  products: StreamableValue<DeepPartial<Product[]>>;
+  products: Streamed<DeepPartial<Product[]>>;
   screenshot?: string;
   callId: string;
 }
@@ -71,7 +72,7 @@ export const StreamProductSearch: FC<StreamProps> = ({
   screenshot,
   callId,
 }) => {
-  const [raw, error, pending] = useStreamableValue(products);
+  const [raw, error, pending] = readStreamed(products);
   const [data, setData] = useState<DeepPartial<Product[]>>([]);
   const [hovering, setHovering] = useState(false);
   const [open, setOpen] = useState(true);

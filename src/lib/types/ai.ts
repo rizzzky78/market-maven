@@ -1,4 +1,4 @@
-import { createStreamableValue, StreamableValue } from "@ai-sdk/rsc";
+import type { UIMessage } from "ai";
 import { ReactNode } from "react";
 import { z } from "zod";
 
@@ -103,52 +103,6 @@ export type ExtendedRequestOption = {
 };
 
 /**
- * Interface defining the contract for message sending actions,
- * providing a method to send messages with optional controller assignments.
- */
-export type UseAction = {
-  /**
-   * Sends a message with optional payload and controller assignments
-   * @param payload Data associated with the message
-   * @param assignController Optional controllers to be executed
-   * @returns A promise resolving to the message callback
-   */
-  orchestrator: (
-    payload: PayloadData,
-    requestOption?: ExtendedRequestOption
-  ) => Promise<OrchestratorCallback>;
-  extractor?: (product: AttachProduct) => Promise<ExtractorCallback>;
-  // checkRateLimit: (uiState: UIState) => Promise<RateLimitResponse>;
-};
-
-export type TestingMessageCallback = {
-  id: string;
-  display: ReactNode;
-  generation?: StreamableValue<StreamGeneration>;
-};
-
-export type BaseActionCallback = {
-  /** Unique identifier for the message */
-  id: string;
-  /** Renderable UI representation of the message */
-  display: ReactNode;
-  /** Generation status and metadata */
-  generation?: StreamableValue<StreamGeneration>;
-};
-
-/**
- * Comprehensive callback type for tracking the full lifecycle and
- * representation of a sent message, including streaming and display capabilities.
- */
-export type OrchestratorCallback = {
-  source: "orchestrator";
-} & BaseActionCallback;
-
-export type ExtractorCallback = {
-  source: "extractor";
-} & BaseActionCallback;
-
-/**
  * Represents the AI's internal state, tracking chat context and message history.
  */
 export type AIState = {
@@ -185,9 +139,19 @@ export type MutationResult<ARGS, DATA> = {
 };
 
 /**
- * Represents a type that can either be a ReactNode or a Promise resolving to a ReactNode.
+ * Serializable description of one rendered component: the name of a
+ * component in the client view registry and its props. Tools yield these
+ * instead of React elements; the client renders them (see `view-renderer`).
  */
-export type Streamable = ReactNode | Promise<ReactNode>;
+export type ViewNode = { component: string; props: Record<string, unknown> };
+
+/** What a render tool shows: nodes in order (arrays nest like fragments). */
+export type View = ViewNode | null | undefined | false | readonly View[];
+
+/**
+ * Represents a type that can either be a View or a Promise resolving to one.
+ */
+export type Streamable = View | Promise<View>;
 
 /**
  * A type for a renderer function, which takes an array of arguments and produces streamable content.
@@ -383,43 +347,7 @@ export type MutableAIState<T = AIState> = {
   /** Updates state directly or via function */
   update: (newState: ValueOrUpdater<T>) => void;
   /** Completes state management */
-  done: (() => void) | ((newState: T) => void);
-};
-
-/**
- * Defines the structure of the context for managing AI and UI state.
- */
-export type StateContextValue = {
-  /** AI state with methods for getting, updating, and finalizing state changes. */
-  aiState: MutableAIState<AIState>;
-
-  /** UI state representing the frontend state of the application. */
-  uiState: UIState;
-
-  /** Function to update the UI state dynamically. */
-  setUiState: (newState: ValueOrUpdater<UIState>) => void;
-
-  /** Indicates whether the AI state is currently loading from the server. */
-  isLoading: boolean;
-
-  /** Captures any error encountered during AI state operations. */
-  error: Error | null;
-};
-
-/**
- * Props for the `AIProvider` component.
- */
-export type StateProviderProps = {
-  /** Unique identifier for the user whose AI state is being managed. */
-  username: string;
-  /** Child components wrapped by the provider. */
-  children: ReactNode;
-  /** Initial AI state provided to the context. */
-  initialState: AIState;
-  /** Optional initial UI state; defaults to an empty array. */
-  initialUIState?: UIState;
-  /** Whether the server-side AI state is preloaded to avoid fetching. */
-  serverPreloaded?: boolean;
+  done: (newState?: T) => void;
 };
 
 /**
@@ -479,8 +407,59 @@ export type ExtendedToolResult<A = unknown, D = unknown> = {
   data: D;
 };
 
+/**
+ * A value streamed to the client in a `data-stream` part. Components receive
+ * it as a prop and re-render as `value` grows.
+ */
+export type Streamed<T> = {
+  value?: T;
+  status: "streaming" | "done" | "error";
+};
+
+/**
+ * Server handle of a streamed value: `value` is the prop to pass to a view,
+ * `update` / `done` / `error` push new states to the client.
+ */
+export type StreamableValue<T> = {
+  value: Streamed<T>;
+  update: (value: T) => void;
+  done: (value?: T) => void;
+  error: (error: unknown) => void;
+};
+
+/** The writable side of a `StreamableValue`. */
+export type StreamableSink<T> = Omit<StreamableValue<T>, "value">;
+
+/**
+ * The chat message shape exchanged with `useChat`. User messages carry the
+ * submitted content in a `data-user` part; assistant messages carry the
+ * rendered `data-view` (replaced in place as it changes) and the
+ * `data-stream` values its nodes reference. `data-generation` is transient
+ * progress for the chat panel.
+ */
+export type MavenUIMessage = UIMessage<
+  never,
+  {
+    user: UserContentMessage;
+    view: ViewNode[];
+    stream: Streamed<unknown>;
+    generation: StreamGeneration;
+  }
+>;
+
+/**
+ * Request body of `POST /api/chat`.
+ */
+export type ChatRequestBody = {
+  chatId: string;
+  payload: PayloadData;
+  requestOption?: ExtendedRequestOption;
+};
+
 export type ToolsetProps = {
-  generation: ReturnType<typeof createStreamableValue<StreamGeneration>>;
+  generation: StreamableSink<StreamGeneration>;
+  /** Creates values streamed to the client for the current reply. */
+  createStreamable: <T>(initial?: T) => StreamableValue<T>;
   state: MutableAIState<AIState>;
   requestOption?: ExtendedRequestOption;
   userMessage?: UserContentMessage;

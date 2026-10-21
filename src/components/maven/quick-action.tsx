@@ -11,14 +11,9 @@ import {
 import { cn } from "@/lib/utils";
 import { FC, ReactNode, useCallback } from "react";
 import { motion } from "motion/react";
-import { StreamGeneration } from "@/lib/types/ai";
-import { generateId } from "ai";
-import { readStreamableValue, useActions, useUIState } from "@ai-sdk/rsc";
-import { UserMessage } from "./user-message";
-import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
+import { useMavenChat } from "@/lib/utility/provider/chat-provider";
 import { useMavenStateController } from "../hooks/maven-state-controller";
-import { toast } from "sonner";
 
 const predefinedActions: {
   action: string;
@@ -51,81 +46,18 @@ const predefinedActions: {
 ];
 
 export const QuickActionButton: FC = () => {
-  const [, setUIState] = useUIState<typeof AI>();
-  const { orchestrator } = useActions<typeof AI>();
-  const { isGenerating, setIsGenerating } = useAppState();
-  const { attachment, flush, activeComparison, search, related, reffSource } =
-    useMavenStateController();
+  const { submit } = useMavenChat();
+  const { isGenerating } = useAppState();
+  const { flush } = useMavenStateController();
 
   const actionSubmit = useCallback(
     async (query: string) => {
       if (isGenerating) return;
 
-      try {
-        setIsGenerating(true);
-
-        const componentId = generateId();
-
-        setUIState((prevUI) => [
-          ...prevUI,
-          {
-            id: generateId(),
-            display: (
-              <UserMessage
-                key={componentId}
-                content={{
-                  text_input: query,
-                  attach_product: attachment,
-                  product_compare: activeComparison,
-                }}
-              />
-            ),
-          },
-        ]);
-
-        flush();
-
-        const { id, display, generation } = await orchestrator(
-          {
-            textInput: query,
-          },
-          { onRequest: { search, related, reffSource } }
-        );
-
-        setUIState((prevUI) => [...prevUI, { id, display }]);
-
-        if (generation) {
-          const gens = readStreamableValue(
-            generation
-          ) as AsyncIterable<StreamGeneration>;
-          for await (const { loading } of gens) {
-            setIsGenerating(loading);
-          }
-        }
-      } catch (error) {
-        console.error("An Error occured when submitting the query!", error);
-        toast.error("Error When Submitting the Query!", {
-          position: "top-center",
-          richColors: true,
-          className:
-            "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
-        });
-      } finally {
-        setIsGenerating(false);
-      }
+      flush();
+      await submit({ textInput: query });
     },
-    [
-      activeComparison,
-      attachment,
-      flush,
-      isGenerating,
-      orchestrator,
-      reffSource,
-      related,
-      search,
-      setIsGenerating,
-      setUIState,
-    ]
+    [flush, isGenerating, submit]
   );
   return (
     <div className="mb-6 w-full">

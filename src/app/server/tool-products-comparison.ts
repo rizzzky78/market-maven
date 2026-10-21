@@ -7,19 +7,6 @@
 
 import { models } from "@/lib/agents/models";
 import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
-import {
-  StreamAssistantMessage,
-  AssistantMessage,
-} from "@/components/maven/assistant-message";
-import { ErrorMessage } from "@/components/maven/error-message";
-import { StreamExtendedMessage } from "@/components/maven/extended-message";
-import { ProductComparison } from "@/components/maven/product-comparison";
-import {
-  StreamRelatedMessage,
-  RelatedMessage,
-} from "@/components/maven/related-message";
-import { LoadingText } from "@/components/maven/shining-glass";
-import { StreamProductComparison } from "@/components/maven/stream-product-comparison";
 import { TEMPLATE } from "@/lib/agents/constant";
 import { COMPARISON_EXTRACTOR_SYSTEM_INSTRUCTION } from "@/lib/agents/constant/md/comparison-extractor";
 import { COMPARISON_INSIGHT_SYSTEM_INSTRUCTION } from "@/lib/agents/constant/md/comparison-insight";
@@ -31,7 +18,6 @@ import { RenderTool, ToolsetProps } from "@/lib/types/ai";
 import { ComparisonData, ProductDetails } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
 import { Output, smoothStream } from "ai";
-import { createStreamableValue } from "@ai-sdk/rsc";
 import { v4 } from "uuid";
 import {
   commitToolResult,
@@ -41,12 +27,14 @@ import {
   streamRelatedQuery,
   streamTextToValue,
 } from "./workflow";
+import { ui } from "./stream-ui";
 
 const toolProductComparison = ({
   generation,
   state,
   requestOption,
   userMessage,
+  createStreamable,
 }: ToolsetProps) => {
   const productsComparison: RenderTool<typeof productsComparionSchema> = {
     description: TEMPLATE.products_comparison_description,
@@ -74,7 +62,7 @@ const toolProductComparison = ({
         } as ComparisonData,
       };
 
-      yield <LoadingText text="Getting given products data..." />;
+      yield ui("LoadingText", { text: "Getting given products data..." });
 
       const resulted = await Promise.all(
         compare.map((v) => getObjectEntry<ProductDetails>(v.callId))
@@ -96,22 +84,20 @@ const toolProductComparison = ({
           error: `Error cannot access data with keys: [${getKeys}]`,
         });
 
-        return (
-          <ErrorMessage
-            errorName="Product Data Not Found"
-            reason="Comparison needs the details of both products. Open each product's details first, then compare them again."
-            raw={{
-              payload: { compare },
-              resulted: null,
-            }}
-          />
-        );
+        return ui("ErrorMessage", {
+          errorName: "Product Data Not Found",
+          reason:
+            "Comparison needs the details of both products. Open each product's details first, then compare them again.",
+          raw: {
+            payload: { compare },
+            resulted: null,
+          },
+        });
       }
 
-      yield <LoadingText text="Found previous products data" />;
+      yield ui("LoadingText", { text: "Found previous products data" });
 
-
-      yield <LoadingText text="Generating comparison..." />;
+      yield ui("LoadingText", { text: "Generating comparison..." });
 
       const comparisonPayload = previousProductsData.map(
         (data) => data.object.object
@@ -122,19 +108,15 @@ const toolProductComparison = ({
         loading: true,
       });
 
-      const streamableComparison = createStreamableValue<Record<string, any>>(
-        {}
-      );
+      const streamableComparison = createStreamable<Record<string, any>>({});
 
-      yield (
-        <StreamProductComparison
-          content={streamableComparison.value}
-          data={{
-            compare,
-            userIntent: userMessage?.text_input,
-          }}
-        />
-      );
+      yield ui("StreamProductComparison", {
+        content: streamableComparison.value,
+        data: {
+          compare,
+          userIntent: userMessage?.text_input,
+        },
+      });
 
       const comparison = await streamOutputToValue(
         streamableComparison,
@@ -163,14 +145,12 @@ const toolProductComparison = ({
         loading: true,
       });
 
-      const streamableTable = createStreamableValue("");
+      const streamableTable = createStreamable("");
 
-      yield (
-        <StreamExtendedMessage
-          title="Crafting comparison table..."
-          content={streamableTable.value}
-        />
-      );
+      yield ui("StreamExtendedMessage", {
+        title: "Crafting comparison table...",
+        content: streamableTable.value,
+      });
 
       finalizedToolData.data.object.markdownTable = await streamTextToValue(
         streamableTable,
@@ -188,21 +168,19 @@ const toolProductComparison = ({
         loading: true,
       });
 
-      const streamableInsight = createStreamableValue<string>("");
+      const streamableInsight = createStreamable<string>("");
 
-      yield (
-        <>
-          <ProductComparison
-            content={{
-              success: true,
-              name: "productComparison",
-              args: finalizedToolData.args,
-              data: finalizedToolData.data,
-            }}
-          />
-          <StreamAssistantMessage content={streamableInsight.value} />
-        </>
-      );
+      yield [
+        ui("ProductComparison", {
+          content: {
+            success: true,
+            name: "productComparison",
+            args: finalizedToolData.args,
+            data: finalizedToolData.data,
+          },
+        }),
+        ui("StreamAssistantMessage", { content: streamableInsight.value }),
+      ];
 
       const insightPayload = {
         userIntent: userMessage?.text_input,
@@ -236,19 +214,17 @@ const toolProductComparison = ({
         object: finalizedToolData.data,
       });
 
-      const productsComparisonUiNode = (
-        <>
-          <ProductComparison
-            content={{
-              success: true,
-              name: "productsComparison",
-              args: finalizedToolData.args,
-              data: finalizedToolData.data,
-            }}
-          />
-          <AssistantMessage content={insightText} />
-        </>
-      );
+      const productsComparisonUiNode = [
+        ui("ProductComparison", {
+          content: {
+            success: true,
+            name: "productsComparison",
+            args: finalizedToolData.args,
+            data: finalizedToolData.data,
+          },
+        }),
+        ui("AssistantMessage", { content: insightText }),
+      ];
 
       const mutate = await commitToolResult(
         state,
@@ -272,14 +248,12 @@ const toolProductComparison = ({
           loading: true,
         });
 
-        const streamableRelated = createStreamableValue<PartialRelated>();
+        const streamableRelated = createStreamable<PartialRelated>();
 
-        yield (
-          <>
-            {productsComparisonUiNode}
-            <StreamRelatedMessage content={streamableRelated.value} />
-          </>
-        );
+        yield [
+          productsComparisonUiNode,
+          ui("StreamRelatedMessage", { content: streamableRelated.value }),
+        ];
 
         relatedObject = await streamRelatedQuery(
           streamableRelated,
@@ -293,14 +267,11 @@ const toolProductComparison = ({
       const failure = finishGeneration(generation, errorState, { compare });
       if (failure) return failure;
 
-      return (
-        <>
-          {productsComparisonUiNode}
-          {requestOption?.onRequest?.related && (
-            <RelatedMessage related={relatedObject} />
-          )}
-        </>
-      );
+      return [
+        productsComparisonUiNode,
+        requestOption?.onRequest?.related &&
+          ui("RelatedMessage", { related: relatedObject }),
+      ];
     },
   };
 

@@ -2,7 +2,7 @@ import { cache, FC } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { getServerSession } from "next-auth";
 import { getChats } from "@/lib/agents/action/chat-service";
-import { AI } from "../action";
+import { MavenChatProvider } from "@/lib/utility/provider/chat-provider";
 import { Chat } from "@/components/maven/main-chat";
 
 const loadChats = cache(async (userId: string) => {
@@ -17,9 +17,14 @@ const Page: FC = async () => {
   const chats = await loadChats(username);
 
   return (
-    <AI initialAIState={{ chatId: id, username, messages: [] }}>
+    <MavenChatProvider
+      key={id}
+      chatId={id}
+      username={username}
+      initialMessages={[]}
+    >
       <Chat id={id} chats={chats} />
-    </AI>
+    </MavenChatProvider>
   );
 };
 

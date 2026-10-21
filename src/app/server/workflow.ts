@@ -1,12 +1,10 @@
 /**
  * Shared building blocks for the render tools and the orchestrator:
- * streaming model output into RSC streamable values, the related-query
+ * streaming model output into streamed `data-stream` values, the related-query
  * follow-up, persisting tool results and closing the generation status.
  */
 
 import { models } from "@/lib/agents/models";
-import { ReactNode } from "react";
-import { ErrorMessage } from "@/components/maven/error-message";
 import { toPayloadRelatedMessage } from "@/lib/agents/action/mutator/mutate-messages";
 import { mutateTool } from "@/lib/agents/action/mutator/mutate-tool";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
@@ -21,7 +19,7 @@ import {
   MessageProperty,
   MutableAIState,
   MutationPayload,
-  RenderTool,
+  StreamableSink,
   ToolsetProps,
 } from "@/lib/types/ai";
 import logger from "@/lib/utility/logger";
@@ -33,6 +31,7 @@ import {
   OutputInterface,
   streamText,
 } from "ai";
+import { ui } from "./stream-ui";
 
 export type ErrorState = { isError: boolean; error: unknown };
 
@@ -41,13 +40,6 @@ export const createErrorState = (): ErrorState => ({
   isError: false,
   error: null,
 });
-
-/** The part of a `createStreamableValue` handle the helpers write to. */
-type StreamableSink<T> = {
-  update: (value: T) => unknown;
-  done: () => unknown;
-  error: (error: unknown) => unknown;
-};
 
 // Distributive, so the `prompt` / `messages` union of the options survives.
 type StreamOptions = Parameters<typeof streamText>[0] extends infer O
@@ -58,8 +50,7 @@ type StreamOptions = Parameters<typeof streamText>[0] extends infer O
 
 /**
  * Runs `streamText` with an `onError` that records the failure, and closes the
- * streamable exactly once after the stream ends: `done()` on success, `error()`
- * on failure. Closing twice throws in `@ai-sdk/rsc`.
+ * streamable after the stream ends: `done()` on success, `error()` on failure.
  */
 async function pipe<T, R>(
   streamable: StreamableSink<T>,
@@ -211,69 +202,25 @@ export function finishGeneration(
     error: "LLM Generation Error",
   });
 
-  return (
-    <ErrorMessage
-      errorName="LLM Error"
-      reason="There was an error on LLMs Agent generation, that's all we know :("
-      raw={{ payload, error: errorState }}
-    />
-  );
+  return ui("ErrorMessage", {
+    errorName: "LLM Error",
+    reason: "There was an error on LLMs Agent generation, that's all we know :(",
+    raw: { payload, error: errorState },
+  });
 }
 
 
 /**
- * Ends the generation status with an error. Ignores a second close: the tool
- * may already have closed it, and closing twice throws in `@ai-sdk/rsc`.
+ * Ends the generation status with an error. A no-op when the tool already
+ * closed it.
  */
 export function failGeneration(
   generation: ToolsetProps["generation"],
   error: unknown
 ) {
-  try {
-    generation.done({
-      process: "tool:fatal-error",
-      loading: false,
-      error: error instanceof Error ? error.message : String(error),
-    });
-  } catch {
-    // already closed
-  }
-}
-
-/**
- * Wraps a render tool so an exception (scrape, database, model) renders an
- * error card and releases the generation status. Without it the exception
- * errors the whole streamed UI and the client keeps waiting on `generation`,
- * leaving the chat input locked.
- */
-export function withToolErrorBoundary<T extends RenderTool>(
-  name: string,
-  tool: T,
-  generation: ToolsetProps["generation"]
-): T {
-  const generate = tool.generate;
-  if (!generate) return tool;
-
-  return {
-    ...tool,
-    generate: async function* (...args: Parameters<typeof generate>) {
-      try {
-        const result = generate(...args);
-        return typeof (result as AsyncGenerator)?.next === "function"
-          ? yield* result as AsyncGenerator<ReactNode, ReactNode, void>
-          : await result;
-      } catch (error) {
-        logger.error(`Tool ${name} failed`, { error });
-        failGeneration(generation, error);
-
-        return (
-          <ErrorMessage
-            errorName="Something went wrong"
-            reason="This step failed before it could finish. Please try again; if it keeps failing, rephrase the request or try another product."
-            raw={{ tool: name, error: String(error) }}
-          />
-        );
-      }
-    },
-  };
+  generation.done({
+    process: "tool:fatal-error",
+    loading: false,
+    error: error instanceof Error ? error.message : String(error),
+  });
 }

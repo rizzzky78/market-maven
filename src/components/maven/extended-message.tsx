@@ -12,7 +12,8 @@ import { Markdown } from "@/components/maven/markdown";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { StreamableValue, useStreamableValue } from "@ai-sdk/rsc";
+import { readStreamed } from "@/lib/utils";
+import type { Streamed } from "@/lib/types/ai";
 import { Loader } from "lucide-react";
 import { ErrorMessage } from "@/components/maven/error-message";
 
@@ -71,7 +72,7 @@ export const ExtendedMessage: FC<ExtendedMessageProps> = ({
 
 interface StreamExtendedMessageProps {
   tavilyAnswer?: string;
-  content: StreamableValue<string>;
+  content: Streamed<string>;
   title?: string;
 }
 
@@ -80,7 +81,7 @@ export const StreamExtendedMessage: FC<StreamExtendedMessageProps> = ({
   tavilyAnswer,
   title,
 }) => {
-  const [raw, error, pending] = useStreamableValue<string>(content);
+  const [raw, error, pending] = readStreamed(content);
   const [text, setText] = useState("");
 
   useEffect(() => {

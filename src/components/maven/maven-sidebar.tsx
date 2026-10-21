@@ -33,9 +33,7 @@ import Link from "next/link";
 import { formatDateWithTime } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import { motion } from "motion/react";
-import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import { useUIState, useAIState } from "@ai-sdk/rsc";
 import { useMavenStateController } from "../hooks/maven-state-controller";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -68,8 +66,6 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
   const { setTheme, resolvedTheme } = useTheme();
   const { isGenerating, setIsGenerating } = useAppState();
   const { flush } = useMavenStateController();
-  const [, setUIState] = useUIState<typeof AI>();
-  const [, setAIState] = useAIState<typeof AI>();
 
   const [isTourActive, setIsTourActive] = useState(false);
   const driverRef = useRef<Driver | null>(null);
@@ -79,8 +75,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
   const handleNewChat = () => {
     setIsGenerating(false);
     flush();
-    setUIState([]);
-    setAIState((prevAIState) => ({ ...prevAIState, messages: [], chatId: "" }));
+    // A new chat id remounts the chat provider with an empty conversation.
     router.push("/chat");
   };
 

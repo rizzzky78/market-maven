@@ -23,12 +23,12 @@ const INTERRUPTED_NOTICE =
 /**
  * Turns a failure in the middle of a model stream into a normal ending.
  *
- * `streamUI` errors the whole rendered reply on an `error` part or a broken
- * stream. This ends the stream instead: with a short notice when the model was
- * writing text, or silently when a tool call already went out (the tool keeps
- * rendering). Tool input parts are dropped because `streamUI` only uses them to
- * flag a tool call, and a flagged call that never arrives leaves the reply
- * stuck on its loading state; the complete `tool-call` part sets the flag.
+ * An `error` part or a broken stream would otherwise end the orchestrator's
+ * reply with an error. This ends the stream instead: with a short notice when
+ * the model was writing text, or silently when a tool call already went out
+ * (the tool keeps rendering). Tool input parts are dropped: only the complete
+ * `tool-call` part runs a tool, and a partial call that never completes must
+ * not count as one.
  */
 export const recoverStreamErrors: LanguageModelMiddleware = {
   wrapStream: async ({ doStream }) => {
@@ -101,7 +101,7 @@ export const recoverStreamErrors: LanguageModelMiddleware = {
 /**
  * Model tiers used across the agent pipeline. Pick by the job, not by habit:
  *
- * - `orchestrator`: `reasoning` plus stream-error recovery for `streamUI`.
+ * - `orchestrator`: `reasoning` plus stream-error recovery for the chat reply.
  * - `reasoning`: routing, research and user-facing analysis (thinking on).
  * - `extract`: same model with thinking off, for turning scraped pages or
  *   search results into JSON/tables. The answer is in the input, so thinking

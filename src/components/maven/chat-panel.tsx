@@ -1,18 +1,6 @@
 "use client";
 
-import {
-  RateLimitResponse,
-  RefferenceDataSource,
-  StreamGeneration,
-  UIState,
-} from "@/lib/types/ai";
-import { generateId } from "ai";
-import {
-  readStreamableValue,
-  useActions,
-  useAIState,
-  useUIState,
-} from "@ai-sdk/rsc";
+import { RateLimitResponse, RefferenceDataSource } from "@/lib/types/ai";
 import {
   FormEvent,
   useEffect,
@@ -22,7 +10,6 @@ import {
   useCallback,
   useState,
 } from "react";
-import { UserMessage } from "@/components/maven/user-message";
 import { AnimatePresence } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { ArrowUp, Globe, ListEnd, Loader } from "lucide-react";
@@ -39,7 +26,7 @@ import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { useDebounceInput } from "@/components/hooks/use-debounced-input";
 import { useMavenStateController } from "@/components/hooks/maven-state-controller";
 import { AttachProductBadge } from "@/components/maven/attach-product";
-import { AI } from "@/app/action";
+import { useMavenChat } from "@/lib/utility/provider/chat-provider";
 import { AttachCompareBadge } from "@/components/maven/attach-compare";
 import { cn } from "@/lib/utils";
 import { RateLimit } from "@/components/maven/rate-limit-modal";
@@ -57,10 +44,11 @@ import {
 import Image from "next/image";
 
 interface ChatPanelProps {
-  uiState: UIState;
+  /** Whether the chat has no messages yet */
+  isEmpty: boolean;
 }
 
-export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
+export const ChatPanel: FC<ChatPanelProps> = ({ isEmpty }) => {
   const {
     input,
     attachment,
@@ -93,12 +81,8 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     }
   }, [value]);
 
-  const [, setUIState] = useUIState<typeof AI>();
-  const [aiState] = useAIState<typeof AI>();
-  const { orchestrator } = useActions<typeof AI>();
+  const { aiState, submit, stage: stageProcess } = useMavenChat();
   const { isGenerating, setIsGenerating } = useAppState();
-
-  const [stageProcess, setStageProcess] = useState<string>("");
 
   const [rateLimit, setRateLimit] = useState<RateLimitResponse | null>(null);
   const [isCheckingRateLimit, setIsCheckingRateLimit] = useState(false);
@@ -174,46 +158,12 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       flush();
       handleReset();
 
-      const componentId = generateId();
-
-      setUIState((prevUI) => [
-        ...prevUI,
-        {
-          id: generateId(),
-          display: (
-            <UserMessage
-              key={componentId}
-              content={{
-                text_input: value,
-                attach_product: attachment,
-                product_compare: activeComparison,
-              }}
-            />
-          ),
-        },
-      ]);
-
-      // Process the message
-      const { id, display, generation } = await orchestrator(
-        {
-          textInput: value.length > 0 ? value : undefined,
-          attachProduct: attachment,
-          productCompare: activeComparison,
-        },
-        { onRequest: { search, related, reffSource } }
-      );
-
-      setUIState((prevUI) => [...prevUI, { id, display }]);
-
-      if (generation) {
-        const gens = readStreamableValue(
-          generation
-        ) as AsyncIterable<StreamGeneration>;
-        for await (const { loading, process } of gens) {
-          setIsGenerating(loading);
-          setStageProcess(process);
-        }
-      }
+      // Resolves once the reply has finished streaming
+      await submit({
+        textInput: value.length > 0 ? value : undefined,
+        attachProduct: attachment,
+        productCompare: activeComparison,
+      });
 
       // Record the successful request asynchronously
       recordSuccessfulRequest(aiState).catch((error) => {
@@ -230,8 +180,6 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
         }
       }, 1000);
     } catch (error) {
-      /** Fallback to previous state */
-      setUIState((prevUI) => prevUI.slice(0, -1));
       console.error("An Error occured when submitting the query!", error);
       toast.error("Error When Submitting the Query!", {
         position: "top-center",
@@ -240,7 +188,6 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
           "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
       });
     } finally {
-      setIsGenerating(false);
       setIsCheckingRateLimit(false);
     }
   }, [
@@ -248,13 +195,9 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
     attachment,
     flush,
     handleReset,
-    orchestrator,
+    submit,
     rateLimit,
-    reffSource,
-    related,
-    search,
     setIsGenerating,
-    setUIState,
     value,
     aiState,
   ]);
@@ -296,7 +239,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
       ? "Ask a question about this product"
       : activeComparison?.for.length
       ? "What interests you about this comparison?"
-      : uiState.length === 0
+      : isEmpty
       ? "What would you like to search for?"
       : "Ask a follow-up question";
 
@@ -328,7 +271,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ uiState }) => {
 
   return (
     <div className="w-full pb-3 md:pb-4" data-testid="chat-panel">
-      {uiState.length === 0 && <QuickActionButton />}
+      {isEmpty && <QuickActionButton />}
       <AnimatePresence mode="sync">
         {attachment && (
           <AttachProductBadge

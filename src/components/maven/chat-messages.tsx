@@ -1,14 +1,21 @@
-import { UIState } from "@/lib/types/ai";
-import { FC } from "react";
+import { LiveMessages } from "@/components/custom/view-renderer";
+import { MavenUIMessage, UIState } from "@/lib/types/ai";
+import { FC, Fragment } from "react";
 
 interface MessagesProps {
-  ui: UIState;
+  /** Saved messages restored by `mapUIState` */
+  history: UIState;
+  /** Messages streamed since the page loaded */
+  messages: MavenUIMessage[];
 }
 
-export const ChatMessages: FC<MessagesProps> = ({ ui }) => {
+export const ChatMessages: FC<MessagesProps> = ({ history, messages }) => {
   return (
     <div className="space-y-6 md:space-y-8">
-      {ui.map((component) => component.display)}
+      {history.map((component) => (
+        <Fragment key={component.id}>{component.display}</Fragment>
+      ))}
+      <LiveMessages messages={messages} />
     </div>
   );
 };

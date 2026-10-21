@@ -6,20 +6,6 @@
  */
 
 import { models } from "@/lib/agents/models";
-import {
-  StreamAssistantMessage,
-  AssistantMessage,
-} from "@/components/maven/assistant-message";
-import {
-  StreamRecommendationAction,
-  RecommendationAction,
-} from "@/components/maven/recommendation-action";
-import { RecommendationSkeleton } from "@/components/maven/recommendation-skeleton";
-import {
-  StreamRelatedMessage,
-  RelatedMessage,
-} from "@/components/maven/related-message";
-import { LoadingText } from "@/components/maven/shining-glass";
 import { TEMPLATE } from "@/lib/agents/constant";
 import SYSTEM_INSTRUCTION from "@/lib/agents/constant/md";
 import { groundingPolicy } from "@/lib/agents/constant/md/grounding";
@@ -35,7 +21,6 @@ import { RecommendationResponse } from "@/lib/types/product";
 import logger from "@/lib/utility/logger";
 import { google } from "@ai-sdk/google";
 import { DeepPartial, generateText, Output } from "ai";
-import { createStreamableValue } from "@ai-sdk/rsc";
 import { v4 } from "uuid";
 import {
   commitToolResult,
@@ -45,11 +30,13 @@ import {
   streamRelatedQuery,
   streamTextToValue,
 } from "./workflow";
+import { ui } from "./stream-ui";
 
 const toolRecommendator = ({
   generation,
   state,
   requestOption,
+  createStreamable,
 }: ToolsetProps) => {
   const recommendator: RenderTool<typeof recommendatorSchema> = {
     description: TEMPLATE.recommendator_description,
@@ -58,9 +45,9 @@ const toolRecommendator = ({
       const toolRequestId = v4();
       const errorState = createErrorState();
 
-      yield (
-        <LoadingText text="Crafting an recommendations based on your thought..." />
-      );
+      yield ui("LoadingText", {
+        text: "Crafting an recommendations based on your thought...",
+      });
 
       logger.info("Using recommendator tool", {
         progress: "initial",
@@ -83,12 +70,12 @@ const toolRecommendator = ({
         loading: true,
       });
 
-      yield (
-        <>
-          <LoadingText text="Researching current models that fit your needs..." />
-          <RecommendationSkeleton />
-        </>
-      );
+      yield [
+        ui("LoadingText", {
+          text: "Researching current models that fit your needs...",
+        }),
+        ui("RecommendationSkeleton", {}),
+      ];
 
       // Step 1: search-grounded research. Gemini 2.x cannot combine Google
       // Search with JSON output in one call, so research and extraction are
@@ -112,7 +99,7 @@ const toolRecommendator = ({
         sources: finalizedRecommendator.sources?.length,
       });
 
-      const streamableRecommendation = createStreamableValue<
+      const streamableRecommendation = createStreamable<
         DeepPartial<ProductsRecommendation>
       >({ recommendations: [] });
 
@@ -121,12 +108,10 @@ const toolRecommendator = ({
         loading: true,
       });
 
-      yield (
-        <StreamRecommendationAction
-          callId={toolRequestId}
-          content={streamableRecommendation.value}
-        />
-      );
+      yield ui("StreamRecommendationAction", {
+        callId: toolRequestId,
+        content: streamableRecommendation.value,
+      });
 
       // Step 2: structure the researched candidates.
       const recommendation = await streamOutputToValue(
@@ -152,21 +137,21 @@ const toolRecommendator = ({
         loading: true,
       });
 
-      const streamableInsight = createStreamableValue("");
+      const streamableInsight = createStreamable("");
 
-      yield (
-        <>
-          <RecommendationAction
-            content={{
-              success: true,
-              name: "recommendator",
-              args: { intent, scope },
-              data: finalizedRecommendator,
-            }}
-          />
-          <StreamAssistantMessage content={streamableInsight.value} />
-        </>
-      );
+      const recommendationNode = ui("RecommendationAction", {
+        content: {
+          success: true,
+          name: "recommendator",
+          args: { intent, scope },
+          data: finalizedRecommendator,
+        },
+      });
+
+      yield [
+        recommendationNode,
+        ui("StreamAssistantMessage", { content: streamableInsight.value }),
+      ];
 
       const finalizedInsight = await streamTextToValue(
         streamableInsight,
@@ -192,19 +177,10 @@ const toolRecommendator = ({
         loading: true,
       });
 
-      const recommendatorUiNode = (
-        <>
-          <RecommendationAction
-            content={{
-              success: true,
-              name: "recommendator",
-              args: { intent, scope },
-              data: finalizedRecommendator,
-            }}
-          />
-          <AssistantMessage content={finalizedInsight} />
-        </>
-      );
+      const recommendatorUiNode = [
+        recommendationNode,
+        ui("AssistantMessage", { content: finalizedInsight }),
+      ];
 
       const mutate = await commitToolResult(
         state,
@@ -228,14 +204,12 @@ const toolRecommendator = ({
       let relatedObject: RelatedQuery | null = null;
 
       if (requestOption?.onRequest?.related) {
-        const streamableRelated = createStreamableValue<PartialRelated>();
+        const streamableRelated = createStreamable<PartialRelated>();
 
-        yield (
-          <>
-            {recommendatorUiNode}
-            <StreamRelatedMessage content={streamableRelated.value} />
-          </>
-        );
+        yield [
+          recommendatorUiNode,
+          ui("StreamRelatedMessage", { content: streamableRelated.value }),
+        ];
 
         relatedObject = await streamRelatedQuery(
           streamableRelated,
@@ -251,14 +225,11 @@ const toolRecommendator = ({
       });
       if (failure) return failure;
 
-      return (
-        <>
-          {recommendatorUiNode}
-          {requestOption?.onRequest?.related && (
-            <RelatedMessage related={relatedObject} />
-          )}
-        </>
-      );
+      return [
+        recommendatorUiNode,
+        requestOption?.onRequest?.related &&
+          ui("RelatedMessage", { related: relatedObject }),
+      ];
     },
   };
 

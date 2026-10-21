@@ -9,10 +9,10 @@ import {
 import { MavenSidebar } from "./maven-sidebar";
 import { ChatProperties } from "@/lib/types/ai";
 import { ShareButton } from "./share-button";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
-import { AI } from "@/app/action";
-import { useUIState } from "@ai-sdk/rsc";
+import { useMavenChat } from "@/lib/utility/provider/chat-provider";
+import { mapUIState } from "@/components/custom/ui-mapper";
 import { cn } from "@/lib/utils";
 import { ChatMessages } from "./chat-messages";
 import { ChatPanel } from "./chat-panel";
@@ -25,23 +25,25 @@ type ChatProps = {
 
 export const Chat: FC<ChatProps> = ({ id, query, chats }) => {
   const path = usePathname();
-  const [uiMessage] = useUIState<typeof AI>();
+  const { history, messages } = useMavenChat();
+  const historyUI = useMemo(() => mapUIState(history), [history]);
+  const messageCount = historyUI.length + messages.length;
 
   useEffect(() => {
-    if (!path.includes(`chat/c/`) && uiMessage.length === 1) {
+    if (!path.includes(`chat/c/`) && messageCount === 1) {
       window.history.replaceState({}, "", `/chat/c/${id}`);
     }
-  }, [id, path, query, uiMessage]);
+  }, [id, path, query, messageCount]);
 
   // Keep the newest message in view as the conversation grows
   useEffect(() => {
-    if (uiMessage.length > 0) {
+    if (messageCount > 0) {
       window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
     }
-  }, [uiMessage.length]);
+  }, [messageCount]);
 
   const selectedChat = chats.find((c) => c.chatId === (id as string));
-  const isEmpty = uiMessage.length === 0;
+  const isEmpty = messageCount === 0;
 
   return (
     <SidebarProvider
@@ -82,7 +84,7 @@ export const Chat: FC<ChatProps> = ({ id, query, chats }) => {
               className="mx-auto flex w-full max-w-3xl flex-1 flex-col pt-6 pb-8 md:pt-10"
               data-testid="chat-messages"
             >
-              <ChatMessages ui={uiMessage} />
+              <ChatMessages history={historyUI} messages={messages} />
             </div>
           )}
           <div
@@ -92,7 +94,7 @@ export const Chat: FC<ChatProps> = ({ id, query, chats }) => {
                 "sticky bottom-0 bg-linear-to-t from-background from-70% to-transparent pt-6"
             )}
           >
-            <ChatPanel uiState={uiMessage} />
+            <ChatPanel isEmpty={isEmpty} />
           </div>
         </div>
       </SidebarInset>

@@ -4,20 +4,12 @@ import { FC, useCallback, useEffect, useState } from "react";
 import { RotateCwSquare, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "motion/react";
-import { AI } from "@/app/action";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
-import {
-  useUIState,
-  useActions,
-  readStreamableValue,
-  StreamableValue,
-  useStreamableValue,
-} from "@ai-sdk/rsc";
+import { useMavenChat } from "@/lib/utility/provider/chat-provider";
 import { useMavenStateController } from "@/components/hooks/maven-state-controller";
-import { StreamGeneration } from "@/lib/types/ai";
-import { DeepPartial, generateId } from "ai";
-import { toast } from "sonner";
-import { UserMessage } from "@/components/maven/user-message";
+import { readStreamed } from "@/lib/utils";
+import type { Streamed } from "@/lib/types/ai";
+import { DeepPartial } from "ai";
 import { ProductsRecommendation } from "@/lib/agents/schema/product";
 import { ErrorMessage } from "@/components/maven/error-message";
 import { ProductRecommendationProps } from "@/lib/types/props";
@@ -52,79 +44,18 @@ const RecommendationSources: FC<{
 export const RecommendationAction: FC<ProductRecommendationProps> = ({
   content,
 }) => {
-  const [, setUIState] = useUIState<typeof AI>();
-  const { orchestrator } = useActions<typeof AI>();
-  const { isGenerating, setIsGenerating } = useAppState();
-  const { attachment, activeComparison, flush, search, related, reffSource } =
-    useMavenStateController();
+  const { submit } = useMavenChat();
+  const { isGenerating } = useAppState();
+  const { attachment, activeComparison, flush } = useMavenStateController();
 
   const actionSubmit = useCallback(
     async (query: string) => {
       if (isGenerating) return;
 
-      try {
-        const template = `Search for ${query}`;
-
-        setIsGenerating(true);
-
-        const componentId = generateId();
-
-        setUIState((prevUI) => [
-          ...prevUI,
-          {
-            id: generateId(),
-            display: (
-              <UserMessage
-                key={componentId}
-                content={{
-                  text_input: template,
-                }}
-              />
-            ),
-          },
-        ]);
-
-        flush();
-
-        const { id, display, generation } = await orchestrator(
-          {
-            textInput: template,
-          },
-          { onRequest: { search, related, reffSource } }
-        );
-
-        setUIState((prevUI) => [...prevUI, { id, display }]);
-
-        if (generation) {
-          const gens = readStreamableValue(
-            generation
-          ) as AsyncIterable<StreamGeneration>;
-          for await (const { loading } of gens) {
-            setIsGenerating(loading);
-          }
-        }
-      } catch (error) {
-        console.error("An Error occured when submitting the query!", error);
-        toast.error("Error When Submitting the Query!", {
-          position: "top-center",
-          richColors: true,
-          className:
-            "text-xs flex justify-center rounded-xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
-        });
-      } finally {
-        setIsGenerating(false);
-      }
+      flush();
+      await submit({ textInput: `Search for ${query}` });
     },
-    [
-      flush,
-      isGenerating,
-      orchestrator,
-      reffSource,
-      related,
-      search,
-      setIsGenerating,
-      setUIState,
-    ]
+    [flush, isGenerating, submit]
   );
 
   const isButtonDisabled = attachment
@@ -391,13 +322,13 @@ export const TemplateRecommendationAction: FC<ProductRecommendationProps> = ({
 
 interface StreamRecommendationActionProps {
   callId: string;
-  content: StreamableValue<DeepPartial<ProductsRecommendation>>;
+  content: Streamed<DeepPartial<ProductsRecommendation>>;
 }
 
 export const StreamRecommendationAction: FC<
   StreamRecommendationActionProps
 > = ({ callId, content }) => {
-  const [raw, error, pending] = useStreamableValue(content);
+  const [raw, error, pending] = readStreamed(content);
   const [data, setData] = useState<DeepPartial<ProductsRecommendation>>();
 
   useEffect(() => {

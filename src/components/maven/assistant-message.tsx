@@ -4,7 +4,8 @@ import { FC, useEffect, useState } from "react";
 import { Markdown } from "./markdown";
 import { Button } from "../ui/button";
 import { Check, Copy } from "lucide-react";
-import { StreamableValue, useStreamableValue } from "@ai-sdk/rsc";
+import { readStreamed } from "@/lib/utils";
+import type { Streamed } from "@/lib/types/ai";
 import { ErrorMessage } from "./error-message";
 
 const MessageBody: FC<{ text: string }> = ({ text }) => {
@@ -48,11 +49,11 @@ export const AssistantMessage: FC<MessageProps> = ({ content }) => {
 };
 
 interface StreamMessageProps {
-  content: StreamableValue<string>;
+  content: Streamed<string>;
 }
 
 export const StreamAssistantMessage: FC<StreamMessageProps> = ({ content }) => {
-  const [data, error] = useStreamableValue(content);
+  const [data, error] = readStreamed(content);
   const [contentText, setContentText] = useState<string>("");
 
   useEffect(() => {

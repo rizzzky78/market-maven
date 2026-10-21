@@ -6,11 +6,12 @@ import { MemoProductComparison } from "@/components/maven/memo-product-compariso
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { motion, AnimatePresence, type Variants } from "motion/react";
 import { ProductComparisonSkeleton } from "@/components/maven/product-comparison-skeleton";
-import { StreamableValue, useStreamableValue } from "@ai-sdk/rsc";
+import { readStreamed } from "@/lib/utils";
+import type { Streamed } from "@/lib/types/ai";
 import { ErrorMessage } from "@/components/maven/error-message";
 
 type StreamProductComparison = {
-  content: StreamableValue<Record<string, any>>;
+  content: Streamed<Record<string, any>>;
   data: {
     compare: { title: string; callId: string }[];
     userIntent?: string | null;
@@ -25,7 +26,7 @@ export const StreamProductComparison: FC<StreamProductComparison> = ({
 
   const [mounted, setMounted] = useState(false);
 
-  const [raw, error] = useStreamableValue(content);
+  const [raw, error] = readStreamed(content);
   const [dataStream, setDataStream] = useState<Record<string, any>>({});
 
   const [one, two] = compare;
