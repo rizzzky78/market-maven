@@ -37,6 +37,7 @@ const toolRecommendator = ({
   state,
   requestOption,
   createStreamable,
+  abortSignal,
 }: ToolsetProps) => {
   const recommendator: RenderTool<typeof recommendatorSchema> = {
     description: TEMPLATE.recommendator_description,
@@ -82,6 +83,7 @@ const toolRecommendator = ({
       // separate steps; the sources come from this call.
       const research = await generateText({
         model: models.reasoning,
+        abortSignal,
         tools: { google_search: google.tools.googleSearch({}) },
         instructions:
           RECOMMENDATOR_RESEARCH_SYSTEM_INSTRUCTION + groundingPolicy(),
@@ -119,6 +121,7 @@ const toolRecommendator = ({
         errorState,
         {
           model: models.extract,
+          abortSignal,
           instructions: await SYSTEM_INSTRUCTION.RECOMMENDATOR_EXTRACTOR,
           prompt: JSON.stringify({ intent, scope, research: research.text }),
           output: Output.object({ schema: recommendationSchema }),
@@ -158,6 +161,7 @@ const toolRecommendator = ({
         errorState,
         {
           model: models.reasoning,
+          abortSignal,
           instructions: await SYSTEM_INSTRUCTION.RECOMMENDATOR_INSIGHT,
           // Without the intent the insight can only describe the list,
           // not explain why each pick fits the user's need.

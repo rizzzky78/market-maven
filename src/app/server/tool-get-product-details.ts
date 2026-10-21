@@ -49,6 +49,7 @@ const toolGetProductDetails = ({
   requestOption,
   userMessage,
   createStreamable,
+  abortSignal,
 }: ToolsetProps) => {
   const getProductDetails: RenderTool<typeof getProductDetailsSchema> = {
     description: TEMPLATE.get_product_details_description,
@@ -215,6 +216,7 @@ const toolGetProductDetails = ({
           finalizedToolData.data.object.externalData.markdown =
             await streamTextToValue(streamableResearch, errorState, {
               model: models.reasoning,
+              abortSignal,
               tools: { google_search: google.tools.googleSearch({}) },
               instructions: await SYSTEM_INSTRUCTION.PRODUCT_RESEARCHER,
               // The researcher writes from the retrieved evidence, not memory.
@@ -330,6 +332,7 @@ const toolGetProductDetails = ({
           errorState,
           {
             model: models.reasoning,
+            abortSignal,
             tools: { google_search: google.tools.googleSearch({}) },
             instructions: PRODUCT_RESEARCHER_INSIGHT_SYSTEM_PROMPT + groundingPolicy(),
             stopWhen: isStepCount(5),
@@ -378,6 +381,7 @@ const toolGetProductDetails = ({
           errorState,
           {
             model: models.extract,
+            abortSignal,
             instructions: PRODUCT_EXTRACTOR_INSIGHT_SYSTEM_PROMPT + groundingPolicy(),
             prompt: payloadContent,
             output: Output.json(),
@@ -447,6 +451,7 @@ const toolGetProductDetails = ({
           errorState,
           {
             model: models.reasoning,
+            abortSignal,
             instructions: await SYSTEM_INSTRUCTION.PRODUCT_DETAILS_INSIGHT,
             prompt: JSON.stringify(payloadInsight),
           }
@@ -578,6 +583,7 @@ const toolGetProductDetails = ({
         errorState,
         {
           model: models.extract,
+          abortSignal,
           instructions: await SYSTEM_INSTRUCTION.PRODUCT_DETAILS_EXTRACTOR,
           prompt: payloadContent,
           output: Output.json(),
@@ -642,6 +648,7 @@ const toolGetProductDetails = ({
 
       const finalizedText = await streamTextToValue(streamableText, errorState, {
         model: models.reasoning,
+        abortSignal,
         instructions: await SYSTEM_INSTRUCTION.PRODUCT_DETAILS_INSIGHT,
         prompt: JSON.stringify(payloadInsight),
         onEnd: ({ usage }) => {

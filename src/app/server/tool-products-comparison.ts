@@ -35,6 +35,7 @@ const toolProductComparison = ({
   requestOption,
   userMessage,
   createStreamable,
+  abortSignal,
 }: ToolsetProps) => {
   const productsComparison: RenderTool<typeof productsComparionSchema> = {
     description: TEMPLATE.products_comparison_description,
@@ -123,6 +124,7 @@ const toolProductComparison = ({
         errorState,
         {
           model: models.extract,
+          abortSignal,
           instructions: COMPARISON_EXTRACTOR_SYSTEM_INSTRUCTION + groundingPolicy(),
           output: Output.json(),
           prompt: JSON.stringify({ payload: comparisonPayload }),
@@ -157,6 +159,7 @@ const toolProductComparison = ({
         errorState,
         {
           model: models.extract,
+          abortSignal,
           instructions:
             COMPARISON_TABLE_CRAFTER_SYSTEM_INSTRUCTION + groundingPolicy(),
           prompt: JSON.stringify({ payload: finalizedToolData.data }),
@@ -192,6 +195,7 @@ const toolProductComparison = ({
         errorState,
         {
           model: models.reasoning,
+          abortSignal,
           instructions: COMPARISON_INSIGHT_SYSTEM_INSTRUCTION + groundingPolicy(),
           prompt: JSON.stringify(insightPayload),
           experimental_transform: smoothStream({

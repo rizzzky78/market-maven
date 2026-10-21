@@ -12,7 +12,7 @@ import {
 } from "react";
 import { AnimatePresence } from "motion/react";
 import { Button } from "@/components/ui/button";
-import { ArrowUp, Globe, ListEnd, Loader } from "lucide-react";
+import { ArrowUp, Globe, ListEnd, Square } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Tooltip,
@@ -81,7 +81,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ isEmpty }) => {
     }
   }, [value]);
 
-  const { aiState, submit, stage: stageProcess } = useMavenChat();
+  const { aiState, submit, stop, stage: stageProcess } = useMavenChat();
   const { isGenerating, setIsGenerating } = useAppState();
 
   const [rateLimit, setRateLimit] = useState<RateLimitResponse | null>(null);
@@ -414,20 +414,31 @@ export const ChatPanel: FC<ChatPanelProps> = ({ isEmpty }) => {
                 isCheckingRateLimit={isCheckingRateLimit}
               />
             )}
-            <Button
-              size={"icon"}
-              className="size-8 rounded-full"
-              type={"submit"}
-              disabled={isButtonDisabled}
-              aria-label={isGenerating ? "Generating response" : "Send message"}
-              data-testid="send-button"
-            >
-              {isGenerating ? (
-                <Loader className="size-4 animate-spin" />
-              ) : (
+            {isGenerating ? (
+              <Button
+                key="stop"
+                size={"icon"}
+                className="size-8 rounded-full"
+                type={"button"}
+                onClick={() => stop()}
+                aria-label="Stop generating"
+                data-testid="stop-button"
+              >
+                <Square className="size-3 fill-current" />
+              </Button>
+            ) : (
+              <Button
+                key="send"
+                size={"icon"}
+                className="size-8 rounded-full"
+                type={"submit"}
+                disabled={isButtonDisabled}
+                aria-label="Send message"
+                data-testid="send-button"
+              >
                 <ArrowUp className="size-4" />
-              )}
-            </Button>
+              </Button>
+            )}
           </div>
         </div>
       </form>

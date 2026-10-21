@@ -9,6 +9,8 @@ import { getServerSession } from "next-auth";
 /**
  * Streams the reply to one chat message for `useChat`. The chat history is
  * read from the database, not from the client, and saved when the reply ends.
+ * Stopping the reply on the client aborts `req.signal`, which cancels the
+ * model calls and stops the running tool.
  */
 export async function POST(req: Request) {
   const { chatId, payload, requestOption } =
@@ -35,7 +37,13 @@ export async function POST(req: Request) {
   const stream = createUIMessageStream<MavenUIMessage>({
     execute: async ({ writer }) => {
       try {
-        await orchestrate({ writer, state, payload, requestOption });
+        await orchestrate({
+          writer,
+          state,
+          payload,
+          requestOption,
+          abortSignal: req.signal,
+        });
       } finally {
         await saveAIState(state.get());
       }

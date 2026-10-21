@@ -33,6 +33,8 @@ type MavenChatContextValue = {
   stage: string;
   /** Sends a message with the current Search / Related / Source options. */
   submit: (payload: PayloadData) => Promise<void>;
+  /** Stops the reply being generated; the server aborts its work too. */
+  stop: () => Promise<void>;
   /** History plus the live user messages, for the rate limit checks. */
   aiState: AIState;
 };
@@ -61,7 +63,7 @@ export const MavenChatProvider: FC<MavenChatProviderProps> = ({
   const { search, related, reffSource } = useMavenStateController();
   const [stage, setStage] = useState("");
 
-  const { messages, sendMessage, status } = useChat<MavenUIMessage>({
+  const { messages, sendMessage, status, stop } = useChat<MavenUIMessage>({
     id: chatId,
     transport: new DefaultChatTransport({
       api: "/api/chat",
@@ -86,6 +88,9 @@ export const MavenChatProvider: FC<MavenChatProviderProps> = ({
   useEffect(() => {
     setIsGenerating(status === "submitted" || status === "streaming");
   }, [setIsGenerating, status]);
+
+  // Leaving the chat (new chat, another chat) stops its running reply.
+  useEffect(() => () => void stop(), [stop]);
 
   const submit = useCallback(
     async (payload: PayloadData) => {
@@ -130,8 +135,8 @@ export const MavenChatProvider: FC<MavenChatProviderProps> = ({
   );
 
   const value = useMemo(
-    () => ({ history, messages, stage, submit, aiState }),
-    [aiState, history, messages, stage, submit]
+    () => ({ history, messages, stage, submit, stop, aiState }),
+    [aiState, history, messages, stage, stop, submit]
   );
 
   return (

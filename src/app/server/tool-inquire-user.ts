@@ -19,7 +19,7 @@ import { Output, streamText } from "ai";
 import { createErrorState } from "./workflow";
 import { ui } from "./stream-ui";
 
-const toolInquireUser = ({ generation, state }: ToolsetProps) => {
+const toolInquireUser = ({ generation, state, abortSignal }: ToolsetProps) => {
   const inquireUser: RenderTool<typeof inputInquirySchema> = {
     description: TEMPLATE.inquire_user_description,
     inputSchema: inputInquirySchema,
@@ -60,6 +60,7 @@ const toolInquireUser = ({ generation, state }: ToolsetProps) => {
       const { partialOutputStream: inquiryStream, output: inquiryObject } =
         streamText({
           model: models.light,
+          abortSignal,
           instructions: await SYSTEM_INSTRUCTION.INQUIRY_CRAFTER,
           prompt: JSON.stringify(parse.data),
           output: Output.object({ schema: inquireUserSchema }),

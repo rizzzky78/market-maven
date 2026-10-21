@@ -460,6 +460,8 @@ export type ToolsetProps = {
   generation: StreamableSink<StreamGeneration>;
   /** Creates values streamed to the client for the current reply. */
   createStreamable: <T>(initial?: T) => StreamableValue<T>;
+  /** Aborted when the client stops the reply; pass it to model calls. */
+  abortSignal?: AbortSignal;
   state: MutableAIState<AIState>;
   requestOption?: ExtendedRequestOption;
   userMessage?: UserContentMessage;

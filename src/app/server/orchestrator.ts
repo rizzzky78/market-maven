@@ -58,6 +58,8 @@ type OrchestrateOptions = {
   state: MutableAIState<AIState>;
   payload: PayloadData;
   requestOption?: ExtendedRequestOption;
+  /** The request's signal: aborted when the client stops the reply. */
+  abortSignal?: AbortSignal;
 };
 
 /**
@@ -70,6 +72,7 @@ export async function orchestrate({
   state,
   payload,
   requestOption,
+  abortSignal,
 }: OrchestrateOptions) {
   logger.info("Debug: payload orchestrator - agentic", {
     payload,
@@ -108,6 +111,7 @@ export async function orchestrate({
     state,
     requestOption,
     createStreamable: (initial) => createStreamable(writer, initial),
+    abortSignal,
   };
 
   const toolset = {
@@ -135,6 +139,7 @@ export async function orchestrate({
 
   const result = streamText({
     model: models.orchestrator,
+    abortSignal,
     messages: toModelMessages(compactToolResults(state.get().messages)),
     instructions: orchestratorInstruction(),
     tools: renderTools(toolset, show, generation),
@@ -160,8 +165,9 @@ export async function orchestrate({
 
   streamableText.done(content);
 
-  // The tool drew the reply and saved its own messages.
-  if (toolCalled) return;
+  // The tool drew the reply and saved its own messages. A stopped reply keeps
+  // only the user message.
+  if (toolCalled || abortSignal?.aborted) return;
 
   if (!content) {
     // The model call failed (quota, network, auth) after retries.

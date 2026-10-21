@@ -108,6 +108,7 @@ export function createGeneration(
  * Turns render tools into AI SDK tools. Every view the tool yields or
  * returns replaces the reply's view through `show`. An exception renders an
  * error card and closes the generation instead of failing the whole reply.
+ * When the request is aborted the generator is stopped at its next yield.
  */
 export function renderTools<T extends Record<string, RenderTool>>(
   toolset: T,
@@ -120,7 +121,13 @@ export function renderTools<T extends Record<string, RenderTool>>(
       {
         description: renderTool.description,
         inputSchema: renderTool.inputSchema,
-        execute: async (input: unknown, { toolCallId }: { toolCallId: string }) => {
+        execute: async (
+          input: unknown,
+          {
+            toolCallId,
+            abortSignal,
+          }: { toolCallId: string; abortSignal?: AbortSignal }
+        ) => {
           try {
             const result = renderTool.generate?.(input, {
               toolName: name,
@@ -132,11 +139,17 @@ export function renderTools<T extends Record<string, RenderTool>>(
               for (let step = await it.next(); ; step = await it.next()) {
                 show(await step.value);
                 if (step.done) break;
+                if (abortSignal?.aborted) {
+                  await it.return(undefined);
+                  break;
+                }
               }
             } else {
               show(await (result as View | Promise<View>));
             }
           } catch (error) {
+            if (abortSignal?.aborted) return "aborted";
+
             logger.error(`Tool ${name} failed`, { error });
             generation.done({
               process: "tool:fatal-error",

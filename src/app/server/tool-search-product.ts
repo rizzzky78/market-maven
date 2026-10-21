@@ -44,6 +44,7 @@ const toolSearchProduct = ({
   requestOption,
   userMessage,
   createStreamable,
+  abortSignal,
 }: ToolsetProps) => {
   const searchProduct: RenderTool<typeof searchProductSchema> = {
     description: TEMPLATE.search_product_description,
@@ -293,6 +294,7 @@ const toolSearchProduct = ({
           errorState,
           {
             model: models.reasoning,
+            abortSignal,
             instructions: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_INSIGHT,
             prompt: JSON.stringify({
               searchQuery: query,
@@ -457,6 +459,7 @@ const toolSearchProduct = ({
         errorState,
         {
           model: models.extract,
+          abortSignal,
           instructions: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_EXTRACTOR,
           prompt: payload,
           output: Output.object({ schema: productsSchema }),
@@ -516,6 +519,7 @@ const toolSearchProduct = ({
 
       const finalizedText = await streamTextToValue(streamableText, errorState, {
         model: models.reasoning,
+        abortSignal,
         instructions: await SYSTEM_INSTRUCTION.PRODUCT_SEARCH_INSIGHT,
         prompt: JSON.stringify({
           searchQuery: query,

@@ -39,6 +39,7 @@ const toolWebResearch = ({
   state,
   requestOption,
   createStreamable,
+  abortSignal,
 }: ToolsetProps) => {
   const webResearch: RenderTool<typeof webResearchSchema> = {
     description: TEMPLATE.web_research_description,
@@ -62,6 +63,7 @@ const toolWebResearch = ({
 
       const answer = await streamTextToValue(streamableAnswer, errorState, {
         model: models.reasoning,
+        abortSignal,
         tools: { google_search: google.tools.googleSearch({}) },
         instructions: WEB_RESEARCH_SYSTEM_INSTRUCTION + groundingPolicy(),
         prompt: JSON.stringify({ question, products }),
