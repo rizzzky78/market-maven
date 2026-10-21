@@ -27,6 +27,7 @@ import { useDebounceInput } from "@/components/hooks/use-debounced-input";
 import { useMavenStateController } from "@/components/hooks/maven-state-controller";
 import { AttachProductBadge } from "@/components/maven/attach-product";
 import { useMavenChat } from "@/lib/utility/provider/chat-provider";
+import { describeStage } from "@/components/maven/tool-call-card";
 import { AttachCompareBadge } from "@/components/maven/attach-compare";
 import { cn } from "@/lib/utils";
 import { RateLimit } from "@/components/maven/rate-limit-modal";
@@ -294,7 +295,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ isEmpty }) => {
           aria-live="polite"
         >
           <span className="size-1.5 animate-pulse rounded-full bg-brand" />
-          <span className="first-letter:uppercase">{stageProcess}</span>
+          <span>{describeStage(stageProcess)}</span>
         </p>
       )}
       <form

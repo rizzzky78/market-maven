@@ -14,6 +14,7 @@ import {
   StreamableValue,
   StreamGeneration,
   Streamed,
+  ToolCallStatus,
   View,
   ViewNode,
 } from "@/lib/types/ai";
@@ -106,15 +107,30 @@ export function createGeneration(
 
 /**
  * Turns render tools into AI SDK tools. Every view the tool yields or
- * returns replaces the reply's view through `show`. An exception renders an
- * error card and closes the generation instead of failing the whole reply.
- * When the request is aborted the generator is stopped at its next yield.
+ * returns replaces the reply's view through `show`, and the call itself is
+ * reported as a `data-tool` part (name, input, status, duration) that the
+ * client shows above the view.
+ *
+ * - An exception renders an error card and closes the generation instead of
+ *   failing the whole reply.
+ * - When the request is aborted the generator is stopped at its next yield.
+ * - The reply has one view, so only the first call of a turn renders; a
+ *   parallel second call is answered with "skipped".
  */
 export function renderTools<T extends Record<string, RenderTool>>(
   toolset: T,
-  show: (view: View) => void,
-  generation: StreamableSink<StreamGeneration>
+  {
+    writer,
+    show,
+    generation,
+  }: {
+    writer: MavenWriter;
+    show: (view: View) => void;
+    generation: StreamableSink<StreamGeneration>;
+  }
 ): Record<keyof T, Tool> {
+  let claimed = false;
+
   return Object.fromEntries(
     Object.entries(toolset).map(([name, renderTool]) => [
       name,
@@ -128,6 +144,34 @@ export function renderTools<T extends Record<string, RenderTool>>(
             abortSignal,
           }: { toolCallId: string; abortSignal?: AbortSignal }
         ) => {
+          if (claimed) return "skipped: only one tool runs per turn";
+          claimed = true;
+
+          const started = Date.now();
+          const report = (status: ToolCallStatus) =>
+            writer.write({
+              type: "data-tool",
+              id: toolCallId,
+              data: {
+                name,
+                input,
+                status,
+                durationMs:
+                  status === "running" ? undefined : Date.now() - started,
+              },
+            });
+
+          // Tools report handled failures (scrape, missing data) as an
+          // ErrorMessage view rather than by throwing.
+          let failed = false;
+          const render = (view: View) => {
+            const nodes = toNodes(view);
+            failed = nodes.some((node) => node.component === "ErrorMessage");
+            show(nodes);
+          };
+
+          report("running");
+
           try {
             const result = renderTool.generate?.(input, {
               toolName: name,
@@ -137,7 +181,7 @@ export function renderTools<T extends Record<string, RenderTool>>(
             if (typeof (result as Generator)?.next === "function") {
               const it = result as AsyncGenerator<View, View, void>;
               for (let step = await it.next(); ; step = await it.next()) {
-                show(await step.value);
+                render(await step.value);
                 if (step.done) break;
                 if (abortSignal?.aborted) {
                   await it.return(undefined);
@@ -145,10 +189,13 @@ export function renderTools<T extends Record<string, RenderTool>>(
                 }
               }
             } else {
-              show(await (result as View | Promise<View>));
+              render(await (result as View | Promise<View>));
             }
           } catch (error) {
-            if (abortSignal?.aborted) return "aborted";
+            if (abortSignal?.aborted) {
+              report("stopped");
+              return "aborted";
+            }
 
             logger.error(`Tool ${name} failed`, { error });
             generation.done({
@@ -156,7 +203,7 @@ export function renderTools<T extends Record<string, RenderTool>>(
               loading: false,
               error: error instanceof Error ? error.message : String(error),
             });
-            show(
+            render(
               ui("ErrorMessage", {
                 errorName: "Something went wrong",
                 reason:
@@ -166,6 +213,7 @@ export function renderTools<T extends Record<string, RenderTool>>(
             );
           }
 
+          report(abortSignal?.aborted ? "stopped" : failed ? "error" : "done");
           return "rendered";
         },
       } as Tool,

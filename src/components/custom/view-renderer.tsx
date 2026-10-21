@@ -1,7 +1,12 @@
 "use client";
 
 import { FC, Fragment } from "react";
-import { MavenUIMessage, Streamed, ViewNode } from "@/lib/types/ai";
+import {
+  MavenUIMessage,
+  Streamed,
+  ToolCallInfo,
+  ViewNode,
+} from "@/lib/types/ai";
 import {
   AssistantMessage,
   StreamAssistantMessage,
@@ -35,6 +40,7 @@ import { StreamProductSearch } from "@/components/maven/stream-product-search";
 import { UserInquiry } from "@/components/maven/user-inquiry";
 import { InquirySkeleton } from "@/components/maven/user-inquiry-skeleton";
 import { UserMessage } from "@/components/maven/user-message";
+import { ToolCallCard } from "@/components/maven/tool-call-card";
 
 /**
  * Components the server may render into a reply, by the name it uses in
@@ -74,17 +80,22 @@ type StreamRef = { $stream: string };
 const isStreamRef = (value: unknown): value is StreamRef =>
   typeof value === "object" && value !== null && "$stream" in value;
 
-/** Renders one streamed reply: its latest view with the streamed values. */
+/**
+ * Renders one streamed reply: the tool call it ran, then its latest view with
+ * the streamed values.
+ */
 const AssistantView: FC<{ message: MavenUIMessage }> = ({ message }) => {
   const streams = new Map<string, Streamed<unknown>>();
+  const tools: ToolCallInfo[] = [];
   let nodes: ViewNode[] = [];
 
   for (const part of message.parts) {
     if (part.type === "data-stream" && part.id) streams.set(part.id, part.data);
+    if (part.type === "data-tool") tools.push(part.data);
     if (part.type === "data-view") nodes = part.data;
   }
 
-  return nodes.map(({ component, props }, index) => {
+  const views = nodes.map(({ component, props }, index) => {
     const Component = viewRegistry[
       component as keyof typeof viewRegistry
     ] as FC<Record<string, unknown>> | undefined;
@@ -101,6 +112,15 @@ const AssistantView: FC<{ message: MavenUIMessage }> = ({ message }) => {
 
     return <Component key={`${component}-${index}`} {...resolved} />;
   });
+
+  return (
+    <>
+      {tools.map((tool, index) => (
+        <ToolCallCard key={index} {...tool} />
+      ))}
+      {views}
+    </>
+  );
 };
 
 /** Renders the messages streamed by `useChat` in this session. */

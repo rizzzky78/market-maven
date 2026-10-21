@@ -33,7 +33,11 @@ export const getProductDetailsSchema = z.object({
     .describe(
       "The complete product URL, if the source is `tokopedia` then the link will be available. Must be a valid, accessible URL that follows the pattern 'https://www.tokopedia.com/'"
     ),
-  callId: z.string().describe("The call ID determined based on request"),
+  callId: z
+    .string()
+    .describe(
+      "The callId of the attached product or of the searchProduct result it came from, copied exactly. Never invent one."
+    ),
   source: z
     .enum(["tokopedia", "global"])
     .describe(
@@ -55,16 +59,21 @@ export const webResearchSchema = z.object({
 });
 
 export const productsComparionSchema = z.object({
-  compare: z.array(
-    z.object({
-      title: z
-        .string()
-        .describe("The given full product title or product name"),
-      callId: z
-        .string()
-        .describe("The given callId as key to access product data details"),
-    })
-  ),
+  compare: z
+    .array(
+      z.object({
+        title: z
+          .string()
+          .describe("The given full product title or product name"),
+        callId: z
+          .string()
+          .describe("The given callId as key to access product data details"),
+      })
+    )
+    .length(2)
+    .describe(
+      "Exactly the two products to compare, each with the callId of its getProductDetails result."
+    ),
 });
 
 export const inputInquirySchema = z.object({

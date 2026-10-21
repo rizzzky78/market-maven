@@ -468,7 +468,21 @@ const toolGetProductDetails = ({
         );
       }
 
-      if (!link) return;
+      if (!link) {
+        // Tokopedia details are scraped from the listing page.
+        generation.done({
+          process: "tool:error",
+          loading: false,
+          error: "Missing product link",
+        });
+
+        return ui("ErrorMessage", {
+          errorName: "Product Link Missing",
+          reason:
+            "This Tokopedia product came without a listing link, so its page can't be read. Search for it again and attach a result from the new list.",
+          raw: { payload: { query, callId, source } },
+        });
+      }
 
       generation.update({
         process: "api:requesting-data",

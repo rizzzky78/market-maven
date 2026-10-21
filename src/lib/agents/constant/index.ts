@@ -1,9 +1,9 @@
 export const TEMPLATE = {
-  search_product_description: `Search a product based on user query. The query must be exact of product name (can be full or partial product name), cannot proceed word or sentence.`,
-  get_product_details_description: `Get product details by given context object, must match the parameters`,
+  search_product_description: `Find marketplace listings and prices for a product the user names (a model or product line). The query is the product name only, such as "Lenovo Legion 5 Pro", never a sentence or a category. Use recommendator instead when the user describes a need rather than naming a product.`,
+  get_product_details_description: `Get the full specifications, pricing and seller details of one product that already appeared in a searchProduct result or was attached by the user. Pass the product title, callId and source exactly as given, plus the link when the source is tokopedia. Never invent a callId.`,
   gpd_extraction_objective: `Extract only product data including: product images, product link, and store link.`,
-  products_comparison_description: `Compare two products based on user requested data`,
-  inquire_user_description: `Ask the user if the current information provided is insufficient for taking further action.`,
+  products_comparison_description: `Compare exactly two products side by side on specs, price and trade-offs for the user's intent. Both products need a getProductDetails result; pass the { title, callId } pairs from those results.`,
+  inquire_user_description: `Ask the user one clarifying question with selectable options when the request is too vague to act on (no category, or no use case or budget for a recommendation). Ask at most once; prefer acting with stated assumptions when the request is workable.`,
   web_research_description: `Answer a factual question about specific electronics products, specs, technologies or prices by searching the web, returning an evidence-backed answer with cited sources. Use it for questions such as "Does X support Y?", "Is X brighter than Y?" or "When was X released?" when the conversation has no tool result that already answers it.`,
-  recommendator_description: `This tool provides product recommendations based on the current context. It generates a final output in the form of a list of recommended products tailored to the user's intent. Utilize this tool as a means of interpreting user intent to deliver personalized product suggestions.`,
+  recommendator_description: `Recommend specific products for a need the user describes (use case, budget, must-haves), researched on the web with sources and a reason per product. Use searchProduct instead when the user already names the product.`,
 } as const;

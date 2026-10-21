@@ -430,12 +430,29 @@ export type StreamableValue<T> = {
 /** The writable side of a `StreamableValue`. */
 export type StreamableSink<T> = Omit<StreamableValue<T>, "value">;
 
+/** Lifecycle of one tool call as shown in the chat. */
+export type ToolCallStatus = "running" | "done" | "error" | "stopped";
+
+/**
+ * A tool call reported to the client in a `data-tool` part (replaced in
+ * place as its status changes).
+ */
+export type ToolCallInfo = {
+  /** Tool name, one of `AvailableTools` */
+  name: string;
+  /** The input the orchestrator called the tool with */
+  input: unknown;
+  status: ToolCallStatus;
+  /** Wall time of the call, set once it has finished */
+  durationMs?: number;
+};
+
 /**
  * The chat message shape exchanged with `useChat`. User messages carry the
  * submitted content in a `data-user` part; assistant messages carry the
- * rendered `data-view` (replaced in place as it changes) and the
- * `data-stream` values its nodes reference. `data-generation` is transient
- * progress for the chat panel.
+ * rendered `data-view` (replaced in place as it changes), the `data-stream`
+ * values its nodes reference and the `data-tool` call it came from.
+ * `data-generation` is transient progress for the chat panel.
  */
 export type MavenUIMessage = UIMessage<
   never,
@@ -443,6 +460,7 @@ export type MavenUIMessage = UIMessage<
     user: UserContentMessage;
     view: ViewNode[];
     stream: Streamed<unknown>;
+    tool: ToolCallInfo;
     generation: StreamGeneration;
   }
 >;

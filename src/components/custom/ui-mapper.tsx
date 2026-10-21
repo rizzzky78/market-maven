@@ -25,6 +25,7 @@ import {
 } from "@/components/maven/recommendation-action";
 import { InsightProductCard } from "@/components/maven/insight-product-card";
 import { ProductDetailsInsight } from "@/components/maven/product-details-insight";
+import { ToolCallCard } from "@/components/maven/tool-call-card";
 
 /**
  * Core message content structure representing different types of content in the system
@@ -35,6 +36,7 @@ interface MessageContent {
   data?: string;
   image?: string;
   toolName?: AvailableTool;
+  args?: unknown;
   result?: string;
 }
 
@@ -215,7 +217,19 @@ const contentTypeHandlers: Record<
       : null,
   file: () => null,
   image: () => null,
-  "tool-call": () => null,
+  "tool-call": (content, id) =>
+    content.toolName
+      ? {
+          id,
+          display: (
+            <ToolCallCard
+              name={content.toolName}
+              input={content.args}
+              status="done"
+            />
+          ),
+        }
+      : null,
   "tool-result": (content, id) => handleToolResult(content, id),
 };
 

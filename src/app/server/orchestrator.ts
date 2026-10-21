@@ -134,6 +134,8 @@ export async function orchestrate({
 
   let failure: unknown;
   let toolCalled = false;
+  let toolRendered = false;
+  let toolError: unknown;
   let content = "";
   const streamableText = createStreamable<string>(writer, "");
 
@@ -142,7 +144,7 @@ export async function orchestrate({
     abortSignal,
     messages: toModelMessages(compactToolResults(state.get().messages)),
     instructions: orchestratorInstruction(),
-    tools: renderTools(toolset, show, generation),
+    tools: renderTools(toolset, { writer, show, generation }),
     onEnd: ({ usage }) => {
       logger.info("Orchestrator Usage: first layer", { usage });
     },
@@ -154,6 +156,14 @@ export async function orchestrate({
   // Tools execute inside this stream, so it ends after their views are done.
   for await (const part of result.fullStream) {
     if (part.type === "tool-call") toolCalled = true;
+    if (part.type === "tool-result" && part.output === "rendered")
+      toolRendered = true;
+    // Invalid input (failed schema validation) or an unknown tool name: the
+    // tool never ran, so nothing replaced the "thinking" view.
+    if (part.type === "tool-error") {
+      toolCalled = true;
+      toolError = part.error;
+    }
     if (part.type !== "text-delta") continue;
 
     if (!content) show(ui("StreamAssistantMessage", { content: streamableText.value }));
@@ -165,9 +175,25 @@ export async function orchestrate({
 
   streamableText.done(content);
 
-  // The tool drew the reply and saved its own messages. A stopped reply keeps
-  // only the user message.
-  if (toolCalled || abortSignal?.aborted) return;
+  // A stopped reply keeps only the user message.
+  if (abortSignal?.aborted) return;
+
+  if (toolCalled) {
+    // The tool drew the reply and saved its own messages.
+    if (toolRendered) return;
+
+    logger.error("Orchestrator tool call failed", { error: toolError });
+    failGeneration(generation, toolError ?? "Tool call failed");
+    show(
+      ui("ErrorMessage", {
+        errorName: "Maven couldn't run that step",
+        reason:
+          "The assistant asked for a tool with input it couldn't use. Please try again, or rephrase the request more specifically.",
+        raw: { error: String(toolError) },
+      })
+    );
+    return;
+  }
 
   if (!content) {
     // The model call failed (quota, network, auth) after retries.
