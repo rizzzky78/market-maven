@@ -28,20 +28,44 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { FC } from "react";
-import { Badge } from "../ui/badge";
+
+const externalLinks = [
+  {
+    href: "https://maven-ai-webpage.vercel.app/cookbook",
+    label: "Cookbook",
+    icon: BookText,
+  },
+  {
+    href: "https://maven-ai-webpage.vercel.app/terms-of-service",
+    label: "Terms of service",
+    icon: MonitorCheck,
+  },
+  {
+    href: "https://maven-ai-webpage.vercel.app/privacy-policy",
+    label: "Privacy policy",
+    icon: ShieldAlert,
+  },
+];
 
 export const SidebarUserNavigation: FC = () => {
   const { isMobile } = useSidebar();
   const { data: session } = useSession();
 
   const user = {
-    name: session?.user?.name as string,
-    email: session?.user?.email as string,
-    avatar: session?.user?.image as string,
+    name: session?.user?.name ?? undefined,
+    email: session?.user?.email ?? undefined,
+    avatar: session?.user?.image ?? undefined,
   };
+  const initials =
+    (user.name ?? user.email ?? "?")
+      .split(/[\s@.]+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase())
+      .join("") || "?";
 
   return (
-    <SidebarMenu className="*:font-(family-name:--font-satoshi)">
+    <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -50,97 +74,70 @@ export const SidebarUserNavigation: FC = () => {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground md:h-8 md:p-0"
               data-testid="user-profile"
             >
-              <Avatar className="h-8 w-8 rounded-lg hover:rounded-full">
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg hover:rounded-full">
-                  MM
-                </AvatarFallback>
+              <Avatar className="size-8 rounded-full">
+                <AvatarImage src={user.avatar} alt="" />
+                <AvatarFallback className="rounded-full">{initials}</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
+                <span className="truncate font-medium">
+                  {user.name ?? "Guest"}
+                </span>
+                <span className="truncate text-xs text-muted-foreground">
+                  {user.email}
+                </span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-t-[20px] rounded-b-[1.2rem]"
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-xl font-(family-name:--font-satoshi)"
             side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}
           >
-            <Badge
-              variant={"outline"}
-              className="rounded-2xl mx-[2px] mt-px mb-px"
-            >
-              <span className="text-xs font-normal py-1.5">
-                I&apos;ve upgraded the AI model to Gemini 2.5 Flash. While responses
-                may take a moment longer, you&apos;ll notice smarter, more reliable
-                answers—part of the ongoing improvements from a solo dev
-                dedicated to making your experience better.
-              </span>
-            </Badge>
-            <DropdownMenuSeparator />
             <DropdownMenuLabel className="p-0 font-normal">
-              <div className="font-(family-name:--font-satoshi) flex items-center gap-2 px-1.5 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-full">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+              <div className="flex items-center gap-2 px-1.5 py-1.5 text-left text-sm">
+                <Avatar className="size-8 rounded-full">
+                  <AvatarImage src={user.avatar} alt="" />
+                  <AvatarFallback className="rounded-full">
+                    {initials}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
+                  <span className="truncate font-medium">
+                    {user.name ?? "Guest"}
+                  </span>
+                  <span className="truncate text-xs text-muted-foreground">
+                    {user.email}
+                  </span>
                 </div>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup className="font-(family-name:--font-satoshi) *:rounded-3xl *:gap-1 *:text-xs *:cursor-pointer">
-              <DropdownMenuItem>
-                <Link href={"/history"} className="flex items-center">
-                  <History className="size-4 mr-2" />
-                  My Chat History
+            <DropdownMenuGroup>
+              <DropdownMenuItem asChild>
+                <Link href="/history">
+                  <History />
+                  Chat history
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link
-                  href={"https://maven-ai-webpage.vercel.app/cookbook"}
-                  className="flex items-center"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <BookText className="size-4 mr-2" />
-                  Cookbook
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link
-                  href={"https://maven-ai-webpage.vercel.app/terms-of-service"}
-                  className="flex items-center"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <MonitorCheck className="size-4 mr-2" />
-                  Terms of Service
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link
-                  href={"https://maven-ai-webpage.vercel.app/privacy-policy"}
-                  className="flex items-center"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <ShieldAlert className="size-4 mr-2" />
-                  Privacy Policy
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={async () => await signOut({ callbackUrl: "/login" })}
-              >
-                <LogOut className="text-red-400" />
-                Log out
-              </DropdownMenuItem>
+              {externalLinks.map(({ href, label, icon: Icon }) => (
+                <DropdownMenuItem key={href} asChild>
+                  <Link href={href} target="_blank" rel="noopener noreferrer">
+                    <Icon />
+                    {label}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
             </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              className="text-destructive focus:text-destructive dark:text-red-400 dark:focus:text-red-400"
+              onClick={async () => await signOut({ callbackUrl: "/login" })}
+            >
+              <LogOut />
+              Log out
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

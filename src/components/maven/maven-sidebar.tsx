@@ -4,7 +4,7 @@ import { ComponentProps, FC, useEffect, useRef, useState } from "react";
 import {
   Bot,
   CodeXml,
-  Hexagon,
+  
   History,
   Moon,
   PanelRightClose,
@@ -34,7 +34,7 @@ import { ChatProperties, MessageProperty } from "@/lib/types/ai";
 import Link from "next/link";
 import { formatDateWithTime } from "@/lib/utils";
 import { useTheme } from "next-themes";
-import { motion } from "motion/react";
+
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { useMavenStateController } from "../hooks/maven-state-controller";
 import { usePathname, useRouter } from "next/navigation";
@@ -249,11 +249,9 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                     </svg>
                   </div>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold uppercase font-(family-name:--font-array) tracking-wider">
-                      Maven
-                    </span>
-                    <span className="truncate text-sm font-(family-name:--font-khand)">
-                      AI & Data Driven purchase decision
+                    <span className="truncate font-semibold">Maven</span>
+                    <span className="truncate text-xs text-muted-foreground">
+                      Electronics research assistant
                     </span>
                   </div>
                 </Link>
@@ -268,16 +266,16 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     tooltip={{
-                      children: "New Chat",
+                      children: "New chat",
                       hidden: false,
                     }}
-                    className="px-2.5 md:px-2 rounded-full mb-3"
+                    className="mb-3 rounded-full px-2.5 md:px-2"
                     onClick={handleNewChat}
                     disabled={isGenerating}
                     data-testid="new-chat-button"
                   >
                     <Plus />
-                    <span>New Chat</span>
+                    <span>New chat</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
@@ -349,7 +347,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
               <SidebarMenuItem className={isMobile ? "hidden" : "visible"}>
                 <SidebarMenuButton
                   tooltip={{
-                    children: "Toggle Sidebar",
+                    children: "Toggle history panel",
                     hidden: false,
                   }}
                   className="px-2.5 md:px-2 rounded-full"
@@ -357,24 +355,16 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                   data-testid="toggle-sidebar"
                 >
                   <PanelRightClose />
-                  <span>Toggle Sidebar</span>
+                  <span>Toggle history panel</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 {mounted && (
-                  <motion.div
-                    initial={false}
-                    animate={
-                      isMobile
-                        ? undefined
-                        : { rotate: resolvedTheme === "dark" ? 360 : 0 }
-                    }
-                    transition={{ duration: 0.5 }}
-                    data-testid="theme-toggle-button"
-                  >
+                  <div data-testid="theme-toggle-button">
                     <SidebarMenuButton
                       tooltip={{
-                        children: "Toggle Theme",
+                        children:
+                          resolvedTheme === "dark" ? "Light mode" : "Dark mode",
                         hidden: false,
                       }}
                       className="px-2.5 md:px-2 rounded-full"
@@ -382,11 +372,12 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                         setTheme(resolvedTheme === "dark" ? "light" : "dark")
                       }
                     >
-                      <Sun className="h-6 w-6 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                      <Moon className="absolute h-6 w-6 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                      <span>Toggle Theme</span>
+                      {resolvedTheme === "dark" ? <Sun /> : <Moon />}
+                      <span>
+                        {resolvedTheme === "dark" ? "Light mode" : "Dark mode"}
+                      </span>
                     </SidebarMenuButton>
-                  </motion.div>
+                  </div>
                 )}
               </SidebarMenuItem>
             </SidebarMenu>
@@ -402,14 +393,14 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                 >
                   <SidebarMenuButton
                     tooltip={{
-                      children: "Rate this App",
+                      children: "Rate this app",
                       hidden: false,
                     }}
                     className="px-2.5 md:px-2 rounded-full"
                     data-testid="rate-app"
                   >
                     <Sparkles />
-                    <span>Rate this App</span>
+                    <span>Rate this app</span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
@@ -421,14 +412,14 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                 >
                   <SidebarMenuButton
                     tooltip={{
-                      children: "View Dev Portfolio",
+                      children: "Developer portfolio",
                       hidden: false,
                     }}
                     className="px-2.5 md:px-2 rounded-full"
                     data-testid="dev-portfolio"
                   >
                     <CodeXml />
-                    <span>View Dev Portfolio</span>
+                    <span>Developer portfolio</span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
@@ -436,7 +427,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                 {/* This button should trigger interactive guide tour */}
                 <SidebarMenuButton
                   tooltip={{
-                    children: "Start Interactive Tour",
+                    children: "Take the tour",
                     hidden: false,
                   }}
                   className="px-2.5 md:px-2 rounded-full"
@@ -445,7 +436,7 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                   data-testid="start-tour-button"
                 >
                   <Proportions />
-                  <span>Start Tour</span>
+                  <span>Take the tour</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -454,24 +445,22 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
         </SidebarFooter>
       </Sidebar>
       <Sidebar collapsible="none" className="hidden flex-1 md:flex">
-        <SidebarHeader className="gap-3.5 border-b px-4 py-3">
-          <div className="flex w-full items-center justify-between">
-            <div className="flex items-center text-base font-medium text-foreground">
-              <Hexagon className="size-5 shrink-0 mr-2 text-brand" />
-              <p className="font-(family-name:--font-array) font-semibold tracking-widest uppercase">
-                Maven
-              </p>
-            </div>
-          </div>
+        <SidebarHeader className="h-14 flex-row items-center justify-between border-b px-4 py-0">
+          <h2 className="text-sm font-medium">Chats</h2>
+          {filteredChats.length > 0 && (
+            <span className="text-xs tabular-nums text-muted-foreground">
+              {filteredChats.length}
+            </span>
+          )}
         </SidebarHeader>
         <SidebarContent className="scrollbar-thin">
-          <SidebarGroup className="p-0">
+          <SidebarGroup className="px-0 py-1.5">
             <SidebarGroupContent>
               {filteredChats.length === 0 ? (
                 <div className="px-4 py-10 text-center">
                   <p className="text-sm font-medium">No conversations yet</p>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    Start a chat and it will be saved here.
+                    Your chats are saved here as you go.
                   </p>
                 </div>
               ) : (
@@ -481,16 +470,16 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                     key={chat.chatId}
                     aria-current={isActive(chat.chatId) ? "page" : undefined}
                     className={cn(
-                      "flex flex-col gap-1 border-b px-4 py-3 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                      "mx-2 my-0.5 flex flex-col gap-1 rounded-lg px-3 py-2.5 text-sm leading-tight transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring focus-visible:outline-none",
                       isActive(chat.chatId) &&
-                        "bg-sidebar-accent text-sidebar-accent-foreground shadow-[inset_2px_0_0_hsl(var(--brand))]"
+                        "bg-sidebar-accent text-sidebar-accent-foreground"
                     )}
                   >
                     <div className="flex min-w-0 items-baseline gap-2">
                       <p className="min-w-0 flex-1 truncate font-medium">
                         {chat.title}
                       </p>
-                      <span className="shrink-0 text-[0.65rem] text-muted-foreground">
+                      <span className="shrink-0 text-[11px] tabular-nums text-muted-foreground">
                         {formatDateWithTime(chat.created)}
                       </span>
                     </div>

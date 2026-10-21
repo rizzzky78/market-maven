@@ -1,7 +1,9 @@
 import { ChatHistoryGrid } from "@/components/maven/chat-history-grid";
+import { Button } from "@/components/ui/button";
 import { getChats } from "@/lib/agents/action/chat-service";
-import { History } from "lucide-react";
+import { ArrowLeft, Plus } from "lucide-react";
 import { getServerSession } from "next-auth";
+import Link from "next/link";
 import { cache } from "react";
 
 const loadChats = cache(async (userId: string) => {
@@ -12,17 +14,35 @@ export default async function ChatHistoryPage() {
   const session = await getServerSession();
   const chats = await loadChats(session?.user?.email || "anonymous@gmail.com");
   return (
-    <div className="mx-auto py-8 max-w-3xl *:font-(family-name:--font-khand)">
-      <div className="py-5 px-6 mb-4 rounded-4xl bg-[#1A1A1D]">
-        <div className="flex items-center">
-          <History className="size-8 mr-4 shrink-0 text-purple-400" />
-          <div className="flex flex-col">
-            <h1 className="text-lg font-semibold text-white/90">User Chat History</h1>
-            <p className="text-xs text-white/70">*click to go to chat</p>
-          </div>
+    <main className="mx-auto w-full max-w-3xl px-4 py-6 font-(family-name:--font-satoshi) md:py-12">
+      <Link
+        href="/chat"
+        className="-ml-1 inline-flex min-h-11 items-center gap-1.5 rounded-md px-1 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+      >
+        <ArrowLeft className="size-4" aria-hidden />
+        Back to chat
+      </Link>
+      <header className="mt-4 mb-6 flex items-end justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">History</h1>
+          {chats.length > 0 && (
+            <p className="mt-1 text-sm text-muted-foreground">
+              {chats.length === 1
+                ? "1 conversation"
+                : `${chats.length} conversations`}
+            </p>
+          )}
         </div>
-      </div>
+        {chats.length > 0 && (
+          <Button asChild size="sm" className="rounded-full">
+            <Link href="/chat">
+              <Plus className="size-4" aria-hidden />
+              New chat
+            </Link>
+          </Button>
+        )}
+      </header>
       <ChatHistoryGrid chats={chats} />
-    </div>
+    </main>
   );
 }

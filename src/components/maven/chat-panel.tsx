@@ -133,10 +133,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ isEmpty }) => {
             `Daily request limit reached (${rateLimitStatus.limits.requestsPerDay} requests). Resets in ${rateLimitStatus.reset?.formatted}.`,
             {
               position: "top-center",
-              richColors: true,
               duration: 5000,
-              className:
-                "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
             }
           );
         } else if (rateLimitStatus.reason === "CONVERSATION_LIMIT_EXCEEDED") {
@@ -144,10 +141,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ isEmpty }) => {
             `Conversation length limit reached (${rateLimitStatus.limits.conversationLength} messages). Please start a new conversation.`,
             {
               position: "top-center",
-              richColors: true,
               duration: 5000,
-              className:
-                "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
             }
           );
         }
@@ -182,11 +176,8 @@ export const ChatPanel: FC<ChatPanelProps> = ({ isEmpty }) => {
       }, 1000);
     } catch (error) {
       console.error("An Error occured when submitting the query!", error);
-      toast.error("Error When Submitting the Query!", {
+      toast.error("Couldn't send your message. Try again.", {
         position: "top-center",
-        richColors: true,
-        className:
-          "text-xs flex justify-center rounded-3xl border-none text-white dark:text-black bg-[#1A1A1D] dark:bg-white",
       });
     } finally {
       setIsCheckingRateLimit(false);
@@ -272,7 +263,16 @@ export const ChatPanel: FC<ChatPanelProps> = ({ isEmpty }) => {
 
   return (
     <div className="w-full pb-3 md:pb-4" data-testid="chat-panel">
-      {isEmpty && <QuickActionButton />}
+      {isEmpty && (
+        <div className="mb-6 text-center md:mb-8">
+          <h2 className="text-2xl font-semibold tracking-tight text-balance md:text-3xl">
+            What are you shopping for?
+          </h2>
+          <p className="mt-2 text-sm text-pretty text-muted-foreground">
+            Search, compare and get recommendations on electronics.
+          </p>
+        </div>
+      )}
       <AnimatePresence mode="sync">
         {attachment && (
           <AttachProductBadge
@@ -443,7 +443,8 @@ export const ChatPanel: FC<ChatPanelProps> = ({ isEmpty }) => {
           </div>
         </div>
       </form>
-      <p className="mt-2 hidden text-center text-[11px] text-muted-foreground md:block">
+      {isEmpty && <QuickActionButton />}
+      <p className="mt-3 hidden text-center text-[11px] text-muted-foreground md:block">
         Enter to send · Shift + Enter for a new line · Prices and stock can
         change, check the store before buying
       </p>

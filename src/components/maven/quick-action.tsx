@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { FC, ReactNode, useCallback } from "react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
 import { useMavenChat } from "@/lib/utility/provider/chat-provider";
 import { useMavenStateController } from "../hooks/maven-state-controller";
@@ -21,27 +21,27 @@ const predefinedActions: {
 }[] = [
   {
     action: "Find the Samsung Galaxy S24 Ultra",
-    icon: <Smartphone className="size-4 shrink-0 text-muted-foreground" />,
+    icon: <Smartphone className="size-4 shrink-0 text-muted-foreground" aria-hidden />,
   },
   {
     action: "Recommend a laptop for gaming",
-    icon: <Laptop2 className="size-4 shrink-0 text-muted-foreground" />,
+    icon: <Laptop2 className="size-4 shrink-0 text-muted-foreground" aria-hidden />,
   },
   {
     action: "Is the Lenovo Yoga right for me?",
-    icon: <Laptop className="size-4 shrink-0 text-muted-foreground" />,
+    icon: <Laptop className="size-4 shrink-0 text-muted-foreground" aria-hidden />,
   },
   {
     action: "Suggest a handheld gaming console",
-    icon: <Gamepad className="size-4 shrink-0 text-muted-foreground" />,
+    icon: <Gamepad className="size-4 shrink-0 text-muted-foreground" aria-hidden />,
   },
   {
     action: "Help me pick a graphics card for my PC",
-    icon: <RectangleHorizontal className="size-4 shrink-0 text-muted-foreground" />,
+    icon: <RectangleHorizontal className="size-4 shrink-0 text-muted-foreground" aria-hidden />,
   },
   {
     action: "Find dBE headphones",
-    icon: <Headphones className="size-4 shrink-0 text-muted-foreground" />,
+    icon: <Headphones className="size-4 shrink-0 text-muted-foreground" aria-hidden />,
   },
 ];
 
@@ -49,6 +49,7 @@ export const QuickActionButton: FC = () => {
   const { submit } = useMavenChat();
   const { isGenerating } = useAppState();
   const { flush } = useMavenStateController();
+  const reduceMotion = useReducedMotion();
 
   const actionSubmit = useCallback(
     async (query: string) => {
@@ -60,38 +61,30 @@ export const QuickActionButton: FC = () => {
     [flush, isGenerating, submit]
   );
   return (
-    <div className="mb-6 w-full">
-      <div className="mb-6 text-center md:mb-8">
-        <h2 className="text-2xl font-semibold tracking-tight text-balance md:text-3xl">
-          What are you shopping for?
-        </h2>
-        <p className="mt-2 text-sm text-pretty text-muted-foreground">
-          Search, compare and get recommendations on electronics.
-        </p>
-      </div>
-      <div
-        className="grid grid-cols-1 gap-2 sm:grid-cols-2"
-        data-testid="quick-actions"
-      >
-        {predefinedActions.map((actionItem, index) => (
-          <motion.button
-            key={index}
+    <ul
+      className="mt-4 flex flex-wrap justify-center gap-2"
+      aria-label="Suggested questions"
+      data-testid="quick-actions"
+    >
+      {predefinedActions.map((actionItem, index) => (
+        <motion.li
+          key={actionItem.action}
+          initial={reduceMotion ? false : { opacity: 0, y: 4 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2, delay: index * 0.03, ease: [0.25, 1, 0.5, 1] }}
+          className={cn(index >= 4 && "hidden sm:block")}
+        >
+          <button
             type="button"
             disabled={isGenerating}
             onClick={async () => await actionSubmit(actionItem.action)}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.2, delay: index * 0.04 }}
-            className={cn(
-              "flex min-h-11 w-full cursor-pointer items-center gap-3 rounded-xl border bg-background px-4 py-2.5 text-left text-sm transition-colors hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
-              index >= 4 && "hidden sm:flex"
-            )}
+            className="flex min-h-9 cursor-pointer items-center gap-2 rounded-full border bg-background px-3.5 py-1.5 text-left text-sm text-foreground/80 transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none active:bg-accent/70 disabled:pointer-events-none disabled:opacity-50"
           >
             {actionItem.icon}
-            <span className="line-clamp-2">{actionItem.action}</span>
-          </motion.button>
-        ))}
-      </div>
-    </div>
+            <span>{actionItem.action}</span>
+          </button>
+        </motion.li>
+      ))}
+    </ul>
   );
 };

@@ -152,26 +152,27 @@ export default async function SharePage({ searchParams }: SharePageProps) {
     <div>
       <NavigationBar />
       <div className="min-h-screen flex flex-col">
-        <main className="px-2 sm:px-12 md:pt-8 max-w-[484px] md:max-w-3xl w-full mx-auto flex flex-col space-y-3 md:space-y-4 grow">
-          <section className="bg-[#1A1A1D] dark:bg-white rounded-3xl py-4 px-6 mt-[100px] lg:mt-16 mb-9 md:mb-10">
-            <div className="flex flex-col">
-              <h2 className="font-(family-name:--font-khand) text-2xl font-semibold text-white/90 dark:text-black/90">
-                Shared Content
-              </h2>
-              <div className="flex items-start">
-                <Info className="size-4 shrink-0 lg:mt-1.5 mr-1 text-purple-500" />
-                <p className="text-lg text-white/80 dark:text-black/80 font-(family-name:--font-khand)">
-                  You are currently viewing the shared content, please go to the
-                  <Link
-                    href="/chat"
-                    className="mx-1 underline text-purple-300 dark:text-purple-500 hover:no-underline hover:text-purple-500 dark:hover:text-purple-600"
-                  >
-                    App
-                  </Link>
-                  for more features.
+        <main className="mx-auto flex w-full max-w-3xl grow flex-col space-y-3 px-4 sm:px-6 md:space-y-4 md:pt-8">
+          <section className="mt-24 mb-6 flex flex-col gap-3 rounded-xl border bg-card px-4 py-3 font-(family-name:--font-satoshi) sm:flex-row sm:items-center sm:justify-between lg:mt-16 md:mb-8">
+            <div className="flex items-start gap-2.5">
+              <Info
+                className="mt-0.5 size-4 shrink-0 text-brand"
+                aria-hidden
+              />
+              <div>
+                <h1 className="text-sm font-medium">Shared from Maven</h1>
+                <p className="text-sm text-muted-foreground">
+                  This is a read-only copy. Open the app to ask your own
+                  questions.
                 </p>
               </div>
             </div>
+            <Link
+              href="/chat"
+              className="inline-flex h-9 shrink-0 items-center justify-center self-start rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none sm:self-auto"
+            >
+              Open Maven
+            </Link>
           </section>
           <SharedContent type={validatedType} data={contentData} />
         </main>

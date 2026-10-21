@@ -7,27 +7,26 @@ export default async function Page() {
   const hasSubmitted = cookieStore.has("rating_has_submitted");
 
   return (
-    <main className="w-full my-10 mx-auto flex flex-col max-w-6xl space-y-40 mt-14">
-      <div className="min-h-screen flex items-center justify-center px-4">
+    <main className="flex min-h-dvh flex-col font-(family-name:--font-satoshi)">
+      <div className="flex flex-1 items-center justify-center px-4 py-12">
         <RatingForm initialHasSubmitted={hasSubmitted} />
       </div>
-      <footer className="font-(family-name:--font-khand) border-t border-purple-500/20 py-8 mt-auto">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400">
-            <Link
-              href="https://github.com/rizzzky78"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xl mb-2 sm:mb-0 hover:text-purple-300 transition-colors"
-            >
-              Github: @rizzzky78
-            </Link>
-            <div className="mb-2 sm:mb-0 text-xl">
-              <span>Portfolio: </span>
-              <span className="font-semibold text-purple-300">MAVEN</span>
-            </div>
-            <div className="text-slate-500 text-xl">Year: 2025</div>
-          </div>
+      <footer className="border-t">
+        <div className="mx-auto flex max-w-3xl flex-col items-center justify-between gap-2 px-4 py-6 text-sm text-muted-foreground sm:flex-row">
+          <Link
+            href="/chat"
+            className="transition-colors hover:text-foreground"
+          >
+            Back to Maven
+          </Link>
+          <Link
+            href="https://github.com/rizzzky78"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-colors hover:text-foreground"
+          >
+            GitHub · @rizzzky78
+          </Link>
         </div>
       </footer>
     </main>

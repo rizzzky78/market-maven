@@ -1,9 +1,8 @@
-"use client";
-
 import { ChatProperties } from "@/lib/types/ai";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { FC } from "react";
 import { ChatHistoryItem } from "./chat-history-item";
-import { motion } from "motion/react";
 
 interface ChatHistoryProps {
   chats: ChatProperties[];
@@ -12,26 +11,25 @@ interface ChatHistoryProps {
 export const ChatHistoryGrid: FC<ChatHistoryProps> = ({ chats }) => {
   const filtered = chats.filter((c) => c.title !== "" && c.chatId !== "");
 
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
+  if (filtered.length === 0) {
+    return (
+      <div className="rounded-xl border border-dashed px-6 py-12 text-center">
+        <p className="text-sm font-medium">No conversations yet</p>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Ask Maven about a product and the chat is saved here.
+        </p>
+        <Button asChild size="sm" className="mt-4 rounded-full">
+          <Link href="/chat">Start a chat</Link>
+        </Button>
+      </div>
+    );
+  }
 
   return (
-    <motion.div
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2"
-      variants={container}
-      initial="hidden"
-      animate="show"
-    >
-      {filtered.map((chat, index) => (
-        <ChatHistoryItem key={chat.chatId || index} chat={chat} />
+    <ul className="divide-y overflow-hidden rounded-xl border bg-card">
+      {filtered.map((chat) => (
+        <ChatHistoryItem key={chat.chatId} chat={chat} />
       ))}
-    </motion.div>
+    </ul>
   );
 };
