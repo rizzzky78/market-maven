@@ -108,7 +108,7 @@ bun install
 
 Persistent data is modeled in [`prisma/schema.prisma`](prisma/schema.prisma) and accessed with Prisma ORM over the `node-postgres` driver adapter (`@prisma/adapter-pg`), so any PostgreSQL-compatible database works: self-hosted Postgres, Neon, Supabase, RDS and similar. Set `DATABASE_URL` to its connection string (`postgresql://user:password@host:5432/db`; add `?sslmode=require` for hosted providers that need TLS).
 
-`npm install` runs `prisma generate` automatically. Then apply the migrations:
+The Prisma client is generated into the project at `src/generated/prisma` (imported as `@/generated/prisma/client`), not into `node_modules`; it is gitignored and rebuilt by `npm install`, `npm run build` and `npm run db:generate`. Then apply the migrations:
 
 ```bash
 # New database: create all tables
@@ -120,7 +120,7 @@ npx prisma migrate resolve --applied 0_init
 npx prisma migrate deploy
 ```
 
-After changing the schema, create a new migration with `npx prisma migrate dev --name <change>`.
+After changing the schema, create a new migration with `npm run db:migrate -- --name <change>` (`npx prisma migrate dev`).
 
 Chats are stored in PostgreSQL since migration `2_chats`; chats previously kept in Redis are not copied over. Records that referenced them get a placeholder chat (no messages, hidden from the history list) so their links keep resolving.
 

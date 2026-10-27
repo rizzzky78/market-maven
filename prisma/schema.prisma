@@ -9,9 +9,15 @@
 // (see README "Database setup"). Chats moved here from Redis; Redis now only
 // holds rate limiting and short-lived session state.
 
+// The client is generated inside the project (src/generated/prisma, imported
+// as "@/generated/prisma/client") instead of node_modules, so it is bundled and
+// type-checked with the app. It is gitignored: `npm install` (postinstall) and
+// `npm run db:generate` rebuild it.
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  runtime      = "nodejs"
+  moduleFormat = "esm"
 }
 
 datasource db {
