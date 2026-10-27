@@ -24,7 +24,88 @@ datasource db {
   provider = "postgresql"
 }
 
-/// A conversation owned by a user (NextAuth email). Holds the persisted AI
+// ---------------------------------------------------------------------------
+// Authentication (Better Auth core schema: user, session, account,
+// verification). Field names follow Better Auth's defaults so the Prisma
+// adapter needs no field mapping; tables and columns use snake_case.
+// ---------------------------------------------------------------------------
+
+/// A signed-in person. Created by Better Auth on first OAuth sign-in. The
+/// app keys its own records (chats, stores, shares) by `email`.
+model User {
+  id            String   @id
+  name          String
+  email         String   @unique
+  emailVerified Boolean  @default(false) @map("email_verified")
+  image         String?
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  sessions Session[]
+  accounts Account[]
+
+  @@map("users")
+}
+
+/// A Better Auth login session; `token` is the value stored in the session
+/// cookie. Removed with its user.
+model Session {
+  id        String   @id
+  expiresAt DateTime @map("expires_at") @db.Timestamptz(6)
+  token     String   @unique
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+  ipAddress String?  @map("ip_address")
+  userAgent String?  @map("user_agent")
+  userId    String   @map("user_id")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "idx_sessions_user_id")
+  @@map("sessions")
+}
+
+/// A provider identity linked to a user (`providerId`: "google" | "github"),
+/// holding the OAuth tokens. `password` is only used by email/password auth.
+model Account {
+  id                    String    @id
+  accountId             String    @map("account_id")
+  providerId            String    @map("provider_id")
+  userId                String    @map("user_id")
+  accessToken           String?   @map("access_token")
+  refreshToken          String?   @map("refresh_token")
+  idToken               String?   @map("id_token")
+  accessTokenExpiresAt  DateTime? @map("access_token_expires_at") @db.Timestamptz(6)
+  refreshTokenExpiresAt DateTime? @map("refresh_token_expires_at") @db.Timestamptz(6)
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt             DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "idx_accounts_user_id")
+  @@map("accounts")
+}
+
+/// Short-lived verification values (OAuth state, email verification tokens).
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime @map("expires_at") @db.Timestamptz(6)
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@index([identifier], map: "idx_verifications_identifier")
+  @@map("verifications")
+}
+
+// ---------------------------------------------------------------------------
+// App data
+// ---------------------------------------------------------------------------
+
+/// A conversation owned by a user (keyed by the user's email). Holds the persisted AI
 /// state of the chat; the tool, object and markdown records produced while
 /// chatting belong to it and are removed with it. `title` is generated after
 /// the first completed turn, so it is empty until then.

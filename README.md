@@ -124,8 +124,14 @@ After changing the schema, create a new migration with `npm run db:migrate -- --
 
 Chats are stored in PostgreSQL since migration `2_chats`; chats previously kept in Redis are not copied over. Records that referenced them get a placeholder chat (no messages, hidden from the history list) so their links keep resolving.
 
+Authentication data (Better Auth's `users`, `sessions`, `accounts` and `verifications` tables) lives in the same database since migration `3_better_auth`.
+
 | Model (table) | Purpose |
 |---|---|
+| `User` (`users`) | Signed-in people, created by Better Auth on first OAuth sign-in |
+| `Session` (`sessions`) | Better Auth login sessions (cookie token, expiry, IP / user agent) |
+| `Account` (`accounts`) | OAuth provider identities (Google, GitHub) and their tokens, linked to a user |
+| `Verification` (`verifications`) | Short-lived verification values such as OAuth state |
 | `Chat` (`chats`) | A user's conversation; owns its messages and tool, object and markdown records (deleted together) |
 | `ChatMessage` (`chat_messages`) | Ordered AI state messages of a chat (role enum + JSON content) |
 | `ScrapeCache` (`scrape_cache`) | Caches web scraping results by query to avoid redundant requests |
