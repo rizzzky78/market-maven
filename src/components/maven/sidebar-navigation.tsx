@@ -25,7 +25,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "@/lib/auth/client";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FC } from "react";
 
@@ -50,6 +51,7 @@ const externalLinks = [
 export const SidebarUserNavigation: FC = () => {
   const { isMobile } = useSidebar();
   const { data: session } = useSession();
+  const router = useRouter();
 
   const user = {
     name: session?.user?.name ?? undefined,
@@ -133,7 +135,11 @@ export const SidebarUserNavigation: FC = () => {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               className="text-destructive focus:text-destructive dark:text-red-400 dark:focus:text-red-400"
-              onClick={async () => await signOut({ callbackUrl: "/login" })}
+              onClick={() =>
+                signOut({
+                  fetchOptions: { onSuccess: () => router.push("/login") },
+                })
+              }
             >
               <LogOut />
               Log out

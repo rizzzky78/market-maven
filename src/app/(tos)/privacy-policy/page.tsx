@@ -13,12 +13,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { getServerSession } from "next-auth";
+import { getSession } from "@/lib/auth";
 import { NavigationBar } from "@/components/maven/navigation-bar";
 import { Footer } from "@/components/maven/footer";
 
 export default async function PrivacyPolicy() {
-  const session = await getServerSession();
+  const session = await getSession();
 
   return (
     <div>

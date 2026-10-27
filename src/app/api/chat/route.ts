@@ -6,7 +6,7 @@ import { modelConfigSchema } from "@/lib/agents/providers";
 import { ChatRequestBody, MavenUIMessage } from "@/lib/types/ai";
 import logger from "@/lib/utility/logger";
 import { createUIMessageStream, createUIMessageStreamResponse } from "ai";
-import { getServerSession } from "next-auth";
+import { getSession } from "@/lib/auth";
 
 /**
  * Streams the reply to one chat message for `useChat`. The chat history is
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const session = await getServerSession();
+  const session = await getSession();
   const username = session?.user?.email || "anonymous@gmail.com";
 
   const chat = await getChat(chatId);

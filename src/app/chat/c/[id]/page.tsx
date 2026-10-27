@@ -1,5 +1,5 @@
 import { notFound, redirect } from "next/navigation";
-import { getServerSession } from "next-auth";
+import { getSession } from "@/lib/auth";
 import { getChat, getChats } from "@/lib/agents/action/chat-service";
 import { cache } from "react";
 import { MavenChatProvider } from "@/lib/utility/provider/chat-provider";
@@ -31,7 +31,7 @@ export default async function ChatPage(props: ChatPageProps) {
   const params = await props.params;
   const { id } = params;
 
-  const session = await getServerSession();
+  const session = await getSession();
   const username = session?.user?.email || "anonymous@gmail.com";
   const chats = await loadChats(username);
 

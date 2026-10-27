@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
+import { getSession } from "@/lib/auth";
 import { createShare } from "@/lib/service/share-analytics";
 import { createShareURL } from "@/lib/service/share";
 
 export async function POST(request: Request) {
   try {
-    const session = await getServerSession();
+    const session = await getSession();
     if (!session?.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

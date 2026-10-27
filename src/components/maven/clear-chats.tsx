@@ -3,7 +3,7 @@
 import { FC, useCallback, useState } from "react";
 import { Button } from "../ui/button";
 import { clearChats } from "@/lib/agents/action/chat-service";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/lib/auth/client";
 import { ErrorMessage } from "./error-message";
 
 export const ClearChats: FC = () => {

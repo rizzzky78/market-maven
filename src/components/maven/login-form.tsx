@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, useSession } from "@/lib/auth/client";
 import Image from "next/image";
 import Link from "next/link";
 import { Checkbox } from "../ui/checkbox";
@@ -11,17 +11,19 @@ import { FC, ReactNode, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { motion } from "motion/react";
 
+type SocialProvider = Parameters<typeof signIn.social>[0]["provider"];
+
 export const LoginForm: FC = () => {
   const router = useRouter();
-  const { status } = useSession();
+  const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
-    if (status === "authenticated") {
+    if (session) {
       router.push("/chat");
     }
-  }, [status, router]);
+  }, [session, router]);
 
   async function login(provider: string) {
     setIsLoading(true);
@@ -35,7 +37,11 @@ export const LoginForm: FC = () => {
       setIsLoading(false);
       return;
     }
-    await signIn(provider, { callbackUrl: "/chat" });
+    // Only enabled entries (Google, GitHub) are configured on the server.
+    await signIn.social({
+      provider: provider as SocialProvider,
+      callbackURL: "/chat",
+    });
     setIsLoading(false);
   }
 

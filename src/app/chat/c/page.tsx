@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth";
+import { getSession } from "@/lib/auth";
 import { cache } from "react";
 import { getChats } from "@/lib/agents/action/chat-service";
 import { v4 } from "uuid";
@@ -22,7 +22,7 @@ export default async function Page(props: PageProps) {
   }
 
   const id = v4();
-  const session = await getServerSession();
+  const session = await getSession();
   const username = session?.user?.email || "anonymous@gmail.com";
 
   const chats = await loadChats(username);

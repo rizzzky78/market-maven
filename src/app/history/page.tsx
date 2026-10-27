@@ -2,7 +2,7 @@ import { ChatHistoryGrid } from "@/components/maven/chat-history-grid";
 import { Button } from "@/components/ui/button";
 import { getChats } from "@/lib/agents/action/chat-service";
 import { ArrowLeft, Plus } from "lucide-react";
-import { getServerSession } from "next-auth";
+import { getSession } from "@/lib/auth";
 import Link from "next/link";
 import { cache } from "react";
 
@@ -11,7 +11,7 @@ const loadChats = cache(async (userId: string) => {
 });
 
 export default async function ChatHistoryPage() {
-  const session = await getServerSession();
+  const session = await getSession();
   const chats = await loadChats(session?.user?.email || "anonymous@gmail.com");
   return (
     <main className="mx-auto w-full max-w-3xl px-4 py-6 font-(family-name:--font-satoshi) md:py-12">

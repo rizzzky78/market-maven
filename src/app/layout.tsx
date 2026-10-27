@@ -2,8 +2,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/lib/utility/provider/theme-provider";
 import { Toaster } from "sonner";
-import { getServerSession } from "next-auth";
-import { SessionProvider } from "@/lib/utility/provider/session-provider";
 import localFont from "next/font/local";
 import type { Metadata } from "next";
 
@@ -42,12 +40,11 @@ const satoshi = localFont({
   display: "swap",
 });
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession();
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -55,7 +52,7 @@ export default async function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <Toaster />
-          <SessionProvider session={session}>{children}</SessionProvider>
+          {children}
         </ThemeProvider>
       </body>
     </html>

@@ -17,13 +17,15 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "@/lib/auth/client";
+import { useRouter } from "next/navigation";
 import { FC } from "react";
 import Link from "next/link";
 
 export const NavUser: FC = () => {
   const { isMobile } = useSidebar();
   const { data: session } = useSession();
+  const router = useRouter();
   const user = {
     name: session?.user?.name as string,
     email: session?.user?.email as string,
@@ -88,7 +90,11 @@ export const NavUser: FC = () => {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => signOut({ callbackUrl: "/login" })}
+                onClick={() =>
+                  signOut({
+                    fetchOptions: { onSuccess: () => router.push("/login") },
+                  })
+                }
               >
                 <LogOut className="text-red-400" />
                 Log out

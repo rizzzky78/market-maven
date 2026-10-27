@@ -2,7 +2,7 @@
 
 import { Redis } from "@upstash/redis";
 import { AIState, RateLimitResponse } from "@/lib/types/ai";
-import { getServerSession } from "next-auth";
+import { getSession } from "@/lib/auth";
 
 /**
  * Configuration for the rate limiting system.
@@ -143,7 +143,7 @@ export async function checkRateLimit(
     const today = new Date().toISOString().split("T")[0];
 
     // Extract user identity information
-    const session = await getServerSession();
+    const session = await getSession();
     const userEmail = session?.user?.email || "anonymous";
 
     // Check for cached rate limit data
@@ -265,7 +265,7 @@ export async function checkRateLimit(
 export async function recordSuccessfulRequest(aiState: AIState): Promise<void> {
   try {
     const today = new Date().toISOString().split("T")[0];
-    const session = await getServerSession();
+    const session = await getSession();
     const userEmail = session?.user?.email || "anonymous";
 
     // Check if this is a first-time user
