@@ -1,4 +1,4 @@
-import type { Models } from "@/lib/agents/models";
+import type { ModelRegistry } from "@/lib/agents/models";
 import {
   compactToolResults,
   toModelMessages,
@@ -60,8 +60,8 @@ type OrchestrateOptions = {
   requestOption?: ExtendedRequestOption;
   /** The request's signal: aborted when the client stops the reply. */
   abortSignal?: AbortSignal;
-  /** The models of this request (the user's own provider or the defaults) */
-  models: Models;
+  /** The models of this request per pipeline role (the user's own settings or the defaults) */
+  models: ModelRegistry;
 };
 
 /**
@@ -75,8 +75,9 @@ export async function orchestrate({
   payload,
   requestOption,
   abortSignal,
-  models,
+  models: registry,
 }: OrchestrateOptions) {
+  const models = registry.forRole("default");
   logger.info("Debug: payload orchestrator - agentic", {
     payload,
     requestOption,
@@ -118,22 +119,35 @@ export async function orchestrate({
     models,
   };
 
+  /** Each tool runs on the model assigned to it in the user's AI settings. */
   const toolset = {
-    recommendator: toolRecommendator(props),
+    recommendator: toolRecommendator({
+      ...props,
+      models: registry.forRole("recommendator"),
+    }),
     searchProduct: toolSearchProduct({
       ...props,
+      models: registry.forRole("searchProduct"),
       userMessage: payloadUserMessage,
     }),
     getProductDetails: toolGetProductDetails({
       ...props,
+      models: registry.forRole("getProductDetails"),
       userMessage: payloadUserMessage,
     }),
     productsComparison: toolProductComparison({
       ...props,
+      models: registry.forRole("productsComparison"),
       userMessage: payloadUserMessage,
     }),
-    inquireUser: toolInquireUser(props),
-    webResearch: toolWebResearch(props),
+    inquireUser: toolInquireUser({
+      ...props,
+      models: registry.forRole("inquireUser"),
+    }),
+    webResearch: toolWebResearch({
+      ...props,
+      models: registry.forRole("webResearch"),
+    }),
   };
 
   let failure: unknown;
@@ -208,7 +222,7 @@ export async function orchestrate({
         ? // The user's own provider: its error (bad key, unknown model) is theirs to fix.
           ui("ErrorMessage", {
             errorName: "Your AI provider returned an error",
-            reason: `${failure instanceof Error ? failure.message : "The provider didn't respond."} Check the provider, API key and model in AI provider settings.`,
+            reason: `${failure instanceof Error ? failure.message : "The provider didn't respond."} Check the connection, API key and model in AI settings.`,
           })
         : ui("ErrorMessage", {
             errorName: "Maven is unavailable right now",
