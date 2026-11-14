@@ -28,7 +28,6 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { SidebarUserNavigation } from "./sidebar-navigation";
-import { ModelSettingsDialog, useModelLabel } from "./model-settings-dialog";
 import { Separator } from "../ui/separator";
 import { ChatProperties, MessageProperty } from "@/lib/types/ai";
 import Link from "next/link";
@@ -73,7 +72,6 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
   const driverRef = useRef<Driver | null>(null);
 
   const router = useRouter();
-  const modelLabel = useModelLabel();
 
   const handleNewChat = () => {
     setIsGenerating(false);
@@ -295,19 +293,21 @@ export const MavenSidebar: FC<MavenSidebarProps> = ({
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
-                  <ModelSettingsDialog>
-                    <SidebarMenuButton
-                      tooltip={{
-                        children: `AI provider: ${modelLabel}`,
-                        hidden: false,
-                      }}
-                      className="px-2.5 md:px-2 rounded-full"
-                      data-testid="model-settings-button"
-                    >
+                  <SidebarMenuButton
+                    asChild
+                    tooltip={{
+                      children: "AI settings",
+                      hidden: false,
+                    }}
+                    isActive={pathname.startsWith("/settings")}
+                    className="px-2.5 md:px-2 rounded-full"
+                    data-testid="model-settings-button"
+                  >
+                    <Link href="/settings">
                       <Bot />
-                      <span>AI provider</span>
-                    </SidebarMenuButton>
-                  </ModelSettingsDialog>
+                      <span>AI settings</span>
+                    </Link>
+                  </SidebarMenuButton>
                 </SidebarMenuItem>
               </SidebarMenu>
             </SidebarGroupContent>

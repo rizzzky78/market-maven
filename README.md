@@ -56,7 +56,7 @@ A visitor lands on the [Home](src/app/README.md) page, learns what Maven does, a
 ## Tech stack
 
 - **Framework:** Next.js 16 (App Router, Turbopack) with React 19 and TypeScript
-- **AI / orchestration:** Vercel AI SDK 7 (AI SDK UI: `useChat` from `@ai-sdk/react` over a UI message stream for generative streamed UI, `streamText` / `generateText` with `Output` for structured data), Google Gemini via `@ai-sdk/google` with Google Search grounding by default; users can switch to their own provider and API key (OpenAI, Anthropic, Gemini, Vercel AI Gateway, OpenRouter, Groq, xAI, DeepSeek, Mistral, Together or any OpenAI-compatible API) from **AI provider** in the chat sidebar, kept in their browser and sent per request. Providers without built-in web search use a Tavily search tool
+- **AI / orchestration:** Vercel AI SDK 7 (AI SDK UI: `useChat` from `@ai-sdk/react` over a UI message stream for generative streamed UI, `streamText` / `generateText` with `Output` for structured data), Google Gemini via `@ai-sdk/google` with Google Search grounding by default; signed-in users can connect their own providers and API keys (OpenAI, Anthropic, Gemini, Vercel AI Gateway, OpenAI-compatible presets such as OpenRouter, Groq, xAI, DeepSeek, Qwen, Kimi, GLM, Mistral, Together, Fireworks, Cerebras, Anthropic-compatible endpoints, or any custom base URL) from **AI settings** (`/settings`), assign a model per agent tool, tune temperature, output length and reasoning, set custom instructions and analysis preferences, and review token usage. Keys are stored encrypted on the server. Providers without built-in web search use a Tavily search tool
 - **Web data:** Firecrawl for scraping, Tavily and Serper for external search
 - **Auth:** Better Auth (Google, GitHub OAuth) with users and sessions stored in PostgreSQL through its Prisma adapter
 - **Data stores:** PostgreSQL (self-hosted, Neon or compatible) via Prisma ORM with `@prisma/adapter-pg` for chats and all persistent data, Upstash Redis for rate limiting and short-lived session state
@@ -108,23 +108,13 @@ bun install
 
 Persistent data is modeled in [`prisma/schema.prisma`](prisma/schema.prisma) and accessed with Prisma ORM over the `node-postgres` driver adapter (`@prisma/adapter-pg`), so any PostgreSQL-compatible database works: self-hosted Postgres, Neon, Supabase, RDS and similar. Set `DATABASE_URL` to its connection string (`postgresql://user:password@host:5432/db`; add `?sslmode=require` for hosted providers that need TLS).
 
-The Prisma client is generated into the project at `src/generated/prisma` (imported as `@/generated/prisma/client`), not into `node_modules`; it is gitignored and rebuilt by `npm install`, `npm run build` and `npm run db:generate`. Then apply the migrations:
+The Prisma client is generated into the project at `src/generated/prisma` (imported as `@/generated/prisma/client`), not into `node_modules`; it is gitignored and rebuilt by `npm install`, `npm run build` and `npm run db:generate`. Then apply the migration:
 
 ```bash
-# New database: create all tables
-npx prisma migrate deploy
-
-# Existing database created from the previous hand-written SQL:
-# mark the baseline as applied, then apply the remaining migrations
-npx prisma migrate resolve --applied 0_init
-npx prisma migrate deploy
+bunx prisma migrate deploy
 ```
 
-After changing the schema, create a new migration with `npm run db:migrate -- --name <change>` (`npx prisma migrate dev`).
-
-Chats are stored in PostgreSQL since migration `2_chats`; chats previously kept in Redis are not copied over. Records that referenced them get a placeholder chat (no messages, hidden from the history list) so their links keep resolving.
-
-Authentication data (Better Auth's `users`, `sessions`, `accounts` and `verifications` tables) lives in the same database since migration `3_better_auth`.
+The schema ships as a single `0_init` migration while the app is in development. After changing the schema, regenerate it from scratch (or reset a local database with `bunx prisma migrate reset`).
 
 | Model (table) | Purpose |
 |---|---|
@@ -140,6 +130,10 @@ Authentication data (Better Auth's `users`, `sessions`, `accounts` and `verifica
 | `ToolDataStore` (`tool_data_store`) | Records agent tool executions, arguments, results, and success status |
 | `Share` (`shares`) | Tracks publicly shared content and access analytics |
 | `Rating` (`ratings`) | App ratings and feedback shown on the reviews page |
+| `AiConnection` (`ai_connections`) | A user's own LLM provider connections; API keys AES-256-GCM encrypted with `MAVEN_ENCRYPTION_KEY` |
+| `AiModelAssignment` (`ai_model_assignments`) | Which connection, model and generation parameters each pipeline role (default, light, each agent tool) uses |
+| `AiPreferences` (`ai_preferences`) | Custom instructions, chat style, analysis preferences and the usage tracking switch |
+| `AiUsage` (`ai_usage`) | Token usage per model call, shown in AI settings |
 
 ### Environment variables
 
