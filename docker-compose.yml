@@ -1,52 +1,44 @@
-# market-maven stack, built and released by `deploy.sh`.
+# market-maven runtime stack. Images are built and released by `deploy.sh`; this
+# file never builds.
 #
-# `IMAGE_TAG` defaults to `current`, the tag `deploy.sh` moves on every release.
-# Runtime secrets come from `.env`; `${NEXT_PUBLIC_APP_URL}` is interpolated from
-# the same file at build time. A Postgres running on the host itself is reachable
-# from the container as `host.docker.internal`.
+# `IMAGE_TAG` defaults to `current`, the tag `deploy.sh` moves on every release, so
+# plain `docker compose ps|logs|restart` always address the live release.
+# Runtime secrets come from `.env`. A Postgres running on the host itself is
+# reachable from the container as `host.docker.internal`.
 
-x-build: &build
-  context: .
-  labels:
-    deploy.tag: ${IMAGE_TAG:-current}
-  args:
-    NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-}
-    GIT_COMMIT_SHA: ${GIT_COMMIT_SHA:-unknown}
+x-app: &app
+  env_file: ${ENV_FILE:-.env}
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
+  logging:
+    driver: json-file
+    options: { max-size: "20m", max-file: "5" }
 
 services:
   web:
+    <<: *app
     image: market-maven/web:${IMAGE_TAG:-current}
-    build:
-      <<: *build
-      target: web
-    env_file: .env
     environment:
       PORT: 3000
       HOSTNAME: 0.0.0.0
     ports:
       - "${APP_PORT:-3000}:3000"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     restart: unless-stopped
-    logging:
-      driver: json-file
-      options: { max-size: "20m", max-file: "5" }
+    cpus: ${APP_CPUS:-0}
+    mem_limit: ${APP_MEM:-0}
+    pids_limit: 512
     healthcheck:
       # Any non-5xx proves the server and its route graph load.
       test: ["CMD", "bun", "-e", "fetch('http://127.0.0.1:3000/').then(r=>process.exit(r.status<500?0:1),()=>process.exit(1))"]
-      interval: 15s
+      interval: 10s
       timeout: 5s
       retries: 3
       start_period: 30s
 
-  # One-shot: `docker compose run --rm migrate`. The profile keeps `up` from starting it.
+  # One-shot (docker mode): `docker compose run --rm migrate`. The profile keeps
+  # `up` from starting it.
   migrate:
+    <<: *app
     image: market-maven/migrate:${IMAGE_TAG:-current}
-    build:
-      <<: *build
-      target: migrate
-    env_file: .env
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     restart: "no"
     profiles: [tools]

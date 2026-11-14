@@ -15,4 +15,6 @@ graphify-out
 deploy.sh
 docker-compose.yml
 Dockerfile
-.deploy-logs
+.deploy
+.deploy-static
+.deploy.lock

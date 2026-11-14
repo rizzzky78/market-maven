@@ -3,6 +3,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /** Self-contained server bundle (.next/standalone) shipped by the Docker `web` image. */
   output: "standalone",
+  /** Build worker count, capped by `deploy.sh` (NEXT_BUILD_CPUS) to fit the build's resource budget. */
+  ...(Number(process.env.NEXT_BUILD_CPUS) > 0 && {
+    experimental: { cpus: Number(process.env.NEXT_BUILD_CPUS) },
+  }),
   images: {
     remotePatterns: [
       {
