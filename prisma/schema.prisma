@@ -41,8 +41,12 @@ model User {
   createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt     DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  sessions Session[]
-  accounts Account[]
+  sessions       Session[]
+  accounts       Account[]
+  aiConnections  AiConnection[]
+  aiAssignments  AiModelAssignment[]
+  aiPreferences  AiPreferences?
+  aiUsage        AiUsage[]
 
   @@map("users")
 }
@@ -254,4 +258,102 @@ model Rating {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
 
   @@map("ratings")
+}
+
+// AI settings (bring your own provider)
+
+/// A user's own LLM provider connection. `provider` is a preset id from
+/// src/lib/agents/providers.ts; `baseURL` is only set for custom endpoints.
+/// `apiKeyCipher` is the AES-256-GCM encrypted key (see
+/// src/lib/service/ai-settings/crypto.ts), never returned to the client;
+/// `apiKeyHint` keeps its last characters for display.
+/// `structuredOutputs` overrides the preset's JSON schema support for
+/// OpenAI-compatible endpoints.
+model AiConnection {
+  id                String   @id
+  userId            String   @map("user_id")
+  label             String
+  provider          String
+  baseURL           String?  @map("base_url")
+  apiKeyCipher      String   @map("api_key_cipher")
+  apiKeyHint        String   @map("api_key_hint")
+  structuredOutputs Boolean? @map("structured_outputs")
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  user        User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assignments AiModelAssignment[]
+
+  @@index([userId], map: "idx_ai_connections_user_id")
+  @@map("ai_connections")
+}
+
+/// Which connection and model a part of the agent pipeline runs on.
+/// `role`: "default" | "light" | "searchProduct" | "getProductDetails" |
+/// "productsComparison" | "recommendator" | "webResearch" | "inquireUser".
+/// Roles without a row use the "default" row, and without that Maven's own
+/// models. Generation parameters left null use the provider defaults;
+/// `reasoning` is an AI SDK reasoning level ("none" .. "max").
+/// Removed with its connection.
+model AiModelAssignment {
+  userId          String  @map("user_id")
+  role            String
+  connectionId    String  @map("connection_id")
+  model           String
+  temperature     Float?
+  maxOutputTokens Int?    @map("max_output_tokens")
+  reasoning       String?
+
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  connection AiConnection @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+
+  @@id([userId, role])
+  @@index([connectionId], map: "idx_ai_model_assignments_connection_id")
+  @@map("ai_model_assignments")
+}
+
+/// Chat behavior and analysis preferences added to the assistant's
+/// instructions. `style`: "concise" | "balanced" | "detailed";
+/// `tone`: "neutral" | "friendly" | "professional"; `language` empty means
+/// the user's own language; `depth`: "quick" | "standard" | "deep";
+/// `priorities` are product aspects to weigh first; `budgetMax` is in
+/// `currency`. `trackUsage` turns token usage recording on or off.
+model AiPreferences {
+  userId       String   @id @map("user_id")
+  instructions String?
+  style        String   @default("balanced")
+  tone         String   @default("neutral")
+  language     String?
+  depth        String   @default("standard")
+  priorities   String[] @default([])
+  currency     String?
+  budgetMax    Int?     @map("budget_max")
+  trackUsage   Boolean  @default(true) @map("track_usage")
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("ai_preferences")
+}
+
+/// Token usage of one model call, recorded per request when the user has
+/// usage tracking on. `provider` is a preset id or "maven" for the app's own
+/// models; `role` is the pipeline role the call ran under.
+model AiUsage {
+  id              String   @id
+  userId          String   @map("user_id")
+  chatId          String?  @map("chat_id")
+  role            String
+  provider        String
+  model           String
+  inputTokens     Int      @default(0) @map("input_tokens")
+  outputTokens    Int      @default(0) @map("output_tokens")
+  reasoningTokens Int      @default(0) @map("reasoning_tokens")
+  cachedTokens    Int      @default(0) @map("cached_tokens")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt(sort: Desc)], map: "idx_ai_usage_user_id_created_at")
+  @@map("ai_usage")
 }
