@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  /** Self-contained server bundle (.next/standalone) shipped by the Docker `web` image. */
+  output: "standalone",
   images: {
     remotePatterns: [
       {

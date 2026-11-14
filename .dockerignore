@@ -1,0 +1,18 @@
+# Images build from source inside the Dockerfile, so host build output and host
+# node_modules must never leak into the context.
+node_modules
+.next
+src/generated/prisma
+.git
+.env*
+*.md
+!README.md
+*.tsbuildinfo
+package-lock.json
+temp
+.claude
+graphify-out
+deploy.sh
+docker-compose.yml
+Dockerfile
+.deploy-logs

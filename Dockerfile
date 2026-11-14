@@ -1,0 +1,50 @@
+# syntax=docker/dockerfile:1
+#
+# Built on the deploy host by `deploy.sh` through docker compose.
+#
+#   `web`     the Next.js standalone server (.next/standalone) on :3000
+#   `migrate` a throwaway image that runs `prisma migrate deploy`
+#
+FROM oven/bun:1 AS base
+WORKDIR /app
+
+# Manifest, lockfile and Prisma schema first so this layer survives source-only
+# changes. `postinstall` runs `prisma generate` against the schema.
+FROM base AS deps
+COPY package.json bun.lockb prisma.config.ts ./
+COPY prisma ./prisma
+RUN --mount=type=cache,id=bun,target=/root/.bun/install/cache,sharing=locked \
+    bun install --frozen-lockfile
+
+FROM deps AS build
+# `NEXT_PUBLIC_*` are inlined into the client bundle, so they are fixed per image.
+ARG NEXT_PUBLIC_APP_URL
+# Placeholders only: modules may read these at import time while Next collects
+# page data. Nothing connects during the build and this stage never ships.
+ENV NEXT_TELEMETRY_DISABLED=1 \
+    NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL \
+    DATABASE_URL=postgresql://build:build@127.0.0.1:5432/build \
+    BETTER_AUTH_SECRET=build-only-placeholder-secret-not-used-at-runtime
+COPY . .
+RUN bunx prisma generate
+RUN --mount=type=cache,id=next,target=/app/.next/cache \
+    bun run --bun next build
+
+FROM base AS migrate
+ENV NODE_ENV=production
+COPY --from=deps /app/node_modules ./node_modules
+COPY package.json prisma.config.ts ./
+COPY prisma ./prisma
+CMD ["bunx", "prisma", "migrate", "deploy"]
+
+# `.next/standalone` carries its own traced node_modules and server.js; only the
+# static assets and `public/` travel beside it.
+FROM base AS web
+ARG GIT_COMMIT_SHA
+ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 PORT=3000 HOSTNAME=0.0.0.0 \
+    GIT_COMMIT_SHA=$GIT_COMMIT_SHA
+COPY --from=build /app/.next/standalone ./
+COPY --from=build /app/.next/static ./.next/static
+COPY --from=build /app/public ./public
+EXPOSE 3000
+CMD ["bun", "server.js"]
