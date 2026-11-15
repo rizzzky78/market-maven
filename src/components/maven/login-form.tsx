@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import type { AuthFeatures, OAuthProviderId } from "@/lib/auth/config";
 import { signIn } from "@/lib/auth/client";
-import { isPhoneNumber, normalizePhoneNumber } from "@/lib/auth/schema";
+import { isEmail, isPhoneNumber, normalizePhoneNumber } from "@/lib/auth/schema";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FC, FormEvent, useRef, useState } from "react";
@@ -16,11 +16,20 @@ import { TurnstileHandle, TurnstileWidget } from "./auth/turnstile-widget";
 
 type LoginFormProps = {
   features: AuthFeatures;
+  /** Outcome passed back by the verification or reset redirect. */
+  status?: "verify-failed" | "password-reset" | null;
 };
 
 /** Better Auth client error to a user-facing sentence. */
-function describeAuthError(error: { status?: number; message?: string }): string {
+function describeAuthError(error: {
+  status?: number;
+  code?: string;
+  message?: string;
+}): string {
   if (error.status === 429) return "Too many attempts. Wait a minute and try again.";
+  if (error.code === "EMAIL_NOT_VERIFIED") {
+    return "Verify your email first. We just sent you a new verification link.";
+  }
   return error.message || "Sign in failed. Try again.";
 }
 
@@ -28,7 +37,7 @@ function describeAuthError(error: { status?: number; message?: string }): string
  * Login with username or phone number plus password, and with any OAuth
  * provider configured on the server. Terms consent is required for both.
  */
-export const LoginForm: FC<LoginFormProps> = ({ features }) => {
+export const LoginForm: FC<LoginFormProps> = ({ features, status = null }) => {
   const router = useRouter();
   const turnstileRef = useRef<TurnstileHandle>(null);
   const [identifier, setIdentifier] = useState("");
@@ -36,7 +45,11 @@ export const LoginForm: FC<LoginFormProps> = ({ features }) => {
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [accepted, setAccepted] = useState(false);
   const [pending, setPending] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(
+    status === "verify-failed"
+      ? "That verification link is invalid or expired. Sign in to get a new one."
+      : null
+  );
 
   const captchaRequired = Boolean(features.captchaSiteKey);
 
@@ -59,7 +72,15 @@ export const LoginForm: FC<LoginFormProps> = ({ features }) => {
       : undefined;
     const value = identifier.trim();
 
-    const { error: signInError } = isPhoneNumber(value)
+    const { error: signInError } = isEmail(value)
+      ? await signIn.email({
+          email: value.toLowerCase(),
+          password,
+          rememberMe: true,
+          callbackURL: "/login",
+          fetchOptions,
+        })
+      : isPhoneNumber(value)
       ? await signIn.phoneNumber({
           phoneNumber: normalizePhoneNumber(value),
           password,
@@ -104,16 +125,24 @@ export const LoginForm: FC<LoginFormProps> = ({ features }) => {
   return (
     <AuthShell
       title="Login to"
-      description="Sign in with your username or WhatsApp number and password."
+      description="Sign in with your username, email or phone number and password."
     >
+      {status === "password-reset" ? (
+        <p
+          role="status"
+          className="font-(family-name:--font-khand) rounded-3xl bg-purple-500/10 px-5 py-3 text-base text-purple-700 dark:text-purple-300"
+        >
+          Password updated. Sign in with your new password.
+        </p>
+      ) : null}
       <form className="grid gap-4" onSubmit={handleCredentialSubmit} noValidate>
         <AuthField
-          label="Username or phone number"
+          label="Username, email or phone number"
           name="identifier"
           autoComplete="username"
           autoCapitalize="none"
           spellCheck={false}
-          placeholder="maven_user or +6281234567890"
+          placeholder="maven_user or you@example.com"
           value={identifier}
           onChange={(event) => setIdentifier(event.target.value)}
           required
@@ -127,7 +156,7 @@ export const LoginForm: FC<LoginFormProps> = ({ features }) => {
           onChange={(event) => setPassword(event.target.value)}
           required
           labelAction={
-            features.whatsappOtp ? (
+            features.email || features.whatsappOtp ? (
               <Link
                 href="/forgot-password"
                 className="font-(family-name:--font-khand) text-sm text-blue-500 underline-offset-4 hover:underline"
@@ -171,7 +200,7 @@ export const LoginForm: FC<LoginFormProps> = ({ features }) => {
 
       <TermsConsent checked={accepted} onCheckedChange={setAccepted} />
 
-      {features.whatsappOtp ? (
+      {features.email ? (
         <p className="font-(family-name:--font-khand) text-center text-base text-muted-foreground lg:text-left">
           New to Maven?{" "}
           <Link href="/register" className="text-blue-500 underline underline-offset-4">

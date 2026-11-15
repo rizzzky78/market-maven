@@ -3,7 +3,13 @@
 import { Button } from "@/components/ui/button";
 import type { AuthFeatures } from "@/lib/auth/config";
 import { authClient } from "@/lib/auth/client";
-import { OTP_LENGTH, otpSchema, passwordSchema, phoneNumberSchema } from "@/lib/auth/schema";
+import {
+  emailSchema,
+  OTP_LENGTH,
+  otpSchema,
+  passwordSchema,
+  phoneNumberSchema,
+} from "@/lib/auth/schema";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FC, FormEvent, useEffect, useRef, useState } from "react";
@@ -13,6 +19,12 @@ import { TurnstileHandle, TurnstileWidget } from "./auth/turnstile-widget";
 
 type ForgotPasswordFormProps = {
   features: AuthFeatures;
+};
+
+type ResetMethodProps = {
+  captchaSiteKey: string | null;
+  /** Switches to the other reset method, when both are available. */
+  onSwitch?: () => void;
 };
 
 /** Seconds before another reset code can be requested. */
@@ -28,7 +40,7 @@ function describeAuthError(error: { status?: number; message?: string }): string
  * Password reset over WhatsApp: request a code for the phone number, then
  * set a new password with it. All sessions are signed out on success.
  */
-export const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({ features }) => {
+const PhoneResetForm: FC<ResetMethodProps> = ({ captchaSiteKey, onSwitch }) => {
   const router = useRouter();
   const turnstileRef = useRef<TurnstileHandle>(null);
   const [step, setStep] = useState<"request" | "reset">("request");
@@ -41,7 +53,7 @@ export const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({ features }) =>
   const [error, setError] = useState<string | null>(null);
   const [cooldown, setCooldown] = useState(0);
 
-  const captchaRequired = Boolean(features.captchaSiteKey);
+  const captchaRequired = Boolean(captchaSiteKey);
 
   useEffect(() => {
     if (cooldown <= 0) return;
@@ -120,21 +132,7 @@ export const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({ features }) =>
       return;
     }
 
-    router.replace("/login");
-  }
-
-  if (!features.whatsappOtp) {
-    return (
-      <AuthShell title="Reset password for" description="Password reset is not available right now.">
-        <p className="font-(family-name:--font-khand) text-lg text-muted-foreground">
-          Please try again later or{" "}
-          <Link href="/login" className="text-blue-500 underline underline-offset-4">
-            go to login
-          </Link>
-          .
-        </p>
-      </AuthShell>
-    );
+    router.replace("/login?reset=1");
   }
 
   return (
@@ -165,10 +163,10 @@ export const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({ features }) =>
             hint="International format with country code."
             required
           />
-          {features.captchaSiteKey ? (
+          {captchaSiteKey ? (
             <TurnstileWidget
               ref={turnstileRef}
-              siteKey={features.captchaSiteKey}
+              siteKey={captchaSiteKey}
               onToken={setCaptchaToken}
             />
           ) : null}
@@ -211,10 +209,10 @@ export const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({ features }) =>
             onChange={(event) => setConfirmPassword(event.target.value)}
             required
           />
-          {features.captchaSiteKey ? (
+          {captchaSiteKey ? (
             <TurnstileWidget
               ref={turnstileRef}
-              siteKey={features.captchaSiteKey}
+              siteKey={captchaSiteKey}
               onToken={setCaptchaToken}
             />
           ) : null}
@@ -249,6 +247,16 @@ export const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({ features }) =>
         </form>
       )}
 
+      {onSwitch ? (
+        <button
+          type="button"
+          className="font-(family-name:--font-khand) w-fit text-base text-blue-500 underline-offset-4 hover:underline"
+          onClick={onSwitch}
+        >
+          Reset with email instead
+        </button>
+      ) : null}
+
       <p className="font-(family-name:--font-khand) text-center text-base text-muted-foreground lg:text-left">
         Remembered it?{" "}
         <Link href="/login" className="text-blue-500 underline underline-offset-4">
@@ -256,5 +264,175 @@ export const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({ features }) =>
         </Link>
       </p>
     </AuthShell>
+  );
+};
+
+/**
+ * Password reset by email: sends a single-use link that opens
+ * /reset-password with a token. The reply never reveals whether the email
+ * belongs to an account.
+ */
+const EmailResetForm: FC<ResetMethodProps> = ({ captchaSiteKey, onSwitch }) => {
+  const turnstileRef = useRef<TurnstileHandle>(null);
+  const [step, setStep] = useState<"request" | "sent">("request");
+  const [email, setEmail] = useState("");
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [cooldown, setCooldown] = useState(0);
+
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const timer = setTimeout(() => setCooldown((value) => value - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [cooldown]);
+
+  async function requestLink(): Promise<boolean> {
+    const parsedEmail = emailSchema.safeParse(email);
+    if (!parsedEmail.success) {
+      setError(parsedEmail.error.issues[0]?.message ?? "Invalid email");
+      return false;
+    }
+    if (captchaSiteKey && !captchaToken) {
+      setError("Please complete the captcha check.");
+      return false;
+    }
+
+    setPending(true);
+    const { error: requestError } = await authClient.requestPasswordReset({
+      email: parsedEmail.data,
+      redirectTo: "/reset-password",
+      fetchOptions: captchaToken
+        ? { headers: { "x-captcha-response": captchaToken } }
+        : undefined,
+    });
+    turnstileRef.current?.reset();
+    setPending(false);
+
+    if (requestError) {
+      setError(describeAuthError(requestError));
+      return false;
+    }
+    setEmail(parsedEmail.data);
+    setCooldown(RESEND_COOLDOWN_SECONDS);
+    return true;
+  }
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError(null);
+    if (await requestLink()) setStep("sent");
+  }
+
+  return (
+    <AuthShell
+      title="Reset password for"
+      description={
+        step === "request" ? (
+          "Enter the email of your account and we will send you a reset link."
+        ) : (
+          <>
+            If <span className="text-black dark:text-white">{email}</span> belongs
+            to an account, a reset link is in its inbox. It expires in an hour.
+          </>
+        )
+      }
+    >
+      <form className="grid gap-4" onSubmit={handleSubmit} noValidate>
+        {step === "request" ? (
+          <AuthField
+            label="Email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            inputMode="email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            required
+          />
+        ) : null}
+        {captchaSiteKey ? (
+          <TurnstileWidget
+            ref={turnstileRef}
+            siteKey={captchaSiteKey}
+            onToken={setCaptchaToken}
+          />
+        ) : null}
+        <AuthFormError message={error} />
+        {step === "request" ? (
+          <Button type="submit" className={authSubmitClassName} disabled={pending || !email.trim()}>
+            {pending ? "Sending link..." : "Send reset link"}
+          </Button>
+        ) : (
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full text-lg rounded-3xl py-6 font-(family-name:--font-khand)"
+            onClick={() => {
+              setError(null);
+              void requestLink();
+            }}
+            disabled={pending || cooldown > 0}
+          >
+            {cooldown > 0 ? `Resend link in ${cooldown}s` : "Resend reset link"}
+          </Button>
+        )}
+      </form>
+
+      {onSwitch ? (
+        <button
+          type="button"
+          className="font-(family-name:--font-khand) w-fit text-base text-blue-500 underline-offset-4 hover:underline"
+          onClick={onSwitch}
+        >
+          Reset with WhatsApp instead
+        </button>
+      ) : null}
+
+      <p className="font-(family-name:--font-khand) text-center text-base text-muted-foreground lg:text-left">
+        Remembered it?{" "}
+        <Link href="/login" className="text-blue-500 underline underline-offset-4">
+          Back to login
+        </Link>
+      </p>
+    </AuthShell>
+  );
+};
+
+/**
+ * Password reset entry: email link when Resend is configured, WhatsApp code
+ * when Kapso is configured, with a switch when both are available.
+ */
+export const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({ features }) => {
+  const [method, setMethod] = useState<"email" | "phone">(
+    features.email ? "email" : "phone"
+  );
+  const both = features.email && features.whatsappOtp;
+
+  if (!features.email && !features.whatsappOtp) {
+    return (
+      <AuthShell title="Reset password for" description="Password reset is not available right now.">
+        <p className="font-(family-name:--font-khand) text-lg text-muted-foreground">
+          Please try again later or{" "}
+          <Link href="/login" className="text-blue-500 underline underline-offset-4">
+            go to login
+          </Link>
+          .
+        </p>
+      </AuthShell>
+    );
+  }
+
+  return method === "email" ? (
+    <EmailResetForm
+      captchaSiteKey={features.captchaSiteKey}
+      onSwitch={both ? () => setMethod("phone") : undefined}
+    />
+  ) : (
+    <PhoneResetForm
+      captchaSiteKey={features.captchaSiteKey}
+      onSwitch={both ? () => setMethod("email") : undefined}
+    />
   );
 };

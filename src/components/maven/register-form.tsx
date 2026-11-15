@@ -1,16 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { completeSignup, requestSignupOtp, type SignupActionResult } from "@/lib/auth/actions";
+import { authClient } from "@/lib/auth/client";
 import type { AuthFeatures } from "@/lib/auth/config";
-import {
-  OTP_LENGTH,
-  passwordSchema,
-  phoneNumberSchema,
-  usernameSchema,
-} from "@/lib/auth/schema";
+import { emailSchema, passwordSchema, usernameSchema } from "@/lib/auth/schema";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { FC, FormEvent, useEffect, useRef, useState } from "react";
 import type { ZodType } from "zod";
 import { AuthField, AuthFormError, authSubmitClassName } from "./auth/auth-field";
@@ -23,10 +17,13 @@ type RegisterFormProps = {
 };
 
 type FieldErrors = Partial<
-  Record<"username" | "phoneNumber" | "password" | "confirmPassword" | "code", string>
+  Record<"username" | "email" | "password" | "confirmPassword", string>
 >;
 
-/** Seconds before another code can be requested from the verify step. */
+/** Where the verification link lands; login shows the outcome. */
+const VERIFY_CALLBACK_URL = "/login";
+
+/** Seconds before another verification email can be requested. */
 const RESEND_COOLDOWN_SECONDS = 60;
 
 /** First zod issue message, or `undefined` when the value is valid. */
@@ -35,27 +32,35 @@ function firstIssue(schema: ZodType, value: string): string | undefined {
   return result.success ? undefined : result.error.issues[0]?.message;
 }
 
+/** Better Auth client error to a user-facing sentence. */
+function describeAuthError(error: { status?: number; message?: string }): string {
+  if (error.status === 429) return error.message || "Too many attempts. Try again later.";
+  return error.message || "Something went wrong. Try again.";
+}
+
 /**
- * Two-step signup: account details, then the WhatsApp code sent to the
- * phone number. The account is only created once the code checks out.
+ * Signup with username, email and password. The account stays locked until
+ * the emailed verification link is opened, which also signs the user in.
  */
 export const RegisterForm: FC<RegisterFormProps> = ({ features }) => {
-  const router = useRouter();
   const turnstileRef = useRef<TurnstileHandle>(null);
-  const [step, setStep] = useState<"details" | "verify">("details");
+  const [step, setStep] = useState<"details" | "sent">("details");
   const [username, setUsername] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [code, setCode] = useState("");
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [accepted, setAccepted] = useState(false);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [cooldown, setCooldown] = useState(0);
 
   const captchaRequired = Boolean(features.captchaSiteKey);
+  const fetchOptions = captchaToken
+    ? { headers: { "x-captcha-response": captchaToken } }
+    : undefined;
 
   useEffect(() => {
     if (cooldown <= 0) return;
@@ -63,47 +68,13 @@ export const RegisterForm: FC<RegisterFormProps> = ({ features }) => {
     return () => clearTimeout(timer);
   }, [cooldown]);
 
-  /** Shows an action failure on its field when known, else as a banner. */
-  function applyResult(result: Extract<SignupActionResult, { ok: false }>) {
-    if (result.field && result.field !== "captcha") {
-      setFieldErrors({ [result.field]: result.error });
-      setError(null);
-    } else {
-      setError(result.error);
-    }
-  }
-
-  async function sendCode(): Promise<boolean> {
-    if (captchaRequired && !captchaToken) {
-      setError("Please complete the captcha check.");
-      return false;
-    }
-
-    setPending(true);
-    const result = await requestSignupOtp({
-      username,
-      phoneNumber,
-      password,
-      captchaToken: captchaToken ?? undefined,
-    });
-    turnstileRef.current?.reset();
-    setPending(false);
-
-    if (!result.ok) {
-      applyResult(result);
-      return false;
-    }
-    setCooldown(RESEND_COOLDOWN_SECONDS);
-    return true;
-  }
-
   async function handleDetailsSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
 
     const errors: FieldErrors = {
       username: firstIssue(usernameSchema, username),
-      phoneNumber: firstIssue(phoneNumberSchema, phoneNumber),
+      email: firstIssue(emailSchema, email),
       password: firstIssue(passwordSchema, password),
       confirmPassword:
         password !== confirmPassword ? "Passwords do not match" : undefined,
@@ -115,36 +86,65 @@ export const RegisterForm: FC<RegisterFormProps> = ({ features }) => {
       setError("Please accept the terms and conditions to continue.");
       return;
     }
-
-    if (await sendCode()) {
-      setCode("");
-      setStep("verify");
-    }
-  }
-
-  async function handleVerifySubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError(null);
-    setFieldErrors({});
-
-    setPending(true);
-    const result = await completeSignup({ username, phoneNumber, password, code });
-
-    if (!result.ok) {
-      setPending(false);
-      if (result.field && result.field !== "code" && result.field !== "captcha") {
-        // A detail became invalid (e.g. username taken meanwhile): go back.
-        setStep("details");
-      }
-      applyResult(result);
+    if (captchaRequired && !captchaToken) {
+      setError("Please complete the captcha check.");
       return;
     }
 
-    router.replace("/chat");
-    router.refresh();
+    setPending(true);
+    const normalizedEmail = email.trim().toLowerCase();
+    const { error: signUpError } = await authClient.signUp.email({
+      name: username.trim(),
+      username: username.trim(),
+      displayUsername: username.trim(),
+      email: normalizedEmail,
+      password,
+      callbackURL: VERIFY_CALLBACK_URL,
+      fetchOptions,
+    });
+    turnstileRef.current?.reset();
+    setPending(false);
+
+    if (signUpError) {
+      if (signUpError.code === "USERNAME_IS_ALREADY_TAKEN") {
+        setFieldErrors({ username: "This username is taken" });
+      } else {
+        setError(describeAuthError(signUpError));
+      }
+      return;
+    }
+
+    setEmail(normalizedEmail);
+    setCooldown(RESEND_COOLDOWN_SECONDS);
+    setStep("sent");
   }
 
-  if (!features.whatsappOtp) {
+  async function handleResend() {
+    setError(null);
+    setNotice(null);
+    if (captchaRequired && !captchaToken) {
+      setError("Please complete the captcha check.");
+      return;
+    }
+
+    setPending(true);
+    const { error: resendError } = await authClient.sendVerificationEmail({
+      email,
+      callbackURL: VERIFY_CALLBACK_URL,
+      fetchOptions,
+    });
+    turnstileRef.current?.reset();
+    setPending(false);
+
+    if (resendError) {
+      setError(describeAuthError(resendError));
+      return;
+    }
+    setCooldown(RESEND_COOLDOWN_SECONDS);
+    setNotice("A new verification link is on its way.");
+  }
+
+  if (!features.email) {
     return (
       <AuthShell title="Register to" description="Sign up is not available right now.">
         <p className="font-(family-name:--font-khand) text-lg text-muted-foreground">
@@ -163,14 +163,12 @@ export const RegisterForm: FC<RegisterFormProps> = ({ features }) => {
       title="Register to"
       description={
         step === "details" ? (
-          <>
-            Create an account; we verify your phone number with a code on
-            WhatsApp. Maven AI is a demo app with daily usage limits.
-          </>
+          "Create an account; we send a link to verify your email. Maven AI is a demo app with daily usage limits."
         ) : (
           <>
-            Enter the {OTP_LENGTH}-digit code sent to{" "}
-            <span className="text-black dark:text-white">{phoneNumber}</span> on WhatsApp.
+            If <span className="text-black dark:text-white">{email}</span> can be
+            registered, a verification link is in its inbox. Open it within an
+            hour to activate your account.
           </>
         )
       }
@@ -190,16 +188,15 @@ export const RegisterForm: FC<RegisterFormProps> = ({ features }) => {
             required
           />
           <AuthField
-            label="WhatsApp number"
-            name="phoneNumber"
-            type="tel"
-            autoComplete="tel"
-            inputMode="tel"
-            placeholder="+6281234567890"
-            value={phoneNumber}
-            onChange={(event) => setPhoneNumber(event.target.value)}
-            error={fieldErrors.phoneNumber}
-            hint="International format with country code."
+            label="Email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            inputMode="email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            error={fieldErrors.email}
             required
           />
           <AuthField
@@ -233,25 +230,11 @@ export const RegisterForm: FC<RegisterFormProps> = ({ features }) => {
           <TermsConsent checked={accepted} onCheckedChange={setAccepted} />
           <AuthFormError message={error} />
           <Button type="submit" className={authSubmitClassName} disabled={pending}>
-            {pending ? "Sending code..." : "Send WhatsApp code"}
+            {pending ? "Creating account..." : "Create account"}
           </Button>
         </form>
       ) : (
-        <form className="grid gap-4" onSubmit={handleVerifySubmit} noValidate>
-          <AuthField
-            label="Verification code"
-            name="code"
-            autoComplete="one-time-code"
-            inputMode="numeric"
-            maxLength={OTP_LENGTH}
-            placeholder={"0".repeat(OTP_LENGTH)}
-            value={code}
-            onChange={(event) => setCode(event.target.value.replace(/\D/g, ""))}
-            error={fieldErrors.code}
-            className="tracking-[0.5em]"
-            autoFocus
-            required
-          />
+        <div className="grid gap-4">
           {features.captchaSiteKey ? (
             <TurnstileWidget
               ref={turnstileRef}
@@ -260,39 +243,25 @@ export const RegisterForm: FC<RegisterFormProps> = ({ features }) => {
             />
           ) : null}
           <AuthFormError message={error} />
+          {notice ? (
+            <p role="status" className="font-(family-name:--font-khand) pl-5 text-base text-muted-foreground">
+              {notice}
+            </p>
+          ) : null}
           <Button
-            type="submit"
-            className={authSubmitClassName}
-            disabled={pending || code.length !== OTP_LENGTH}
+            type="button"
+            variant="outline"
+            className="w-full text-lg rounded-3xl py-6 font-(family-name:--font-khand)"
+            onClick={() => void handleResend()}
+            disabled={pending || cooldown > 0}
           >
-            {pending ? "Creating account..." : "Verify and create account"}
+            {cooldown > 0 ? `Resend link in ${cooldown}s` : "Resend verification link"}
           </Button>
-          <div className="flex items-center justify-between gap-2 font-(family-name:--font-khand) text-base">
-            <button
-              type="button"
-              className="text-muted-foreground underline-offset-4 hover:underline"
-              onClick={() => {
-                setStep("details");
-                setError(null);
-                setFieldErrors({});
-              }}
-              disabled={pending}
-            >
-              Change details
-            </button>
-            <button
-              type="button"
-              className="text-blue-500 underline-offset-4 hover:underline disabled:text-muted-foreground disabled:no-underline"
-              onClick={() => {
-                setError(null);
-                void sendCode();
-              }}
-              disabled={pending || cooldown > 0}
-            >
-              {cooldown > 0 ? `Resend code in ${cooldown}s` : "Resend code"}
-            </button>
-          </div>
-        </form>
+          <p className="font-(family-name:--font-khand) pl-5 text-sm text-muted-foreground">
+            Typo in the email? Unverified signups expire after an hour, then
+            the username and email can be registered again.
+          </p>
+        </div>
       )}
 
       <p className="font-(family-name:--font-khand) text-center text-base text-muted-foreground lg:text-left">
