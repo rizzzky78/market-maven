@@ -12,7 +12,7 @@ const loadChats = cache(async (userId: string) => {
 
 export default async function ChatHistoryPage() {
   const session = await getSession();
-  const chats = await loadChats(session?.user?.email || "anonymous@gmail.com");
+  const chats = await loadChats(session?.user?.id ?? "");
   return (
     <main className="mx-auto w-full max-w-3xl px-4 py-6 font-(family-name:--font-satoshi) md:py-12">
       <Link

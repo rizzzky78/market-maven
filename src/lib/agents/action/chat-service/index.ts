@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/database/prisma";
+import { getSession } from "@/lib/auth";
 import { Prisma } from "@/generated/prisma/client";
 import { ChatProperties, MessageContent } from "@/lib/types/ai";
 import logger from "@/lib/utility/logger";
@@ -34,7 +35,7 @@ function toChatProperties(chat: ChatWithMessages): ChatProperties {
  * Lists a user's chats that have at least one message, most recently
  * updated first.
  */
-export async function getChats(userId: string | null = "anonymous") {
+export async function getChats(userId: string | null) {
   if (!userId) {
     return [];
   }
@@ -82,13 +83,19 @@ export async function ensureChat(id: string, userId: string) {
 }
 
 /**
- * Deletes all chats of a user; their messages and tool, object and markdown
- * records are removed by cascade.
+ * Deletes all chats of the signed-in user; their messages and tool, object
+ * and markdown records are removed by cascade. The owner always comes from
+ * the session, never from the caller, since this is a client-callable action.
  */
-export async function clearChats(
-  userId: string = "anonymous"
-): Promise<{ error?: string }> {
-  const { count } = await prisma.chat.deleteMany({ where: { userId } });
+export async function clearChats(): Promise<{ error?: string }> {
+  const session = await getSession();
+  if (!session) {
+    return { error: "Unauthorized" };
+  }
+
+  const { count } = await prisma.chat.deleteMany({
+    where: { userId: session.user.id },
+  });
 
   if (count === 0) {
     return { error: "No chats to clear" };
@@ -103,7 +110,8 @@ export async function clearChats(
  */
 export async function saveChat(userId: string, chat: ChatProperties) {
   if (!userId) {
-    userId = "anonymous";
+    logger.warn("Skipped saving a chat without an owner in <saveChat()>");
+    return;
   }
   try {
     // ponytail: rewrites the whole history per save (as the Redis hash did); append only new positions if chats get long.

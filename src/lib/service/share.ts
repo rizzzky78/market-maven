@@ -1,18 +1,12 @@
+import { createId } from "@paralleldrive/cuid2";
 import { ComponentType } from "../types/neon";
 
-export function createShareReferenceId(email: string): string {
-  const normalizedEmail = email.toLowerCase().trim();
-  let hash = 0;
-
-  for (let i = 0; i < normalizedEmail.length; i++) {
-    const char = normalizedEmail.charCodeAt(i);
-    hash = (hash << 5) - hash + char;
-    hash = hash & hash;
-  }
-
-  const timestamp = Date.now() % 10000;
-  const emailHash = Math.abs(hash).toString(36).slice(0, 8);
-  return `${emailHash}${timestamp}`;
+/**
+ * Unguessable token for a public share URL. Collision-resistant, so the
+ * unique `reference_id` constraint never trips on concurrent shares.
+ */
+export function createShareReferenceId(): string {
+  return createId();
 }
 
 export function createShareURL(

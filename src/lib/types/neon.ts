@@ -203,7 +203,6 @@ export type ComponentType =
 export type ShareRecord = {
   id: string;
   userId: string;
-  userEmail: string;
   referenceId: string;
   componentId: string;
   componentType: ComponentType;

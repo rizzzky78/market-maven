@@ -12,7 +12,8 @@ const loadChats = cache(async (userId: string) => {
 const Page: FC = async () => {
   const id = uuidv4();
   const session = await getSession();
-  const username = session?.user?.email || "anonymous@gmail.com";
+  /** Owner key of chats; the proxy guarantees a session on this route. */
+  const username = session?.user?.id ?? "";
 
   const chats = await loadChats(username);
 

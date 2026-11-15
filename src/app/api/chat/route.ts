@@ -27,8 +27,12 @@ export async function POST(req: Request) {
   }
 
   const session = await getSession();
-  const userId = session?.user?.id ?? null;
-  const username = session?.user?.email || "anonymous@gmail.com";
+  if (!session) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+  const userId: string | null = session.user.id;
+  /** Chats and tool records are owned by the user id. */
+  const username = session.user.id;
 
   /**
    * Signed-in users run on their own AI settings (connections, per-role

@@ -11,6 +11,10 @@ CREATE TABLE "users" (
     "email" TEXT NOT NULL,
     "email_verified" BOOLEAN NOT NULL DEFAULT false,
     "image" TEXT,
+    "username" TEXT,
+    "display_username" TEXT,
+    "phone_number" TEXT,
+    "phone_number_verified" BOOLEAN DEFAULT false,
     "created_at" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ(6) NOT NULL,
 
@@ -135,8 +139,7 @@ CREATE TABLE "tool_data_store" (
 -- CreateTable
 CREATE TABLE "shares" (
     "id" TEXT NOT NULL,
-    "user_id" TEXT,
-    "user_email" TEXT NOT NULL,
+    "user_id" TEXT NOT NULL,
     "reference_id" TEXT NOT NULL,
     "component_id" TEXT NOT NULL,
     "component_type" TEXT NOT NULL,
@@ -151,7 +154,7 @@ CREATE TABLE "shares" (
 CREATE TABLE "ratings" (
     "id" SERIAL NOT NULL,
     "username" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
+    "user_id" TEXT,
     "rating" INTEGER NOT NULL,
     "comment" TEXT,
     "created_at" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -226,6 +229,12 @@ CREATE TABLE "ai_usage" (
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_phone_number_key" ON "users"("phone_number");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "sessions_token_key" ON "sessions"("token");
 
 -- CreateIndex
@@ -274,6 +283,9 @@ CREATE INDEX "idx_shares_user_id" ON "shares"("user_id");
 CREATE INDEX "idx_shares_component_type" ON "shares"("component_type");
 
 -- CreateIndex
+CREATE INDEX "idx_ratings_user_id" ON "ratings"("user_id");
+
+-- CreateIndex
 CREATE INDEX "idx_ai_connections_user_id" ON "ai_connections"("user_id");
 
 -- CreateIndex
@@ -289,6 +301,9 @@ ALTER TABLE "sessions" ADD CONSTRAINT "sessions_user_id_fkey" FOREIGN KEY ("user
 ALTER TABLE "accounts" ADD CONSTRAINT "accounts_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "chats" ADD CONSTRAINT "chats_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "chat_messages" ADD CONSTRAINT "chat_messages_chat_id_fkey" FOREIGN KEY ("chat_id") REFERENCES "chats"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -299,6 +314,12 @@ ALTER TABLE "object_store" ADD CONSTRAINT "object_store_chat_id_fkey" FOREIGN KE
 
 -- AddForeignKey
 ALTER TABLE "tool_data_store" ADD CONSTRAINT "tool_data_store_chat_id_fkey" FOREIGN KEY ("chat_id") REFERENCES "chats"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "shares" ADD CONSTRAINT "shares_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ratings" ADD CONSTRAINT "ratings_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ai_connections" ADD CONSTRAINT "ai_connections_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;

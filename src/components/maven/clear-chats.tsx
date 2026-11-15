@@ -3,17 +3,15 @@
 import { FC, useCallback, useState } from "react";
 import { Button } from "../ui/button";
 import { clearChats } from "@/lib/agents/action/chat-service";
-import { useSession } from "@/lib/auth/client";
 import { ErrorMessage } from "./error-message";
 
 export const ClearChats: FC = () => {
   const [error, setError] = useState(false);
-  const session = useSession();
 
   const handleClearChats = useCallback(async () => {
-    const result = await clearChats(session.data?.user?.email || "anonymous");
+    const result = await clearChats();
     if (result.error) setError(true);
-  }, [session.data?.user?.email]);
+  }, []);
 
   if (error) {
     return (

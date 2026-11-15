@@ -57,11 +57,11 @@ export async function POST(request: NextRequest) {
 
     // Get user information from session or use provided values
     const username = session?.user?.name || "anonymous";
-    const email = session?.user?.email || "anonymous@example.com";
+    const userId = session?.user?.id ?? null;
 
     // Insert the rating into the database
     const { id } = await prisma.rating.create({
-      data: { username, email, rating, comment },
+      data: { username, userId, rating, comment },
       select: { id: true },
     });
 

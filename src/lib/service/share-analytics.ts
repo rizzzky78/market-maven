@@ -6,16 +6,16 @@ import { createShareReferenceId } from "./share";
 import { createId } from "@paralleldrive/cuid2";
 
 export async function createShare(
-  userEmail: string,
+  userId: string,
   componentId: string,
   componentType: ComponentType
 ): Promise<string> {
-  const referenceId = createShareReferenceId(userEmail);
+  const referenceId = createShareReferenceId();
 
   await prisma.share.create({
     data: {
       id: createId(),
-      userEmail,
+      userId,
       referenceId,
       componentId,
       componentType,

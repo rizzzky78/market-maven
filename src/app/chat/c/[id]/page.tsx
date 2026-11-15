@@ -32,7 +32,8 @@ export default async function ChatPage(props: ChatPageProps) {
   const { id } = params;
 
   const session = await getSession();
-  const username = session?.user?.email || "anonymous@gmail.com";
+  /** Owner key of chats; the proxy guarantees a session on this route. */
+  const username = session?.user?.id ?? "";
   const chats = await loadChats(username);
 
   const chat = await getChat(id);

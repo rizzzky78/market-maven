@@ -30,14 +30,22 @@ datasource db {
 // adapter needs no field mapping; tables and columns use snake_case.
 // ---------------------------------------------------------------------------
 
-/// A signed-in person. Created by Better Auth on first OAuth sign-in. The
-/// app keys its own records (chats, stores, shares) by `email`.
+/// A signed-in person, created by Better Auth on first OAuth sign-in or on a
+/// WhatsApp-verified username/password sign-up. The app keys its own records
+/// (chats, stores, shares, ratings) by `id`. Credential users get a generated
+/// internal `email` (Better Auth requires one); OAuth users keep their real
+/// one. `username` / `phoneNumber` come from the username and phone-number
+/// plugins; `phoneNumberVerified` is only true after a WhatsApp OTP check.
 model User {
   id            String   @id
   name          String
   email         String   @unique
   emailVerified Boolean  @default(false) @map("email_verified")
   image         String?
+  username            String?  @unique
+  displayUsername     String?  @map("display_username")
+  phoneNumber         String?  @unique @map("phone_number")
+  phoneNumberVerified Boolean? @default(false) @map("phone_number_verified")
   createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt     DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
@@ -47,6 +55,9 @@ model User {
   aiAssignments  AiModelAssignment[]
   aiPreferences  AiPreferences?
   aiUsage        AiUsage[]
+  chats          Chat[]
+  shares         Share[]
+  ratings        Rating[]
 
   @@map("users")
 }
@@ -109,7 +120,7 @@ model Verification {
 // App data
 // ---------------------------------------------------------------------------
 
-/// A conversation owned by a user (keyed by the user's email). Holds the persisted AI
+/// A conversation owned by a user (keyed by the user's id). Holds the persisted AI
 /// state of the chat; the tool, object and markdown records produced while
 /// chatting belong to it and are removed with it. `title` is generated after
 /// the first completed turn, so it is empty until then.
@@ -120,6 +131,7 @@ model Chat {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   messages  ChatMessage[]
   toolData  ToolDataStore[]
   objects   ObjectStore[]
@@ -232,14 +244,15 @@ model ToolDataStore {
 /// "products-comparison" | "public-chat".
 model Share {
   id             String   @id
-  userId         String?  @map("user_id")
-  userEmail      String   @map("user_email")
+  userId         String   @map("user_id")
   referenceId    String   @unique @map("reference_id")
   componentId    String   @map("component_id")
   componentType  String   @map("component_type")
   createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   lastAccessedAt DateTime @default(now()) @map("last_accessed_at") @db.Timestamptz(6)
   accessCount    Int      @default(0) @map("access_count")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([referenceId], map: "idx_shares_reference_id")
   @@index([userId], map: "idx_shares_user_id")
@@ -248,15 +261,20 @@ model Share {
 }
 
 /// App feedback submitted from the rate-app page and listed on the public
-/// reviews page. `rating` is 1-5.
+/// reviews page. `rating` is 1-5. `username` is the display name captured at
+/// submit time; `userId` is cleared when the author deletes their account, so
+/// the review stays public.
 model Rating {
   id        Int      @id @default(autoincrement())
   username  String
-  email     String
+  userId    String?  @map("user_id")
   rating    Int
   comment   String?
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
 
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId], map: "idx_ratings_user_id")
   @@map("ratings")
 }
 

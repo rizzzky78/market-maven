@@ -23,7 +23,8 @@ export default async function Page(props: PageProps) {
 
   const id = v4();
   const session = await getSession();
-  const username = session?.user?.email || "anonymous@gmail.com";
+  /** Owner key of chats; the proxy guarantees a session on this route. */
+  const username = session?.user?.id ?? "";
 
   const chats = await loadChats(username);
 

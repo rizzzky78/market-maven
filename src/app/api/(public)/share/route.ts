@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     const { componentId, componentType } = await request.json();
 
     const referenceId = await createShare(
-      session.user.email!,
+      session.user.id,
       componentId,
       componentType
     );

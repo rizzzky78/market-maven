@@ -57,15 +57,15 @@ function getEndOfDayUTC(): Date {
 /**
  * Gets the cached rate limit status for a user if available
  *
- * @param userEmail - User's email address
+ * @param userKey - User id the daily counters are keyed by
  * @param today - Today's date in YYYY-MM-DD format
  * @returns Cached rate limit response or null if not found
  */
 async function getCachedRateLimit(
-  userEmail: string,
+  userKey: string,
   today: string
 ): Promise<RateLimitResponse | null> {
-  const cacheKey = `ratelimit:cache:${userEmail}:${today}`;
+  const cacheKey = `ratelimit:cache:${userKey}:${today}`;
   const cachedData = await redis.get<RateLimitResponse>(cacheKey);
   return cachedData || null;
 }
@@ -73,34 +73,34 @@ async function getCachedRateLimit(
 /**
  * Cache the rate limit response for a user
  *
- * @param userEmail - User's email address
+ * @param userKey - User id the daily counters are keyed by
  * @param today - Today's date in YYYY-MM-DD format
  * @param response - Rate limit response to cache
  */
 async function cacheRateLimit(
-  userEmail: string,
+  userKey: string,
   today: string,
   response: RateLimitResponse
 ): Promise<void> {
-  const cacheKey = `ratelimit:cache:${userEmail}:${today}`;
+  const cacheKey = `ratelimit:cache:${userKey}:${today}`;
   await redis.set(cacheKey, response, { ex: RATE_LIMIT_CONFIG.CACHE_TTL });
 }
 
 /**
  * Asynchronously increments the user's request counter without blocking
  *
- * @param userEmail - User's email address
+ * @param userKey - User id the daily counters are keyed by
  * @param today - Today's date in YYYY-MM-DD format
  * @param isFirstTimeUser - Whether this is the user's first time using the service
  */
 async function incrementRequestCounterAsync(
-  userEmail: string,
+  userKey: string,
   today: string,
   isFirstTimeUser: boolean
 ): Promise<void> {
   try {
-    const userExistsKey = `user:${userEmail}:exists`;
-    const rateLimitKey = `ratelimit:${userEmail}:${today}`;
+    const userExistsKey = `user:${userKey}:exists`;
+    const rateLimitKey = `ratelimit:${userKey}:${today}`;
 
     // For first-time users, mark them as existing
     if (isFirstTimeUser) {
@@ -119,7 +119,7 @@ async function incrementRequestCounterAsync(
     }
 
     // Invalidate the cache to force a refresh on next check
-    const cacheKey = `ratelimit:cache:${userEmail}:${today}`;
+    const cacheKey = `ratelimit:cache:${userKey}:${today}`;
     await redis.del(cacheKey);
   } catch (error) {
     console.error("Error incrementing request counter:", error);
@@ -144,10 +144,10 @@ export async function checkRateLimit(
 
     // Extract user identity information
     const session = await getSession();
-    const userEmail = session?.user?.email || "anonymous";
+    const userKey = session?.user?.id || "anonymous";
 
     // Check for cached rate limit data
-    const cachedResponse = await getCachedRateLimit(userEmail, today);
+    const cachedResponse = await getCachedRateLimit(userKey, today);
     if (cachedResponse) {
       // Update conversation length in cached response
       cachedResponse.current.conversationLength = filterUserMessage.length;
@@ -168,8 +168,8 @@ export async function checkRateLimit(
     }
 
     // Create compound identifier and Redis keys
-    const userExistsKey = `user:${userEmail}:exists`;
-    const rateLimitKey = `ratelimit:${userEmail}:${today}`;
+    const userExistsKey = `user:${userKey}:exists`;
+    const rateLimitKey = `ratelimit:${userKey}:${today}`;
 
     // Check if this is a first-time user
     const userExists = await redis.exists(userExistsKey);
@@ -227,7 +227,7 @@ export async function checkRateLimit(
     }
 
     // Cache the response for future checks
-    await cacheRateLimit(userEmail, today, response);
+    await cacheRateLimit(userKey, today, response);
 
     return response;
   } catch (error) {
@@ -266,15 +266,15 @@ export async function recordSuccessfulRequest(aiState: AIState): Promise<void> {
   try {
     const today = new Date().toISOString().split("T")[0];
     const session = await getSession();
-    const userEmail = session?.user?.email || "anonymous";
+    const userKey = session?.user?.id || "anonymous";
 
     // Check if this is a first-time user
-    const userExistsKey = `user:${userEmail}:exists`;
+    const userExistsKey = `user:${userKey}:exists`;
     const userExists = await redis.exists(userExistsKey);
     const isFirstTimeUser = userExists === 0;
 
     // Increment counter asynchronously
-    incrementRequestCounterAsync(userEmail, today, isFirstTimeUser).catch(
+    incrementRequestCounterAsync(userKey, today, isFirstTimeUser).catch(
       (error) => {
         console.error("Failed to increment request counter:", error);
       }
