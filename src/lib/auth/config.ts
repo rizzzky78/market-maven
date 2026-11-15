@@ -11,7 +11,12 @@ export type OAuthProviderId = "google" | "github";
 export type AuthFeatures = {
   /** OAuth providers whose client id and secret are both set. */
   oauthProviders: OAuthProviderId[];
-  /** Signup and password reset need WhatsApp OTP delivery through Kapso. */
+  /**
+   * Email delivery through Resend: signup (email verification link) and
+   * password reset by email both need it.
+   */
+  email: boolean;
+  /** WhatsApp OTP delivery through Kapso, used for phone password reset. */
   whatsappOtp: boolean;
   /** Turnstile site key when captcha is enabled, otherwise `null`. */
   captchaSiteKey: string | null;
@@ -70,6 +75,13 @@ export function getKapsoConfig(): {
   };
 }
 
+/** Resend settings, or `null` unless both the API key and sender are set. */
+export function getResendConfig(): { apiKey: string; from: string } | null {
+  const apiKey = readEnv("RESEND_API_KEY");
+  const from = readEnv("RESEND_FROM_EMAIL");
+  return apiKey && from ? { apiKey, from } : null;
+}
+
 /** Turnstile keys, or `null` unless both the site and secret key are set. */
 export function getTurnstileConfig(): {
   siteKey: string;
@@ -107,6 +119,7 @@ export function isPhoneCountryAllowed(phoneNumber: string): boolean {
 export function getAuthFeatures(): AuthFeatures {
   return {
     oauthProviders: Object.keys(getOAuthCredentials()) as OAuthProviderId[],
+    email: getResendConfig() !== null,
     whatsappOtp: getKapsoConfig() !== null,
     captchaSiteKey: getTurnstileConfig()?.siteKey ?? null,
   };

@@ -76,18 +76,13 @@ export const otpSchema = z
   .trim()
   .regex(new RegExp(`^\\d{${OTP_LENGTH}}$`), `Enter the ${OTP_LENGTH}-digit code`);
 
-/** First signup step: account details plus the captcha token, if enabled. */
-export const signupRequestSchema = z.object({
-  username: usernameSchema,
-  phoneNumber: phoneNumberSchema,
-  password: passwordSchema,
-  captchaToken: z.string().max(4096).optional(),
-});
+export const emailSchema = z
+  .string()
+  .trim()
+  .toLowerCase()
+  .pipe(z.email("Enter a valid email address").max(254));
 
-/** Second signup step: the same details plus the WhatsApp code. */
-export const signupCompleteSchema = signupRequestSchema
-  .omit({ captchaToken: true })
-  .extend({ code: otpSchema });
-
-export type SignupRequestInput = z.input<typeof signupRequestSchema>;
-export type SignupCompleteInput = z.input<typeof signupCompleteSchema>;
+/** True when the value looks like an email address (login field detection). */
+export function isEmail(value: string): boolean {
+  return emailSchema.safeParse(value).success;
+}
