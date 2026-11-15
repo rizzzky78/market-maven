@@ -18,6 +18,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { signOut, useSession } from "@/lib/auth/client";
+import { getAccountLabel } from "@/lib/auth/display";
 import { useRouter } from "next/navigation";
 import { FC } from "react";
 import Link from "next/link";
@@ -28,7 +29,7 @@ export const NavUser: FC = () => {
   const router = useRouter();
   const user = {
     name: session?.user?.name as string,
-    email: session?.user?.email as string,
+    email: getAccountLabel(session?.user) as string,
     avatar: session?.user?.image as string,
   };
 

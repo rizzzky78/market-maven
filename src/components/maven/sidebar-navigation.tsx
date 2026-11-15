@@ -26,6 +26,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { signOut, useSession } from "@/lib/auth/client";
+import { getAccountLabel } from "@/lib/auth/display";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FC } from "react";
@@ -55,7 +56,7 @@ export const SidebarUserNavigation: FC = () => {
 
   const user = {
     name: session?.user?.name ?? undefined,
-    email: session?.user?.email ?? undefined,
+    email: getAccountLabel(session?.user),
     avatar: session?.user?.image ?? undefined,
   };
   const initials =
