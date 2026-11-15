@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { AppHeader } from "@/components/maven/app-header";
 import { AiSettings } from "@/components/maven/ai-settings/ai-settings";
 import { prisma } from "@/database/prisma";
 import { getSession } from "@/lib/auth";
@@ -34,28 +33,21 @@ export default async function AiSettingsPage() {
   };
 
   return (
-    <main className="min-h-dvh w-full px-4 py-6 font-(family-name:--font-satoshi) md:px-10 md:py-10 xl:px-16">
-      <Link
-        href="/chat"
-        className="-ml-1 inline-flex min-h-11 items-center gap-1.5 rounded-md px-1 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-      >
-        <ArrowLeft className="size-4" aria-hidden />
-        Back to chat
-      </Link>
-      <header className="mt-4 mb-8">
-        <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">AI settings</h1>
-        <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+    <>
+      <AppHeader title="AI settings" />
+      <section className="w-full px-4 py-6 md:px-8 md:py-10 xl:px-12">
+        <p className="mb-8 max-w-2xl text-sm text-muted-foreground">
           Run Maven on your own providers and models, and shape how it answers
           and analyzes products.
         </p>
-      </header>
-      <AiSettings
-        connections={view.connections}
-        assignments={view.assignments}
-        preferences={view.preferences}
-        usage={usage}
-        account={account}
-      />
-    </main>
+        <AiSettings
+          connections={view.connections}
+          assignments={view.assignments}
+          preferences={view.preferences}
+          usage={usage}
+          account={account}
+        />
+      </section>
+    </>
   );
 }

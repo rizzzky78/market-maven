@@ -24,7 +24,7 @@ import { v4 } from "uuid";
 import { connectionContext, decryptSecret, encryptSecret, secretHint } from "./crypto";
 import { getUsageSummary } from "./repository";
 
-const SETTINGS_PATH = "/settings";
+const SETTINGS_PATH = "/chat/settings";
 const MAX_CONNECTIONS = 20;
 
 /** Signed-in user's id, or `null`. */

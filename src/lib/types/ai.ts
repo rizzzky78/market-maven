@@ -53,6 +53,8 @@ export type ChatProperties = {
   title: string;
   /** Timestamp of chat creation */
   created: Date;
+  /** Timestamp of the latest change, set when loaded from the database */
+  updated?: Date;
   /** Identifier of the user who initiated the chat */
   userId: string;
   /** Array of messages in the conversation */

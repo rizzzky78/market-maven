@@ -21,7 +21,5 @@ export const config = {
     "/chat/c/:id",
     "/history",
     "/rate-app",
-    "/settings",
-    "/settings/:path*",
   ],
 };

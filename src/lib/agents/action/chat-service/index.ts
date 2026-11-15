@@ -22,6 +22,7 @@ function toChatProperties(chat: ChatWithMessages): ChatProperties {
     chatId: chat.id,
     title: chat.title ?? "Untitled",
     created: chat.createdAt,
+    updated: chat.updatedAt,
     userId: chat.userId,
     messages: chat.messages.map((m) => ({
       id: m.messageId,
@@ -55,6 +56,15 @@ export async function getChats(userId: string | null) {
 
     return [];
   }
+}
+
+/**
+ * Lists the signed-in user's chats. The owner always comes from the session,
+ * so the app shell can refresh its sidebar from the client safely.
+ */
+export async function getOwnChats() {
+  const session = await getSession();
+  return getChats(session?.user?.id ?? null);
 }
 
 /**
@@ -101,7 +111,7 @@ export async function clearChats(): Promise<{ error?: string }> {
     return { error: "No chats to clear" };
   }
 
-  revalidatePath("/chat");
+  revalidatePath("/chat", "layout");
   redirect("/chat");
 }
 

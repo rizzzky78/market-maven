@@ -1,7 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
-import { getChat, getChats } from "@/lib/agents/action/chat-service";
-import { cache } from "react";
+import { getChat } from "@/lib/agents/action/chat-service";
 import { MavenChatProvider } from "@/lib/utility/provider/chat-provider";
 import { Chat } from "@/components/maven/main-chat";
 import { Metadata } from "next";
@@ -9,10 +8,6 @@ import { Metadata } from "next";
 interface ChatPageProps {
   params: Promise<{ id: string }>;
 }
-
-const loadChats = cache(async (userId: string) => {
-  return await getChats(userId);
-});
 
 export const generateMetadata = async (
   props: ChatPageProps
@@ -34,7 +29,6 @@ export default async function ChatPage(props: ChatPageProps) {
   const session = await getSession();
   /** Owner key of chats; the proxy guarantees a session on this route. */
   const username = session?.user?.id ?? "";
-  const chats = await loadChats(username);
 
   const chat = await getChat(id);
 
@@ -53,7 +47,7 @@ export default async function ChatPage(props: ChatPageProps) {
       username={username}
       initialMessages={chat.messages}
     >
-      <Chat id={id} chats={chats} />
+      <Chat id={id} />
     </MavenChatProvider>
   );
 }

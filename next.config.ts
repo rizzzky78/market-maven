@@ -7,6 +7,16 @@ const nextConfig: NextConfig = {
   ...(Number(process.env.NEXT_BUILD_CPUS) > 0 && {
     experimental: { cpus: Number(process.env.NEXT_BUILD_CPUS) },
   }),
+  /** AI settings moved into the chat shell; keep the old URL working. */
+  async redirects() {
+    return [
+      {
+        source: "/settings/:path*",
+        destination: "/chat/settings/:path*",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {

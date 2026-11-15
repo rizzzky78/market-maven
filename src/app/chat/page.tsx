@@ -1,13 +1,8 @@
-import { cache, FC } from "react";
+import { FC } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { getSession } from "@/lib/auth";
-import { getChats } from "@/lib/agents/action/chat-service";
 import { MavenChatProvider } from "@/lib/utility/provider/chat-provider";
 import { Chat } from "@/components/maven/main-chat";
-
-const loadChats = cache(async (userId: string) => {
-  return await getChats(userId);
-});
 
 const Page: FC = async () => {
   const id = uuidv4();
@@ -15,7 +10,6 @@ const Page: FC = async () => {
   /** Owner key of chats; the proxy guarantees a session on this route. */
   const username = session?.user?.id ?? "";
 
-  const chats = await loadChats(username);
 
   return (
     <MavenChatProvider
@@ -24,7 +18,7 @@ const Page: FC = async () => {
       username={username}
       initialMessages={[]}
     >
-      <Chat id={id} chats={chats} />
+      <Chat id={id} />
     </MavenChatProvider>
   );
 };

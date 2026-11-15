@@ -6,7 +6,7 @@
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
-See the standalone showcase build: **[Maven v2](https://maven-ai-webpage.vercel.app/)**
+See the standalone showcase build: **[Maven v2](https://maven.codebyrzky.site/)**
 
 ## Overview
 
@@ -56,7 +56,7 @@ A visitor lands on the [Home](src/app/README.md) page, learns what Maven does, a
 ## Tech stack
 
 - **Framework:** Next.js 16 (App Router, Turbopack) with React 19 and TypeScript
-- **AI / orchestration:** Vercel AI SDK 7 (AI SDK UI: `useChat` from `@ai-sdk/react` over a UI message stream for generative streamed UI, `streamText` / `generateText` with `Output` for structured data), Google Gemini via `@ai-sdk/google` with Google Search grounding by default; signed-in users can connect their own providers and API keys (OpenAI, Anthropic, Gemini, Vercel AI Gateway, OpenAI-compatible presets such as OpenRouter, Groq, xAI, DeepSeek, Qwen, Kimi, GLM, Mistral, Together, Fireworks, Cerebras, Anthropic-compatible endpoints, or any custom base URL) from **AI settings** (`/settings`), assign a model per agent tool, tune temperature, output length and reasoning, set custom instructions and analysis preferences, and review token usage. Keys are stored encrypted on the server. Providers without built-in web search use a Tavily search tool
+- **AI / orchestration:** Vercel AI SDK 7 (AI SDK UI: `useChat` from `@ai-sdk/react` over a UI message stream for generative streamed UI, `streamText` / `generateText` with `Output` for structured data), Google Gemini via `@ai-sdk/google` with Google Search grounding by default; signed-in users can connect their own providers and API keys (OpenAI, Anthropic, Gemini, Vercel AI Gateway, OpenAI-compatible presets such as OpenRouter, Groq, xAI, DeepSeek, Qwen, Kimi, GLM, Mistral, Together, Fireworks, Cerebras, Anthropic-compatible endpoints, or any custom base URL) from **AI settings** (`/chat/settings`), assign a model per agent tool, tune temperature, output length and reasoning, set custom instructions and analysis preferences, and review token usage. Keys are stored encrypted on the server. Providers without built-in web search use a Tavily search tool
 - **Web data:** Firecrawl for scraping, Tavily and Serper for external search
 - **Auth:** Better Auth (username/email/phone + password, email verification and reset links via Resend, optional WhatsApp reset via Kapso, optional Google and GitHub OAuth, optional Cloudflare Turnstile, Redis-backed rate limits) with users and sessions stored in PostgreSQL through its Prisma adapter
 - **Data stores:** PostgreSQL (self-hosted, Neon or compatible) via Prisma ORM with `@prisma/adapter-pg` for chats and all persistent data, Upstash Redis for rate limiting and short-lived session state

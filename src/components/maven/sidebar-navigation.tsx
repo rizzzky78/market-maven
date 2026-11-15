@@ -33,17 +33,17 @@ import { FC } from "react";
 
 const externalLinks = [
   {
-    href: "https://maven-ai-webpage.vercel.app/cookbook",
+    href: "https://maven.codebyrzky.site/cookbook",
     label: "Cookbook",
     icon: BookText,
   },
   {
-    href: "https://maven-ai-webpage.vercel.app/terms-of-service",
+    href: "https://maven.codebyrzky.site/terms-of-service",
     label: "Terms of service",
     icon: MonitorCheck,
   },
   {
-    href: "https://maven-ai-webpage.vercel.app/privacy-policy",
+    href: "https://maven.codebyrzky.site/privacy-policy",
     label: "Privacy policy",
     icon: ShieldAlert,
   },
@@ -74,7 +74,7 @@ export const SidebarUserNavigation: FC = () => {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground md:h-8 md:p-0"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
               data-testid="user-profile"
             >
               <Avatar className="size-8 rounded-full">

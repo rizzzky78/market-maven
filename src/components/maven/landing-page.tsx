@@ -31,7 +31,7 @@ export function LandingPage() {
 
         <div className="sticky top-[70px] w-full flex justify-center z-99999">
           <Link
-            href={"https://maven-ai-webpage.vercel.app/"}
+            href={"https://maven.codebyrzky.site/"}
             target="_blank"
             rel="noopener noreferrer"
             className="group"

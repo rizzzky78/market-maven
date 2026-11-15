@@ -23,6 +23,7 @@ import {
 import { QuickActionButton } from "@/components/maven/quick-action";
 import { toast } from "sonner";
 import { useAppState } from "@/lib/utility/provider/app-state-provider";
+import { useShellChats } from "@/components/maven/app-shell";
 import { useDebounceInput } from "@/components/hooks/use-debounced-input";
 import { useMavenStateController } from "@/components/hooks/maven-state-controller";
 import { AttachProductBadge } from "@/components/maven/attach-product";
@@ -84,6 +85,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ isEmpty }) => {
 
   const { aiState, submit, stop, stage: stageProcess } = useMavenChat();
   const { isGenerating, setIsGenerating } = useAppState();
+  const { refreshChats } = useShellChats();
 
   const [rateLimit, setRateLimit] = useState<RateLimitResponse | null>(null);
   const [isCheckingRateLimit, setIsCheckingRateLimit] = useState(false);
@@ -160,6 +162,9 @@ export const ChatPanel: FC<ChatPanelProps> = ({ isEmpty }) => {
         productCompare: activeComparison,
       });
 
+      /** The reply is saved before the stream closes, so the sidebar can reload it now. */
+      void refreshChats();
+
       // Record the successful request asynchronously
       recordSuccessfulRequest(aiState).catch((error) => {
         console.error("Failed to record successful request:", error);
@@ -187,6 +192,7 @@ export const ChatPanel: FC<ChatPanelProps> = ({ isEmpty }) => {
     attachment,
     flush,
     handleReset,
+    refreshChats,
     submit,
     rateLimit,
     setIsGenerating,
