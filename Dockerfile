@@ -39,7 +39,11 @@ ENV NEXT_TELEMETRY_DISABLED=1 \
     NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL \
     NEXT_BUILD_CPUS=$NEXT_BUILD_CPUS \
     DATABASE_URL=postgresql://build:build@127.0.0.1:5432/build \
-    BETTER_AUTH_SECRET=build-only-placeholder-secret-not-used-at-runtime
+    BETTER_AUTH_SECRET=build-only-placeholder-secret-not-used-at-runtime \
+    AUTH_GOOGLE_ID=build-only-placeholder \
+    AUTH_GOOGLE_SECRET=build-only-placeholder \
+    AUTH_GITHUB_ID=build-only-placeholder \
+    AUTH_GITHUB_SECRET=build-only-placeholder
 COPY . .
 RUN bunx prisma generate
 RUN --mount=type=cache,id=next,target=/app/.next/cache \
