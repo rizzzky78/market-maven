@@ -11,7 +11,8 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "user": "bun scripts/user-provision.ts"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^4.0.83",

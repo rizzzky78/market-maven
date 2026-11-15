@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { APIError, createAuthMiddleware } from "better-auth/api";
 import { nextCookies } from "better-auth/next-js";
-import { captcha, phoneNumber, username } from "better-auth/plugins";
+import { admin, captcha, phoneNumber, username } from "better-auth/plugins";
 import { headers } from "next/headers";
 import { prisma } from "@/database/prisma";
 import {
@@ -255,6 +255,12 @@ export const auth = betterAuth({
           }),
         ]
       : []),
+    /**
+     * Role and ban support. Bans block sign-in and are managed by developers
+     * through `bun run user` (scripts/user-provision.ts); the plugin's HTTP
+     * admin routes only answer users whose role is "admin".
+     */
+    admin({ defaultRole: "user", adminRoles: ["admin"] }),
     // Must stay last: lets server actions set auth cookies.
     nextCookies(),
   ],

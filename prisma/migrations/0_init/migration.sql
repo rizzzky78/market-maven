@@ -15,6 +15,10 @@ CREATE TABLE "users" (
     "display_username" TEXT,
     "phone_number" TEXT,
     "phone_number_verified" BOOLEAN DEFAULT false,
+    "role" TEXT DEFAULT 'user',
+    "banned" BOOLEAN DEFAULT false,
+    "ban_reason" TEXT,
+    "ban_expires" TIMESTAMPTZ(6),
     "created_at" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ(6) NOT NULL,
 
@@ -31,6 +35,7 @@ CREATE TABLE "sessions" (
     "ip_address" TEXT,
     "user_agent" TEXT,
     "user_id" TEXT NOT NULL,
+    "impersonated_by" TEXT,
 
     CONSTRAINT "sessions_pkey" PRIMARY KEY ("id")
 );

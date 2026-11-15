@@ -36,6 +36,9 @@ datasource db {
 /// internal `email` (Better Auth requires one); OAuth users keep their real
 /// one. `username` / `phoneNumber` come from the username and phone-number
 /// plugins; `phoneNumberVerified` is only true after a WhatsApp OTP check.
+/// `role`, `banned`, `banReason` and `banExpires` come from the admin plugin
+/// and are managed with `bun run user` (scripts/user-provision.ts); a banned
+/// user cannot sign in until unbanned or `banExpires` passes.
 model User {
   id            String   @id
   name          String
@@ -46,6 +49,10 @@ model User {
   displayUsername     String?  @map("display_username")
   phoneNumber         String?  @unique @map("phone_number")
   phoneNumberVerified Boolean? @default(false) @map("phone_number_verified")
+  role                String?   @default("user")
+  banned              Boolean?  @default(false)
+  banReason           String?   @map("ban_reason")
+  banExpires          DateTime? @map("ban_expires") @db.Timestamptz(6)
   createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt     DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
@@ -63,16 +70,18 @@ model User {
 }
 
 /// A Better Auth login session; `token` is the value stored in the session
-/// cookie. Removed with its user.
+/// cookie. Removed with its user. `impersonatedBy` is the admin user id when
+/// an admin plugin impersonation created the session.
 model Session {
-  id        String   @id
-  expiresAt DateTime @map("expires_at") @db.Timestamptz(6)
-  token     String   @unique
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
-  ipAddress String?  @map("ip_address")
-  userAgent String?  @map("user_agent")
-  userId    String   @map("user_id")
+  id             String   @id
+  expiresAt      DateTime @map("expires_at") @db.Timestamptz(6)
+  token          String   @unique
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+  ipAddress      String?  @map("ip_address")
+  userAgent      String?  @map("user_agent")
+  userId         String   @map("user_id")
+  impersonatedBy String?  @map("impersonated_by")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
