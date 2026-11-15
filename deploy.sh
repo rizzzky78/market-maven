@@ -465,7 +465,7 @@ lock() {
 }
 
 load_env() {
-  [[ -f "$ENV_FILE" ]] || die "$ENV_FILE not found; cp example.env $ENV_FILE and fill it in"
+  [[ -f "$ENV_FILE" ]] || die "$ENV_FILE not found; cp .env.example $ENV_FILE and fill it in"
   set -a
   # shellcheck disable=SC1090
   . "./$ENV_FILE"
@@ -624,7 +624,7 @@ cmd_deploy() {
   if [[ "$MODE" == host ]]; then
     command -v bun >/dev/null || die "bun not found on PATH (host mode); install bun or use --mode docker"
   fi
-  [[ -f "$ENV_FILE" ]] || die "$ENV_FILE not found; cp example.env $ENV_FILE and fill it in"
+  [[ -f "$ENV_FILE" ]] || die "$ENV_FILE not found; cp .env.example $ENV_FILE and fill it in"
 
   ORIGINAL_REF="$(git symbolic-ref --quiet --short HEAD 2>/dev/null || git rev-parse --short=12 HEAD)"
   PREVIOUS_TAG="$(live_tag)"

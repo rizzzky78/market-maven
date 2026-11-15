@@ -224,7 +224,7 @@ sudo -u postgres psql -c "CREATE DATABASE maven OWNER maven;"
 sudo useradd --system --create-home --shell /usr/sbin/nologin maven
 sudo -u maven git clone https://github.com/rizzzky78/market-maven.git /home/maven/app
 cd /home/maven/app
-sudo -u maven cp example.env .env   # fill in every value, see "Environment variables"
+sudo -u maven cp .env.example .env   # fill in every value, see "Environment variables"
 sudo -u maven npm ci                # also runs `prisma generate`
 sudo -u maven npx prisma migrate deploy
 sudo -u maven npm run build
