@@ -211,13 +211,6 @@ export type ShareRecord = {
   accessCount: number;
 };
 
-export type ShareAnalytics = {
-  componentType: ComponentType;
-  totalShares: number;
-  totalAccesses: number;
-  uniqueSharers: number;
-};
-
 export type Rating = {
   id: number;
   username: string;
