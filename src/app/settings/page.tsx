@@ -3,7 +3,9 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { AiSettings } from "@/components/maven/ai-settings/ai-settings";
+import { prisma } from "@/database/prisma";
 import { getSession } from "@/lib/auth";
+import { getAccountLabel } from "@/lib/auth/display";
 import { getSettingsView, getUsageSummary } from "@/lib/service/ai-settings/repository";
 
 export const metadata: Metadata = {
@@ -15,10 +17,21 @@ export default async function AiSettingsPage() {
   const session = await getSession();
   if (!session) redirect("/login");
 
-  const [view, usage] = await Promise.all([
+  const [view, usage, credentialAccount] = await Promise.all([
     getSettingsView(session.user.id),
     getUsageSummary(session.user.id, 30),
+    prisma.account.findFirst({
+      where: { userId: session.user.id, providerId: "credential" },
+      select: { id: true },
+    }),
   ]);
+
+  const phone = session.user.phoneNumber;
+  const account = {
+    label: getAccountLabel(session.user) ?? session.user.name,
+    phoneHint: phone ? `${phone.slice(0, 3)}${"*".repeat(Math.max(phone.length - 7, 0))}${phone.slice(-4)}` : null,
+    hasPassword: credentialAccount !== null,
+  };
 
   return (
     <main className="min-h-dvh w-full px-4 py-6 font-(family-name:--font-satoshi) md:px-10 md:py-10 xl:px-16">
@@ -41,6 +54,7 @@ export default async function AiSettingsPage() {
         assignments={view.assignments}
         preferences={view.preferences}
         usage={usage}
+        account={account}
       />
     </main>
   );

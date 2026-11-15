@@ -8,6 +8,7 @@ import type {
   Preferences,
   UsageSummary,
 } from "@/lib/agents/ai-settings-schema";
+import { AccountSection, type AccountView } from "./account-section";
 import { ConnectionsSection } from "./connections-section";
 import { ModelsSection } from "./models-section";
 import { PreferencesSection } from "./preferences-section";
@@ -19,6 +20,7 @@ export const AI_SETTINGS_TABS = [
   { value: "behavior", label: "Behavior" },
   { value: "analysis", label: "Analysis" },
   { value: "usage", label: "Usage" },
+  { value: "account", label: "Account" },
 ] as const;
 
 type AiSettingsProps = {
@@ -26,6 +28,7 @@ type AiSettingsProps = {
   assignments: AssignmentView[];
   preferences: Preferences;
   usage: UsageSummary;
+  account: AccountView;
 };
 
 /**
@@ -38,6 +41,7 @@ export const AiSettings: FC<AiSettingsProps> = ({
   assignments,
   preferences,
   usage,
+  account,
 }) => {
   const [modelCache, setModelCache] = useState<Record<string, string[]>>({});
 
@@ -78,6 +82,9 @@ export const AiSettings: FC<AiSettingsProps> = ({
       </TabsContent>
       <TabsContent value="usage" className="mt-0">
         <UsageSection summary={usage} preferences={preferences} />
+      </TabsContent>
+      <TabsContent value="account" className="mt-0">
+        <AccountSection account={account} />
       </TabsContent>
     </Tabs>
   );
